@@ -13,8 +13,32 @@
 
 namespace Prismata
 {
+
+struct AIDebugInfo
+{
+    std::string primaryName;
+    std::string primaryMoveDesc;
+    double      primaryScore        = 0;
+    std::string primaryScoreLabel;
+    bool        primaryIsUCT        = false;
+    double      primaryTimeMS       = 0;
+
+    std::string comparisonName;
+    std::string comparisonMoveDesc;
+    double      comparisonScore     = 0;
+    std::string comparisonScoreLabel;
+    bool        comparisonIsUCT     = false;
+    double      comparisonTimeMS    = 0;
+    bool        comparisonRan       = false;
+
+    bool        movesAgree          = false;
+
+    std::string primaryBuyNotation;
+    std::string comparisonBuyNotation;
+};
+
 class GUIState_Play : public GUIState
-{   
+{
     sf::Text m_text;
 
     GameState                   m_currentState;             // State that the GUI will be drawing
@@ -38,8 +62,18 @@ class GUIState_Play : public GUIState
     std::string                 m_selectedPlayerName[2];            // AI selected player name
     std::string                 m_aiDescription[2];
     std::map<std::string, PlayerPtr> m_players[2];  // AI players for each side
+    bool                        m_autoPlay[2] = {false, false};     // Auto-play AI for each side
+    AIDebugInfo                 m_aiDebugInfo[2];                    // Per-player debug info
 
-    void init();  
+    // Replay mode
+    bool                        m_replayMode = false;
+    size_t                      m_replayIndex = 0;
+    std::string                 m_replayP0;
+    std::string                 m_replayP1;
+    int                         m_replayWinner = -1;
+    void advanceReplayState();
+
+    void init();
     void setState(const GameState & state);
     void setGUICards();
     void setCardPositions();
@@ -49,12 +83,15 @@ class GUIState_Play : public GUIState
     void buyCardByName(const std::string & name, bool shift);
     void loadPlayers();
     void handleAIMenu();
+    void runAutoPlay();
+    PlayerPtr createComparisonPlayer(PlayerPtr primary, PlayerID player, std::string & outName);
     void toggleBool(bool & value);
-    
+    void dumpStateToFile();
+
     void doGUIAction(const Action & action, int delayMS = 0);
     void doGUIMove(const Move & move, int delayMS = 0);
 
-    void sUserInput();  
+    void sUserInput();
     void sRender();
 
     void drawInformation();
@@ -68,10 +105,12 @@ class GUIState_Play : public GUIState
     GUICard * getClickedCard(const int x, const int y);
     GUICardBuyable * getClickedCardBuyable(const int x, const int y);
 
-    
+
 public:
 
     GUIState_Play(GUIEngine & game, const GameState & state);
+    GUIState_Play(GUIEngine & game, const std::vector<GameState> & replayStates,
+                  const std::string & p0, const std::string & p1, int winner);
 
     void onFrame();
 };

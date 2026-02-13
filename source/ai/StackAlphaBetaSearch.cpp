@@ -1,5 +1,6 @@
 #include "StackAlphaBetaSearch.h"
 #include "Eval.h"
+#include "NeuralNet.h"
 #include "MoveIterator_PPPortfolio.h"
 
 using namespace Prismata;
@@ -217,6 +218,24 @@ const StateEvalScore StackAlphaBetaSearch::eval(const GameState & state)
     else if (_params.evalMethod() == EvaluationMethods::WillScoreInflation)
     {
         return Eval::WillScoreInflationEvaluation(state, _params.maxPlayer());
+    }
+    else if (_params.evalMethod() == EvaluationMethods::NeuralNet)
+    {
+        return Eval::NeuralNetEvaluation(state, _params.maxPlayer());
+    }
+    else if (_params.evalMethod() == EvaluationMethods::NeuralNetPlusPlayout)
+    {
+        double playoutScore = Eval::ABPlayoutScore(state,
+                                    _params.getPlayoutPlayer(Players::Player_One),
+                                    _params.getPlayoutPlayer(Players::Player_Two),
+                                    _params.maxPlayer());
+
+        // Neural net value [-1,1] scaled to playout range [-WinScore, WinScore]
+        double nnValue = NeuralNet::Instance().evaluateValue(state, _params.maxPlayer());
+        double nnScore = nnValue * Eval::WinScore;
+
+        double w = _params.blendWeight();
+        return w * nnScore + (1.0 - w) * playoutScore;
     }
     else
     {

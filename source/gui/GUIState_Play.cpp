@@ -4,11 +4,20 @@
 #include "GUITools.h"
 #include "AITools.h"
 #include "PrismataAI.h"
+#include "Player_UCT.h"
+#include "Player_StackAlphaBeta.h"
+#include "Player_AlphaBeta.h"
+#include "Eval.h"
+#include "Heuristics.h"
+#include "NeuralNet.h"
 
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 #include <algorithm>
+#include <cmath>
+#include <map>
 #include <string>
 #include <thread>
 
@@ -23,6 +32,28 @@ GUIState_Play::GUIState_Play(GUIEngine & game, const GameState & state)
     m_view.setWindowSize(Vec2(m_game.window().getSize().x, m_game.window().getSize().y));
     m_view.setView(m_game.window().getView());
         
+    m_text.setFont(Assets::Instance().getFont("Consolas"));
+    m_text.setPosition(10, 5);
+    m_text.setCharacterSize(10);
+
+    loadPlayers();
+}
+
+GUIState_Play::GUIState_Play(GUIEngine & game, const std::vector<GameState> & replayStates,
+                             const std::string & p0, const std::string & p1, int winner)
+    : GUIState(game)
+    , m_currentState(replayStates.front())
+    , m_replayMode(true)
+    , m_replayIndex(0)
+    , m_replayP0(p0)
+    , m_replayP1(p1)
+    , m_replayWinner(winner)
+{
+    m_stateHistory = replayStates;
+
+    m_view.setWindowSize(Vec2(m_game.window().getSize().x, m_game.window().getSize().y));
+    m_view.setView(m_game.window().getView());
+
     m_text.setFont(Assets::Instance().getFont("Consolas"));
     m_text.setPosition(10, 5);
     m_text.setCharacterSize(10);
@@ -210,21 +241,46 @@ void GUIState_Play::doGUIAction(const Action & action, int delayMS)
 
 void GUIState_Play::rewindToPreviousState()
 {
-    if (m_stateHistory.size() == 1) 
-    { 
+    if (m_replayMode)
+    {
+        if (m_replayIndex == 0) return;
+        m_replayIndex--;
+        setState(m_stateHistory[m_replayIndex]);
+        return;
+    }
+
+    if (m_stateHistory.size() == 1)
+    {
         std::cout << "Cannot rewind from starting state\n";
-        return; 
+        return;
     }
 
     m_stateHistory.pop_back();
     setState(m_stateHistory.back());
 }
 
+void GUIState_Play::advanceReplayState()
+{
+    if (!m_replayMode) return;
+    if (m_replayIndex >= m_stateHistory.size() - 1) return;
+    m_replayIndex++;
+    setState(m_stateHistory[m_replayIndex]);
+}
+
 void GUIState_Play::endCurrentPhase()
 {
     const Action space(m_currentState.getActivePlayer(), ActionTypes::END_PHASE, 0);
     if (m_currentState.isLegal(space))
-    doGUIAction(space); 
+    {
+        doGUIAction(space);
+
+        // After phase transition, check if the new active player has auto-play enabled
+        PlayerID newPlayer = m_currentState.getActivePlayer();
+        if (m_autoPlay[newPlayer] && !m_selectedPlayerName[newPlayer].empty() && !m_currentState.isGameOver())
+        {
+            runAutoPlay();
+        }
+    }
 }
 
 void GUIState_Play::activateWorkers()
@@ -267,7 +323,9 @@ void GUIState_Play::sUserInput()
                 case sf::Keyboard::Escape:  { m_game.popState(); break; }
                 case sf::Keyboard::Tab:     { toggleBool(m_drawBaseSetCards); break; }
                 case sf::Keyboard::Q:       { activateWorkers(); break; }
-                case sf::Keyboard::Space:   { endCurrentPhase(); break; }
+                case sf::Keyboard::Space:   { if (m_replayMode) advanceReplayState(); else endCurrentPhase(); break; }
+                case sf::Keyboard::Right:   { advanceReplayState(); break; }
+                case sf::Keyboard::Left:    { rewindToPreviousState(); break; }
                 case sf::Keyboard::A:       { buyCardByName("Animus", shift); break; }
                 case sf::Keyboard::D:       { buyCardByName("Drone", shift); break; }
                 case sf::Keyboard::E:       { buyCardByName("Engineer", shift); break; }
@@ -283,6 +341,9 @@ void GUIState_Play::sUserInput()
                 case sf::Keyboard::M:       { toggleBool(m_drawMouseOver); break; }
                 case sf::Keyboard::X:       { toggleBool(m_drawPotentials); break; }
                 case sf::Keyboard::Tilde:   { toggleBool(m_drawDebugInfo); break; }
+                case sf::Keyboard::BackSlash: { toggleBool(m_drawDebugInfo); break; }
+                case sf::Keyboard::F5:      { dumpStateToFile(); break; }
+                case sf::Keyboard::Num3:    { if (shift) toggleBool(m_drawDebugInfo); break; }
                 case sf::Keyboard::Return:  { handleAIMenu(); break; }
                 case sf::Keyboard::Up:      { menuIndexChange = -1; break; }
                 case sf::Keyboard::Down:    { menuIndexChange =  1; break; }
@@ -294,6 +355,15 @@ void GUIState_Play::sUserInput()
             m_selectedPlayer[player] = (m_selectedPlayer[player] + (m_drawAIMenu ? menuIndexChange : 0));
             if (m_selectedPlayer[player] < 0) { m_selectedPlayer[player] += m_players[player].size(); }
             else { m_selectedPlayer[player] = m_selectedPlayer[player] % m_players[player].size(); }
+        }
+
+        // TextEntered handles keyboard layout differences (UK keyboard # key, etc.)
+        if (event.type == sf::Event::TextEntered)
+        {
+            if (event.text.unicode == '#' || event.text.unicode == '~' || event.text.unicode == '`')
+            {
+                toggleBool(m_drawDebugInfo);
+            }
         }
 
         if (event.type == sf::Event::MouseButtonPressed)
@@ -374,6 +444,125 @@ void GUIState_Play::toggleBool(bool & val)
     val = !val;
 }
 
+void GUIState_Play::dumpStateToFile()
+{
+    std::string path = "debug_state.txt";
+    std::ofstream out(path);
+    if (!out.is_open())
+    {
+        printf("Failed to open %s for writing\n", path.c_str());
+        return;
+    }
+
+    PlayerID active = m_currentState.getActivePlayer();
+    out << "=== PRISMATA STATE DUMP (F5) ===\n";
+    out << "Turn: " << m_currentState.getTurnNumber() << "\n";
+    out << "Active Player: " << (int)active << "\n";
+    out << "Phase: " << (int)m_currentState.getActivePhase() << "\n\n";
+
+    // Per-player info
+    for (PlayerID p = 0; p < 2; ++p)
+    {
+        out << "--- Player " << (int)p << " ---\n";
+        out << "Will Score: " << std::fixed << std::setprecision(1) << Eval::WillScoreSum(m_currentState, p) << "\n";
+        out << "Attack: " << m_currentState.getAttack(p) << "\n";
+
+        // Units
+        out << "Units:\n";
+        std::map<std::string, int> unitCounts;
+        const CardIDVector & cardIDs = m_currentState.getCardIDs(p);
+        for (size_t c = 0; c < cardIDs.size(); ++c)
+        {
+            const Card & card = m_currentState.getCardByID(cardIDs[c]);
+            if (card.isDead()) continue;
+            std::string status = "ready";
+            if (card.isUnderConstruction()) status = "constructing";
+            else if (card.getStatus() == CardStatus::Assigned) status = "blocking";
+            else if (!card.canUseAbility()) status = "exhausted";
+            std::string key = card.getType().getUIName() + " (" + status + ")";
+            unitCounts[key]++;
+        }
+        for (auto & kv : unitCounts)
+        {
+            out << "  " << kv.second << "x " << kv.first << "\n";
+        }
+
+        // AI debug info
+        const AIDebugInfo & info = m_aiDebugInfo[p];
+        if (!info.primaryName.empty())
+        {
+            out << "AI: " << info.primaryName << "\n";
+            out << info.primaryScoreLabel << ": ";
+            if (info.primaryIsUCT)
+                out << std::fixed << std::setprecision(1) << (info.primaryScore * 100.0) << "%";
+            else
+                out << std::fixed << std::setprecision(1) << info.primaryScore;
+            out << " (" << (int)info.primaryTimeMS << "ms)\n";
+        }
+        if (info.comparisonRan)
+        {
+            out << info.comparisonName << " " << info.comparisonScoreLabel << ": " << std::fixed << std::setprecision(1) << info.comparisonScore;
+            out << " (" << (int)info.comparisonTimeMS << "ms)\n";
+            out << "Moves: " << (info.movesAgree ? "AGREE" : "DISAGREE") << "\n";
+        }
+        out << "\n";
+    }
+
+    // Buyable supply
+    out << "--- Buyable Supply ---\n";
+    for (CardID i = 0; i < m_currentState.numCardsBuyable(); ++i)
+    {
+        const CardBuyable & cb = m_currentState.getCardBuyableByIndex(i);
+        const CardType type = cb.getType();
+        bool isBase = CardTypes::IsBaseSet(type);
+        double hVal = HeuristicValues::Instance().GetInflatedTotalCostValue(type);
+
+        out << (isBase ? "[BASE] " : "[DOM]  ");
+        out << std::left << std::setw(25) << type.getUIName();
+        out << " H:" << std::fixed << std::setprecision(1) << hVal;
+
+        // Neural net policy value
+        if (NeuralNet::Instance().isLoaded())
+        {
+            int unitIdx = NeuralNet::Instance().getUnitIndex(type.getID());
+            out << " unitIdx:" << unitIdx;
+        }
+
+        out << " supply:" << cb.getSupplyRemaining(Players::Player_One) << "/" << cb.getSupplyRemaining(Players::Player_Two);
+        out << " typeID:" << type.getID();
+        out << " name:'" << type.getName() << "'";
+        out << "\n";
+    }
+
+    // Neural net feature diagnostic
+    if (NeuralNet::Instance().isLoaded())
+    {
+        out << "\n--- Neural Net Feature Diagnostic ---\n";
+        NeuralNet::NeuralOutput nnOut = NeuralNet::Instance().evaluate(m_currentState);
+        out << "Value: " << std::fixed << std::setprecision(4) << nnOut.value << "\n";
+        out << "Policy (top 15):\n";
+
+        // Find top 15 policy values
+        std::vector<std::pair<float, int>> policyPairs;
+        for (int i = 0; i < (int)nnOut.policy.size(); ++i)
+        {
+            policyPairs.push_back({nnOut.policy[i], i});
+        }
+        std::sort(policyPairs.begin(), policyPairs.end(), [](const auto & a, const auto & b) { return a.first > b.first; });
+        for (int i = 0; i < 15 && i < (int)policyPairs.size(); ++i)
+        {
+            out << "  idx=" << policyPairs[i].second << " val=" << std::fixed << std::setprecision(4) << policyPairs[i].first << "\n";
+        }
+    }
+
+    // JSON state
+    out << "\n--- JSON State ---\n";
+    out << m_currentState.toJSONString() << "\n";
+
+    out.close();
+    printf("State dumped to %s\n", path.c_str());
+}
+
 void GUIState_Play::buyCardByName(const std::string & name, bool shift)
 {
     if (CardTypes::CardTypeExists(name))
@@ -406,6 +595,10 @@ GUICardBuyable * GUIState_Play::getClickedCardBuyable(const int x, const int y)
     int maxCardLayer = -1;
     for (CardID c(0); c<m_guiCardsBuyable.size(); ++c)
     {
+        // skip cards not shown in current buy pane view
+        if (!m_drawBaseSetCards && CardTypes::IsBaseSet(m_guiCardsBuyable[c].getType())) { continue; }
+        if (m_drawBaseSetCards && !CardTypes::IsBaseSet(m_guiCardsBuyable[c].getType())) { continue; }
+
         if (m_guiCardsBuyable[c].isClicked(x, y) && (!clicked || m_guiCardsBuyable[c].getLayer() > maxCardLayer))
         {
             clicked = &m_guiCardsBuyable[c];
@@ -526,14 +719,34 @@ void GUIState_Play::drawInformation()
     int spacing = 15;
     int top = 140;
 
-    GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top), "Enter: AI Menu" , sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 1*spacing),  "ESC:   Main Menu", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 2*spacing),  "TAB:   Buy Pane", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 3*spacing),  "Q:     Tap Drones", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 4*spacing),  "Z:     Undo Action", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 5*spacing),  "X:     Toggle Atk/Def", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 6*spacing),  "M:     Toggle Mouseover", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 7*spacing),  "Tilde: Toggle Debug", sf::Color(127, 127, 127), &m_game.window());
+    if (m_replayMode)
+    {
+        // Replay mode overlay
+        std::stringstream replayInfo;
+        replayInfo << "REPLAY: " << m_replayP0 << " vs " << m_replayP1;
+        replayInfo << "   Turn " << m_replayIndex << "/" << (m_stateHistory.size() - 1);
+        std::string winStr = m_replayWinner == 0 ? m_replayP0 : (m_replayWinner == 1 ? m_replayP1 : "Draw");
+        replayInfo << "   Winner: " << winStr;
+        sf::Vector2f replayPos(210.0f, 4.0f);
+        GUITools::DrawString(replayPos, replayInfo.str(), sf::Color::Yellow, &m_game.window(), 14);
+
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top), "Right/Space: Next Turn", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 1*spacing), "Left/Z:      Prev Turn", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 2*spacing), "ESC:         Main Menu", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 3*spacing), "TAB:         Buy Pane", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 4*spacing), "~/# :        Toggle Debug", sf::Color(127, 127, 127), &m_game.window());
+    }
+    else
+    {
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top), "Enter: AI Menu" , sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 1*spacing),  "ESC:   Main Menu", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 2*spacing),  "TAB:   Buy Pane", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 3*spacing),  "Q:     Tap Drones", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 4*spacing),  "Z:     Undo Action", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 5*spacing),  "X:     Toggle Atk/Def", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 6*spacing),  "M:     Toggle Mouseover", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 7*spacing),  "~/# :  Toggle Debug", sf::Color(127, 127, 127), &m_game.window());
+    }
 }
 
 // draws all cards and buyable cards
@@ -547,32 +760,154 @@ void GUIState_Play::drawCards()
     // draw the buyable cards
     for (CardID i(0); i<m_guiCardsBuyable.size(); ++i)
     {
-        if (m_drawBaseSetCards && CardTypes::IsBaseSet(m_guiCardsBuyable[i].getType()))
-        {
-            m_guiCardsBuyable[i].draw(i, m_currentState);
-        }
+        bool isBase = CardTypes::IsBaseSet(m_guiCardsBuyable[i].getType());
+        bool visible = (m_drawBaseSetCards && isBase) || (!m_drawBaseSetCards && !isBase);
 
-        if (!m_drawBaseSetCards && !CardTypes::IsBaseSet(m_guiCardsBuyable[i].getType()))
+        if (visible)
         {
             m_guiCardsBuyable[i].draw(i, m_currentState);
         }
     }
+
 }
 
 // draws debug info output from ai players
 void GUIState_Play::drawDebugInfo()
 {
     if (!m_drawDebugInfo) { return; }
-    sf::Vector2f origins[2] = { sf::Vector2f(m_game.window().getSize().x - 300, (m_game.window().getSize().y / 2) + 20), sf::Vector2f(m_game.window().getSize().x - 300, 20)};
+    sf::Vector2f origins[2] = { sf::Vector2f(m_game.window().getSize().x - 450, (m_game.window().getSize().y / 2) + 20), sf::Vector2f(m_game.window().getSize().x - 450, 20)};
 
     std::stringstream ss[2];
 
     for (PlayerID p(0); p<2; ++p)
     {
-        ss[p] << "Will Score : " << Eval::WillScoreSum(m_currentState, p) << "\n\n";
-        ss[p] << m_aiDescription[p];
+        ss[p] << "Will Score: " << std::fixed << std::setprecision(1) << Eval::WillScoreSum(m_currentState, p) << "\n";
 
-        GUITools::DrawString(origins[p], ss[p].str(), sf::Color::White, &m_game.window());
+        const AIDebugInfo & info = m_aiDebugInfo[p];
+
+        if (!info.primaryName.empty())
+        {
+            ss[p] << "\n--- " << info.primaryName << " ---\n";
+            ss[p] << info.primaryScoreLabel << ": ";
+            if (info.primaryIsUCT)
+            {
+                ss[p] << std::fixed << std::setprecision(1) << (info.primaryScore * 100.0) << "%";
+            }
+            else
+            {
+                ss[p] << std::fixed << std::setprecision(1) << info.primaryScore;
+            }
+            ss[p] << "  (" << (int)info.primaryTimeMS << "ms)\n";
+            if (!info.primaryBuyNotation.empty())
+            {
+                ss[p] << "Buy: " << info.primaryBuyNotation << "\n";
+            }
+        }
+
+        if (info.comparisonRan)
+        {
+            ss[p] << "\n--- " << info.comparisonName << " ---\n";
+            ss[p] << info.comparisonScoreLabel << ": ";
+            if (info.comparisonIsUCT)
+            {
+                ss[p] << std::fixed << std::setprecision(1) << (info.comparisonScore * 100.0) << "%";
+            }
+            else
+            {
+                ss[p] << std::fixed << std::setprecision(1) << info.comparisonScore;
+            }
+            ss[p] << "  (" << (int)info.comparisonTimeMS << "ms)\n";
+            ss[p] << "Moves: " << (info.movesAgree ? "AGREE" : "DISAGREE") << "\n";
+            if (!info.comparisonBuyNotation.empty())
+            {
+                ss[p] << "Buy: " << info.comparisonBuyNotation << "\n";
+            }
+        }
+
+        ss[p] << "\n" << m_aiDescription[p];
+
+        GUITools::DrawString(origins[p], ss[p].str(), sf::Color::White, &m_game.window(), 18);
+    }
+
+    // draw unit value labels next to buyable cards (drawn last so they render on top of resources)
+    NeuralNet::NeuralOutput nnOut;
+    bool hasNN = NeuralNet::Instance().isLoaded();
+    if (hasNN)
+    {
+        nnOut = NeuralNet::Instance().evaluate(m_currentState);
+    }
+
+    // Compute softmax percentages over affordable units only
+    PlayerID activePlayer = m_currentState.getActivePlayer();
+    std::map<CardID, float> policyPct; // typeID -> softmax percentage
+    if (hasNN)
+    {
+        // Collect policy values for affordable units
+        float maxVal = -1e9f;
+        std::vector<std::pair<CardID, float>> affordable;
+        for (CardID i(0); i < m_guiCardsBuyable.size(); ++i)
+        {
+            const CardType type = m_guiCardsBuyable[i].getType();
+            Action buyAction(activePlayer, ActionTypes::BUY, type.getID());
+            if (!m_currentState.isLegal(buyAction)) continue;
+
+            int unitIdx = NeuralNet::Instance().getUnitIndex(type.getID());
+            if (unitIdx >= 0 && unitIdx < (int)nnOut.policy.size())
+            {
+                float val = nnOut.policy[unitIdx];
+                affordable.push_back({type.getID(), val});
+                if (val > maxVal) maxVal = val;
+            }
+        }
+
+        // Softmax with numerical stability (subtract max)
+        if (!affordable.empty())
+        {
+            float sumExp = 0;
+            for (auto & p : affordable)
+            {
+                sumExp += expf(p.second - maxVal);
+            }
+            for (auto & p : affordable)
+            {
+                policyPct[p.first] = (expf(p.second - maxVal) / sumExp) * 100.0f;
+            }
+        }
+    }
+
+    for (CardID i(0); i<m_guiCardsBuyable.size(); ++i)
+    {
+        bool isBase = CardTypes::IsBaseSet(m_guiCardsBuyable[i].getType());
+        bool visible = (m_drawBaseSetCards && isBase) || (!m_drawBaseSetCards && !isBase);
+        if (!visible) continue;
+
+        const CardType type = m_guiCardsBuyable[i].getType();
+        sf::Vector2f labelPos = m_guiCardsBuyable[i].pos() + sf::Vector2f(205, 5);
+
+        // H: value in yellow
+        std::stringstream hs;
+        hs << std::fixed << std::setprecision(1);
+        double hVal = HeuristicValues::Instance().GetInflatedTotalCostValue(type);
+        hs << "H:" << hVal;
+        GUITools::DrawString(labelPos + sf::Vector2f(1, 1), hs.str(), sf::Color::Black, &m_game.window(), 24);
+        GUITools::DrawString(labelPos, hs.str(), sf::Color(255, 255, 100), &m_game.window(), 24);
+
+        // N: value + percentage in blue (only for affordable units)
+        if (hasNN)
+        {
+            auto it = policyPct.find(type.getID());
+            if (it != policyPct.end())
+            {
+                int unitIdx = NeuralNet::Instance().getUnitIndex(type.getID());
+                std::stringstream ns;
+                ns << std::fixed << std::setprecision(3) << " N:" << nnOut.policy[unitIdx];
+                ns << std::setprecision(0) << " " << it->second << "%";
+
+                sf::Vector2f nPos = labelPos + sf::Vector2f(0, 26);
+                GUITools::DrawString(nPos + sf::Vector2f(1, 1), ns.str(), sf::Color::Black, &m_game.window(), 24);
+                GUITools::DrawString(nPos, ns.str(), sf::Color(100, 180, 255), &m_game.window(), 24);
+            }
+        }
     }
 }
 
@@ -617,28 +952,212 @@ void GUIState_Play::drawMouseOverPanes()
     }
 }
 
+static std::string buildBuyNotation(const Move & move, const GameState & state)
+{
+    static const std::map<std::string, char> baseShortcuts = {
+        {"Drone", 'D'}, {"Engineer", 'E'}, {"Animus", 'A'},
+        {"Blastforge", 'B'}, {"Conduit", 'C'}, {"Forcefield", 'F'},
+        {"Gauss Cannon", 'G'}, {"Steelsplitter", 'S'},
+        {"Tarsier", 'T'}, {"Rhino", 'R'}, {"Wall", 'W'}
+    };
+
+    // Number dominion (non-base) buyable cards 1, 2, 3... in buy-pane order
+    std::map<CardID, int> dominionNumbers;
+    int domNum = 1;
+    for (CardID i = 0; i < state.numCardsBuyable(); ++i)
+    {
+        const CardType type = state.getCardBuyableByIndex(i).getType();
+        if (!CardTypes::IsBaseSet(type))
+        {
+            dominionNumbers[type.getID()] = domNum++;
+        }
+    }
+
+    std::string result;
+    for (size_t i = 0; i < move.size(); ++i)
+    {
+        const Action & action = move.getAction(i);
+        if (action.getType() == ActionTypes::BUY)
+        {
+            const CardType type = state.getCardBuyableByID(action.getID()).getType();
+            std::string uiName = type.getUIName();
+            auto it = baseShortcuts.find(uiName);
+            if (it != baseShortcuts.end())
+            {
+                result += it->second;
+            }
+            else
+            {
+                auto dit = dominionNumbers.find(type.getID());
+                if (dit != dominionNumbers.end())
+                {
+                    result += std::to_string(dit->second);
+                }
+                else
+                {
+                    result += "?";
+                }
+            }
+        }
+    }
+
+    return result.empty() ? "(none)" : result;
+}
+
+PlayerPtr GUIState_Play::createComparisonPlayer(PlayerPtr primary, PlayerID player, std::string & outName)
+{
+    Player_UCT * uctPlayer = dynamic_cast<Player_UCT *>(primary.get());
+    Player_StackAlphaBeta * abPlayer = dynamic_cast<Player_StackAlphaBeta *>(primary.get());
+
+    if (uctPlayer)
+    {
+        UCTSearchParameters params = uctPlayer->getParams();
+        int currentEval = params.evalMethod();
+
+        if (currentEval == EvaluationMethods::NeuralNet)
+        {
+            params.setEvalMethod(EvaluationMethods::Playout);
+            PlayerPtr playoutP1 = AIParameters::Instance().getPlayer(0, "Playout");
+            PlayerPtr playoutP2 = AIParameters::Instance().getPlayer(1, "Playout");
+            params.setPlayoutPlayer(0, playoutP1);
+            params.setPlayoutPlayer(1, playoutP2);
+            outName = "HardestAIUCT";
+        }
+        else if (currentEval == EvaluationMethods::Playout)
+        {
+            params.setEvalMethod(EvaluationMethods::WillScore);
+            outName = "UCT_WillScore";
+        }
+        else
+        {
+            return nullptr;
+        }
+
+        params.setMaxPlayer(player);
+        return PlayerPtr(new Player_UCT(player, params));
+    }
+    else if (abPlayer)
+    {
+        AlphaBetaSearchParameters params = abPlayer->getParams();
+        int currentEval = params.evalMethod();
+
+        if (currentEval == EvaluationMethods::NeuralNet)
+        {
+            params.setEvalMethod(EvaluationMethods::Playout);
+            PlayerPtr playoutP1 = AIParameters::Instance().getPlayer(0, "Playout");
+            PlayerPtr playoutP2 = AIParameters::Instance().getPlayer(1, "Playout");
+            params.setPlayoutPlayer(0, playoutP1);
+            params.setPlayoutPlayer(1, playoutP2);
+            outName = "HardestAI";
+        }
+        else if (currentEval == EvaluationMethods::Playout)
+        {
+            params.setEvalMethod(EvaluationMethods::WillScore);
+            outName = "AB_WillScore";
+        }
+        else
+        {
+            return nullptr;
+        }
+
+        params.setMaxPlayer(player);
+        return PlayerPtr(new Player_StackAlphaBeta(player, params));
+    }
+
+    return nullptr;
+}
+
+void GUIState_Play::runAutoPlay()
+{
+    PlayerID player = m_currentState.getActivePlayer();
+    if (m_selectedPlayerName[player].empty()) { return; }
+
+    // Save pre-move state for comparison AI
+    GameState preMoveState = m_currentState;
+
+    // Run primary AI
+    PlayerPtr primary = AIParameters::Instance().getPlayer(player, m_selectedPlayerName[player]);
+    Move primaryMove;
+    primary->getMove(m_currentState, primaryMove);
+    m_aiDescription[player] = primary->getDescription();
+
+    // Extract primary confidence
+    AIDebugInfo & info = m_aiDebugInfo[player];
+    info = AIDebugInfo();
+    info.primaryName = m_selectedPlayerName[player];
+
+    Player_UCT * uctPlayer = dynamic_cast<Player_UCT *>(primary.get());
+    Player_StackAlphaBeta * abPlayer = dynamic_cast<Player_StackAlphaBeta *>(primary.get());
+
+    if (uctPlayer)
+    {
+        UCTSearchResults & results = uctPlayer->getResults();
+        info.primaryIsUCT = true;
+        info.primaryScoreLabel = "Win Rate";
+        info.primaryScore = uctPlayer->getBestRootWinRate();
+        info.primaryTimeMS = results.timeElapsed;
+        info.primaryMoveDesc = results.bestMoveDescription;
+    }
+    else if (abPlayer)
+    {
+        AlphaBetaSearchResults & results = abPlayer->getResults();
+        info.primaryIsUCT = false;
+        info.primaryScoreLabel = "Eval";
+        info.primaryScore = results.bestMoveValues[results.maxDepthCompleted];
+        info.primaryTimeMS = results.totalTimeElapsed;
+        info.primaryMoveDesc = results.bestMoveDescs[results.maxDepthCompleted];
+    }
+
+    // Run comparison AI on the same pre-move state
+    std::string compName;
+    PlayerPtr compPlayer = createComparisonPlayer(primary, player, compName);
+    if (compPlayer)
+    {
+        Move compMove;
+        compPlayer->getMove(preMoveState, compMove);
+        info.comparisonRan = true;
+        info.comparisonName = compName;
+
+        Player_UCT * compUCT = dynamic_cast<Player_UCT *>(compPlayer.get());
+        Player_StackAlphaBeta * compAB = dynamic_cast<Player_StackAlphaBeta *>(compPlayer.get());
+
+        if (compUCT)
+        {
+            UCTSearchResults & compResults = compUCT->getResults();
+            info.comparisonIsUCT = true;
+            info.comparisonScoreLabel = "Win Rate";
+            info.comparisonScore = compUCT->getBestRootWinRate();
+            info.comparisonTimeMS = compResults.timeElapsed;
+            info.comparisonMoveDesc = compResults.bestMoveDescription;
+        }
+        else if (compAB)
+        {
+            AlphaBetaSearchResults & compResults = compAB->getResults();
+            info.comparisonIsUCT = false;
+            info.comparisonScoreLabel = "Eval";
+            info.comparisonScore = compResults.bestMoveValues[compResults.maxDepthCompleted];
+            info.comparisonTimeMS = compResults.totalTimeElapsed;
+            info.comparisonMoveDesc = compResults.bestMoveDescs[compResults.maxDepthCompleted];
+        }
+
+        info.movesAgree = (primaryMove.toString() == compMove.toString());
+        info.comparisonBuyNotation = buildBuyNotation(compMove, preMoveState);
+    }
+
+    info.primaryBuyNotation = buildBuyNotation(primaryMove, preMoveState);
+
+    doGUIMove(primaryMove, 200);
+}
+
 void GUIState_Play::handleAIMenu()
 {
     // ai menu button clicked, so toggle it
     m_drawAIMenu = !m_drawAIMenu;
     if (m_drawAIMenu) { return; }
 
-    // do ai move: get the PlayerPtr associated with the currently highlighted player
-    PlayerPtr ptr = AIParameters::Instance().getPlayer(m_currentState.getActivePlayer(), m_selectedPlayerName[m_currentState.getActivePlayer()]);
-    Move move;
-    ptr->getMove(m_currentState, move);
-    m_aiDescription[m_currentState.getActivePlayer()] = ptr->getDescription();
-
-    // test code I wanna leave here
-    //bool shouldResign = shouldResign = AITools::PlayerShouldResign(m_currentState, player);
-    //std::cout << move.toString() << "\n";
-    //std::cout << "Player Resign: " << (shouldResign ? "true" : "false") << "\n";
-    // get the click string associated with that move & convert that click string back to a move to test (used by old ai for testing)
-    //const std::string moveClickString = AITools::GetClickString(move, m_currentState);
-    //const Move & convertedMove = AITools::GetMoveFromClickString(moveClickString, m_currentState.getActivePlayer(), m_currentState);
-    //std::cout << AITools::GetClickString(convertedMove, m_currentState);
-
-    doGUIMove(move, 200);
+    PlayerID player = m_currentState.getActivePlayer();
+    m_autoPlay[player] = true;
+    runAutoPlay();
 }
 
 void GUIState_Play::drawAIMenu()

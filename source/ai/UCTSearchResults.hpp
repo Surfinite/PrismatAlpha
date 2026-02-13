@@ -20,6 +20,7 @@ public:
     size_t                      treeSize;
 
     std::string                 bestMoveDescription;
+    std::string                 rootDiagnostics;
 
     Move                        bestMoves;
 

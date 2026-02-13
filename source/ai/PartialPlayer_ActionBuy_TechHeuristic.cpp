@@ -2,11 +2,12 @@
 
 using namespace Prismata;
 
-PartialPlayer_ActionBuy_TechHeuristic::PartialPlayer_ActionBuy_TechHeuristic(const PlayerID playerID, const size_t & heuristicType)
+PartialPlayer_ActionBuy_TechHeuristic::PartialPlayer_ActionBuy_TechHeuristic(const PlayerID playerID, const size_t & heuristicType, bool legacy)
 {
     _playerID = playerID;
     _phaseID = PPPhases::ACTION_BUY;
     _heuristicType = heuristicType;
+    _legacy = legacy;
 }
 
 void PartialPlayer_ActionBuy_TechHeuristic::getMove(GameState & state, Move & move)
@@ -67,8 +68,8 @@ void PartialPlayer_ActionBuy_TechHeuristic::getMovesElyotFormula(GameState & sta
     // variables which will store whether or not certain tech types are legal to buy
     // these will be modified throughout the function based on buy limits, etc
     bool hasConduit         = state.isBuyable(_playerID, conduitType);
-    bool hasBlastforge      = state.isBuyable(_playerID, conduitType);
-    bool hasAnimus          = state.isBuyable(_playerID, conduitType);
+    bool hasBlastforge      = state.isBuyable(_playerID, blastforgeType);
+    bool hasAnimus          = state.isBuyable(_playerID, animusType);
     bool buyableConduit     = state.isLegal(buyConduit);
     bool buyableBlastforge  = state.isLegal(buyBlastforge);
     bool buyableAnimus      = state.isLegal(buyAnimus);
@@ -99,15 +100,18 @@ void PartialPlayer_ActionBuy_TechHeuristic::getMovesElyotFormula(GameState & sta
         }
     
         size_t totalGold = totalGoldSpent + state.getResources(_playerID).amountOf(Resources::Gold);
-        if (!enemyHasAttacker && totalGold < 11)
+        size_t threshBF = _legacy ? 11 : 8;
+        size_t threshC  = _legacy ? 10 : 7;
+        size_t threshA  = _legacy ?  9 : 6;
+        if (!enemyHasAttacker && totalGold < threshBF)
         {
             buyableBlastforge = false;
         }
-        if (totalGold < 10)
+        if (totalGold < threshC)
         {
             buyableConduit = false;
         }
-        if (!enemyHasAttacker && totalGold < 9)
+        if (!enemyHasAttacker && totalGold < threshA)
         {
             buyableAnimus = false;
         }

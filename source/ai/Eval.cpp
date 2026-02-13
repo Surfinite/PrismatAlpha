@@ -1,5 +1,6 @@
 #include "Eval.h"
 #include "Game.h"
+#include "NeuralNet.h"
 
 namespace Prismata
 {
@@ -63,6 +64,18 @@ namespace Eval
         double diff = (maxPlayer == 0) ? (evalOne - evalTwo) : (evalTwo - evalOne);
 
         return diff;
+    }
+
+    double NeuralNetEvaluation(const GameState & state, const PlayerID maxPlayer)
+    {
+        if (!NeuralNet::Instance().isLoaded())
+        {
+            return WillScoreEvaluation(state, maxPlayer);
+        }
+
+        // Returns [-1, 1] scaled to comparable range
+        double value = NeuralNet::Instance().evaluateValue(state, maxPlayer);
+        return value * 100.0;
     }
 
     PlayerID WillScoreEvalWinner(const GameState & state)

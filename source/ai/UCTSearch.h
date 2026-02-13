@@ -32,9 +32,10 @@ public:
 
     // UCT-specific functions
     UCTNode &           UCTNodeSelect(UCTNode & parent);
-    PlayerID            traverse(UCTNode & node);//, GameState & currentState);
+    double              traverse(UCTNode & node);
     void                uct(GameState & state, size_t depth, const int lastPlayerToMove);
     UCTNode *           getBestRootNode();
+    double              getBestRootWinRate();
     
     bool                searchShouldStop();
     void                updateResults(bool forceUpdate = false);

@@ -135,22 +135,20 @@ void CardTypeData::InitFromCardLibraryFile(const std::string & jsonGameStateCard
 
     rapidjson::Document document;
     
-    const std::string dominionNames[] = 
+    // Exactly the 105 competitive ranked units (by internal name, alphabetized)
+    const std::string dominionNames[] =
     {
-        "Vivid Drone", "Bond", "Centrifuge", "Doomed Drone", "Battalion", "Panther", "Flame Warrior", "Flame Kin", "Machine", "Cyclic Attacker",
-        "Fragilewall", "Fabricator", "Distractorod", "Ion Cannon", "Meteor Shower", "Wild Drone",
-        "Doomed Mech", "Conscription", "Pixie", "Blade", "Supertreant", "Golem", "Defense Grid", "Drake", "Militia", "Doomwall", "Polywall", "Nether Warrior", "Flame Assassin", "Hate Reactor", "Adrenaline Reactor", "Furion",
-        "Fickle Marine", "Screech Blast", "House", "Trickster", "Gnoll", "Angelic", "Annihilator", "Nightmare Cannon", "Jester", "Doomed Infantry", "Neo Overlord",
-        "Antima Comet", "BFD", "Stone Guardian", "Tesla Coil", "Factory",
-        "Piranha Academy", "Statue", "Minimarshal", "Demolition Mech", "Grenadier",
-        "Ephemeron", "Sentinel", "Gasplant", "Rocket Artillery", "HPMan", "Pixieflower",
-        "NeoContraption", "Unholy Barrier", "Electrophore", "Sound Barrier", "Uberdefcell", "Giga Cannon", "Psychosis Cannon", "Tank", "Marauder", "Deconstructible Tower", "Cowardly Marine", "Hotel", "Disruption Kit", "Viletrope", "Roshan", "Rukh",
-        "Ebb Turbine", "Beam of Wincing", "Volatile Blast", "Arsonist",
-        "Butter on Blood", "Husk",
-        "Nitrocybe", "Corpus", "Vai Mauronax", "Xaetron", "Vai Mauronax", "Corpus",
-        "Borehole Patroller", "Thorium Dynamo", "Tantalum Ray",
-        "Psychosis Cannon", "Blood Phage", "Galvani Drone", "Thunderhead",
-        "Savior", "Lancetooth", "Ferritin Sac"
+        "Adrenaline Reactor", "Angelic", "Annihilator", "Antima Comet", "Arms Race", "Arsonist", "Battalion", "BFD", "Beam of Wincing", "Blade",
+        "Blood Phage", "Bombarder", "Bond", "Borehole Patroller", "Butter on Blood", "Centrifuge", "Colossus", "Conscription", "Corpus", "Cowardly Marine",
+        "Cyclic Attacker", "Deconstructible Tower", "Defense Grid", "Demolition Mech", "Disruption Kit", "Distractorod", "Doomed Drone", "Doomed Infantry", "Doomed Mech", "Doomwall",
+        "Drake", "Ebb Turbine", "Electrophore", "Ephemeron", "Fabricator", "Factory", "Ferritin Sac", "Fickle Marine", "Flame Assassin", "Flame Kin",
+        "Flame Warrior", "Fragilewall", "Furion", "Galvani Drone", "Gasplant", "Giga Cannon", "Gnoll", "Golem", "Grenadier", "HPMan",
+        "Hate Reactor", "Hotel", "House", "Innervi Field", "Ion Cannon", "Jester", "Lancetooth", "Machine", "Manticore", "Marauder",
+        "Mega Drone", "Meteor Shower", "Militia", "Minimarshal", "Mobile Animus", "Neo Overlord", "NeoContraption", "Nether Warrior", "Nightmare Cannon", "Nitrocybe",
+        "Oxide Mixer", "Panther", "Photonic Fibroid", "Piranha Academy", "Pixie", "Pixieflower", "Polywall", "Psychosis Cannon", "Rocket Artillery", "Roshan",
+        "Rukh", "Savior", "Screech Blast", "Sentinel", "Sound Barrier", "Statue", "Stone Guardian", "Supertreant", "Tank", "Tantalum Ray",
+        "Tesla Coil", "Thorium Dynamo", "Thunderhead", "Trickster", "Tyranno Smorcus", "Uberdefcell", "Unholy Barrier", "Urban Sentry", "Vai Mauronax", "Valkyrion",
+        "Viletrope", "Vivid Drone", "Volatile Blast", "Wild Drone", "Xaetron"
     };
 
     bool parsingFailed = document.Parse(FileUtils::ReadFile(jsonGameStateCardData).c_str()).HasParseError();

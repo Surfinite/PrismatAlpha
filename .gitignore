@@ -1,41 +1,127 @@
-visualstudio/Release
-visualstudio/Debug
-visualstudio/Static Release
+# ===========================================
+# PrismataAI .gitignore
+# ===========================================
+
+# --- Visual Studio build artifacts ---
+visualstudio/Release/
+visualstudio/Debug/
+visualstudio/Static Release/
 visualstudio/*.sdf
 visualstudio/*.suo
 visualstudio/*.opensdf
 visualstudio/*.psess
 visualstudio/*.vsp
 visualstudio/*.vspx
-visualstudio/.vs
-bin/*.iobj
-bin/*.ipdb
-bin/__ab.txt
-bin/__uct.txt
-bin/mcds_error_log.txt
-bin/*.bsc
-bin/*.png
+visualstudio/.vs/
+visualstudio/Prismata_GUI/
+
+# --- Build outputs (bin/) ---
 bin/*.exe
+bin/*_d.exe
 bin/*.pdb
 bin/*.ilk
+bin/*.iobj
+bin/*.ipdb
+bin/*.bsc
 bin/*.bmp
 bin/*.dat
 bin/*.swc
 bin/*.swf
-bin/*.txt
-bin/tests/*.html
-bin/qtdeploy
-bin/states
-bin/html/*
-qt/build-PrismataAI-Desktop_Qt_5_6_0_MSVC2013_32bit-Release
-qt/build-PrismataAI-Desktop_Qt_5_6_0_MSVC2013_32bit-Debug
+bin/__ab.txt
+bin/__uct.txt
+bin/mcds_error_log.txt
+bin/tests/
+bin/qtdeploy/
+bin/html/
+bin/graphviz/
+bin/debug_state.txt
+bin/NUL
+
+# --- Replays (large, generated) ---
+bin/asset/replays/
+
+# --- Neural net weights (8.5MB binary, regenerated from training) ---
+bin/asset/config/neural_weights.bin
+
+# --- Training data & models (2GB+, regenerated) ---
+training/data/train.pt
+training/data/val.pt
+training/data_test/
+training/models/
+training/models_test/
+training/runs/
+training/__pycache__/
+
+# --- Opening book analysis outputs (regenerated from scripts) ---
+training/data/pair_opening_analysis.json
+training/data/triple_opening_analysis.json
+training/data/tech_timing.json
+training/data/unit_opening_impact.json
+training/data/universal_openings.json
+
+# --- Build/pipeline logs ---
+build_output.txt
+build_stderr.txt
+pipeline_log.txt
+pipeline_stderr.txt
+stderr.txt
+
+# --- Temp batch scripts ---
+build_and_run.bat
+compile_test.bat
+do_rebuild.bat
+rebuild.bat
+run_pipeline.bat
+
+# --- Test output in bin/ ---
+bin/test_output.txt
+bin/test_stderr.txt
+
+# --- Claude Code local settings ---
+.claude/
+
+# --- Windows artifacts ---
+NUL
+Thumbs.db
+Desktop.ini
+
+# --- Old context files (superseded by CLAUDE.md) ---
+CLAUDE_ctx1.md
+CLAUDE_ctx2.md
+CLAUDE_ctx3.md
+CLAUDE_ctx4.md
+
+# --- Garbled filename artifact (moved to docs/artifacts/ for human review) ---
+docs/artifacts/
+
+# --- Object files (Linux/GCC builds) ---
 source/*.o
 source/main/*.o
 source/benchmark/*.o
 source/json/*.o
+
+# --- IDE / editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.user
+
+# --- Python environments & packaging ---
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Garbled test output filename (UTF-8 artifact) ---
+c\357\200\272*
+
+# --- Other ---
 *.zip
 *.stackdump
 emscripten/*.js
 emscripten/*.data
 emscripten/*.mem
-bin/graphviz/
+qt/build-PrismataAI-*

@@ -16,5 +16,8 @@ namespace Benchmarks
 
     void DoChillIteratorBenchmarkJSON(const rapidjson::Value & value);
     void DoChillIteratorBenchmark(size_t timeLimitMS, size_t histogramMinIndex, size_t histogramMaxIndex, size_t histogramMaxValue);
+
+    void DoRandomSetTest(size_t numTrials, size_t cardsPerSet);
+    void DoFixedSetTest(const std::vector<std::string> & dominionCards, const std::string & playerName, size_t numGames, size_t trackTurns);
 }
 }

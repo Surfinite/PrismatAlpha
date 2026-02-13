@@ -68,6 +68,7 @@ public:
     bool isLegal(const Action & action)                                          const;
     bool isGameOver()                                                            const;
     bool hasBreachableCard(const PlayerID player)                              const;
+    bool hasBreachableFrontlineCard(const PlayerID player)                     const;
     bool canBreachEnemyCard(const PlayerID player)                             const;
     bool hasOverkillableCard(const PlayerID player)                            const;
     bool canOverkillEnemyCard(const PlayerID player)                           const;

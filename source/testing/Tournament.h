@@ -4,20 +4,27 @@
 #include "rapidjson/document.h"
 #include "TournamentGame.h"
 #include "Timer.h"
+#include <mutex>
+#include <thread>
+#include <atomic>
 
 namespace Prismata
 {
- 
+
 class Tournament
 {
     std::string                         _name;
     std::string                         _type;
     std::string                         _date;
     size_t                              _rounds;
-    size_t                              _totalGamesPlayed;
+    std::atomic<size_t>                 _totalGamesPlayed;
     size_t                              _updateIntervalSec;
     size_t                              _randomCards;
+    size_t                              _numThreads;
+    bool                                _saveReplays = true;
+    std::string                         _replayDir;
     Timer                               _timeElapsed;
+    std::mutex                          _resultsMutex;
 
     std::vector<std::string>            _players;
     std::vector<std::string>            _stateDescriptions;
@@ -38,6 +45,7 @@ class Tournament
     void parseResult(std::string & result);
     void parseTournamentGameResult(const TournamentGame & game);
     void playGame(TournamentGame & game);
+    void playRound(const GameState & state);
     void writeHTMLResults();
     void printResults() const;
     std::string getTimeStringFromMS(const size_t ms);

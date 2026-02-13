@@ -487,6 +487,12 @@ bool GameState::isLegal(const Action & action) const
                 return false;
             }
 
+            // Frontline units must be killed before non-frontline units during breach
+            if (!target.getType().isFrontline() && hasBreachableFrontlineCard(getEnemy(action.getPlayer())))
+            {
+                return false;
+            }
+
             if (target.isOverkillable())
             {
                 if (!canOverkillEnemyCard(action.getPlayer()))
@@ -1454,7 +1460,10 @@ bool GameState::canWipeout(const PlayerID player) const
     if (getActivePlayer() != player)        { return false; }
     if (getActivePhase() != Phases::Action) { return false; }
     if (numCards(getEnemy(player)) == 0)    { return false; }
-    return (getAttack(player) >= getTotalAvailableDefense(getEnemy(player)));
+
+    HealthType atk = getAttack(player);
+    HealthType def = getTotalAvailableDefense(getEnemy(player));
+    return (atk >= def);
 }
 
 bool GameState::doMove(const Move & move)
@@ -1803,6 +1812,21 @@ bool GameState::hasBreachableCard(const PlayerID player) const
     for (const auto & cardID : getCardIDs(player))
     {
         if (getCardByID(cardID).isBreachable())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool GameState::hasBreachableFrontlineCard(const PlayerID player) const
+{
+    HealthType atk = getAttack(getEnemy(player));
+    for (const auto & cardID : getCardIDs(player))
+    {
+        const Card & card = getCardByID(cardID);
+        if (card.getType().isFrontline() && card.canBreachFor(atk))
         {
             return true;
         }
@@ -2241,6 +2265,7 @@ std::string GameState::toJSONString() const
     ss << "\"whiteMana\":\"" << getResources(0).getString() << "\", \n";
     ss << "\"blackMana\":\"" << getResources(1).getString() << "\", \n";
     ss << "\"turn\":" << (int)getActivePlayer() << ", \n";
+    ss << "\"numTurns\":" << (int)getTurnNumber() << ", \n";
     ss << "\"phase\":";
 
     if (getActivePhase() == Phases::Action)
@@ -2318,7 +2343,8 @@ std::string GameState::toJSONString() const
         {
             ss << getCardByID(getCardIDs(p)[i]).toJSONString();
 
-            if (p == 0 || (i < getCardIDs(p).size() - 1))
+            bool moreCards = (p == 0 && getCardIDs(1).size() > 0) || (i < getCardIDs(p).size() - 1);
+            if (moreCards)
             {
                 ss << ", \n";
             }

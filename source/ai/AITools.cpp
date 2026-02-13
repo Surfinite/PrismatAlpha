@@ -1,6 +1,7 @@
 #include "AITools.h"
 
 #include "AIParameters.h"
+#include "NeuralNet.h"
 #include "PrismataAssert.h"
 #include "Game.h"
 #include "Timer.h"
@@ -34,6 +35,13 @@ std::string AITools::InitializeAI(const std::string & initString)
         Prismata::InitFromMergedDeckJSON(document["mergedDeck"]);
         cardInitElapsed = t.getElapsedTimeInMilliSec();
         t.start();
+
+        // Load neural network if not already loaded
+        if (!NeuralNet::Instance().isLoaded())
+        {
+            NeuralNet::Instance().loadWeights("asset/config/neural_weights.bin");
+        }
+        NeuralNet::Instance().buildCardTypeMapping();
 
         AIParameters::Instance().parseJSONValue(document["aiParameters"]);
         playerInitElapsed = t.getElapsedTimeInMilliSec();

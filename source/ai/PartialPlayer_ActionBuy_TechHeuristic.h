@@ -19,13 +19,14 @@ enum TechHeuristics
 class PartialPlayer_ActionBuy_TechHeuristic : public PartialPlayer
 {
     size_t _heuristicType;
+    bool _legacy;
     bool greaterThan(double * v1, double * v2, size_t size);
     void getMovesElyotFormula(GameState & state, Move & move, bool balanced);
     void getMovesDiversify(GameState & state, Move & move);
 
 public:
 
-    PartialPlayer_ActionBuy_TechHeuristic (const PlayerID playerID, const size_t & heuristicType);
+    PartialPlayer_ActionBuy_TechHeuristic (const PlayerID playerID, const size_t & heuristicType, bool legacy = false);
     
     void getMove(GameState & state, Move & move);
 

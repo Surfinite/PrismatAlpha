@@ -501,7 +501,7 @@ bool Card::canBlock() const
     {
         return false;
     }
-    
+
     return true;
 }
 

@@ -464,8 +464,8 @@ PPPtr AIParameters::parsePartialPlayer(const PlayerID player, const std::string 
     { 
         playerPtr = PPPtr(new PartialPlayer_ActionBuy_EngineerHeuristic(player));
     }
-    else if (partialPlayerClassName == "ActionBuy_TechHeuristic")  
-    { 
+    else if (partialPlayerClassName == "ActionBuy_TechHeuristic")
+    {
         size_t heuristicType = TechHeuristics::ELYOT_FORMULA;
 
         if (playerValue.HasMember("heuristic") && playerValue["heuristic"].IsString())
@@ -494,7 +494,8 @@ PPPtr AIParameters::parsePartialPlayer(const PlayerID player, const std::string 
             }
         }
 
-        playerPtr = PPPtr(new PartialPlayer_ActionBuy_TechHeuristic(player, heuristicType));
+        bool legacy = playerValue.HasMember("legacy") && playerValue["legacy"].IsBool() && playerValue["legacy"].GetBool();
+        playerPtr = PPPtr(new PartialPlayer_ActionBuy_TechHeuristic(player, heuristicType, legacy));
     }
     else if (partialPlayerClassName == "ActionBuy_Random")  
     { 
@@ -518,23 +519,24 @@ PPPtr AIParameters::parsePartialPlayer(const PlayerID player, const std::string 
 
         playerPtr = PPPtr(new PartialPlayer_ActionBuy_Combination(player, combo));
     }
-    else if (partialPlayerClassName == "ActionBuy_GreedyKnapsack")  
-    { 
+    else if (partialPlayerClassName == "ActionBuy_GreedyKnapsack")
+    {
+        bool legacy = playerValue.HasMember("legacy") && playerValue["legacy"].IsBool() && playerValue["legacy"].GetBool();
         if (playerValue.HasMember("heuristic") && playerValue["heuristic"].IsString())
         {
             const std::string & heuristic = playerValue["heuristic"].GetString();
-            
+
             if (heuristic == "BuyWillScore")
             {
-                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, &Heuristics::BuyHighestCost));
+                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, &Heuristics::BuyHighestCost, legacy));
             }
             else if (heuristic == "BuyAttackValue")
             {
-                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, &Heuristics::BuyAttackValue));
+                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, &Heuristics::BuyAttackValue, legacy));
             }
             else if (heuristic == "BuyBlockValue")
             {
-                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, &Heuristics::BuyBlockValue));
+                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, &Heuristics::BuyBlockValue, legacy));
             }
             else
             {
@@ -714,14 +716,32 @@ PlayerPtr AIParameters::parsePlayer(const PlayerID player, const std::string & p
         {
             params.setEvalMethod(EvaluationMethods::WillScoreInflation);
         }
+        else if (evalMethodString == "NeuralNet")
+        {
+            params.setEvalMethod(EvaluationMethods::NeuralNet);
+        }
+        else if (evalMethodString == "NeuralNetPlusPlayout")
+        {
+            params.setEvalMethod(EvaluationMethods::NeuralNetPlusPlayout);
+
+            PRISMATA_ASSERT(args.HasMember("PlayoutPlayer"), "NeuralNetPlusPlayout requires PlayoutPlayer");
+
+            params.setPlayoutPlayer(Players::Player_One, parsePlayer(Players::Player_One, args["PlayoutPlayer"].GetString(), root));
+            params.setPlayoutPlayer(Players::Player_Two, parsePlayer(Players::Player_Two, args["PlayoutPlayer"].GetString(), root));
+        }
         else
         {
             PRISMATA_ASSERT(false, "Unknown UCT Evaluation Method Name: %s", evalMethodString.c_str());
         }
-        
+
         if (args.HasMember("UCTConstant") && args["UCTConstant"].IsDouble())
         {
             params.setCValue(args["UCTConstant"].GetDouble());
+        }
+
+        if (args.HasMember("BlendWeight") && args["BlendWeight"].IsDouble())
+        {
+            params.setBlendWeight(args["BlendWeight"].GetDouble());
         }
 
         //params.setGraphVizFilename("uct.png");
@@ -778,9 +798,27 @@ PlayerPtr AIParameters::parsePlayer(const PlayerID player, const std::string & p
         {
             params.setEvalMethod(EvaluationMethods::WillScoreInflation);
         }
+        else if (evalMethodString == "NeuralNet")
+        {
+            params.setEvalMethod(EvaluationMethods::NeuralNet);
+        }
+        else if (evalMethodString == "NeuralNetPlusPlayout")
+        {
+            params.setEvalMethod(EvaluationMethods::NeuralNetPlusPlayout);
+
+            PRISMATA_ASSERT(args.HasMember("PlayoutPlayer"), "NeuralNetPlusPlayout requires PlayoutPlayer");
+
+            params.setPlayoutPlayer(Players::Player_One, parsePlayer(Players::Player_One, args["PlayoutPlayer"].GetString(), root));
+            params.setPlayoutPlayer(Players::Player_Two, parsePlayer(Players::Player_Two, args["PlayoutPlayer"].GetString(), root));
+        }
         else
         {
             PRISMATA_ASSERT(false, "Unknown SAB Evaluation Method Name: %s", evalMethodString.c_str());
+        }
+
+        if (args.HasMember("BlendWeight") && args["BlendWeight"].IsDouble())
+        {
+            params.setBlendWeight(args["BlendWeight"].GetDouble());
         }
 
         if (playerClassName == "Player_AlphaBeta")

@@ -7,12 +7,15 @@
 #include <iomanip>
 #include <ctime>
 #include <sstream>
+#include <algorithm>
+#include <filesystem>
 using namespace Prismata;
 
 Tournament::Tournament(const rapidjson::Value & tournamentValue)
     : _totalGamesPlayed(0)
     , _updateIntervalSec(0)
     , _randomCards(8)
+    , _numThreads(std::thread::hardware_concurrency())
 {
     PRISMATA_ASSERT(tournamentValue.HasMember("name"), "Tournament has no name");
     PRISMATA_ASSERT(tournamentValue.HasMember("rounds"), "Tournament has no rounds number");
@@ -22,13 +25,69 @@ Tournament::Tournament(const rapidjson::Value & tournamentValue)
     JSONTools::ReadInt("rounds", tournamentValue, _rounds);
     JSONTools::ReadInt("RandomCards", tournamentValue, _randomCards);
     JSONTools::ReadInt("UpdateIntervalSec", tournamentValue, _updateIntervalSec);
-    
+
+    if (tournamentValue.HasMember("Threads"))
+    {
+        JSONTools::ReadInt("Threads", tournamentValue, _numThreads);
+    }
+    if (_numThreads < 1) _numThreads = 1;
+
+    if (tournamentValue.HasMember("SaveReplays") && tournamentValue["SaveReplays"].IsBool())
+    {
+        _saveReplays = tournamentValue["SaveReplays"].GetBool();
+    }
+
     PRISMATA_ASSERT(tournamentValue["players"].Size() >= 2, "Tournament has less than 2 players");
 
     for (size_t i(0); i < tournamentValue["players"].Size(); ++i)
     {
         _players.push_back(tournamentValue["players"][i]["name"].GetString());
         _playerGroups.push_back(tournamentValue["players"][i]["group"].GetInt());
+    }
+}
+
+void Tournament::playRound(const GameState & stateTemplate)
+{
+    // Each thread gets its own copy of the state
+    GameState state(stateTemplate);
+
+    for (size_t p1(0); p1 < _players.size(); ++p1)
+    {
+        for (size_t p2(0); p2 < _players.size(); ++p2)
+        {
+            if (_playerGroups[p1] == _playerGroups[p2])
+            {
+                continue;
+            }
+
+            PlayerPtr w1 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p1]);
+            PlayerPtr b1 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p2]);
+            PlayerPtr w2 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p2]);
+            PlayerPtr b2 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p1]);
+
+            TournamentGame g1(state, _players[p1], w1, _players[p2], b1);
+            TournamentGame g2(state, _players[p2], w2, _players[p1], b2);
+
+            g1.playGame();
+            g2.playGame();
+
+            {
+                std::lock_guard<std::mutex> lock(_resultsMutex);
+                parseTournamentGameResult(g1);
+                size_t gameNum1 = _totalGamesPlayed++;
+                parseTournamentGameResult(g2);
+                size_t gameNum2 = _totalGamesPlayed++;
+
+                if (_saveReplays)
+                {
+                    char buf[64];
+                    snprintf(buf, sizeof(buf), "game_%04zu.json", gameNum1);
+                    g1.saveReplay(_replayDir + "/" + buf);
+                    snprintf(buf, sizeof(buf), "game_%04zu.json", gameNum2);
+                    g2.saveReplay(_replayDir + "/" + buf);
+                }
+            }
+        }
     }
 }
 
@@ -53,43 +112,48 @@ void Tournament::run()
     _draws = std::vector< std::vector<int> >(_players.size(), std::vector<int>(_players.size(), 0));
     _turns = std::vector< std::vector<int> >(_players.size(), std::vector<int>(_players.size(), 0));
 
-    Timer t;
-    t.start();
-    _timeElapsed.start();
-
+    // Generate all random states upfront (rand() is not thread-safe)
+    std::vector<GameState> roundStates(_rounds);
     for (size_t r(0); r < _rounds; ++r)
     {
-        GameState state;
-        state.setStartingState(Players::Player_One, _randomCards);
+        roundStates[r].setStartingState(Players::Player_One, _randomCards);
+    }
 
-        for (size_t p1(0); p1 < _players.size(); ++p1)
+    if (_saveReplays)
+    {
+        _replayDir = "asset/replays/" + _name + "_" + _date;
+        std::filesystem::create_directories(_replayDir);
+        printf("Saving replays to: %s/\n", _replayDir.c_str());
+    }
+
+    printf("Tournament '%s': %zu rounds, %zu threads\n", _name.c_str(), _rounds, _numThreads);
+    fflush(stdout);
+
+    _timeElapsed.start();
+
+    // Process rounds in batches of _numThreads
+    for (size_t batchStart = 0; batchStart < _rounds; batchStart += _numThreads)
+    {
+        size_t batchEnd = std::min(batchStart + _numThreads, _rounds);
+        std::vector<std::thread> threads;
+
+        for (size_t r = batchStart; r < batchEnd; ++r)
         {
-            for (size_t p2(0); p2 < _players.size(); ++p2)
-            {
-                if (_playerGroups[p1] == _playerGroups[p2])
-                {
-                    continue;
-                }
+            threads.emplace_back(&Tournament::playRound, this, std::cref(roundStates[r]));
+        }
 
-                PlayerPtr w1 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p1]);
-                PlayerPtr b1 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p2]);
-                PlayerPtr w2 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p2]);
-                PlayerPtr b2 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p1]);
+        for (auto & t : threads)
+        {
+            t.join();
+        }
 
-                TournamentGame g1(state, _players[p1], w1, _players[p2], b1);
-                TournamentGame g2(state, _players[p2], w2, _players[p1], b2);
-
-                playGame(g1);
-                playGame(g2);
-
-                if (t.getElapsedTimeInSec() > _updateIntervalSec)
-                {
-                    printResults();
-                    writeHTMLResults();
-                    printf("\n\n");
-                    t.start();
-                }
-            }
+        // Print results after each batch
+        {
+            std::lock_guard<std::mutex> lock(_resultsMutex);
+            printResults();
+            writeHTMLResults();
+            printf("\n\n");
+            fflush(stdout);
         }
     }
 }
