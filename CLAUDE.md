@@ -1,5 +1,33 @@
 # PrismataAI - Project Status
 
+## Last Session Summary (Feb 13, 2026 — Self-Play Design Session)
+
+**What was completed:**
+1. **Self-play data generation design** — Full implementation plan created (section 29). Architecture: inject into `TournamentGame::playGame()`, binary features + JSONL metadata, `--selfplay-data <dir>` CLI flag. ~60 lines C++, ~120 lines Python. Correct API calls verified against source. Standalone plan reviewed and errors corrected. Ready for implementation.
+2. **CLAUDE.md updated** — Section 29 added, Step 3 replaced with concrete design, Session Handoff updated, Key Files updated, What's Working updated.
+
+**Previous session (Opening Book):**
+1. Opening book extraction — 3 tiers (2000+, 1800+, 1500+), 15 JSON output files. See section 27.
+2. Tier-specific training data — `training_data_1800.jsonl` (59,804 examples), `training_data_1500.jsonl` (39,600 examples).
+3. Cross-tier comparison — all human tiers buy tech 2-3 rounds earlier than AI legacy thresholds.
+
+**What's in progress:**
+- **S3 archive download** — `download_all_replays.js` was ~31% done when interrupted. It's incremental — re-run with: `cd c:\libraries\prismata-replay-parser && node download_all_replays.js`
+
+**What's NOT done yet (next priorities, in order):**
+1. **Rebuild Testing binary** — Picks up JSON trailing comma fix. Need both Debug (testing) and **Release** (self-play generation, 3-5x faster). Blend tournaments are DONE — concluded blending doesn't work (section 25).
+2. **Implement self-play data generation** (Step 3, section 29) — THE critical path. Design is complete. ~60 lines C++, ~120 lines Python. Needs `OriginalHardestAI_2s` config + `SelfPlay` tournament config. Build in Release.
+3. **Generate 10K self-play games** — ~12-16 hours unattended (revised estimate, see section 29). Then train + validate.
+4. **Finish archive download** — Re-run command above. ~30 min. Low priority.
+5. ~~**Engine fidelity validation**~~ **DONE (section 28)** — 100% match, 3 bugs fixed.
+
+**User preferences to remember:**
+- Efficiency over speed — minimize API credits, maximize local PC computation
+- Lower ELO players copy higher ELO players' buys (mimicry bias) — relevant for interpreting tier comparison data
+- The user is "Surfinite" in Prismata
+
+**Note on opening_book.py:** The user's linter/editor reformatted the file after session work. The current version has hardcoded paths (no CLI args). The tier-specific runs (1800/1500) were done with a CLI-arg version during the session; outputs are already generated and saved.
+
 ## What This Project Is
 
 A C++ game engine and AI for **Prismata**, a turn-based perfect-information strategy card game by Lunarch Studios. The engine simulates game states, the AI uses Alpha-Beta search, UCT/MCTS, and a PartialPlayer phase decomposition system (Defense, ActionAbility, ActionBuy, Breach).
@@ -915,9 +943,9 @@ Combined results: HardestAI 30W / OriginalHardestAI 30W (exactly 50.0% over 60 g
 
 #### Future Tests
 
-**Tier 0 — IMMEDIATE (requires Testing binary rebuild):**
-- **BlendSweep_vsMedium** — 6-player tournament: BlendUCT_50/25/10, BlendAB_50/25, MediumAI. Tests whether blending neural+playout beats pure playout or pure neural. Config exists but FAILED on Feb 13 because binary wasn't rebuilt. **Must rebuild Testing binary first.**
-- **BlendVsOriginal** — BlendUCT_50 + BlendAB_50 vs OriginalHardestAI. The key test: can blended eval beat the masterbot? Config exists.
+**Tier 0 — CONCLUDED:**
+- ~~**BlendSweep_vsMedium**~~ — CONCLUDED. 52 games across 3 runs showed blending doesn't work with current model. See section 25 + `CLAUDE_blend_tournaments.md`.
+- ~~**BlendVsOriginal**~~ — CONCLUDED. Never ran; decision to stop blend experiments made after BlendSweep results.
 
 **Tier 1 — Additional baselines (lower priority):**
 - **PrismatAlpha_UCT vs ExpertAI** (25 rounds, 100 games) — Places neural AI on difficulty ladder
@@ -934,8 +962,8 @@ Combined results: HardestAI 30W / OriginalHardestAI 30W (exactly 50.0% over 60 g
 - **SelfPlay_10K model vs PrismatAlpha_UCT** — Does self-play data improve over supervised expert data?
 
 **Existing tournament configs in config.txt (all currently `run:false`):**
-- `BlendSweep_vsMedium` — 6-player blend weight sweep vs MediumAI (16 rounds) **← RUN THIS NEXT**
-- `BlendVsOriginal` — BlendUCT_50 + BlendAB_50 vs OriginalHardestAI (16 rounds, saves replays)
+- `BlendSweep_vsMedium` — 6-player blend weight sweep vs MediumAI (16 rounds) — CONCLUDED, don't re-run
+- `BlendVsOriginal` — BlendUCT_50 + BlendAB_50 vs OriginalHardestAI (16 rounds) — CONCLUDED, don't re-run
 - `NeuralTest` — PrismatAlpha_UCT vs OriginalHardestAI (50 rounds)
 - `NeuralAB_vs_Original` — PrismatAlpha_AB_Legacy vs OriginalHardestAI (100 rounds)
 - `NeuralUCT_cValue` — cValue sweep with 5 players (25 rounds)
@@ -985,27 +1013,34 @@ Added `NeuralNetPlusPlayout` to `EvaluationMethods` enum in `Constants.h`. Confi
 | `source/ai/AlphaBetaSearch.cpp` | Blended eval in `eval()`, added `#include "NeuralNet.h"` |
 | `bin/asset/config/config.txt` | 6 blend player configs + 2 tournament configs |
 
-#### Expected Outcomes
+#### Status: CONCLUDED — Blending Does NOT Work (With Current Neural Model)
 
-The blend should perform **at least as well as pure playout** (the playout component provides the same signal HardestAI uses). The question is whether the neural component adds or subtracts:
-- If neural signal is useful: blend > pure playout (especially BlendUCT_10, which is 90% playout)
-- If neural signal is noise: blend ≈ pure playout (the small neural weight washes out)
-- If neural signal is harmful: blend < pure playout (unlikely given 42-44% vs MediumAI results)
+**Full details:** `CLAUDE_blend_tournaments.md`
 
-**Success criteria**: BlendAB_50 or BlendUCT_50 beats OriginalHardestAI at >50% WR (current pure neural: ~42-44% vs MediumAI, ~10.9% vs OriginalHardestAI). The playout component should bring the floor up to ~50%, and the neural signal should push it above.
+Three separate attempts were made after rebuilding the exe (Feb 13 afternoon):
 
-#### Status: PARTIAL RESULTS (Feb 13)
+1. **Morning run** (pre-rebuild binary): 32 games, exit code 3. Only BlendUCT_50/25/10 played each other.
+2. **Run 1** (rebuilt binary, 16 threads): Crashed after 38 games — **x86 OOM** (32-bit address space exhaustion). 16 concurrent NeuralNetPlusPlayout searches each running full playout + neural inference exceeded the 2 GB virtual address limit. Fix: reduced `"Threads": 4` in tournament config.
+3. **Run 2** (4 threads): 14 games in ~2 hours. Killed manually — too slow (~8 games/hour, 240-game sweep would take 30 hours).
 
-Binary rebuilt at 12:27 after tournament exe lock was released. `BlendSweep_vsMedium` ran 32 games before exiting (exit code 3). `BlendVsOriginal` did not produce replays.
-
-**BlendSweep_vsMedium results (32 games, incomplete — only BlendUCT variants played):**
+**Combined results (52 games, BlendUCT only — no MediumAI/BlendAB/OriginalHardestAI matchups completed):**
 
 | Matchup | Games | Result |
 |---|---|---|
-| BlendUCT_50 vs BlendUCT_25 | 28 | BlendUCT_50 wins 58.3% (14-10) |
-| BlendUCT_50 vs BlendUCT_10 | 4 | Even 50% (2-2) |
+| BlendUCT_25 (75% playout) vs BlendUCT_50 (50/50) | 28 | BlendUCT_25 wins 57.1% |
+| BlendUCT_10 (90% playout) vs BlendUCT_50 (50/50) | 10 | BlendUCT_10 wins 80.0% |
+| Run 2 (all matchups) | 14 | P1 won ALL 14 games — seat position dominates |
 
-No MediumAI, BlendAB, or OriginalHardestAI matchups completed. BlendUCT_50 (50% neural) slightly stronger than BlendUCT_25 (25% neural), suggesting the neural component adds value when blended. Needs full re-run for meaningful baseline comparison.
+**Key findings:**
+1. **More playout weight = stronger.** BlendUCT_10 (90% playout) dominates BlendUCT_50 (50/50) at 80% WR.
+2. **The neural component actively hurts performance** when given significant weight. The optimal "blend" converges toward pure playout (i.e., the existing OriginalHardestAI).
+3. **No blend player ever faced MediumAI or OriginalHardestAI**, so absolute strength unmeasured.
+
+**Root cause:** The supervised neural model (57.7% val accuracy on expert data) is too weak — blending a weak signal with a strong signal dilutes the strong signal.
+
+**Decision: Stop investing in blend tournaments.** Focus on self-play data generation (section 29). If a future self-play-trained model shows >60% val accuracy, revisit blending then.
+
+**x86 OOM lesson:** 16 threads × NeuralNetPlusPlayout (each running full playout + neural inference + UCT tree with GameState copies) exceeds the 32-bit 2 GB address space limit. Use `"Threads": 4` for blend tournaments, or add x64 build config to the solution (currently x86 only).
 
 ### 26. NeuralUCT vs HardestAI Tournament Results (Feb 13)
 
@@ -1016,6 +1051,342 @@ Ran PrismatAlpha_UCT (pure NeuralNet eval) vs HardestAI (improved, playout eval)
 PrismatAlpha won 3 games as P0 and 3 as P1 — no positional asymmetry. This confirms the pure neural eval (trained on expert replays with data leakage fix) is significantly weaker than playout eval, consistent with the earlier 10.9% WR vs OriginalHardestAI.
 
 Note: HardestAI here is the **improved** version (lower tech thresholds, individual canAffordToActivate, reduced frontline penalty), not OriginalHardestAI. The improved HardestAI may be slightly stronger or weaker — the 42.9% WR from the earlier 28-game test was inconclusive.
+
+### 27. Opening Book Extraction — Complete with Tier Comparison
+
+Implemented `training/opening_book.py` and ran it on three rating tiers: 2000+ (12,957 games / 251K examples), 1800+ (3,392 games / 59,804 examples), and 1500+ (1,981 games / 39,600 examples).
+
+**Tier data source:** The existing 31,275 raw replays already contained games at all rating tiers (API returns games where at least one player meets threshold, opponent can be any rating). No additional API fetch needed — just filtered existing data into exclusive rating bands via `filter_1500_replays.js`.
+
+**Training data extracted per tier:**
+- `training_data.jsonl` (2000+ tier): 251,106 examples from 13,037 games
+- `training_data_1800.jsonl` (1800-1999 tier): 59,804 examples from 3,392 games
+- `training_data_1500.jsonl` (1500-1799 tier): 39,600 examples from 1,981 games
+
+**Output files (5 per tier):**
+- 2000+ tier → `training/data/` (default)
+- 1800+ tier → `training/data/opening_book_1800/`
+- 1500+ tier → `training/data/opening_book_1500/`
+
+#### Tech Timing: Cross-Tier Comparison
+
+| Tech Building | 2000+ avg round | 1800+ avg round | 1500+ avg round | AI Legacy | AI Improved |
+|---|---|---|---|---|---|
+| Conduit | **2.81** | **2.75** | **2.65** | ~round 5+ (10G) | ~round 3-4 (7G) |
+| Blastforge | **3.49** | **3.46** | **3.39** | ~round 6+ (11G) | ~round 4 (8G) |
+| Animus | **3.17** | **3.11** | **3.05** | ~round 5+ (9G) | ~round 3 (6G) |
+
+Key findings:
+- **All human tiers buy tech 2-3 rounds earlier than legacy AI thresholds**
+- **Lower-rated players buy tech slightly EARLIER** (~0.1-0.2 rounds), not later. Top players are more willing to delay for economy.
+- P1 buys tech ~0.5-1.0 rounds earlier than P0 at all tiers (extra starting Drone = 7G vs 6G)
+
+#### Universal Openings: Cross-Tier
+
+- **Round 1**: DD (Drone-Drone) dominates at all tiers (93-96%)
+- **Round 2 P1**: Conduit+DD is THE universal play at all tiers (36-40%)
+- **Round 3**: Tech purchases start diverging — 2000+ slightly favors Conduit+DDD for P1, 1800+/1500+ favor Blastforge+DD
+
+#### Unit Opening Impact: Skill-Dependent Units
+
+Almost no overlap in top units across tiers. Key "skill-intensive" vs "forgiving" units:
+
+| Unit | 2000+ impact | 1800+ impact | 1500+ impact | Type |
+|---|---|---|---|---|
+| Shadowfang | **+0.207** | — | **-0.168** | Skill-intensive |
+| Antima Comet | **+0.137** | **-0.134** | — | Skill-intensive |
+| Pixie | — | **+0.211** | **-0.261** | Skill-intensive |
+| Flame Animus | — | **+0.191** | **+0.267** | Forgiving |
+| Valkyrion | **+0.190** | — | — | Expert-only |
+| Urban Sentry | +0.094 | +0.101 | **+0.218** | Forgiving |
+
+**Mimicry note (from user):** Lower ELO players often copy higher ELO opponents' buys when they recognize a stronger player. This partially explains why 1500+ opening patterns closely match 1800+. Same-tier subsets (both players in same band) could address this.
+
+#### S3 Archive Download
+
+Created `download_all_replays.js` to bulk-download raw .json.gz replay files from S3 to `replays_archive/`. Incremental (skips already-downloaded files), 10 concurrent connections, retry logic. Downloads all 31,275 replay codes. Run: `cd c:\libraries\prismata-replay-parser && node download_all_replays.js`
+
+**Files created/modified:**
+- `training/opening_book.py` — Main extraction script (CLI args for JSONL path and output suffix)
+- `training/data/opening_book_1800/*.json` — 5 opening book files for 1800+ tier
+- `training/data/opening_book_1500/*.json` — 5 opening book files for 1500+ tier
+- `c:\libraries\prismata-replay-parser\fetch_1500_replays.js` — API fetch for 1500+ replays (found existing data sufficient)
+- `c:\libraries\prismata-replay-parser\filter_1500_replays.js` — Filter into exclusive rating tiers
+- `c:\libraries\prismata-replay-parser\download_all_replays.js` — Bulk S3 archive downloader
+- `c:\libraries\prismata-replay-parser\extract_training_data.js` — Made MIN_RATING configurable via argv[6]
+
+### 28. Engine Fidelity Validation — COMPLETE (Feb 13, 2026)
+
+**Goal:** Verify our C++ engine produces identical game states to the live Prismata game. Critical prerequisite for self-play training — if the engine has rule bugs, training data is wrong.
+
+**Approach:** Replay human-vs-masterbot games (Format 201) through both the TS replay parser (ground truth) and our C++ engine, comparing board states after every turn.
+
+**Result: 100% match on test replay `HnTXk-hBtPN` (23 turns, 19 cards).**
+
+All unit counts, supply values, and persistent resources (gold, green) match perfectly. Transient resources (energy, blue, red, attack) are correctly skipped during Defense-phase state captures due to a timing difference: C++ captures state when the next player enters Defense (before `beginTurn()`), while TS captures at the start of Action phase (after `beginTurn()`). This is a state-capture timing difference, not a gameplay bug.
+
+#### Pipeline (3 scripts + 1 C++ benchmark)
+
+1. **`dump_replay_states.js`** — Fetches S3 replay, steps through via TS ReplayParser, captures per-turn states (resources, per-instance units, supply, undo-aware actions). Outputs `{code}_states.json`.
+2. **`convert_replay_for_cpp.py`** — Converts TS state dump to C++ validation format: maps display→internal names, converts resource dicts to mana strings, reorders actions (defense first), resolves supply.
+3. **`DoReplayValidation` in Benchmarks.cpp** — Loads validation JSON, initializes `GameState` from JSON, applies each turn's actions via `doAction()`, captures state after each turn to JSONL output.
+4. **`compare_states.py`** — Compares C++ output states with TS ground truth. Handles resource timing differences (transient resources skipped for non-active player and when in Defense phase).
+
+#### Engine Bugs Found & Fixed
+
+| Bug | Root Cause | Fix | File |
+|---|---|---|---|
+| BUY actions fail as NOT LEGAL | `findBuyableIndex()` returned sequential vector index instead of `CardType::getID()` | Return `getType().getID()` from `findBuyableCardTypeID()` | `Benchmarks.cpp` |
+| ASSIGN_BLOCKER fails in wrong phase | Converter put defense actions after action-phase actions, but engine expects Defense→Swoosh→Action order | Reorder `convert_actions()` to put ASSIGN_BLOCKER first | `convert_replay_for_cpp.py` |
+| **Cards can't block after using ability** | Defense phase happens BEFORE `beginTurn()` resets card statuses. Cards that used abilities in previous action phase keep `Assigned` status, and `canBlock(assigned=true)` returns false for units with `assignedBlocking=0` (e.g., Doomed Drone, regular Drone) | **Added status reset loop in `beginPhase(Defense)`** — resets all defending player's non-dead, non-constructing, non-delayed cards to Default/Inert | `GameState.cpp` |
+
+The third bug is a **real engine gameplay bug** that also affects AI play quality — the AI couldn't assign Drones/Doomed Drones as blockers after using their abilities. This was fixed by resetting card statuses at the start of the Defense phase, matching the live Prismata game behavior.
+
+#### Error progression
+
+| Stage | Errors | What fixed it |
+|---|---|---|
+| Initial run | 207 | — |
+| After BUY ID + Defense ordering fix | 94 | Turns 0-12 clean |
+| After Defense status reset fix | **0** | All 23 turns clean |
+| State comparison (resources) | 28 | Timing difference, not bugs |
+| State comparison (with timing fix) | **0** | 100% match |
+
+#### Test replay details
+
+- **Replay code**: `HnTXk-hBtPN` (Surfinite vs live Master Bot, Format 201)
+- **Dominion**: Mega Drone, Flame Animus, Hellhound, Tyranno Smorcus, Auric Impulse, Centrifuge, Trinity Drone, Doomed Drone
+- **23 turns, 445 commands** — covers: abilities, buying, defense, attack, tech buildings, doomed units (lifespan), frontline units
+- **19 unique card types** used across both players
+
+#### State capture timing difference (not a bug)
+
+The C++ engine captures state after the turn transition. When the previous player had attack > 0, the next player enters Defense phase — `beginTurn()` has NOT been called yet. The TS parser's `state_before` represents the state at the start of Action phase (after `beginTurn()`). This creates a timing difference for transient resources:
+- **Non-active player**: always has stale energy/blue/red (not yet cleared by their next `beginTurn()`)
+- **Active player in Defense**: `beginTurn()` hasn't run — no fresh resources produced yet
+- **Active player in Action**: `beginTurn()` has run — resources are fresh and match
+
+The comparison script handles this by skipping transient resource comparison when appropriate. All persistent resources (gold, green) and all unit counts/supply match exactly.
+
+#### 100 Surfinite Replay Codes (for batch validation)
+
+User-provided replay codes (Surfinite vs various opponents including masterbot). Use for broader unit coverage validation:
+
+```
+Dvv7p-OGUGb VirAP-ocfTB hMwfO-jP+BO 03uyp-vcH@i izF+o-y@Ujh
+fGVKQ-h6qg5 zB5WR-SMx2P HQDim-x1GOS MmPPA-ANywI PxrPA-pa3kN
+tVIo4-E3Jq1 Ni4y4-ixrpQ vqb7N-eIMgk nWeHQ-oL7U6 0aG6z-lD2Qp
+nerls-ypgT0 nBlx7-PZCI7 BL+J9-3aEOk v6jI9-5s5Bb 75+00-WyQ6x
+7jinu-78NZ4 bsBib-84OeO wqlNr-JpfhA xl85a-8FCpb 8G68S-@yR4o
+M6ROr-8PStV 14i9d-aHyJI FOp6p-4FvAe W6ID8-Hz8AQ zheOV-IC7Ly
+G85Pe-SdtBt bvyMx-FH8fU N37rL-+W1Ap zK8YF-6+2ae pdAB1-wCOhM
+aCJkk-F9N5I Q4nfF-UJUhh jqAGt-w8rs0 d0AGb-Pwip5 Yctp9-iP2YT
+A6MH3-gvoww JGts0-8ibdr DLG8W-CRgJ9 78P1h-I@6Ga OQG4w-v0NY4
+zbdr1-uT5Yz pF3gi-AbkJc vIaUr-NmeU@ ocnn1-iHwxf lr96N-O@ASA
+eamUj-+3HUx Y5@wt-ScWSF LwW9w-cgkD2 dabBn-Aoea7 QnGzy-Qkupt
+Rx4OC-y1UQn HdxeO-NxQ4t VviLt-b+987 h@fnk-BwZBS +udI7-qFN27
+jUzPY-wR3Gw jUxei-bH21Z cvJv3-@YJW0 rHbZ4-Zh6mt r0Ppz-RcgWI
+XFVr0-LTbv7 7RXU0-RQHxs ejvpA-jhBe5 xionQ-XYvnH l2QNv-Adrtn
+aj3lN-pYoQF MMHNv-JD3Eg sBT05-kXgD+ @cmK8-SMm6Y @@q9R-RJSwb
+Smyz9-tTImv 9SBfe-b86Zk 6h1fp-H0pDD jqpd3-D1x65 42NIB-5i59l
+iZpDL-7tpv6 mh3m+-DX5rg yxSuK-scu7h k8OpC-KqsNn 5E50G-v6G2I
+EhGat-DNq@n QBuRH-2Op5@ ZKBo2-bCIVq oYsUH-zpsMb vKMCl-mljiS
+qDmlz-2Npi1 qEtqO-5qijb OkHth-Iizde QRvgh-fGt41 Cm6Eg-13KOw
+3PZUZ-Y3gFX ECENg-UAjTs vXm75-aRZJi gVzoI-rbTxt ckGnb-2S68y
+```
+
+S3 URL pattern: `http://saved-games-alpha.s3-website-us-east-1.amazonaws.com/{CODE}.json.gz` (URL-encode `+` → `%2B`, `@` → `%40`).
+
+#### Next steps for validation
+
+- Batch-validate the 100 replays above for broader unit coverage
+- AI equivalence test: run `OriginalHardestAI` on each masterbot-turn position, compare chosen moves (HardestAI is deterministic)
+- Scale to automated batch validation pipeline
+
+### 29. Self-Play Data Generation — Design Plan (Feb 13, 2026)
+
+**Goal:** Generate training data from OriginalHardestAI (MasterBot) playing against itself, producing per-turn feature vectors + game outcomes. Churchill's 2019 paper proved this approach: 500K self-play games → 15M training examples → 58.8% WR vs playout eval.
+
+**Architecture decision: Inject into `TournamentGame::playGame()`** — already has the per-turn game loop with full access to `GameState`. Minimal code change, leverages existing multi-threaded tournament infrastructure.
+
+#### Output Format
+
+**Per game, two files:**
+
+1. **Binary features:** `game_NNNN_features.bin`
+   ```
+   [uint32: state_dim (1785)]     — 4 byte header
+   [float[1785]]                  — turn 0 features (7,140 bytes)
+   [float[1785]]                  — turn 1 features
+   ...                            — continues for N turns
+   ```
+   Typical game (~40 turns) ≈ 286 KB. 10,000 games ≈ 3 GB.
+
+2. **JSONL metadata:** `game_NNNN_meta.jsonl`
+   ```jsonl
+   {"turn": 0, "active_player": 0}
+   {"turn": 1, "active_player": 1}
+   ...
+   {"winner": 0, "total_turns": 40}
+   ```
+
+**Why binary + JSONL:** Binary is ~10x faster to write and ~20x smaller than embedding 1785 floats as JSON text. JSONL metadata remains human-readable for debugging.
+
+#### Correct C++ API Calls
+
+Key API signatures (verified from source):
+- **Feature extraction:** `void NeuralNet::extractFeatures(const GameState & state, std::vector<float> & features) const` — takes output vector by reference, called via singleton: `NeuralNet::Instance().extractFeatures(state, features)`
+- **Game state access:** `_game.getState()` returns `const GameState &`
+- **Winner:** `_game.getState().winner()` — winner lives on GameState, not Game
+- **Neural net loaded check:** `NeuralNet::Instance().isLoaded()` — must gate export on this
+- **State dim:** `NeuralNet::Instance().stateDim()` — returns 1785
+
+#### C++ Changes Required (~60 lines across 5 files)
+
+| File | Changes | Lines |
+|---|---|---|
+| `source/testing/main.cpp` | Parse `--selfplay-data <dir>` CLI flag | ~10 |
+| `source/testing/Tournament.h` | Add `_selfplayDataDir` member + `std::atomic<size_t> _gameCounter` | ~5 |
+| `source/testing/Tournament.cpp` | Pass export path to TournamentGame, generate per-game filenames | ~10 |
+| `source/testing/TournamentGame.h` | Add `_exportPath`, `_binOut`, `_metaOut`, `_exporting` members | ~5 |
+| `source/testing/TournamentGame.cpp` | Feature extraction + binary/JSONL writing in game loop | ~30 |
+
+**Thread safety:** Each TournamentGame writes its own files. Atomic counter in Tournament ensures unique game indices across threads. No shared state, no locks needed.
+
+#### Python Changes Required (~120 lines, 2 new files)
+
+| File | Purpose | Lines |
+|---|---|---|
+| `training/vectorize_selfplay.py` | Read binary features + JSONL → produce `selfplay_train.pt` / `selfplay_val.pt` | ~100 |
+| `training/dump_features.py` | Sanity check utility: read a binary file, print summary stats | ~20 |
+
+Output format matches existing `train.py` expectations: `states` (FloatTensor [N, 1785]), `values` (FloatTensor [N]), `buy_targets` (FloatTensor [N, 161]). Game-level 90/10 train/val split (NOT per-turn — avoids data leakage).
+
+**Critical value target mapping:** Value label is relative to the **active player at each turn**: active player wins → +1.0, loses → -1.0, draw → 0.0. This matches the existing `vectorize.py` convention and the neural net's value head output semantics.
+
+#### Configuration Decisions
+
+| Parameter | Value | Rationale |
+|---|---|---|
+| AI player | `OriginalHardestAI` vs itself | Matches Churchill's setup. Deterministic, consistent. |
+| Time limit | **2s** per move (not 7s) | 3.5x more games/hour. Self-play doesn't need max strength. |
+| Card sets | Random Base+8 | Most common in real Prismata games. |
+| Threads | 16 (default `hardware_concurrency`) | User's Ryzen 7 5700X3D has 8c/16t. |
+| Policy targets | Capture buy actions per turn | ~50 bytes/turn overhead. Enables future PUCT. |
+| SaveReplays | **false** for self-play | Avoids ~300KB JSON replays alongside binary features. |
+| Build config | **Release** (not Debug) | 3-5x faster for generation. |
+
+**Needs new config entry:** `OriginalHardestAI_2s` with `"TimeLimit": 2000` and a `SelfPlay` tournament config block with `"SaveReplays": false`.
+
+#### End-to-End Pipeline
+
+```
+Step 1: C++ generation (overnight, ~8 hrs)
+  PrismatAlpha.exe --selfplay-data selfplay_data/run_001
+  → selfplay_data/run_001/game_*.bin + game_*.jsonl  (~10K games, ~3 GB)
+
+Step 2: Vectorize to PyTorch (minutes)
+  python training/vectorize_selfplay.py selfplay_data/run_001/
+  → data/selfplay_train.pt + data/selfplay_val.pt
+
+Step 3: Train (~30 min)
+  python training/train.py --data data/selfplay_train.pt
+  → models/selfplay_model.pt
+
+Step 4: Export weights
+  python training/export_weights.py models/selfplay_model.pt
+  → bin/asset/config/neural_weights.bin
+
+Step 5: Tournament validation (~2 hrs)
+  PrismatAlpha_AB (new weights) vs OriginalHardestAI, 500+ games
+  Target: >55% WR (Churchill achieved 58.8%)
+```
+
+#### Success Criteria
+
+| Metric | Target | Current Baseline |
+|---|---|---|
+| Val accuracy on self-play data | > 65% | 57.7% (expert data) |
+| Train accuracy (Churchill benchmark) | ~90% on 500K games | N/A |
+| WR vs OriginalHardestAI | > 55% | ~10% (pure neural) |
+| Churchill's benchmark | 58.8% | — |
+
+#### Testing Plan
+
+1. **10-game round-trip test** — verify binary format, feature dims, value targets, no NaN/inf
+2. **Cross-validate** — compare feature distributions between self-play and expert replays
+3. **Key invariants:** binary file size = 4 + (turns × 1785 × 4), active player alternates correctly, values ∈ {-1, 0, +1}, game-level val split
+
+#### Design Review Notes
+
+A standalone plan document (`CLAUDE_selfplay_plan.md`) was reviewed against the actual codebase. Errors found and corrected:
+- `extractFeatures()` takes output vector by reference (not return value), called via `NeuralNet::Instance()` singleton
+- Winner is `_game.getState().winner()` (on GameState, not Game)
+- Testing main is at `source/testing/main.cpp` (not `source/main.cpp`)
+- Baseline WR vs OriginalHardestAI is ~10% (not ~50% as the plan stated)
+- Plan didn't specify tournament config JSON, SaveReplays=false, or Release build recommendation
+- Plan didn't address coexistence with existing replay recording system
+
+**Additional review findings (second pass):**
+- **Draw return value:** `winner()` may return `-1` for draw, NOT `2` as the standalone plan's Python vectorizer assumes. Must verify in source. `vectorize_selfplay.py` should handle both conventions (or map in C++ export layer).
+- **Buy action unit indices:** To capture policy targets, need `NeuralNet::Instance().getUnitIndex(CardType(action.getID()).getUIName())` to convert buy actions to 0-160 policy head indices. Existing TournamentGame buy logging only captures name strings.
+- **Memory buffering preferred:** Rather than opening file streams at game start, accumulate features in `std::vector<std::vector<float>>` (~280 KB per game), then flush after `gameOver()`. Avoids keeping file handles open during multi-second AI think time.
+
+#### External Critique Analysis (Feb 13, 2026)
+
+Two external reviews of the plan were analyzed. Valid points incorporated below; incorrect/overstated points noted.
+
+**Genuinely useful additions (adopt these):**
+
+1. **Policy target encoding is lossy.** Flat list `[3, 3, 7, 12]` collapses to multi-hot `{3, 7, 12}` — buying two Drones becomes indistinguishable from buying one. **Fix:** Store as count dict `{"3": 2, "7": 1, "12": 1}` in JSONL. Vectorizer converts to count vector (not multi-hot), train with KL divergence loss on normalized counts instead of BCE.
+
+2. **Crash resilience for overnight runs.** Flush binary+JSONL after every game (not just at process exit). Write a `manifest.jsonl` that logs each completed game — vectorizer reads only manifest-listed games, auto-skipping corrupt/incomplete files. Cost: negligible vs 2s/move AI think time.
+
+3. **Time estimate is too optimistic.** Back-of-envelope: 40 turns × 2 players × 2s/move = 160s/game worst case. At 16 threads: 10K / 16 × 160s ≈ **28 hours**, not 8. Real estimate depends on how many turns are near-instant (scripted defense, trivial actions). **Fix:** Measure empirical per-turn timing in 10-game test. Conservative planning: **12-16 hours** for 10K games.
+
+4. **Card set not recorded.** Cannot analyze per-card-set weaknesses or reproduce specific games without knowing which random cards were in play. **Fix:** Add `card_set` array to JSONL game result line. Nearly free.
+
+5. **RNG seed for reproducibility.** Log the RNG seed per game in metadata. Enables reproducing specific games for debugging. Nearly free.
+
+6. **Turn limit cap (200 turns).** Prevent degenerate games (mutual healing stalemates) from hanging a thread forever. Force a draw at turn 200.
+
+7. **Disk space pre-check.** 10K games ≈ 3 GB, 100K ≈ 30 GB, 500K ≈ 150 GB. Check available disk before starting.
+
+8. **Action space mapping verification.** Unit type index 0-160 mapping between C++ and Python must be identical. An off-by-one is a silent, devastating bug. Already have `training/data/unit_index.json` as the shared reference — add a verification step in both C++ export and Python vectorizer.
+
+9. **Streaming vectorizer for scale.** `np.concatenate` on 2.7 GB temporarily doubles RAM. **Fix:** Two-pass approach — count total turns in pass 1, pre-allocate arrays in pass 2, fill sequentially. Use `numpy.memmap` for 100K+ games.
+
+10. **Deterministic val split.** Use `game_index % 10 == 0` instead of random shuffle. Val set stays stable as new data is added, keeping metrics comparable across runs.
+
+11. **RAII file wrapper.** If `playNextTurn()` throws, raw ofstreams may not flush. Destructor-based wrapper ensures files are always properly closed.
+
+12. **Phase labeling.** Explicitly label Round 1 as "Phase 1: Behavioral Cloning" — training the net to approximate MasterBot's evaluation. Phase 2 (true self-play RL: NeuralNet_AB vs NeuralNet_AB) is where the bot surpasses MasterBot. This is already in our plan (Steps 4-5) but worth making explicit to avoid confusion.
+
+**Incorrect or overstated points (do NOT adopt):**
+
+- **Binary format needs endianness tag / magic bytes** — Overstated as "critical." We're running on one x86 Windows machine, same toolchain reads and writes. A truncated file is detectable by checking `file_size % (1785 × 4)`. Nice-to-have, not critical.
+- **Thread sleep before file opens** — Cargo-cult advice. Unique filenames via atomic counter means no contention. NTFS handles concurrent creates in the same directory fine.
+- **Separate `playDataGenGame()` method** — Premature refactoring. Simple `if (_exporting)` check is cleaner until there's a concrete reason to split.
+- **Branch prediction cost of `if (_exporting)`** — Absurd micro-optimization. AI search dominates by orders of magnitude per turn.
+- **"Mode collapse" framing** — Misframes our phased plan as a single methodology. Steps 4-5 already describe the iterative RL loop.
+- **65% val accuracy target is "too conservative"** — The critique says Churchill got 90% so we should expect higher. But Churchill's 90% was after multiple iterations with a progressively stronger model, not from Round 1 self-play. 65% is a reasonable floor for Round 1.
+
+**Additional implementation priorities (from refined analysis):**
+
+- **Value targets relative to active player** is the single most important correctness invariant. Getting this wrong silently corrupts training data with no obvious symptoms. Must be verified in the 10-game round-trip test.
+- **`const GameState &` for feature extraction** — `extractFeatures()` already takes `const GameState &` (verified in source). This is a defensive guarantee that feature extraction cannot accidentally mutate game state and corrupt game trajectories.
+- **Progress logging** — Print every 100 games to stderr (game count, elapsed time, est. remaining). Tiny addition that makes overnight runs much less anxiety-inducing.
+- **Inf/NaN validation** — Add `torch.isfinite` checks in `vectorize_selfplay.py` on every feature vector. If any feature extraction path produces bad floats, they silently propagate through training. Cheap insurance.
+- **Release build is critical** — VS Debug builds are 10-50x slower. At 2s/move in Release, Debug would be 20-100s/move — the difference between 12 hours and a week. Already in Configuration Decisions table but worth emphasizing.
+- **Capture buys from day one** — Policy targets should not be optional/deferred. Without them, limited to value-only training. The full AlphaZero loop needs both heads. ~10 extra lines in C++.
+
+**Realistic expectations:**
+
+- **Implementation success probability: ~70-75%** (not 90%+). The open items (exact API signatures, GameState accessor behavior, integration with existing tournament infrastructure) are the highest-risk part. Resolved signatures are documented above, but C++ integration always has surprises.
+- **Self-play val accuracy: 65% is a reasonable Round 1 floor.** Churchill's 90% was after multiple iterations with a progressively stronger model. Self-play data is NOT necessarily "easier" than expert data — if the AI has systematic weaknesses (always losing certain matchups), the value prediction could be harder because the model must learn those patterns from scratch rather than mimicking expert play.
+- **`memory_order_relaxed` for atomic counter: skip it.** Technically correct (counter only needs atomicity, not ordering), but the performance difference is negligible (one atomic op per game, not per turn) and risks subtle bugs if someone later adds ordering-dependent logic. Leave as `seq_cst`.
+
+**Full standalone plan document:** `CLAUDE_selfplay_plan.md` (not yet created — section 29 is the authoritative plan)
 
 ## Key Architecture Decisions
 
@@ -1270,7 +1641,11 @@ Do NOT fully replace expert training data with self-play data. Use a mixed train
 - **Train/val split fixed** — `vectorize.py` now splits by `replay_code` (per-game grouping) with `random.seed(42)`. Revealed that supervised learning on expert replays cannot produce useful position evaluation (section 23).
 - **Root diagnostics added** — `UCTSearch.cpp::doSearch()` logs per-child visits, win rates, and UCT values in `UCTSearchResults::rootDiagnostics`
 - **Config variants for future tuning** — `PrismatAlpha_UCT_c03/c05/c07/c10`, `PrismatAlpha_AB_Legacy`, tournament configs `NeuralAB_vs_Original` and `NeuralUCT_cValue`
-- **Blended neural+playout evaluation** (section 25) — `NeuralNetPlusPlayout` eval method blends neural net and playout at leaf nodes with configurable `BlendWeight`. Players: `BlendUCT_50/25/10`, `BlendAB_50/25`. Tournaments: `BlendSweep_vsMedium`, `BlendVsOriginal`. Binary rebuilt and blend tournaments now running (Feb 13 12:28).
+- **Blended neural+playout evaluation** (section 25) — `NeuralNetPlusPlayout` eval method blends neural net and playout at leaf nodes with configurable `BlendWeight`. Players: `BlendUCT_50/25/10`, `BlendAB_50/25`. **CONCLUDED: Blending does NOT work with current neural model.** Three runs attempted (52 total games): more playout weight = stronger (BlendUCT_10 beat BlendUCT_50 at 80% WR). Neural component actively hurts performance. x86 OOM crash at 16 threads required `"Threads": 4`. Decision: stop blend experiments, focus on self-play. Full details in `CLAUDE_blend_tournaments.md`.
+- **GitHub repo** — Code pushed to `github.com/Surfinite/PrismatAlpha` (private). Remote `prismat` = user's fork, `origin` = davechurchill/PrismataAI upstream.
+- **README.md** — Comprehensive project landing page with foundation credits, progression steps, current results, future plans, build instructions, project structure, and attribution table.
+- **Code quality** — `NeuralNet.cpp` diagnostic printf gated behind `#ifdef NEURAL_NET_DEBUG` to avoid verbose output in normal builds. Doc comments added to `extractFeatures()`, `evaluate()`, `evaluateValue()` with architecture details, feature layout, and output semantics.
+- **.gitignore comprehensive** — Excludes IDE files (.vscode/, .idea/, *.user), Python envs, training artifacts (train.pt 1.76GB, val.pt 195MB, models/), binary outputs, replays, neural weights, build logs, opening_book_*/ directories.
 - **NeuralUCT vs HardestAI** (section 26) — PrismatAlpha_UCT lost 6-58 (9.4% WR) vs HardestAI (improved) over 64 games. Confirms pure neural eval far weaker than playout.
 - **Tournament replay system** (section 23) — Replays saved **by default** (`_saveReplays = true`). Saves per-turn board snapshots to `asset/replays/`. GUI menu auto-scans replay files (shown in green). Right/Space to step forward, Left/Z to step backward through turns. Yellow overlay shows player names, turn counter, and winner.
 - **C++ neural net inference confirmed working** (section 24) — extractFeatures() produces 38/1785 non-zero features and differentiated value outputs (0.24–0.32). The inference chain is functional; model quality is the remaining question.
@@ -1279,6 +1654,11 @@ Do NOT fully replace expert training data with self-play data. Use a mixed train
 - **Opening book data verified** (Feb 13 2026) — All 12,957 expert games have unique dominion sets (per-exact-set books impossible); all 5,460 unit pairs have 10+ games (pair-level analysis viable); 33,219 triples have 10+ games; JSONL turn numbering confirmed as per-round 1-indexed (not per-player-turn); base set auto-detection confirmed 11 cards at 100% frequency. Full plan in `CLAUDE_opening_book_plan.md`.
 - **PyTorch fixed** (Feb 13 2026) — Windows LongPathsEnabled set to 1, corrupt partial install cleaned, PyTorch 2.10.0+cpu installed for Python 3.13. Training/export pipeline fully functional.
 - **JSON trailing comma bug fixed** — `GameState::toJSONString()` no longer produces trailing commas when P1 has 0 cards after wipeout. Requires rebuild.
+- **Engine fidelity validation PASSED** (section 28) — Full replay validation pipeline working: `dump_replay_states.js` → `convert_replay_for_cpp.py` → C++ `DoReplayValidation` → `compare_states.py`. Test replay `HnTXk-hBtPN` (23 turns, 19 card types): **100% match** on unit counts, supply, and persistent resources. Found and fixed 3 bugs including a real engine gameplay bug (cards couldn't block after using abilities in the same turn cycle). Transient resource timing difference (Defense phase vs Action phase state capture) correctly handled in comparison.
+- **Opening book extraction complete** (section 27) — `training/opening_book.py` ran on 3 tiers (2000+, 1800+, 1500+), producing 15 JSON output files. Cross-tier comparison shows tech timing is consistent across skill levels (all 2-3 rounds earlier than AI), universal openings converge (DD round 1, Conduit+DD round 2 for P1), but unit opening impact differs dramatically by tier (skill-intensive vs forgiving units).
+- **Tier-specific training data** — `training_data_1800.jsonl` (59,804 examples from 3,392 games) and `training_data_1500.jsonl` (39,600 examples from 1,981 games) extracted alongside existing 2000+ data. `extract_training_data.js` now accepts MIN_RATING via argv[6].
+- **S3 archive download script** — `download_all_replays.js` for bulk archiving all 31,275 raw .json.gz replay files. Incremental, safe to re-run.
+- **Self-play data generation designed** (section 29) — Full implementation plan: inject binary feature extraction into `TournamentGame::playGame()`, `--selfplay-data <dir>` CLI flag, binary features + JSONL metadata output, `training/vectorize_selfplay.py` for tensor conversion. Correct C++ API calls verified: `NeuralNet::Instance().extractFeatures(state, features)` (by-ref), `_game.getState().winner()`. Design reviewed against standalone plan doc, errors corrected (extractFeatures signature, winner API, file paths, baseline stats). Ready for implementation.
 
 ## Known Issues
 
@@ -1317,17 +1697,19 @@ Trained to epoch 70 (early stopped at 80). Val value loss 0.000635, value accura
 
 PrismatAlpha_UCT lost 7-57 (10.9% WR) vs OriginalHardestAI over 64 games. Investigation found **no code/perspective bugs** (section 22). Section 23 concluded the model "learned nothing" based on 57.7% val accuracy on held-out expert games. **However, section 24 proved this conclusion wrong**: all three neural variants (AB, UCT c=2.0, UCT c=0.3) achieve ~42-44% WR against MediumAI, dramatically better than RandomAI (0%) and EasyAI (6%). The neural eval provides real strategic signal — it just isn't strong enough to compete with HardestAI's playout-based search.
 
-**Updated conclusion:** The neural model has learned useful patterns from expert replays, but its signal is weak (~42-44% vs MediumAI). Two paths forward: (1) blend neural eval with playout to combine the best of both (section 25), and (2) self-play data generation for a stronger model.
+**Updated conclusion:** The neural model has learned useful patterns from expert replays, but its signal is weak (~42-44% vs MediumAI). Self-play data generation is the critical path forward.
 
-### Blended Neural+Playout Tournaments (section 25) — INCOMPLETE, NEEDS RE-RUN
+### Blended Neural+Playout Tournaments (section 25) — CONCLUDED
 
-**Goal:** Test whether blending the neural eval (which provides real but weak signal) with playout evaluation (which HardestAI uses) produces a stronger-than-either player.
+**Goal:** Test whether blending the neural eval with playout evaluation produces a stronger-than-either player.
 
-- **Implementation** — DONE (section 25). `NeuralNetPlusPlayout` eval method with configurable `BlendWeight`.
-- **Build** — DONE. Exe rebuilt at Feb 13 12:27 with NeuralNetPlusPlayout support.
-- **BlendSweep_vsMedium** — INCOMPLETE. Only 32/240 expected games completed (exit code 3). Only BlendUCT_50/25/10 played each other; MediumAI and BlendAB players never participated. Tournament configs set to `run:false` to prevent accidental re-run. **Must re-run after rebuild.**
-- **BlendVsOriginal** — DID NOT RUN. No replay directory created. Queued behind BlendSweep which exited early.
-- **Success criteria** — BlendAB_50 or BlendUCT_50 > 50% WR vs OriginalHardestAI
+**Result: Blending does NOT work with the current neural model.** Combined evidence from 52 games across 3 runs (see `CLAUDE_blend_tournaments.md` for full details):
+- More playout weight = stronger: BlendUCT_10 (90% playout) beat BlendUCT_50 (50/50) at 80% WR
+- The neural component actively hurts performance when given significant weight
+- x86 OOM crash at 16 threads (32-bit 2GB address limit); reduced to 4 threads but too slow (~8 games/hour)
+- No blend player ever faced MediumAI or OriginalHardestAI
+
+**Decision:** Stop investing in blend tournaments. Focus on self-play data generation. Revisit blending only after a self-play-trained model shows >60% val accuracy.
 
 ### Fixed: PyTorch for retraining — DONE
 
@@ -1350,22 +1732,17 @@ PrismatAlpha_UCT lost 7-57 (10.9% WR) vs OriginalHardestAI over 64 games. Invest
 - **Step 1: Root diagnostics** — DONE. Per-child visit/winRate/uctVal logged in `UCTSearchResults::rootDiagnostics`.
 - **Step 2: Config variants** — DONE. Added `PrismatAlpha_UCT_c03/c05/c07/c10`, `PrismatAlpha_AB_Legacy`, and tournament configs `NeuralAB_vs_Original`, `NeuralUCT_cValue`.
 
-#### Step 3: Self-play data generation infrastructure (NEXT)
+#### Step 3: Self-play data generation infrastructure (NEXT — design complete, section 29)
 
-Build a C++ self-play loop that runs OriginalHardestAI (MasterBot) vs itself, capturing per-turn training data:
+**Full design plan in section 29.** Summary: inject binary feature extraction into `TournamentGame::playGame()`, triggered by `--selfplay-data <dir>` CLI flag. ~60 lines C++, ~120 lines Python. Outputs binary features + JSONL metadata per game. New `training/vectorize_selfplay.py` converts to PyTorch tensors. Standalone plan document: `CLAUDE_selfplay_plan.md`.
 
-**Required components:**
-1. **Self-play runner** — Run MasterBot vs itself on random card sets, output per-turn `(state_features, game_outcome)` pairs
-2. **Feature extraction** — Use existing `NeuralNet::extractFeatures()` to produce 1785-dim feature vectors
-3. **Output format** — Binary or JSONL, compatible with existing `train.py`
-4. **Scale** — Target 500K+ games (matching Churchill's order of magnitude). At ~24s/game on 1 core, 8 cores = ~1,200 games/hour = ~417 hours for 500K. For a quick initial test: 10K games = ~8 hours.
-
-**Implementation options:**
-- **Option A: Modify `TournamentGame.cpp`** to dump feature vectors + outcomes during tournament runs. Minimal code change, leverages existing tournament infrastructure.
-- **Option B: New `SelfPlayDataGen` class** in testing/. More flexible but more code.
-- **Option C: Generate via `Prismata_Standalone`** using existing tournament config, post-process replay logs. No C++ changes needed but requires replay → feature conversion.
-
-**Recommended: Option A** — add a `--selfplay-data <output_path>` flag to the testing binary that enables per-turn feature vector dumping during tournament play. Use `NeuralNet::extractFeatures()` for feature extraction, write binary format for speed.
+**Key implementation details (verified against actual codebase):**
+- Feature extraction: `NeuralNet::Instance().extractFeatures(state, features)` — takes vector by reference
+- Winner access: `_game.getState().winner()` — lives on GameState, not Game
+- CLI flag: `source/testing/main.cpp` (not `source/main.cpp`)
+- Thread safety: per-game output files, atomic counter for indices
+- Config needed: `OriginalHardestAI_2s` (2s time limit), `SelfPlay` tournament with `"SaveReplays": false`
+- Build in **Release** mode for 3-5x speed improvement over Debug
 
 #### Step 4: Self-play training loop
 
@@ -1407,20 +1784,21 @@ Once a useful evaluation function exists:
 | 0-2 | Fix leakage, diagnostics, configs | — | **DONE** |
 | PyTorch | Fix Windows long paths + reinstall | — | **DONE** |
 | JSON fix | Trailing comma in toJSONString() | — | **DONE (needs rebuild)** |
-| Blend | Re-run BlendSweep + BlendVsOriginal | ~2-4 hours | **READY (after rebuild)** |
-| Opening book | Extract expert opening patterns (Python) | ~1 hour | **READY (no rebuild needed)** |
-| Engine validation | Replay 100 games through C++ engine (Context 4) | ~2 days | **PLANNED** |
-| 3 | Self-play data generation infrastructure | 1-2 days dev | NEXT |
-| 4 | Quick self-play test (10K games) + train | ~10 hours | After step 3 |
+| Blend | Blend tournaments | ~4-8 hours | **CONCLUDED — blending doesn't work with current model (section 25)** |
+| Opening book | Extract expert opening patterns (Python) | ~1 hour | **DONE (section 27)** |
+| Engine validation | Replay vs-masterbot games through C++ engine | ~2 days | **DONE (section 28) — 100% match, 3 bugs fixed** |
+| 3 design | Self-play design plan | — | **DONE (section 29)** |
+| 3 impl | Self-play C++ + Python implementation | ~4 hours dev | **NEXT** |
+| 4 | Quick self-play test (10K games) + train | ~10 hours | After step 3 impl |
 | 5 | Iterative improvement (3-5 iterations) | ~2-4 days | After step 4 |
 | 6 | Tournament validation | ~1 hour | After step 5 |
 | 7 | UCT + PUCT integration | 1 day | After step 6 |
 
 **Parallelizable right now (no dependencies between them):**
-1. **Opening book extraction** — pure Python, reads existing JSONL, outputs to `training/data/`. Full spec in `CLAUDE_opening_book_plan.md`.
-2. **Rebuild Testing binary** — picks up JSON trailing comma fix + blend eval code. Then re-run BlendSweep_vsMedium and BlendVsOriginal tournaments.
-3. **Engine fidelity validation** (Context 4 plan) — TypeScript side can start immediately; C++ side needs rebuild.
-4. **Self-play infrastructure** — C++ changes to TournamentGame.cpp for feature vector dumping.
+1. ~~**Opening book extraction**~~ **DONE (section 27)** — All 3 tiers extracted, cross-tier comparison complete. Outputs in `training/data/` and `training/data/opening_book_{1800,1500}/`.
+2. **Rebuild Testing binary** — picks up JSON trailing comma fix + engine validation fixes. Need both Debug (for testing) and Release (for self-play speed).
+3. ~~**Engine fidelity validation**~~ **DONE (section 28)** — 100% match on test replay `HnTXk-hBtPN` (23 turns, 19 card types). 3 engine bugs found and fixed. Pipeline: `dump_replay_states.js` → `convert_replay_for_cpp.py` → C++ `DoReplayValidation` → `compare_states.py`.
+4. **Self-play infrastructure** — **Design complete (section 29).** Implementation: ~60 lines C++ (TournamentGame, Tournament, main.cpp) + ~120 lines Python (vectorize_selfplay.py, dump_features.py). Standalone plan: `CLAUDE_selfplay_plan.md`.
 
 **Critical path:** Self-play data generation (Step 3) is the bottleneck for AI strength improvement. Everything else depends on having a model that can actually evaluate positions. Opening book and engine validation are valuable parallel tracks that don't block self-play.
 
@@ -1456,6 +1834,11 @@ Once a useful evaluation function exists:
 | `triple_opening_analysis.json` | Per-triple analysis (33,219 triples with 10+ games) |
 
 **Key methods:** Wilson lower bound for ranking, Elo-expected residual for rating bias correction, auto-detected base set with assertion, per-player >=4 turn requirement (no game-level filter).
+
+**Implementation:** `training/opening_book.py` — WRITTEN AND VERIFIED (Feb 13 2026). Run with `python training/opening_book.py`. All 5 outputs generated, all 10 success criteria passed. Key findings:
+- Experts buy tech by round 2-3 (strongly validates improved AI thresholds 8/7/6 over legacy 11/10/9)
+- All 5,460 unit pairs covered with 10+ games each; 31,888 triples with 10+ games
+- Top early-buy impact unit: Centurion (+0.39 residual WR delta)
 
 **Stretch goal:** Export engine-loadable lookup table for C++ integration — the AI consults the book for the first N turns before falling back to normal search.
 
@@ -1504,7 +1887,29 @@ Once a useful evaluation function exists:
 | `training/runs/` | Per-training-run experiment logs (JSON) |
 | `tools/golden_vector.py` | Cross-language feature comparison tool |
 | `docs/WEIGHT_FORMAT.md` | Binary weight format specification |
+| `training/opening_book.py` | Opening book extraction script (CLI: `python opening_book.py [jsonl_path] [output_suffix]`) |
+| `training/data/universal_openings.json` | Cross-set buy patterns by round/seat/deck-size (2000+ tier) |
+| `training/data/unit_opening_impact.json` | Per-unit early-buy win rate impact (2000+ tier) |
+| `training/data/tech_timing.json` | When experts first buy tech buildings (2000+ tier) |
+| `training/data/pair_opening_analysis.json` | Per-pair synergy analysis, all 5,460 pairs (2000+ tier) |
+| `training/data/triple_opening_analysis.json` | Per-triple analysis, 33K+ triples (2000+ tier) |
+| `training/data/opening_book_1800/` | Same 5 files for 1800-1999 tier |
+| `training/data/opening_book_1500/` | Same 5 files for 1500-1799 tier |
 | `CLAUDE_opening_book_plan.md` | Full opening book extraction plan (replaces original Parallel Track section) |
+| `CLAUDE_engine_validation_plan.md` | Engine fidelity validation plan — replay vs-masterbot games, compare states |
+| `…/dump_replay_states.js` | Dump per-turn states from S3 replay (TS parser ground truth for validation) |
+| `…/fetch_one_replay.js` | Fetch single replay from S3 and print key info |
+| `…/filter_1500_replays.js` | Filter replays into exclusive rating tiers (1500-1799, 1800-1999, 2000+) |
+| `…/download_all_replays.js` | Bulk S3 archive downloader (31,275 .json.gz files, incremental) |
+| `…/training_data_1800.jsonl` | Training examples for 1800-1999 tier (59,804 examples) |
+| `…/training_data_1500.jsonl` | Training examples for 1500-1799 tier (39,600 examples) |
+| `CLAUDE_selfplay_plan.md` | Full standalone self-play data generation plan (section 29 summary) |
+| `training/vectorize_selfplay.py` | (TO CREATE) Binary self-play features → PyTorch tensors |
+| `training/dump_features.py` | (TO CREATE) Sanity check utility for binary feature files |
+| `training/convert_replay_for_cpp.py` | Convert TS replay state dump to C++ engine validation format (name mapping, mana strings, supply, action reordering) |
+| `training/compare_states.py` | Compare C++ engine output states with TS ground truth (handles Defense-phase timing, transient resource skipping) |
+| `bin/validation_output.jsonl` | C++ engine validation output — per-turn state snapshots from `DoReplayValidation` |
+| `bin/asset/config/validation_HnTXk.json` | Validation input for test replay HnTXk-hBtPN (23 turns, actions + TS state_before) |
 | `scripts/smoke_test.sh` | Quick crash/sanity test (10 fixed-set games) |
 | `scripts/tournament.sh` | Tournament runner with CSV output and Wilson CI |
 
@@ -1527,6 +1932,11 @@ Used the prismata-stats.web.app API (`POST /api/search/replays`) to collect high
 - **Deck sizes**: Base+5 (425 games), Base+8 (1,919), Base+9 (4,337), Base+10 (4,473), Base+11 (1,566)
 - **Excluded formats**: 202 (custom, 232 games), 203 (wild/mutated costs + starred units, 923 games), 204 (variant, 194 games)
 - **Error rate**: 238/13,157 replays failed (~1.8%) — missing from S3 or parser errors
+- **Tier breakdown within existing data** (exclusive bands by max player rating):
+  - 2000+ tier: 12,957 games → 251,106 training examples
+  - 1800-1999 tier: 3,420 games → 59,804 training examples
+  - 1500-1799 tier: 1,997 games → 39,600 training examples
+- **S3 archive**: `download_all_replays.js` downloads raw .json.gz files to `replays_archive/`. Incremental, safe to re-run.
 
 ### Previous Dataset (for reference)
 - **7,205 games** with both players >= 2000 (stricter filter)
@@ -1637,3 +2047,93 @@ Source locations: SFML at `c:\libraries\sfml\`, RapidJSON embedded at `source/ra
 | GDC 2017 Talk | https://youtu.be/sQSL9j7W7uA | Churchill's GDC talk on Prismata AI design |
 | HPS Paper (AIIDE 2015) | http://www.cs.mun.ca/~dchurchill/pdf/aiide15_churchill_prismata.pdf | Hierarchical Portfolio Search (Best Student Paper) |
 | Game AI Pro 3 Chapter | http://www.cs.mun.ca/~dchurchill/pdf/prismata_gaip3.pdf | Implementation-focused HPS guide |
+
+## Session Handoff (Last Updated: Feb 13, 2026)
+
+**For any new Claude context picking up this project: read this section first, then the Execution Order Summary, then the Planned Next Steps.**
+
+### Where Things Stand Right Now
+
+The project is at an inflection point. Everything up through supervised learning on expert replays is **done and validated**. The supervised neural net works (provides real strategic signal, beats Random/Easy AI) but is too weak to compete with playout evaluation (~9-42% WR vs HardestAI/MediumAI). The critical path forward is **self-play data generation** (Step 3 in Planned Next Steps).
+
+### What Was Done Most Recently (Feb 13, 2026)
+
+1. **Self-play data generation design completed** — Full implementation plan in section 29 + standalone `CLAUDE_selfplay_plan.md`. Architecture: inject into TournamentGame::playGame(), binary features + JSONL metadata, --selfplay-data CLI flag. ~60 lines C++, ~120 lines Python. Correct API calls verified against source. Design reviewed, errors in standalone plan corrected (extractFeatures signature, winner API, file paths, baseline stats). **Ready for implementation.**
+2. **Rebuilt the exe** — MSBuild from Git Bash works. Binary at `bin/Prismata_Testing_d.exe` updated Feb 13 12:27. **However**, the JSON trailing comma fix was applied AFTER this rebuild, so the current binary does NOT include it. **Must rebuild before next tournament run.**
+3. **NeuralUCT vs HardestAI tournament** — 64 games, HardestAI won 58-6 (90.6%). Confirms pure neural eval far weaker than playout. Replays in `bin/asset/replays/NeuralUCT_vsHardestAI_2026-02-13_11-53-17/`.
+4. **Blend tournaments concluded** — 52 games across 3 runs. Neural component hurts performance; more playout weight = stronger. Decision: stop blend experiments, focus on self-play. Full results in `CLAUDE_blend_tournaments.md`.
+5. **Pushed to GitHub** — `github.com/Surfinite/PrismatAlpha` (private repo). Remote name: `prismat`. Upstream: `origin` (davechurchill/PrismataAI).
+6. **README.md written** — Comprehensive project landing page for the GitHub repo.
+7. **Code cleanup** — NeuralNet.cpp diagnostic printf gated behind `#ifdef NEURAL_NET_DEBUG`; doc comments on `extractFeatures()`, `evaluate()`, `evaluateValue()` with architecture details, feature layout, and output semantics; .gitignore expanded (IDE, Python, opening_book_*/).
+8. **PyTorch fixed** — Windows LongPathsEnabled, PyTorch 2.10.0+cpu installed for Python 3.13. Training pipeline unblocked.
+9. **Opening book extraction complete** — 3 tiers (2000+, 1800+, 1500+), 15 output files. Key finding: experts buy tech rounds 2-3, validating heuristic fix (thresholds 8/7/6 vs legacy 11/10/9).
+
+### Immediate Next Actions (Prioritized)
+
+**Do these in order:**
+
+1. **Rebuild the exe** — JSON trailing comma fix needs to be in the binary. Build **both** Debug and Release:
+   ```
+   Debug:   MSBuild.exe Prismata.sln //t:Rebuild //p:Configuration=Debug //p:Platform=x86 //m
+   Release: MSBuild.exe Prismata.sln //t:Rebuild //p:Configuration=Release //p:Platform=x86 //m
+   ```
+   Make sure no exe is running first (file lock = LNK1104 error). Blend tournaments are DONE (concluded blending doesn't work — section 25).
+
+2. **Implement self-play data generation (Step 3)** — THE critical path. **Design is complete (section 29).** Inject into `TournamentGame::playGame()`, binary features + JSONL metadata, `--selfplay-data <dir>` CLI flag. ~60 lines C++, ~120 lines Python. Key API: `NeuralNet::Instance().extractFeatures(state, features)` (by-ref), `_game.getState().winner()`. Build in **Release** for speed. Needs new config: `OriginalHardestAI_2s` + `SelfPlay` tournament with `"SaveReplays": false`.
+
+3. **Generate 10K self-play games** — OriginalHardestAI vs itself, random card sets, **~12-16 hours** on 16 threads (revised estimate — worst-case 28 hrs, but many turns are near-instant). Validate timing with 10-game test first.
+
+5. **Train on self-play data** — Should get significantly better val accuracy than the 57.7% we see with expert replays. Churchill got ~90% on self-play.
+
+### Key Gotchas for New Context
+
+- **MSBuild from Git Bash**: Use `//` for switches, not `/` (Git Bash interprets `/` as path). Use Unix-style paths for the solution file.
+- **Solution is Debug|x86 only**: No x64 configs. Debug builds output with `_d` suffix.
+- **Internal name system**: The engine uses codenames (e.g., "Tesla Tower" for "Tarsier", "Brooder" for "Blastforge"). See the full mapping table in "Key Architecture Decisions" section above.
+- **Two git remotes**: `origin` = davechurchill upstream, `prismat` = user's fork (Surfinite/PrismatAlpha). Push to `prismat`.
+- **Blend tournaments concluded**: 52 games across 3 runs showed neural component hurts performance. Decision: stop blend experiments, focus on self-play. Full results in `CLAUDE_blend_tournaments.md`.
+- **Config tournament toggles**: Always check which tournaments have `"run":true` in `config.txt` before launching. Multiple tournaments can be enabled simultaneously.
+- **NeuralNet.cpp diagnostics**: Gated behind `#ifdef NEURAL_NET_DEBUG`. Define this in the project preprocessor if you need verbose neural net debug output.
+- **Feature schema**: The Python/C++ feature contract is defined in `training/schema.json` and `training/FEATURES.md`. State dim = 1785 (161 units × 11 features + 14 global). Any changes must be synchronized across `vectorize.py`, `NeuralNet.cpp`, and `schema.json`.
+- **User preferences**: Efficiency over speed — minimize API credits. Maximize local PC computation. User is comfortable with long-running tasks (hours) but wants to be told when something can run unattended.
+- **User's git comfort level**: Self-described "noob" — explain git operations clearly. Always confirm before push/force operations.
+- **PRISMATA_ASSERT**: Soft assert — prints to stdout/stderr, does NOT abort. Can cause confusing output but doesn't crash.
+- **Legacy mode**: `"legacy": true` config flag preserves original AI behavior. `OriginalHardestAI` is the stable baseline for all comparisons. Never modify legacy behavior — it's the measuring stick.
+
+### Tournament Results Summary (All Time)
+
+| Matchup | Games | Win Rate | Notes |
+|---|---|---|---|
+| PrismatAlpha_UCT vs RandomAI | — | ~100% | Neural eval has real signal |
+| PrismatAlpha_UCT vs EasyAI | — | ~94% | Neural eval has real signal |
+| PrismatAlpha_UCT (neural) vs MediumAI | 60 | 41.7% | Section 24 |
+| PrismatAlpha_UCT (neural) vs HardestAI (playout) | 64 | 9.4% | Section 26 |
+| PrismatAlpha_UCT (neural) vs OriginalHardestAI | 64 | 10.9% | Section 22 |
+| BlendUCT_25 (75% playout) vs BlendUCT_50 (50/50) | 28 | 57.1% | More playout = stronger |
+| BlendUCT_10 (90% playout) vs BlendUCT_50 (50/50) | 10 | 80.0% | Neural component hurts. Blend CONCLUDED. |
+| HardestAI (improved) vs OriginalHardestAI | 60 | 50.0% | Section 24, Track A fixes are neutral |
+| PrismatAlpha_AB (neural) vs MediumAI | ~60 | 43.8% | Section 24 |
+| PrismatAlpha_UCT_c03 vs MediumAI | ~60 | 42.2% | Section 24, cValue doesn't matter |
+
+### Project Milestones Achieved
+
+1. Engine unit database current (105+11 units, all balanced)
+2. Expert replay collection (13K games, 251K training examples)
+3. Training pipeline (fetch → filter → extract → vectorize → train → export)
+4. Neural net inference in C++ (extractFeatures → evaluate → value/policy heads)
+5. GUI with debug panel (confidence, comparison AI, unit values, auto-play)
+6. Heuristic bug fixes (5 fixes, legacy mode preserved)
+7. Opening book extraction (3 tiers, pair/triple analysis)
+8. Code pushed to GitHub (private repo)
+9. Self-play data generation designed (section 29 — ready for implementation)
+
+### What Has NOT Been Done Yet
+
+- Self-play data generation (the critical gap — **design complete in section 29**, implementation next)
+- ~~Blend tournament full results~~ **CONCLUDED (section 25)** — blending doesn't work with current model; neural component hurts performance
+- ~~Engine fidelity validation~~ **DONE (section 28)** — 100% match on test replay, 3 bugs fixed
+- Policy-guided UCT (PUCT formula)
+- Iterative self-play RL loop
+- Opening book C++ integration
+- `training/vectorize_selfplay.py` — binary→tensor converter for self-play data (design in section 29)
+- `training/dump_features.py` — sanity check utility for binary feature files

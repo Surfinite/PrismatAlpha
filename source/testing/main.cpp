@@ -49,18 +49,28 @@ int main(int argc, char* argv[])
         fflush(stdout);
     }
 
-    // Check for --fixedset / --fixedset-legacy command line args
+    // Check for command line args
     bool runFixedSet = false;
     bool runFixedSetLegacy = false;
+    std::string validateReplayFile;
+    std::string validateOutputFile = "validation_output.jsonl";
     for (int i = 1; i < argc; ++i)
     {
         if (std::string(argv[i]) == "--fixedset")
             runFixedSet = true;
         if (std::string(argv[i]) == "--fixedset-legacy")
             runFixedSetLegacy = true;
+        if (std::string(argv[i]) == "--validate-replay" && i + 1 < argc)
+            validateReplayFile = argv[++i];
+        if (std::string(argv[i]) == "--validate-output" && i + 1 < argc)
+            validateOutputFile = argv[++i];
     }
 
-    if (runFixedSet || runFixedSetLegacy)
+    if (!validateReplayFile.empty())
+    {
+        Benchmarks::DoReplayValidation(validateReplayFile, validateOutputFile);
+    }
+    else if (runFixedSet || runFixedSetLegacy)
     {
         // Exact card set from the screenshot game
         std::vector<std::string> dominionCards = {

@@ -48,46 +48,61 @@ Tournament::Tournament(const rapidjson::Value & tournamentValue)
 
 void Tournament::playRound(const GameState & stateTemplate)
 {
-    // Each thread gets its own copy of the state
-    GameState state(stateTemplate);
-
-    for (size_t p1(0); p1 < _players.size(); ++p1)
+    try
     {
-        for (size_t p2(0); p2 < _players.size(); ++p2)
+        // Each thread gets its own copy of the state
+        GameState state(stateTemplate);
+
+        for (size_t p1(0); p1 < _players.size(); ++p1)
         {
-            if (_playerGroups[p1] == _playerGroups[p2])
+            for (size_t p2(0); p2 < _players.size(); ++p2)
             {
-                continue;
-            }
-
-            PlayerPtr w1 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p1]);
-            PlayerPtr b1 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p2]);
-            PlayerPtr w2 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p2]);
-            PlayerPtr b2 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p1]);
-
-            TournamentGame g1(state, _players[p1], w1, _players[p2], b1);
-            TournamentGame g2(state, _players[p2], w2, _players[p1], b2);
-
-            g1.playGame();
-            g2.playGame();
-
-            {
-                std::lock_guard<std::mutex> lock(_resultsMutex);
-                parseTournamentGameResult(g1);
-                size_t gameNum1 = _totalGamesPlayed++;
-                parseTournamentGameResult(g2);
-                size_t gameNum2 = _totalGamesPlayed++;
-
-                if (_saveReplays)
+                if (_playerGroups[p1] == _playerGroups[p2])
                 {
-                    char buf[64];
-                    snprintf(buf, sizeof(buf), "game_%04zu.json", gameNum1);
-                    g1.saveReplay(_replayDir + "/" + buf);
-                    snprintf(buf, sizeof(buf), "game_%04zu.json", gameNum2);
-                    g2.saveReplay(_replayDir + "/" + buf);
+                    continue;
+                }
+
+                PlayerPtr w1 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p1]);
+                PlayerPtr b1 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p2]);
+                PlayerPtr w2 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p2]);
+                PlayerPtr b2 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p1]);
+
+                TournamentGame g1(state, _players[p1], w1, _players[p2], b1);
+                TournamentGame g2(state, _players[p2], w2, _players[p1], b2);
+
+                g1.playGame();
+                g2.playGame();
+
+                {
+                    std::lock_guard<std::mutex> lock(_resultsMutex);
+                    parseTournamentGameResult(g1);
+                    size_t gameNum1 = _totalGamesPlayed++;
+                    parseTournamentGameResult(g2);
+                    size_t gameNum2 = _totalGamesPlayed++;
+
+                    if (_saveReplays)
+                    {
+                        char buf[64];
+                        snprintf(buf, sizeof(buf), "game_%04zu.json", gameNum1);
+                        g1.saveReplay(_replayDir + "/" + buf);
+                        snprintf(buf, sizeof(buf), "game_%04zu.json", gameNum2);
+                        g2.saveReplay(_replayDir + "/" + buf);
+                    }
                 }
             }
         }
+    }
+    catch (const std::exception & e)
+    {
+        std::lock_guard<std::mutex> lock(_resultsMutex);
+        fprintf(stderr, "\n*** TOURNAMENT THREAD EXCEPTION: %s\n", e.what());
+        fflush(stderr);
+    }
+    catch (...)
+    {
+        std::lock_guard<std::mutex> lock(_resultsMutex);
+        fprintf(stderr, "\n*** TOURNAMENT THREAD UNKNOWN EXCEPTION\n");
+        fflush(stderr);
     }
 }
 

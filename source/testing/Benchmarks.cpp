@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <iomanip>
 #include <cmath>
+#include <fstream>
+#include <sstream>
 
 using namespace Prismata;
 
@@ -62,6 +64,18 @@ void Benchmarks::DoBenchmarks(const std::string & filename)
             size_t numTrials = benchmarks[b].HasMember("NumTrials") ? benchmarks[b]["NumTrials"].GetInt() : 100000;
             size_t cardsPerSet = benchmarks[b].HasMember("CardsPerSet") ? benchmarks[b]["CardsPerSet"].GetInt() : 8;
             DoRandomSetTest(numTrials, cardsPerSet);
+        }
+        else if (benchmarkType == "ReplayValidation")
+        {
+            PRISMATA_ASSERT(benchmarks[b].HasMember("ValidationFile") && benchmarks[b]["ValidationFile"].IsString(),
+                "ReplayValidation must have ValidationFile string");
+            std::string validationFile = benchmarks[b]["ValidationFile"].GetString();
+            std::string outputFile = "validation_output.jsonl";
+            if (benchmarks[b].HasMember("OutputFile") && benchmarks[b]["OutputFile"].IsString())
+            {
+                outputFile = benchmarks[b]["OutputFile"].GetString();
+            }
+            DoReplayValidation(validationFile, outputFile);
         }
         else
         {
@@ -341,4 +355,317 @@ void Benchmarks::DoFixedSetTest(const std::vector<std::string> & dominionCards, 
         printf("%-30s %d/%zu games (%.1f%%)\n", cardName.c_str(), count, numGames, rate);
     }
     printf("\n=== End Fixed Set Test ===\n\n");
+}
+
+// Helper: find a card owned by player with matching type name that satisfies a predicate
+static CardID findCard(const GameState & state, PlayerID player, const std::string & cardName,
+                       bool (Card::*predicate)() const)
+{
+    const CardIDVector & cardIDs = state.getCardIDs(player);
+    for (size_t i = 0; i < cardIDs.size(); i++)
+    {
+        const Card & card = state.getCardByID(cardIDs[i]);
+        if ((card.getType().getUIName() == cardName || card.getType().getName() == cardName)
+            && (card.*predicate)())
+        {
+            return cardIDs[i];
+        }
+    }
+    return (CardID)-1;
+}
+
+// Helper: find CardType ID for a buyable card by name (BUY action uses CardType ID, not sequential index)
+static CardID findBuyableCardTypeID(const GameState & state, const std::string & cardName)
+{
+    for (CardID i = 0; i < state.numCardsBuyable(); i++)
+    {
+        const CardBuyable & buyable = state.getCardBuyableByIndex(i);
+        if (buyable.getType().getUIName() == cardName || buyable.getType().getName() == cardName)
+        {
+            return buyable.getType().getID();
+        }
+    }
+    return (CardID)-1;
+}
+
+// Helper: resolve an action from the validation file to a C++ Action
+static Action resolveAction(const GameState & state, const std::string & type,
+                            const std::string & cardName, PlayerID activePlayer)
+{
+    if (type == "END_PHASE")
+    {
+        return Action(activePlayer, ActionTypes::END_PHASE, 0);
+    }
+
+    if (type == "USE_ABILITY")
+    {
+        CardID cardID = findCard(state, activePlayer, cardName, &Card::canUseAbility);
+        if (cardID != (CardID)-1)
+        {
+            return Action(activePlayer, ActionTypes::USE_ABILITY, cardID);
+        }
+        return Action();
+    }
+
+    if (type == "BUY")
+    {
+        CardID typeID = findBuyableCardTypeID(state, cardName);
+        if (typeID != (CardID)-1)
+        {
+            return Action(activePlayer, ActionTypes::BUY, typeID);
+        }
+        return Action();
+    }
+
+    if (type == "ASSIGN_BLOCKER")
+    {
+        CardID cardID = findCard(state, activePlayer, cardName, &Card::canBlock);
+        if (cardID != (CardID)-1)
+        {
+            return Action(activePlayer, ActionTypes::ASSIGN_BLOCKER, cardID);
+        }
+        return Action();
+    }
+
+    if (type == "ASSIGN_BREACH")
+    {
+        PlayerID enemy = (activePlayer == 0) ? 1 : 0;
+        CardID cardID = findCard(state, enemy, cardName, &Card::isBreachable);
+        if (cardID != (CardID)-1)
+        {
+            return Action(activePlayer, ActionTypes::ASSIGN_BREACH, cardID);
+        }
+        return Action();
+    }
+
+    if (type == "SNIPE" || type == "CHILL")
+    {
+        // Find source: our card with a targeting ability that can use its ability
+        PlayerID enemy = (activePlayer == 0) ? 1 : 0;
+        CardID sourceID = (CardID)-1;
+
+        const CardIDVector & myCards = state.getCardIDs(activePlayer);
+        for (size_t i = 0; i < myCards.size(); i++)
+        {
+            const Card & card = state.getCardByID(myCards[i]);
+            if (card.getType().hasTargetAbility() && card.canUseAbility())
+            {
+                sourceID = myCards[i];
+                break;
+            }
+        }
+
+        if (sourceID == (CardID)-1)
+        {
+            return Action();
+        }
+
+        // Find target: enemy card matching name
+        const CardIDVector & enemyCards = state.getCardIDs(enemy);
+        for (size_t i = 0; i < enemyCards.size(); i++)
+        {
+            const Card & card = state.getCardByID(enemyCards[i]);
+            if ((card.getType().getUIName() == cardName || card.getType().getName() == cardName)
+                && card.isInPlay())
+            {
+                ActionID actionType = state.getCardByID(sourceID).getType().getTargetAbilityType();
+                return Action(activePlayer, actionType, sourceID, enemyCards[i]);
+            }
+        }
+        return Action();
+    }
+
+    printf("  WARNING: Unknown action type '%s'\n", type.c_str());
+    return Action();
+}
+
+void Benchmarks::DoReplayValidation(const std::string & validationFile, const std::string & outputFile)
+{
+    printf("\n=== Replay Validation ===\n");
+    printf("Input:  %s\n", validationFile.c_str());
+    printf("Output: %s\n", outputFile.c_str());
+
+    // Read validation JSON
+    std::string content = FileUtils::ReadFile(validationFile);
+    if (content.empty())
+    {
+        printf("ERROR: Could not read validation file\n");
+        return;
+    }
+
+    rapidjson::Document doc;
+    if (doc.Parse(content.c_str()).HasParseError())
+    {
+        printf("ERROR: Failed to parse validation JSON (offset %zu)\n", doc.GetErrorOffset());
+        return;
+    }
+
+    std::string replayCode = doc.HasMember("replay_code") ? doc["replay_code"].GetString() : "unknown";
+    printf("Replay: %s\n", replayCode.c_str());
+
+    if (!doc.HasMember("initial_state") || !doc.HasMember("turns"))
+    {
+        printf("ERROR: Validation file missing initial_state or turns\n");
+        return;
+    }
+
+    // Construct initial game state from the converted JSON
+    GameState state(doc["initial_state"]);
+
+    printf("Initial state loaded: P%d to move, %d cards buyable\n",
+           (int)state.getActivePlayer(), (int)state.numCardsBuyable());
+    printf("P0 cards: %d, P1 cards: %d\n",
+           (int)state.numCards(0), (int)state.numCards(1));
+
+    // Open output file (JSONL: one JSON object per line)
+    std::ofstream out(outputFile);
+    if (!out.is_open())
+    {
+        printf("ERROR: Could not open output file '%s'\n", outputFile.c_str());
+        return;
+    }
+
+    // Write initial state (turn -1)
+    out << "{\"turn\":-1,\"label\":\"initial\",\"active_player\":"
+        << (int)state.getActivePlayer()
+        << ",\"state\":" << state.toJSONString() << "}\n";
+
+    const rapidjson::Value & turns = doc["turns"];
+    int totalErrors = 0;
+    int turnsProcessed = 0;
+
+    for (size_t t = 0; t < turns.Size(); t++)
+    {
+        const rapidjson::Value & turn = turns[t];
+        int expectedPlayer = turn["active_player"].GetInt();
+        std::string playerName = turn.HasMember("player_name") ? turn["player_name"].GetString() : "";
+
+        // Check active player matches
+        if ((int)state.getActivePlayer() != expectedPlayer)
+        {
+            printf("Turn %zu: ACTIVE PLAYER MISMATCH (engine=%d expected=%d)\n",
+                   t, (int)state.getActivePlayer(), expectedPlayer);
+            totalErrors++;
+            // Try to continue anyway
+        }
+
+        PlayerID activePlayer = state.getActivePlayer();
+
+        // If we're in Defense phase but the first action is not ASSIGN_BLOCKER,
+        // the engine needs defense resolved first. The reordered converter puts
+        // defense actions first, but if there are no defense actions (empty defense),
+        // we need to skip Defense -> Swoosh -> Action automatically.
+        if (state.getActivePhase() == Phases::Defense)
+        {
+            bool hasDefenseActions = false;
+            for (size_t a = 0; a < turn["actions"].Size(); a++)
+            {
+                std::string aType = turn["actions"][a]["type"].GetString();
+                if (aType == "ASSIGN_BLOCKER") { hasDefenseActions = true; break; }
+                if (aType != "END_PHASE") break; // first non-END_PHASE action is not defense
+            }
+            if (!hasDefenseActions)
+            {
+                // No defense actions but engine is in Defense — fire END_PHASE to skip
+                Action endPhase(activePlayer, ActionTypes::END_PHASE, 0);
+                if (state.isLegal(endPhase))
+                {
+                    state.doAction(endPhase);
+                }
+                else
+                {
+                    printf("  Turn %zu: WARNING: In Defense phase with no defense actions, END_PHASE not legal (attack=%d)\n",
+                           t, 0);
+                }
+            }
+        }
+
+        // Apply actions for this turn
+        const rapidjson::Value & actions = turn["actions"];
+        int turnErrors = 0;
+
+        for (size_t a = 0; a < actions.Size(); a++)
+        {
+            std::string actionType = actions[a]["type"].GetString();
+            std::string cardName = actions[a].HasMember("card_name") ?
+                                   actions[a]["card_name"].GetString() : "";
+
+            Action action = resolveAction(state, actionType, cardName, activePlayer);
+
+            if (action.getType() == ActionTypes::NONE)
+            {
+                printf("  Turn %zu [P%d %s] action %zu: RESOLVE FAILED: %s '%s' (phase=%d)\n",
+                       t, expectedPlayer, playerName.c_str(), a,
+                       actionType.c_str(), cardName.c_str(), state.getActivePhase());
+                // On first error per turn, dump player's card list for debugging
+                if (turnErrors == 0)
+                {
+                    printf("    P%d cards:", activePlayer);
+                    for (const auto & cid : state.getCardIDs(activePlayer))
+                    {
+                        const Card & dc = state.getCardByID(cid);
+                        printf(" %s(s%d)", dc.getType().getUIName().c_str(), dc.getStatus());
+                    }
+                    printf("\n");
+                }
+                turnErrors++;
+                continue;
+            }
+
+            if (!state.isLegal(action))
+            {
+                printf("  Turn %zu [P%d %s] action %zu: NOT LEGAL: %s '%s' (phase=%d)\n",
+                       t, expectedPlayer, playerName.c_str(), a,
+                       actionType.c_str(), cardName.c_str(), state.getActivePhase());
+                turnErrors++;
+                continue;
+            }
+
+            state.doAction(action);
+        }
+
+        // After all explicit actions, ensure turn transition completes.
+        // The engine may need additional END_PHASE calls for phases
+        // not explicitly in the validation file (e.g., empty defense).
+        int safety = 10;
+        while ((int)state.getActivePlayer() == expectedPlayer && !state.isGameOver() && safety-- > 0)
+        {
+            Action endPhase(activePlayer, ActionTypes::END_PHASE, 0);
+            if (state.isLegal(endPhase))
+            {
+                state.doAction(endPhase);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        totalErrors += turnErrors;
+        turnsProcessed++;
+
+        // Write post-turn state
+        out << "{\"turn\":" << t
+            << ",\"player\":" << expectedPlayer
+            << ",\"player_name\":\"" << playerName << "\""
+            << ",\"errors\":" << turnErrors
+            << ",\"active_player_after\":" << (int)state.getActivePlayer()
+            << ",\"phase_after\":" << state.getActivePhase()
+            << ",\"game_over\":" << (state.isGameOver() ? "true" : "false")
+            << ",\"state\":" << state.toJSONString() << "}\n";
+
+        if (state.isGameOver())
+        {
+            printf("  Game over after turn %zu (winner: P%d)\n", t, (int)state.winner());
+            break;
+        }
+    }
+
+    out.close();
+
+    printf("\n--- Validation Summary ---\n");
+    printf("Turns processed: %d / %d\n", turnsProcessed, (int)turns.Size());
+    printf("Total errors:    %d\n", totalErrors);
+    printf("Output written:  %s\n", outputFile.c_str());
+    printf("=== End Replay Validation ===\n\n");
 }

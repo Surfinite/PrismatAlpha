@@ -1286,6 +1286,26 @@ void GameState::beginPhase(const PlayerID player, const int newPhase)
     {
         case Phases::Defense:
         {
+            // Reset card statuses for the defending player before defense.
+            // Cards that used abilities in the previous action phase still have
+            // Assigned status (beginTurn hasn't run yet). In the live Prismata
+            // game, units can block during defense regardless of prior ability use.
+            for (const auto & cardID : getCardIDs(player))
+            {
+                Card & card = _getCardByID(cardID);
+                if (!card.isDead() && !card.isUnderConstruction() && !card.isDelayed())
+                {
+                    if (card.getType().hasAbility() || card.getType().hasTargetAbility())
+                    {
+                        card.setStatus(CardStatus::Default);
+                    }
+                    else
+                    {
+                        card.setStatus(CardStatus::Inert);
+                    }
+                }
+            }
+
             if (getAttack(getEnemy(player)) == 0)
             {
                 endPhase();
@@ -2279,6 +2299,18 @@ std::string GameState::toJSONString() const
     else if (getActivePhase() == Phases::Defense)
     {
         ss << "\"defense\", \n";
+    }
+    else if (getActivePhase() == Phases::Confirm)
+    {
+        ss << "\"confirm\", \n";
+    }
+    else if (getActivePhase() == Phases::Swoosh)
+    {
+        ss << "\"swoosh\", \n";
+    }
+    else
+    {
+        ss << "\"unknown\", \n";
     }
 
     ss << "\"cards\":[";

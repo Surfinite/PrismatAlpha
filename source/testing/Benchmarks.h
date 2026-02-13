@@ -19,5 +19,6 @@ namespace Benchmarks
 
     void DoRandomSetTest(size_t numTrials, size_t cardsPerSet);
     void DoFixedSetTest(const std::vector<std::string> & dominionCards, const std::string & playerName, size_t numGames, size_t trackTurns);
+    void DoReplayValidation(const std::string & validationFile, const std::string & outputFile);
 }
 }

@@ -1,4 +1,4 @@
-# Task: Engine Fidelity Validation — Replay Expert Games Through C++ Engine
+# Task: Engine Fidelity Validation — Replay Human-vs-Masterbot Games Through C++ Engine
 
 ## Context
 
@@ -8,13 +8,31 @@ You are working on **PrismataAI**, a C++ game engine and AI for the card game Pr
 
 ## Goal
 
-Replay expert Prismata games (from S3 replays) through the C++ engine action-by-action, comparing the resulting board state after each turn against the TypeScript replay parser's state. Any divergence = engine rule bug that must be fixed before self-play training.
+Replay **human-vs-masterbot** Prismata games (from S3 replays) through the C++ engine action-by-action, comparing the resulting board state after each turn against the TypeScript replay parser's state (ground truth from the live game). Any divergence = engine rule bug.
+
+**Two levels of validation:**
+1. **Rules validation** — Do the same moves produce the same board states in our engine vs the live game?
+2. **AI equivalence validation** — When given the same position the live masterbot saw, does our engine's masterbot make the same move?
+
+The human-vs-masterbot replays are ideal because one player IS the live version of this codebase's AI (HardestAI). If our engine's masterbot makes different moves from the replay's masterbot, we know something differs (config, rules, card balance, or AI logic).
 
 **Success criteria:**
-1. A validation script replays N games (target: 100+ games covering diverse unit sets) through both the TypeScript parser and C++ engine
+1. A validation script replays N games through both the TypeScript parser and C++ engine
 2. After each player-turn, both systems' states are compared field-by-field
-3. Divergences are logged with replay code, turn number, and specific field differences
-4. A summary report shows: games tested, turns validated, match rate, categorized divergence types
+3. For masterbot turns: compare the bot's actual move in the replay with our engine's masterbot move from the same position
+4. Divergences are logged with replay code, turn number, and specific field differences
+5. A summary report shows: games tested, turns validated, match rate, categorized divergence types
+
+## Primary Test Data: Human-vs-Masterbot Replays
+
+We have replay codes from games where a human player (Surfinite) plays against the live Prismata masterbot (HardestAI). These are Format 201 (vs-bot).
+
+**Confirmed working replay:**
+- `HnTXk-hBtPN` — P0: Master Bot (HardestAI), P1: Surfinite (human, rating 1824.7). Dominion: Mega Drone, Flame Animus, Hellhound, Tyranno Smorcus, Auric Impulse, Centrifuge, Trinity Drone, Doomed Drone. 23 turns, 445 commands.
+
+**State dump tool already built:** `c:\libraries\prismata-replay-parser\dump_replay_states.js` fetches a replay from S3 and dumps per-turn states with full unit data, resources, supply, and actions. Usage: `node dump_replay_states.js <replay_code>`. Output: `{code}_states.json`.
+
+**More replay codes will be provided by the user.** The user (Surfinite) can play more games against masterbot in the live Prismata client and provide the replay codes.
 
 ## Architecture Overview
 
@@ -368,6 +386,57 @@ The C++ `Resources::getString()` method encodes resources as a string. **Verify 
 | Attack | A | Attack damage |
 
 **IMPORTANT:** Read `source/engine/Resources.cpp` or `Resources.h` to confirm this mapping before writing any parsing code.
+
+## AI Equivalence Test (Unique to vs-Masterbot Replays)
+
+This is the most powerful validation — only possible with human-vs-masterbot replay codes.
+
+### How It Works
+
+For each masterbot turn in the replay:
+1. Reconstruct the exact board state from the TS parser at the start of that turn
+2. Convert that state to C++ JSON format and load it into the engine via `GameState(json)`
+3. Run our engine's HardestAI on that state (same time limit as the live game used, if known)
+4. Compare our engine's chosen move with the move the live masterbot actually made (from the replay)
+5. **If identical:** Our engine's AI is functionally equivalent at this position
+6. **If different:** Something differs — could be card balance, heuristic parameters, time limit, or a code change we made
+
+### What This Tests
+
+| Match? | Implication |
+|---|---|
+| Move matches for all turns | Engine + AI are functionally identical to live game |
+| Moves match early, diverge late | Engine rules correct, but small evaluation differences compound over time |
+| Moves diverge immediately | Likely card balance or config difference |
+| Board state matches but move differs | Rules correct, AI logic or config differs |
+| Board state doesn't match | Engine rule bug (most critical — fix before anything else) |
+
+### Implementation
+
+The key challenge is converting TS parser state → C++ JSON format for loading. The C++ `GameState(json)` constructor accepts:
+- `whiteMana` / `blackMana` — resource strings
+- `turn` — active player (0 or 1)
+- `numTurns` — turn counter
+- `phase` — "action", "defense", "confirm"
+- `cards` — buyable card type names (UINames)
+- `whiteTotalSupply` / `blackTotalSupply` — max supply arrays
+- `whiteSupplySpent` / `blackSupplySpent` — units bought from supply
+- `table` — array of card instances with properties
+
+The TS dump provides all this data. A Python/JS conversion script maps between the two formats.
+
+For running HardestAI on a loaded state, the simplest approach is:
+1. Add a `--replay-validate` mode to `Prismata_Testing` that reads a JSON state, creates a `GameState`, instantiates HardestAI, calls `getMove()`, and prints the chosen actions
+2. Compare the printed actions against the replay's recorded actions
+
+**HardestAI is deterministic** (Alpha-Beta search, no randomization). So if the state, card balance, and config all match, the move MUST be identical. Any difference is diagnostic.
+
+### Caveats
+
+- The live masterbot may have run with a different time limit than our 7000ms default
+- The live game may have had slightly different config parameters (search depth, max children, etc.)
+- Our Track A heuristic fixes (lower tech thresholds, individual canAffordToActivate, reduced frontline penalty) will cause different moves — use `OriginalHardestAI` (legacy mode) for comparison
+- Card balance changes: we updated 41 units to current balance. If the live masterbot uses different balance, moves will differ. The last balance patch was Jan 14, 2019 — replays from after this date should use the same balance.
 
 ## Files to Create
 
