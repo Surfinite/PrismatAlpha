@@ -22,11 +22,19 @@ from itertools import combinations
 
 
 # ---------------------------------------------------------------------------
-# Paths
+# Paths (configurable via CLI args)
 # ---------------------------------------------------------------------------
 
-JSONL_PATH = r"c:\libraries\prismata-replay-parser\training_data.jsonl"
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+# Usage: python opening_book.py [jsonl_path] [output_suffix]
+# Examples:
+#   python opening_book.py                                          # default 2000+ tier
+#   python opening_book.py path/to/training_data_1800.jsonl 1800    # 1800 tier
+#   python opening_book.py path/to/training_data_1500.jsonl 1500    # 1500 tier
+
+JSONL_PATH = sys.argv[1] if len(sys.argv) > 1 else r"c:\libraries\prismata-replay-parser\training_data.jsonl"
+OUTPUT_SUFFIX = sys.argv[2] if len(sys.argv) > 2 else ""
+BASE_OUTPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+OUTPUT_DIR = os.path.join(BASE_OUTPUT_DIR, f"opening_book_{OUTPUT_SUFFIX}") if OUTPUT_SUFFIX else BASE_OUTPUT_DIR
 
 
 # ---------------------------------------------------------------------------

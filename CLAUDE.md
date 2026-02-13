@@ -1277,6 +1277,8 @@ Do NOT fully replace expert training data with self-play data. Use a mixed train
 - **Tournament results** (section 24): PrismatAlpha_UCT 41.7% WR vs MediumAI (60 games); HardestAI 42.9% WR vs OriginalHardestAI (28 games, partial — concerning regression)
 - **Config renamed** — All `NeuralAI_*` entries renamed to `PrismatAlpha_*` in config.txt
 - **Opening book data verified** (Feb 13 2026) — All 12,957 expert games have unique dominion sets (per-exact-set books impossible); all 5,460 unit pairs have 10+ games (pair-level analysis viable); 33,219 triples have 10+ games; JSONL turn numbering confirmed as per-round 1-indexed (not per-player-turn); base set auto-detection confirmed 11 cards at 100% frequency. Full plan in `CLAUDE_opening_book_plan.md`.
+- **PyTorch fixed** (Feb 13 2026) — Windows LongPathsEnabled set to 1, corrupt partial install cleaned, PyTorch 2.10.0+cpu installed for Python 3.13. Training/export pipeline fully functional.
+- **JSON trailing comma bug fixed** — `GameState::toJSONString()` no longer produces trailing commas when P1 has 0 cards after wipeout. Requires rebuild.
 
 ## Known Issues
 
@@ -1296,7 +1298,7 @@ Do NOT fully replace expert training data with self-play data. Use a mixed train
 - ~~**UCT cValue=2.0 too high for neural eval**~~ **NOT THE BOTTLENECK (section 24)** — Tests show UCT cValue=0.3 (42.2% WR) performs identically to cValue=2.0 (41.7%) and Alpha-Beta (43.8%) against MediumAI. The model quality is the sole bottleneck, not the search/exploration parameters.
 - **Track A heuristic improvements may regress** — HardestAI (improved) lost 12-16 vs OriginalHardestAI (legacy) in 28 games (42.9% WR, section 24). The lowered tech thresholds (8/7/6), individual canAffordToActivate, and reduced frontline penalty (5.0) may be too aggressive. Needs full 100+ game tournament and per-fix isolation testing.
 - **Blocking feature mismatch** — Minor: C++ `NeuralNet.cpp:324` uses `CardStatus::Assigned` for blocking slot; Python `vectorize.py:138` uses `blocking AND abilityUsed`. Should be aligned (fix Python to match engine's authoritative state, then retrain). Low priority until model can learn.
-- **PyTorch broken — Windows Long Path limit** — `pip install torch` fails with `OSError: [Errno 2] No such file or directory` because `LongPathsEnabled=0` in Windows registry. Torch header files exceed the 260-character path limit. **Fix requires admin**: `reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f`, then `pip install torch --force-reinstall`. This blocks all Python training/export work.
+- ~~**PyTorch broken — Windows Long Path limit**~~ **FIXED** — `LongPathsEnabled` set to 1 in registry, PyTorch 2.10.0+cpu installed for Python 3.13. `train.py` and `export_weights.py` verified working. Training/export pipeline unblocked.
 - **Latest training run severely overfits** — Run `20260213_074903`: 11 epochs on correct (non-leaky) data, early-stopped. Train value accuracy 98.8% vs val value accuracy 54.9% at epoch 11. Best val_value_loss=0.875 at epoch 1. Policy accuracy stuck at ~11%. The model needs stronger regularization (higher dropout, weight decay) or fundamentally different training data (self-play).
 
 ## Planned Next Steps
@@ -1317,21 +1319,27 @@ PrismatAlpha_UCT lost 7-57 (10.9% WR) vs OriginalHardestAI over 64 games. Invest
 
 **Updated conclusion:** The neural model has learned useful patterns from expert replays, but its signal is weak (~42-44% vs MediumAI). Two paths forward: (1) blend neural eval with playout to combine the best of both (section 25), and (2) self-play data generation for a stronger model.
 
-### Immediate Next: Blended Neural+Playout Tournaments (section 25) — RUNNING
+### Blended Neural+Playout Tournaments (section 25) — INCOMPLETE, NEEDS RE-RUN
 
 **Goal:** Test whether blending the neural eval (which provides real but weak signal) with playout evaluation (which HardestAI uses) produces a stronger-than-either player.
 
 - **Implementation** — DONE (section 25). `NeuralNetPlusPlayout` eval method with configurable `BlendWeight`.
 - **Build** — DONE. Exe rebuilt at Feb 13 12:27 with NeuralNetPlusPlayout support.
-- **Run tournaments** — RUNNING (Feb 13 12:28). Both `BlendSweep_vsMedium` and `BlendVsOriginal` enabled. Output to `pipeline_log.txt` / `pipeline_stderr.txt`.
+- **BlendSweep_vsMedium** — INCOMPLETE. Only 32/240 expected games completed (exit code 3). Only BlendUCT_50/25/10 played each other; MediumAI and BlendAB players never participated. Tournament configs set to `run:false` to prevent accidental re-run. **Must re-run after rebuild.**
+- **BlendVsOriginal** — DID NOT RUN. No replay directory created. Queued behind BlendSweep which exited early.
 - **Success criteria** — BlendAB_50 or BlendUCT_50 > 50% WR vs OriginalHardestAI
 
-### Blocking: Fix PyTorch for retraining
+### Fixed: PyTorch for retraining — DONE
 
-PyTorch is broken due to Windows 260-char path limit. Must fix before any training/export:
-1. **Admin required**: `reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f`
-2. Then: `pip install torch --force-reinstall`
-3. Verify: `python -c "import torch; print(torch.__version__)"`
+~~PyTorch was broken due to Windows 260-char path limit.~~ Fixed:
+1. Enabled `LongPathsEnabled=1` in Windows registry
+2. Cleaned corrupt partial torch installation (orphaned directory with no dist-info)
+3. Installed PyTorch 2.10.0+cpu for Python 3.13: `pip install torch --index-url https://download.pytorch.org/whl/cpu`
+4. Verified: `train.py` PrismataNet forward pass and `export_weights.py` imports both work
+
+### Fixed: JSON trailing comma in toJSONString() — DONE
+
+`GameState::toJSONString()` produced a trailing comma in the `"table"` array when player 1 had 0 cards (e.g., after wipeout). This caused `json.JSONDecodeError` when parsing tournament replay files in Python. Fixed the condition on line 2346 from `(p == 0 || ...)` to check whether P1 actually has cards. **Requires rebuild before next tournament run.**
 
 ### Current Plan: Self-Play Data Generation
 
@@ -1394,16 +1402,27 @@ Once a useful evaluation function exists:
 
 ### Execution Order Summary
 
-| Step | What | Time |
-|---|---|---|
-| 0-2 | Fix leakage, diagnostics, configs | **DONE** |
-| 3 | Self-play data generation infrastructure | 1-2 days dev |
-| 4 | Quick self-play test (10K games) + train | ~10 hours |
-| 5 | Iterative improvement (3-5 iterations) | ~2-4 days |
-| 6 | Tournament validation | ~1 hour |
-| 7 | UCT + PUCT integration | 1 day |
+| Step | What | Time | Status |
+|---|---|---|---|
+| 0-2 | Fix leakage, diagnostics, configs | — | **DONE** |
+| PyTorch | Fix Windows long paths + reinstall | — | **DONE** |
+| JSON fix | Trailing comma in toJSONString() | — | **DONE (needs rebuild)** |
+| Blend | Re-run BlendSweep + BlendVsOriginal | ~2-4 hours | **READY (after rebuild)** |
+| Opening book | Extract expert opening patterns (Python) | ~1 hour | **READY (no rebuild needed)** |
+| Engine validation | Replay 100 games through C++ engine (Context 4) | ~2 days | **PLANNED** |
+| 3 | Self-play data generation infrastructure | 1-2 days dev | NEXT |
+| 4 | Quick self-play test (10K games) + train | ~10 hours | After step 3 |
+| 5 | Iterative improvement (3-5 iterations) | ~2-4 days | After step 4 |
+| 6 | Tournament validation | ~1 hour | After step 5 |
+| 7 | UCT + PUCT integration | 1 day | After step 6 |
 
-**Critical path:** Self-play data generation (Step 3) is the bottleneck. Everything else depends on having a model that can actually evaluate positions.
+**Parallelizable right now (no dependencies between them):**
+1. **Opening book extraction** — pure Python, reads existing JSONL, outputs to `training/data/`. Full spec in `CLAUDE_opening_book_plan.md`.
+2. **Rebuild Testing binary** — picks up JSON trailing comma fix + blend eval code. Then re-run BlendSweep_vsMedium and BlendVsOriginal tournaments.
+3. **Engine fidelity validation** (Context 4 plan) — TypeScript side can start immediately; C++ side needs rebuild.
+4. **Self-play infrastructure** — C++ changes to TournamentGame.cpp for feature vector dumping.
+
+**Critical path:** Self-play data generation (Step 3) is the bottleneck for AI strength improvement. Everything else depends on having a model that can actually evaluate positions. Opening book and engine validation are valuable parallel tracks that don't block self-play.
 
 ### Parallel Track: Opening Book Extraction from Expert Replays
 
