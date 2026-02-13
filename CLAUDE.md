@@ -1328,7 +1328,7 @@ A standalone plan document (`CLAUDE_selfplay_plan.md`) was reviewed against the 
 - Plan didn't address coexistence with existing replay recording system
 
 **Additional review findings (second pass):**
-- **Draw return value:** `winner()` may return `-1` for draw, NOT `2` as the standalone plan's Python vectorizer assumes. Must verify in source. `vectorize_selfplay.py` should handle both conventions (or map in C++ export layer).
+- **Draw return value:** ~~`winner()` may return `-1` for draw~~ **VERIFIED (Feb 13 session):** `winner()` returns `Players::Player_None` which equals **3** (Constants.h:7). NOT -1. The build plan's `if (winner < 0)` was wrong. Worker instructions corrected to use `== Players::Player_None`.
 - **Buy action unit indices:** To capture policy targets, need `NeuralNet::Instance().getUnitIndex(CardType(action.getID()).getUIName())` to convert buy actions to 0-160 policy head indices. Existing TournamentGame buy logging only captures name strings.
 - **Memory buffering preferred:** Rather than opening file streams at game start, accumulate features in `std::vector<std::vector<float>>` (~280 KB per game), then flush after `gameOver()`. Avoids keeping file handles open during multi-second AI think time.
 
@@ -1386,7 +1386,24 @@ Two external reviews of the plan were analyzed. Valid points incorporated below;
 - **Self-play val accuracy: 65% is a reasonable Round 1 floor.** Churchill's 90% was after multiple iterations with a progressively stronger model. Self-play data is NOT necessarily "easier" than expert data — if the AI has systematic weaknesses (always losing certain matchups), the value prediction could be harder because the model must learn those patterns from scratch rather than mimicking expert play.
 - **`memory_order_relaxed` for atomic counter: skip it.** Technically correct (counter only needs atomicity, not ordering), but the performance difference is negligible (one atomic op per game, not per turn) and risks subtle bugs if someone later adds ordering-dependent logic. Leave as `seq_cst`.
 
-**Full standalone plan document:** `CLAUDE_selfplay_plan.md` (not yet created — section 29 is the authoritative plan)
+**Standalone implementation document:** `CLAUDE_selfplay_worker_instructions.md` — source-verified build plan with corrected APIs, binary format, gate checks, verification steps. This is the authoritative implementation reference, superseding section 29's design notes.
+
+#### Source Verification Session (Feb 13, 2026 — Final)
+
+The build plan was verified against actual source code before producing the worker instructions. **3 critical corrections:**
+
+| What Plan Said | What Source Says | File:Line | Fix |
+|---|---|---|---|
+| `NeuralNet::extractFeatures(state, playerToMove, features)` — static, 3 args | `void extractFeatures(const GameState&, vector<float>&) const` — member, 2 args, NO player param | `NeuralNet.h:75`, `NeuralNet.cpp:273` | Call via `NeuralNet::Instance().extractFeatures(state, features)` |
+| `if (winner < 0)` for draw | `winner()` returns `Players::Player_None` = **3**, not -1 | `Constants.h:7`, `GameState.cpp:1759-1777` | Use `== Players::Player_None` |
+| 2 games per round (2-player) | **4 games** per round (double loop + color swap in playRound) | `Tournament.cpp:56-73` | `rounds = desired_games / 4` |
+
+**Additional verified facts:**
+- `extractFeatures()` uses `static bool firstCall` but it's inside `#ifdef NEURAL_NET_DEBUG` — compiled out in Release. Thread-safe.
+- `validateSchema()` called once in `loadWeights()` (NeuralNet.cpp:198), not per-invocation. No runtime cost or thread concern.
+- `playRound()` takes `(const GameState&)` only — no thread index. Worker instructions specify adding `IDataSink*` parameter to the signature.
+- `Game::playNextTurn()` does `getMove()` then `doMove()` (Game.cpp:28-41). Hook goes BEFORE `playNextTurn()` in TournamentGame::playGame().
+- OriginalHardestAI confirmed at `"TimeLimit":7000` (config.txt:214). Worker instructions specify creating `OriginalHardestAI_1s` at 1000ms (matching Churchill).
 
 ## Key Architecture Decisions
 
@@ -1658,7 +1675,7 @@ Do NOT fully replace expert training data with self-play data. Use a mixed train
 - **Opening book extraction complete** (section 27) — `training/opening_book.py` ran on 3 tiers (2000+, 1800+, 1500+), producing 15 JSON output files. Cross-tier comparison shows tech timing is consistent across skill levels (all 2-3 rounds earlier than AI), universal openings converge (DD round 1, Conduit+DD round 2 for P1), but unit opening impact differs dramatically by tier (skill-intensive vs forgiving units).
 - **Tier-specific training data** — `training_data_1800.jsonl` (59,804 examples from 3,392 games) and `training_data_1500.jsonl` (39,600 examples from 1,981 games) extracted alongside existing 2000+ data. `extract_training_data.js` now accepts MIN_RATING via argv[6].
 - **S3 archive download script** — `download_all_replays.js` for bulk archiving all 31,275 raw .json.gz replay files. Incremental, safe to re-run.
-- **Self-play data generation designed** (section 29) — Full implementation plan: inject binary feature extraction into `TournamentGame::playGame()`, `--selfplay-data <dir>` CLI flag, binary features + JSONL metadata output, `training/vectorize_selfplay.py` for tensor conversion. Correct C++ API calls verified: `NeuralNet::Instance().extractFeatures(state, features)` (by-ref), `_game.getState().winner()`. Design reviewed against standalone plan doc, errors corrected (extractFeatures signature, winner API, file paths, baseline stats). Ready for implementation.
+- **Self-play data generation designed + source-verified worker instructions written** (section 29 + `CLAUDE_selfplay_worker_instructions.md`) — IDataSink interface + SelfPlayDataSink class, binary shard format (64-byte header, 7152-byte records, CRC32 footer), per-thread sinks with 1 GB rotation, per-game flush for crash resilience. **Source verification caught 3 critical bugs in the original design plan:** (1) `extractFeatures()` is a member function with NO player parameter — `(const GameState&, vector<float>&)` not the 3-arg form; (2) `winner()` returns `Players::Player_None` (=3) for draws, not -1; (3) 2-player tournaments produce 4 games/round not 2 (double loop + color swap in playRound). All corrected in worker instructions. Gate checks (timing, thread safety, determinism), 5 verification steps, Python loader spec, and execution checklist included. Ready for implementation.
 
 ## Known Issues
 
@@ -1734,7 +1751,7 @@ PrismatAlpha_UCT lost 7-57 (10.9% WR) vs OriginalHardestAI over 64 games. Invest
 
 #### Step 3: Self-play data generation infrastructure (NEXT — design complete, section 29)
 
-**Full design plan in section 29.** Summary: inject binary feature extraction into `TournamentGame::playGame()`, triggered by `--selfplay-data <dir>` CLI flag. ~60 lines C++, ~120 lines Python. Outputs binary features + JSONL metadata per game. New `training/vectorize_selfplay.py` converts to PyTorch tensors. Standalone plan document: `CLAUDE_selfplay_plan.md`.
+**Design in section 29; source-verified worker instructions in `CLAUDE_selfplay_worker_instructions.md`.** IDataSink interface + SelfPlayDataSink injected into TournamentGame::playGame(). Binary shard output (7152 bytes/record, CRC32 footer, 1 GB shard rotation). Per-thread sinks, per-game flush for crash resilience. Python loader in `training/load_selfplay.py`. No separate vectorization needed — features pre-computed by C++ extractFeatures().
 
 **Key implementation details (verified against actual codebase):**
 - Feature extraction: `NeuralNet::Instance().extractFeatures(state, features)` — takes vector by reference
@@ -1798,7 +1815,7 @@ Once a useful evaluation function exists:
 1. ~~**Opening book extraction**~~ **DONE (section 27)** — All 3 tiers extracted, cross-tier comparison complete. Outputs in `training/data/` and `training/data/opening_book_{1800,1500}/`.
 2. **Rebuild Testing binary** — picks up JSON trailing comma fix + engine validation fixes. Need both Debug (for testing) and Release (for self-play speed).
 3. ~~**Engine fidelity validation**~~ **DONE (section 28)** — 100% match on test replay `HnTXk-hBtPN` (23 turns, 19 card types). 3 engine bugs found and fixed. Pipeline: `dump_replay_states.js` → `convert_replay_for_cpp.py` → C++ `DoReplayValidation` → `compare_states.py`.
-4. **Self-play infrastructure** — **Design complete (section 29).** Implementation: ~60 lines C++ (TournamentGame, Tournament, main.cpp) + ~120 lines Python (vectorize_selfplay.py, dump_features.py). Standalone plan: `CLAUDE_selfplay_plan.md`.
+4. **Self-play infrastructure** — **Design complete, source-verified worker instructions ready.** See `CLAUDE_selfplay_worker_instructions.md`. Implementation: ~340 lines C++ (3 new files + 5 modified) + ~140 lines Python (load_selfplay.py + train.py mods).
 
 **Critical path:** Self-play data generation (Step 3) is the bottleneck for AI strength improvement. Everything else depends on having a model that can actually evaluate positions. Opening book and engine validation are valuable parallel tracks that don't block self-play.
 
@@ -1903,8 +1920,9 @@ Once a useful evaluation function exists:
 | `…/download_all_replays.js` | Bulk S3 archive downloader (31,275 .json.gz files, incremental) |
 | `…/training_data_1800.jsonl` | Training examples for 1800-1999 tier (59,804 examples) |
 | `…/training_data_1500.jsonl` | Training examples for 1500-1799 tier (39,600 examples) |
-| `CLAUDE_selfplay_plan.md` | Full standalone self-play data generation plan (section 29 summary) |
-| `training/vectorize_selfplay.py` | (TO CREATE) Binary self-play features → PyTorch tensors |
+| `CLAUDE_selfplay_worker_instructions.md` | **Worker context instructions for self-play implementation.** Source-verified build plan with corrected API signatures, binary format spec, gate checks, verification steps, Python loader spec. Supersedes section 29 design notes + the never-created `CLAUDE_selfplay_plan.md`. |
+| `training/load_selfplay.py` | (TO CREATE) Binary shard loader — parses header/CRC/records from selfplay_t*_s*.bin files |
+| `training/vectorize_selfplay.py` | (SUPERSEDED by load_selfplay.py — binary features pre-computed by C++, no separate vectorization needed) |
 | `training/dump_features.py` | (TO CREATE) Sanity check utility for binary feature files |
 | `training/convert_replay_for_cpp.py` | Convert TS replay state dump to C++ engine validation format (name mapping, mana strings, supply, action reordering) |
 | `training/compare_states.py` | Compare C++ engine output states with TS ground truth (handles Defense-phase timing, transient resource skipping) |
@@ -2058,7 +2076,7 @@ The project is at an inflection point. Everything up through supervised learning
 
 ### What Was Done Most Recently (Feb 13, 2026)
 
-1. **Self-play data generation design completed** — Full implementation plan in section 29 + standalone `CLAUDE_selfplay_plan.md`. Architecture: inject into TournamentGame::playGame(), binary features + JSONL metadata, --selfplay-data CLI flag. ~60 lines C++, ~120 lines Python. Correct API calls verified against source. Design reviewed, errors in standalone plan corrected (extractFeatures signature, winner API, file paths, baseline stats). **Ready for implementation.**
+1. **Self-play data generation design completed + source-verified worker instructions written** — Full implementation plan in section 29, refined into `CLAUDE_selfplay_worker_instructions.md` with source code verification. Architecture: IDataSink interface injected into TournamentGame::playGame(), binary shard files (7152 bytes/record with CRC32 footer), per-thread sinks via Tournament dispatch. **Three critical corrections** found during source verification: (a) `extractFeatures()` has NO player parameter — it's `(const GameState&, vector<float>&)`, not the 3-arg form the design plan assumed; (b) `winner()` returns `Players::Player_None` (=3) for draws, NOT -1; (c) 2-player tournaments produce 4 games/round (double loop + color swap), not 2. All corrected in the worker instructions. **Ready for implementation.**
 2. **Rebuilt the exe** — MSBuild from Git Bash works. Binary at `bin/Prismata_Testing_d.exe` updated Feb 13 12:27. **However**, the JSON trailing comma fix was applied AFTER this rebuild, so the current binary does NOT include it. **Must rebuild before next tournament run.**
 3. **NeuralUCT vs HardestAI tournament** — 64 games, HardestAI won 58-6 (90.6%). Confirms pure neural eval far weaker than playout. Replays in `bin/asset/replays/NeuralUCT_vsHardestAI_2026-02-13_11-53-17/`.
 4. **Blend tournaments concluded** — 52 games across 3 runs. Neural component hurts performance; more playout weight = stronger. Decision: stop blend experiments, focus on self-play. Full results in `CLAUDE_blend_tournaments.md`.
@@ -2067,6 +2085,7 @@ The project is at an inflection point. Everything up through supervised learning
 7. **Code cleanup** — NeuralNet.cpp diagnostic printf gated behind `#ifdef NEURAL_NET_DEBUG`; doc comments on `extractFeatures()`, `evaluate()`, `evaluateValue()` with architecture details, feature layout, and output semantics; .gitignore expanded (IDE, Python, opening_book_*/).
 8. **PyTorch fixed** — Windows LongPathsEnabled, PyTorch 2.10.0+cpu installed for Python 3.13. Training pipeline unblocked.
 9. **Opening book extraction complete** — 3 tiers (2000+, 1800+, 1500+), 15 output files. Key finding: experts buy tech rounds 2-3, validating heuristic fix (thresholds 8/7/6 vs legacy 11/10/9).
+10. **Self-play worker instructions finalized** — `CLAUDE_selfplay_worker_instructions.md` written with full source code verification. Caught 3 critical bugs in the original build plan (extractFeatures signature, winner() return value, games-per-round math). Document includes gate checks, IDataSink interface spec, binary format (7152 bytes/record + CRC32), Tournament thread dispatch modifications, Python loader, 5 verification steps, and execution checklist.
 
 ### Immediate Next Actions (Prioritized)
 
@@ -2079,7 +2098,7 @@ The project is at an inflection point. Everything up through supervised learning
    ```
    Make sure no exe is running first (file lock = LNK1104 error). Blend tournaments are DONE (concluded blending doesn't work — section 25).
 
-2. **Implement self-play data generation (Step 3)** — THE critical path. **Design is complete (section 29).** Inject into `TournamentGame::playGame()`, binary features + JSONL metadata, `--selfplay-data <dir>` CLI flag. ~60 lines C++, ~120 lines Python. Key API: `NeuralNet::Instance().extractFeatures(state, features)` (by-ref), `_game.getState().winner()`. Build in **Release** for speed. Needs new config: `OriginalHardestAI_2s` + `SelfPlay` tournament with `"SaveReplays": false`.
+2. **Implement self-play data generation (Step 3)** — THE critical path. **Worker instructions are ready: `CLAUDE_selfplay_worker_instructions.md`.** IDataSink interface + SelfPlayDataSink class injected into TournamentGame::playGame(). Binary shard output with CRC32, per-game flush, 1 GB rotation. Key APIs (SOURCE VERIFIED): `NeuralNet::Instance().extractFeatures(state, features)` (member fn, no player param), `_game.getState().winner()` (returns Player_None=3 for draw, NOT -1). 4 games per round for 2-player tournament. Build in **Release** for speed. Needs new configs: `OriginalHardestAI_1s` (1000ms matching Churchill) + `SelfPlay_10K` tournament with `"SaveReplays": false`.
 
 3. **Generate 10K self-play games** — OriginalHardestAI vs itself, random card sets, **~12-16 hours** on 16 threads (revised estimate — worst-case 28 hrs, but many turns are near-instant). Validate timing with 10-game test first.
 
