@@ -196,6 +196,8 @@
     "BlendUCT_10" :             { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNetPlusPlayout", "PlayoutPlayer":"Playout", "BlendWeight":0.10 },
     "BlendAB_50" :              { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNetPlusPlayout", "PlayoutPlayer":"Playout", "BlendWeight":0.5 },
     "BlendAB_25" :              { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNetPlusPlayout", "PlayoutPlayer":"Playout", "BlendWeight":0.25 },
+    "BlendUCT_05" :             { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNetPlusPlayout", "PlayoutPlayer":"Playout", "BlendWeight":0.05 },
+    "BlendAB_05" :              { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNetPlusPlayout", "PlayoutPlayer":"Playout", "BlendWeight":0.05 },
     "HardestAIUCT_Fast" :   { "type":"Player_UCT", "TimeLimit":50, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "HardestAI" :           { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "HardAI" :              { "type":"Player_StackAlphaBeta", "TimeLimit":3000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
@@ -212,7 +214,13 @@
 
     "Playout_Legacy" :         { "type":"Player_PPSequence", "PartialPlayers":["DefenseSolver", "ACAvoidBreach_ChillSolver", "BuyComboGreedyAttack_Legacy", "BreachGreedyKnapsack"]},
     "OriginalHardestAI" :      { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAIUCT" :   { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"}
+    "OriginalHardestAIUCT" :   { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
+
+    "OriginalHardestAI_Copy" :    { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
+    "OriginalHardestAI_1s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
+    "OriginalHardestAI_Copy_1s" : { "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
+    "OriginalHardestAI_2s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":2000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
+    "OriginalHardestAI_Copy_2s" : { "type":"Player_StackAlphaBeta", "TimeLimit":2000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"}
 },
 
 "States" :
@@ -260,10 +268,18 @@
     { "run":false, "type":"Tournament", "name":"NeuralUCT_c03_vsMedium", "rounds":16, "UpdateIntervalSec":10, "RandomCards":8, "players":[ {"name":"PrismatAlpha_UCT_c03","group":1}, {"name":"MediumAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"BlendSweep_vsMedium", "rounds":16, "Threads":4, "UpdateIntervalSec":10, "RandomCards":8, "players":[ {"name":"BlendUCT_50","group":1}, {"name":"BlendUCT_25","group":2}, {"name":"BlendUCT_10","group":3}, {"name":"BlendAB_50","group":4}, {"name":"BlendAB_25","group":5}, {"name":"MediumAI","group":6}] },
     { "run":false, "type":"Tournament", "name":"BlendVsOriginal", "rounds":16, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_50","group":1}, {"name":"BlendAB_50","group":2}, {"name":"OriginalHardestAI","group":3}] },
-    { "run":true, "type":"Tournament", "name":"BlendCrashTest", "rounds":1, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"BlendAB_50","group":1}, {"name":"MediumAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"BlendCrashTest", "rounds":1, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"BlendAB_50","group":1}, {"name":"MediumAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"BlendQuick_10", "rounds":4, "Threads":4, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_10","group":1}, {"name":"OriginalHardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"BlendQuick_05", "rounds":4, "Threads":4, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_05","group":1}, {"name":"OriginalHardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"NeuralUCT_vsHardestAI", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAlpha_UCT","group":1}, {"name":"HardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"NeuralAB_vsHardestAI", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAlpha_AB","group":1}, {"name":"HardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"ImprovedVsOriginal_Full", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"HardestAI","group":1}, {"name":"OriginalHardestAI","group":2}] },
+
+    { "run":false, "type":"Tournament", "name":"SelfPlayTimingTest", "rounds":5, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"ThreadSafetyTest", "rounds":8, "Threads":8, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_threadtest/"}, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"SelfPlay_Smoke", "rounds":3, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_smoke/"}, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
+    { "run":true, "type":"Tournament", "name":"SelfPlay_Preview", "rounds":4, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_preview/"}, "players":[ {"name":"OriginalHardestAI_2s","group":1}, {"name":"OriginalHardestAI_Copy_2s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"SelfPlay_10K", "rounds":5000, "Threads":8, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay/"}, "players":[ {"name":"OriginalHardestAI_2s","group":1}, {"name":"OriginalHardestAI_Copy_2s","group":2}] },
 
     { "run":false, "type":"RandomSetTest", "name":"Random Set Uniformity", "NumTrials":100000, "CardsPerSet":8 }
 ]

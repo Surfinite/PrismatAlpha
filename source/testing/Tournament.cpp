@@ -2,6 +2,7 @@
 #include "TestingConfig.h"
 #include "Timer.h"
 #include "PrismataAI.h"
+#include "NeuralNet.h"
 
 #include <iostream>
 #include <iomanip>
@@ -37,6 +38,16 @@ Tournament::Tournament(const rapidjson::Value & tournamentValue)
         _saveReplays = tournamentValue["SaveReplays"].GetBool();
     }
 
+    // Parse self-play data export config
+    if (tournamentValue.HasMember("SelfPlayDataExport") && tournamentValue["SelfPlayDataExport"].IsObject())
+    {
+        const auto & spConfig = tournamentValue["SelfPlayDataExport"];
+        if (spConfig.HasMember("Enabled") && spConfig["Enabled"].IsBool())
+            _selfPlayEnabled = spConfig["Enabled"].GetBool();
+        if (spConfig.HasMember("OutputDir") && spConfig["OutputDir"].IsString())
+            _selfPlayOutputDir = spConfig["OutputDir"].GetString();
+    }
+
     PRISMATA_ASSERT(tournamentValue["players"].Size() >= 2, "Tournament has less than 2 players");
 
     for (size_t i(0); i < tournamentValue["players"].Size(); ++i)
@@ -46,7 +57,7 @@ Tournament::Tournament(const rapidjson::Value & tournamentValue)
     }
 }
 
-void Tournament::playRound(const GameState & stateTemplate)
+void Tournament::playRound(const GameState & stateTemplate, IDataSink * sink)
 {
     try
     {
@@ -62,6 +73,12 @@ void Tournament::playRound(const GameState & stateTemplate)
                     continue;
                 }
 
+                // Skip duplicate pair: g1+g2 already cover both color orders
+                if (p2 <= p1)
+                {
+                    continue;
+                }
+
                 PlayerPtr w1 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p1]);
                 PlayerPtr b1 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p2]);
                 PlayerPtr w2 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p2]);
@@ -69,6 +86,9 @@ void Tournament::playRound(const GameState & stateTemplate)
 
                 TournamentGame g1(state, _players[p1], w1, _players[p2], b1);
                 TournamentGame g2(state, _players[p2], w2, _players[p1], b2);
+
+                if (sink) g1.setDataSink(sink);
+                if (sink) g2.setDataSink(sink);
 
                 g1.playGame();
                 g2.playGame();
@@ -144,6 +164,28 @@ void Tournament::run()
     printf("Tournament '%s': %zu rounds, %zu threads\n", _name.c_str(), _rounds, _numThreads);
     fflush(stdout);
 
+    // Create per-thread self-play data sinks if enabled
+    if (_selfPlayEnabled && NeuralNet::Instance().isLoaded())
+    {
+        std::filesystem::create_directories(_selfPlayOutputDir);
+        _selfPlaySinks.resize(_numThreads);
+        for (size_t i = 0; i < _numThreads; ++i)
+        {
+            _selfPlaySinks[i] = std::make_unique<SelfPlayDataSink>(
+                (int)i, _selfPlayOutputDir, _selfPlayGameCounter,
+                NeuralNet::Instance().stateDim());
+        }
+        printf("[SelfPlay] Exporting to %s (%zu threads, feature_dim=%d)\n",
+               _selfPlayOutputDir.c_str(), _numThreads, NeuralNet::Instance().stateDim());
+        fflush(stdout);
+    }
+    else if (_selfPlayEnabled && !NeuralNet::Instance().isLoaded())
+    {
+        fprintf(stderr, "[SelfPlay] WARNING: SelfPlayDataExport enabled but neural net not loaded. Skipping export.\n");
+        fflush(stderr);
+        _selfPlayEnabled = false;
+    }
+
     _timeElapsed.start();
 
     // Process rounds in batches of _numThreads
@@ -154,7 +196,10 @@ void Tournament::run()
 
         for (size_t r = batchStart; r < batchEnd; ++r)
         {
-            threads.emplace_back(&Tournament::playRound, this, std::cref(roundStates[r]));
+            size_t threadIdx = r - batchStart;
+            IDataSink * sink = (_selfPlayEnabled && threadIdx < _selfPlaySinks.size())
+                               ? _selfPlaySinks[threadIdx].get() : nullptr;
+            threads.emplace_back(&Tournament::playRound, this, std::cref(roundStates[r]), sink);
         }
 
         for (auto & t : threads)
@@ -170,6 +215,25 @@ void Tournament::run()
             printf("\n\n");
             fflush(stdout);
         }
+    }
+
+    // Finalize self-play sinks and report totals
+    if (_selfPlayEnabled)
+    {
+        uint64_t totalRecords = 0;
+        uint32_t totalGames = 0;
+        for (auto & sink : _selfPlaySinks)
+        {
+            if (sink)
+            {
+                sink->finalize();
+                totalRecords += sink->totalRecordsWritten();
+                totalGames += sink->totalGamesCompleted();
+            }
+        }
+        printf("[SelfPlay] COMPLETE: %u games, %llu records written to %s\n",
+               totalGames, (unsigned long long)totalRecords, _selfPlayOutputDir.c_str());
+        fflush(stdout);
     }
 }
 

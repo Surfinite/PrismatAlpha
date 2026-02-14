@@ -33,10 +33,11 @@ import time
 from datetime import datetime
 
 sys.path.insert(0, "C:/libraries/torch_pkg")
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader, TensorDataset, ConcatDataset
 
 
 def load_unit_index(path):
@@ -228,12 +229,17 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5):
     total_pacc = 0
     total_vacc = 0
     n_batches = 0
+    n_policy_batches = 0
     all_vpreds = []
 
-    for states, buys, values_target, _ in loader:
+    for batch in loader:
+        states, buys, values_target = batch[0], batch[1], batch[2]
+        has_policy = batch[4] if len(batch) > 4 else torch.ones(states.shape[0])
+
         states = states.to(device)
         buys = buys.to(device)
         values_target = values_target.to(device)
+        has_policy = has_policy.to(device)
 
         optimizer.zero_grad()
         policy_pred, value_pred = model(states)
@@ -241,10 +247,16 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5):
         vloss = value_loss_fn(value_pred, values_target)
 
         if policy_pred is not None:
-            ploss = policy_loss_fn(policy_pred, buys)
-            loss = vloss + policy_weight * ploss
-            total_ploss += ploss.item()
-            total_pacc += compute_policy_accuracy(policy_pred, buys)
+            # Only compute policy loss on records that have policy targets
+            policy_mask = has_policy > 0.5
+            if policy_mask.any():
+                ploss = policy_loss_fn(policy_pred[policy_mask], buys[policy_mask])
+                loss = vloss + policy_weight * ploss
+                total_ploss += ploss.item()
+                total_pacc += compute_policy_accuracy(policy_pred[policy_mask], buys[policy_mask])
+                n_policy_batches += 1
+            else:
+                loss = vloss
         else:
             loss = vloss
 
@@ -270,9 +282,9 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5):
     }
 
     return (
-        total_ploss / max(n_batches, 1),
+        total_ploss / max(n_policy_batches, 1),
         total_vloss / max(n_batches, 1),
-        total_pacc / max(n_batches, 1),
+        total_pacc / max(n_policy_batches, 1),
         total_vacc / max(n_batches, 1),
         value_stats,
     )
@@ -287,21 +299,29 @@ def eval_epoch(model, loader, device, policy_weight=0.5):
     total_pacc = 0
     total_vacc = 0
     n_batches = 0
+    n_policy_batches = 0
     all_vpreds = []
 
-    for states, buys, values_target, _ in loader:
+    for batch in loader:
+        states, buys, values_target = batch[0], batch[1], batch[2]
+        has_policy = batch[4] if len(batch) > 4 else torch.ones(states.shape[0])
+
         states = states.to(device)
         buys = buys.to(device)
         values_target = values_target.to(device)
+        has_policy = has_policy.to(device)
 
         policy_pred, value_pred = model(states)
 
         vloss = value_loss_fn(value_pred, values_target)
 
         if policy_pred is not None:
-            ploss = policy_loss_fn(policy_pred, buys)
-            total_ploss += ploss.item()
-            total_pacc += compute_policy_accuracy(policy_pred, buys)
+            policy_mask = has_policy > 0.5
+            if policy_mask.any():
+                ploss = policy_loss_fn(policy_pred[policy_mask], buys[policy_mask])
+                total_ploss += ploss.item()
+                total_pacc += compute_policy_accuracy(policy_pred[policy_mask], buys[policy_mask])
+                n_policy_batches += 1
 
         total_vloss += vloss.item()
         total_vacc += compute_value_accuracy(value_pred, values_target)
@@ -319,9 +339,9 @@ def eval_epoch(model, loader, device, policy_weight=0.5):
     }
 
     return (
-        total_ploss / max(n_batches, 1),
+        total_ploss / max(n_policy_batches, 1),
         total_vloss / max(n_batches, 1),
-        total_pacc / max(n_batches, 1),
+        total_pacc / max(n_policy_batches, 1),
         total_vacc / max(n_batches, 1),
         value_stats,
     )
@@ -359,6 +379,87 @@ def get_schema_hash(data_dir):
         with open(schema_path, "rb") as f:
             return hashlib.sha256(f.read()).hexdigest()[:16]
     return "no_schema"
+
+
+def load_selfplay_data(selfplay_dir, num_units, label_smooth=0.95):
+    """Load self-play binary data and split into train/val by game_id.
+
+    Split: game_id % 10 == 0 goes to val (deterministic, stable across runs).
+    CRITICAL: Split by game_id, NOT by record — all records from same game share
+    the same outcome label, so per-record splitting causes massive data leakage.
+
+    Self-play records have no policy targets — buy_targets are set to zero.
+    A has_policy mask tensor is included so the loss function can skip policy
+    loss on self-play records.
+
+    Returns:
+        (train_data, val_data) dicts with keys: states, buy_targets, values, turns, has_policy
+    """
+    # Import here to avoid circular dependency at module level
+    from load_selfplay import load_all_shards
+
+    records = load_all_shards(selfplay_dir)
+    if records is None:
+        print("FATAL: No self-play data loaded.")
+        sys.exit(1)
+
+    # Validate
+    features = records['features']
+    if np.any(np.isnan(features)):
+        print("FATAL: NaN found in self-play features")
+        sys.exit(1)
+    if np.any(np.isinf(features)):
+        print("FATAL: Inf found in self-play features")
+        sys.exit(1)
+
+    outcomes = records['outcome']
+    game_ids = records['game_id']
+    turn_numbers = records['turn_number']
+
+    n = len(records)
+    state_dim = features.shape[1]
+
+    # Split by game_id
+    val_mask = (game_ids % 10) == 0
+    train_mask = ~val_mask
+
+    def make_dict(mask):
+        states = torch.from_numpy(features[mask].copy())
+        values = torch.from_numpy(outcomes[mask].copy())
+        turns = torch.from_numpy(turn_numbers[mask].astype(np.float32).copy())
+        buy_targets = torch.zeros(mask.sum(), num_units)  # no policy targets for self-play
+        has_policy = torch.zeros(mask.sum())  # 0 = skip policy loss
+
+        # Apply label smoothing
+        if label_smooth < 1.0:
+            values = values * label_smooth
+
+        return {
+            'states': states,
+            'buy_targets': buy_targets,
+            'values': values,
+            'turns': turns,
+            'has_policy': has_policy,
+        }
+
+    train_data = make_dict(train_mask)
+    val_data = make_dict(val_mask)
+
+    n_train = train_mask.sum()
+    n_val = val_mask.sum()
+    n_games = len(np.unique(game_ids))
+    n_train_games = len(np.unique(game_ids[train_mask]))
+    n_val_games = len(np.unique(game_ids[val_mask]))
+
+    print(f"  Self-play data loaded from {selfplay_dir}")
+    print(f"    Total: {n:,} records from {n_games:,} games")
+    print(f"    Train: {n_train:,} records from {n_train_games:,} games")
+    print(f"    Val:   {n_val:,} records from {n_val_games:,} games")
+    print(f"    Outcomes: +1: {(outcomes > 0.5).sum():,}  "
+          f"-1: {(outcomes < -0.5).sum():,}  "
+          f"0: {(np.abs(outcomes) < 0.5).sum():,}")
+
+    return train_data, val_data
 
 
 def run_overfit_test(args):
@@ -491,6 +592,10 @@ def main():
     parser.add_argument("--resume", type=str, default=None, help="Resume from checkpoint path")
     parser.add_argument("--overfit-test", action="store_true",
                         help="Run tiny-subset overfit test and exit")
+    parser.add_argument("--selfplay-dir", type=str, default=None,
+                        help="Directory with binary self-play shards (selfplay_t*_s*.bin)")
+    parser.add_argument("--expert-weight", type=float, default=0.5,
+                        help="Fraction of training data from expert replays when mixing (default 0.5)")
     args = parser.parse_args()
 
     # Overfit test: quick architecture validation
@@ -504,13 +609,93 @@ def main():
 
     # Load data
     print("Loading training data...")
-    train_data = torch.load(os.path.join(args.data_dir, "train.pt"), weights_only=True)
-    val_data = torch.load(os.path.join(args.data_dir, "val.pt"), weights_only=True)
 
     unit_index = load_unit_index(os.path.join(args.data_dir, "unit_index.json"))
-
-    state_dim = train_data["states"].shape[1]
     num_units = len(unit_index)
+
+    if args.selfplay_dir:
+        # Self-play mode: load binary shards, optionally mix with expert data
+        sp_train, sp_val = load_selfplay_data(
+            args.selfplay_dir, num_units, label_smooth=args.label_smooth)
+
+        state_dim = sp_train["states"].shape[1]
+
+        if args.expert_weight > 0:
+            # Also load expert data and mix
+            expert_train_path = os.path.join(args.data_dir, "train.pt")
+            expert_val_path = os.path.join(args.data_dir, "val.pt")
+            if os.path.exists(expert_train_path):
+                print(f"  Loading expert data for mixing (weight={args.expert_weight})...")
+                expert_train = torch.load(expert_train_path, weights_only=True)
+                expert_val = torch.load(expert_val_path, weights_only=True)
+
+                # Apply label smoothing to expert data
+                if args.label_smooth < 1.0:
+                    expert_train["values"] = apply_label_smoothing(
+                        expert_train["values"], args.label_smooth)
+                    expert_val["values"] = apply_label_smoothing(
+                        expert_val["values"], args.label_smooth)
+
+                # Add has_policy=1 marker to expert data (expert has policy targets)
+                expert_train["has_policy"] = torch.ones(expert_train["states"].shape[0])
+                expert_val["has_policy"] = torch.ones(expert_val["states"].shape[0])
+
+                # Subsample to achieve desired expert_weight ratio
+                # expert_weight = expert_n / (expert_n + selfplay_n)
+                # => expert_n = selfplay_n * expert_weight / (1 - expert_weight)
+                sp_n = sp_train["states"].shape[0]
+                desired_expert_n = int(sp_n * args.expert_weight / max(1e-9, 1.0 - args.expert_weight))
+                available_expert_n = expert_train["states"].shape[0]
+
+                if desired_expert_n < available_expert_n:
+                    # Subsample expert data (only tensor values, skip metadata dicts)
+                    perm = torch.randperm(available_expert_n)[:desired_expert_n]
+                    expert_train = {
+                        k: v[perm] if isinstance(v, torch.Tensor) else v
+                        for k, v in expert_train.items()
+                    }
+                    print(f"    Expert subsampled: {available_expert_n:,} -> {desired_expert_n:,}")
+                else:
+                    print(f"    Using all {available_expert_n:,} expert examples "
+                          f"(effective weight: {available_expert_n / (available_expert_n + sp_n):.2f})")
+
+                # Concatenate self-play and expert data (only shared tensor keys)
+                shared_keys = [k for k in sp_train if k in expert_train
+                               and isinstance(sp_train[k], torch.Tensor)
+                               and isinstance(expert_train[k], torch.Tensor)]
+                train_data = {
+                    k: torch.cat([sp_train[k], expert_train[k]], dim=0)
+                    for k in shared_keys
+                }
+                val_data = {
+                    k: torch.cat([sp_val[k], expert_val[k]], dim=0)
+                    for k in shared_keys
+                }
+                print(f"  Mixed training data: {train_data['states'].shape[0]:,} train, "
+                      f"{val_data['states'].shape[0]:,} val")
+            else:
+                print(f"  WARNING: Expert data not found at {expert_train_path}, using self-play only")
+                train_data = sp_train
+                val_data = sp_val
+        else:
+            train_data = sp_train
+            val_data = sp_val
+    else:
+        # Standard expert-only mode
+        train_data = torch.load(os.path.join(args.data_dir, "train.pt"), weights_only=True)
+        val_data = torch.load(os.path.join(args.data_dir, "val.pt"), weights_only=True)
+
+        state_dim = train_data["states"].shape[1]
+
+        # Add has_policy=1 for expert data (all have policy targets)
+        train_data["has_policy"] = torch.ones(train_data["states"].shape[0])
+        val_data["has_policy"] = torch.ones(val_data["states"].shape[0])
+
+        # Apply label smoothing to value targets
+        if args.label_smooth < 1.0:
+            print(f"  Label smoothing: {args.label_smooth} (targets +/-1 -> +/-{args.label_smooth})")
+            train_data["values"] = apply_label_smoothing(train_data["values"], args.label_smooth)
+            val_data["values"] = apply_label_smoothing(val_data["values"], args.label_smooth)
 
     print(f"  Train: {train_data['states'].shape[0]} examples")
     print(f"  Val: {val_data['states'].shape[0]} examples")
@@ -521,20 +706,16 @@ def main():
     # Pre-training label sanity check
     check_label_sanity(train_data, val_data)
 
-    # Apply label smoothing to value targets
-    if args.label_smooth < 1.0:
-        print(f"  Label smoothing: {args.label_smooth} (targets +/-1 -> +/-{args.label_smooth})")
-        train_data["values"] = apply_label_smoothing(train_data["values"], args.label_smooth)
-        val_data["values"] = apply_label_smoothing(val_data["values"], args.label_smooth)
-
-    # Create datasets and loaders
+    # Create datasets and loaders (now includes has_policy as 5th tensor)
     train_ds = TensorDataset(
         train_data["states"], train_data["buy_targets"],
-        train_data["values"], train_data["turns"]
+        train_data["values"], train_data["turns"],
+        train_data["has_policy"]
     )
     val_ds = TensorDataset(
         val_data["states"], val_data["buy_targets"],
-        val_data["values"], val_data["turns"]
+        val_data["values"], val_data["turns"],
+        val_data["has_policy"]
     )
 
     # Use persistent_workers for faster epoch transitions
@@ -608,6 +789,8 @@ def main():
             "patience": args.patience,
             "value_only": args.value_only,
             "weight_decay": 1e-4,
+            "selfplay_dir": args.selfplay_dir,
+            "expert_weight": args.expert_weight,
         },
         "data": {
             "train_examples": train_data["states"].shape[0],

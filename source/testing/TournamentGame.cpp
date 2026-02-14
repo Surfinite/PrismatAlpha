@@ -29,6 +29,12 @@ void TournamentGame::playGame()
     {
         PlayerID playerToMove = _game.getState().getActivePlayer();
 
+        // Self-play data hook: capture state BEFORE AI acts
+        if (_dataSink)
+        {
+            _dataSink->onTurnStart(_game.getState());
+        }
+
         t.start();
         _game.playNextTurn();
         double ms = t.getElapsedTimeInMilliSec();
@@ -53,6 +59,12 @@ void TournamentGame::playGame()
         printf("  [T%d] %s: %s\n", turnNumber, _playerNames[playerToMove].c_str(), buys.empty() ? "(no buys)" : buys.c_str());
         fflush(stdout);
         turnNumber++;
+    }
+
+    // Self-play data hook: record game result
+    if (_dataSink)
+    {
+        _dataSink->onGameEnd(_game.getState().winner());
     }
 }
 

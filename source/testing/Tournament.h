@@ -3,10 +3,12 @@
 #include "Prismata.h"
 #include "rapidjson/document.h"
 #include "TournamentGame.h"
+#include "SelfPlayDataSink.h"
 #include "Timer.h"
 #include <mutex>
 #include <thread>
 #include <atomic>
+#include <memory>
 
 namespace Prismata
 {
@@ -45,10 +47,16 @@ class Tournament
     void parseResult(std::string & result);
     void parseTournamentGameResult(const TournamentGame & game);
     void playGame(TournamentGame & game);
-    void playRound(const GameState & state);
+    void playRound(const GameState & state, IDataSink * sink);
     void writeHTMLResults();
     void printResults() const;
     std::string getTimeStringFromMS(const size_t ms);
+
+    // Self-play data export
+    bool                                            _selfPlayEnabled = false;
+    std::string                                     _selfPlayOutputDir;
+    std::atomic<uint32_t>                           _selfPlayGameCounter{0};
+    std::vector<std::unique_ptr<SelfPlayDataSink>>  _selfPlaySinks;
 
 public:
 
