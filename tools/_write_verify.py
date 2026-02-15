@@ -1,0 +1,1 @@
+exec(open(__import__("sys").argv[1]).read())

@@ -120,6 +120,24 @@ venv/
 # --- Garbled test output filename (UTF-8 artifact) ---
 c\357\200\272*
 
+# --- IDE workspace files ---
+*.code-workspace
+
+# --- Run logs (generated) ---
+bin/selfplay_10k_log.txt
+bin/threadtest_output.txt
+chroma.log
+
+# --- Validation output (generated) ---
+bin/validation_*
+bin/asset/config/validation_*
+
+# --- Synthetic training data (generated) ---
+training/data/selfplay_synthetic/
+
+# --- Doc backups (local) ---
+docs/backup_claude_md_2026-02-14/
+
 # --- Other ---
 *.zip
 *.stackdump

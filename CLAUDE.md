@@ -5,12 +5,12 @@
 
 ## Current Status (Feb 15, 2026)
 
-**10K self-play generation IN PROGRESS.** Running `SelfPlay_10K` tournament: 10,000 rounds, 8 threads, `OriginalHardestAI_1s` (following Churchill's 1s think time). ~22 games/min, ETA ~7.5 hours. Output: `bin/training/data/selfplay/`.
+**10K self-play generation IN PROGRESS.** Run via `bin/run_selfplay_10k.bat` (double-click from Explorer — safe from Claude Code contexts). Tournament: `SelfPlay_10K`, 10,000 rounds, 8 threads, `OriginalHardestAI_1s` (following Churchill's 1s think time). ~22 games/min, ETA ~3.5-4 hours. Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
 
 **Next actions (after generation completes):**
 1. **Train on self-play data** — `python training/train.py --selfplay-dir bin/training/data/selfplay/ --expert-weight 0.0`. Target: val accuracy >65%.
 2. **Export weights + tournament validation** — PrismatAlpha_AB vs OriginalHardestAI. Target: >55% WR (Churchill: 58.8%).
-3. **Fix TS tooling bugs** (RC#5, RC#6, selfsac) — lower priority, not blocking self-play.
+3. ~~**Fix TS tooling bugs**~~ — RC#5, RC#6, selfsac/lifespan all FIXED. Pass rate improved 27.2%→41.3%. Remaining failures are TS action resolution differences (diminishing returns to fix further).
 
 **Current neural net strength:** ~42% WR vs MediumAI, ~10% WR vs OriginalHardestAI. Dramatically better than random (0%) but weaker than playout eval.
 
@@ -66,7 +66,9 @@ node extract_training_data.js   # extract from S3 (incremental)
 - **SkipColorSwap auto-detection**: Self-play tournaments auto-detect identical AI configs and skip redundant games. `rounds = desired_games` for self-play.
 - **x86 OOM with NeuralNetPlusPlayout**: 16 threads exceeds 2 GB address space. Use `"Threads": 4` for blend tournaments.
 - **Blend tournaments concluded**: Neural component hurts performance. Don't revisit until model >60% val accuracy. See `docs/blend-tournament-results.md`.
-- **Batch validation**: 287 replays tested, C++ engine correct. 209 FAILs are ALL TS tooling bugs. See `docs/plans/engine-validation-plan.md`.
+- **Batch validation**: 287 replays tested, C++ engine confirmed correct. After fixing 3 TS tooling bugs: 117 PASS (41.3%), 166 FAIL (all TS-side), 4 ERROR. Remaining failures are action resolution differences in TS→C++ conversion (70% start with gold/green resource divergence). See `docs/plans/engine-validation-plan.md`.
+- **Self-play crash safety**: Each run writes to `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/`. Restart anytime — only in-flight games lost. `load_selfplay.py` auto-scans all `run_*` subdirectories.
+- **Run self-play from Explorer**: Use `bin/run_selfplay_10k.bat` — runs in its own cmd window, immune to Claude Code context kills.
 
 ## User Preferences
 
@@ -181,7 +183,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 - **Neural policy head weak** — 13.3% accuracy. Computed but unused for move ordering.
 - **Blocking feature mismatch** — C++ uses `CardStatus::Assigned`, Python uses `blocking AND abilityUsed`. Low priority.
 - **Track A regression inconclusive** — HardestAI (improved) vs OriginalHardestAI: 50/50 over 60 games. Fixes are neutral, not harmful.
-- **3 TS tooling bugs** — RC#5 (snipe target name), RC#6 (frontline→breach), selfsac timing. Not blocking self-play.
+- **TS tooling bugs (FIXED, validation improved)** — RC#5 (snipe target), RC#6 (frontline→breach), selfsac/lifespan tolerance all fixed. Pass rate 27.2%→41.3% (117/283). Remaining 166 failures are action resolution differences in TS conversion. Not blocking self-play.
 
 ## Key Files
 
@@ -212,6 +214,8 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `training/data/unit_index.json` | 161 canonical unit names |
 | `training/opening_book.py` | Opening book extraction from expert replays |
 | `tools/verify_selfplay.py` | Validates self-play binary output |
+| `tools/download_wiki.py` | Downloads full Prismata wiki from Fandom API |
+| `bin/run_selfplay_10k.bat` | Crash-safe self-play launcher (run from Explorer) |
 | `c:\libraries\prismata-replay-parser\` | TS replay parser + data extraction scripts |
 
 ## Documentation Index
@@ -228,6 +232,8 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `docs/backup_claude_md_2026-02-14/` | Backup of all original CLAUDE*.md files |
 | `training/FEATURES.md` | Neural net feature layout specification |
 | `docs/WEIGHT_FORMAT.md` | Binary weight format specification |
+| `docs/wiki/PRISMATA_REFERENCE.md` | Curated game knowledge reference (from wiki) |
+| `docs/wiki/` | Full wiki dump (448 pages, raw wikitext) |
 
 ## Tournament Results Summary
 
