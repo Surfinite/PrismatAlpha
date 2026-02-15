@@ -194,13 +194,6 @@ void Tournament::run()
     _draws = std::vector< std::vector<int> >(_players.size(), std::vector<int>(_players.size(), 0));
     _turns = std::vector< std::vector<int> >(_players.size(), std::vector<int>(_players.size(), 0));
 
-    // Generate all random states upfront (rand() is not thread-safe)
-    std::vector<GameState> roundStates(_rounds);
-    for (size_t r(0); r < _rounds; ++r)
-    {
-        roundStates[r].setStartingState(Players::Player_One, _randomCards);
-    }
-
     if (_saveReplays)
     {
         _replayDir = "asset/replays/" + _name + "_" + _date;
@@ -224,9 +217,9 @@ void Tournament::run()
                 (int)i, _selfPlayOutputDir, _selfPlayGameCounter,
                 NeuralNet::Instance().stateDim());
         }
-        printf("[SelfPlay] Exporting to %s (%zu threads, feature_dim=%d)\n",
-               _selfPlayOutputDir.c_str(), _numThreads, NeuralNet::Instance().stateDim());
-        fflush(stdout);
+        fprintf(stderr, "[SelfPlay] Exporting to %s (%zu threads, feature_dim=%d)\n",
+                _selfPlayOutputDir.c_str(), _numThreads, NeuralNet::Instance().stateDim());
+        fflush(stderr);
     }
     else if (_selfPlayEnabled && !NeuralNet::Instance().isLoaded())
     {
@@ -238,17 +231,25 @@ void Tournament::run()
     _timeElapsed.start();
 
     // Process rounds in batches of _numThreads
+    // Generate random states per-batch (rand() is not thread-safe, but one batch at a time is fine)
     for (size_t batchStart = 0; batchStart < _rounds; batchStart += _numThreads)
     {
         size_t batchEnd = std::min(batchStart + _numThreads, _rounds);
-        std::vector<std::thread> threads;
+        size_t batchSize = batchEnd - batchStart;
 
-        for (size_t r = batchStart; r < batchEnd; ++r)
+        // Generate random states for this batch only (avoids OOM from pre-allocating all rounds)
+        std::vector<GameState> batchStates(batchSize);
+        for (size_t i = 0; i < batchSize; ++i)
         {
-            size_t threadIdx = r - batchStart;
-            IDataSink * sink = (_selfPlayEnabled && threadIdx < _selfPlaySinks.size())
-                               ? _selfPlaySinks[threadIdx].get() : nullptr;
-            threads.emplace_back(&Tournament::playRound, this, std::cref(roundStates[r]), sink);
+            batchStates[i].setStartingState(Players::Player_One, _randomCards);
+        }
+
+        std::vector<std::thread> threads;
+        for (size_t i = 0; i < batchSize; ++i)
+        {
+            IDataSink * sink = (_selfPlayEnabled && i < _selfPlaySinks.size())
+                               ? _selfPlaySinks[i].get() : nullptr;
+            threads.emplace_back(&Tournament::playRound, this, std::cref(batchStates[i]), sink);
         }
 
         for (auto & t : threads)
@@ -261,8 +262,12 @@ void Tournament::run()
             std::lock_guard<std::mutex> lock(_resultsMutex);
             printResults();
             writeHTMLResults();
-            printf("\n\n");
-            fflush(stdout);
+            double elapsed = _timeElapsed.getElapsedTimeInMilliSec() / 1000.0;
+            size_t gamesPlayed = _totalGamesPlayed.load();
+            double gamesPerMin = elapsed > 0 ? (gamesPlayed * 60.0 / elapsed) : 0;
+            fprintf(stderr, "[Progress] %zu / %zu rounds, %zu games completed (%.1f games/min)\n",
+                    batchEnd, _rounds, gamesPlayed, gamesPerMin);
+            fflush(stderr);
         }
     }
 
@@ -280,9 +285,9 @@ void Tournament::run()
                 totalGames += sink->totalGamesCompleted();
             }
         }
-        printf("[SelfPlay] COMPLETE: %u games, %llu records written to %s\n",
-               totalGames, (unsigned long long)totalRecords, _selfPlayOutputDir.c_str());
-        fflush(stdout);
+        fprintf(stderr, "[SelfPlay] COMPLETE: %u games, %llu records written to %s\n",
+                totalGames, (unsigned long long)totalRecords, _selfPlayOutputDir.c_str());
+        fflush(stderr);
     }
 }
 

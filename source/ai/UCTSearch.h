@@ -36,6 +36,7 @@ public:
     void                uct(GameState & state, size_t depth, const int lastPlayerToMove);
     UCTNode *           getBestRootNode();
     double              getBestRootWinRate();
+    void                computeRootPriors();
     
     bool                searchShouldStop();
     void                updateResults(bool forceUpdate = false);

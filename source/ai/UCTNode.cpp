@@ -6,6 +6,7 @@ UCTNode::UCTNode ()
     : _numVisits            (0)
     , _numWins              (0)
     , _uctVal               (0)
+    , _policyPrior          (1.0)
     , _playerWhoMoved       (Players::Player_None)
     , _parent               (NULL)
 {
@@ -16,6 +17,7 @@ UCTNode::UCTNode (UCTNode * parent, const GameState & state, const PlayerID play
     : _numVisits            (0)
     , _numWins              (0)
     , _uctVal               (0)
+    , _policyPrior          (1.0)
     , _playerWhoMoved       (playerWhoMoved)
     , _move                 (move)
     , _parent               (parent)
@@ -153,9 +155,14 @@ const size_t UCTNode::numChildren() const
     return _children.size(); 
 }
 
-const double UCTNode::getUCTVal() const 
-{ 
-    return _uctVal; 
+const double UCTNode::getUCTVal() const
+{
+    return _uctVal;
+}
+
+const double UCTNode::getPolicyPrior() const
+{
+    return _policyPrior;
 }
 
 bool UCTNode::hasChildren() const 
@@ -200,9 +207,14 @@ const UCTNode & UCTNode::getChild(const size_t & c) const
     return _children[c]; 
 }
 
-void UCTNode::setUCTVal(double val) 
-{ 
-    _uctVal = val; 
+void UCTNode::setUCTVal(double val)
+{
+    _uctVal = val;
+}
+
+void UCTNode::setPolicyPrior(double prior)
+{
+    _policyPrior = prior;
 }
 
 void UCTNode::incVisits() 

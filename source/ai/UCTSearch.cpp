@@ -1,6 +1,7 @@
 #include "UCTSearch.h"
 #include "AllPlayers.h"
 #include <math.h>
+#include <algorithm>
 #include "AITools.h"
 #include "NeuralNet.h"
 
@@ -49,7 +50,14 @@ void UCTSearch::doSearch(const GameState & initialState, Move & move)
 {
     _searchTimer.start();
     _rootNode = UCTNode(NULL, initialState, Players::Player_None, Move(), _params);
-    
+
+    // If PUCT is enabled, generate all root children and compute policy priors
+    if (_params.usePUCT())
+    {
+        _rootNode.generateAllChildren(_params);
+        computeRootPriors();
+    }
+
     // do the traversals
     for (_results.traversals = 0; !searchShouldStop(); ++_results.traversals)
     {
@@ -70,15 +78,20 @@ void UCTSearch::doSearch(const GameState & initialState, Move & move)
     {
         std::stringstream diag;
         diag << "UCT Root Diagnostics (" << _results.traversals << " traversals, "
-             << _rootNode.numChildren() << " children, cValue=" << _params.cValue() << "):\n";
+             << _rootNode.numChildren() << " children, cValue=" << _params.cValue()
+             << (_params.usePUCT() ? ", PUCT=on" : "") << "):\n";
         for (size_t c = 0; c < _rootNode.numChildren(); ++c)
         {
             UCTNode & child = _rootNode.getChild(c);
             double winRate = child.numVisits() > 0 ? child.numWins() / (double)child.numVisits() : 0.0;
             diag << "  child " << c << ": visits=" << child.numVisits()
                  << " winRate=" << winRate
-                 << " uctVal=" << child.getUCTVal()
-                 << (&child == bestNode ? " [BEST]" : "") << "\n";
+                 << " uctVal=" << child.getUCTVal();
+            if (_params.usePUCT())
+            {
+                diag << " prior=" << child.getPolicyPrior();
+            }
+            diag << (&child == bestNode ? " [BEST]" : "") << "\n";
         }
         _results.rootDiagnostics = diag.str();
     }
@@ -129,8 +142,45 @@ UCTNode & UCTSearch::UCTNodeSelect(UCTNode & node)
     UCTNode *   bestNode    = nullptr;
     bool        maxPlayer   = node.getChild(0).getPlayerWhoMoved() == _params.maxPlayer();
     double      bestVal     = std::numeric_limits<double>::lowest();
-    
-    // loop through each child to find the best node
+
+    // PUCT mode: Q(s,a) + c * P(s,a) * sqrt(N_parent) / (1 + N_child)
+    // All children (visited and unvisited) are compared by this formula.
+    // Unvisited children use Q = 0.5 (neutral prior).
+    if (_params.usePUCT())
+    {
+        double sqrtParent = sqrt((double)node.numVisits());
+        for (size_t c(0); c < node.numChildren(); ++c)
+        {
+            UCTNode & child = node.getChild(c);
+            double prior = child.getPolicyPrior();
+
+            double currentVal;
+            if (child.numVisits() > 0)
+            {
+                double winRate = (double)child.numWins() / (double)child.numVisits();
+                double exploration = _params.cValue() * prior * sqrtParent / (1.0 + child.numVisits());
+                currentVal = maxPlayer ? (winRate + exploration) : (1.0 - winRate + exploration);
+            }
+            else
+            {
+                // Unvisited: Q = 0.5, full exploration bonus
+                double exploration = _params.cValue() * prior * sqrtParent;
+                currentVal = 0.5 + exploration;
+            }
+
+            child.setUCTVal(currentVal);
+
+            if (currentVal > bestVal)
+            {
+                bestVal = currentVal;
+                bestNode = &child;
+            }
+        }
+
+        return *bestNode;
+    }
+
+    // Standard UCB1 mode
     for (size_t c(0); c < node.numChildren(); ++c)
     {
         UCTNode & child = node.getChild(c);
@@ -138,7 +188,7 @@ UCTNode & UCTSearch::UCTNodeSelect(UCTNode & node)
         // if we have visited this node already, get its UCT value
         if (child.numVisits() > 0)
         {
-            double winRate = (double)child.numWins() / (double)child.numVisits();         
+            double winRate = (double)child.numWins() / (double)child.numVisits();
             double uctVal = _params.cValue() * sqrt( log( (double)node.numVisits() ) / ( child.numVisits() ) );
             double currentVal = maxPlayer ? (winRate + uctVal) : (1-winRate + uctVal);
 
@@ -161,6 +211,69 @@ UCTNode & UCTSearch::UCTNodeSelect(UCTNode & node)
     return *bestNode;
 }
 
+
+void UCTSearch::computeRootPriors()
+{
+    if (_rootNode.numChildren() == 0)
+    {
+        return;
+    }
+
+    const NeuralNet & nn = NeuralNet::Instance();
+    if (!nn.isLoaded())
+    {
+        // No neural net loaded — leave uniform priors
+        return;
+    }
+
+    // Run full neural net (policy + value) on the root state
+    NeuralNet::NeuralOutput output = nn.evaluate(_rootNode.getState());
+    const std::vector<float> & policy = output.policy;
+
+    // For each child, compute an affinity score based on the buy actions in its move.
+    // Score = sum of policy logits for each unit type bought.
+    // Then softmax across children to get normalized priors.
+    std::vector<double> scores(_rootNode.numChildren(), 0.0);
+
+    for (size_t c = 0; c < _rootNode.numChildren(); ++c)
+    {
+        UCTNode & child = _rootNode.getChild(c);
+        const Move & move = child.getMove();
+        double score = 0.0;
+
+        for (size_t a = 0; a < move.size(); ++a)
+        {
+            const Action & action = move.getAction(a);
+            if (action.getType() == ActionTypes::BUY)
+            {
+                // action.getID() is the CardBuyable index
+                const CardBuyable & cb = _rootNode.getState().getCardBuyableByID(action.getID());
+                int unitIdx = nn.getUnitIndex(cb.getType().getID());
+                if (unitIdx >= 0 && unitIdx < (int)policy.size())
+                {
+                    score += policy[unitIdx];
+                }
+            }
+        }
+
+        scores[c] = score;
+    }
+
+    // Softmax to get normalized priors
+    double maxScore = *std::max_element(scores.begin(), scores.end());
+    double sumExp = 0.0;
+    for (size_t c = 0; c < scores.size(); ++c)
+    {
+        scores[c] = exp(scores[c] - maxScore);  // numerically stable softmax
+        sumExp += scores[c];
+    }
+
+    for (size_t c = 0; c < _rootNode.numChildren(); ++c)
+    {
+        double prior = scores[c] / sumExp;
+        _rootNode.getChild(c).setPolicyPrior(prior);
+    }
+}
 
 double UCTSearch::traverse(UCTNode & node)
 {

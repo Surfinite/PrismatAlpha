@@ -5,7 +5,7 @@
 
 ## Current Status (Feb 15, 2026)
 
-**10K self-play generation IN PROGRESS.** Run via `bin/run_selfplay_10k.bat` (double-click from Explorer — safe from Claude Code contexts). Tournament: `SelfPlay_10K`, 10,000 rounds, 8 threads, `OriginalHardestAI_1s` (following Churchill's 1s think time). ~22 games/min, ETA ~3.5-4 hours. Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
+**Self-play generation IN PROGRESS.** Running via `bin/run_selfplay.bat` (double-click from Explorer — safe from Claude Code contexts). 4 threads per process; run the bat multiple times for more CPU (4 instances = 16 threads, full CPU utilization). ~5.6 games/min per instance. Tournament: `SelfPlay_HardestAI_1s`, 1M rounds, `OriginalHardestAI_1s` (1s think time). Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
 
 **Next actions (after generation completes):**
 1. **Train on self-play data** — `python training/train.py --selfplay-dir bin/training/data/selfplay/ --expert-weight 0.0`. Target: val accuracy >65%.
@@ -34,6 +34,8 @@ Build via the Visual Studio solution in `visualstudio/`. Three executables:
 - **MSBuild from Git Bash**: `"/c/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/MSBuild.exe" "c:/libraries/PrismataAI/visualstudio/Prismata.sln" //t:Rebuild //p:Configuration=Debug //p:Platform=x86 //m`
 - **Always use `/t:Rebuild`** (not `/t:Build`) — incremental builds may not relink the exe
 - **File lock**: Cannot rebuild while exe is running (LNK1104 error). Stop tournaments first.
+- **Static Release config**: Was historically broken — fixed Feb 2026 (include paths, C++17, linker deps). If adding new source dirs, check Static Release has matching include paths.
+- **CI build uses `/p:PlatformToolset=v143`** (VS 2022) since runners don't have v145.
 
 **Training pipeline:**
 ```bash
@@ -47,6 +49,13 @@ python training/train.py --selfplay-dir bin/training/data/selfplay/ --epochs 100
 python training/export_weights.py training/models/best_model.pt --output bin/asset/config/neural_weights.bin
 ```
 
+**GitHub Actions self-play** (trigger from GitHub > Actions > "Self-Play Data Generation"):
+- Workflow: `.github/workflows/selfplay.yml` — `workflow_dispatch` with inputs for parallel VMs (1-10), games/job, think time, VM multiplier.
+- Builds `Static Release|x86` on `windows-latest` (2-core, no larger runners on free plan).
+- VM think multiplier (default 1.3x) compensates for slower cloud CPUs vs local Ryzen.
+- Output: artifacts with binary shards in timestamped `run_*/` dirs — download and unzip into `bin/training/data/selfplay/`.
+- Pushing workflow files requires `workflow` scope: `gh auth login -s workflow`.
+
 **Expert replay pipeline** (at `c:\libraries\prismata-replay-parser\`):
 ```bash
 node fetch_expert_replays.js    # fetch from API (incremental)
@@ -57,18 +66,22 @@ node extract_training_data.js   # extract from S3 (incremental)
 ## Gotchas & Non-Obvious Patterns
 
 - **Internal name system**: The engine uses codenames (e.g., "Tesla Tower" = Tarsier, "Brooder" = Blastforge). Full 105-unit mapping table below.
-- **Two git remotes**: `origin` = davechurchill upstream, `prismat` = user's fork (Surfinite/PrismatAlpha). Push to `prismat`.
+- **Two git remotes**: `origin` = davechurchill upstream, `PrismatAlpha` = user's fork (Surfinite/PrismatAlpha). Push to `PrismatAlpha`.
 - **Config tournament toggles**: Always check which tournaments have `"run":true` in `config.txt` before launching.
 - **Legacy mode**: `"legacy": true` config flag preserves original AI behavior. `OriginalHardestAI` is the stable baseline. Never modify legacy behavior.
 - **Feature schema contract**: `training/schema.json` + `training/FEATURES.md`. State dim = 1785 (161 units × 11 + 14 global). Changes must sync across `vectorize.py`, `NeuralNet.cpp`, and `schema.json`.
 - **NeuralNet.cpp diagnostics**: Gated behind `#ifdef NEURAL_NET_DEBUG`.
 - **PRISMATA_ASSERT**: Soft assert — prints to stderr, does NOT abort.
 - **SkipColorSwap auto-detection**: Self-play tournaments auto-detect identical AI configs and skip redundant games. `rounds = desired_games` for self-play.
-- **x86 OOM with NeuralNetPlusPlayout**: 16 threads exceeds 2 GB address space. Use `"Threads": 4` for blend tournaments.
+- **x86 OOM — 4 threads max per process**: x86 2GB address space exhausts after ~456 games with 8 threads (any AI, not just blend). Use `"Threads": 4` in config.txt and run multiple bat instances for parallelism. Each process gets its own 2GB limit. CI workflow overrides Threads via `nproc` (2 on windows-latest, safe).
 - **Blend tournaments concluded**: Neural component hurts performance. Don't revisit until model >60% val accuracy. See `docs/blend-tournament-results.md`.
 - **Batch validation**: 287 replays tested, C++ engine confirmed correct. After fixing 3 TS tooling bugs: 117 PASS (41.3%), 166 FAIL (all TS-side), 4 ERROR. Remaining failures are action resolution differences in TS→C++ conversion (70% start with gold/green resource divergence). See `docs/plans/engine-validation-plan.md`.
 - **Self-play crash safety**: Each run writes to `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/`. Restart anytime — only in-flight games lost. `load_selfplay.py` auto-scans all `run_*` subdirectories.
-- **Run self-play from Explorer**: Use `bin/run_selfplay_10k.bat` — runs in its own cmd window, immune to Claude Code context kills.
+- **Run self-play from Explorer**: Use `bin/run_selfplay.bat` — runs in its own cmd window, immune to Claude Code context kills.
+- **Console output routing**: `[SelfPlay]` and `[Progress]` messages use `fprintf(stderr, ...)` so they appear on console. All other verbose output (scores, buy actions) goes to stdout, which the batch file redirects to `selfplay_log.txt`. New user-facing messages in Tournament.cpp should use stderr.
+- **x86 OOM with large vectors**: Don't pre-allocate large `std::vector<GameState>` upfront (e.g., 10K rounds). GameState objects are heavy — allocate per-batch instead. Symptom: process exits silently mid-tournament with no `[SelfPlay] COMPLETE` message.
+- **Selfplay shard CRC**: `load_selfplay.py` CRC check fails on shards from runs that crashed or are still in progress (no footer written). Use `validate_crc=False` for live/partial data.
+- **Windows file size caching**: `ls`/`Get-ChildItem` may show 0 bytes for files with open write handles. Use `python -c "import os; print(os.path.getsize(path))"` to get actual size.
 
 ## User Preferences
 
@@ -176,11 +189,12 @@ Action → Breach (if wipeout) → Confirm → Defense (if enemy has attack) →
 
 ### Hardware
 
-AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play generation: ~30s/game at 1s think time (~22 games/min with 8 threads). Training: ~30 min on CPU.
+AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play generation: ~5.6 games/min per 4-thread instance (~22 games/min with 4 instances). Training: ~30 min on CPU.
 
 ## Known Issues (Current)
 
 - **Neural policy head weak** — 13.3% accuracy. Computed but unused for move ordering.
+- **PUCT move ordering implemented** — `"UsePUCT": true` in Player_UCT config. Uses policy head as priors in UCT search (AlphaZero-style). Disabled by default — don't enable until policy accuracy improves past ~30%. Files: `UCTSearch.cpp` (computeRootPriors, PUCT formula in UCTNodeSelect), `UCTNode.h` (_policyPrior), `UCTSearchParameters.hpp` (_usePUCT), `AIParameters.cpp` (UsePUCT parsing).
 - **Blocking feature mismatch** — C++ uses `CardStatus::Assigned`, Python uses `blocking AND abilityUsed`. Low priority.
 - **Track A regression inconclusive** — HardestAI (improved) vs OriginalHardestAI: 50/50 over 60 games. Fixes are neutral, not harmful.
 - **TS tooling bugs (FIXED, validation improved)** — RC#5 (snipe target), RC#6 (frontline→breach), selfsac/lifespan tolerance all fixed. Pass rate 27.2%→41.3% (117/283). Remaining 166 failures are action resolution differences in TS conversion. Not blocking self-play.
@@ -191,7 +205,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 |---|---|
 | `bin/asset/config/config.txt` | AI player definitions, tournament configs |
 | `bin/asset/config/cardLibrary.jso` | Master unit definitions (105+11 units) |
-| `bin/asset/config/neural_weights.bin` | Neural network weights (8.4 MB) |
+| `bin/asset/config/neural_weights.bin` | Neural network weights (8.8 MB, committed for CI) |
 | `source/ai/NeuralNet.h/cpp` | Neural network inference engine |
 | `source/ai/UCTSearch.cpp` | UCT/MCTS search |
 | `source/ai/StackAlphaBetaSearch.cpp` | Stack Alpha-Beta search |
@@ -215,7 +229,8 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `training/opening_book.py` | Opening book extraction from expert replays |
 | `tools/verify_selfplay.py` | Validates self-play binary output |
 | `tools/download_wiki.py` | Downloads full Prismata wiki from Fandom API |
-| `bin/run_selfplay_10k.bat` | Crash-safe self-play launcher (run from Explorer) |
+| `bin/run_selfplay.bat` | Crash-safe self-play launcher (run from Explorer) |
+| `.github/workflows/selfplay.yml` | GitHub Actions self-play workflow |
 | `c:\libraries\prismata-replay-parser\` | TS replay parser + data extraction scripts |
 
 ## Documentation Index

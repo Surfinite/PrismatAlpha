@@ -734,8 +734,18 @@ def main():
     param_count = sum(p.numel() for p in model.parameters())
     print(f"\nModel: {param_count:,} parameters (hidden={args.hidden_dim}, layers={args.num_layers})")
 
-    # Optimizer
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
+    # Optimizer — exclude bias and LayerNorm params from weight decay
+    decay_params = []
+    no_decay_params = []
+    for name, param in model.named_parameters():
+        if 'bias' in name or 'norm' in name:
+            no_decay_params.append(param)
+        else:
+            decay_params.append(param)
+    optimizer = torch.optim.AdamW([
+        {'params': decay_params, 'weight_decay': 1e-4},
+        {'params': no_decay_params, 'weight_decay': 0.0},
+    ], lr=args.lr)
 
     # LR schedule: linear warmup then cosine decay
     def lr_lambda(epoch):
