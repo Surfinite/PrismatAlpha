@@ -1,16 +1,18 @@
 #!/bin/bash
 # Launch EC2 Windows instance for self-play generation
-# Usage: bash aws/launch_selfplay.sh [INSTANCE_TYPE] [NUM_GAMES]
+# Usage: bash aws/launch_selfplay.sh [INSTANCE_TYPE] [NUM_GAMES] [THINK_TIME_S] [VM_MULTIPLIER]
 #
 # Examples:
-#   bash aws/launch_selfplay.sh              # c5.4xlarge, 2500 games
-#   bash aws/launch_selfplay.sh c5.2xlarge 1000
-#   bash aws/launch_selfplay.sh c5.9xlarge 5000
+#   bash aws/launch_selfplay.sh                        # t3.micro, 2500 games, 1s, 2x
+#   bash aws/launch_selfplay.sh t3.micro 2500 2 2      # 2s think, 2x multiplier = 4s actual
+#   bash aws/launch_selfplay.sh c5.4xlarge 5000 1 1.3  # 1s think, 1.3x = 1.3s actual
 
 export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"
 
-INSTANCE_TYPE="${1:-t3.small}"
+INSTANCE_TYPE="${1:-t3.micro}"
 NUM_GAMES="${2:-2500}"
+THINK_TIME="${3:-1}"
+VM_MULTIPLIER="${4:-2}"
 REGION="eu-north-1"
 AMI="ami-0adc3f10e1311b184"  # Windows Server 2022 Base
 KEY_NAME="prismata-selfplay"
@@ -21,6 +23,7 @@ BUCKET="prismata-selfplay-data"
 echo "=== Prismata Self-Play EC2 Launch ==="
 echo "  Instance: $INSTANCE_TYPE"
 echo "  Games:    $NUM_GAMES"
+echo "  Think:    ${THINK_TIME}s x ${VM_MULTIPLIER} multiplier"
 echo "  Region:   $REGION"
 echo "  Bucket:   $BUCKET"
 echo ""
@@ -42,8 +45,11 @@ case "$INSTANCE_TYPE" in
 esac
 
 GAMES_PER_PROCESS=$(( (NUM_GAMES + PROCESSES - 1) / PROCESSES ))
+# Compute actual time limit in ms: think_time * multiplier * 1000
+TIME_LIMIT_MS=$(python3 -c "print(int($THINK_TIME * $VM_MULTIPLIER * 1000))")
 echo "  Processes: $PROCESSES (4 threads each)"
 echo "  Games/process: $GAMES_PER_PROCESS"
+echo "  Think time: ${THINK_TIME}s x ${VM_MULTIPLIER} = ${TIME_LIMIT_MS}ms"
 echo ""
 
 # Create the PowerShell user-data script that runs on first boot
@@ -86,18 +92,31 @@ ENDSCRIPT
 USERDATA+="
 \$gamesPerProcess = $GAMES_PER_PROCESS
 \$numProcesses = $PROCESSES
+\$timeLimitMs = $TIME_LIMIT_MS
 "
 
 USERDATA+=$(cat <<'ENDSCRIPT2'
 
-# Disable all tournaments, enable SelfPlay_CI with correct game count
-$config = $config -replace '"run":true', '"run":false'
-$config = $config -replace '("name":"SelfPlay_CI"[^}]*"run":)false', '${1}true'
-$config = $config -replace '("name":"SelfPlay_CI"[^}]*"rounds":)\d+', "`${1}$gamesPerProcess"
+# Patch config line-by-line: disable all tournaments, enable SelfPlay_CI
+$lines = $config -split "`n"
+for ($i = 0; $i -lt $lines.Length; $i++) {
+    if ($lines[$i] -match '"SelfPlay_CI"') {
+        $lines[$i] = $lines[$i] -replace '"run"\s*:\s*false', '"run":true'
+        $lines[$i] = $lines[$i] -replace '"rounds"\s*:\s*\d+', "`"rounds`":$gamesPerProcess"
+        $lines[$i] = $lines[$i] -replace '"Threads"\s*:\s*\d+', '"Threads":4'
+        Write-Host "Enabled SelfPlay_CI on line $i"
+    } else {
+        $lines[$i] = $lines[$i] -replace '"run"\s*:\s*true', '"run":false'
+    }
+}
+$config = $lines -join "`n"
 
-# Keep Threads at 4 (already set in config)
+# Patch player TimeLimit for the players used by SelfPlay_CI
+$config = $config -replace '("OriginalHardestAI_1s"\s*:\s*\{[^}]*"TimeLimit"\s*:\s*)\d+', "`${1}$timeLimitMs"
+$config = $config -replace '("OriginalHardestAI_Copy_1s"\s*:\s*\{[^}]*"TimeLimit"\s*:\s*)\d+', "`${1}$timeLimitMs"
+
 Set-Content "C:\selfplay\asset\config\config.txt" $config
-Write-Host "Config patched: $gamesPerProcess games/process, $numProcesses processes"
+Write-Host "Config patched: $gamesPerProcess games/process, $numProcesses processes, TimeLimit=${timeLimitMs}ms"
 
 # Launch multiple self-play processes
 $jobs = @()
@@ -105,7 +124,8 @@ for ($i = 0; $i -lt $numProcesses; $i++) {
     Write-Host "Launching worker $i..."
     $job = Start-Process -FilePath "C:\selfplay\Prismata_Testing.exe" `
         -WorkingDirectory "C:\selfplay" `
-        -RedirectStandardOutput "C:\selfplay\log_worker_$i.txt" `
+        -RedirectStandardOutput "C:\selfplay\log_stdout_$i.txt" `
+        -RedirectStandardError "C:\selfplay\log_worker_$i.txt" `
         -PassThru
     $jobs += $job
     Start-Sleep -Seconds 3  # stagger for unique run_* dirs
@@ -132,11 +152,15 @@ foreach ($dir in $runDirs) {
     }
 }
 
-# Upload logs
+# Upload logs (stderr = tournament progress, stdout = verbose output)
 for ($i = 0; $i -lt $numProcesses; $i++) {
     $logFile = "C:\selfplay\log_worker_$i.txt"
     if (Test-Path $logFile) {
         Write-S3Object -BucketName $bucket -Key "results/$runId/log_worker_$i.txt" -File $logFile
+    }
+    $stdoutLog = "C:\selfplay\log_stdout_$i.txt"
+    if (Test-Path $stdoutLog) {
+        Write-S3Object -BucketName $bucket -Key "results/$runId/log_stdout_$i.txt" -File $stdoutLog
     }
 }
 
@@ -152,10 +176,11 @@ Stop-Computer -Force
 ENDSCRIPT2
 )
 
-# Base64 encode the user data
-USERDATA_B64=$(echo "$USERDATA" | base64 -w 0)
+# Write user data to temp file (let AWS CLI handle base64 encoding)
+# Use Windows-friendly path since AWS CLI is a native Windows program
+USERDATA_FILE="c:/libraries/PrismataAI/aws/.userdata_tmp.ps1"
+echo "$USERDATA" > "$USERDATA_FILE"
 
-# Wait a moment for IAM instance profile propagation
 echo "Launching instance..."
 
 INSTANCE_ID=$(aws ec2 run-instances \
@@ -164,12 +189,14 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --key-name "$KEY_NAME" \
   --security-group-ids "$SG_ID" \
   --iam-instance-profile Name="$PROFILE" \
-  --user-data "$USERDATA_B64" \
+  --user-data "file://$USERDATA_FILE" \
   --instance-initiated-shutdown-behavior terminate \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=PrismataSelfPlay-$NUM_GAMES}]" \
   --query 'Instances[0].InstanceId' \
   --output text \
   --region "$REGION" 2>&1)
+
+rm -f "$USERDATA_FILE"
 
 echo ""
 echo "=== Instance Launched ==="

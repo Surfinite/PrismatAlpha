@@ -7,6 +7,8 @@
 
 **Self-play generation IN PROGRESS.** Running via `bin/run_selfplay.bat` (double-click from Explorer — safe from Claude Code contexts). 4 threads per process; run the bat multiple times for more CPU (4 instances = 16 threads, full CPU utilization). ~5.6 games/min per instance. Tournament: `SelfPlay_HardestAI_1s`, 1M rounds, `OriginalHardestAI_1s` (1s think time). Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
 
+**AWS EC2 self-play** also available: `bash aws/launch_selfplay.sh [INSTANCE_TYPE] [NUM_GAMES]`. Pipeline verified working (Feb 15). Boots Windows Server, downloads exe+config from S3, patches config to enable SelfPlay_CI, runs self-play, uploads shards to `s3://prismata-selfplay-data/results/`, auto-terminates. AWS account on paid plan (c5 instances unlocked). vCPU quota: 16 (Standard). Download results: `aws s3 sync s3://prismata-selfplay-data/results/ bin/training/data/selfplay/ --region eu-north-1`.
+
 **Next actions (after generation completes):**
 1. **Train on self-play data** — `python training/train.py --selfplay-dir bin/training/data/selfplay/ --expert-weight 0.0`. Target: val accuracy >65%.
 2. **Export weights + tournament validation** — PrismatAlpha_AB vs OriginalHardestAI. Target: >55% WR (Churchill: 58.8%).
@@ -79,6 +81,8 @@ node extract_training_data.js   # extract from S3 (incremental)
 - **Self-play crash safety**: Each run writes to `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/`. Restart anytime — only in-flight games lost. `load_selfplay.py` auto-scans all `run_*` subdirectories.
 - **Run self-play from Explorer**: Use `bin/run_selfplay.bat` — runs in its own cmd window, immune to Claude Code context kills.
 - **Console output routing**: `[SelfPlay]` and `[Progress]` messages use `fprintf(stderr, ...)` so they appear on console. All other verbose output (scores, buy actions) goes to stdout, which the batch file redirects to `selfplay_log.txt`. New user-facing messages in Tournament.cpp should use stderr.
+- **EC2 config patching**: `launch_selfplay.sh` patches config line-by-line (not regex across properties) because JSON property ordering varies — `"run"` may come before or after `"name"` in tournament entries. Don't switch back to cross-property regexes.
+- **AWS CLI in Git Bash**: AWS CLI is a native Windows exe. Temp file paths must be Windows-accessible (not `/tmp/`). Use `file://` prefix for user-data (not `base64`). PATH needs: `export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"`.
 - **x86 OOM with large vectors**: Don't pre-allocate large `std::vector<GameState>` upfront (e.g., 10K rounds). GameState objects are heavy — allocate per-batch instead. Symptom: process exits silently mid-tournament with no `[SelfPlay] COMPLETE` message.
 - **Selfplay shard CRC**: `load_selfplay.py` CRC check fails on shards from runs that crashed or are still in progress (no footer written). Use `validate_crc=False` for live/partial data.
 - **Windows file size caching**: `ls`/`Get-ChildItem` may show 0 bytes for files with open write handles. Use `python -c "import os; print(os.path.getsize(path))"` to get actual size.
@@ -231,6 +235,8 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `tools/download_wiki.py` | Downloads full Prismata wiki from Fandom API |
 | `bin/run_selfplay.bat` | Crash-safe self-play launcher (run from Explorer) |
 | `.github/workflows/selfplay.yml` | GitHub Actions self-play workflow |
+| `aws/launch_selfplay.sh` | EC2 self-play launcher (Windows instances, auto-terminate) |
+| `aws/download_results.sh` | Download self-play results from S3 |
 | `c:\libraries\prismata-replay-parser\` | TS replay parser + data extraction scripts |
 | `c:\libraries\DiscordChatExporter\` | Discord message export tool (CLI at `cli/`) |
 
