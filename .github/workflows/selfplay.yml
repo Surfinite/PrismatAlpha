@@ -3,6 +3,10 @@ name: Self-Play Data Generation
 on:
   workflow_dispatch:
     inputs:
+      parallel_jobs:
+        description: 'Number of parallel VMs (1-10)'
+        default: '2'
+        type: string
       games_per_job:
         description: 'Number of games per parallel job'
         default: '250'
@@ -17,11 +21,24 @@ on:
         type: string
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          count=${{ inputs.parallel_jobs }}
+          matrix=$(python3 -c "import json; print(json.dumps(list(range(${count}))))")
+          echo "matrix=${matrix}" >> $GITHUB_OUTPUT
+          echo "Launching ${count} parallel self-play VMs"
+
   selfplay:
+    needs: setup
     runs-on: windows-latest
     strategy:
       matrix:
-        shard: [0, 1]
+        shard: ${{ fromJSON(needs.setup.outputs.matrix) }}
 
     steps:
       - name: Checkout
@@ -87,7 +104,7 @@ jobs:
         run: |
           CORES=$(nproc)
           SCALED_MS=$(python -c "print(int(${{ inputs.think_time_ms }} * ${{ inputs.vm_think_multiplier }}))")
-          echo "Starting self-play shard ${{ matrix.shard }}"
+          echo "Starting self-play shard ${{ matrix.shard }} of ${{ inputs.parallel_jobs }}"
           echo "  Games: ${{ inputs.games_per_job }}"
           echo "  Think time: ${SCALED_MS}ms (base ${{ inputs.think_time_ms }}ms x${{ inputs.vm_think_multiplier }})"
           echo "  Threads: ${CORES} (auto-detected)"
