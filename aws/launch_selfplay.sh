@@ -13,6 +13,7 @@ INSTANCE_TYPE="${1:-t3.micro}"
 NUM_GAMES="${2:-2500}"
 THINK_TIME="${3:-1}"
 VM_MULTIPLIER="${4:-2}"
+USE_SPOT="${USE_SPOT:-false}"  # Set USE_SPOT=true to use spot pricing
 REGION="eu-north-1"
 AMI="ami-0adc3f10e1311b184"  # Windows Server 2022 Base
 KEY_NAME="prismata-selfplay"
@@ -76,6 +77,7 @@ Write-Host "VC++ Redistributable installed"
 Write-Host "Downloading from S3..."
 New-Item -ItemType Directory -Force -Path "C:\selfplay\asset\config" | Out-Null
 New-Item -ItemType Directory -Force -Path "C:\selfplay\training\data\selfplay" | Out-Null
+New-Item -ItemType Directory -Force -Path "C:\selfplay\tests" | Out-Null
 
 Read-S3Object -BucketName $bucket -Key "deploy/Prismata_Testing.exe" -File "C:\selfplay\Prismata_Testing.exe"
 Read-S3Object -BucketName $bucket -Key "deploy/asset/config/config.txt" -File "C:\selfplay\asset\config\config.txt"
@@ -115,8 +117,19 @@ $config = $lines -join "`n"
 $config = $config -replace '("OriginalHardestAI_1s"\s*:\s*\{[^}]*"TimeLimit"\s*:\s*)\d+', "`${1}$timeLimitMs"
 $config = $config -replace '("OriginalHardestAI_Copy_1s"\s*:\s*\{[^}]*"TimeLimit"\s*:\s*)\d+', "`${1}$timeLimitMs"
 
-Set-Content "C:\selfplay\asset\config\config.txt" $config
+Set-Content "C:\selfplay\asset\config\config.txt" $config -Encoding ascii
 Write-Host "Config patched: $gamesPerProcess games/process, $numProcesses processes, TimeLimit=${timeLimitMs}ms"
+
+# Debug: show the patched player and tournament lines
+$debugConfig = Get-Content "C:\selfplay\asset\config\config.txt" -Raw
+$debugConfig -split "`n" | ForEach-Object {
+    if ($_ -match 'SelfPlay_CI|OriginalHardestAI_1s|OriginalHardestAI_Copy_1s') {
+        Write-Host "DEBUG: $_"
+    }
+}
+
+# Also upload the patched config for inspection
+Write-S3Object -BucketName $bucket -Key "results/$runId/patched_config.txt" -File "C:\selfplay\asset\config\config.txt"
 
 # Launch multiple self-play processes
 $jobs = @()
@@ -183,6 +196,12 @@ echo "$USERDATA" > "$USERDATA_FILE"
 
 echo "Launching instance..."
 
+SPOT_OPTS=""
+if [ "$USE_SPOT" = "true" ]; then
+  SPOT_OPTS="--instance-market-options MarketType=spot"
+  echo "(Using SPOT pricing)"
+fi
+
 INSTANCE_ID=$(aws ec2 run-instances \
   --image-id "$AMI" \
   --instance-type "$INSTANCE_TYPE" \
@@ -191,6 +210,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --iam-instance-profile Name="$PROFILE" \
   --user-data "file://$USERDATA_FILE" \
   --instance-initiated-shutdown-behavior terminate \
+  $SPOT_OPTS \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=PrismataSelfPlay-$NUM_GAMES}]" \
   --query 'Instances[0].InstanceId' \
   --output text \

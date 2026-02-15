@@ -20,8 +20,11 @@ TournamentGame::TournamentGame(GameState & initialState, const std::string & p1n
 
 void TournamentGame::playGame()
 {
-    // Snapshot the initial state (before any moves)
-    _stateSnapshots.push_back(_game.getState().toJSONString());
+    // Snapshot the initial state (only when saving replays — avoids heap churn in self-play)
+    if (_saveReplays)
+    {
+        _stateSnapshots.push_back(_game.getState().toJSONString());
+    }
 
     Timer t;
     int turnNumber = 0;
@@ -41,23 +44,25 @@ void TournamentGame::playGame()
         _playerTotalTimeMS[playerToMove] += ms;
         _maxTimeMS[playerToMove] = std::max((size_t)ms, _maxTimeMS[playerToMove]);
 
-        // Snapshot state after this turn
-        _stateSnapshots.push_back(_game.getState().toJSONString());
-
-        // Log buy actions with card names
-        const Move & move = _game.getPreviousMove();
-        std::string buys;
-        for (size_t a = 0; a < move.size(); ++a)
+        if (_saveReplays)
         {
-            const Action & action = move.getAction(a);
-            if (action.getType() == ActionTypes::BUY)
+            _stateSnapshots.push_back(_game.getState().toJSONString());
+
+            // Log buy actions with card names (verbose, only useful for replay inspection)
+            const Move & move = _game.getPreviousMove();
+            std::string buys;
+            for (size_t a = 0; a < move.size(); ++a)
             {
-                if (!buys.empty()) buys += ", ";
-                buys += CardType(action.getID()).getUIName();
+                const Action & action = move.getAction(a);
+                if (action.getType() == ActionTypes::BUY)
+                {
+                    if (!buys.empty()) buys += ", ";
+                    buys += CardType(action.getID()).getUIName();
+                }
             }
+            printf("  [T%d] %s: %s\n", turnNumber, _playerNames[playerToMove].c_str(), buys.empty() ? "(no buys)" : buys.c_str());
+            fflush(stdout);
         }
-        printf("  [T%d] %s: %s\n", turnNumber, _playerNames[playerToMove].c_str(), buys.empty() ? "(no buys)" : buys.c_str());
-        fflush(stdout);
         turnNumber++;
     }
 

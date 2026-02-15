@@ -17,12 +17,14 @@ class TournamentGame
     size_t          _maxTimeMS[2];
     std::vector<std::string> _stateSnapshots;
     IDataSink *     _dataSink = nullptr;
+    bool            _saveReplays = false;
 
 public:
 
     TournamentGame(GameState & initialState, const std::string & p1name, PlayerPtr p1, const std::string & p2name, const PlayerPtr p2);
 
     void setDataSink(IDataSink * sink) { _dataSink = sink; }
+    void setSaveReplays(bool save) { _saveReplays = save; }
     void playGame();
     void saveReplay(const std::string & filename) const;
 

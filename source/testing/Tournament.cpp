@@ -117,6 +117,7 @@ void Tournament::playRound(const GameState & stateTemplate, IDataSink * sink)
 
                 TournamentGame g1(state, _players[p1], w1, _players[p2], b1);
                 if (sink) g1.setDataSink(sink);
+                if (_saveReplays) g1.setSaveReplays(true);
                 g1.playGame();
 
                 // Color-swapped game: skip for self-play (identical AIs produce identical games)
@@ -128,6 +129,7 @@ void Tournament::playRound(const GameState & stateTemplate, IDataSink * sink)
                     PlayerPtr b2 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p1]);
                     g2 = TournamentGame(state, _players[p2], w2, _players[p1], b2);
                     if (sink) g2.setDataSink(sink);
+                    if (_saveReplays) g2.setSaveReplays(true);
                     g2.playGame();
                     g2ptr = &g2;
                 }
@@ -368,6 +370,7 @@ void Tournament::writeHTMLResults()
     ss << "</table>\n<br><br>\n";
 
     FILE * f = fopen(filename.c_str(), "w");
+    if (!f) return;
     fprintf(f, "<html>\n<head>\n");
     fprintf(f, "<script type=\"text/javascript\" src=\"javascript/jquery-1.10.2.min.js\"></script>\n<script type=\"text/javascript\" src=\"javascript/jquery.tablesorter.js\"></script>\n<link rel=\"stylesheet\" href=\"javascript/themes/blue/style.css\" type=\"text/css\" media=\"print, projection, screen\" />\n");
     fprintf(f, "</head>\n");

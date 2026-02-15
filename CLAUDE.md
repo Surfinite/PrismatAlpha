@@ -5,7 +5,7 @@
 
 ## Current Status (Feb 15, 2026)
 
-**Self-play generation IN PROGRESS.** Running via `bin/run_selfplay.bat` (double-click from Explorer — safe from Claude Code contexts). 4 threads per process; run the bat multiple times for more CPU (4 instances = 16 threads, full CPU utilization). ~5.6 games/min per instance. Tournament: `SelfPlay_HardestAI_1s`, 1M rounds, `OriginalHardestAI_1s` (1s think time). Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
+**Self-play generation IN PROGRESS.** Running via `bin/run_selfplay.bat` (double-click from Explorer — safe from Claude Code contexts). 4 threads per process; run the bat multiple times for more CPU (4 instances = 16 threads, full CPU utilization). ~4 games/min per instance (~16 games/min with 4 instances). Tournament: `SelfPlay_HardestAI_1s`, 1M rounds, `OriginalHardestAI_1s` (1s think time). Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
 
 **AWS EC2 self-play** also available: `bash aws/launch_selfplay.sh [INSTANCE_TYPE] [NUM_GAMES]`. Pipeline verified working (Feb 15). Boots Windows Server, downloads exe+config from S3, patches config to enable SelfPlay_CI, runs self-play, uploads shards to `s3://prismata-selfplay-data/results/`, auto-terminates. AWS account on paid plan (c5 instances unlocked). vCPU quota: 16 (Standard). Download results: `aws s3 sync s3://prismata-selfplay-data/results/ bin/training/data/selfplay/ --region eu-north-1`.
 
@@ -62,8 +62,13 @@ python training/export_weights.py training/models/best_model.pt --output bin/ass
 ```bash
 node fetch_expert_replays.js    # fetch from API (incremental)
 node filter_expert_replays.js   # filter (instant)
-node extract_training_data.js   # extract from S3 (incremental)
+node extract_training_data.js   # extract from S3 (incremental, see args below)
 ```
+
+**extract_training_data.js args**: `codesFile outputFile limit replaysFile minRating balanceFile`
+- Balance filter: pass `balance_passed_codes.json` as arg 7 to reject old-balance replays
+- Rating threshold: arg 6 (default 2000). Use 1500 for broader training data
+- Incremental: tracks processed codes in `{output}_processed_codes.txt`, safe to re-run
 
 ## Gotchas & Non-Obvious Patterns
 
@@ -85,7 +90,10 @@ node extract_training_data.js   # extract from S3 (incremental)
 - **AWS CLI in Git Bash**: AWS CLI is a native Windows exe. Temp file paths must be Windows-accessible (not `/tmp/`). Use `file://` prefix for user-data (not `base64`). PATH needs: `export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"`.
 - **x86 OOM with large vectors**: Don't pre-allocate large `std::vector<GameState>` upfront (e.g., 10K rounds). GameState objects are heavy — allocate per-batch instead. Symptom: process exits silently mid-tournament with no `[SelfPlay] COMPLETE` message.
 - **Selfplay shard CRC**: `load_selfplay.py` CRC check fails on shards from runs that crashed or are still in progress (no footer written). Use `validate_crc=False` for live/partial data.
+- **Selfplay shard binary format**: Header is 16 bytes: magic `0x50445350` ("PDSP") + version(4) + state_dim(4) + record_size(4). Record size = 7152 bytes. No game count stored — calculate: `(file_size - 16) / 7152` = positions, `positions / ~70` = estimated games.
+- **S3 download dir structure**: `aws s3 sync` creates timestamp dirs without `run_` prefix (e.g., `2026-02-15_12-25-50/`) containing nested `run_*` subdirs. Must scan recursively to count all data.
 - **Windows file size caching**: `ls`/`Get-ChildItem` may show 0 bytes for files with open write handles. Use `python -c "import os; print(os.path.getsize(path))"` to get actual size.
+- **Replay balance validation**: `validate_balance_all.js` checks all replay costs against `cardLibrary.jso`. Output: `balance_passed_codes.json` (32,973 safe codes). Replays with old unit costs (pre-balance-patch), event-mode starred units, or removed units are rejected. Cost normalization sorts resource letters (`8GBC` == `8BCG`). Run once; incremental via `balance_results.json`.
 
 ## User Preferences
 
@@ -187,13 +195,23 @@ Action → Breach (if wipeout) → Confirm → Defense (if enemy has attack) →
 
 ### Training Approach
 
-**Phase 1: Supervised** (DONE) — 251K expert examples, 57.7% val accuracy (weak but provides real signal).
+**Phase 1: Supervised** (DONE) — 544K examples total (see Training Data Inventory), 57.7% val accuracy (weak but provides real signal).
 **Phase 2: Self-Play** (NEXT) — MasterBot vs itself, Churchill got 58.8% WR vs playout with 500K games.
 **Phase 3: Iterative RL** (future) — AlphaZero-style loop. Keep expert data in mix (start 50/50, never below 20%).
 
+### Training Data Inventory
+
+| Dataset | File | Replays | Examples | Min Rating |
+|---|---|---|---|---|
+| Expert 2000+ | `training_data.jsonl` | ~13,157 | ~251K | 2000 |
+| Expert 1500+ | `expert_1500_training_data.jsonl` | 15,010 | 269K | 1500 |
+| Community (Discord/tournament/Reddit) | `community_training_data.jsonl` | 2,468 | 24K | 2000 |
+
+All datasets at `c:\libraries\prismata-replay-parser\`. All balance-validated. Community replays use embedded replay ratings (not metadata file).
+
 ### Hardware
 
-AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play generation: ~5.6 games/min per 4-thread instance (~22 games/min with 4 instances). Training: ~30 min on CPU.
+AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play generation: ~4 games/min per 4-thread instance (~16 games/min with 4 instances). Training: ~30 min on CPU.
 
 ## Known Issues (Current)
 
@@ -239,6 +257,8 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `aws/download_results.sh` | Download self-play results from S3 |
 | `c:\libraries\prismata-replay-parser\` | TS replay parser + data extraction scripts |
 | `c:\libraries\DiscordChatExporter\` | Discord message export tool (CLI at `cli/`) |
+| `c:\libraries\prismata-replay-parser\validate_balance_all.js` | Balance validation across all replay sources |
+| `c:\libraries\prismata-replay-parser\balance_passed_codes.json` | 32,973 balance-validated replay codes |
 
 ## Documentation Index
 
@@ -287,8 +307,10 @@ Giselle bot posts replay embeds in response to codes. Export with `--filter "fro
 
 **Code extraction scripts** (at `c:\libraries\prismata-replay-parser\`):
 - `extract_discord_codes.js` — extract replay codes from Discord export JSONs
+- `extract_all_discord_codes.js` — extract codes from ALL channel messages (not just Giselle)
 - `extract_tournament_codes.py` — extract codes from tournament data text
 - `validate_tournament_codes.js` — validate codes against S3 (HTTP 200 check, concurrency-limited)
+- `validate_balance_all.js` — validate unit costs across all sources against `cardLibrary.jso`
 
 ## Third-Party Credits
 
