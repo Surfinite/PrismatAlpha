@@ -38,6 +38,11 @@ Tournament::Tournament(const rapidjson::Value & tournamentValue)
         _saveReplays = tournamentValue["SaveReplays"].GetBool();
     }
 
+    if (tournamentValue.HasMember("SkipColorSwap") && tournamentValue["SkipColorSwap"].IsBool())
+    {
+        _skipColorSwap = tournamentValue["SkipColorSwap"].GetBool();
+    }
+
     // Parse self-play data export config
     if (tournamentValue.HasMember("SelfPlayDataExport") && tournamentValue["SelfPlayDataExport"].IsObject())
     {
@@ -54,6 +59,34 @@ Tournament::Tournament(const rapidjson::Value & tournamentValue)
     {
         _players.push_back(tournamentValue["players"][i]["name"].GetString());
         _playerGroups.push_back(tournamentValue["players"][i]["group"].GetInt());
+    }
+
+    // Auto-detect self-play: if all cross-group player pairs have identical configs,
+    // skip color-swapped games (they'd be duplicates for deterministic AIs)
+    if (!_skipColorSwap)
+    {
+        bool allPairsSame = true;
+        bool foundPair = false;
+        for (size_t i = 0; i < _players.size() && allPairsSame; ++i)
+        {
+            for (size_t j = i + 1; j < _players.size() && allPairsSame; ++j)
+            {
+                if (_playerGroups[i] != _playerGroups[j])
+                {
+                    foundPair = true;
+                    if (!AIParameters::Instance().playersHaveSameConfig(_players[i], _players[j]))
+                    {
+                        allPairsSame = false;
+                    }
+                }
+            }
+        }
+        if (foundPair && allPairsSame)
+        {
+            _skipColorSwap = true;
+            printf("Auto-detected self-play (identical AI configs). Skipping color-swapped games.\n");
+            fflush(stdout);
+        }
     }
 }
 
@@ -81,32 +114,46 @@ void Tournament::playRound(const GameState & stateTemplate, IDataSink * sink)
 
                 PlayerPtr w1 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p1]);
                 PlayerPtr b1 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p2]);
-                PlayerPtr w2 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p2]);
-                PlayerPtr b2 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p1]);
 
                 TournamentGame g1(state, _players[p1], w1, _players[p2], b1);
-                TournamentGame g2(state, _players[p2], w2, _players[p1], b2);
-
                 if (sink) g1.setDataSink(sink);
-                if (sink) g2.setDataSink(sink);
-
                 g1.playGame();
-                g2.playGame();
+
+                // Color-swapped game: skip for self-play (identical AIs produce identical games)
+                TournamentGame * g2ptr = nullptr;
+                TournamentGame g2(state, "", PlayerPtr(), "", PlayerPtr());  // placeholder
+                if (!_skipColorSwap)
+                {
+                    PlayerPtr w2 = AIParameters::Instance().getPlayer(Players::Player_One, _players[p2]);
+                    PlayerPtr b2 = AIParameters::Instance().getPlayer(Players::Player_Two, _players[p1]);
+                    g2 = TournamentGame(state, _players[p2], w2, _players[p1], b2);
+                    if (sink) g2.setDataSink(sink);
+                    g2.playGame();
+                    g2ptr = &g2;
+                }
 
                 {
                     std::lock_guard<std::mutex> lock(_resultsMutex);
                     parseTournamentGameResult(g1);
                     size_t gameNum1 = _totalGamesPlayed++;
-                    parseTournamentGameResult(g2);
-                    size_t gameNum2 = _totalGamesPlayed++;
 
                     if (_saveReplays)
                     {
                         char buf[64];
                         snprintf(buf, sizeof(buf), "game_%04zu.json", gameNum1);
                         g1.saveReplay(_replayDir + "/" + buf);
-                        snprintf(buf, sizeof(buf), "game_%04zu.json", gameNum2);
-                        g2.saveReplay(_replayDir + "/" + buf);
+                    }
+
+                    if (g2ptr)
+                    {
+                        parseTournamentGameResult(g2);
+                        size_t gameNum2 = _totalGamesPlayed++;
+                        if (_saveReplays)
+                        {
+                            char buf[64];
+                            snprintf(buf, sizeof(buf), "game_%04zu.json", gameNum2);
+                            g2.saveReplay(_replayDir + "/" + buf);
+                        }
                     }
                 }
             }

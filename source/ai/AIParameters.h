@@ -17,7 +17,7 @@ struct DominionState
 
 class AIParameters
 {   
-    rapidjson::Value                        _rootValue;
+    rapidjson::Document                     _rootValue;
     
     std::vector<std::string>                _playerKeyNames;
     std::vector<std::string>                _partialPlayerKeyNames;
@@ -82,6 +82,8 @@ public:
     const std::vector<std::string> & getStateNames() const;
     const std::vector<std::string> & getPlayerNames() const;
     const std::vector<std::string> & getPartialPlayerNames() const;
+
+    bool playersHaveSameConfig(const std::string & name1, const std::string & name2);
 
 };
 }

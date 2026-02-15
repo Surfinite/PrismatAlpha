@@ -24,6 +24,7 @@ class Tournament
     size_t                              _randomCards;
     size_t                              _numThreads;
     bool                                _saveReplays = true;
+    bool                                _skipColorSwap = false;
     std::string                         _replayDir;
     Timer                               _timeElapsed;
     std::mutex                          _resultsMutex;

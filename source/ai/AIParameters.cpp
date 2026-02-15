@@ -23,8 +23,12 @@ AIParameters & AIParameters::Instance()
 }
 
 void AIParameters::parseJSONValue(const rapidjson::Value & rootValue)
-{  
+{
     Instance() = AIParameters();
+
+    // Store a deep copy of the root JSON for later config comparison
+    _rootValue.SetObject();
+    _rootValue.CopyFrom(rootValue, _rootValue.GetAllocator());
 
     PRISMATA_ASSERT(rootValue.HasMember("Partial Players"),  "AIParameters: No 'Partial Players' Options Found");
     PRISMATA_ASSERT(rootValue.HasMember("Move Iterators"),   "AIParameters: No 'Move Iterators' Options Found");
@@ -1100,4 +1104,26 @@ GameState AIParameters::getState(const std::string & stateName)
     {
         return _stateMap[stateName];
     }
+}
+
+bool AIParameters::playersHaveSameConfig(const std::string & name1, const std::string & name2)
+{
+    // Search for both player JSON configs and compare them structurally
+    const rapidjson::Value * v1 = nullptr;
+    const rapidjson::Value * v2 = nullptr;
+
+    for (size_t i = 0; i < _playerKeyNames.size(); ++i)
+    {
+        if (_rootValue.HasMember(_playerKeyNames[i].c_str()))
+        {
+            const auto & section = _rootValue[_playerKeyNames[i].c_str()];
+            if (!v1 && section.HasMember(name1.c_str()))
+                v1 = &section[name1.c_str()];
+            if (!v2 && section.HasMember(name2.c_str()))
+                v2 = &section[name2.c_str()];
+        }
+    }
+
+    if (!v1 || !v2) return false;
+    return *v1 == *v2;
 }

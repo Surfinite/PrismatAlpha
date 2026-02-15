@@ -25,10 +25,10 @@
 ## Phase 2: Verification
 - [x] V1: Smoke test (12 games, 1 thread, Debug) — 380 records, file size exact (2,717,828 = 64 + 380×7152 + 4), header correct (magic=0x50534450, version=1, feature_dim=1785, record_size=7152), CRC32 match (0x86C5FF15), 12 sequential game_ids, outcomes only {-1.0, +1.0}, ~79.3 non-zero features/record avg
 - [x] V1b: Thread safety test (32 games, 8 threads, Release, with export) — 1,216 records across 8 shards, all CRCs valid, game_ids 0-31 unique, 30-53 turns/game (avg 38), no NaN/Inf
-- [ ] V2: Python loader validates CRC, records parse correctly — **depends on `load_selfplay.py` (not yet created)**
-- [ ] V3: Outcome labels correct — partially verified (only {-1, +1} seen, alternating players), full check needs Python loader
-- [ ] V4: Feature spot-check — partially verified (non-zero counts reasonable), full cross-check needs Python
-- [ ] V5: Overfit test — needs training pipeline integration
+- [x] V2: Python loader validates CRC, records parse correctly — `load_selfplay.py` already existed. Loaded smoke (380 records) + threadtest (1,216 records across 8 shards). All CRCs validated, numpy structured array parsed correctly.
+- [x] V3: Outcome labels correct — Cross-checked all 1,216 records against JSONL metadata: 0 errors. Signs match player_index vs winner for every record.
+- [x] V4: Feature spot-check — 62-93 non-zero features/record (reasonable, grows during game). No NaN/Inf. Outcome consistency OK across all 32 games.
+- [x] V5: Overfit test — Trained 200 epochs on threadtest data (32 games, 1,216 records). Val accuracy 100% by epoch 6, val loss 0.0085. Train accuracy 98.1%. Prediction range [-0.75, +0.74]. Full end-to-end pipeline confirmed working: C++ binary → Python loader → PyTorch training.
 
 ## Verification tool
 - `tools/verify_selfplay.py` — created during thread safety test, validates binary format, CRC, game_id uniqueness, record structure

@@ -80,17 +80,15 @@ bin/test_stderr.txt
 
 # --- Claude Code local settings ---
 .claude/
+.claude.local.md
 
 # --- Windows artifacts ---
 NUL
 Thumbs.db
 Desktop.ini
 
-# --- Old context files (superseded by CLAUDE.md) ---
-CLAUDE_ctx1.md
-CLAUDE_ctx2.md
-CLAUDE_ctx3.md
-CLAUDE_ctx4.md
+# --- Old context files (moved to docs/session-logs/) ---
+CLAUDE_*.md
 
 # --- Garbled filename artifact (moved to docs/artifacts/ for human review) ---
 docs/artifacts/
