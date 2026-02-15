@@ -232,6 +232,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `bin/run_selfplay.bat` | Crash-safe self-play launcher (run from Explorer) |
 | `.github/workflows/selfplay.yml` | GitHub Actions self-play workflow |
 | `c:\libraries\prismata-replay-parser\` | TS replay parser + data extraction scripts |
+| `c:\libraries\DiscordChatExporter\` | Discord message export tool (CLI at `cli/`) |
 
 ## Documentation Index
 
@@ -264,6 +265,24 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 ## Replay API
 
 Replays stored as gzipped JSON on S3: `http://saved-games-alpha.s3-website-us-east-1.amazonaws.com/{CODE}.json.gz` (URL-encode `+` → `%2B`, `@` → `%40`).
+
+### Replay Code Sources
+
+| Source | Codes | Location |
+|---|---|---|
+| Expert (prismata-stats API, 2000+) | ~31,506 | `prismata-replay-parser/expert_replays.json` |
+| Reddit /r/prismata | 245 | `prismata-replay-parser/reddit_valid_replays.json` |
+| Tournament (Grand Prix + leagues) | 960 | `prismata-replay-parser/tournament_valid_replays.json` |
+| Discord (Prismata + League servers) | 3,626 | `prismata-replay-parser/discord_replay_codes_all.json` |
+
+**Discord export tool**: `c:\libraries\DiscordChatExporter\cli\DiscordChatExporter.Cli.exe` (pre-built v2.46, no .NET SDK needed).
+Discord server IDs: Prismata = `112616041175089152`, Prismata League = `412991183355248640`.
+Giselle bot posts replay embeds in response to codes. Export with `--filter "from:Giselle" -f Json`.
+
+**Code extraction scripts** (at `c:\libraries\prismata-replay-parser\`):
+- `extract_discord_codes.js` — extract replay codes from Discord export JSONs
+- `extract_tournament_codes.py` — extract codes from tournament data text
+- `validate_tournament_codes.js` — validate codes against S3 (HTTP 200 check, concurrency-limited)
 
 ## Third-Party Credits
 
