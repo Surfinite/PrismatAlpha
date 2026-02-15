@@ -257,8 +257,11 @@ Replays stored as gzipped JSON on S3: `http://saved-games-alpha.s3-website-us-ea
 
 | Resource | URL |
 |---|---|
+| Prismata Wiki | https://prismata.fandom.com/wiki/ |
 | Churchill Publications | https://davechurchill.ca/publications/ |
 | ML State Eval Paper (2019) | https://skatgame.net/mburo/aiide19ws/paper-3.pdf |
 | HPS Paper (AIIDE 2015) | http://www.cs.mun.ca/~dchurchill/pdf/aiide15_churchill_prismata.pdf |
 | Replay API Wiki | https://prismata.fandom.com/wiki/Replay_API |
 | prismata-stats | https://gitlab.com/prismata-stats/v3/-/tree/dev |
+
+**Note:** The [Prismata Wiki](https://prismata.fandom.com/wiki/) has unit pages with costs, stats, abilities, and strategy notes. Use `WebFetch` to check game rules, unit interactions, or verify card data against `cardLibrary.jso` when needed.

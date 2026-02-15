@@ -267,7 +267,7 @@ def ts_state_to_cpp_json(ts_state, card_set, active_player, turn_number=0):
     return cpp_state
 
 
-def convert_actions(ts_actions, active_player):
+def convert_actions(ts_actions, active_player, ts_state_before=None):
     """Convert TS action dict to C++ action sequence.
 
     TS format: {bought: [...], activated: [...], defended_with: [...],
@@ -280,14 +280,38 @@ def convert_actions(ts_actions, active_player):
     C++ action sequence order:
     1. ASSIGN_BLOCKER for each defender (Defense phase, if needed)
     2. END_PHASE (end defense -> Swoosh -> beginTurn -> Action)
-    3. USE_ABILITY for each activated unit (Action phase)
-    4. SNIPE/CHILL for targeting abilities (Action phase)
-    5. BUY for each bought unit (Action phase)
-    6. END_PHASE (end action -> Confirm -> next player)
-    7. ASSIGN_BREACH for each breach target (Breach phase, if wipeout)
-    8. END_PHASE (end breach phase, if breach happened)
+    3. ASSIGN_FRONTLINE for enemy frontline units (Action phase)
+    4. USE_ABILITY for each activated unit (Action phase)
+    5. SNIPE/CHILL for targeting abilities (Action phase)
+    6. BUY for each bought unit (Action phase)
+    7. END_PHASE (end action -> Confirm -> next player)
+    8. ASSIGN_BREACH for each breach target (Breach phase, if wipeout)
+    9. END_PHASE (end breach phase, if breach happened)
     """
     actions = []
+
+    # Separate frontline kills from actual breach targets (RC#6 fix)
+    # Frontline/undefendable units are killed via ASSIGN_FRONTLINE during Action phase,
+    # NOT via ASSIGN_BREACH during Breach phase.
+    breach_targets = ts_actions.get('breach_targets', [])
+    frontline_targets = []
+    actual_breach_targets = []
+
+    if ts_state_before and breach_targets:
+        # Get opponent's units to check which are frontline
+        opponent_key = 'p1_units' if active_player == 0 else 'p0_units'
+        opponent_units = ts_state_before.get(opponent_key, [])
+
+        # Build set of frontline unit names (frontline is a type-level property)
+        frontline_names = {u['name'] for u in opponent_units if u.get('frontline', False)}
+
+        for target in breach_targets:
+            if target in frontline_names:
+                frontline_targets.append(target)
+            else:
+                actual_breach_targets.append(target)
+    else:
+        actual_breach_targets = breach_targets
 
     # Defense phase FIRST (defending against opponent's attack from previous turn)
     if ts_actions.get('defended_with', []):
@@ -298,7 +322,13 @@ def convert_actions(ts_actions, active_player):
             })
         actions.append({"type": "END_PHASE"})
 
-    # Action phase: abilities, then snipe/chill targeting, then buys
+    # Action phase: frontline kills first, then abilities, snipe/chill, then buys
+    for unit_name in frontline_targets:
+        actions.append({
+            "type": "ASSIGN_FRONTLINE",
+            "card_name": unit_name,
+        })
+
     for unit_name in ts_actions.get('activated', []):
         actions.append({
             "type": "USE_ABILITY",
@@ -320,9 +350,9 @@ def convert_actions(ts_actions, active_player):
     # End action phase
     actions.append({"type": "END_PHASE"})
 
-    # Breach phase (if any breach targets — happens after Action when wipeout occurs)
-    if ts_actions.get('breach_targets', []):
-        for unit_name in ts_actions['breach_targets']:
+    # Breach phase (non-frontline breach targets only)
+    if actual_breach_targets:
+        for unit_name in actual_breach_targets:
             actions.append({
                 "type": "ASSIGN_BREACH",
                 "card_name": unit_name,
@@ -361,7 +391,8 @@ def convert_replay(ts_dump_path, output_path=None):
             "active_player": turn['active_player'],
             "player_name": turn.get('player_name', ''),
             "is_bot": turn.get('is_bot', False),
-            "actions": convert_actions(turn['actions'], turn['active_player']),
+            "actions": convert_actions(turn['actions'], turn['active_player'],
+                                       turn.get('state_before')),
         }
 
         # Expected state = next turn's state_before (if available)
@@ -458,4 +489,6 @@ if __name__ == '__main__':
     ts_path = sys.argv[1]
     out_path = sys.argv[2] if len(sys.argv) > 2 else None
 
-    convert_replay(ts_path, out_path)
+    result = convert_replay(ts_path, out_path)
+    if result is None:
+        sys.exit(1)

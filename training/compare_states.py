@@ -52,6 +52,51 @@ DISPLAY_TO_INTERNAL = {
 }
 INTERNAL_TO_DISPLAY = {v: k for k, v in DISPLAY_TO_INTERNAL.items()}
 
+# Units that die at the start of their owner's turn, either via
+# beginOwnTurnScript (selfsac:true) or lifespan countdown reaching 0.
+# C++ has already run beginTurn() (killing these units), but the TS parser
+# doesn't simulate beginOwnTurnScript or lifespan death, so they remain
+# alive in TS. Result: C++ has FEWER of these units than TS.
+# Tolerate C++ < TS for the active player's units.
+BEGIN_TURN_DEATH_UNITS = {
+    # Selfsac units (beginOwnTurnScript: {selfsac: true})
+    "Auric Impulse",    # Bond
+    "Centrifuge",       # Centrifuge
+    "Gauss Charge",     # Flame Kin
+    "Gas Packet",       # Gas Packet (generated trinket)
+    "Antima Comet",     # Antima Comet
+    "Photonic Fibroid", # Photonic Fibroid
+    # Lifespan units (die when lifespan counter reaches 0 at beginTurn)
+    "Thermite Core",    # Adrenaline Reactor, lifespan=5
+    "Arcflare",         # Arcflare, lifespan=4
+    "Kinetic Driver",   # Arsonist, lifespan=6
+    "Basilica",         # Basilica, lifespan=6
+    "Fission Turret",   # Deconstructible Tower, lifespan=5
+    "Defense Grid",     # Defense Grid, lifespan=7
+    "Cryo Cell",        # Distractocell, lifespan=1
+    "Doomed Drone",     # Doomed Drone, lifespan=4
+    "Grimbotch",        # Doomed Infantry, lifespan=4
+    "Doomed Mech",      # Doomed Mech, lifespan=5
+    "Doomed Ship",      # Doomed Ship, lifespan=6
+    "Doomed Wall",      # Doomwall, lifespan=3
+    "Evaporoid",        # Evaporoid, lifespan=3
+    "Gauss Fabricator", # Fabricator, lifespan=8
+    "Innervi Field",    # Innervi Field, lifespan=3
+    "Ionic Welder",     # Ionic Welder, lifespan=8
+    "Moment's Peace",   # Moment's Peace, lifespan=1
+    "Monk",             # Monk, lifespan=10
+    "Oxide Mixer",      # Oxide Mixer, lifespan=4
+    "Frost Brooder",    # Psychosis Cannon, lifespan=6
+    "Barrier",          # Sound Barrier, lifespan=1
+    "Sound Plan",       # Sound Plan, lifespan=1
+    "Chieftain",        # Tank, lifespan=3
+    "Thunderhead",      # Thunderhead, lifespan=3
+    "Transtower",       # Transtower, lifespan=3
+    "Plexo Cell",       # Uberdefcell, lifespan=1
+    "Nivo Charge",      # Volatile Blast, lifespan=1
+    "Forcefield",       # Forcefield, lifespan=5
+}
+
 
 def normalize_name(name):
     """Normalize to display name for consistent comparison."""
@@ -184,13 +229,29 @@ def compare_resources(label, cpp_res, ts_res, turn_idx, mismatches, skip_transie
             })
 
 
-def compare_unit_counts(label, cpp_counts, ts_counts, turn_idx, mismatches):
-    """Compare unit count dicts."""
+def compare_unit_counts(label, cpp_counts, ts_counts, turn_idx, mismatches,
+                        active_player_after=-1):
+    """Compare unit count dicts.
+
+    Tolerates beginTurn death timing: units with selfsac or lifespan die at
+    beginTurn(). C++ has already run beginTurn() (killing them), but the TS
+    parser doesn't simulate this, so they remain alive in TS.
+    We tolerate C++ having FEWER of these units than TS for the active player.
+    """
     all_types = set(list(cpp_counts.keys()) + list(ts_counts.keys()))
     for unit_type in sorted(all_types):
         cpp_val = cpp_counts.get(unit_type, 0)
         ts_val = ts_counts.get(unit_type, 0)
         if cpp_val != ts_val:
+            # Check for selfsac timing: C++ has FEWER because beginTurn()
+            # already killed them. TS doesn't simulate beginOwnTurnScript,
+            # so the units are still alive in TS.
+            if (unit_type in BEGIN_TURN_DEATH_UNITS and cpp_val < ts_val
+                    and active_player_after >= 0):
+                player_idx = int(label.split('_')[0][1:])  # "p0" -> 0, "p1" -> 1
+                if player_idx == active_player_after:
+                    continue  # Tolerate: C++ correctly killed selfsac, TS didn't
+
             mismatches.append({
                 'turn': turn_idx,
                 'field': f'{label}_{unit_type}',
@@ -322,9 +383,11 @@ def compare_states(cpp_output_path, validation_input_path):
                                   ts_state['p1_resources'], cpp_turn, mismatches,
                                   skip_transient=p1_skip)
                 compare_unit_counts('p0_units', cpp_state['p0_unit_counts'],
-                                    ts_state['p0_unit_counts'], cpp_turn, mismatches)
+                                    ts_state['p0_unit_counts'], cpp_turn, mismatches,
+                                    active_player_after=active_after)
                 compare_unit_counts('p1_units', cpp_state['p1_unit_counts'],
-                                    ts_state['p1_unit_counts'], cpp_turn, mismatches)
+                                    ts_state['p1_unit_counts'], cpp_turn, mismatches,
+                                    active_player_after=active_after)
                 compare_supply(cpp_state.get('supply', {}),
                                ts_state.get('supply', {}), cpp_turn, mismatches)
 

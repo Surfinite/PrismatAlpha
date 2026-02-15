@@ -138,12 +138,19 @@ def load_all_shards(directory, validate_crc=True):
     Returns:
         numpy structured array of all records, or None if no data found.
     """
+    # Search for shards in directory and all run_* subdirectories
     pattern = os.path.join(directory, 'selfplay_t*_s*.bin')
-    files = sorted(glob.glob(pattern))
+    sub_pattern = os.path.join(directory, 'run_*', 'selfplay_t*_s*.bin')
+    files = sorted(set(glob.glob(pattern) + glob.glob(sub_pattern)))
 
     if not files:
         print(f"No selfplay shard files found in {directory}")
         return None
+
+    # Report which run directories are being loaded
+    run_dirs = sorted(set(os.path.basename(os.path.dirname(f)) for f in files))
+    if any(d.startswith('run_') for d in run_dirs):
+        print(f"  Found {len(files)} shards across {len(run_dirs)} run(s): {', '.join(run_dirs)}")
 
     all_records = []
     for fp in files:

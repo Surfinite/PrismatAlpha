@@ -214,6 +214,8 @@ void Tournament::run()
     // Create per-thread self-play data sinks if enabled
     if (_selfPlayEnabled && NeuralNet::Instance().isLoaded())
     {
+        // Append timestamped subdirectory so each run is independent (crash-safe)
+        _selfPlayOutputDir += "run_" + startDate.str() + "/";
         std::filesystem::create_directories(_selfPlayOutputDir);
         _selfPlaySinks.resize(_numThreads);
         for (size_t i = 0; i < _numThreads; ++i)

@@ -438,6 +438,26 @@ static Action resolveAction(const GameState & state, const std::string & type,
         return Action();
     }
 
+    if (type == "ASSIGN_FRONTLINE")
+    {
+        PlayerID enemy = (activePlayer == 0) ? 1 : 0;
+        const CardIDVector & enemyCards = state.getCardIDs(enemy);
+        for (size_t i = 0; i < enemyCards.size(); i++)
+        {
+            const Card & card = state.getCardByID(enemyCards[i]);
+            if ((card.getType().getUIName() == cardName || card.getType().getName() == cardName)
+                && card.isInPlay() && !card.isDead())
+            {
+                Action a(activePlayer, ActionTypes::ASSIGN_FRONTLINE, enemyCards[i]);
+                if (state.isLegal(a))
+                {
+                    return a;
+                }
+            }
+        }
+        return Action();
+    }
+
     if (type == "SNIPE" || type == "CHILL")
     {
         // Find source: our card with a targeting ability that can use its ability
