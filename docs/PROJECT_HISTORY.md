@@ -1591,7 +1591,7 @@ Once a useful evaluation function exists:
 | JSON fix | Trailing comma in toJSONString() | — | **DONE (needs rebuild)** |
 | Blend | Blend tournaments | ~4-8 hours | **CONCLUDED — blending doesn't work with current model (section 25)** |
 | Opening book | Extract expert opening patterns (Python) | ~1 hour | **DONE (section 27)** |
-| Engine validation | Replay vs-masterbot games through C++ engine | ~2 days | **DONE (section 28) — 287 replays tested, engine correct. 3 TS tooling bugs remain (RC#5, RC#6, selfsac)** |
+| Engine validation | Replay vs-masterbot games through C++ engine | ~2 days | **DONE (section 28) — 287 replays tested, engine correct. TS bugs fixed: 117 PASS (41.3%), remaining 166 FAIL all TS-side** |
 | 3 design | Self-play design plan | — | **DONE (section 29)** |
 | 3 impl | Self-play C++ + Python implementation | ~4 hours dev | **C++ DONE. Python `load_selfplay.py` pending.** |
 | 4 | Quick self-play test (10K games) + train | ~10 hours | After step 3 impl |
@@ -1602,7 +1602,7 @@ Once a useful evaluation function exists:
 **Parallelizable right now (no dependencies between them):**
 1. ~~**Opening book extraction**~~ **DONE (section 27)** — All 3 tiers extracted, cross-tier comparison complete. Outputs in `training/data/` and `training/data/opening_book_{1800,1500}/`.
 2. ~~**Rebuild Testing binary**~~ **DONE (Feb 14)** — Both Debug and Release rebuilt with all fixes + self-play infrastructure.
-3. ~~**Engine fidelity validation**~~ **DONE (section 28)** — 287 replays batch-validated. C++ engine confirmed correct (all failures are TS tooling bugs). 3 remaining TS bugs (RC#5 snipe names, RC#6 frontline→breach, selfsac timing) need fixing for ~99.5% pass rate.
+3. ~~**Engine fidelity validation**~~ **DONE (section 28, updated Feb 15)** — 287 replays batch-validated. C++ engine confirmed correct. After fixing 3 TS tooling bugs (RC#5 snipe target, RC#6 frontline→breach, selfsac/lifespan timing tolerance): 117 PASS (41.3%), 166 FAIL (all TS action resolution issues), 4 ERROR. Remaining failures are bidirectional resource divergences (70% start with gold/green) caused by action conversion differences — diminishing returns to fix further.
 4. ~~**Self-play infrastructure (C++)**~~ **DONE (Feb 14)** — IDataSink + SelfPlayDataSink implemented, gate checks passed. See `CLAUDE_selfplay_cpp_progress.md`. Python loader `load_selfplay.py` still needed.
 
 **Critical path:** Self-play data generation (Step 3) is the bottleneck for AI strength improvement. Everything else depends on having a model that can actually evaluate positions. Opening book and engine validation are valuable parallel tracks that don't block self-play.
