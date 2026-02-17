@@ -160,7 +160,7 @@ if ($config.azure -and $config.azure.enabled) {
         try {
             $allAzVms = $ra.Output | ConvertFrom-Json
             $azVms = @($allAzVms | Where-Object { $_.name -like 'prsm-*' } | ForEach-Object {
-                @{ name = $_.name; state = $_.powerState }
+                @{ name = $_.name; state = $_.powerState; size = $_.hardwareProfile.vmSize }
             })
             foreach ($vm in $azVms) {
                 if ($vm.state -eq 'VM running') { $azureRunning++; $azureAlive++ }
@@ -189,6 +189,92 @@ if ($config.azure -and $config.azure.enabled) {
         $azureApiSuccess = $true
     } else {
         Log 'Azure API unreachable. Instance counts unknown.'
+    }
+}
+
+# ============================================================
+# Azure Orphaned Resource Cleanup (NICs, disks, IPs, NSGs)
+# ============================================================
+$orphanedCounts = @{ nics = 0; disks = 0; ips = 0; nsgs = 0 }
+if ($azureEnabled -and $azureApiSuccess) {
+    # NICs not attached to any VM (parse full JSON, no --query for az.cmd compat)
+    $rNics = Invoke-CloudApi 'Azure' 'list-orphaned-nics' {
+        az.cmd network nic list --resource-group $AzureRG --output json
+    }
+    if ($rNics.Success -and $rNics.Output) {
+        try {
+            $allNics = $rNics.Output | ConvertFrom-Json
+            $orphanedNicList = @($allNics | Where-Object { $null -eq $_.virtualMachine })
+            $orphanedCounts.nics = $orphanedNicList.Count
+            if ($orphanedNicList.Count -gt 0) {
+                Log "Azure cleanup: found $($orphanedNicList.Count) orphaned NICs, deleting..."
+                foreach ($nic in $orphanedNicList) {
+                    Invoke-CloudApi 'Azure' "delete-nic-$($nic.name)" {
+                        az.cmd network nic delete --resource-group $AzureRG --name $nic.name --no-wait
+                    } | Out-Null
+                }
+            }
+        } catch {}
+    }
+
+    # Unattached disks
+    $rDisks = Invoke-CloudApi 'Azure' 'list-orphaned-disks' {
+        az.cmd disk list --resource-group $AzureRG --output json
+    }
+    if ($rDisks.Success -and $rDisks.Output) {
+        try {
+            $allDisks = $rDisks.Output | ConvertFrom-Json
+            $orphanedDiskList = @($allDisks | Where-Object { $_.diskState -eq 'Unattached' })
+            $orphanedCounts.disks = $orphanedDiskList.Count
+            if ($orphanedDiskList.Count -gt 0) {
+                Log "Azure cleanup: found $($orphanedDiskList.Count) orphaned disks, deleting..."
+                foreach ($disk in $orphanedDiskList) {
+                    Invoke-CloudApi 'Azure' "delete-disk-$($disk.name)" {
+                        az.cmd disk delete --resource-group $AzureRG --name $disk.name --yes --no-wait
+                    } | Out-Null
+                }
+            }
+        } catch {}
+    }
+
+    # Public IPs not associated with any NIC
+    $rIps = Invoke-CloudApi 'Azure' 'list-orphaned-ips' {
+        az.cmd network public-ip list --resource-group $AzureRG --output json
+    }
+    if ($rIps.Success -and $rIps.Output) {
+        try {
+            $allIps = $rIps.Output | ConvertFrom-Json
+            $orphanedIpList = @($allIps | Where-Object { $null -eq $_.ipConfiguration })
+            $orphanedCounts.ips = $orphanedIpList.Count
+            if ($orphanedIpList.Count -gt 0) {
+                Log "Azure cleanup: found $($orphanedIpList.Count) orphaned public IPs, deleting..."
+                foreach ($ip in $orphanedIpList) {
+                    Invoke-CloudApi 'Azure' "delete-ip-$($ip.name)" {
+                        az.cmd network public-ip delete --resource-group $AzureRG --name $ip.name --no-wait
+                    } | Out-Null
+                }
+            }
+        } catch {}
+    }
+
+    # NSGs not attached to any NIC or subnet
+    $rNsgs = Invoke-CloudApi 'Azure' 'list-orphaned-nsgs' {
+        az.cmd network nsg list --resource-group $AzureRG --output json
+    }
+    if ($rNsgs.Success -and $rNsgs.Output) {
+        try {
+            $allNsgs = $rNsgs.Output | ConvertFrom-Json
+            $orphanedNsgList = @($allNsgs | Where-Object { ($null -eq $_.networkInterfaces -or $_.networkInterfaces.Count -eq 0) -and ($null -eq $_.subnets -or $_.subnets.Count -eq 0) })
+            $orphanedCounts.nsgs = $orphanedNsgList.Count
+            if ($orphanedNsgList.Count -gt 0) {
+                Log "Azure cleanup: found $($orphanedNsgList.Count) orphaned NSGs, deleting..."
+                foreach ($nsg in $orphanedNsgList) {
+                    Invoke-CloudApi 'Azure' "delete-nsg-$($nsg.name)" {
+                        az.cmd network nsg delete --resource-group $AzureRG --name $nsg.name --no-wait
+                    } | Out-Null
+                }
+            }
+        } catch {}
     }
 }
 
@@ -266,6 +352,52 @@ if ($azureEnabled -and $azureApiSuccess) {
         } catch {}
     }
 }
+
+# ============================================================
+# Cost Estimation (approximate hourly rates per instance)
+# ============================================================
+$costRates = @{
+    'c5.2xlarge'           = 0.384   # AWS eu-north-1 on-demand
+    'c5.2xlarge_spot'      = 0.14    # approx spot
+    'n2-standard-8'        = 0.39    # GCP us-central1
+    'n2-standard-4'        = 0.195
+    'Standard_D8als_v7'    = 0.31    # Azure North Europe
+    'Standard_D8ads_v7'    = 0.34
+    'Standard_D8as_v7'     = 0.33
+    'Standard_F8als_v7'    = 0.28
+    'Standard_F8ads_v7'    = 0.30
+    'Standard_F8as_v7'     = 0.29
+    'Standard_D8alds_v7'   = 0.30
+    'Standard_F8alds_v7'   = 0.28
+    'Standard_D8as_v6'     = 0.33
+    'Standard_D8ads_v6'    = 0.34
+    'Standard_D8als_v6'    = 0.31
+    'Standard_D8alds_v6'   = 0.30
+    'Standard_F8as_v6'     = 0.29
+    'Standard_F8als_v6'    = 0.28
+    'Standard_D8s_v6'      = 0.36
+    'Standard_D8ds_v6'     = 0.37
+}
+$defaultAzureRate = 0.32
+
+$awsOnDemandCost = $selfplayOnDemand * $costRates['c5.2xlarge']
+$awsSpotCost = $selfplaySpot * $costRates['c5.2xlarge_spot']
+$awsEvalCost = $evalAlive * $costRates['c5.2xlarge']
+$gcpInstanceType = if ($config.gcp -and $config.gcp.instance_type) { $config.gcp.instance_type } else { 'n2-standard-8' }
+$gcpRate = if ($costRates.ContainsKey($gcpInstanceType)) { $costRates[$gcpInstanceType] } else { 0.39 }
+$gcpCost = $gcpRunning * $gcpRate
+
+# Azure: sum per-VM since sizes vary across families
+$azureCost = 0
+if ($azVms) {
+    foreach ($vm in $azVms) {
+        if ($vm.state -eq 'VM running') {
+            $rate = if ($vm.size -and $costRates.ContainsKey($vm.size)) { $costRates[$vm.size] } else { $defaultAzureRate }
+            $azureCost += $rate
+        }
+    }
+}
+$totalHourlyCost = $awsOnDemandCost + $awsSpotCost + $awsEvalCost + $gcpCost + $azureCost
 
 # ============================================================
 # Read previous status for batch tracking
@@ -643,7 +775,7 @@ if ($config.s3_sync.enabled) {
 # ============================================================
 $shardActivity = @{ last_new_shard = ''; shards_last_hour = 0 }
 $rShards = Invoke-CloudApi 'AWS' 's3-shard-activity' {
-    aws s3api list-objects-v2 --bucket $Bucket --prefix 'results/' --query "reverse(sort_by(Contents[?ends_with(Key,'.bin')],&LastModified))[:20].[LastModified]" --output text --region $AwsRegion
+    aws s3api list-objects-v2 --bucket $Bucket --prefix 'results/' --query "reverse(sort_by(Contents[?ends_with(Key,'.bin')],&LastModified))[:200].[LastModified]" --output text --region $AwsRegion
 }
 if ($rShards.Success -and $rShards.Output -and $rShards.Output.Trim() -ne 'None') {
     $timestamps = @($rShards.Output.Trim() -split '\s+' | Where-Object { $_.Trim() })
@@ -662,6 +794,25 @@ if ($totalCloudRunning -gt 0 -and $shardActivity.shards_last_hour -eq 0) {
     $healthWarnings += "$totalCloudRunning cloud instances running but 0 new shards in last hour"
     $instancesHealthy = $false
 }
+
+# Idle fleet detection: VMs running but shard output far below expected
+$lowShardSince = $null
+$idleThresholdMinutes = 30
+$expectedShardsPerHour = $totalCloudRunning * 4  # ~4 shards/hr per instance (conservative)
+if ($totalCloudRunning -gt 0 -and $expectedShardsPerHour -gt 0 -and $shardActivity.shards_last_hour -lt ($expectedShardsPerHour / 4)) {
+    # Shards are less than 25% of expected — fleet may be idle
+    $lowShardSince = if ($prev.health -and $prev.health.low_shard_since) {
+        $prev.health.low_shard_since
+    } else { $now }
+
+    $lowMinutes = try { ((Get-Date) - [datetime]$lowShardSince).TotalMinutes } catch { 0 }
+    if ($lowMinutes -gt $idleThresholdMinutes) {
+        $healthWarnings += "IDLE FLEET: $totalCloudRunning VMs running but only $($shardActivity.shards_last_hour) shards/hr for $([int]$lowMinutes) min (expected ~$expectedShardsPerHour)"
+        $instancesHealthy = $false
+        Log "HEALTH WARNING: Fleet appears idle - $totalCloudRunning running VMs, $($shardActivity.shards_last_hour) shards in last hour, low for $([int]$lowMinutes) min"
+    }
+}
+
 foreach ($w in $healthWarnings) { Log "HEALTH WARNING: $w" }
 
 # ============================================================
@@ -802,6 +953,20 @@ $status = @{
     health = @{
         healthy = $instancesHealthy
         warnings = $healthWarnings
+        low_shard_since = if ($lowShardSince) { $lowShardSince } else { '' }
+    }
+    cost_estimate = @{
+        aws_per_hour = [math]::Round($awsOnDemandCost + $awsSpotCost, 2)
+        aws_eval_per_hour = [math]::Round($awsEvalCost, 2)
+        gcp_per_hour = [math]::Round($gcpCost, 2)
+        azure_per_hour = [math]::Round($azureCost, 2)
+        total_per_hour = [math]::Round($totalHourlyCost, 2)
+    }
+    azure_cleanup = @{
+        orphaned_nics = $orphanedCounts.nics
+        orphaned_disks = $orphanedCounts.disks
+        orphaned_ips = $orphanedCounts.ips
+        orphaned_nsgs = $orphanedCounts.nsgs
     }
 }
 
@@ -858,6 +1023,13 @@ if ($prev) {
     if ($prevLocal -ne $localProcs) {
         $changes += "Local processes $prevLocal -> $localProcs"
     }
+    # Cost changes (>$1/hr threshold)
+    if ($prev.cost_estimate -and $prev.cost_estimate.total_per_hour) {
+        $prevCost = [double]$prev.cost_estimate.total_per_hour
+        if ([math]::Abs($prevCost - $totalHourlyCost) -gt 1.0) {
+            $changes += "Hourly cost `$$([math]::Round($prevCost,2)) -> `$$([math]::Round($totalHourlyCost,2))"
+        }
+    }
     foreach ($c in $changes) { Log "CHANGE: $c" }
 }
 
@@ -867,4 +1039,4 @@ if (-not $awsApiSuccess) { $apiFlag += ' [AWS-API-FAIL]' }
 if ($gcpEnabled -and -not $gcpApiSuccess) { $apiFlag += ' [GCP-API-FAIL]' }
 if ($azureEnabled -and -not $azureApiSuccess) { $apiFlag += ' [AZURE-API-FAIL]' }
 if (-not $instancesHealthy) { $apiFlag += ' [HEALTH-WARN]' }
-Log "Check: AWS=$selfplayAlive (od=$selfplayOnDemand spot=$selfplaySpot) GCP=$gcpRunning (std=$gcpStandard spot=$gcpSpot) Azure=$azureRunning eval=$evalAlive local=$localProcs quotas=aws:od${odQuota}/spot${spotQuota} gcp:global${gcpGlobalCpuQuota}/n2${gcpVcpuQuota}/inst${gcpInstanceQuota} az:${azureVcpuQuota} shards_1h=$($shardActivity.shards_last_hour)$apiFlag"
+Log "Check: AWS=$selfplayAlive (od=$selfplayOnDemand spot=$selfplaySpot) GCP=$gcpRunning (std=$gcpStandard spot=$gcpSpot) Azure=$azureRunning eval=$evalAlive local=$localProcs quotas=aws:od${odQuota}/spot${spotQuota} gcp:global${gcpGlobalCpuQuota}/n2${gcpVcpuQuota}/inst${gcpInstanceQuota} az:${azureVcpuQuota} shards_1h=$($shardActivity.shards_last_hour) cost=`$$([math]::Round($totalHourlyCost,2))/hr$apiFlag"

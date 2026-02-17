@@ -38,3 +38,31 @@
 - **Azure VM think-time multipliers**: vs local Ryzen 5700X3D. F2s_v2 (2 vCPUs, 4 threads): **3x**. F8s_v2/D8als_v7 (8 vCPUs, 4 threads): **2x**. Formula: base cloud penalty (2x) x oversubscription factor.
 - **Azure hybrid cloud**: Same S3 pattern as GCP. AWS credentials from `azure/.aws_credentials`.
 - **Azure quota management**: Two-tier: Total Regional vCPUs (ceiling, 64) + per-family limits (default 10 each). Both must allow a VM. "VM stopped" still consumes quota — must deallocate. Check: `az vm list-usage --location northeurope --output json`. **Quotas are per-region.**
+- **Azure orphaned resources after VM deletion**: `az vm delete` does NOT cascade — NICs, public IPs, OS disks, NSGs, and VNets persist and bill. After deleting VMs, clean up in order: NICs → public IPs → disks → NSGs → VNets. All `az` commands must use `MSYS_NO_PATHCONV=1` in Git Bash (Azure resource IDs start with `/subscriptions/` which Git Bash mangles to Windows paths). Verify cleanup: `az resource list --resource-group prismata-selfplay --query "length(@)"` → should be 0.
+- **Azure orphan cleanup commands** (Git Bash):
+  ```bash
+  AZ="/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin/az"
+  MSYS_NO_PATHCONV=1 "$AZ" network nic list --resource-group RG --query "[].id" -o tsv | while read id; do MSYS_NO_PATHCONV=1 "$AZ" network nic delete --ids "$id" --no-wait; done
+  MSYS_NO_PATHCONV=1 "$AZ" network public-ip list --resource-group RG --query "[].id" -o tsv | while read id; do MSYS_NO_PATHCONV=1 "$AZ" network public-ip delete --ids "$id" --no-wait; done
+  MSYS_NO_PATHCONV=1 "$AZ" disk list --resource-group RG --query "[].id" -o tsv | while read id; do MSYS_NO_PATHCONV=1 "$AZ" disk delete --ids "$id" --yes --no-wait; done
+  MSYS_NO_PATHCONV=1 "$AZ" network nsg list --resource-group RG --query "[].id" -o tsv | while read id; do MSYS_NO_PATHCONV=1 "$AZ" network nsg delete --ids "$id" --no-wait; done
+  ```
+
+## Fleet Health Checks
+
+When checking cloud compute status, verify ALL of these — not just running VMs:
+
+### Azure
+1. **Running VMs**: `az vm list --resource-group prismata-selfplay --output table`
+2. **Orphaned resources**: `az resource list --resource-group prismata-selfplay --query "length(@)"` — should equal VM count or 0
+3. **Idle VM detection**: Check `watcher_status.json` → `shard_activity.last_new_shard`. If stale (>1hr), VMs may be idle/crashed. Cross-check S3 boot logs: directories with `selfplay_boot.log` = completed VMs; without = potentially still running or crashed.
+
+### AWS EC2
+1. **Running instances**: `aws ec2 describe-instances --filters "Name=instance-state-name,Values=running" "Name=tag:purpose,Values=selfplay" --query "Reservations[].Instances[].InstanceId" --region eu-north-1`
+2. **Orphaned EBS volumes**: `aws ec2 describe-volumes --filters "Name=status,Values=available" --region eu-north-1 --query "Volumes[].{Id:VolumeId,Size:Size}"` — "available" = unattached, still billing
+3. **Orphaned Elastic IPs**: `aws ec2 describe-addresses --region eu-north-1 --query "Addresses[?AssociationId==null]"` — unattached EIPs bill ~$3.65/month each
+
+### GCP
+1. **Running instances**: `gcloud compute instances list --project=prismata-selfplay`
+2. **Orphaned disks**: `gcloud compute disks list --project=prismata-selfplay --filter="NOT users:*"` — unattached disks still bill
+3. **Static IPs**: `gcloud compute addresses list --project=prismata-selfplay` — unused static IPs bill ~$2.88/month
