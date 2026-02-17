@@ -7,9 +7,9 @@
 
 **Self-play iteration 2 training COMPLETE.** Best model: 81.9% val accuracy (epoch 1, value-only, 2.3M records from 63K games). Same overfitting pattern as iter 1 — best at epoch 1, train acc hits 98%+ by epoch 9. Weights exported to `neural_weights.bin`. Previous models: `neural_weights_selfplay_v1.bin` (iter 1, 77% val acc, 10K games), `neural_weights_expert_backup.bin` (expert-trained).
 
-**Overfitting experiments PARTIALLY COMPLETE (Feb 17).** Ran 3 v1-plan experiments with 1M records (~27K games, RAM-limited): (1) no warmup + flat LR=6e-5, (2) dropout 0.3 + WD 1e-3, (3) smaller model (256 hidden, 739K params). All converged to ~75.4-75.5% val accuracy ceiling. However, these experiments had confounds: expert data was mixed in (20%), the training/inference tanh mismatch (v2 plan Cause 0) was never fixed, no tournament WR was measured, and no step-level evaluation was used. The v2 experiment plan (`docs/plans/hyperparameter-experiments-v2.md`) identifies fixing the tanh mismatch + loss function as the #1 priority — this was never tested. More data helps val accuracy (1M→2.3M records raised val acc from 75.5%→81.9%), but higher val accuracy has historically produced *worse* WR (77% val→10% WR, 82% val→3% WR), so the training procedure must be fixed before scaling data.
+**V2 hyperparameter experiments COMPLETE (Feb 17).** 9 experiments across 3 phases (loss function, LR sweep, data & capacity). Winner: E2b (hidden_dim=256, LR=1e-5, tanh+MSE, 739K params) — Brier 0.1213, best at step 10000. Key findings: (1) model capacity matters most — smaller model trains longer before overfitting, (2) LR controls overfitting speed but not ceiling, (3) loss function (MSE vs BCE) is a wash, (4) subsampling hurts. Tournament eval of E1b (512h) and E2b (256h) vs OriginalHardestAI running in `bin_eval_512/` and `bin_eval_256/` (500 games each, 4 threads). Run JSONs: `training/runs/20260217_*.json`. Saved checkpoints: `training/models/best_model_E1b_512h.pt`, `training/models/best_model_E2b_256h.pt`. The v1 experiments (3 runs with confounds: expert data mixed in, tanh mismatch unfixed) are superseded.
 
-**Self-play generation ACTIVE** via TheWatcher (Task Scheduler, every 5 min). ~175K games generated (6.5M records, Feb 17, growing), targeting 500K for iteration 2+ retraining. Local: `bin/run_selfplay.bat` (double-click from Explorer, 4 threads per process, run multiple times for more CPU). EC2: `bash aws/launch_selfplay.sh c5.2xlarge 5000 1 2` — TheWatcher auto-relaunches when batches finish. GCP: `bash gcp/launch_selfplay.sh n2-standard-8 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Azure: `bash azure/launch_selfplay.sh Standard_D8als_v7 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Use `/status` slash command for a quick dashboard. Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
+**Self-play generation ACTIVE** via TheWatcher (Task Scheduler, every 5 min). ~205K games generated (7.6M records, Feb 17, growing at ~184 games/min with full fleet), targeting 500K for iteration 2+ retraining. Local: `bin/run_selfplay.bat` (double-click from Explorer, 4 threads per process, run multiple times for more CPU). EC2: `bash aws/launch_selfplay.sh c5.2xlarge 5000 1 2` — TheWatcher auto-relaunches when batches finish. GCP: `bash gcp/launch_selfplay.sh n2-standard-8 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Azure: `bash azure/launch_selfplay.sh Standard_D8als_v7 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Use `/status` slash command for a quick dashboard. Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
 
 **AWS EC2 self-play** pipeline verified working (Feb 15-16). Boots Windows Server, downloads exe+config from S3, patches config to enable SelfPlay_CI, runs self-play, uploads shards to `s3://prismata-selfplay-data/results/` every 5 min (copy-to-temp sync), auto-terminates. AWS account on paid plan (c5 instances unlocked). vCPU quotas: 64 on-demand + 128 spot (Standard). Fleet: 8 on-demand + 16 spot c5.2xlarge = 192 vCPUs. Use `USE_SPOT=true` for spot instances (separate quota, can run both simultaneously). TheWatcher handles S3 sync, auto-relaunch, and quota-aware scale-up (confirmed working: auto-detected spot quota 64→128 increase and launched 8 additional instances within 30s).
 
@@ -18,12 +18,12 @@
 **Azure self-play** pipeline verified working (Feb 16-17). Multi-family deployment in North Europe: 8 VMs across D-series v7 (Dads, Dalds, Dals, Das) + F-series v7 (Fads, Falds, Fals, Fas) = 64 vCPUs (maxed). Each family has 10 vCPU quota, fits one 8-vCPU instance. Same hybrid S3 pattern as GCP. Per-family quota is 10 vCPUs default (1 D8 VM each) — spread across families to bypass. 36+ unrestricted D8 families available. Regional cap: 128 vCPUs (increased from 64, Feb 17). Support request pending for per-family increase (Dalsv7->64, Falsv7->64) to consolidate onto fewer families. TheWatcher monitors, auto-deallocates stopped VMs, auto-relaunches. Launch: `bash azure/launch_selfplay.sh Standard_D8ads_v7 1000 1 2 N`. Use `LOCATION=australiacentral` for other regions (separate Regional quota).
 
 **Next actions:**
-1. **Fix training/inference mismatch (tanh bug)** — model trains MSE on unbounded logits but C++ applies tanh. Test `tanh`-in-training + MSE vs `BCEWithLogitsLoss`. See v2 plan Phase 0 (`docs/plans/hyperparameter-experiments-v2.md`).
-2. **Implement streaming data loader** for `train.py` — current loader OOMs on full dataset (6.5M records = 44GB). Need to stream shards from disk during training so we can use all 175K+ games. Parallel track with #1.
-3. **Re-run LR sweep with fixed loss function** — the v1 experiments showed regularization/model-size don't help, but the loss function was broken. See v2 plan Phase 1.
-4. **Continue data generation** toward 200K+ games. Currently ~175K total (Feb 17), local fleet generating (cloud fleet idle).
+1. **Check tournament eval results** — E1b (512h) and E2b (256h) tournaments running in `bin_eval_512/` and `bin_eval_256/`. Check with `tail -20 bin_eval_*/tournament_*.log`. Baseline: old model got ~3.6% WR.
+2. **Implement streaming data loader** for `train.py` — current loader OOMs on full dataset (7.6M records = ~50GB). Need to stream shards from disk during training so we can use all 205K+ games.
+3. **Retrain with full dataset** once streaming loader is ready — E2b (256h, LR=1e-5) is the recipe. More data should push past the ~80% val accuracy ceiling.
+4. **Continue data generation** toward 500K games. Currently ~205K total (Feb 17).
 
-**Current neural net strength:** Self-play v2 model (81.9% val acc, 63K games) — tournament eval shows **~3% WR** vs OriginalHardestAI (500+ games, AB search + NeuralNet eval). Worse than expert-trained model (~10% WR). Root cause: training procedure issues (tanh mismatch, LR too high) — see v2 experiment plan. More data alone made val acc higher but WR worse. Historical: ~42% WR vs MediumAI (expert UCT).
+**Current neural net strength:** Self-play v2 model (81.9% val acc, 63K games) — tournament eval shows **~3.6% WR** vs OriginalHardestAI (1,120 games, AB search + NeuralNet eval). Worse than expert-trained model (~10% WR). Root cause: training procedure issues (tanh mismatch, LR too high) — now fixed in v2 experiments. Tournament eval of fixed models (E1b 512h, E2b 256h) in progress. Historical: ~42% WR vs MediumAI (expert UCT).
 
 ## What This Project Is
 
@@ -61,7 +61,7 @@ python training/train.py --selfplay-dir bin/training/data/selfplay/ --value-only
 python training/train.py --selfplay-dir bin/training/data/selfplay/ --epochs 100 --batch-size 512 --lr 3e-4 --patience 15
 
 # Export weights
-python training/export_weights.py training/models/best_model.pt --output bin/asset/config/neural_weights.bin
+python training/export_weights.py training/models/best_model.pt bin/asset/config/neural_weights.bin
 ```
 
 **GitHub Actions self-play** (trigger from GitHub > Actions > "Self-Play Data Generation"):
@@ -136,6 +136,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Selfplay shard binary format**: Header 16 bytes: magic `0x50445350` + version(4) + state_dim(4) + record_size(4). Record size = 7152 bytes. Games = `(file_size - 16) / 7152 / ~37`.
 - **Selfplay game counting**: `python -c "import os; base='bin/training/data/selfplay'; total=sum((os.path.getsize(os.path.join(r,f))-16)//7152 for r,_,fs in os.walk(base) for f in fs if f.endswith('.bin') and os.path.getsize(os.path.join(r,f))>16); print(f'{total} records, ~{total//37} games')"`.
 - **S3 download dir structure**: `aws s3 sync` creates timestamp dirs without `run_` prefix containing nested `run_*` subdirs. Must scan recursively.
+- **Self-play uses playout eval**: `SelfPlay_CI` runs `OriginalHardestAI_1s` vs itself (playout eval, 1s think). The neural net is NOT used for game generation — only for position labeling. Data quality depends on playout AI strength, not model WR. ~4 games/min per 4-thread process.
 - **PID-based random seeding**: All 3 exe entry points use `srand(time ^ PID)` — prevents identical sequences when launching multiple instances in the same second.
 - **Game_id namespacing**: `load_selfplay.py` offsets game_ids by 1M per source dir to prevent collisions across runs and train/val split leakage.
 - **Value-only model export**: `export_weights.py` exports zero-initialized policy tensors for value-only models (4 extra). C++ loader requires all 26 tensors — a 22-tensor export will fail.
@@ -144,8 +145,13 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 ### Training
 
 - **Training CRC**: `train.py` uses `validate_crc=False` — required because in-progress/crashed shards lack CRC footers.
-- **Training overfitting**: Regularization/model-size don't change ~75.5% val ceiling with 1M records. More data raises val acc but worsens WR (tanh mismatch is root cause). Fix loss function before scaling. See `docs/plans/hyperparameter-experiments-v2.md`.
-- **Training RAM limit**: Full dataset (6.5M records) = ~44GB. With 32GB RAM: max ~1M records with `--max-records 1000000`. Use `--num-workers 0`. Need streaming loader for full dataset.
+- **Training overfitting**: V2 experiments (Feb 17) confirmed: smaller model (256h) trains longer and achieves better calibration. LR controls overfitting speed but not ceiling. Loss function (MSE vs BCE) is a wash. Subsampling hurts. See run JSONs in `training/runs/20260217_*.json`.
+- **Training RAM limit**: Full dataset (7.6M records) = ~50GB. With 32GB RAM: max ~1M records with `--max-records 1000000`. Use `--num-workers 0`. Need streaming loader for full dataset.
+- **Training RAM: max 2 concurrent jobs**: Running 3 `train.py` jobs simultaneously OOMs during `np.concatenate` in `load_all_shards` (32GB RAM). Safe limit: 2 concurrent runs with `--max-records 1000000`.
+- **best_model.pt gets overwritten**: Each `train.py` run writes to `training/models/best_model.pt`. Copy to a unique filename immediately after a run finishes if you need to preserve it.
+- **C++ NeuralNet hidden_dim is dynamic**: `_hiddenDim` is read from the weight file header, not hardcoded. Can deploy 256h or 512h models by just exporting different weights — no C++ rebuild needed.
+- **Tournament output needs `2>&1`**: Tournament progress/results use `fprintf(stderr, ...)`. Redirect with `> log.txt 2>&1` to capture. Without this, only per-turn buy actions (stdout) are logged.
+- **Parallel tournament eval**: Use separate directories (`bin_eval_X/`) each with own exe, config.txt, cardLibrary.jso, and neural_weights.bin to run multiple tournaments simultaneously.
 - **D: drive backup**: `D:\PrismataAI_backup\` has selfplay data, models, weights, config, run logs. Created Feb 15.
 - **Experiment logs**: `training/runs/{timestamp}.json` — full per-epoch metrics, hyperparameters, git hash.
 
@@ -166,6 +172,15 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 
 - **claude-mem 10.0.7**: Bug #1104 filed. Chroma runs manually on port 8000. **Update when >10.0.7 available.**
 - **Future feature plans in claude-mem**: GUI spectator mode (#1385), web-based remote advisor (#1524). Use MCP search to retrieve.
+
+## Session Close-Out
+
+When the user says "wrapping up", "closing context", or "save everything":
+1. Check for undocumented results (experiments, tournaments, benchmarks) — if any exist only in conversation, write them to appropriate docs
+2. Update any stale plan/results docs with actual outcomes (e.g., mark plans COMPLETE, add results tables)
+3. Map any unnamed artifacts to human-readable names (e.g., run timestamps → experiment names)
+4. Run `/revise-claude-md` for CLAUDE.md status and gotcha updates
+5. List anything still only in conversation context so the user knows what would be lost
 
 ## User Preferences
 
