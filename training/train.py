@@ -27,6 +27,7 @@ import hashlib
 import json
 import math
 import os
+import random
 import subprocess
 import sys
 import time
@@ -38,6 +39,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset, ConcatDataset
+
+
+def set_seed(seed):
+    """Set all random seeds for reproducibility."""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
 
 
 def load_unit_index(path):
@@ -672,7 +680,15 @@ def main():
                         help="Evaluate every N optimizer steps (0=epoch-level only)")
     parser.add_argument("--subsample-every", type=int, default=1,
                         help="Keep every Nth position per game to reduce temporal correlation (1=all)")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Random seed for reproducibility. If not set, uses random seed and logs it.")
     args = parser.parse_args()
+
+    # Seed for reproducibility (before any randomness)
+    if args.seed is None:
+        args.seed = torch.randint(0, 2**31, (1,)).item()
+    set_seed(args.seed)
+    print(f"Random seed: {args.seed}")
 
     # Overfit test: quick architecture validation
     if args.overfit_test:
@@ -813,8 +829,10 @@ def main():
 
     # Use persistent_workers for faster epoch transitions
     use_workers = args.num_workers if device.type == "cpu" else min(args.num_workers, 4)
+    shuffle_gen = torch.Generator()
+    shuffle_gen.manual_seed(args.seed)
     train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
-                              drop_last=True, num_workers=use_workers,
+                              drop_last=True, num_workers=use_workers, generator=shuffle_gen,
                               persistent_workers=use_workers > 0, pin_memory=True)
     val_loader = DataLoader(val_ds, batch_size=args.batch_size,
                             num_workers=use_workers,
@@ -900,6 +918,7 @@ def main():
             "use_tanh": use_tanh,
             "eval_every_steps": args.eval_every_steps,
             "subsample_every": args.subsample_every,
+            "seed": args.seed,
         },
         "data": {
             "train_examples": train_data["states"].shape[0],
