@@ -186,6 +186,194 @@ def load_all_shards(directory, validate_crc=True, max_records=0):
     return combined
 
 
+class MemmapShardIndex:
+    """Pre-scan all shards to build an index of records for memory-mapped access.
+
+    Reads only headers and game_ids (not full features) to build train/val split
+    indices without loading the entire dataset into RAM.
+    """
+
+    def __init__(self, directory, subsample_every=1):
+        files = sorted(set(glob.glob(
+            os.path.join(directory, '**', 'selfplay_t*_s*.bin'), recursive=True)))
+        if not files:
+            raise FileNotFoundError(f"No selfplay shard files found in {directory}")
+
+        # Assign each source directory a unique game_id block (same as load_all_shards)
+        dir_to_offset = {}
+        for fp in files:
+            d = os.path.dirname(fp)
+            if d not in dir_to_offset:
+                dir_to_offset[d] = len(dir_to_offset) * (1 << 20)
+
+        self.shards = []       # list of shard info dicts
+        self.total_records = 0
+
+        # Per-record lookup: (shard_idx, local_record_idx)
+        shard_indices = []
+        local_indices = []
+        all_game_ids = []
+
+        for fp in files:
+            filesize = os.path.getsize(fp)
+            if filesize < HEADER_SIZE + FOOTER_SIZE:
+                continue
+
+            with open(fp, 'rb') as f:
+                header_data = f.read(HEADER_SIZE)
+            header = parse_header(header_data)
+
+            feature_dim = header['feature_dim']
+            record_size = header['record_size']
+            record_count = header['record_count']
+
+            record_bytes_available = filesize - HEADER_SIZE - FOOTER_SIZE
+            inferred_count = record_bytes_available // record_size
+            if record_count == RECORD_COUNT_SENTINEL:
+                record_count = inferred_count
+            if record_count == 0:
+                continue
+
+            shard_idx = len(self.shards)
+            self.shards.append({
+                'path': fp,
+                'feature_dim': feature_dim,
+                'record_size': record_size,
+                'record_count': record_count,
+            })
+
+            # Read only game_id field efficiently via strided dtype
+            # game_id is at byte offset (feature_dim*4 + 4) within each record
+            game_id_offset = feature_dim * 4 + 4  # after features + outcome
+            gid_dtype = np.dtype({'names': ['game_id'],
+                                  'formats': [np.uint32],
+                                  'offsets': [game_id_offset],
+                                  'itemsize': record_size})
+            mm = np.memmap(fp, dtype=gid_dtype, mode='r',
+                           offset=HEADER_SIZE, shape=(record_count,))
+            gids = mm['game_id'].copy()
+            del mm
+
+            # Apply directory-based game_id offset
+            offset = dir_to_offset[os.path.dirname(fp)]
+            if offset > 0:
+                gids = gids + offset
+
+            n = len(gids)
+            shard_indices.append(np.full(n, shard_idx, dtype=np.int32))
+            local_indices.append(np.arange(n, dtype=np.int32))
+            all_game_ids.append(gids)
+            self.total_records += n
+
+        if self.total_records == 0:
+            raise FileNotFoundError(f"No valid records found in {directory}")
+
+        self._shard_indices = np.concatenate(shard_indices)
+        self._local_indices = np.concatenate(local_indices)
+        self._game_ids = np.concatenate(all_game_ids)
+
+        # Position subsampling
+        if subsample_every > 1:
+            original = self.total_records
+            _, inverse = np.unique(self._game_ids, return_inverse=True)
+            counts = np.zeros(inverse.max() + 1, dtype=np.int32)
+            position_in_game = np.empty(len(self._game_ids), dtype=np.int32)
+            for i in range(len(self._game_ids)):
+                position_in_game[i] = counts[inverse[i]]
+                counts[inverse[i]] += 1
+            keep = (position_in_game % subsample_every) == 0
+            self._shard_indices = self._shard_indices[keep]
+            self._local_indices = self._local_indices[keep]
+            self._game_ids = self._game_ids[keep]
+            self.total_records = len(self._game_ids)
+            print(f"  Subsampled: {original:,} -> {self.total_records:,} records "
+                  f"(every {subsample_every}th position)")
+
+        n_games = len(np.unique(self._game_ids))
+        print(f"  Indexed {self.total_records:,} records from {n_games:,} games "
+              f"across {len(self.shards)} shards")
+
+    def resolve(self, global_idx):
+        """Map a global record index to (shard_idx, local_record_idx)."""
+        return int(self._shard_indices[global_idx]), int(self._local_indices[global_idx])
+
+    def get_train_val_indices(self):
+        """Split by game_id % 10 == 0 for val (same rule as existing code)."""
+        val_mask = (self._game_ids % 10) == 0
+        train_indices = np.where(~val_mask)[0]
+        val_indices = np.where(val_mask)[0]
+        return train_indices, val_indices
+
+    def get_feature_dim(self):
+        """Return feature dimension (consistent across all shards)."""
+        return self.shards[0]['feature_dim']
+
+
+class MemmapSelfPlayDataset:
+    """PyTorch-compatible Dataset backed by memory-mapped shard files.
+
+    Supports random access without loading all data into RAM.
+    The OS pages data in/out as needed.
+
+    Implements __len__ and __getitem__ for use with DataLoader.
+    """
+
+    def __init__(self, index, record_indices, label_smooth=0.95, num_units=161,
+                 bce_mode=False):
+        import torch  # lazy import
+        self._torch = torch
+
+        self.index = index
+        self.record_indices = record_indices
+        self.label_smooth = label_smooth
+        self.num_units = num_units
+        self.bce_mode = bce_mode
+
+        # Open persistent memmap handles (OS manages actual memory)
+        self._mmaps = []
+        for shard in index.shards:
+            mm = np.memmap(shard['path'], dtype=np.uint8, mode='r')
+            self._mmaps.append(mm)
+
+        # Pre-compute dtypes per shard
+        self._dtypes = [make_record_dtype(s['feature_dim']) for s in index.shards]
+
+    def __len__(self):
+        return len(self.record_indices)
+
+    def __getitem__(self, idx):
+        torch = self._torch
+        global_idx = self.record_indices[idx]
+        shard_idx, local_idx = self.index.resolve(global_idx)
+
+        shard = self.index.shards[shard_idx]
+        offset = HEADER_SIZE + local_idx * shard['record_size']
+        end = offset + shard['record_size']
+
+        record_bytes = self._mmaps[shard_idx][offset:end]
+        record = np.frombuffer(bytes(record_bytes), dtype=self._dtypes[shard_idx])
+
+        features = torch.from_numpy(record['features'][0].copy())
+        outcome = float(record['outcome'][0])
+
+        # Apply label smoothing
+        value = outcome * self.label_smooth
+
+        # BCE mode: remap from [-smooth, +smooth] to [0, 1]
+        if self.bce_mode:
+            value = (value + 1.0) / 2.0
+
+        buy_targets = torch.zeros(self.num_units)
+        turn = float(record['turn_number'][0])
+        has_policy = 0.0
+
+        return (features,
+                buy_targets,
+                torch.tensor(value, dtype=torch.float32),
+                torch.tensor(turn, dtype=torch.float32),
+                torch.tensor(has_policy, dtype=torch.float32))
+
+
 def print_summary(records):
     """Print a human-readable summary of the loaded records."""
     n = len(records)

@@ -8,7 +8,7 @@ Architecture:
   - Value head: predicts win probability for active player (tanh)
 
 Supports:
-  - Intel Arc GPU via IPEX (torch.xpu)
+  - Intel Arc GPU via native PyTorch XPU (torch.xpu)
   - NVIDIA GPU via CUDA (torch.cuda)
   - CPU fallback with multi-worker DataLoader
   - Value-only mode (--value-only) for faster training/inference
@@ -33,7 +33,6 @@ import sys
 import time
 from datetime import datetime
 
-sys.path.insert(0, "C:/libraries/torch_pkg")
 import numpy as np
 import torch
 import torch.nn as nn
@@ -61,17 +60,27 @@ def load_unit_index(path):
     return data
 
 
-def get_device():
-    """Detect best available device: Intel XPU > CUDA > CPU."""
-    # Try Intel Arc (IPEX)
-    try:
-        import intel_extension_for_pytorch as ipex
-        if torch.xpu.is_available():
-            dev = torch.device("xpu")
+def get_device(force=None):
+    """Detect best available device: Intel XPU > CUDA > CPU.
+
+    Args:
+        force: Override device selection ('cpu', 'xpu', 'cuda', or None/'auto')
+    """
+    if force and force != "auto":
+        dev = torch.device(force)
+        if force == "xpu":
             print(f"Device: Intel XPU ({torch.xpu.get_device_name(0)})")
-            return dev
-    except (ImportError, AttributeError):
-        pass
+        elif force == "cuda":
+            print(f"Device: CUDA ({torch.cuda.get_device_name(0)})")
+        else:
+            print(f"Device: {force}")
+        return dev
+
+    # Try Intel Arc (native PyTorch XPU — no IPEX needed)
+    if hasattr(torch, 'xpu') and torch.xpu.is_available():
+        dev = torch.device("xpu")
+        print(f"Device: Intel XPU ({torch.xpu.get_device_name(0)})")
+        return dev
 
     # Try NVIDIA CUDA
     if torch.cuda.is_available():
@@ -235,7 +244,7 @@ def check_label_sanity(train_data, val_data):
 
 
 def train_epoch(model, loader, optimizer, device, policy_weight=0.5,
-                value_criterion=None, bce_mode=False):
+                value_criterion=None, bce_mode=False, use_amp=False):
     """Train one epoch, return (policy_loss, value_loss, policy_acc, value_acc, value_stats)."""
     if value_criterion is None:
         value_criterion = nn.MSELoss()
@@ -258,23 +267,24 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5,
         has_policy = has_policy.to(device)
 
         optimizer.zero_grad()
-        policy_pred, value_pred = model(states)
+        with torch.autocast(device_type=device.type, dtype=torch.bfloat16, enabled=use_amp):
+            policy_pred, value_pred = model(states)
 
-        vloss = value_criterion(value_pred, values_target)
+            vloss = value_criterion(value_pred, values_target)
 
-        if policy_pred is not None:
-            # Only compute policy loss on records that have policy targets
-            policy_mask = has_policy > 0.5
-            if policy_mask.any():
-                ploss = policy_loss_fn(policy_pred[policy_mask], buys[policy_mask])
-                loss = vloss + policy_weight * ploss
-                total_ploss += ploss.item()
-                total_pacc += compute_policy_accuracy(policy_pred[policy_mask], buys[policy_mask])
-                n_policy_batches += 1
+            if policy_pred is not None:
+                # Only compute policy loss on records that have policy targets
+                policy_mask = has_policy > 0.5
+                if policy_mask.any():
+                    ploss = policy_loss_fn(policy_pred[policy_mask], buys[policy_mask])
+                    loss = vloss + policy_weight * ploss
+                    total_ploss += ploss.item()
+                    total_pacc += compute_policy_accuracy(policy_pred[policy_mask], buys[policy_mask])
+                    n_policy_batches += 1
+                else:
+                    loss = vloss
             else:
                 loss = vloss
-        else:
-            loss = vloss
 
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -318,7 +328,7 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5,
 
 @torch.no_grad()
 def eval_epoch(model, loader, device, policy_weight=0.5,
-               value_criterion=None, bce_mode=False):
+               value_criterion=None, bce_mode=False, use_amp=False):
     """Evaluate one epoch, return (policy_loss, value_loss, policy_acc, value_acc, value_stats)."""
     if value_criterion is None:
         value_criterion = nn.MSELoss()
@@ -341,17 +351,18 @@ def eval_epoch(model, loader, device, policy_weight=0.5,
         values_target = values_target.to(device)
         has_policy = has_policy.to(device)
 
-        policy_pred, value_pred = model(states)
+        with torch.autocast(device_type=device.type, dtype=torch.bfloat16, enabled=use_amp):
+            policy_pred, value_pred = model(states)
 
-        vloss = value_criterion(value_pred, values_target)
+            vloss = value_criterion(value_pred, values_target)
 
-        if policy_pred is not None:
-            policy_mask = has_policy > 0.5
-            if policy_mask.any():
-                ploss = policy_loss_fn(policy_pred[policy_mask], buys[policy_mask])
-                total_ploss += ploss.item()
-                total_pacc += compute_policy_accuracy(policy_pred[policy_mask], buys[policy_mask])
-                n_policy_batches += 1
+            if policy_pred is not None:
+                policy_mask = has_policy > 0.5
+                if policy_mask.any():
+                    ploss = policy_loss_fn(policy_pred[policy_mask], buys[policy_mask])
+                    total_ploss += ploss.item()
+                    total_pacc += compute_policy_accuracy(policy_pred[policy_mask], buys[policy_mask])
+                    n_policy_batches += 1
 
         total_vloss += vloss.item()
         total_vacc += compute_value_accuracy(value_pred, values_target, bce_mode)
@@ -543,7 +554,7 @@ def run_overfit_test(args):
     print("\n=== OVERFIT TEST ===")
     print("Testing that the architecture can learn from a tiny subset...\n")
 
-    device = get_device()
+    device = get_device(args.device)
 
     # Load data
     train_data = torch.load(os.path.join(args.data_dir, "train.pt"), weights_only=True)
@@ -680,8 +691,17 @@ def main():
                         help="Evaluate every N optimizer steps (0=epoch-level only)")
     parser.add_argument("--subsample-every", type=int, default=1,
                         help="Keep every Nth position per game to reduce temporal correlation (1=all)")
+    parser.add_argument("--streaming", action="store_true",
+                        help="Use memory-mapped streaming loader (for large datasets that don't fit in RAM)")
     parser.add_argument("--seed", type=int, default=None,
                         help="Random seed for reproducibility. If not set, uses random seed and logs it.")
+    parser.add_argument("--device", type=str, default="auto",
+                        choices=["auto", "cpu", "xpu", "cuda"],
+                        help="Force device selection (default: auto-detect)")
+    parser.add_argument("--compile", action="store_true",
+                        help="Use torch.compile for XPU kernel optimization (requires MSVC)")
+    parser.add_argument("--amp", action="store_true",
+                        help="Use BF16 mixed precision (recommended for XPU)")
     args = parser.parse_args()
 
     # Seed for reproducibility (before any randomness)
@@ -697,7 +717,10 @@ def main():
 
     os.makedirs(args.model_dir, exist_ok=True)
 
-    device = get_device()
+    device = get_device(args.device)
+    use_amp = args.amp and device.type in ("xpu", "cuda")
+    if use_amp:
+        print(f"  Mixed precision: BF16 autocast enabled")
 
     # Load data
     print("Loading training data...")
@@ -705,7 +728,33 @@ def main():
     unit_index = load_unit_index(os.path.join(args.data_dir, "unit_index.json"))
     num_units = len(unit_index)
 
-    if args.selfplay_dir:
+    streaming_mode = args.streaming and args.selfplay_dir
+
+    if streaming_mode:
+        # Streaming mode: memory-mapped access, no RAM limit
+        from load_selfplay import MemmapShardIndex, MemmapSelfPlayDataset
+
+        print(f"  Streaming mode: building shard index...")
+        shard_index = MemmapShardIndex(args.selfplay_dir,
+                                       subsample_every=args.subsample_every)
+        state_dim = shard_index.get_feature_dim()
+        train_indices, val_indices = shard_index.get_train_val_indices()
+
+        if args.max_records > 0 and len(train_indices) > args.max_records:
+            rng = np.random.RandomState(args.seed)
+            train_indices = rng.choice(train_indices, args.max_records, replace=False)
+            train_indices.sort()
+            print(f"  Capped training records to {args.max_records:,}")
+
+        n_train_games = len(np.unique(shard_index._game_ids[train_indices]))
+        n_val_games = len(np.unique(shard_index._game_ids[val_indices]))
+        print(f"    Train: {len(train_indices):,} records from {n_train_games:,} games")
+        print(f"    Val:   {len(val_indices):,} records from {n_val_games:,} games")
+
+        if args.expert_weight > 0:
+            print(f"  WARNING: --expert-weight ignored in streaming mode (use --expert-weight 0)")
+
+    elif args.selfplay_dir:
         # Self-play mode: load binary shards, optionally mix with expert data
         sp_train, sp_val = load_selfplay_data(
             args.selfplay_dir, num_units, label_smooth=args.label_smooth,
@@ -790,24 +839,10 @@ def main():
             train_data["values"] = apply_label_smoothing(train_data["values"], args.label_smooth)
             val_data["values"] = apply_label_smoothing(val_data["values"], args.label_smooth)
 
-    print(f"  Train: {train_data['states'].shape[0]} examples")
-    print(f"  Val: {val_data['states'].shape[0]} examples")
-    print(f"  State dim: {state_dim}")
-    print(f"  Unit types: {num_units}")
-    print(f"  Mode: {'value-only' if args.value_only else 'policy+value'}")
-
-    # Pre-training label sanity check
-    check_label_sanity(train_data, val_data)
-
     # Set up loss function mode
     bce_mode = args.loss_fn == 'bce'
     if bce_mode:
         value_criterion = nn.BCEWithLogitsLoss()
-        # Remap targets from [-smooth, +smooth] to [0, 1] for BCE
-        # -0.95 -> 0.025, +0.95 -> 0.975
-        train_data["values"] = (train_data["values"] + 1) / 2
-        val_data["values"] = (val_data["values"] + 1) / 2
-        print(f"  BCE mode: targets remapped to [{val_data['values'].min():.3f}, {val_data['values'].max():.3f}]")
         if args.tanh_in_training:
             print("  WARNING: --tanh-in-training ignored with --loss-fn bce (BCE uses sigmoid internally)")
     else:
@@ -815,28 +850,77 @@ def main():
         if args.tanh_in_training:
             print(f"  Tanh-in-training ENABLED: model applies tanh in forward pass")
 
-    # Create datasets and loaders (now includes has_policy as 5th tensor)
-    train_ds = TensorDataset(
-        train_data["states"], train_data["buy_targets"],
-        train_data["values"], train_data["turns"],
-        train_data["has_policy"]
-    )
-    val_ds = TensorDataset(
-        val_data["states"], val_data["buy_targets"],
-        val_data["values"], val_data["turns"],
-        val_data["has_policy"]
-    )
+    if streaming_mode:
+        # Streaming: create MemmapSelfPlayDataset directly
+        train_ds = MemmapSelfPlayDataset(shard_index, train_indices,
+                                         label_smooth=args.label_smooth,
+                                         num_units=num_units, bce_mode=bce_mode)
+        val_ds = MemmapSelfPlayDataset(shard_index, val_indices,
+                                       label_smooth=args.label_smooth,
+                                       num_units=num_units, bce_mode=bce_mode)
 
-    # Use persistent_workers for faster epoch transitions
-    use_workers = args.num_workers if device.type == "cpu" else min(args.num_workers, 4)
-    shuffle_gen = torch.Generator()
-    shuffle_gen.manual_seed(args.seed)
-    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
-                              drop_last=True, num_workers=use_workers, generator=shuffle_gen,
-                              persistent_workers=use_workers > 0, pin_memory=True)
-    val_loader = DataLoader(val_ds, batch_size=args.batch_size,
-                            num_workers=use_workers,
-                            persistent_workers=use_workers > 0, pin_memory=True)
+        print(f"  Train: {len(train_ds)} examples")
+        print(f"  Val: {len(val_ds)} examples")
+        print(f"  State dim: {state_dim}")
+        print(f"  Unit types: {num_units}")
+        print(f"  Mode: {'value-only' if args.value_only else 'policy+value'} (streaming)")
+
+        # num_workers=0 recommended for memmap on Windows
+        use_workers = min(args.num_workers, 2)
+        shuffle_gen = torch.Generator()
+        shuffle_gen.manual_seed(args.seed)
+        train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
+                                  drop_last=True, num_workers=use_workers,
+                                  generator=shuffle_gen, pin_memory=True,
+                                  persistent_workers=use_workers > 0)
+        val_loader = DataLoader(val_ds, batch_size=args.batch_size,
+                                num_workers=use_workers, pin_memory=True,
+                                persistent_workers=use_workers > 0)
+
+        # Stub for run_log data section
+        train_n = len(train_ds)
+        val_n = len(val_ds)
+    else:
+        print(f"  Train: {train_data['states'].shape[0]} examples")
+        print(f"  Val: {val_data['states'].shape[0]} examples")
+        print(f"  State dim: {state_dim}")
+        print(f"  Unit types: {num_units}")
+        print(f"  Mode: {'value-only' if args.value_only else 'policy+value'}")
+
+        # Pre-training label sanity check
+        check_label_sanity(train_data, val_data)
+
+        if bce_mode:
+            # Remap targets from [-smooth, +smooth] to [0, 1] for BCE
+            train_data["values"] = (train_data["values"] + 1) / 2
+            val_data["values"] = (val_data["values"] + 1) / 2
+            print(f"  BCE mode: targets remapped to [{val_data['values'].min():.3f}, {val_data['values'].max():.3f}]")
+
+        # Create datasets and loaders (now includes has_policy as 5th tensor)
+        train_ds = TensorDataset(
+            train_data["states"], train_data["buy_targets"],
+            train_data["values"], train_data["turns"],
+            train_data["has_policy"]
+        )
+        val_ds = TensorDataset(
+            val_data["states"], val_data["buy_targets"],
+            val_data["values"], val_data["turns"],
+            val_data["has_policy"]
+        )
+
+        # Use persistent_workers for faster epoch transitions
+        use_workers = args.num_workers if device.type == "cpu" else min(args.num_workers, 4)
+        shuffle_gen = torch.Generator()
+        shuffle_gen.manual_seed(args.seed)
+        train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
+                                  drop_last=True, num_workers=use_workers, generator=shuffle_gen,
+                                  persistent_workers=use_workers > 0, pin_memory=True)
+        val_loader = DataLoader(val_ds, batch_size=args.batch_size,
+                                num_workers=use_workers,
+                                persistent_workers=use_workers > 0, pin_memory=True)
+
+        train_n = train_data["states"].shape[0]
+        val_n = val_data["states"].shape[0]
 
     # Create model
     use_tanh = args.tanh_in_training and not bce_mode
@@ -880,14 +964,13 @@ def main():
         start_epoch = ckpt.get("epoch", 0) + 1
         print(f"  Resuming from epoch {start_epoch}")
 
-    # Optimize for Intel XPU if available
-    if device.type == "xpu":
+    # Optional: torch.compile for Intel XPU kernel optimization
+    if getattr(args, 'compile', False) and device.type == "xpu":
         try:
-            import intel_extension_for_pytorch as ipex
-            model, optimizer = ipex.optimize(model, optimizer=optimizer)
-            print("  Applied IPEX optimization for Intel XPU")
+            model = torch.compile(model)
+            print("  Applied torch.compile() for Intel XPU")
         except Exception as e:
-            print(f"  IPEX optimize failed: {e}")
+            print(f"  torch.compile() skipped: {e}")
 
     # --- Experiment logging setup ---
     runs_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "runs")
@@ -919,10 +1002,11 @@ def main():
             "eval_every_steps": args.eval_every_steps,
             "subsample_every": args.subsample_every,
             "seed": args.seed,
+            "streaming": args.streaming,
         },
         "data": {
-            "train_examples": train_data["states"].shape[0],
-            "val_examples": val_data["states"].shape[0],
+            "train_examples": train_n,
+            "val_examples": val_n,
             "state_dim": state_dim,
             "num_units": num_units,
         },
@@ -986,7 +1070,8 @@ def main():
         nonlocal best_val_vloss, best_epoch, best_step, patience_counter
         va_pl, va_vl, va_pa, va_va, va_vs = eval_epoch(
             model, val_loader, device, args.policy_weight,
-            value_criterion=value_criterion, bce_mode=bce_mode)
+            value_criterion=value_criterion, bce_mode=bce_mode,
+            use_amp=use_amp)
 
         note = ""
         improved = False
@@ -1013,6 +1098,8 @@ def main():
     run_log["step_evals"] = []
 
     for epoch in range(start_epoch, args.epochs + 1):
+        if device.type == "xpu":
+            torch.xpu.synchronize()
         t0 = time.time()
 
         # --- Train epoch with optional step-level eval ---
@@ -1033,18 +1120,19 @@ def main():
                 has_policy = has_policy.to(device)
 
                 optimizer.zero_grad()
-                policy_pred, value_pred = model(states)
-                vloss = value_criterion(value_pred, values_target)
+                with torch.autocast(device_type=device.type, dtype=torch.bfloat16, enabled=use_amp):
+                    policy_pred, value_pred = model(states)
+                    vloss = value_criterion(value_pred, values_target)
 
-                if policy_pred is not None:
-                    policy_mask = has_policy > 0.5
-                    if policy_mask.any():
-                        ploss = policy_loss_fn(policy_pred[policy_mask], buys[policy_mask])
-                        loss = vloss + args.policy_weight * ploss
+                    if policy_pred is not None:
+                        policy_mask = has_policy > 0.5
+                        if policy_mask.any():
+                            ploss = policy_loss_fn(policy_pred[policy_mask], buys[policy_mask])
+                            loss = vloss + args.policy_weight * ploss
+                        else:
+                            loss = vloss
                     else:
                         loss = vloss
-                else:
-                    loss = vloss
 
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -1103,7 +1191,8 @@ def main():
             # Standard epoch-level training (original behavior)
             tr_pl, tr_vl, tr_pa, tr_va, tr_vs = train_epoch(
                 model, train_loader, optimizer, device, args.policy_weight,
-                value_criterion=value_criterion, bce_mode=bce_mode)
+                value_criterion=value_criterion, bce_mode=bce_mode,
+                use_amp=use_amp)
             global_step += len(train_loader)
 
         # End-of-epoch evaluation
@@ -1111,6 +1200,8 @@ def main():
         lr = optimizer.param_groups[0]["lr"]
         scheduler.step()
 
+        if device.type == "xpu":
+            torch.xpu.synchronize()
         elapsed = time.time() - t0
 
         # Print epoch line
