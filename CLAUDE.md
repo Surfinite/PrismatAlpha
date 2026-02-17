@@ -21,14 +21,13 @@
 
 **Streaming data loader VERIFIED WORKING (Feb 17).** Indexes 2,600 shards (8.7M records, 232K games) in ~3 min, then streams batches via memory-mapped access. Uses ~12GB RAM at peak (vs 50GB+ without streaming). Multi-worker DataLoader (`--num-workers 2-4`) now supported via lazy init pattern (Feb 17 fix). 256h training run in progress on CPU.
 
-**Intel Arc B580 XPU acceleration ENABLED (Feb 17).** PyTorch 2.10.0+xpu installed globally, IPEX removed, native `torch.xpu` backend. New CLI flags: `--device` (force cpu/xpu/cuda), `--amp` (BF16), `--compile` (torch.compile, needs MSVC). Smoke test: 3 epochs on XPU, loss decreasing, no errors. Benchmark (100K records, bs=512, seed 42): XPU epoch=35s vs CPU epoch=42s (**~1.2x steady-state**, 1.7x total including warmup). BF16 (`--amp`) adds overhead without benefit at this model size — skip it. Larger batch sizes (2048, 4096) work but converge slower per epoch (fewer optimizer steps). **Bottleneck: `num_workers=0`** — Python 3.13 pickle bug blocks multi-process data loading, starving the GPU. Fixing this is the path to 5-10x speedup. Plan: `~/.claude/plans/intel-arc-b580-xpu-acceleration-v2.md`. Production command: `--device xpu --batch-size 512`.
+**Intel Arc B580 XPU acceleration ENABLED (Feb 17).** PyTorch 2.10.0+xpu installed globally, IPEX removed, native `torch.xpu` backend. New CLI flags: `--device` (force cpu/xpu/cuda), `--amp` (BF16), `--compile` (torch.compile, needs MSVC). Benchmark (100K records, bs=512, seed 42): **XPU+nw4: 13s/epoch vs CPU: 42s/epoch (3.2x per-epoch, 4.5x total)**. BF16 (`--amp`) adds overhead at this model size — skip it. Multi-worker data loading confirmed working (`num_workers=4` is optimal). Earlier "pickle bug" failures were transient Windows handle exhaustion from memory pressure, not a real incompatibility. Plan: `~/.claude/plans/intel-arc-b580-xpu-acceleration-v2.md`. **Production command: `--device xpu --num-workers 4`.**
 
 **Next actions:**
-1. **Fix Python 3.13 pickle bug in MemmapSelfPlayDataset** — enables `num_workers>0`, biggest potential GPU speedup (5-10x vs current 1.2x)
-2. **Complete 256h + 512h streaming retraining** — 256h running now (CPU, seed 42, full 232K+ game dataset). 512h queued after. With `num_workers` fix + GPU: both could finish in fraction of one CPU run.
-3. **Continue data generation** toward 500K games. Fleet active across AWS + GCP + Azure. ~260K games generated (Feb 17).
-4. ~~**Fix streaming DataLoader multi-worker support**~~ — DONE (Feb 17). Lazy init pattern in `MemmapSelfPlayDataset` enables `num_workers>0`. Use `--num-workers 2-4` with GPU training to keep GPU fed.
-5. ~~**Enable Intel Arc B580 GPU acceleration**~~ — DONE (Feb 17). See above.
+1. **Complete 256h + 512h streaming retraining on XPU** — use `--device xpu --num-workers 4` for 4.5x speedup. Full 260K+ game dataset.
+2. **Continue data generation** toward 500K games. Fleet active across AWS + GCP + Azure. ~260K games generated (Feb 17).
+3. ~~**Fix streaming DataLoader multi-worker support**~~ — DONE (Feb 17). Lazy init pattern in `MemmapSelfPlayDataset` enables `num_workers>0`. Use `--num-workers 4` with GPU training.
+4. ~~**Enable Intel Arc B580 GPU acceleration**~~ — DONE (Feb 17). See above.
 
 **Current neural net strength:** V2 experiment models (Feb 17, 63K games, tanh+MSE fixed): **E2b (256h) = 26.7% WR** vs OriginalHardestAI (1,008 games, AB search + NeuralNet eval), **E1b (512h) = 19.6% WR** (1,008 games). Previous unfixed model was ~3.6% WR — v2 fixes gave 5-7x improvement. E2b (smaller model) outperforms E1b (larger model), consistent with v2 experiment finding that capacity matters most. Historical: ~42% WR vs MediumAI (expert UCT). Churchill got 58.8% WR vs playout with 500K games — our 26.7% with 63K games suggests more data will help significantly.
 
@@ -168,8 +167,8 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Streaming DataLoader num_workers>0** (FIXED Feb 17): Was crashing with `TypeError: cannot pickle 'module' object` due to `self._torch` module reference and `self._mmaps` memmap handles in `__init__`. Fixed via lazy init pattern — non-picklable resources are initialized on first `__getitem__` call in each worker process. `persistent_workers=True` ensures init happens only once per worker.
 - **train.py positional args**: TWO positional args — `data_dir` (default `training/data`) then `model_dir` (default `training/models`). Must pass both when using custom model output dirs: `python training/train.py training/data training/models/my_run --selfplay-dir ...`.
 - **IPEX is EOL (removed Feb 17)**: `intel_extension_for_pytorch` end-of-life March 2026. Replaced with native `torch.xpu` (PyTorch 2.10.0+xpu). Do NOT install IPEX. `get_device()` uses `hasattr(torch, 'xpu')` — works on any PyTorch version.
-- **XPU training: use `--device xpu`**: Auto-detected if XPU available. BF16 (`--amp`) adds overhead for small models — skip it. `torch.compile` (`--compile`) needs MSVC vcvars64.bat — skip unless model gets larger. Steady-state speedup: ~1.2x with `num_workers=0`, bottlenecked by CPU data loading.
-- **XPU + streaming + RAM pressure**: Two concurrent training jobs (~18GB) plus XPU streaming causes disk thrashing (mmap page faults). Keep to 1-2 concurrent training jobs when using streaming mode. Use `--max-records 100000` for quick smoke tests.
+- **XPU training: use `--device xpu --num-workers 4`**: Auto-detected if XPU available. With `num_workers=4`: 3.2x per-epoch speedup vs CPU (13s vs 42s). BF16 (`--amp`) adds overhead for small models — skip it. `torch.compile` (`--compile`) needs MSVC vcvars64.bat — skip unless model gets larger.
+- **XPU + streaming + RAM pressure**: Two concurrent training jobs (~18GB) plus XPU streaming causes disk thrashing (mmap page faults) and transient "cannot pickle 'module' object" errors from Windows handle exhaustion. Keep to 1-2 concurrent training jobs when using streaming mode. Use `--max-records 100000` for quick smoke tests.
 
 ### Windows & Python Environment
 
