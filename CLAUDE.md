@@ -103,75 +103,69 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 | `aws/watcher_status.json` | Current state — instance counts, quotas, batch tracking |
 | `aws/watcher_log.txt` | Append-only log |
 
+- **Reliability**: All cloud API calls go through `Invoke-CloudApi` wrapper. Relaunch requires API success. After 6 consecutive failures (30 min), force-reset. Tests: `test_watcher_e2e.ps1` (22 scenarios), `test_watcher_smoke.ps1`, `test_watcher_canary.ps1`, `test_watcher_log_health.ps1`.
+- **Change detection**: Logs `CHANGE:` lines when values differ between cycles. Grep `CHANGE:` in `watcher_log.txt` to see state transitions.
+
 ## Gotchas & Non-Obvious Patterns
 
-- **Internal name system**: The engine uses codenames (e.g., "Tesla Tower" = Tarsier, "Brooder" = Blastforge). Full 105-unit mapping table below.
+> Cloud provider operational details (AWS/GCP/Azure quotas, CLI quirks, encoding bugs) are in `docs/cloud-ops-reference.md`.
+
+### Engine & Build
+
+- **Internal name system**: The engine uses codenames (e.g., "Tesla Tower" = Tarsier, "Brooder" = Blastforge). Full 105-unit mapping in `cardLibrary.jso`.
 - **Two git remotes**: `origin` = davechurchill upstream, `PrismatAlpha` = user's fork (Surfinite/PrismatAlpha). Push to `PrismatAlpha`.
 - **Config tournament toggles**: Always check which tournaments have `"run":true` in `config.txt` before launching.
-- **Legacy mode**: `"legacy": true` config flag preserves original AI behavior. `OriginalHardestAI` is the stable baseline. Never modify legacy behavior.
+- **Legacy mode**: `"legacy": true` preserves original AI behavior. `OriginalHardestAI` is the stable baseline. Never modify legacy behavior.
 - **Feature schema contract**: `training/schema.json` + `training/FEATURES.md`. State dim = 1785 (161 units × 11 + 14 global). Changes must sync across `vectorize.py`, `NeuralNet.cpp`, and `schema.json`.
 - **NeuralNet.cpp diagnostics**: Gated behind `#ifdef NEURAL_NET_DEBUG`.
 - **PRISMATA_ASSERT**: Soft assert — prints to stderr, does NOT abort.
-- **SkipColorSwap auto-detection**: Self-play tournaments auto-detect identical AI configs and skip redundant games. `rounds = desired_games` for self-play.
-- **x86 OOM — 4 threads max per process**: `/LARGEADDRESSAWARE` gives 4GB address space (Feb 15 fix). Still use `"Threads": 4` in config.txt and run multiple bat instances for parallelism. Each process gets its own limit. CI workflow overrides Threads via `nproc` (2 on windows-latest, safe). Verbose per-turn logging and `_stateSnapshots` JSON serialization are now suppressed when `SaveReplays: false` to reduce heap churn. Process silently dies at ~1400 games with 1M rounds — config now uses 1000 rounds per batch and `run_selfplay.bat` loops automatically. Cloud instances must also use ≤1000 rounds/process (`games_per_instance: 2000` with 2 processes) — GCP was crashing at 2500 rounds/process until this was fixed.
-- **Debugging cloud worker crashes**: Download `log_worker_*.txt` and `selfplay_boot.log` from S3 results dir. Working instances show `[Progress] X / N rounds` lines; crashing instances cut off at `[SelfPlay] Exporting...` with no progress. Compare patched configs between providers — differing `rounds` values are a common misconfiguration.
-- **Blend tournaments concluded**: Neural component hurts performance. Don't revisit until model >60% val accuracy. See `docs/blend-tournament-results.md`.
-- **Batch validation**: 287 replays tested, C++ engine confirmed correct. After fixing 3 TS tooling bugs: 117 PASS (41.3%), 166 FAIL (all TS-side), 4 ERROR. Remaining failures are action resolution differences in TS→C++ conversion (70% start with gold/green resource divergence). See `docs/plans/engine-validation-plan.md`.
-- **Self-play crash safety**: Each run writes to `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/`. Restart anytime — only in-flight games lost. `load_selfplay.py` auto-scans all `run_*` subdirectories.
-- **Run self-play from Explorer**: Use `bin/run_selfplay.bat` — runs in its own cmd window, immune to Claude Code context kills. Has startup exe check and 5s error delay to prevent spin-looping during rebuilds (previously created 18K+ junk log files when exe was missing).
-- **GUI Watch Training / Watch Eval modes**: Menu items in Prismata_GUI that run self-play or eval games with live display. Both generate training shards. Watch Training = same AI self-play (1s think). Watch Eval = PrismatAlpha_AB_Legacy vs OriginalHardestAI (7s think). 4 threads each (1 displayed + 3 background). Color swap (same board, swapped sides) auto-enabled when players differ. Source: `source/gui/GUIState_WatchTraining.cpp/.h`.
-- **Console output routing**: `[SelfPlay]` and `[Progress]` messages use `fprintf(stderr, ...)` so they appear on console. Per-turn buy action logging only runs when `SaveReplays: true` (suppressed in self-play mode). New user-facing messages in Tournament.cpp should use stderr.
-- **EC2 config patching**: `launch_selfplay.sh` patches config line-by-line (not regex across properties) because JSON property ordering varies — `"run"` may come before or after `"name"` in tournament entries. Don't switch back to cross-property regexes.
-- **AWS CLI in Git Bash**: AWS CLI is a native Windows exe. Temp file paths must be Windows-accessible (not `/tmp/`). Use `file://` prefix for user-data (not `base64`). PATH needs: `export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"`.
-- **x86 OOM with large vectors**: Don't pre-allocate large `std::vector<GameState>` upfront (e.g., 10K rounds). GameState objects are heavy — allocate per-batch instead. Symptom: process exits silently mid-tournament with no `[SelfPlay] COMPLETE` message.
-- **Selfplay shard CRC**: `load_selfplay.py` CRC check fails on shards from runs that crashed or are still in progress (no footer written). Use `validate_crc=False` for live/partial data.
-- **Selfplay positions per game**: Actual average is ~37 records/game (both players' turns combined), NOT ~440 as originally estimated. A 10K-game run yields ~370K training records, not 4.4M.
-- **Selfplay shard binary format**: Header is 16 bytes: magic `0x50445350` ("PDSP") + version(4) + state_dim(4) + record_size(4). Record size = 7152 bytes. No game count stored — calculate: `(file_size - 16) / 7152` = positions, `positions / ~37` = estimated games.
-- **Selfplay game counting**: To count total games across all shards: `python -c "import os; base='bin/training/data/selfplay'; total=sum((os.path.getsize(os.path.join(r,f))-16)//7152 for r,_,fs in os.walk(base) for f in fs if f.endswith('.bin') and os.path.getsize(os.path.join(r,f))>16); print(f'{total} records, ~{total//37} games')"`.
+- **x86 OOM — 4 threads max per process**: `/LARGEADDRESSAWARE` gives 4GB. Use `"Threads": 4` + multiple bat instances. Process dies silently at ~1400 games — config uses 1000 rounds/batch, `run_selfplay.bat` loops automatically.
+- **x86 OOM with large vectors**: Don't pre-allocate large `std::vector<GameState>` upfront. Allocate per-batch. Symptom: silent exit with no `[SelfPlay] COMPLETE` message.
+- **Console output routing**: `[SelfPlay]` and `[Progress]` use `fprintf(stderr, ...)`. Per-turn logging only when `SaveReplays: true`. New messages in Tournament.cpp should use stderr.
+- **GUI Watch Training / Watch Eval modes**: Menu items in Prismata_GUI. Watch Training = self-play (1s think). Watch Eval = PrismatAlpha_AB_Legacy vs OriginalHardestAI (7s think). 4 threads each. Source: `source/gui/GUIState_WatchTraining.cpp/.h`.
+- **GUI/engine decoupling**: Engine has zero SFML imports — compiles independently. GUI is ~4,100 LOC. SFML doesn't support WASM — web needs SDL2 abstraction or JS rewrite.
+- **Churchill paper URLs**: Use `davechurchill.ca/publications/` (old `cs.mun.ca/~dchurchill/` is dead).
 
-- **S3 download dir structure**: `aws s3 sync` creates timestamp dirs without `run_` prefix (e.g., `2026-02-15_12-25-50/`) containing nested `run_*` subdirs. Must scan recursively to count all data.
-- **Windows file size caching**: `ls`/`Get-ChildItem` may show 0 bytes for files with open write handles. Use `python -c "import os; print(os.path.getsize(path))"` to get actual size.
-- **Replay balance validation**: `validate_balance_all.js` checks all replay costs against `cardLibrary.jso`. Output: `balance_passed_codes.json` (32,973 safe codes). Replays with old unit costs (pre-balance-patch), event-mode starred units, or removed units are rejected. Cost normalization sorts resource letters (`8GBC` == `8BCG`). Run once; incremental via `balance_results.json`.
-- **Python stdout buffering**: Long-running Python processes (e.g., `train.py`) show no output in Claude Code Bash tool. Use `PYTHONUNBUFFERED=1` prefix to get real-time output.
-- **Training CRC**: `train.py` calls `load_all_shards(validate_crc=False)` — required because shards from in-progress/crashed runs lack CRC footers.
-- **Training overfitting — partially investigated**: Feb 17 experiments showed regularization (dropout 0.3, WD 1e-3) and model size (256 hidden) don't change the ~75.5% val ceiling with 1M records. More data raises val accuracy (1M→2.3M: 75.5%→81.9%). BUT: higher val accuracy produced worse WR (77% val→10% WR, 82% val→3% WR), and the v2 experiment plan identifies a critical untested issue: training/inference tanh mismatch (trains MSE on unbounded logits, deploys with tanh). All Feb 17 experiments ran with the broken loss function and unplanned expert data mixing (20%). Fix the loss function before scaling data. See `docs/plans/hyperparameter-experiments-v2.md`.
-- **Training RAM limit**: Full dataset (6.5M records, 1837 shards) = ~44GB raw data. `load_all_shards` loads everything into RAM then concatenates (doubling peak usage). With 32GB RAM: max ~1M records safely with `--max-records 1000000`. Use `--num-workers 0` to avoid PyTorch shared memory errors with large datasets. Need streaming data loader for full dataset.
-- **D: drive backup**: `D:\PrismataAI_backup\` has selfplay data (3 GB, 200 shards), models, weights (expert + selfplay v1), config, and training run logs. Created Feb 15.
-- **Experiment logs**: `training/runs/{timestamp}.json` — full per-epoch metrics, hyperparameters, git hash. Use for plotting/analysis.
-- **PID-based random seeding**: All 3 exe entry points use `srand(time ^ PID)` instead of `srand(time)`. Prevents identical random sequences when launching multiple bat instances in the same second — critical for the parallel self-play pattern.
-- **Game_id namespacing**: `load_selfplay.py` offsets game_ids by 1M per source directory to prevent collisions across runs. Each C++ process starts game_id at 0, so without namespacing, different runs share IDs and train/val splits leak data.
-- **Value-only model export**: `export_weights.py` exports zero-initialized policy tensors for value-only models (4 extra tensors). C++ loader requires all 26 tensors unconditionally — a value-only export with only 22 tensors will fail to load with `expected tensor 'policy.linear1.weight', got 'value.linear1.weight'`.
-- **EC2 spot has separate vCPU quota**: `USE_SPOT=true bash aws/launch_selfplay.sh ...` uses spot pricing under a separate quota. Run on-demand + spot simultaneously for double capacity. Quota codes: `L-34B43A08` (spot), `L-1216C47A` (on-demand).
-- **SelfPlayDataExport requires loaded neural net**: If `neural_weights.bin` fails to load (e.g., missing tensors), the exe runs games but writes ZERO training shards silently. Only a stderr warning: `[SelfPlay] WARNING: SelfPlayDataExport enabled but neural net not loaded. Skipping export.` Always verify weights have all 26 tensors before deploying.
-- **EC2 file-lock sync**: `Write-S3Object` cannot read files held open by the C++ exe. The periodic sync in `launch_selfplay.sh` copies to a temp dir first via `Copy-Item` (which can read locked files), then uploads from temp.
-- **AWS quota management**: Check quota: `aws service-quotas get-service-quota --service-code ec2 --quota-code <CODE> --region eu-north-1`. Request increase: `aws service-quotas request-service-quota-increase --service-code ec2 --quota-code <CODE> --desired-value <N> --region eu-north-1`. No penalty for requesting — AWS may partially approve. Modest asks (64-128) more likely auto-approved.
-- **GCP hybrid cloud**: GCP instances install AWS CLI and upload to the same S3 bucket (`prismata-selfplay-data`). No GCS infrastructure. AWS credentials passed via instance metadata from `gcp/.aws_credentials`. GCP project: `prismata-selfplay`, zone: `us-central1-a`.
-- **GCP quotas**: N2_CPUS=200 (25 n2-standard-8), INSTANCES=24, PREEMPTIBLE_CPUS=0 (no spot). SSD_TOTAL_GB=250 may limit concurrent instances with 50GB SSD boot disks. Check: `gcloud compute regions describe us-central1 --project=prismata-selfplay --format="json(quotas)"`.
-- **GCP instance self-deletion**: GCP instances use `gcloud compute instances delete` (not Stop-Computer like EC2). Requires `compute-rw` scope. Falls back to Stop-Computer if delete fails.
-- **GCP gcloud.cmd vs gcloud**: Use `gcloud.cmd` in PowerShell scripts, `gcloud` in bash scripts. Git Bash cannot execute `.cmd` files directly — using `gcloud.cmd` in bash fails silently. SDK path: `C:\google-cloud-sdk\bin`. TheWatcher pipes bash output through `2>&1` capture (not `Out-Null`) to make errors visible in the log.
-- **gcloud.cmd stderr noise**: `gcloud.cmd` emits harmless stderr about temp files ("Access is denied; Could Not Find tmpfile") even on successful calls. TheWatcher's `Invoke-CloudApi` logs these as warnings but correctly reports the call as successful. Don't treat as errors.
-- **TheWatcher reliability (Feb 16 refactor)**: All cloud API calls go through `Invoke-CloudApi` wrapper (captures stderr, returns success/failure). Relaunch and scale-up decisions require `$awsApiSuccess`/`$gcpApiSuccess` = true. When API fails, tracked_instances preserved (not reset to 0). After 6 consecutive failures (30 min), force-reset. S3 shard activity monitoring provides ground truth. Status file includes `api_health`, `shard_activity`, `health` sections. Test suite: `test_watcher_e2e.ps1` (22 scenarios), `test_watcher_smoke.ps1`, `test_watcher_canary.ps1`, `test_watcher_log_health.ps1`.
-- **TheWatcher change detection**: Watcher logs `CHANGE:` lines when values differ between cycles (instance counts, quotas, API health transitions, local processes). Grep `CHANGE:` in `watcher_log.txt` to see all state transitions.
-- **GCP quota increase on new projects**: Google denies quota requests if the project is <48 hours old or lacks billing history. Must wait 48 hours and resubmit, or escalate via Sales Rep. Our request for CPUS_ALL_REGIONS 12→128 was denied Feb 16; resubmit after Feb 18. **CPUS_ALL_REGIONS=12 is the actual GCP bottleneck** — not N2_CPUS (200) or INSTANCES (24). Only fits 2 instances (1x n2-standard-8 + 1x n2-standard-4 = 12 vCPUs).
-- **Cloud provider comparison (Feb 16)**: Oracle Cloud is not competitive for Windows batch compute — Windows licensing ($0.092/OCPU/hr) eliminates price advantage, x86 "Out of Capacity" is common, no spot for Windows. Azure is the better third cloud option (spot VMs at ~$0.07/hr for D8s_v5, $200 free credits, but default quota ~10 vCPUs requires increase request).
-- **Azure `--custom-data` encoding**: No Unicode chars > U+00FF (em-dashes, smart quotes) in startup scripts. Azure CLI's Python encodes to latin-1. Use `PYTHONUTF8=1` before `az` commands as safety net.
-- **Azure VM name limit**: Windows VMs max 15 chars for computer name. Script uses `prsm-HHMMSS-N` (13 chars).
-- **Azure VM billing + quota**: `Stop-Computer` only stops OS ("VM stopped" state, still bills AND consumes family vCPU quota). Must `az vm deallocate` (releases quota, stops billing) then `az vm delete`. TheWatcher handles this automatically.
-- **Azure batch loop for OOM**: Azure launch script runs 250 rounds per batch in a restart loop (same pattern as `run_selfplay.bat`). Without this, processes crash at ~80 games due to x86 4GB address space exhaustion. The config is patched to `"rounds":250` and the PowerShell loop runs `totalBatches = ceil(gamesPerProcess / 250)` iterations. EC2 has the same vulnerability but hasn't hit it yet — consider applying the same fix.
-- **Azure FSv2 unavailable**: FSv2 returns empty from `az vm list-skus` across all tested European regions (northeurope, westeurope, uksouth, ukwest, francecentral) despite showing in `az vm list-sizes`. Always use `list-skus` (actual availability) not `list-sizes` (theoretical). D-series v7 (`Standard_D8als_v7`) works. Check: `az vm list-skus --location northeurope --size Standard_D --query "[?restrictions[].reasonCode!='NotAvailableForSubscription']"`.
-- **Azure `az.cmd` JMESPath broken**: `az.cmd` routes through `cmd.exe` which mangles JMESPath special characters (`]`, `.`, `{`, `:`). Symptoms: `"was unexpected at this time"` errors. Fix: skip `--query`, fetch full JSON with `--output json`, filter in PowerShell with `Where-Object`. The watcher was fixed Feb 17.
-- **Azure quota increases auto-reject on new/free-credit accounts**: Both "My Quotas" direct submit and the `az quota` CLI extension get auto-rejected. Must submit support requests (Severity C, 24-48hr response). Per-family increase auto-increases regional quota by the same amount (per MS docs). v7 families don't appear in the support ticket VM family dropdown — request through My Quotas → auto-reject → "Create a support request" button.
-- **Azure CLI path**: `"$AZ"` where `AZ="/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin/az"`. In PowerShell: `C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd`.
-- **Writing shell variables to files**: Use `printf '%s' "$VAR" > file` not `echo "$VAR" > file`. `echo` may interpret backslash sequences in variable content, corrupting PowerShell scripts.
-- **Azure VM think-time multipliers**: Based on thread-to-core ratio vs local Ryzen 5700X3D. F2s_v2 (2 vCPUs, 4 threads = 2:1 oversubscription): **3x**. F8s_v2/D8als_v7 (8 vCPUs, 4 threads = 1:2 ratio): **2x**. Formula: base cloud penalty (2x) × oversubscription factor (threads/cores if >1).
-- **Azure hybrid cloud**: Same S3 bucket pattern as GCP — Azure VMs install AWS CLI, upload to `s3://prismata-selfplay-data/`. AWS credentials from `azure/.aws_credentials`.
-- **Azure quota management**: Two-tier system — Total Regional vCPUs (ceiling, 64) + per-family vCPU limits (default 10 each). Both must allow a VM. Current fleet: 8 VMs across D-series v7 (Dads, Dalds, Dals, Das) + F-series v7 (Fads, Falds, Fals, Fas) = 64/64 vCPUs maxed. Each family at 8/10. Request per-family increases (Dalsv7 + Falsv7 to 128) to consolidate. "VM stopped" still consumes quota — must deallocate to release. Check: `az vm list-usage --location northeurope --output json`. Increase via Portal > Quotas > Compute. **Quotas are per-region.**
-- **PowerShell JSON files have UTF-8 BOM**: `watcher_status.json` and `watcher_config.json` are written by PowerShell with BOM. Python must use `open(path, encoding='utf-8-sig')` — default `utf-8` encoding will fail on `json.load()`.
-- **Python cp1252 on Windows**: Python defaults to cp1252 for stdout on Windows, which can't encode Unicode (e.g., block characters). Prefix scripts with `PYTHONIOENCODING=utf-8` or stick to ASCII output.
-- **Churchill paper URLs**: His papers moved from `cs.mun.ca/~dchurchill/` to `davechurchill.ca/publications/`. Use the latter for any PDF links.
-- **GUI/engine decoupling**: Engine (`source/engine/`, `source/ai/`) has zero SFML imports — compiles independently (proven by `source/standalone/`). GUI is ~4,100 LOC across 19 files in `source/gui/`, with ~2,200 lines of direct SFML rendering. No rendering abstraction layer exists. 264 PNG assets (~10 MB). SFML doesn't support Emscripten/WASM — web conversion requires either SDL2 abstraction or JS rewrite of rendering layer.
-- **Future feature plans in claude-mem**: Non-essential feature ideas are stored in persistent memory (not plan files): GUI spectator mode (#1385), web-based remote advisor (#1524). Use `mcp__plugin_claude-mem_mcp-search__search` to retrieve.
-- **claude-mem 10.0.7 vector search**: We filed bug #1104 (onnxruntime-common resolution fails on Windows). Chroma runs manually (not auto-start) on port 8000 with 11K+ vectors. Fixes landed upstream (WASM backend `67ba17c`, cache corruption `224567f`, orphaned subprocesses `e1ef14d`). **Update claude-mem when >10.0.7 available** — after update verify Chroma auto-starts. See claude-mem memory #2153.
+### Self-Play & Data
+
+- **SkipColorSwap auto-detection**: Self-play tournaments auto-detect identical AI configs and skip redundant games. `rounds = desired_games` for self-play.
+- **Self-play crash safety**: Each run writes to `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/`. Restart anytime — only in-flight games lost.
+- **Run self-play from Explorer**: Use `bin/run_selfplay.bat`. Has startup exe check and 5s error delay to prevent spin-looping during rebuilds.
+- **Selfplay shard CRC**: CRC check fails on shards from crashed/in-progress runs (no footer). Use `validate_crc=False` for live data.
+- **Selfplay positions per game**: ~37 records/game (both players' turns), NOT ~440. A 10K-game run yields ~370K records.
+- **Selfplay shard binary format**: Header 16 bytes: magic `0x50445350` + version(4) + state_dim(4) + record_size(4). Record size = 7152 bytes. Games = `(file_size - 16) / 7152 / ~37`.
+- **Selfplay game counting**: `python -c "import os; base='bin/training/data/selfplay'; total=sum((os.path.getsize(os.path.join(r,f))-16)//7152 for r,_,fs in os.walk(base) for f in fs if f.endswith('.bin') and os.path.getsize(os.path.join(r,f))>16); print(f'{total} records, ~{total//37} games')"`.
+- **S3 download dir structure**: `aws s3 sync` creates timestamp dirs without `run_` prefix containing nested `run_*` subdirs. Must scan recursively.
+- **PID-based random seeding**: All 3 exe entry points use `srand(time ^ PID)` — prevents identical sequences when launching multiple instances in the same second.
+- **Game_id namespacing**: `load_selfplay.py` offsets game_ids by 1M per source dir to prevent collisions across runs and train/val split leakage.
+- **Value-only model export**: `export_weights.py` exports zero-initialized policy tensors for value-only models (4 extra). C++ loader requires all 26 tensors — a 22-tensor export will fail.
+- **SelfPlayDataExport requires loaded neural net**: If `neural_weights.bin` fails to load, exe writes ZERO shards silently. Only stderr warning. Always verify 26 tensors.
+
+### Training
+
+- **Training CRC**: `train.py` uses `validate_crc=False` — required because in-progress/crashed shards lack CRC footers.
+- **Training overfitting**: Regularization/model-size don't change ~75.5% val ceiling with 1M records. More data raises val acc but worsens WR (tanh mismatch is root cause). Fix loss function before scaling. See `docs/plans/hyperparameter-experiments-v2.md`.
+- **Training RAM limit**: Full dataset (6.5M records) = ~44GB. With 32GB RAM: max ~1M records with `--max-records 1000000`. Use `--num-workers 0`. Need streaming loader for full dataset.
+- **D: drive backup**: `D:\PrismataAI_backup\` has selfplay data, models, weights, config, run logs. Created Feb 15.
+- **Experiment logs**: `training/runs/{timestamp}.json` — full per-epoch metrics, hyperparameters, git hash.
+
+### Windows & Python Environment
+
+- **Windows file size caching**: `ls`/`Get-ChildItem` may show 0 bytes for files with open write handles. Use `python -c "import os; print(os.path.getsize(path))"`.
+- **Python stdout buffering**: Long-running Python processes show no output in Claude Code Bash tool. Use `PYTHONUNBUFFERED=1` prefix.
+- **Python cp1252 on Windows**: Python defaults to cp1252 for stdout. Use `PYTHONIOENCODING=utf-8` or stick to ASCII.
+- **PowerShell JSON files have UTF-8 BOM**: `watcher_status.json` and `watcher_config.json` written with BOM. Python: use `encoding='utf-8-sig'`.
+
+### Historical / Concluded
+
+- **Blend tournaments concluded**: Neural component hurts. Don't revisit until model >60% val accuracy. See `docs/blend-tournament-results.md`.
+- **Batch validation**: 287 replays tested, 117 PASS (41.3%), 166 FAIL (TS-side). Not blocking self-play.
+- **Replay balance validation**: `validate_balance_all.js` checks costs against `cardLibrary.jso`. Output: `balance_passed_codes.json` (32,973 codes). Incremental via `balance_results.json`.
+
+### External Tools
+
+- **claude-mem 10.0.7**: Bug #1104 filed. Chroma runs manually on port 8000. **Update when >10.0.7 available.**
+- **Future feature plans in claude-mem**: GUI spectator mode (#1385), web-based remote advisor (#1524). Use MCP search to retrieve.
 
 ## User Preferences
 
@@ -184,7 +178,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 
 ### Engine Internal Name System
 
-Common mappings (full 105-unit table follows):
+Common mappings (full 105-unit table in `cardLibrary.jso`):
 
 | Internal Name | Display Name | | Internal Name | Display Name |
 |---|---|---|---|---|
@@ -194,70 +188,6 @@ Common mappings (full 105-unit table follows):
 | House | Husk | | Flame Kin | Gauss Charge |
 
 All script references in `cardLibrary.jso` must use **internal names**, not display names.
-
-<details>
-<summary>Full 105-unit name mapping table (click to expand)</summary>
-
-| Display Name | Internal Name | | Display Name | Internal Name |
-|---|---|---|---|---|
-| Aegis | Fragilewall | | Lancetooth | Lancetooth |
-| Amporilla | Annihilator | | Lucina Spinos | Angelic |
-| Antima Comet | Antima Comet | | Mahar Rectifier | Viletrope |
-| Apollo | Flame Assassin | | Manticore | Manticore |
-| Arka Sodara | Roshan | | Mega Drone | Mega Drone |
-| Arms Race | Arms Race | | Militia | Militia |
-| Asteri Cannon | Giga Cannon | | Mobile Animus | Mobile Animus |
-| Auric Impulse | Bond | | Nitrocybe | Nitrocybe |
-| Auride Core | Hate Reactor | | Nivo Charge | Volatile Blast |
-| Barrier | Sound Barrier | | Odin | Furion |
-| Blood Pact | Unholy Barrier | | Omega Splitter | Supertreant |
-| Blood Phage | Blood Phage | | Ossified Drone | Neo Overlord |
-| Bloodrager | Gnoll | | Oxide Mixer | Oxide Mixer |
-| Bombarder | Bombarder | | Perforator | Trickster |
-| Borehole Patroller | Borehole Patroller | | Photonic Fibroid | Photonic Fibroid |
-| Cauterizer | Demolition Mech | | Pixie | Pixie |
-| Centrifuge | Centrifuge | | Plasmafier | BFD |
-| Centurion | Battalion | | Plexo Cell | Uberdefcell |
-| Chieftain | Tank | | Polywall | Polywall |
-| Chrono Filter | Electrophore | | Protoplasm | Pixieflower |
-| Cluster Bolt | Meteor Shower | | Redeemer | Rukh |
-| Colossus | Colossus | | Resophore | Butter on Blood |
-| Corpus | Corpus | | Savior | Savior |
-| Cryo Ray | Distractorod | | Scorchilla | Rocket Artillery |
-| Cynestra | Marauder | | Sentinel | Sentinel |
-| Deadeye Operative | Nether Warrior | | Shadowfang | Flame Warrior |
-| Defense Grid | Defense Grid | | Shiver Yeti | Jester |
-| Doomed Drone | Doomed Drone | | Shredder | Panther |
-| Doomed Mech | Doomed Mech | | Steelforge | Conscription |
-| Doomed Wall | Doomwall | | Synthesizer | Factory |
-| Drake | Drake | | Tantalum Ray | Tantalum Ray |
-| Ebb Turbine | Ebb Turbine | | Tatsu Nullifier | Nightmare Cannon |
-| Electrovore | Fickle Marine | | Tesla Coil | Tesla Coil |
-| Endotherm Kit | Disruption Kit | | The Wincer | Beam of Wincing |
-| Energy Matrix | Golem | | Thermite Core | Adrenaline Reactor |
-| Feral Warden | HPMan | | Thorium Dynamo | Thorium Dynamo |
-| Ferritin Sac | Ferritin Sac | | Thunderhead | Thunderhead |
-| Fission Turret | Deconstructible Tower | | Tia Thurnax | Ephemeron |
-| Flame Animus | Piranha Academy | | Trinity Drone | Machine |
-| Frost Brooder | Psychosis Cannon | | Tyranno Smorcus | Tyranno Smorcus |
-| Frostbite | Screech Blast | | Urban Sentry | Urban Sentry |
-| Galvani Drone | Galvani Drone | | Vai Mauronax | Vai Mauronax |
-| Gauss Charge | Flame Kin | | Valkyrion | Valkyrion |
-| Gauss Fabricator | Fabricator | | Venge Cannon | Ion Cannon |
-| Gaussite Symbiote | Gasplant | | Vivid Drone | Vivid Drone |
-| Grenade Mech | Blade | | Wild Drone | Wild Drone |
-| Grimbotch | Doomed Infantry | | Xaetron | Xaetron |
-| Hannibull | Statue | | Xeno Guardian | Stone Guardian |
-| Hellhound | Grenadier | | Zemora Voidbringer | NeoContraption |
-| Husk | House | | | |
-| Iceblade Golem | Minimarshal | | | |
-| Immolite | Cowardly Marine | | | |
-| Infusion Grid | Hotel | | | |
-| Innervi Field | Innervi Field | | | |
-| Iso Kronus | Cyclic Attacker | | | |
-| Kinetic Driver | Arsonist | | | |
-
-</details>
 
 ### Game Phases & Turn Numbering
 
@@ -374,6 +304,8 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `docs/WEIGHT_FORMAT.md` | Binary weight format specification |
 | `docs/wiki/PRISMATA_REFERENCE.md` | Curated game knowledge reference (from wiki) |
 | `docs/wiki/` | Full wiki dump (448 pages, raw wikitext) |
+| `docs/plans/reproducibility-plan.md` | Training reproducibility standard (seeds, determinism) |
+| `docs/cloud-ops-reference.md` | Cloud provider operational gotchas (AWS/GCP/Azure) |
 
 ## Tournament Results Summary
 
