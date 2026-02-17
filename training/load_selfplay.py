@@ -132,16 +132,17 @@ def load_shard(filepath, validate_crc=True):
     return records
 
 
-def load_all_shards(directory, validate_crc=True):
+def load_all_shards(directory, validate_crc=True, max_records=0):
     """Load and concatenate all selfplay_t*_s*.bin files from a directory.
+
+    Args:
+        max_records: Stop loading after this many records (0=unlimited).
 
     Returns:
         numpy structured array of all records, or None if no data found.
     """
-    # Search for shards in directory and all run_* subdirectories
-    pattern = os.path.join(directory, 'selfplay_t*_s*.bin')
-    sub_pattern = os.path.join(directory, 'run_*', 'selfplay_t*_s*.bin')
-    files = sorted(set(glob.glob(pattern) + glob.glob(sub_pattern)))
+    # Search for shards recursively (handles AWS-downloaded dirs like 2026-*/run_*/)
+    files = sorted(set(glob.glob(os.path.join(directory, '**', 'selfplay_t*_s*.bin'), recursive=True)))
 
     if not files:
         print(f"No selfplay shard files found in {directory}")
@@ -152,12 +153,30 @@ def load_all_shards(directory, validate_crc=True):
     if any(d.startswith('run_') for d in run_dirs):
         print(f"  Found {len(files)} shards across {len(run_dirs)} run(s): {', '.join(run_dirs)}")
 
+    # Assign each source directory a unique game_id block to prevent collisions
+    # across runs (each C++ process starts game_id at 0)
+    dir_to_offset = {}
+    for fp in files:
+        d = os.path.dirname(fp)
+        if d not in dir_to_offset:
+            dir_to_offset[d] = len(dir_to_offset) * (1 << 20)  # 1M IDs per directory
+
     all_records = []
+    total_loaded = 0
     for fp in files:
         print(f"  Loading {os.path.basename(fp)}...")
         records = load_shard(fp, validate_crc=validate_crc)
         if records is not None:
+            # Namespace game_ids by source directory
+            offset = dir_to_offset[os.path.dirname(fp)]
+            if offset > 0:
+                records = records.copy()  # avoid modifying read-only buffer
+                records['game_id'] = records['game_id'] + offset
             all_records.append(records)
+            total_loaded += len(records)
+            if max_records > 0 and total_loaded >= max_records:
+                print(f"  Reached max_records limit ({max_records}), stopping load.")
+                break
 
     if not all_records:
         print("No valid records found in any shard.")

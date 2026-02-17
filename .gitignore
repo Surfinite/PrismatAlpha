@@ -138,6 +138,38 @@ training/data/selfplay_synthetic/
 # --- Doc backups (local) ---
 docs/backup_claude_md_2026-02-14/
 
+# --- GCP credentials & temp files ---
+gcp/.aws_credentials
+gcp/.ec2_config_check.txt
+gcp/.gcp_config_check.txt
+
+# --- Azure credentials & debug scripts with secrets ---
+azure/.aws_credentials
+azure/.startup_debug.ps1
+
+# --- Watcher runtime state (changes every 5 min) ---
+aws/watcher_log.txt
+aws/watcher_status.json
+
+# --- AWS temp/test files ---
+aws/.log_stdout_spot.txt
+aws/.s3_config.txt
+aws/.test_shard.bin
+
+# --- Decompiled/decompressed SWF (large, not source) ---
+prismata_decompiled/
+prismata_decompressed.swf
+
+# --- Run output logs ---
+bin/selfplay_log.txt
+bin/tournament_log.txt
+bin/tournament_eval_log*.txt
+bin/prismata_capture.log
+training/exp*.log
+
+# --- Junk output dir ---
+--output
+
 # --- Other ---
 *.zip
 *.stackdump

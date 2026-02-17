@@ -5,11 +5,19 @@
 #include <cstdlib>
 #include <ctime>
 
+#ifdef _WIN32
+#include <process.h>
+#define GETPID() _getpid()
+#else
+#include <unistd.h>
+#define GETPID() getpid()
+#endif
+
 using namespace Prismata;
 
 int main(int argc, char *argv[])
 {
-    srand((unsigned int)time(NULL));
+    srand((unsigned int)(time(NULL) ^ (GETPID() << 4)));
 
     // Initialize the Prismata Card Library from the JSON library file
     Prismata::InitFromCardLibrary("asset/config/cardLibrary.jso");

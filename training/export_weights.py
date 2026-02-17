@@ -87,9 +87,12 @@ def python_forward(weights, state_dim, hidden_dim, num_layers, num_units, featur
         tmp = layer_norm(weights[f"{prefix}.norm2.weight"], weights[f"{prefix}.norm2.bias"], tmp)
         h = h + relu(tmp)
 
-    # Policy head
-    ph = relu(linear(weights["policy.linear1.weight"], weights["policy.linear1.bias"], h))
-    policy = linear(weights["policy.linear2.weight"], weights["policy.linear2.bias"], ph)
+    # Policy head (skip if value-only model)
+    if "policy.linear1.weight" in weights:
+        ph = relu(linear(weights["policy.linear1.weight"], weights["policy.linear1.bias"], h))
+        policy = linear(weights["policy.linear2.weight"], weights["policy.linear2.bias"], ph)
+    else:
+        policy = np.zeros(num_units, dtype=np.float32)
 
     # Value head (tanh applied here, matching C++)
     vh = relu(linear(weights["value.linear1.weight"], weights["value.linear1.bias"], h))
@@ -162,8 +165,11 @@ def verify_export(output_path, model, state_dim, hidden_dim, num_layers, num_uni
             pt_value = torch.tanh(pt_value_logit).item()
 
         # Compare
-        policy_diff = np.abs(np_policy.flatten() - pt_policy[0].numpy()).max()
         value_diff = abs(np_value - pt_value)
+        if pt_policy is not None:
+            policy_diff = np.abs(np_policy.flatten() - pt_policy[0].numpy()).max()
+        else:
+            policy_diff = 0.0  # value-only model, no policy to compare
         max_diff = max(max_diff, policy_diff, value_diff)
 
         status = "OK" if max(policy_diff, value_diff) < 1e-5 else "FAIL"
@@ -238,12 +244,20 @@ def main():
         tensors.append((f"trunk.{i}.norm2.weight", block[5].weight))
         tensors.append((f"trunk.{i}.norm2.bias", block[5].bias))
 
-    # Policy head: [0]=Linear, [1]=ReLU, [2]=Linear (only if not value-only)
+    # Policy head: [0]=Linear, [1]=ReLU, [2]=Linear
+    # Always export policy tensors — C++ loader expects all 26 tensors.
+    # For value-only models, export zero-initialized policy weights.
     if not value_only:
         tensors.append(("policy.linear1.weight", model.policy_head[0].weight))
         tensors.append(("policy.linear1.bias", model.policy_head[0].bias))
         tensors.append(("policy.linear2.weight", model.policy_head[2].weight))
         tensors.append(("policy.linear2.bias", model.policy_head[2].bias))
+    else:
+        print("  (Value-only model: exporting zero-initialized policy head)")
+        tensors.append(("policy.linear1.weight", torch.zeros(hidden_dim // 2, hidden_dim)))
+        tensors.append(("policy.linear1.bias", torch.zeros(hidden_dim // 2)))
+        tensors.append(("policy.linear2.weight", torch.zeros(num_units, hidden_dim // 2)))
+        tensors.append(("policy.linear2.bias", torch.zeros(num_units)))
 
     # Value head: [0]=Linear, [1]=ReLU, [2]=Linear (tanh applied in C++ at inference)
     tensors.append(("value.linear1.weight", model.value_head[0].weight))

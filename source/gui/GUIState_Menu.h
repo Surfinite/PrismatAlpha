@@ -10,7 +10,7 @@
 namespace Prismata
 {
 
-enum MenuItemType { ITEM_HEADER, ITEM_STATE, ITEM_FOLDER };
+enum MenuItemType { ITEM_HEADER, ITEM_STATE, ITEM_FOLDER, ITEM_WATCH_TRAINING, ITEM_WATCH_EVAL };
 enum MenuView { VIEW_MAIN, VIEW_FOLDER };
 
 struct ReplayFolder

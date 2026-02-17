@@ -1,5 +1,6 @@
 #include "GUIState_Menu.h"
 #include "GUIState_Play.h"
+#include "GUIState_WatchTraining.h"
 
 #include "Prismata.h"
 #include "PrismataAI.h"
@@ -93,6 +94,22 @@ void GUIState_Menu::init(const std::string & menuConfig)
         item.type = ITEM_STATE;
         item.stateName = stateName;
         m_menuItems.push_back(item);
+    }
+
+    // Watch Training item
+    {
+        MenuItem watchItem;
+        watchItem.displayText = "Watch Training (Self-Play)";
+        watchItem.type = ITEM_WATCH_TRAINING;
+        m_menuItems.push_back(watchItem);
+    }
+
+    // Watch Eval item
+    {
+        MenuItem evalItem;
+        evalItem.displayText = "Watch Eval (Neural vs Hardest)";
+        evalItem.type = ITEM_WATCH_EVAL;
+        m_menuItems.push_back(evalItem);
     }
 
     scanReplays();
@@ -389,6 +406,16 @@ void GUIState_Menu::sUserInput()
                     {
                         enterFolder(item.folderIndex);
                     }
+                    else if (item.type == ITEM_WATCH_TRAINING)
+                    {
+                        m_game.pushState(std::make_shared<GUIState_WatchTraining>(m_game));
+                    }
+                    else if (item.type == ITEM_WATCH_EVAL)
+                    {
+                        m_game.pushState(std::make_shared<GUIState_WatchTraining>(
+                            m_game, "PrismatAlpha_AB_Legacy", "OriginalHardestAI",
+                            true, "WATCH EVAL"));
+                    }
                     break;
                 }
                 default: break;
@@ -504,6 +531,10 @@ void GUIState_Menu::sRender()
 
                 if (i == m_selectedMenuIndex)
                     m_menuText.setFillColor(sf::Color::Yellow);
+                else if (item.type == ITEM_WATCH_TRAINING)
+                    m_menuText.setFillColor(sf::Color(100, 220, 220));
+                else if (item.type == ITEM_WATCH_EVAL)
+                    m_menuText.setFillColor(sf::Color(220, 160, 100));
                 else if (item.type == ITEM_FOLDER)
                     m_menuText.setFillColor(sf::Color(100, 200, 100));
                 else

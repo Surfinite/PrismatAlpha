@@ -1861,6 +1861,6 @@ Source locations: SFML at `c:\libraries\sfml\`, RapidJSON embedded at `source/ra
 | ML State Eval Paper | https://skatgame.net/mburo/aiide19ws/paper-3.pdf | Churchill & Campbell 2019 - learned eval beats playout |
 | Campbell MSc Thesis | https://research.library.mun.ca/14433/ | Full thesis on ML state evaluation in Prismata |
 | GDC 2017 Talk | https://youtu.be/sQSL9j7W7uA | Churchill's GDC talk on Prismata AI design |
-| HPS Paper (AIIDE 2015) | http://www.cs.mun.ca/~dchurchill/pdf/aiide15_churchill_prismata.pdf | Hierarchical Portfolio Search (Best Student Paper) |
-| Game AI Pro 3 Chapter | http://www.cs.mun.ca/~dchurchill/pdf/prismata_gaip3.pdf | Implementation-focused HPS guide |
+| HPS Paper (AIIDE 2015) | https://davechurchill.ca/publications/pdf/aiide15_churchill_prismata.pdf | Hierarchical Portfolio Search (Best Student Paper) |
+| Game AI Pro 3 Chapter | https://davechurchill.ca/publications/pdf/prismata_gaip3.pdf | Implementation-focused HPS guide |
 

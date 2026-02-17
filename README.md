@@ -16,8 +16,8 @@ The original engine includes:
 
 | Paper | Year | Venue |
 |---|---|---|
-| [Hierarchical Portfolio Search: Prismata's Robust AI Architecture](http://www.cs.mun.ca/~dchurchill/pdf/aiide15_churchill_prismata.pdf) | 2015 | AIIDE (Best Student Paper) |
-| [Hierarchical Portfolio Search in Prismata](http://www.cs.mun.ca/~dchurchill/pdf/prismata_gaip3.pdf) | 2017 | Game AI Pro 3 |
+| [Hierarchical Portfolio Search: Prismata's Robust AI Architecture](https://davechurchill.ca/publications/pdf/aiide15_churchill_prismata.pdf) | 2015 | AIIDE (Best Student Paper) |
+| [Hierarchical Portfolio Search in Prismata](https://davechurchill.ca/publications/pdf/prismata_gaip3.pdf) | 2017 | Game AI Pro 3 |
 | [GDC 2017: Building the AI for Prismata](https://youtu.be/sQSL9j7W7uA) | 2017 | GDC |
 | [Machine Learning State Evaluation in Prismata](https://skatgame.net/mburo/aiide19ws/paper-3.pdf) | 2019 | AIIDE Workshop |
 

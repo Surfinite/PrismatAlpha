@@ -7,6 +7,11 @@
 
 #ifdef WIN32
     #include <Windows.h>
+    #include <process.h>
+    #define GETPID() _getpid()
+#else
+    #include <unistd.h>
+    #define GETPID() getpid()
 #endif
 
 using namespace Prismata;
@@ -27,8 +32,8 @@ int main(int argc, char *argv[])
     SetErrorMode(dwMode | SEM_NOGPFAULTERRORBOX);
 #endif
     
-    srand((unsigned int)time(NULL));
-    
+    srand((unsigned int)(time(NULL) ^ (GETPID() << 4)));
+
     // get the input line from stdin
     std::string inputLine;
     std::getline(std::cin, inputLine);

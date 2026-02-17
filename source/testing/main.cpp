@@ -6,13 +6,21 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+#include <process.h>
+#define GETPID() _getpid()
+#else
+#include <unistd.h>
+#define GETPID() getpid()
+#endif
+
 using namespace Prismata;
 
 int main(int argc, char* argv[])
 {
     printf("Benchmarks!\n");
 
-    srand((unsigned int)time(NULL));
+    srand((unsigned int)(time(NULL) ^ (GETPID() << 4)));
 
     // read all the configuration settings
     std::string configDir = "asset/config/";

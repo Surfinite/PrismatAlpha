@@ -275,8 +275,10 @@
     <ClCompile Include="..\source\gui\GUIState.cpp" />
     <ClCompile Include="..\source\gui\GUIState_Play.cpp" />
     <ClCompile Include="..\source\gui\GUIState_Menu.cpp" />
+    <ClCompile Include="..\source\gui\GUIState_WatchTraining.cpp" />
     <ClCompile Include="..\source\gui\GUITools.cpp" />
     <ClCompile Include="..\source\gui\main.cpp" />
+    <ClCompile Include="..\source\testing\SelfPlayDataSink.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\gui\Assets.h" />
@@ -286,8 +288,11 @@
     <ClInclude Include="..\source\gui\GUIState.h" />
     <ClInclude Include="..\source\gui\GUIState_Play.h" />
     <ClInclude Include="..\source\gui\GUIState_Menu.h" />
+    <ClInclude Include="..\source\gui\GUIState_WatchTraining.h" />
     <ClInclude Include="..\source\gui\GUITools.h" />
     <ClInclude Include="..\source\gui\WorldView.hpp" />
+    <ClInclude Include="..\source\testing\IDataSink.h" />
+    <ClInclude Include="..\source\testing\SelfPlayDataSink.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

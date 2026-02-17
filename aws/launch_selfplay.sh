@@ -144,38 +144,65 @@ for ($i = 0; $i -lt $numProcesses; $i++) {
     Start-Sleep -Seconds 3  # stagger for unique run_* dirs
 }
 
-Write-Host "All $numProcesses workers launched. Waiting for completion..."
+Write-Host "All $numProcesses workers launched. Waiting with periodic S3 sync..."
 
-# Wait for all to finish
+# Periodic S3 sync function — copies files to temp dir first to avoid lock conflicts
+function Sync-ToS3 {
+    param($bucket, $runId, $numProcesses)
+    $syncCount = 0
+    $tempBase = "C:\selfplay\sync_temp"
+    New-Item -ItemType Directory -Force -Path $tempBase | Out-Null
+    $runDirs = Get-ChildItem "C:\selfplay\training\data\selfplay\run_*" -Directory -ErrorAction SilentlyContinue
+    foreach ($dir in $runDirs) {
+        $tempRunDir = "$tempBase\$($dir.Name)"
+        New-Item -ItemType Directory -Force -Path $tempRunDir | Out-Null
+        $files = Get-ChildItem $dir.FullName -File -ErrorAction SilentlyContinue
+        foreach ($f in $files) {
+            try {
+                Copy-Item $f.FullName "$tempRunDir\$($f.Name)" -Force
+                $key = "results/$runId/$($dir.Name)/$($f.Name)"
+                Write-S3Object -BucketName $bucket -Key $key -File "$tempRunDir\$($f.Name)"
+                $syncCount++
+            } catch { Write-Host "[Sync] Warning: $($f.Name): $_" }
+        }
+    }
+    for ($i = 0; $i -lt $numProcesses; $i++) {
+        try {
+            $logFile = "C:\selfplay\log_worker_$i.txt"
+            if (Test-Path $logFile) {
+                Copy-Item $logFile "$tempBase\log_worker_$i.txt" -Force
+                Write-S3Object -BucketName $bucket -Key "results/$runId/log_worker_$i.txt" -File "$tempBase\log_worker_$i.txt"
+            }
+            $stdoutLog = "C:\selfplay\log_stdout_$i.txt"
+            if (Test-Path $stdoutLog) {
+                Copy-Item $stdoutLog "$tempBase\log_stdout_$i.txt" -Force
+                Write-S3Object -BucketName $bucket -Key "results/$runId/log_stdout_$i.txt" -File "$tempBase\log_stdout_$i.txt"
+            }
+        } catch { }
+    }
+    Remove-Item $tempBase -Recurse -Force -ErrorAction SilentlyContinue
+    return $syncCount
+}
+
+# Wait for workers with periodic sync every 5 minutes
+$syncIntervalSec = 300
+while ($true) {
+    $running = @($jobs | Where-Object { -not $_.HasExited })
+    if ($running.Count -eq 0) { break }
+    Start-Sleep -Seconds $syncIntervalSec
+    $count = Sync-ToS3 $bucket $runId $numProcesses
+    $running = @($jobs | Where-Object { -not $_.HasExited })
+    Write-Host "[Sync] Uploaded $count files. Workers running: $($running.Count)/$numProcesses"
+}
+
 foreach ($job in $jobs) {
-    $job.WaitForExit()
     Write-Host "Worker PID $($job.Id) finished with exit code $($job.ExitCode)"
 }
 
-Write-Host "All workers complete. Uploading results..."
-
-# Upload all selfplay data to S3
-$runDirs = Get-ChildItem "C:\selfplay\training\data\selfplay\run_*" -Directory
-foreach ($dir in $runDirs) {
-    $files = Get-ChildItem $dir.FullName -File
-    foreach ($f in $files) {
-        $key = "results/$runId/$($dir.Name)/$($f.Name)"
-        Write-S3Object -BucketName $bucket -Key $key -File $f.FullName
-        Write-Host "Uploaded: $key"
-    }
-}
-
-# Upload logs (stderr = tournament progress, stdout = verbose output)
-for ($i = 0; $i -lt $numProcesses; $i++) {
-    $logFile = "C:\selfplay\log_worker_$i.txt"
-    if (Test-Path $logFile) {
-        Write-S3Object -BucketName $bucket -Key "results/$runId/log_worker_$i.txt" -File $logFile
-    }
-    $stdoutLog = "C:\selfplay\log_stdout_$i.txt"
-    if (Test-Path $stdoutLog) {
-        Write-S3Object -BucketName $bucket -Key "results/$runId/log_stdout_$i.txt" -File $stdoutLog
-    }
-}
+# Final sync to catch anything from the last interval
+Write-Host "All workers complete. Final S3 sync..."
+$count = Sync-ToS3 $bucket $runId $numProcesses
+Write-Host "[Sync] Final upload: $count files"
 
 Write-Host "=== Upload complete. Shutting down. ==="
 Stop-Transcript
