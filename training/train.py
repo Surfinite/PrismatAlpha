@@ -79,9 +79,10 @@ class PrismataNet(nn.Module):
     """Combined policy + value network for Prismata."""
 
     def __init__(self, state_dim, num_units, hidden_dim=512, num_layers=4,
-                 dropout=0.1, value_only=False):
+                 dropout=0.1, value_only=False, use_tanh=False):
         super().__init__()
         self.value_only = value_only
+        self.use_tanh = use_tanh
 
         # Shared trunk with residual connections
         self.input_proj = nn.Linear(state_dim, hidden_dim)
@@ -104,10 +105,9 @@ class PrismataNet(nn.Module):
                 nn.Linear(hidden_dim // 2, num_units),
             )
 
-        # Value head: predict win probability (raw logit, NO tanh here)
-        # Tanh is applied manually for metrics/inference only.
-        # Training loss uses raw logit to avoid gradient death through saturated tanh.
-        # C++ NeuralNet.cpp applies tanhf() during inference, matching this design.
+        # Value head: predict win probability
+        # When use_tanh=True: applies tanh in forward (matches C++ inference)
+        # When use_tanh=False: raw logit (original behavior, or for BCE loss)
         self.value_head = nn.Sequential(
             nn.Linear(hidden_dim, hidden_dim // 4),
             nn.ReLU(),
@@ -120,13 +120,14 @@ class PrismataNet(nn.Module):
         for layer in self.trunk_layers:
             h = h + F.relu(layer(h))  # Residual
 
-        value_logit = self.value_head(h).squeeze(-1)  # Raw logit, unbounded
+        value_logit = self.value_head(h).squeeze(-1)  # Raw logit
+        value_out = torch.tanh(value_logit) if self.use_tanh else value_logit
 
         if self.value_only:
-            return None, value_logit
+            return None, value_out
 
         policy = self.policy_head(h)  # Raw logits / counts
-        return policy, value_logit
+        return policy, value_out
 
 
 def policy_loss_fn(pred, target):
@@ -159,13 +160,17 @@ def compute_policy_accuracy(pred, target):
     return match.mean().item()
 
 
-def compute_value_accuracy(pred_logit, target):
+def compute_value_accuracy(pred, target, bce_mode=False):
     """Accuracy: what fraction correctly predict winner.
 
-    pred_logit is the raw pre-tanh value. Sign of logit matches sign of tanh(logit),
-    so we can compare signs directly without applying tanh.
+    For MSE mode: compare signs (works for both raw logit and tanh output).
+    For BCE mode: pred > 0 means P(win) > 0.5, target > 0.5 means actual win.
     """
-    pred_sign = (pred_logit > 0).float() * 2 - 1  # Convert to {-1, 1}
+    if bce_mode:
+        pred_wins = (pred > 0).float()
+        target_wins = (target > 0.5).float()
+        return (pred_wins == target_wins).float().mean().item()
+    pred_sign = (pred > 0).float() * 2 - 1  # Convert to {-1, 1}
     target_sign = (target > 0).float() * 2 - 1
     return (pred_sign == target_sign).float().mean().item()
 
@@ -221,8 +226,11 @@ def check_label_sanity(train_data, val_data):
     print("  Label sanity check: PASSED\n")
 
 
-def train_epoch(model, loader, optimizer, device, policy_weight=0.5):
+def train_epoch(model, loader, optimizer, device, policy_weight=0.5,
+                value_criterion=None, bce_mode=False):
     """Train one epoch, return (policy_loss, value_loss, policy_acc, value_acc, value_stats)."""
+    if value_criterion is None:
+        value_criterion = nn.MSELoss()
     model.train()
     total_ploss = 0
     total_vloss = 0
@@ -244,7 +252,7 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5):
         optimizer.zero_grad()
         policy_pred, value_pred = model(states)
 
-        vloss = value_loss_fn(value_pred, values_target)
+        vloss = value_criterion(value_pred, values_target)
 
         if policy_pred is not None:
             # Only compute policy loss on records that have policy targets
@@ -265,21 +273,31 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5):
         optimizer.step()
 
         total_vloss += vloss.item()
-        total_vacc += compute_value_accuracy(value_pred, values_target)
+        total_vacc += compute_value_accuracy(value_pred, values_target, bce_mode)
         all_vpreds.append(value_pred.detach().cpu())
         n_batches += 1
 
     # Compute value prediction statistics for saturation monitoring
-    # Apply tanh for display/monitoring purposes (training uses raw logits)
     all_vpreds = torch.cat(all_vpreds)
-    all_vpreds_tanh = torch.tanh(all_vpreds)
-    value_stats = {
-        "mean": all_vpreds_tanh.mean().item(),
-        "std": all_vpreds_tanh.std().item(),
-        "min": all_vpreds_tanh.min().item(),
-        "max": all_vpreds_tanh.max().item(),
-        "saturated_frac": ((all_vpreds_tanh.abs() > 0.95).float().mean().item()),
-    }
+    if bce_mode:
+        # For BCE mode, apply sigmoid for display
+        all_vpreds_bounded = torch.sigmoid(all_vpreds)
+        value_stats = {
+            "mean": all_vpreds_bounded.mean().item(),
+            "std": all_vpreds_bounded.std().item(),
+            "min": all_vpreds_bounded.min().item(),
+            "max": all_vpreds_bounded.max().item(),
+            "saturated_frac": ((all_vpreds_bounded - 0.5).abs() > 0.45).float().mean().item(),
+        }
+    else:
+        all_vpreds_tanh = torch.tanh(all_vpreds)
+        value_stats = {
+            "mean": all_vpreds_tanh.mean().item(),
+            "std": all_vpreds_tanh.std().item(),
+            "min": all_vpreds_tanh.min().item(),
+            "max": all_vpreds_tanh.max().item(),
+            "saturated_frac": ((all_vpreds_tanh.abs() > 0.95).float().mean().item()),
+        }
 
     return (
         total_ploss / max(n_policy_batches, 1),
@@ -291,8 +309,11 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5):
 
 
 @torch.no_grad()
-def eval_epoch(model, loader, device, policy_weight=0.5):
+def eval_epoch(model, loader, device, policy_weight=0.5,
+               value_criterion=None, bce_mode=False):
     """Evaluate one epoch, return (policy_loss, value_loss, policy_acc, value_acc, value_stats)."""
+    if value_criterion is None:
+        value_criterion = nn.MSELoss()
     model.eval()
     total_ploss = 0
     total_vloss = 0
@@ -301,6 +322,7 @@ def eval_epoch(model, loader, device, policy_weight=0.5):
     n_batches = 0
     n_policy_batches = 0
     all_vpreds = []
+    all_targets = []
 
     for batch in loader:
         states, buys, values_target = batch[0], batch[1], batch[2]
@@ -313,7 +335,7 @@ def eval_epoch(model, loader, device, policy_weight=0.5):
 
         policy_pred, value_pred = model(states)
 
-        vloss = value_loss_fn(value_pred, values_target)
+        vloss = value_criterion(value_pred, values_target)
 
         if policy_pred is not None:
             policy_mask = has_policy > 0.5
@@ -324,19 +346,40 @@ def eval_epoch(model, loader, device, policy_weight=0.5):
                 n_policy_batches += 1
 
         total_vloss += vloss.item()
-        total_vacc += compute_value_accuracy(value_pred, values_target)
+        total_vacc += compute_value_accuracy(value_pred, values_target, bce_mode)
         all_vpreds.append(value_pred.cpu())
+        all_targets.append(values_target.cpu())
         n_batches += 1
 
     all_vpreds = torch.cat(all_vpreds)
-    all_vpreds_tanh = torch.tanh(all_vpreds)
-    value_stats = {
-        "mean": all_vpreds_tanh.mean().item(),
-        "std": all_vpreds_tanh.std().item(),
-        "min": all_vpreds_tanh.min().item(),
-        "max": all_vpreds_tanh.max().item(),
-        "saturated_frac": ((all_vpreds_tanh.abs() > 0.95).float().mean().item()),
-    }
+    all_targets = torch.cat(all_targets)
+
+    if bce_mode:
+        all_vpreds_bounded = torch.sigmoid(all_vpreds)
+        value_stats = {
+            "mean": all_vpreds_bounded.mean().item(),
+            "std": all_vpreds_bounded.std().item(),
+            "min": all_vpreds_bounded.min().item(),
+            "max": all_vpreds_bounded.max().item(),
+            "saturated_frac": ((all_vpreds_bounded - 0.5).abs() > 0.45).float().mean().item(),
+        }
+        # Brier score: mean( (predicted_prob - actual_outcome)^2 )
+        brier = ((all_vpreds_bounded - all_targets) ** 2).mean().item()
+        value_stats["brier_score"] = brier
+    else:
+        all_vpreds_tanh = torch.tanh(all_vpreds)
+        value_stats = {
+            "mean": all_vpreds_tanh.mean().item(),
+            "std": all_vpreds_tanh.std().item(),
+            "min": all_vpreds_tanh.min().item(),
+            "max": all_vpreds_tanh.max().item(),
+            "saturated_frac": ((all_vpreds_tanh.abs() > 0.95).float().mean().item()),
+        }
+        # Brier score: convert to [0,1] probabilities first
+        pred_prob = (all_vpreds_tanh + 1) / 2
+        target_prob = (all_targets + 1) / 2
+        brier = ((pred_prob - target_prob) ** 2).mean().item()
+        value_stats["brier_score"] = brier
 
     return (
         total_ploss / max(n_policy_batches, 1),
@@ -381,7 +424,8 @@ def get_schema_hash(data_dir):
     return "no_schema"
 
 
-def load_selfplay_data(selfplay_dir, num_units, label_smooth=0.95):
+def load_selfplay_data(selfplay_dir, num_units, label_smooth=0.95, max_records=0,
+                       subsample_every=1):
     """Load self-play binary data and split into train/val by game_id.
 
     Split: game_id % 10 == 0 goes to val (deterministic, stable across runs).
@@ -392,16 +436,36 @@ def load_selfplay_data(selfplay_dir, num_units, label_smooth=0.95):
     A has_policy mask tensor is included so the loss function can skip policy
     loss on self-play records.
 
+    Args:
+        subsample_every: Keep every Nth position per game (1=all, 3=every 3rd).
+            Reduces temporal correlation between adjacent positions.
+
     Returns:
         (train_data, val_data) dicts with keys: states, buy_targets, values, turns, has_policy
     """
     # Import here to avoid circular dependency at module level
     from load_selfplay import load_all_shards
 
-    records = load_all_shards(selfplay_dir)
+    records = load_all_shards(selfplay_dir, validate_crc=False, max_records=max_records)
     if records is None:
         print("FATAL: No self-play data loaded.")
         sys.exit(1)
+
+    # Position subsampling: keep every Nth position per game
+    if subsample_every > 1:
+        game_ids_raw = records['game_id']
+        # Compute position index within each game
+        _, inverse = np.unique(game_ids_raw, return_inverse=True)
+        counts = np.zeros(inverse.max() + 1, dtype=np.int32)
+        position_in_game = np.empty(len(game_ids_raw), dtype=np.int32)
+        for i in range(len(game_ids_raw)):
+            position_in_game[i] = counts[inverse[i]]
+            counts[inverse[i]] += 1
+        keep_mask = (position_in_game % subsample_every) == 0
+        original_count = len(records)
+        records = records[keep_mask]
+        print(f"  Subsampled: {original_count:,} -> {len(records):,} records "
+              f"(every {subsample_every}th position per game)")
 
     # Validate
     features = records['features']
@@ -586,6 +650,10 @@ def main():
                         help="Weight for policy loss relative to value loss (default 0.5)")
     parser.add_argument("--label-smooth", type=float, default=0.95,
                         help="Label smoothing for value targets: +/-1 -> +/-smooth (default 0.95)")
+    parser.add_argument("--weight-decay", type=float, default=1e-4,
+                        help="Weight decay for non-bias/norm params (default 1e-4)")
+    parser.add_argument("--max-records", type=int, default=0,
+                        help="Max training records to load (0=all). Use to cap memory on large datasets.")
     parser.add_argument("--patience", type=int, default=10,
                         help="Early stopping patience on val value loss (0=disabled)")
     parser.add_argument("--num-workers", type=int, default=8, help="DataLoader workers")
@@ -596,6 +664,14 @@ def main():
                         help="Directory with binary self-play shards (selfplay_t*_s*.bin)")
     parser.add_argument("--expert-weight", type=float, default=0.5,
                         help="Fraction of training data from expert replays when mixing (default 0.5)")
+    parser.add_argument("--tanh-in-training", action="store_true",
+                        help="Apply tanh in forward pass during training (fixes mismatch with C++ inference)")
+    parser.add_argument("--loss-fn", choices=["mse", "bce"], default="mse",
+                        help="Value loss function: mse (default) or bce (BCEWithLogitsLoss)")
+    parser.add_argument("--eval-every-steps", type=int, default=0,
+                        help="Evaluate every N optimizer steps (0=epoch-level only)")
+    parser.add_argument("--subsample-every", type=int, default=1,
+                        help="Keep every Nth position per game to reduce temporal correlation (1=all)")
     args = parser.parse_args()
 
     # Overfit test: quick architecture validation
@@ -616,7 +692,8 @@ def main():
     if args.selfplay_dir:
         # Self-play mode: load binary shards, optionally mix with expert data
         sp_train, sp_val = load_selfplay_data(
-            args.selfplay_dir, num_units, label_smooth=args.label_smooth)
+            args.selfplay_dir, num_units, label_smooth=args.label_smooth,
+            max_records=args.max_records, subsample_every=args.subsample_every)
 
         state_dim = sp_train["states"].shape[1]
 
@@ -706,6 +783,22 @@ def main():
     # Pre-training label sanity check
     check_label_sanity(train_data, val_data)
 
+    # Set up loss function mode
+    bce_mode = args.loss_fn == 'bce'
+    if bce_mode:
+        value_criterion = nn.BCEWithLogitsLoss()
+        # Remap targets from [-smooth, +smooth] to [0, 1] for BCE
+        # -0.95 -> 0.025, +0.95 -> 0.975
+        train_data["values"] = (train_data["values"] + 1) / 2
+        val_data["values"] = (val_data["values"] + 1) / 2
+        print(f"  BCE mode: targets remapped to [{val_data['values'].min():.3f}, {val_data['values'].max():.3f}]")
+        if args.tanh_in_training:
+            print("  WARNING: --tanh-in-training ignored with --loss-fn bce (BCE uses sigmoid internally)")
+    else:
+        value_criterion = nn.MSELoss()
+        if args.tanh_in_training:
+            print(f"  Tanh-in-training ENABLED: model applies tanh in forward pass")
+
     # Create datasets and loaders (now includes has_policy as 5th tensor)
     train_ds = TensorDataset(
         train_data["states"], train_data["buy_targets"],
@@ -728,9 +821,10 @@ def main():
                             persistent_workers=use_workers > 0, pin_memory=True)
 
     # Create model
+    use_tanh = args.tanh_in_training and not bce_mode
     model = PrismataNet(state_dim, num_units, hidden_dim=args.hidden_dim,
                         num_layers=args.num_layers, dropout=args.dropout,
-                        value_only=args.value_only).to(device)
+                        value_only=args.value_only, use_tanh=use_tanh).to(device)
     param_count = sum(p.numel() for p in model.parameters())
     print(f"\nModel: {param_count:,} parameters (hidden={args.hidden_dim}, layers={args.num_layers})")
 
@@ -743,7 +837,7 @@ def main():
         else:
             decay_params.append(param)
     optimizer = torch.optim.AdamW([
-        {'params': decay_params, 'weight_decay': 1e-4},
+        {'params': decay_params, 'weight_decay': args.weight_decay},
         {'params': no_decay_params, 'weight_decay': 0.0},
     ], lr=args.lr)
 
@@ -798,9 +892,14 @@ def main():
             "label_smooth": args.label_smooth,
             "patience": args.patience,
             "value_only": args.value_only,
-            "weight_decay": 1e-4,
+            "weight_decay": args.weight_decay,
             "selfplay_dir": args.selfplay_dir,
             "expert_weight": args.expert_weight,
+            "loss_fn": args.loss_fn,
+            "tanh_in_training": args.tanh_in_training,
+            "use_tanh": use_tanh,
+            "eval_every_steps": args.eval_every_steps,
+            "subsample_every": args.subsample_every,
         },
         "data": {
             "train_examples": train_data["states"].shape[0],
@@ -816,93 +915,204 @@ def main():
     # Training loop
     best_val_vloss = float("inf")
     best_epoch = 0
+    best_step = 0
     patience_counter = 0
+    global_step = 0
+    early_stopped = False
 
     mode_str = "value-only" if args.value_only else "policy+value"
+    loss_str = f"loss={args.loss_fn}" + ("+tanh" if use_tanh else "")
     print(f"\nTraining {mode_str} for {args.epochs} epochs "
-          f"(batch={args.batch_size}, lr={args.lr}, policy_wt={args.policy_weight}, "
-          f"label_smooth={args.label_smooth}, patience={args.patience})...\n")
+          f"(batch={args.batch_size}, lr={args.lr}, {loss_str}, "
+          f"label_smooth={args.label_smooth}, patience={args.patience})")
+    if args.eval_every_steps > 0:
+        print(f"  Step-level eval every {args.eval_every_steps} steps")
+    print()
 
     # Header
     if args.value_only:
         print(f"{'Ep':>4} {'TrVL':>7} {'TrVA':>6} {'VaVL':>7} {'VaVA':>6} "
-              f"{'VPred':>12} {'Sat%':>5} {'LR':>9} {'Time':>5} {'Note':>8}")
-        print("-" * 82)
+              f"{'Brier':>6} {'VPred':>12} {'Sat%':>5} {'LR':>9} {'Step':>6} {'Time':>5} {'Note':>8}")
+        print("-" * 96)
     else:
         print(f"{'Ep':>4} {'TrPL':>7} {'TrVL':>7} {'TrPA':>6} {'TrVA':>6} "
               f"{'VaPL':>7} {'VaVL':>7} {'VaPA':>6} {'VaVA':>6} "
-              f"{'VPred':>12} {'Sat%':>5} {'LR':>9} {'Time':>5} {'Note':>8}")
-        print("-" * 118)
+              f"{'Brier':>6} {'VPred':>12} {'Sat%':>5} {'LR':>9} {'Step':>6} {'Time':>5} {'Note':>8}")
+        print("-" * 132)
+
+    def save_checkpoint(tag, epoch, step, va_vl, va_va, va_vs):
+        """Save model checkpoint with full metadata."""
+        torch.save({
+            "epoch": epoch,
+            "global_step": step,
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+            "state_dim": state_dim,
+            "num_units": num_units,
+            "hidden_dim": args.hidden_dim,
+            "num_layers": args.num_layers,
+            "value_only": args.value_only,
+            "use_tanh": use_tanh,
+            "loss_fn": args.loss_fn,
+            "dropout": args.dropout,
+            "unit_index": unit_index,
+            "val_value_loss": va_vl,
+            "val_value_acc": va_va,
+            "label_smooth": args.label_smooth,
+            "policy_weight": args.policy_weight,
+        }, os.path.join(args.model_dir, f"{tag}.pt"))
+
+    def do_eval(epoch, step):
+        """Run evaluation and handle best tracking. Returns (va_vl, improved)."""
+        nonlocal best_val_vloss, best_epoch, best_step, patience_counter
+        va_pl, va_vl, va_pa, va_va, va_vs = eval_epoch(
+            model, val_loader, device, args.policy_weight,
+            value_criterion=value_criterion, bce_mode=bce_mode)
+
+        note = ""
+        improved = False
+        if va_vl < best_val_vloss:
+            best_val_vloss = va_vl
+            best_epoch = epoch
+            best_step = step
+            patience_counter = 0
+            note = "*best"
+            improved = True
+            save_checkpoint("best_model", epoch, step, va_vl, va_va, va_vs)
+        else:
+            patience_counter += 1
+
+        if va_vs["saturated_frac"] > 0.5:
+            note += " !sat"
+
+        vpred_str = f"[{va_vs['min']:+.2f},{va_vs['max']:+.2f}]"
+        brier_str = f"{va_vs.get('brier_score', 0):.4f}"
+
+        return va_pl, va_vl, va_pa, va_va, va_vs, vpred_str, brier_str, note, improved
 
     wall_start = time.time()
+    run_log["step_evals"] = []
 
     for epoch in range(start_epoch, args.epochs + 1):
         t0 = time.time()
 
-        tr_pl, tr_vl, tr_pa, tr_va, tr_vs = train_epoch(
-            model, train_loader, optimizer, device, args.policy_weight)
-        va_pl, va_vl, va_pa, va_va, va_vs = eval_epoch(
-            model, val_loader, device, args.policy_weight)
+        # --- Train epoch with optional step-level eval ---
+        if args.eval_every_steps > 0:
+            # Batch-level training with step-level evaluation
+            model.train()
+            epoch_vloss_sum = 0
+            epoch_vacc_sum = 0
+            n_epoch_batches = 0
+
+            for batch in train_loader:
+                states, buys, values_target = batch[0], batch[1], batch[2]
+                has_policy = batch[4] if len(batch) > 4 else torch.ones(states.shape[0])
+
+                states = states.to(device)
+                buys = buys.to(device)
+                values_target = values_target.to(device)
+                has_policy = has_policy.to(device)
+
+                optimizer.zero_grad()
+                policy_pred, value_pred = model(states)
+                vloss = value_criterion(value_pred, values_target)
+
+                if policy_pred is not None:
+                    policy_mask = has_policy > 0.5
+                    if policy_mask.any():
+                        ploss = policy_loss_fn(policy_pred[policy_mask], buys[policy_mask])
+                        loss = vloss + args.policy_weight * ploss
+                    else:
+                        loss = vloss
+                else:
+                    loss = vloss
+
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+                optimizer.step()
+
+                epoch_vloss_sum += vloss.item()
+                epoch_vacc_sum += compute_value_accuracy(value_pred, values_target, bce_mode)
+                n_epoch_batches += 1
+                global_step += 1
+
+                # Step-level evaluation
+                if global_step % args.eval_every_steps == 0:
+                    va_pl, va_vl, va_pa, va_va, va_vs, vpred_str, brier_str, note, _ = do_eval(epoch, global_step)
+
+                    # Save step checkpoint for multi-checkpoint tournament later
+                    save_checkpoint(f"model_step_{global_step}", epoch, global_step,
+                                    va_vl, va_va, va_vs)
+
+                    lr = optimizer.param_groups[0]["lr"]
+                    print(f"  S{global_step:6d} "
+                          f"val_loss={va_vl:.4f} val_acc={va_va:.1%} "
+                          f"brier={brier_str} {vpred_str} "
+                          f"lr={lr:.6f} {note}")
+
+                    run_log["step_evals"].append({
+                        "step": global_step,
+                        "epoch": epoch,
+                        "val_value_loss": round(va_vl, 6),
+                        "val_value_acc": round(va_va, 4),
+                        "brier_score": round(va_vs.get("brier_score", 0), 6),
+                        "val_value_pred_mean": round(va_vs["mean"], 4),
+                        "val_value_pred_min": round(va_vs["min"], 4),
+                        "val_value_pred_max": round(va_vs["max"], 4),
+                        "lr": lr,
+                    })
+
+                    model.train()  # Resume training
+
+                    # Step-level early stopping
+                    if args.patience > 0 and patience_counter >= args.patience:
+                        early_stopped = True
+                        break
+
+            if early_stopped:
+                print(f"\nEarly stopping at step {global_step} (no improvement for "
+                      f"{args.patience} eval points)")
+                print(f"Best val value loss: {best_val_vloss:.4f} at step {best_step}")
+                break
+
+            # Epoch summary line (training stats from this epoch)
+            tr_vl = epoch_vloss_sum / max(n_epoch_batches, 1)
+            tr_va = epoch_vacc_sum / max(n_epoch_batches, 1)
+            tr_pl = 0  # Not tracked in step-level mode
+            tr_pa = 0
+        else:
+            # Standard epoch-level training (original behavior)
+            tr_pl, tr_vl, tr_pa, tr_va, tr_vs = train_epoch(
+                model, train_loader, optimizer, device, args.policy_weight,
+                value_criterion=value_criterion, bce_mode=bce_mode)
+            global_step += len(train_loader)
+
+        # End-of-epoch evaluation
+        va_pl, va_vl, va_pa, va_va, va_vs, vpred_str, brier_str, note, _ = do_eval(epoch, global_step)
         lr = optimizer.param_groups[0]["lr"]
         scheduler.step()
 
         elapsed = time.time() - t0
 
-        # Note column for best/early-stop tracking
-        note = ""
-        if va_vl < best_val_vloss:
-            best_val_vloss = va_vl
-            best_epoch = epoch
-            patience_counter = 0
-            note = "*best"
-
-            torch.save({
-                "epoch": epoch,
-                "model_state_dict": model.state_dict(),
-                "optimizer_state_dict": optimizer.state_dict(),
-                "state_dim": state_dim,
-                "num_units": num_units,
-                "hidden_dim": args.hidden_dim,
-                "num_layers": args.num_layers,
-                "value_only": args.value_only,
-                "dropout": args.dropout,
-                "unit_index": unit_index,
-                "val_policy_loss": va_pl,
-                "val_value_loss": va_vl,
-                "val_value_acc": va_va,
-                "label_smooth": args.label_smooth,
-                "policy_weight": args.policy_weight,
-            }, os.path.join(args.model_dir, "best_model.pt"))
-        else:
-            patience_counter += 1
-
-        # Saturation warning
-        if va_vs["saturated_frac"] > 0.5:
-            note += " !sat"
-
-        # Value prediction summary string
-        vpred_str = f"[{va_vs['min']:+.2f},{va_vs['max']:+.2f}]"
-
         # Print epoch line
         if args.value_only:
             print(f"{epoch:4d} {tr_vl:7.4f} {tr_va:6.1%} {va_vl:7.4f} {va_va:6.1%} "
-                  f"{vpred_str:>12s} {va_vs['saturated_frac']:5.1%} {lr:9.6f} {elapsed:4.0f}s {note:>8s}")
+                  f"{brier_str:>6s} {vpred_str:>12s} {va_vs['saturated_frac']:5.1%} "
+                  f"{lr:9.6f} {global_step:6d} {elapsed:4.0f}s {note:>8s}")
         else:
             print(f"{epoch:4d} {tr_pl:7.4f} {tr_vl:7.4f} {tr_pa:6.1%} {tr_va:6.1%} "
                   f"{va_pl:7.4f} {va_vl:7.4f} {va_pa:6.1%} {va_va:6.1%} "
-                  f"{vpred_str:>12s} {va_vs['saturated_frac']:5.1%} {lr:9.6f} {elapsed:4.0f}s {note:>8s}")
+                  f"{brier_str:>6s} {vpred_str:>12s} {va_vs['saturated_frac']:5.1%} "
+                  f"{lr:9.6f} {global_step:6d} {elapsed:4.0f}s {note:>8s}")
 
         # Log epoch data
         epoch_log = {
             "epoch": epoch,
+            "global_step": global_step,
             "train_value_loss": round(tr_vl, 6),
-            "train_policy_loss": round(tr_pl, 6),
-            "train_value_acc": round(tr_va, 4),
-            "train_policy_acc": round(tr_pa, 4),
             "val_value_loss": round(va_vl, 6),
-            "val_policy_loss": round(va_pl, 6),
             "val_value_acc": round(va_va, 4),
-            "val_policy_acc": round(va_pa, 4),
+            "brier_score": round(va_vs.get("brier_score", 0), 6),
             "val_value_pred_mean": round(va_vs["mean"], 4),
             "val_value_pred_std": round(va_vs["std"], 4),
             "val_value_pred_min": round(va_vs["min"], 4),
@@ -915,20 +1125,11 @@ def main():
 
         # Save periodic checkpoints
         if epoch % 10 == 0:
-            torch.save({
-                "epoch": epoch,
-                "model_state_dict": model.state_dict(),
-                "optimizer_state_dict": optimizer.state_dict(),
-                "state_dim": state_dim,
-                "num_units": num_units,
-                "hidden_dim": args.hidden_dim,
-                "num_layers": args.num_layers,
-                "value_only": args.value_only,
-                "dropout": args.dropout,
-            }, os.path.join(args.model_dir, f"checkpoint_ep{epoch}.pt"))
+            save_checkpoint(f"checkpoint_ep{epoch}", epoch, global_step,
+                            va_vl, va_va, va_vs)
 
-        # Early stopping
-        if args.patience > 0 and patience_counter >= args.patience:
+        # Epoch-level early stopping (only when not using step-level)
+        if args.eval_every_steps == 0 and args.patience > 0 and patience_counter >= args.patience:
             print(f"\nEarly stopping at epoch {epoch} (no improvement for {args.patience} epochs)")
             print(f"Best val value loss: {best_val_vloss:.4f} at epoch {best_epoch}")
             break
@@ -936,7 +1137,7 @@ def main():
     wall_time = time.time() - wall_start
 
     # Final summary
-    print(f"\nDone! Best val value loss: {best_val_vloss:.4f} at epoch {best_epoch}")
+    print(f"\nDone! Best val value loss: {best_val_vloss:.4f} at epoch {best_epoch} (step {best_step})")
     print(f"Total wall time: {wall_time:.0f}s ({wall_time/60:.1f}min)")
     print(f"Model saved to {args.model_dir}/best_model.pt")
 
@@ -944,6 +1145,7 @@ def main():
     run_log["total_wall_time_s"] = round(wall_time, 1)
     run_log["best_val_value_loss"] = round(best_val_vloss, 6)
     run_log["best_epoch"] = best_epoch
+    run_log["best_step"] = best_step
     run_log["final_epoch"] = epoch
 
     with open(run_log_path, "w") as f:
