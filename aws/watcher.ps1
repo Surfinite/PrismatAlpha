@@ -430,10 +430,10 @@ if (Test-Path $StatusFile) {
         $minsSinceLastCheck = ((Get-Date) - $lastCheck).TotalMinutes
         if ($minsSinceLastCheck -gt 30) {
             $staleStatus = $true
-            $prevTrackedInstances = 0
-            $prevGcpTrackedInstances = 0
-            $prevAzureTrackedInstances = 0
-            Log "Status is $([int]$minsSinceLastCheck)min stale. Boot protection: won't auto-relaunch."
+            # Note: $staleStatus gates all auto-relaunch blocks (lines 447/507/580).
+            # Do NOT zero tracked_instances here — that permanently kills auto-relaunch
+            # even after status becomes fresh again. The $staleStatus flag is sufficient.
+            Log "Status is $([int]$minsSinceLastCheck)min stale. Boot protection: won't auto-relaunch this cycle."
         }
     } catch {}
 } else {
