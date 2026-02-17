@@ -4,6 +4,8 @@
 
 Add Azure as a third cloud provider for self-play generation. Replicates the existing AWS EC2 / GCP Compute Engine pattern: launch Windows Server VMs, download exe+config from S3, run self-play, upload shards to S3, auto-terminate.
 
+**Status:** COMPLETE — Azure pipeline operational (Feb 16-17). 28 VMs running across 12 D/F-series families in North Europe. TheWatcher monitors and auto-relaunches. See CLAUDE.md for current fleet status.
+
 **Estimated total work**: ~3-4 hours of implementation (phases 2-4), spread across waiting for quota approval.
 
 ---

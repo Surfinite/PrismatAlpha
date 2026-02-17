@@ -1,7 +1,7 @@
 # Hyperparameter Experiment Plan: Tackling Value Network Overfitting
 
 **Date:** 2026-02-17
-**Status:** PLANNED — awaiting execution
+**Status:** SUPERSEDED by hyperparameter-experiments-v2.md (which is now COMPLETE). This v1 plan ran 3 experiments with confounds (expert data mixed in, tanh mismatch unfixed). See v2 plan for clean results.
 **Goal:** Fix severe overfitting in self-play value network training, achieve >20% WR vs OriginalHardestAI
 
 ---

@@ -1,7 +1,7 @@
 # Hyperparameter Experiment Plan v2: Fixing Value Network Training
 
 **Date:** 2026-02-17
-**Status:** IN PROGRESS — v1 experiments completed (inconclusive), v2 Phase 0 not yet started
+**Status:** COMPLETE — All 9 v2 experiments finished, tournament eval done. E2b (256h) = 26.7% WR, E1b (512h) = 19.6% WR vs OriginalHardestAI. Goal of >20% WR achieved by E2b. Next: retrain on full 232K game dataset with streaming loader.
 **Goal:** Fix overfitting + training/inference mismatch; achieve >20% WR vs OriginalHardestAI
 **Revision:** Consolidated from v1 + six independent expert critiques
 
