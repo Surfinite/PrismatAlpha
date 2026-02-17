@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrismataAI Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Oxanium:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Scanline overlay -->
+  <div class="scanlines"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo-mark"></div>
+      <h1 class="header-title">PRISMAT<span class="accent">AI</span></h1>
+      <span class="header-subtitle">COMMAND CENTER</span>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <span class="header-stat-label">WATCHER</span>
+        <span id="watcher-dot" class="status-dot dot-stale" title="Unknown"></span>
+        <span id="watcher-ago" class="header-stat-value">--</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">SSE</span>
+        <span id="sse-dot" class="status-dot dot-offline" title="Disconnected"></span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">DISK</span>
+        <span id="disk-free" class="header-stat-value">--</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main grid -->
+  <main class="grid">
+
+    <!-- Fleet Status -->
+    <section class="panel panel-fleet">
+      <div class="panel-header">
+        <span class="panel-icon">&#9632;</span>
+        <h2>FLEET STATUS</h2>
+        <span class="panel-badge" id="fleet-total">--</span>
+      </div>
+      <div class="fleet-grid">
+        <div class="fleet-card" id="fleet-aws">
+          <div class="fleet-card-head">
+            <span class="fleet-provider">AWS</span>
+            <span id="aws-dot" class="status-dot dot-stale"></span>
+          </div>
+          <div class="fleet-big" id="aws-count">--</div>
+          <div class="fleet-detail">
+            <span><span class="tag tag-od">OD</span> <span id="aws-od">-</span></span>
+            <span><span class="tag tag-spot">SPOT</span> <span id="aws-spot">-</span></span>
+          </div>
+          <div class="fleet-quota">
+            <div class="quota-bar"><div class="quota-fill" id="aws-quota-fill"></div></div>
+            <span class="quota-text" id="aws-quota-text">--</span>
+          </div>
+        </div>
+        <div class="fleet-card" id="fleet-gcp">
+          <div class="fleet-card-head">
+            <span class="fleet-provider">GCP</span>
+            <span id="gcp-dot" class="status-dot dot-stale"></span>
+          </div>
+          <div class="fleet-big" id="gcp-count">--</div>
+          <div class="fleet-detail">
+            <span><span class="tag tag-od">STD</span> <span id="gcp-std">-</span></span>
+            <span><span class="tag tag-spot">SPOT</span> <span id="gcp-spot">-</span></span>
+          </div>
+          <div class="fleet-quota">
+            <div class="quota-bar"><div class="quota-fill" id="gcp-quota-fill"></div></div>
+            <span class="quota-text" id="gcp-quota-text">--</span>
+          </div>
+        </div>
+        <div class="fleet-card" id="fleet-azure">
+          <div class="fleet-card-head">
+            <span class="fleet-provider">AZURE</span>
+            <span id="azure-dot" class="status-dot dot-stale"></span>
+          </div>
+          <div class="fleet-big" id="azure-count">--</div>
+          <div class="fleet-detail">
+            <span><span class="tag tag-od">RUN</span> <span id="azure-run">-</span></span>
+            <span><span class="tag tag-warn">STOP</span> <span id="azure-stop">-</span></span>
+          </div>
+          <div class="fleet-quota">
+            <div class="quota-bar"><div class="quota-fill" id="azure-quota-fill"></div></div>
+            <span class="quota-text" id="azure-quota-text">--</span>
+          </div>
+        </div>
+        <div class="fleet-card fleet-card-local" id="fleet-local">
+          <div class="fleet-card-head">
+            <span class="fleet-provider">LOCAL</span>
+          </div>
+          <div class="fleet-big" id="local-count">--</div>
+          <div class="fleet-detail"><span>processes</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Generation -->
+    <section class="panel panel-data">
+      <div class="panel-header">
+        <span class="panel-icon">&#9650;</span>
+        <h2>DATA GENERATION</h2>
+      </div>
+      <div class="data-progress-wrap">
+        <div class="data-progress-label">
+          <span id="data-games">--</span>
+          <span class="data-target">/ 500,000 games</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="data-progress-fill"></div>
+          <div class="progress-glow" id="data-progress-glow"></div>
+        </div>
+        <div class="data-pct" id="data-pct">--%</div>
+      </div>
+      <div class="data-stats-grid">
+        <div class="data-stat">
+          <span class="data-stat-val" id="data-records">--</span>
+          <span class="data-stat-label">RECORDS</span>
+        </div>
+        <div class="data-stat">
+          <span class="data-stat-val" id="data-shards">--</span>
+          <span class="data-stat-label">SHARDS</span>
+        </div>
+        <div class="data-stat">
+          <span class="data-stat-val" id="data-rate">--</span>
+          <span class="data-stat-label">SHARDS/HR</span>
+        </div>
+        <div class="data-stat">
+          <span class="data-stat-val" id="data-last-shard">--</span>
+          <span class="data-stat-label">LAST SHARD</span>
+        </div>
+      </div>
+      <div class="data-cost-row">
+        <span class="cost-label">EST. FLEET COST</span>
+        <span class="cost-value" id="fleet-cost">$--.--/hr</span>
+      </div>
+    </section>
+
+    <!-- Actions -->
+    <section class="panel panel-actions">
+      <div class="panel-header">
+        <span class="panel-icon">&#9654;</span>
+        <h2>ACTIONS</h2>
+      </div>
+      <div class="actions-grid">
+        <button class="action-btn action-safe" data-action="refresh" title="Re-read all data files">
+          <span class="action-icon">&#8635;</span>
+          <span class="action-label">REFRESH</span>
+        </button>
+        <button class="action-btn action-safe" data-action="sync-s3" title="Download S3 results">
+          <span class="action-icon">&#8615;</span>
+          <span class="action-label">SYNC S3</span>
+        </button>
+        <button class="action-btn action-cautious" data-action="launch-aws" title="Launch AWS EC2 fleet">
+          <span class="action-icon">&#9650;</span>
+          <span class="action-label">LAUNCH AWS</span>
+        </button>
+        <button class="action-btn action-cautious" data-action="train-e2b" title="Train with E2b recipe">
+          <span class="action-icon">&#9881;</span>
+          <span class="action-label">TRAIN E2b</span>
+        </button>
+      </div>
+      <!-- Action output console -->
+      <div class="action-console" id="action-console">
+        <div class="action-console-header">
+          <span>OUTPUT</span>
+          <button class="console-clear" id="console-clear" title="Clear">&#10005;</button>
+        </div>
+        <pre class="action-console-body" id="action-console-body"></pre>
+      </div>
+    </section>
+
+    <!-- Experiments -->
+    <section class="panel panel-experiments">
+      <div class="panel-header">
+        <span class="panel-icon">&#9733;</span>
+        <h2>EXPERIMENTS</h2>
+        <span class="panel-badge" id="exp-count">--</span>
+      </div>
+      <div class="experiments-table-wrap">
+        <table class="exp-table" id="exp-table">
+          <thead>
+            <tr>
+              <th data-sort="timestamp">TIMESTAMP</th>
+              <th data-sort="hidden_dim">H</th>
+              <th data-sort="lr">LR</th>
+              <th data-sort="loss_fn">LOSS</th>
+              <th data-sort="tanh">TANH</th>
+              <th data-sort="best_brier">BRIER</th>
+              <th data-sort="best_val_acc">ACC</th>
+              <th data-sort="best_step">STEP</th>
+            </tr>
+          </thead>
+          <tbody id="exp-tbody"></tbody>
+        </table>
+      </div>
+      <!-- Chart area -->
+      <div class="chart-area" id="chart-area">
+        <div class="chart-toolbar">
+          <span class="chart-title" id="chart-title">Select an experiment</span>
+          <button class="chart-close" id="chart-close" title="Close chart">&#10005;</button>
+        </div>
+        <div class="chart-canvases">
+          <div class="chart-wrap"><canvas id="chart-loss"></canvas></div>
+          <div class="chart-wrap"><canvas id="chart-brier"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Log Viewer -->
+    <section class="panel panel-log">
+      <div class="panel-header">
+        <span class="panel-icon">&#9638;</span>
+        <h2>WATCHER LOG</h2>
+        <div class="log-filters">
+          <button class="log-filter active" data-filter="all">ALL</button>
+          <button class="log-filter" data-filter="change">CHANGES</button>
+          <button class="log-filter" data-filter="warning">WARN</button>
+          <button class="log-filter" data-filter="scale">SCALE</button>
+          <button class="log-filter" data-filter="sync">SYNC</button>
+        </div>
+      </div>
+      <div class="log-body" id="log-body"></div>
+    </section>
+  </main>
+
+  <!-- Confirmation modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-title" id="modal-title">Confirm Action</div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="modal-cancel">CANCEL</button>
+        <button class="modal-btn modal-confirm" id="modal-confirm">CONFIRM</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

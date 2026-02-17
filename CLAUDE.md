@@ -9,7 +9,7 @@
 
 **V2 hyperparameter experiments COMPLETE (Feb 17).** 9 experiments across 3 phases (loss function, LR sweep, data & capacity). Winner: E2b (hidden_dim=256, LR=1e-5, tanh+MSE, 739K params) — Brier 0.1213, best at step 10000. Key findings: (1) model capacity matters most — smaller model trains longer before overfitting, (2) LR controls overfitting speed but not ceiling, (3) loss function (MSE vs BCE) is a wash, (4) subsampling hurts. Tournament eval of E1b (512h) and E2b (256h) vs OriginalHardestAI running in `bin_eval_512/` and `bin_eval_256/` (500 games each, 4 threads). Run JSONs: `training/runs/20260217_*.json`. Saved checkpoints: `training/models/best_model_E1b_512h.pt`, `training/models/best_model_E2b_256h.pt`. The v1 experiments (3 runs with confounds: expert data mixed in, tanh mismatch unfixed) are superseded.
 
-**Self-play generation ACTIVE** via TheWatcher (Task Scheduler, every 5 min). ~205K games generated (7.6M records, Feb 17, growing at ~184 games/min with full fleet), targeting 500K for iteration 2+ retraining. Local: `bin/run_selfplay.bat` (double-click from Explorer, 4 threads per process, run multiple times for more CPU). EC2: `bash aws/launch_selfplay.sh c5.2xlarge 5000 1 2` — TheWatcher auto-relaunches when batches finish. GCP: `bash gcp/launch_selfplay.sh n2-standard-8 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Azure: `bash azure/launch_selfplay.sh Standard_D8als_v7 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Use `/status` slash command for a quick dashboard. Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
+**Self-play generation ACTIVE** via TheWatcher (Task Scheduler, every 5 min). ~221K games generated (8.2M records, Feb 17, growing at ~184 games/min with full fleet), targeting 500K for iteration 2+ retraining. Local: `bin/run_selfplay.bat` (double-click from Explorer, 4 threads per process, run multiple times for more CPU). EC2: `bash aws/launch_selfplay.sh c5.2xlarge 5000 1 2` — TheWatcher auto-relaunches when batches finish. GCP: `bash gcp/launch_selfplay.sh n2-standard-8 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Azure: `bash azure/launch_selfplay.sh Standard_D8als_v7 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Use `/status` slash command for a quick dashboard. Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
 
 **AWS EC2 self-play** pipeline verified working (Feb 15-16). Boots Windows Server, downloads exe+config from S3, patches config to enable SelfPlay_CI, runs self-play, uploads shards to `s3://prismata-selfplay-data/results/` every 5 min (copy-to-temp sync), auto-terminates. AWS account on paid plan (c5 instances unlocked). vCPU quotas: 64 on-demand + 128 spot (Standard). Fleet: 8 on-demand + 16 spot c5.2xlarge = 192 vCPUs. Use `USE_SPOT=true` for spot instances (separate quota, can run both simultaneously). TheWatcher handles S3 sync, auto-relaunch, and quota-aware scale-up (confirmed working: auto-detected spot quota 64→128 increase and launched 8 additional instances within 30s).
 
@@ -17,13 +17,15 @@
 
 **Azure self-play** pipeline verified working (Feb 16-17). Multi-family deployment in North Europe: 8 VMs across D-series v7 (Dads, Dalds, Dals, Das) + F-series v7 (Fads, Falds, Fals, Fas) = 64 vCPUs (maxed). Each family has 10 vCPU quota, fits one 8-vCPU instance. Same hybrid S3 pattern as GCP. Per-family quota is 10 vCPUs default (1 D8 VM each) — spread across families to bypass. 36+ unrestricted D8 families available. Regional cap: 128 vCPUs (increased from 64, Feb 17). Support request pending for per-family increase (Dalsv7->64, Falsv7->64) to consolidate onto fewer families. TheWatcher monitors, auto-deallocates stopped VMs, auto-relaunches. Launch: `bash azure/launch_selfplay.sh Standard_D8ads_v7 1000 1 2 N`. Use `LOCATION=australiacentral` for other regions (separate Regional quota).
 
+**Command Center dashboard** built (Feb 17). Node.js + Express web app at `dashboard/`. Run via `run_dashboard.bat` (auto-installs deps, opens browser). Features: live fleet status (AWS/GCP/Azure/Local) via SSE, data generation progress, one-click actions (refresh, S3 sync, launch AWS, train E2b), experiment browser with Chart.js training curves, watcher log viewer with filtering. Binds to `0.0.0.0` — accessible from LAN devices. Backend reads `watcher_status.json`, `watcher_config.json`, `watcher_log.txt`, training run JSONs, and walks selfplay shard dirs.
+
 **Next actions:**
-1. **Check tournament eval results** — E1b (512h) and E2b (256h) tournaments running in `bin_eval_512/` and `bin_eval_256/`. Check with `tail -20 bin_eval_*/tournament_*.log`. Baseline: old model got ~3.6% WR.
+1. **Re-run tournament eval** — E1b (512h) and E2b (256h) tournament logs end at results table header with no WR data (crashed or truncated). Need to re-run: `cd bin_eval_256 && ./Prismata_Testing.exe > tournament_256h.log 2>&1`. Baseline: old model got ~3.6% WR.
 2. **Implement streaming data loader** for `train.py` — current loader OOMs on full dataset (7.6M records = ~50GB). Need to stream shards from disk during training so we can use all 205K+ games.
 3. **Retrain with full dataset** once streaming loader is ready — E2b (256h, LR=1e-5) is the recipe. More data should push past the ~80% val accuracy ceiling.
-4. **Continue data generation** toward 500K games. Currently ~205K total (Feb 17).
+4. **Continue data generation** toward 500K games. Currently ~221K total (Feb 17).
 
-**Current neural net strength:** Self-play v2 model (81.9% val acc, 63K games) — tournament eval shows **~3.6% WR** vs OriginalHardestAI (1,120 games, AB search + NeuralNet eval). Worse than expert-trained model (~10% WR). Root cause: training procedure issues (tanh mismatch, LR too high) — now fixed in v2 experiments. Tournament eval of fixed models (E1b 512h, E2b 256h) in progress. Historical: ~42% WR vs MediumAI (expert UCT).
+**Current neural net strength:** Self-play v2 model (81.9% val acc, 63K games) — tournament eval shows **~3.6% WR** vs OriginalHardestAI (1,120 games, AB search + NeuralNet eval). Worse than expert-trained model (~10% WR). Root cause: training procedure issues (tanh mismatch, LR too high) — now fixed in v2 experiments. Tournament eval of fixed models (E1b 512h, E2b 256h) needs re-run (logs truncated, no WR data). Historical: ~42% WR vs MediumAI (expert UCT).
 
 ## What This Project Is
 
@@ -122,6 +124,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **x86 OOM — 4 threads max per process**: `/LARGEADDRESSAWARE` gives 4GB. Use `"Threads": 4` + multiple bat instances. Process dies silently at ~1400 games — config uses 1000 rounds/batch, `run_selfplay.bat` loops automatically.
 - **x86 OOM with large vectors**: Don't pre-allocate large `std::vector<GameState>` upfront. Allocate per-batch. Symptom: silent exit with no `[SelfPlay] COMPLETE` message.
 - **Console output routing**: `[SelfPlay]` and `[Progress]` use `fprintf(stderr, ...)`. Per-turn logging only when `SaveReplays: true`. New messages in Tournament.cpp should use stderr.
+- **Tournament `tests/` directory required**: `HTMLTable::appendHTMLTableToFile()` crashes (NULL `fprintf`) if `tests/` doesn't exist in the working directory. Always `mkdir tests` when setting up a new tournament directory. The cloud launcher script already handles this (line 85 of `launch_tournament.sh`).
 - **GUI Watch Training / Watch Eval modes**: Menu items in Prismata_GUI. Watch Training = self-play (1s think). Watch Eval = PrismatAlpha_AB_Legacy vs OriginalHardestAI (7s think). 4 threads each. Source: `source/gui/GUIState_WatchTraining.cpp/.h`.
 - **GUI/engine decoupling**: Engine has zero SFML imports — compiles independently. GUI is ~4,100 LOC. SFML doesn't support WASM — web needs SDL2 abstraction or JS rewrite.
 - **Churchill paper URLs**: Use `davechurchill.ca/publications/` (old `cs.mun.ca/~dchurchill/` is dead).
@@ -133,8 +136,8 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Run self-play from Explorer**: Use `bin/run_selfplay.bat`. Has startup exe check and 5s error delay to prevent spin-looping during rebuilds.
 - **Selfplay shard CRC**: CRC check fails on shards from crashed/in-progress runs (no footer). Use `validate_crc=False` for live data.
 - **Selfplay positions per game**: ~37 records/game (both players' turns), NOT ~440. A 10K-game run yields ~370K records.
-- **Selfplay shard binary format**: Header 16 bytes: magic `0x50445350` + version(4) + state_dim(4) + record_size(4). Record size = 7152 bytes. Games = `(file_size - 16) / 7152 / ~37`.
-- **Selfplay game counting**: `python -c "import os; base='bin/training/data/selfplay'; total=sum((os.path.getsize(os.path.join(r,f))-16)//7152 for r,_,fs in os.walk(base) for f in fs if f.endswith('.bin') and os.path.getsize(os.path.join(r,f))>16); print(f'{total} records, ~{total//37} games')"`.
+- **Selfplay shard binary format**: Header 64 bytes (magic, version, feature_dim, record_size, record_count, endian_check, padding) + 4-byte CRC32 footer. Record size = 7152 bytes. Games = `(file_size - 68) / 7152 / ~37`. See `training/load_selfplay.py` for `HEADER_SIZE = 64`.
+- **Selfplay game counting**: `python -c "import os; base='bin/training/data/selfplay'; total=sum((os.path.getsize(os.path.join(r,f))-68)//7152 for r,_,fs in os.walk(base) for f in fs if f.endswith('.bin') and os.path.getsize(os.path.join(r,f))>68); print(f'{total} records, ~{total//37} games')"`.
 - **S3 download dir structure**: `aws s3 sync` creates timestamp dirs without `run_` prefix containing nested `run_*` subdirs. Must scan recursively.
 - **Self-play uses playout eval**: `SelfPlay_CI` runs `OriginalHardestAI_1s` vs itself (playout eval, 1s think). The neural net is NOT used for game generation — only for position labeling. Data quality depends on playout AI strength, not model WR. ~4 games/min per 4-thread process.
 - **PID-based random seeding**: All 3 exe entry points use `srand(time ^ PID)` — prevents identical sequences when launching multiple instances in the same second.
@@ -158,6 +161,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 ### Windows & Python Environment
 
 - **Windows file size caching**: `ls`/`Get-ChildItem` may show 0 bytes for files with open write handles. Use `python -c "import os; print(os.path.getsize(path))"`.
+- **`nohup &` broken in Git Bash on Windows**: Background processes get killed when the bash shell exits. Use the Bash tool's `run_in_background` parameter instead, or launch from a persistent cmd/PowerShell window.
 - **Python stdout buffering**: Long-running Python processes show no output in Claude Code Bash tool. Use `PYTHONUNBUFFERED=1` prefix.
 - **Python cp1252 on Windows**: Python defaults to cp1252 for stdout. Use `PYTHONIOENCODING=utf-8` or stick to ASCII.
 - **PowerShell JSON files have UTF-8 BOM**: `watcher_status.json` and `watcher_config.json` written with BOM. Python: use `encoding='utf-8-sig'`.
@@ -167,6 +171,15 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Blend tournaments concluded**: Neural component hurts. Don't revisit until model >60% val accuracy. See `docs/blend-tournament-results.md`.
 - **Batch validation**: 287 replays tested, 117 PASS (41.3%), 166 FAIL (TS-side). Not blocking self-play.
 - **Replay balance validation**: `validate_balance_all.js` checks costs against `cardLibrary.jso`. Output: `balance_passed_codes.json` (32,973 codes). Incremental via `balance_results.json`.
+
+### Dashboard
+
+- **BOM stripping required**: `watcher_status.json` and `watcher_config.json` have UTF-8 BOM from PowerShell. Server.js strips with `raw.replace(/^\uFEFF/, '')`.
+- **fs.watchFile, not fs.watch**: `fs.watch` is unreliable on Windows for network/mapped drives. `fs.watchFile` polls at 5s interval — reliable but uses CPU. 200ms debounce for half-written files.
+- **Git Bash for bash scripts**: Action system spawns bash scripts with `shell: 'C:/Program Files/Git/bin/bash.exe'`. Python actions use `PYTHONUNBUFFERED=1`.
+- **LAN access**: Server binds to `0.0.0.0:3000`. Logs local LAN IP on startup. Firewall may need port 3000 opened for other devices.
+- **Double-launch prevention**: `activeOps` Map tracks running child processes by action name. Returns 409 if same action already running.
+- **getDataStats() header size bug**: `server.js` line 112 uses `(size - 16) / 7152` but correct header is 64 bytes. Should be `(size - 68) / 7152`. Causes minor overcount of records/games on Data Generation panel.
 
 ### External Tools
 
@@ -278,7 +291,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `bin/run_selfplay.bat` | Crash-safe self-play launcher (run from Explorer) |
 | `.github/workflows/selfplay.yml` | GitHub Actions self-play workflow |
 | `aws/launch_selfplay.sh` | EC2 self-play launcher (Windows instances, auto-terminate) |
-| `aws/launch_tournament.sh` | EC2 tournament launcher (NeuralTest + NeuralAB vs OriginalHardestAI) |
+| `aws/launch_tournament.sh` | EC2 tournament fleet launcher (supports NUM_INSTANCES, WEIGHTS_KEY, MODEL_LABEL env vars) |
 | `aws/deploy_for_eval.sh` | Upload exe/config/weights to S3 for EC2 tournament eval |
 | `aws/download_results.sh` | Download self-play results from S3 |
 | `aws/sync_results.bat` | S3 → local sync for self-play results (Task Scheduler compatible) |
@@ -294,6 +307,9 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `gcp/.aws_credentials` | AWS credentials for GCP→S3 uploads (gitignored, not committed) |
 | `azure/launch_selfplay.sh` | Azure VM self-play launcher (Windows VMs, auto-terminate) |
 | `azure/.aws_credentials` | AWS credentials for Azure→S3 uploads (gitignored, not committed) |
+| `dashboard/server.js` | Command Center backend (Express + SSE + action system) |
+| `dashboard/public/` | Command Center frontend (HTML + CSS + vanilla JS + Chart.js) |
+| `run_dashboard.bat` | One-click dashboard launcher (auto-installs deps, opens browser) |
 | `c:\libraries\prismata-replay-parser\` | TS replay parser + data extraction scripts |
 | `c:\libraries\DiscordChatExporter\` | Discord message export tool (CLI at `cli/`) |
 | `c:\libraries\prismata-replay-parser\validate_balance_all.js` | Balance validation across all replay sources |
@@ -321,6 +337,9 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `docs/wiki/` | Full wiki dump (448 pages, raw wikitext) |
 | `docs/plans/reproducibility-plan.md` | Training reproducibility standard (seeds, determinism) |
 | `docs/cloud-ops-reference.md` | Cloud provider operational gotchas (AWS/GCP/Azure) |
+| `~/.claude/plans/bubbly-tinkering-kahan.md` | Prioritized development guide (roadmap research synthesis) |
+| `~/.claude/plans/roadmap-phase2-instructions.md` | Phase 2 execution instructions (tournament eval, streaming loader, retrain) |
+| `~/.claude/plans/prismata-command-center-build.md` | Command Center build plan + full source code appendix |
 
 ## Tournament Results Summary
 

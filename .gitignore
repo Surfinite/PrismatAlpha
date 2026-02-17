@@ -170,6 +170,15 @@ training/exp*.log
 # --- Junk output dir ---
 --output
 
+# --- Dashboard ---
+dashboard/node_modules/
+
+# --- Temporary eval directories (contain binaries + replays) ---
+bin_eval_*/
+
+# --- Playwright MCP artifacts ---
+.playwright-mcp/
+
 # --- Other ---
 *.zip
 *.stackdump
