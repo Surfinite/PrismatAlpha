@@ -71,6 +71,18 @@
           <span class="job-detail" id="eval-detail">idle</span>
           <span class="job-vcpu" id="eval-vcpu"></span>
         </div>
+        <div class="job-row job-training" id="job-training">
+          <span class="job-type-icon">&#9881;</span>
+          <span class="job-type-label">TRAINING</span>
+          <span class="job-detail" id="training-detail">idle</span>
+          <span class="job-vcpu" id="training-vcpu"></span>
+        </div>
+        <div class="job-row job-claude" id="job-claude">
+          <span class="job-type-icon">&#9830;</span>
+          <span class="job-type-label">CLAUDE</span>
+          <span class="job-detail" id="claude-detail">idle</span>
+          <span class="job-vcpu" id="claude-vcpu"></span>
+        </div>
       </div>
       <!-- Provider rows -->
       <div class="fleet-rows">
@@ -96,6 +108,40 @@
           <span class="fleet-provider">LOCAL</span>
           <span class="fleet-row-detail" id="local-detail">idle</span>
           <span class="fleet-row-quota" id="local-quota"></span>
+        </div>
+      </div>
+      <!-- Local utilization -->
+      <div class="local-util" id="local-util">
+        <div class="local-util-row">
+          <span class="local-util-label">CPU</span>
+          <div class="progress-bar local-util-bar">
+            <div class="progress-fill local-util-fill" id="local-cpu-fill"></div>
+          </div>
+          <span class="local-util-pct" id="local-cpu-pct">--%</span>
+        </div>
+        <div class="local-util-row">
+          <span class="local-util-label">GPU</span>
+          <div class="progress-bar local-util-bar">
+            <div class="progress-fill local-util-fill local-util-gpu" id="local-gpu-fill"></div>
+          </div>
+          <span class="local-util-pct" id="local-gpu-pct">--%</span>
+        </div>
+        <div class="local-util-row">
+          <span class="local-util-label">RAM</span>
+          <div class="progress-bar local-util-bar">
+            <div class="progress-fill local-util-fill local-util-ram" id="local-ram-fill"></div>
+          </div>
+          <span class="local-util-pct" id="local-ram-pct">--%</span>
+        </div>
+        <div class="local-util-row">
+          <span class="local-util-label">DISK</span>
+          <div class="local-util-disk">
+            <span class="local-util-disk-val" id="local-disk-read">--</span>
+            <span class="local-util-disk-arrow">&#8595;</span>
+            <span class="local-util-disk-val" id="local-disk-write">--</span>
+            <span class="local-util-disk-arrow">&#8593;</span>
+            <span class="local-util-disk-queue" id="local-disk-queue"></span>
+          </div>
         </div>
       </div>
     </section>

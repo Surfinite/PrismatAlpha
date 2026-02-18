@@ -12,6 +12,5 @@ if not exist node_modules (
     call npm install
     echo.
 )
-set DASHBOARD_TOKEN=prismata-command-center-2026
-start http://localhost:3000?token=%DASHBOARD_TOKEN%
+start http://localhost:3000
 node server.js --lan

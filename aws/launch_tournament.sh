@@ -55,7 +55,7 @@ case "$INSTANCE_TYPE" in
 esac
 
 # Compute adjusted think time: base 7000ms * multiplier
-TIME_LIMIT_MS=$(python3 -c "print(int(7000 * $VM_MULTIPLIER))")
+TIME_LIMIT_MS=$(python -c "print(int(7000 * $VM_MULTIPLIER))")
 GAMES_PER_INSTANCE=$(( NUM_ROUNDS * 2 * PROCESSES ))  # rounds * 2(color swap) * processes
 TOTAL_GAMES=$(( GAMES_PER_INSTANCE * NUM_INSTANCES ))
 echo "  Processes:   $PROCESSES per instance (4 threads each)"

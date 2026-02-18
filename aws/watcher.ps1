@@ -40,7 +40,12 @@ function Invoke-CloudApi {
         $stdout = @($rawResult | Where-Object { $_ -isnot [System.Management.Automation.ErrorRecord] }) -join "`n"
 
         if ($stderr -and $stderr.Trim()) {
-            Log "WARNING: $Provider $Operation stderr: $stderr"
+            # Suppress known gcloud.cmd tmpfile noise (Tamper Protection + Task Scheduler CWD)
+            $filteredStderr = $stderr -replace 'Access is denied\.;\s*', '' -replace 'The system cannot find the file specified\.;\s*', '' -replace 'Could Not Find C:\\Windows\\System32\\tmpfile;\s*', ''
+            $filteredStderr = $filteredStderr.Trim('; ').Trim()
+            if ($filteredStderr) {
+                Log "WARNING: $Provider $Operation stderr: $filteredStderr"
+            }
         }
         return @{ Success = $true; Output = $stdout; Error = $null }
     } catch {
@@ -453,7 +458,8 @@ if ($config.selfplay.enabled -and $config.selfplay.auto_relaunch -and (-not $sta
         $syncDir = Join-Path $ProjectDir 'bin\training\data\selfplay'
         Invoke-CloudApi 'AWS' 's3-sync-pre-relaunch' { aws s3 sync "s3://$Bucket/results/" $syncDir --region $AwsRegion } | Out-Null
 
-        $odCount = [math]::Floor($odQuota / $VcpusPerInstance)
+        $spotOnly = $config.selfplay.spot_only -eq $true
+        $odCount = if ($spotOnly) { 0 } else { [math]::Floor($odQuota / $VcpusPerInstance) }
         $spotCount = [math]::Floor($spotQuota / $VcpusPerInstance)
         $instanceType = $config.selfplay.instance_type
         $games = $config.selfplay.games_per_instance
@@ -622,7 +628,8 @@ if ($azureEnabled -and $config.azure.auto_relaunch -and (-not $staleStatus) -and
 # AWS Quota-aware scale-up
 # ============================================================
 if ($config.selfplay.enabled -and $config.selfplay.auto_relaunch -and (-not $staleStatus) -and (-not $launched) -and $awsApiSuccess -and $selfplayRunning -gt 0) {
-    $maxOD = [math]::Floor($odQuota / $VcpusPerInstance)
+    $spotOnly = $config.selfplay.spot_only -eq $true
+    $maxOD = if ($spotOnly) { 0 } else { [math]::Floor($odQuota / $VcpusPerInstance) }
     $maxSpot = [math]::Floor($spotQuota / $VcpusPerInstance)
     $slotsOD = $maxOD - $selfplayOnDemand
     $slotsSpot = $maxSpot - $selfplaySpot

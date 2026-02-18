@@ -25,7 +25,7 @@ USE_SPOT="${USE_SPOT:-false}"
 PROJECT="prismata-selfplay"
 ZONE="us-central1-a"
 BUCKET="prismata-selfplay-data"
-IMAGE_FAMILY="windows-2022-core"
+IMAGE_FAMILY="windows-2022"
 IMAGE_PROJECT="windows-cloud"
 
 # Load AWS credentials for S3 uploads
@@ -85,16 +85,26 @@ $awsSecretKey = Invoke-RestMethod -Uri "$metadataBase/instance/attributes/aws-se
 
 Write-Host "Instance: $instanceName in $instanceZone"
 
-# Windows Defender fix: exclusions work even with Tamper Protection enabled
-# (DisableRealtimeMonitoring alone gets overridden by Tamper Protection on GCP windows-2022-core)
-try {
-    Add-MpPreference -ExclusionPath 'C:\selfplay' -ErrorAction SilentlyContinue
-    Add-MpPreference -ExclusionProcess 'Prismata_Testing.exe' -ErrorAction SilentlyContinue
-    Set-MpPreference -DisableRealtimeMonitoring $true -ErrorAction SilentlyContinue
-    Write-Host "Windows Defender exclusions added and real-time monitoring disabled"
-} catch {
-    Write-Host "WARNING: Could not configure Defender: $_"
-}
+# Windows Defender fix: full desktop image (windows-2022) is less aggressive than Server Core.
+# Previous windows-2022-core + exclusions still killed exe after ~8 games.
+# Add exclusions, disable monitoring, verify, then wait for settings to apply.
+Add-MpPreference -ExclusionPath 'C:\selfplay' -ErrorAction SilentlyContinue
+Add-MpPreference -ExclusionProcess 'Prismata_Testing.exe' -ErrorAction SilentlyContinue
+Set-MpPreference -DisableRealtimeMonitoring $true -ErrorAction SilentlyContinue
+Start-Sleep -Seconds 5
+$prefs = Get-MpPreference
+Write-Host "Defender exclusion paths: $($prefs.ExclusionPath -join ', ')"
+Write-Host "Defender exclusion processes: $($prefs.ExclusionProcess -join ', ')"
+Write-Host "Defender realtime disabled: $($prefs.DisableRealtimeMonitoring)"
+
+# Enable WER crash dumps for the exe
+$werKey = "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\Prismata_Testing.exe"
+New-Item -Path $werKey -Force | Out-Null
+Set-ItemProperty -Path $werKey -Name "DumpFolder" -Value "C:\selfplay\crashdumps" -Type ExpandString
+Set-ItemProperty -Path $werKey -Name "DumpType" -Value 2 -Type DWord
+Set-ItemProperty -Path $werKey -Name "DumpCount" -Value 5 -Type DWord
+New-Item -ItemType Directory -Force -Path "C:\selfplay\crashdumps" | Out-Null
+Write-Host "WER crash dumps enabled (full dumps to C:\selfplay\crashdumps)"
 
 # Install VC++ Redistributable
 Write-Host "Installing VC++ Redistributable..."
@@ -179,12 +189,13 @@ for ($i = 0; $i -lt $numProcesses; $i++) {
         -RedirectStandardError "C:\selfplay\log_worker_$i.txt" `
         -PassThru
     $jobs += $job
+    Write-Host "Worker $i PID: $($job.Id)"
     Start-Sleep -Seconds 3
 }
 
 Write-Host "All $numProcesses workers launched. Waiting with periodic S3 sync..."
 
-# Periodic S3 sync — copies files to temp dir first to avoid lock conflicts
+# S3 sync function — copies files to temp dir first to avoid lock conflicts
 function Sync-ToS3 {
     param($bucket, $runId, $numProcesses)
     $syncCount = 0
@@ -221,15 +232,27 @@ function Sync-ToS3 {
     return $syncCount
 }
 
-# Wait for workers with periodic sync every 5 minutes
-$syncIntervalSec = 300
+# Monitor workers every 30s with periodic S3 sync every 5 min
+$monitorCount = 0
 while ($true) {
+    Start-Sleep -Seconds 30
+    $monitorCount++
     $running = @($jobs | Where-Object { -not $_.HasExited })
-    if ($running.Count -eq 0) { break }
-    Start-Sleep -Seconds $syncIntervalSec
-    $count = Sync-ToS3 $bucket $runId $numProcesses
-    $running = @($jobs | Where-Object { -not $_.HasExited })
-    Write-Host "[Sync] Uploaded $count files. Workers running: $($running.Count)/$numProcesses"
+    $elapsed = $monitorCount * 30
+    Write-Host "[Monitor ${elapsed}s] Workers alive: $($running.Count)/$numProcesses"
+    if ($running.Count -eq 0) {
+        Write-Host "[Monitor] All workers dead. Checking event log..."
+        $crashEvents = Get-WinEvent -FilterHashtable @{LogName='Application'; Level=1,2; StartTime=(Get-Date).AddMinutes(-10)} -MaxEvents 20 -ErrorAction SilentlyContinue
+        foreach ($evt in $crashEvents) {
+            Write-Host "[EventLog] $($evt.TimeCreated) $($evt.Id) $($evt.ProviderName): $($evt.Message.Substring(0, [Math]::Min(800, $evt.Message.Length)))"
+        }
+        break
+    }
+    # S3 sync every 5 minutes (every 10th 30s interval)
+    if ($monitorCount % 10 -eq 0) {
+        $syncCount = Sync-ToS3 $bucket $runId $numProcesses
+        Write-Host "[Sync ${elapsed}s] Uploaded $syncCount files"
+    }
 }
 
 foreach ($job in $jobs) {
@@ -240,6 +263,18 @@ foreach ($job in $jobs) {
 Write-Host "All workers complete. Final S3 sync..."
 $count = Sync-ToS3 $bucket $runId $numProcesses
 Write-Host "[Sync] Final upload: $count files"
+
+# Upload crash dumps if any
+$dumps = Get-ChildItem "C:\selfplay\crashdumps\*.dmp" -ErrorAction SilentlyContinue
+if ($dumps) {
+    Write-Host "Found $($dumps.Count) crash dump(s), uploading..."
+    foreach ($d in $dumps) {
+        aws s3 cp $d.FullName "s3://$bucket/results/$runId/crashdumps/$($d.Name)" --region eu-north-1
+        Write-Host "Uploaded crash dump: $($d.Name) ($([math]::Round($d.Length/1MB))MB)"
+    }
+} else {
+    Write-Host "No crash dumps found"
+}
 
 # Upload boot log
 aws s3 cp "C:\selfplay_boot.log" "s3://$bucket/results/$runId/selfplay_boot.log" --region eu-north-1
@@ -276,7 +311,7 @@ for i in $(seq 1 $NUM_INSTANCES); do
         --image-family="$IMAGE_FAMILY" \
         --image-project="$IMAGE_PROJECT" \
         --boot-disk-size=50GB \
-        --boot-disk-type=pd-ssd \
+        --boot-disk-type=pd-standard \
         --metadata="aws-key-id=$AWS_ACCESS_KEY_ID,aws-secret-key=$AWS_SECRET_ACCESS_KEY" \
         --metadata-from-file="windows-startup-script-ps1=$STARTUP_FILE" \
         --scopes=compute-rw \

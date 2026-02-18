@@ -183,6 +183,13 @@
       evalRow.classList.add('job-idle');
     }
 
+    // TRAINING (updated by local stats, but hide/show based on latest data)
+    // Training row is managed by updateLocalStats() — just ensure it exists
+    if (!$('job-training').dataset.initialized) {
+      $('job-training').classList.add('job-idle');
+      $('job-training').dataset.initialized = '1';
+    }
+
     // --- Provider rows (simplified — detail + quota) ---
     setDot($('aws-dot'), api.aws_api_success);
     setDot($('gcp-dot'), api.gcp_api_success);
@@ -348,6 +355,94 @@
     } else {
       netEl.textContent = '~\u00a3' + Math.round(totalNetGbp) + ' due';
       netEl.style.color = 'var(--amber)';
+    }
+  }
+
+  // --- Local stats (training, CPU, GPU) ---
+  function updateLocalStats(data) {
+    if (!data || data.error) return;
+
+    // Training row
+    const tr = data.training || {};
+    const trainingRow = $('job-training');
+    if (tr.processes > 0) {
+      const parts = [];
+      if (tr.model_label) parts.push(tr.model_label);
+      if (tr.device && tr.device !== 'cpu') parts.push(tr.device.toUpperCase());
+      if (tr.workers > 0) parts.push(tr.workers + 'w');
+      $('training-detail').textContent = parts.join(' \u00b7 ') || 'running';
+      $('training-vcpu').textContent = tr.device === 'xpu' ? 'XPU' : 'CPU';
+      trainingRow.classList.add('job-active');
+      trainingRow.classList.remove('job-idle');
+    } else {
+      $('training-detail').textContent = 'idle';
+      $('training-vcpu').textContent = '';
+      trainingRow.classList.remove('job-active');
+      trainingRow.classList.add('job-idle');
+    }
+
+    // Claude Code row
+    const cl = data.claude || {};
+    const claudeRow = $('job-claude');
+    if (cl.processes > 0) {
+      const ramGb = (cl.ram_mb / 1024).toFixed(1);
+      $('claude-detail').textContent = cl.processes + ' proc \u00b7 ' + ramGb + ' GB RAM';
+      $('claude-vcpu').textContent = '';
+      claudeRow.classList.add('job-active');
+      claudeRow.classList.remove('job-idle');
+    } else {
+      $('claude-detail').textContent = 'idle';
+      $('claude-vcpu').textContent = '';
+      claudeRow.classList.remove('job-active');
+      claudeRow.classList.add('job-idle');
+    }
+
+    // Local selfplay count — update the LOCAL row detail if selfplay running
+    const sp = data.selfplay || {};
+    const localRow = $('fleet-local');
+    if (sp.processes > 0) {
+      $('local-detail').textContent = sp.processes + ' proc \u00b7 ' + sp.threads + ' threads';
+    }
+
+    // CPU utilization bar
+    const cpuPct = data.cpu_percent || 0;
+    $('local-cpu-fill').style.width = Math.min(100, cpuPct) + '%';
+    $('local-cpu-pct').textContent = cpuPct.toFixed(0) + '%';
+    if (cpuPct > 80) {
+      $('local-cpu-fill').style.background = 'linear-gradient(90deg, var(--red), var(--amber))';
+    }
+
+    // GPU utilization bar
+    const gpuPct = data.gpu_percent || 0;
+    $('local-gpu-fill').style.width = Math.min(100, gpuPct) + '%';
+    $('local-gpu-pct').textContent = gpuPct.toFixed(0) + '%';
+    if (data.gpu_mem_mb > 0) {
+      $('local-gpu-pct').title = data.gpu_mem_mb + ' MB VRAM';
+    }
+
+    // RAM utilization bar
+    const sys = data.system || {};
+    const ramPct = sys.ram_percent || 0;
+    $('local-ram-fill').style.width = Math.min(100, ramPct) + '%';
+    $('local-ram-pct').textContent = ramPct + '%';
+    $('local-ram-pct').title = (sys.ram_used_gb || 0) + ' / ' + (sys.ram_total_gb || 0) + ' GB';
+    // Turn red when RAM critical
+    if (ramPct > 90) {
+      $('local-ram-fill').style.background = 'linear-gradient(90deg, var(--red), var(--amber))';
+    }
+
+    // Disk I/O
+    const readMb = sys.disk_read_mbsec || 0;
+    const writeMb = sys.disk_write_mbsec || 0;
+    $('local-disk-read').textContent = readMb < 1 ? readMb.toFixed(1) : Math.round(readMb) + ' MB/s';
+    $('local-disk-write').textContent = writeMb < 1 ? writeMb.toFixed(1) : Math.round(writeMb) + ' MB/s';
+    const queue = sys.disk_queue || 0;
+    const queueEl = $('local-disk-queue');
+    if (queue > 2) {
+      queueEl.textContent = 'Q:' + queue;
+      queueEl.style.color = queue > 10 ? 'var(--red)' : 'var(--amber)';
+    } else {
+      queueEl.textContent = '';
     }
   }
 
@@ -908,14 +1003,15 @@
   // --- Initial data load ---
   async function refreshAll() {
     try {
-      const [statusResp, dataResp, logResp, expResp, actResp, diskResp, costResp] = await Promise.all([
+      const [statusResp, dataResp, logResp, expResp, actResp, diskResp, costResp, localResp] = await Promise.all([
         fetch('/api/status'),
         fetch('/api/data-stats'),
         fetch('/api/log?lines=200'),
         fetch('/api/experiments'),
         fetch('/api/actions/status'),
         fetch('/api/disk'),
-        fetch('/api/cloud-costs')
+        fetch('/api/cloud-costs'),
+        fetch('/api/local-stats')
       ]);
 
       // Data stats first — sets gamesPerShard needed by updateStatus for game rate
@@ -940,6 +1036,7 @@
         }
       }
       if (costResp.ok) updateCloudCosts(await costResp.json());
+      if (localResp.ok) updateLocalStats(await localResp.json());
     } catch (e) {
       toast('Failed to load data', 'error');
     }
@@ -952,11 +1049,12 @@
   // Refresh status + data stats + experiments every 30s
   setInterval(async () => {
     try {
-      const [statusResp, dataResp, expResp, costResp] = await Promise.all([
+      const [statusResp, dataResp, expResp, costResp, localResp] = await Promise.all([
         fetch('/api/status'),
         fetch('/api/data-stats'),
         fetch('/api/experiments'),
-        fetch('/api/cloud-costs')
+        fetch('/api/cloud-costs'),
+        fetch('/api/local-stats')
       ]);
       if (dataResp.ok) updateDataStats(await dataResp.json());
       if (statusResp.ok) updateStatus(await statusResp.json());
@@ -965,6 +1063,7 @@
         renderExperiments();
       }
       if (costResp.ok) updateCloudCosts(await costResp.json());
+      if (localResp.ok) updateLocalStats(await localResp.json());
     } catch (e) {}
   }, 30000);
 

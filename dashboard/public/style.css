@@ -334,9 +334,95 @@ body {
   border-left-color: var(--amber);
   background: var(--amber-glow);
 }
+/* Training job — cyan accent */
+.job-training {
+  border-left: 2px solid var(--cyan-dim);
+}
+.job-training .job-type-icon { color: var(--cyan); }
+.job-training .job-type-label { color: var(--cyan); }
+.job-training.job-active {
+  border-left-color: var(--cyan);
+  background: var(--cyan-glow);
+}
+/* Claude Code — purple accent */
+.job-claude {
+  border-left: 2px solid rgba(160, 96, 240, 0.3);
+}
+.job-claude .job-type-icon { color: var(--purple); }
+.job-claude .job-type-label { color: var(--purple); }
+.job-claude.job-active {
+  border-left-color: var(--purple);
+  background: rgba(160, 96, 240, 0.08);
+}
 .job-row.job-idle .job-detail { color: var(--text-dim); }
 .job-row.job-idle .job-type-label { opacity: 0.5; }
 .job-row.job-idle .job-type-icon { opacity: 0.5; }
+
+/* Local utilization bars */
+.local-util {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.local-util-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.local-util-label {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  width: 2.2rem;
+  text-align: right;
+  letter-spacing: 0.05em;
+}
+.local-util-bar {
+  flex: 1;
+  height: 6px;
+}
+.local-util-fill {
+  background: linear-gradient(90deg, var(--green-dim), var(--green)) !important;
+  transition: width 0.8s ease;
+}
+.local-util-gpu {
+  background: linear-gradient(90deg, var(--cyan-dim), var(--cyan)) !important;
+}
+.local-util-pct {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--text-bright);
+  font-weight: 600;
+  width: 2.5rem;
+  text-align: right;
+}
+.local-util-ram {
+  background: linear-gradient(90deg, var(--amber-dim), var(--amber)) !important;
+}
+.local-util-disk {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+}
+.local-util-disk-val {
+  color: var(--text-bright);
+  font-weight: 600;
+}
+.local-util-disk-arrow {
+  color: var(--text-dim);
+  font-size: 0.6rem;
+}
+.local-util-disk-queue {
+  color: var(--red);
+  font-weight: 600;
+  font-size: 0.6rem;
+}
 
 /* Provider rows */
 .fleet-rows {

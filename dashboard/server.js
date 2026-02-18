@@ -122,15 +122,19 @@ function statusWatcher(curr, prev) {
 function logWatcher(curr) {
   if (curr.size < lastLogSize) lastLogSize = 0;
   if (curr.size > lastLogSize) {
-    const buf = Buffer.alloc(curr.size - lastLogSize);
-    const fd = fs.openSync(logPath, 'r');
-    fs.readSync(fd, buf, 0, buf.length, lastLogSize);
-    fs.closeSync(fd);
-    const newLines = buf.toString('utf8').split(/\r?\n/).filter(l => l.trim());
-    for (const line of newLines) {
-      broadcast('log', parseLogLine(line));
+    try {
+      const buf = Buffer.alloc(curr.size - lastLogSize);
+      const fd = fs.openSync(logPath, 'r');
+      fs.readSync(fd, buf, 0, buf.length, lastLogSize);
+      fs.closeSync(fd);
+      const newLines = buf.toString('utf8').split(/\r?\n/).filter(l => l.trim());
+      for (const line of newLines) {
+        broadcast('log', parseLogLine(line));
+      }
+      lastLogSize = curr.size;
+    } catch (e) {
+      // File locked by watcher process — skip this cycle, retry next poll
     }
-    lastLogSize = curr.size;
   }
 }
 
@@ -656,6 +660,45 @@ app.get('/api/cloud-costs', async (req, res) => {
     res.json(costs);
   } catch (e) {
     res.status(500).json({ error: 'Failed to fetch cloud costs' });
+  }
+});
+
+// Local process stats (selfplay, training, CPU%, GPU%)
+let localStatsCache = null;
+let localStatsCacheTime = 0;
+let localStatsInFlight = null;
+
+async function getLocalStats() {
+  const now = Date.now();
+  if (localStatsCache && now - localStatsCacheTime < 30000) return localStatsCache; // 30s cache
+  if (localStatsInFlight) return localStatsInFlight;
+
+  localStatsInFlight = (async () => {
+    try {
+      const scriptPath = path.join(__dirname, 'get_local_stats.ps1');
+      const result = await execCmd('powershell.exe',
+        ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', scriptPath], 15000);
+      if (result.error) return { error: result.error };
+      return JSON.parse(result.stdout);
+    } catch (e) {
+      return { error: e.message };
+    } finally {
+      localStatsInFlight = null;
+    }
+  })();
+
+  const data = await localStatsInFlight;
+  localStatsCache = data;
+  localStatsCacheTime = Date.now();
+  return data;
+}
+
+app.get('/api/local-stats', async (req, res) => {
+  try {
+    const stats = await getLocalStats();
+    res.json(stats);
+  } catch (e) {
+    res.status(500).json({ error: 'Failed to fetch local stats' });
   }
 });
 

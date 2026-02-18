@@ -47,7 +47,7 @@ esac
 
 GAMES_PER_PROCESS=$(( (NUM_GAMES + PROCESSES - 1) / PROCESSES ))
 # Compute actual time limit in ms: think_time * multiplier * 1000
-TIME_LIMIT_MS=$(python3 -c "print(int($THINK_TIME * $VM_MULTIPLIER * 1000))")
+TIME_LIMIT_MS=$(python -c "print(int($THINK_TIME * $VM_MULTIPLIER * 1000))")
 echo "  Processes: $PROCESSES (4 threads each)"
 echo "  Games/process: $GAMES_PER_PROCESS"
 echo "  Think time: ${THINK_TIME}s x ${VM_MULTIPLIER} = ${TIME_LIMIT_MS}ms"
