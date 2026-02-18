@@ -79,7 +79,7 @@ TOURNAMENT_JSON="{ \"run\":true, \"type\":\"Tournament\", \"name\":\"ScriptTourn
 
 # Disable all existing benchmarks and enable ours
 # We use python for reliable JSON manipulation
-python3 -c "
+python -c "
 import json, sys, re
 
 with open('$CONFIG', 'r') as f:
@@ -138,10 +138,10 @@ if [ -z "$P1_WINS" ] || [ "$P1_WINS" = "0" ] && [ "$TOTAL" = "$GAMES" ]; then
     echo "$TOURNAMENT_OUTPUT" > "$SCRIPT_DIR/tournament_output.txt"
 else
     P2_WINS=$((TOTAL - P1_WINS))
-    WIN_RATE=$(python3 -c "print(f'{$P1_WINS/$TOTAL:.1%}')" 2>/dev/null || echo "N/A")
+    WIN_RATE=$(python -c "print(f'{$P1_WINS/$TOTAL:.1%}')" 2>/dev/null || echo "N/A")
 
     # Wilson confidence interval (95%)
-    WILSON=$(python3 -c "
+    WILSON=$(python -c "
 import math
 n = $TOTAL
 p = $P1_WINS / n if n > 0 else 0.5

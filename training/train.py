@@ -865,8 +865,8 @@ def main():
         print(f"  Unit types: {num_units}")
         print(f"  Mode: {'value-only' if args.value_only else 'policy+value'} (streaming)")
 
-        # num_workers=0 recommended for memmap on Windows
-        use_workers = min(args.num_workers, 2)
+        # Multi-worker streaming supported via lazy init (each worker opens own memmap handles)
+        use_workers = args.num_workers if device.type == "cpu" else min(args.num_workers, 4)
         shuffle_gen = torch.Generator()
         shuffle_gen.manual_seed(args.seed)
         train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,

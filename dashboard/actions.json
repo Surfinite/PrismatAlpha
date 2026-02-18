@@ -1,0 +1,27 @@
+{
+  "refresh": {
+    "tier": "safe",
+    "label": "Refresh Status",
+    "description": "Re-read all data files",
+    "command": null
+  },
+  "sync-s3": {
+    "tier": "safe",
+    "label": "Sync S3",
+    "description": "Download latest self-play results from S3",
+    "command": ["bash", ["aws/download_results.sh"]]
+  },
+  "launch-aws": {
+    "tier": "cautious",
+    "label": "Launch AWS Fleet",
+    "description": "Launch 8x c5.2xlarge on-demand instances for self-play generation",
+    "command": ["bash", ["aws/launch_selfplay.sh", "c5.2xlarge", "2000", "1", "2"]]
+  },
+  "train-e2b": {
+    "tier": "cautious",
+    "label": "Train E2b",
+    "description": "Train 256h model with winning E2b recipe (LR=1e-5, tanh+MSE)",
+    "command": ["python", ["training/train.py", "--selfplay-dir", "bin/training/data/selfplay/", "--value-only", "--hidden-dim", "256", "--lr", "1e-5", "--epochs", "100", "--batch-size", "512", "--patience", "5", "--max-records", "1000000", "--num-workers", "0", "--tanh-in-training", "--loss-fn", "mse"]],
+    "conflicts": ["sync-s3"]
+  }
+}

@@ -13,9 +13,9 @@
 
 **AWS EC2 self-play** pipeline verified working (Feb 15-16). Boots Windows Server, downloads exe+config from S3, patches config to enable SelfPlay_CI, runs self-play, uploads shards to `s3://prismata-selfplay-data/results/` every 5 min (copy-to-temp sync), auto-terminates. AWS account on paid plan (c5 instances unlocked). vCPU quotas: 192 on-demand + 256 spot (Standard). Fleet: 24 on-demand + 32 spot c5.2xlarge = 56 instances, 448 vCPUs (Feb 17). Use `USE_SPOT=true` for spot instances (separate quota, can run both simultaneously). TheWatcher handles S3 sync, auto-relaunch, and quota-aware scale-up (confirmed working: auto-detected spot quota 64→128→256 increases and launched additional instances within 30s). **Note:** `launch_selfplay.sh` only supports 1 instance per invocation — use a bash loop for bulk launches (sequential to avoid temp file race).
 
-**GCP Compute Engine self-play** pipeline set up (Feb 16). Uses same S3 bucket (hybrid cloud — GCP instances install AWS CLI). GCP project `prismata-selfplay`, zone `us-central1-a`. Quotas: N2_CPUS=200, INSTANCES=24, PREEMPTIBLE_CPUS=0 (no spot), **global CPUS=12 (bottleneck** — limits to 1-2 n2-standard-8 instances). Quota increase to 200 CPUS requested (Feb 17). TheWatcher monitors GCP instances and auto-relaunches. **GCP Defender fix applied (Feb 17):** GCP uses `windows-2022-core` image where Windows Defender kills the selfplay exe after ~4 games. Fix: `Set-MpPreference -DisableRealtimeMonitoring $true` added to startup script. Also added stdout log upload to S3 sync function for visibility. **GCP batch size fixed** (Feb 16) — `games_per_instance: 5000` → 2500 rounds/process exceeded x86 OOM threshold. Fixed to 2000.
+**GCP Compute Engine self-play** pipeline set up (Feb 16). Uses same S3 bucket (hybrid cloud — GCP instances install AWS CLI). GCP project `prismata-selfplay`, zone `us-central1-a`. Quotas: N2_CPUS=200, INSTANCES=24, PREEMPTIBLE_CPUS=0 (no spot), **global CPUS=12 (bottleneck** — limits to 1-2 n2-standard-8 instances). Quota increase to 200 CPUS requested (Feb 17). TheWatcher monitors GCP instances and auto-relaunches. **GCP Defender fix v2 applied (Feb 18):** GCP `windows-2022-core` Tamper Protection overrides `DisableRealtimeMonitoring` — previous fix was ineffective (instances died after ~4 games, 56 failed batches). New fix uses `Add-MpPreference -ExclusionPath/-ExclusionProcess` which survives Tamper Protection. **GCP batch size fixed** (Feb 16) — `games_per_instance: 5000` → 2500 rounds/process exceeded x86 OOM threshold. Fixed to 2000. **GCP quota gate**: Must wait 48 hours from account creation before GCP accepts quota increase requests. Account created Feb 16, eligible Feb 18+.
 
-**Azure self-play** pipeline verified working (Feb 16-17). **Fleet rebuilt Feb 17** — 16 VMs across 16 families (8x v7 + 8x v6, D/F series) = 128 vCPUs (regional cap maxed). v7 families: D8als, D8ads, D8as, D8alds, F8als, F8ads, F8as, F8alds. v6 families: D8as, D8ads, D8als, D8alds, F8as, F8als, D8s, D8ds. Each runs 5,000 games at ~3.5 games/min. Multi-family deployment bypasses per-family 10 vCPU limits. Same hybrid S3 pattern as GCP. Regional cap: 128 vCPUs (increased from 64). **IMPORTANT: `az vm delete` does NOT cascade** — orphaned NICs, public IPs, OS disks, NSGs persist and bill. After deleting VMs, run full cleanup (see `docs/cloud-ops-reference.md` → "Azure orphaned resources"). TheWatcher monitors, auto-deallocates stopped VMs, auto-relaunches. Launch: `bash azure/launch_selfplay.sh Standard_D8ads_v7 5000 1 2 N`. Use `LOCATION=australiacentral` for other regions (separate Regional quota).
+**Azure self-play PAUSED (Feb 18).** Azure on-demand is ~2x more expensive per vCPU-hr than AWS spot ($0.091-0.122 vs $0.052). Azure spot unavailable (confirmed by email). Fleet stopped to consolidate budget on AWS. Pipeline verified working (Feb 16-17). **Fleet rebuilt Feb 17** — 16 VMs across 16 families (8x v7 + 8x v6, D/F series) = 128 vCPUs (regional cap maxed). v7 families: D8als, D8ads, D8as, D8alds, F8als, F8ads, F8as, F8alds. v6 families: D8as, D8ads, D8als, D8alds, F8as, F8als, D8s, D8ds. Each runs 5,000 games at ~3.5 games/min. Multi-family deployment bypasses per-family 10 vCPU limits. Same hybrid S3 pattern as GCP. Regional cap: 128 vCPUs (increased from 64). **IMPORTANT: `az vm delete` does NOT cascade** — orphaned NICs, public IPs, OS disks, NSGs persist and bill. After deleting VMs, run full cleanup (see `docs/cloud-ops-reference.md` → "Azure orphaned resources"). TheWatcher monitors, auto-deallocates stopped VMs, auto-relaunches. Launch: `bash azure/launch_selfplay.sh Standard_D8ads_v7 5000 1 2 N`. Use `LOCATION=australiacentral` for other regions (separate Regional quota).
 
 **Command Center dashboard** built (Feb 17). Node.js + Express web app at `dashboard/`. Run via `run_dashboard.bat` (auto-installs deps, opens browser). Features: live fleet status (AWS/GCP/Azure/Local) via SSE with 30s heartbeat, data generation progress with estimated game rate, config-driven actions from `dashboard/actions.json` (refresh, S3 sync, launch AWS, train E2b), experiment browser with Chart.js training curves and multi-experiment overlay (Ctrl+click up to 3), watcher log viewer with filtering, ARIA accessibility attributes. Auth: Bearer token + CSRF Origin check. Conditional file watchers (only active when SSE clients connected). Binds to `0.0.0.0` — accessible from LAN devices.
 
@@ -25,7 +25,7 @@
 
 **Next actions:**
 1. **Complete 256h + 512h streaming retraining on XPU** — use `--device xpu --num-workers 4` for 4.5x speedup. Full 260K+ game dataset.
-2. **Continue data generation** toward 500K games. Fleet active across AWS + GCP + Azure. ~260K games generated (Feb 17).
+2. **Continue data generation** toward 500K games. Fleet: AWS (32 spot c5.2xlarge, quota increase to 512 pending) + GCP (2 instances, 12 vCPU quota bottleneck). Azure paused — not cost-effective vs AWS spot. ~300K+ games generated (Feb 18).
 3. ~~**Fix streaming DataLoader multi-worker support**~~ — DONE (Feb 17). Lazy init pattern in `MemmapSelfPlayDataset` enables `num_workers>0`. Use `--num-workers 4` with GPU training.
 4. ~~**Enable Intel Arc B580 GPU acceleration**~~ — DONE (Feb 17). See above.
 
@@ -164,7 +164,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Parallel tournament eval**: Use separate directories (`bin_eval_X/`) each with own exe, config.txt, cardLibrary.jso, and neural_weights.bin to run multiple tournaments simultaneously.
 - **D: drive backup**: `D:\PrismataAI_backup\` has selfplay data, models, weights, config, run logs. Created Feb 15.
 - **Experiment logs**: `training/runs/{timestamp}.json` — full per-epoch metrics, hyperparameters, git hash.
-- **Streaming DataLoader num_workers>0** (FIXED Feb 17): Was crashing with `TypeError: cannot pickle 'module' object` due to `self._torch` module reference and `self._mmaps` memmap handles in `__init__`. Fixed via lazy init pattern — non-picklable resources are initialized on first `__getitem__` call in each worker process. `persistent_workers=True` ensures init happens only once per worker.
+- **Streaming DataLoader num_workers>0** (FIXED Feb 17): Was crashing with `TypeError: cannot pickle 'module' object` — root cause is transient Windows handle exhaustion under memory pressure, not a real pickle incompatibility. Lazy init pattern (`self._torch = None` in `__init__`, import in `_ensure_init()`) is still good practice. `persistent_workers=True` ensures init happens only once per worker. `num_workers=4` confirmed working when RAM is adequate.
 - **train.py positional args**: TWO positional args — `data_dir` (default `training/data`) then `model_dir` (default `training/models`). Must pass both when using custom model output dirs: `python training/train.py training/data training/models/my_run --selfplay-dir ...`.
 - **IPEX is EOL (removed Feb 17)**: `intel_extension_for_pytorch` end-of-life March 2026. Replaced with native `torch.xpu` (PyTorch 2.10.0+xpu). Do NOT install IPEX. `get_device()` uses `hasattr(torch, 'xpu')` — works on any PyTorch version.
 - **XPU training: use `--device xpu --num-workers 4`**: Auto-detected if XPU available. With `num_workers=4`: 3.2x per-epoch speedup vs CPU (13s vs 42s). BF16 (`--amp`) adds overhead for small models — skip it. `torch.compile` (`--compile`) needs MSVC vcvars64.bat — skip unless model gets larger.
@@ -176,7 +176,9 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **`nohup &` broken in Git Bash on Windows**: Background processes get killed when the bash shell exits. Use the Bash tool's `run_in_background` parameter instead, or launch from a persistent cmd/PowerShell window.
 - **Python stdout buffering**: Long-running Python processes show no output in Claude Code Bash tool. Use `PYTHONUNBUFFERED=1` prefix.
 - **Python cp1252 on Windows**: Python defaults to cp1252 for stdout. Use `PYTHONIOENCODING=utf-8` or stick to ASCII.
+- **`python3` not available on Windows**: Git Bash only has `python` on PATH. All shell scripts must use `python`, not `python3`.
 - **PowerShell JSON files have UTF-8 BOM**: `watcher_status.json` and `watcher_config.json` written with BOM. Python: use `encoding='utf-8-sig'`.
+- **Bash tool breaks after crash**: After Claude Code crash, shell builtins (`echo`, `pwd`, `ls`) return exit code 1 with no output. External programs (`python`, `aws`) still work. Use `python -c "import subprocess; subprocess.run([...])"` as workaround until shell recovers.
 
 ### Historical / Concluded
 
@@ -196,19 +198,39 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 
 ### Cloud Operations
 
+- **Cloud config isolation**: Each provider (AWS/GCP/Azure) downloads base config from S3 and patches it locally on the VM. No shared local config files are modified — providers can run simultaneously without conflicts.
 - **AWS launch_selfplay.sh temp file race**: Script writes `.userdata_tmp.ps1` then reads it — parallel launches cause file-not-found errors. Even sequential launches can collide with TheWatcher (which also uses this file). Launch serially and accept occasional failures; TheWatcher will fill gaps on the next cycle. Proper fix: use per-PID unique temp filenames.
+- **launch_selfplay.sh 5th arg is instance count**: Pass a number (e.g., `1`) or omit. Passing `N` (literal) breaks the `seq` command inside the script. Applies to both `gcp/launch_selfplay.sh` and `azure/launch_selfplay.sh`.
+- **launch_tournament.sh fleet verification**: Always verify actual fleet size with `aws ec2 describe-instances` after launch — sequential calls may launch more instances than expected if each call spawns multiple.
 - **watcher_log.txt file lock**: TheWatcher (Task Scheduler instance) holds an exclusive lock on `aws/watcher_log.txt`. Standard file reads (`cat`, `Get-Content`, Python `open()`, `Copy-Item`) all fail. PowerShell `Add-Content` also fails with "Stream was not readable" when another process holds the file. Use `robocopy aws/ <dest>/ watcher_log.txt` to copy the locked file, then read the copy.
 - **Azure Public IP quota (increased to 40)**: Subscription-level limit, not per-region. Orphaned NICs and public IPs persist after VM deallocation/deletion, consuming quota even with no running VMs. Clean up: `az network nic delete` first, then `az network public-ip delete`. Check with `az network public-ip list -o table`.
 - **GCP global CPUS vs N2_CPUS**: Two separate quotas. N2_CPUS (per-family, 200) controls N2 instances. Global CPUS (per-region, default 12) is the real bottleneck — limits total vCPUs across ALL families. Filter by "CPUS" (not "N2_CPUS") in the GCP Console quota page.
-- **GCP Windows Defender kills exe**: GCP uses `windows-2022-core` (Server Core) where Defender kills the selfplay exe after ~4 games (null exit code = external termination). EC2 uses `windows-2022-base` (full desktop) and doesn't have this issue. Fix: `Set-MpPreference -DisableRealtimeMonitoring $true` in startup script (already applied to `gcp/launch_selfplay.sh`).
+- **GCP Windows Defender kills exe**: GCP uses `windows-2022-core` (Server Core) where Defender kills the selfplay exe after ~4 games (null exit code = external termination). EC2 uses `windows-2022-base` (full desktop) and doesn't have this issue. Fix: `Add-MpPreference -ExclusionPath 'C:\selfplay'` + `-ExclusionProcess 'Prismata_Testing.exe'` in startup script. **`Set-MpPreference -DisableRealtimeMonitoring $true` alone does NOT work** — Tamper Protection overrides it silently (command succeeds but Defender re-enables). Exclusions survive Tamper Protection.
 - **S3 provider identification**: EC2 instances don't upload boot logs. GCP boot logs say "GCP Worker Starting". Azure doesn't upload boot logs either. To distinguish EC2 vs Azure in S3 results, check the `patched_config.txt` (Azure uses 250-round batches, EC2 uses 1000-round runs) or check instance naming patterns in logs.
 - **watcher_status.json shard tracking unreliable**: `shard_activity.last_new_shard` can show stale dates (e.g., Feb 16) even with 56+ active EC2 instances. `shards_last_hour` also underreports. Don't rely on these fields for fleet health — check actual S3 data growth or instance counts instead.
 - **Cloud free credits**: AWS $200/12mo (auto-applied), Azure $200/30days (HIGH RISK — burn rate ~$9/hr at 28 VMs, hard 30-day deadline), GCP $300/90days. Azure is the most time-sensitive — monitor via portal Cost Analysis.
+- **Cloud compute cost comparison (Windows, 8 vCPU, Feb 2026)**: AWS c5.2xlarge: $0.732/hr on-demand, **$0.414/hr spot** (43% off — Windows spot discounts are much smaller than Linux). Azure D8als_v7: $0.726/hr on-demand, $0.134/hr spot (82% off, **but spot unavailable** for this subscription). AWS spot is ~2x cheaper than Azure on-demand per vCPU-hour. Azure Retail Prices API (no auth): `https://prices.azure.com/api/retail/prices?$filter=...`.
+- **GCP quota gate**: New GCP accounts must wait 48 hours from creation before quota increase requests are accepted.
 
 ### External Tools
 
 - **claude-mem 10.0.7**: Bug #1104 filed. Chroma runs manually on port 8000. **Update when >10.0.7 available.**
 - **Future feature plans in claude-mem**: GUI spectator mode (#1385), web-based remote advisor (#1524). Use MCP search to retrieve.
+
+## Claude Code Tooling
+
+**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/revise` (update CLAUDE.md).
+
+**Hooks** (in `.claude/settings.local.json`):
+- PreToolUse: Blocks Read/Edit/Write on `.aws_credentials`, `credentials.json`, `.env` files
+- PreToolUse: Blocks Bash commands that would unregister/stop TheWatcher Task Scheduler job
+- Stop: Reminds to run `/revise` on session close
+
+**Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources.
+
+**MCP**: context7 configured in `.mcp.json` (project-level) — live docs for PyTorch, Express, Chart.js, cloud CLIs.
+
+**C++ style**: `.clang-format` at project root (Allman braces, 4-space indent, 120 col limit). Matches existing codebase conventions.
 
 ## Session Close-Out
 
@@ -271,7 +293,7 @@ All datasets at `c:\libraries\prismata-replay-parser\`. All balance-validated. C
 
 ### Hardware
 
-AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play generation: ~4 games/min per 4-thread instance (~16 games/min with 4 instances). Training: ~30 min/epoch on CPU (full 8.7M dataset, streaming). GPU acceleration plan pending — expect 5-10x speedup via PyTorch XPU backend (no IPEX).
+AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play generation: ~4 games/min per 4-thread instance (~16 games/min with 4 instances). Training: ~30 min/epoch on CPU (full 8.7M dataset, streaming). **XPU training enabled:** ~7 min/epoch with `--device xpu --num-workers 4` (4.5x total speedup). PyTorch 2.10.0+xpu, native `torch.xpu` backend.
 
 ## Known Issues (Current)
 
@@ -309,6 +331,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `training/schema.json` | Feature schema contract (state_dim=1785) |
 | `training/FEATURES.md` | Human-readable feature specification |
 | `training/data/unit_index.json` | 161 canonical unit names |
+| `training/requirements.txt` | Python deps (torch, numpy, tqdm) with XPU install instructions |
 | `training/opening_book.py` | Opening book extraction from expert replays |
 | `tools/verify_selfplay.py` | Validates self-play binary output |
 | `tools/download_wiki.py` | Downloads full Prismata wiki from Fandom API |
@@ -335,6 +358,9 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `dashboard/actions.json` | Action button definitions (tier, command, conflicts) — edit to add new actions |
 | `dashboard/public/` | Command Center frontend (HTML + CSS + vanilla JS + Chart.js) |
 | `run_dashboard.bat` | One-click dashboard launcher (auto-installs deps, opens browser) |
+| `.clang-format` | C++ code style (Allman, 4-space, 120 col) |
+| `.mcp.json` | Project-level MCP server config (context7) |
+| `~/.claude/agents/fleet-health.md` | Cloud fleet health audit subagent |
 | `c:\libraries\prismata-replay-parser\` | TS replay parser + data extraction scripts |
 | `c:\libraries\DiscordChatExporter\` | Discord message export tool (CLI at `cli/`) |
 | `c:\libraries\prismata-replay-parser\validate_balance_all.js` | Balance validation across all replay sources |
@@ -352,7 +378,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB RAM, Intel Arc B580 (12GB VRAM). Self-play ge
 | `docs/plans/2026-02-16-azure-compute-plan.md` | Azure compute integration plan (DONE — D8als_v7 in North Europe) |
 | `docs/plans/2026-02-17-hyperparameter-experiments.md` | Hyperparameter experiment plan v1 (overfitting fix, Churchill/Lc0 research) |
 | `docs/plans/hyperparameter-experiments-v2.md` | Experiment plan v2 (COMPLETE — tanh fix, 6 expert critiques, phased approach) |
-| `~/.claude/plans/intel-arc-b580-xpu-acceleration.md` | **NEXT** Intel Arc B580 GPU acceleration plan (driver, PyTorch XPU, remove IPEX) |
+| `~/.claude/plans/intel-arc-b580-xpu-acceleration-v2.md` | Intel Arc B580 GPU acceleration plan v2 (DONE — 4.5x speedup with XPU+nw4) |
 | `docs/selfplay-worker-instructions.md` | Source-verified self-play implementation spec |
 | `docs/blend-tournament-results.md` | Blend tournament results (CONCLUDED) |
 | `docs/session-logs/` | Historical parallel session logs (ctx1-4, selfplay progress) |

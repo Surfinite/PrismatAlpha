@@ -62,7 +62,7 @@ case "$VM_SIZE" in
 esac
 
 GAMES_PER_PROCESS=$(( (NUM_GAMES + PROCESSES - 1) / PROCESSES ))
-TIME_LIMIT_MS=$(python3 -c "print(int($THINK_TIME * $VM_MULTIPLIER * 1000))")
+TIME_LIMIT_MS=$(python -c "print(int($THINK_TIME * $VM_MULTIPLIER * 1000))")
 echo "  Processes: $PROCESSES (4 threads each)"
 echo "  Games/process: $GAMES_PER_PROCESS"
 echo "  Think time: ${THINK_TIME}s x ${VM_MULTIPLIER} = ${TIME_LIMIT_MS}ms"
@@ -232,7 +232,7 @@ for ($batch = 1; $batch -le $totalBatches; $batch++) {
         if ($elapsed -ge $syncIntervalSec) {
             $count = Sync-ToS3 $bucket $runId $numProcesses
             $lastSyncTime = Get-Date
-            Write-Host "[Sync] Batch $batch: uploaded $count files. Workers: $($running.Count)/$numProcesses"
+            Write-Host "[Sync] Batch ${batch}: uploaded $count files. Workers: $($running.Count)/$numProcesses"
         }
         Start-Sleep -Seconds 30
     }
@@ -244,7 +244,7 @@ for ($batch = 1; $batch -le $totalBatches; $batch++) {
     # Sync after each batch
     $count = Sync-ToS3 $bucket $runId $numProcesses
     $lastSyncTime = Get-Date
-    Write-Host "[Sync] Batch $batch complete: uploaded $count files"
+    Write-Host "[Sync] Batch ${batch} complete: uploaded $count files"
 }
 
 # Final sync

@@ -59,7 +59,7 @@ case "$INSTANCE_TYPE" in
 esac
 
 GAMES_PER_PROCESS=$(( (NUM_GAMES + PROCESSES - 1) / PROCESSES ))
-TIME_LIMIT_MS=$(python3 -c "print(int($THINK_TIME * $VM_MULTIPLIER * 1000))")
+TIME_LIMIT_MS=$(python -c "print(int($THINK_TIME * $VM_MULTIPLIER * 1000))")
 echo "  Processes: $PROCESSES (4 threads each)"
 echo "  Games/process: $GAMES_PER_PROCESS"
 echo "  Think time: ${THINK_TIME}s x ${VM_MULTIPLIER} = ${TIME_LIMIT_MS}ms"
@@ -84,6 +84,17 @@ $awsKeyId = Invoke-RestMethod -Uri "$metadataBase/instance/attributes/aws-key-id
 $awsSecretKey = Invoke-RestMethod -Uri "$metadataBase/instance/attributes/aws-secret-key" -Headers $headers
 
 Write-Host "Instance: $instanceName in $instanceZone"
+
+# Windows Defender fix: exclusions work even with Tamper Protection enabled
+# (DisableRealtimeMonitoring alone gets overridden by Tamper Protection on GCP windows-2022-core)
+try {
+    Add-MpPreference -ExclusionPath 'C:\selfplay' -ErrorAction SilentlyContinue
+    Add-MpPreference -ExclusionProcess 'Prismata_Testing.exe' -ErrorAction SilentlyContinue
+    Set-MpPreference -DisableRealtimeMonitoring $true -ErrorAction SilentlyContinue
+    Write-Host "Windows Defender exclusions added and real-time monitoring disabled"
+} catch {
+    Write-Host "WARNING: Could not configure Defender: $_"
+}
 
 # Install VC++ Redistributable
 Write-Host "Installing VC++ Redistributable..."
@@ -198,6 +209,11 @@ function Sync-ToS3 {
             if (Test-Path $logFile) {
                 Copy-Item $logFile "$tempBase\log_worker_$i.txt" -Force
                 aws s3 cp "$tempBase\log_worker_$i.txt" "s3://$bucket/results/$runId/log_worker_$i.txt" --region eu-north-1 2>&1 | Out-Null
+            }
+            $stdoutLog = "C:\selfplay\log_stdout_$i.txt"
+            if (Test-Path $stdoutLog) {
+                Copy-Item $stdoutLog "$tempBase\log_stdout_$i.txt" -Force
+                aws s3 cp "$tempBase\log_stdout_$i.txt" "s3://$bucket/results/$runId/log_stdout_$i.txt" --region eu-north-1 2>&1 | Out-Null
             }
         } catch { }
     }

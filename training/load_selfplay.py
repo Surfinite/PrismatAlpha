@@ -320,28 +320,38 @@ class MemmapSelfPlayDataset:
 
     def __init__(self, index, record_indices, label_smooth=0.95, num_units=161,
                  bce_mode=False):
-        import torch  # lazy import
-        self._torch = torch
-
+        # Only picklable attributes here — enables DataLoader num_workers>0.
+        # Non-picklable resources (torch module, memmap handles) are lazily
+        # initialized in _ensure_init(), called on first __getitem__.
         self.index = index
         self.record_indices = record_indices
         self.label_smooth = label_smooth
         self.num_units = num_units
         self.bce_mode = bce_mode
+        self._torch = None   # lazy: torch module
+        self._mmaps = None   # lazy: per-shard memmap handles
+        self._dtypes = None  # lazy: per-shard record dtypes
 
-        # Open persistent memmap handles (OS manages actual memory)
-        self._mmaps = []
-        for shard in index.shards:
-            mm = np.memmap(shard['path'], dtype=np.uint8, mode='r')
-            self._mmaps.append(mm)
+    def _ensure_init(self):
+        """Lazily initialize non-picklable resources (once per worker process).
 
-        # Pre-compute dtypes per shard
-        self._dtypes = [make_record_dtype(s['feature_dim']) for s in index.shards]
+        With persistent_workers=True, this runs exactly once per DataLoader
+        worker for the entire training run. Each worker gets its own
+        independent set of read-only memmap file handles.
+        """
+        if self._torch is not None:
+            return
+        import torch
+        self._torch = torch
+        self._mmaps = [np.memmap(s['path'], dtype=np.uint8, mode='r')
+                       for s in self.index.shards]
+        self._dtypes = [make_record_dtype(s['feature_dim']) for s in self.index.shards]
 
     def __len__(self):
         return len(self.record_indices)
 
     def __getitem__(self, idx):
+        self._ensure_init()
         torch = self._torch
         global_idx = self.record_indices[idx]
         shard_idx, local_idx = self.index.resolve(global_idx)
