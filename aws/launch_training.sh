@@ -5,9 +5,14 @@
 # Options (via env vars):
 #   HIDDEN_DIM=256       Hidden layer size (default: 256)
 #   LR=1e-5              Learning rate (default: 1e-5)
-#   EPOCHS=100           Max epochs (default: 100)
+#   EPOCHS=40            Max epochs (default: 40)
 #   BATCH_SIZE=512       Batch size (default: 512)
 #   PATIENCE=15          Early stopping patience (default: 15)
+#   NUM_LAYERS=2         Residual blocks in trunk (default: 2)
+#   WARMUP_EPOCHS=2      LR warmup epochs (default: 2)
+#   DROPOUT=0.1          Dropout rate (default: 0.1)
+#   WEIGHT_DECAY=1e-4    AdamW weight decay (default: 1e-4)
+#   LABEL_SMOOTH=0.95    Label smoothing (default: 0.95)
 #   LOSS_FN=mse          Loss function: mse or bce (default: mse)
 #   EVAL_STEPS=5000      Eval every N steps (default: 5000)
 #   MAX_RECORDS=0        Max records to load, 0=all (default: 0)
@@ -33,9 +38,14 @@ export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"
 # Hyperparameters
 HIDDEN_DIM="${HIDDEN_DIM:-256}"
 LR="${LR:-1e-5}"
-EPOCHS="${EPOCHS:-100}"
+EPOCHS="${EPOCHS:-40}"
 BATCH_SIZE="${BATCH_SIZE:-512}"
 PATIENCE="${PATIENCE:-15}"
+NUM_LAYERS="${NUM_LAYERS:-2}"
+WARMUP_EPOCHS="${WARMUP_EPOCHS:-2}"
+DROPOUT="${DROPOUT:-0.1}"
+WEIGHT_DECAY="${WEIGHT_DECAY:-1e-4}"
+LABEL_SMOOTH="${LABEL_SMOOTH:-0.95}"
 LOSS_FN="${LOSS_FN:-mse}"
 EVAL_STEPS="${EVAL_STEPS:-5000}"
 MAX_RECORDS="${MAX_RECORDS:-0}"
@@ -66,6 +76,11 @@ echo "  LR:         $LR"
 echo "  Epochs:     $EPOCHS"
 echo "  Batch size: $BATCH_SIZE"
 echo "  Patience:   $PATIENCE"
+echo "  Layers:     $NUM_LAYERS"
+echo "  Warmup:     $WARMUP_EPOCHS epochs"
+echo "  Dropout:    $DROPOUT"
+echo "  Wt decay:   $WEIGHT_DECAY"
+echo "  Label smooth: $LABEL_SMOOTH"
 echo "  Loss fn:    $LOSS_FN"
 echo "  Eval steps: $EVAL_STEPS"
 echo "  Max records: $MAX_RECORDS (0=all)"
@@ -90,6 +105,11 @@ LR=$LR
 EPOCHS=$EPOCHS
 BATCH_SIZE=$BATCH_SIZE
 PATIENCE=$PATIENCE
+NUM_LAYERS=$NUM_LAYERS
+WARMUP_EPOCHS=$WARMUP_EPOCHS
+DROPOUT=$DROPOUT
+WEIGHT_DECAY=$WEIGHT_DECAY
+LABEL_SMOOTH=$LABEL_SMOOTH
 LOSS_FN="$LOSS_FN"
 EVAL_STEPS=$EVAL_STEPS
 MAX_RECORDS=$MAX_RECORDS
@@ -164,6 +184,11 @@ cat > /tmp/run_config.json <<CONFIGEOF
   "eval_steps": \$EVAL_STEPS,
   "max_records": \$MAX_RECORDS,
   "seed": \$SEED,
+  "num_layers": \$NUM_LAYERS,
+  "warmup_epochs": \$WARMUP_EPOCHS,
+  "dropout": \$DROPOUT,
+  "weight_decay": \$WEIGHT_DECAY,
+  "label_smooth": \$LABEL_SMOOTH,
   "records": \$RECORD_COUNT,
   "instance_type": "\$(curl -s http://169.254.169.254/latest/meta-data/instance-type)"
 }
@@ -177,6 +202,7 @@ echo ""
 echo "=== Starting training ==="
 echo "  Device: cuda (T4)"
 echo "  Hidden dim: \$HIDDEN_DIM"
+echo "  Layers: \$NUM_LAYERS"
 echo "  LR: \$LR"
 echo "  Records: \$RECORD_COUNT"
 echo ""
@@ -188,15 +214,21 @@ TRAIN_CMD="python training/train.py training/data training/models \\
   --selfplay-dir selfplay_data/ \\
   --value-only \\
   --hidden-dim \$HIDDEN_DIM \\
+  --num-layers \$NUM_LAYERS \\
   --epochs \$EPOCHS \\
   --batch-size \$BATCH_SIZE \\
   --lr \$LR \\
+  --warmup-epochs \$WARMUP_EPOCHS \\
+  --dropout \$DROPOUT \\
+  --weight-decay \$WEIGHT_DECAY \\
+  --label-smooth \$LABEL_SMOOTH \\
   --tanh-in-training \\
   --loss-fn \$LOSS_FN \\
   --patience \$PATIENCE \\
   --num-workers 4 \\
   --eval-every-steps \$EVAL_STEPS \\
   --seed \$SEED \\
+  --streaming \\
   --device cuda"
 
 # Add --max-records if set
