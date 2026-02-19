@@ -19,6 +19,16 @@ import zlib
 
 import numpy as np
 
+# Raise Windows file descriptor limit (default 512, max 8192).
+# Needed for caching open handles across 8K+ shards.
+if sys.platform == 'win32':
+    try:
+        import ctypes as _ctypes
+        _ucrt = _ctypes.CDLL('ucrtbase')
+        _ucrt._setmaxstdio(8192)
+    except (OSError, AttributeError):
+        pass
+
 # Binary format constants
 MAGIC = 0x50534450  # "PSDP"
 VERSION = 1
@@ -298,11 +308,14 @@ class MemmapSelfPlayDataset:
         if self._torch is not None:
             return
         import torch
+        from collections import OrderedDict
         self._torch = torch
-        # Don't pre-mmap all 8K shards — crashes on Windows (196GB vaddr).
-        # Use direct file I/O per-access instead.
         self._dtypes = {i: make_record_dtype(s['feature_dim'])
                         for i, s in enumerate(self.index.shards)}
+        # LRU cache of open file handles. msvcrt.setmaxstdio(8192) at module
+        # top raises Windows FD limit from 512 to 8192, enough for all shards.
+        self._file_cache = OrderedDict()  # shard_idx -> open file handle
+        self._max_handles = 8000  # fits within 8192 FD limit after raising
 
     def __len__(self):
         return len(self.record_indices)
@@ -316,9 +329,20 @@ class MemmapSelfPlayDataset:
         shard = self.index.shards[shard_idx]
         offset = HEADER_SIZE + local_idx * shard['record_size']
 
-        with open(shard['path'], 'rb') as f:
-            f.seek(offset)
-            record_bytes = f.read(shard['record_size'])
+        # LRU file handle cache
+        if shard_idx in self._file_cache:
+            self._file_cache.move_to_end(shard_idx)
+            f = self._file_cache[shard_idx]
+        else:
+            # Evict oldest handles if at capacity
+            while len(self._file_cache) >= self._max_handles:
+                _, old_f = self._file_cache.popitem(last=False)
+                old_f.close()
+            f = open(shard['path'], 'rb')
+            self._file_cache[shard_idx] = f
+
+        f.seek(offset)
+        record_bytes = f.read(shard['record_size'])
         record = np.frombuffer(record_bytes, dtype=self._dtypes[shard_idx])
 
         features = torch.from_numpy(record['features'][0].copy())

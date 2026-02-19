@@ -255,7 +255,13 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5,
     total_vacc = 0
     n_batches = 0
     n_policy_batches = 0
-    all_vpreds = []
+    # Running stats for value predictions (avoids accumulating 48K+ tensors)
+    vpred_sum = 0.0
+    vpred_sq_sum = 0.0
+    vpred_min = float('inf')
+    vpred_max = float('-inf')
+    vpred_saturated = 0
+    vpred_count = 0
 
     for batch in loader:
         states, buys, values_target = batch[0], batch[1], batch[2]
@@ -292,30 +298,32 @@ def train_epoch(model, loader, optimizer, device, policy_weight=0.5,
 
         total_vloss += vloss.item()
         total_vacc += compute_value_accuracy(value_pred, values_target, bce_mode)
-        all_vpreds.append(value_pred.detach().cpu())
         n_batches += 1
 
-    # Compute value prediction statistics for saturation monitoring
-    all_vpreds = torch.cat(all_vpreds)
-    if bce_mode:
-        # For BCE mode, apply sigmoid for display
-        all_vpreds_bounded = torch.sigmoid(all_vpreds)
-        value_stats = {
-            "mean": all_vpreds_bounded.mean().item(),
-            "std": all_vpreds_bounded.std().item(),
-            "min": all_vpreds_bounded.min().item(),
-            "max": all_vpreds_bounded.max().item(),
-            "saturated_frac": ((all_vpreds_bounded - 0.5).abs() > 0.45).float().mean().item(),
-        }
-    else:
-        all_vpreds_tanh = torch.tanh(all_vpreds)
-        value_stats = {
-            "mean": all_vpreds_tanh.mean().item(),
-            "std": all_vpreds_tanh.std().item(),
-            "min": all_vpreds_tanh.min().item(),
-            "max": all_vpreds_tanh.max().item(),
-            "saturated_frac": ((all_vpreds_tanh.abs() > 0.95).float().mean().item()),
-        }
+        # Update running value prediction stats (no tensor accumulation)
+        vp = value_pred.detach().cpu()
+        if bce_mode:
+            vp_bounded = torch.sigmoid(vp)
+            vpred_saturated += ((vp_bounded - 0.5).abs() > 0.45).sum().item()
+        else:
+            vp_bounded = torch.tanh(vp)
+            vpred_saturated += (vp_bounded.abs() > 0.95).sum().item()
+        vpred_sum += vp_bounded.sum().item()
+        vpred_sq_sum += (vp_bounded ** 2).sum().item()
+        vpred_min = min(vpred_min, vp_bounded.min().item())
+        vpred_max = max(vpred_max, vp_bounded.max().item())
+        vpred_count += vp_bounded.numel()
+
+    # Compute value prediction statistics from running totals
+    vpred_mean = vpred_sum / max(vpred_count, 1)
+    vpred_var = max((vpred_sq_sum / max(vpred_count, 1)) - vpred_mean ** 2, 0)
+    value_stats = {
+        "mean": vpred_mean,
+        "std": vpred_var ** 0.5,
+        "min": vpred_min,
+        "max": vpred_max,
+        "saturated_frac": vpred_saturated / max(vpred_count, 1),
+    }
 
     return (
         total_ploss / max(n_policy_batches, 1),
@@ -339,8 +347,14 @@ def eval_epoch(model, loader, device, policy_weight=0.5,
     total_vacc = 0
     n_batches = 0
     n_policy_batches = 0
-    all_vpreds = []
-    all_targets = []
+    # Running stats for value predictions (avoids accumulating 48K+ tensors)
+    vpred_sum = 0.0
+    vpred_sq_sum = 0.0
+    vpred_min = float('inf')
+    vpred_max = float('-inf')
+    vpred_saturated = 0
+    vpred_count = 0
+    brier_sum = 0.0
 
     for batch in loader:
         states, buys, values_target = batch[0], batch[1], batch[2]
@@ -366,39 +380,38 @@ def eval_epoch(model, loader, device, policy_weight=0.5,
 
         total_vloss += vloss.item()
         total_vacc += compute_value_accuracy(value_pred, values_target, bce_mode)
-        all_vpreds.append(value_pred.cpu())
-        all_targets.append(values_target.cpu())
         n_batches += 1
 
-    all_vpreds = torch.cat(all_vpreds)
-    all_targets = torch.cat(all_targets)
+        # Update running value prediction stats (no tensor accumulation)
+        vp = value_pred.cpu()
+        vt = values_target.cpu()
+        if bce_mode:
+            vp_bounded = torch.sigmoid(vp)
+            vpred_saturated += ((vp_bounded - 0.5).abs() > 0.45).sum().item()
+            brier_sum += ((vp_bounded - vt) ** 2).sum().item()
+        else:
+            vp_bounded = torch.tanh(vp)
+            vpred_saturated += (vp_bounded.abs() > 0.95).sum().item()
+            pred_prob = (vp_bounded + 1) / 2
+            target_prob = (vt + 1) / 2
+            brier_sum += ((pred_prob - target_prob) ** 2).sum().item()
+        vpred_sum += vp_bounded.sum().item()
+        vpred_sq_sum += (vp_bounded ** 2).sum().item()
+        vpred_min = min(vpred_min, vp_bounded.min().item())
+        vpred_max = max(vpred_max, vp_bounded.max().item())
+        vpred_count += vp_bounded.numel()
 
-    if bce_mode:
-        all_vpreds_bounded = torch.sigmoid(all_vpreds)
-        value_stats = {
-            "mean": all_vpreds_bounded.mean().item(),
-            "std": all_vpreds_bounded.std().item(),
-            "min": all_vpreds_bounded.min().item(),
-            "max": all_vpreds_bounded.max().item(),
-            "saturated_frac": ((all_vpreds_bounded - 0.5).abs() > 0.45).float().mean().item(),
-        }
-        # Brier score: mean( (predicted_prob - actual_outcome)^2 )
-        brier = ((all_vpreds_bounded - all_targets) ** 2).mean().item()
-        value_stats["brier_score"] = brier
-    else:
-        all_vpreds_tanh = torch.tanh(all_vpreds)
-        value_stats = {
-            "mean": all_vpreds_tanh.mean().item(),
-            "std": all_vpreds_tanh.std().item(),
-            "min": all_vpreds_tanh.min().item(),
-            "max": all_vpreds_tanh.max().item(),
-            "saturated_frac": ((all_vpreds_tanh.abs() > 0.95).float().mean().item()),
-        }
-        # Brier score: convert to [0,1] probabilities first
-        pred_prob = (all_vpreds_tanh + 1) / 2
-        target_prob = (all_targets + 1) / 2
-        brier = ((pred_prob - target_prob) ** 2).mean().item()
-        value_stats["brier_score"] = brier
+    # Compute value prediction statistics from running totals
+    vpred_mean = vpred_sum / max(vpred_count, 1)
+    vpred_var = max((vpred_sq_sum / max(vpred_count, 1)) - vpred_mean ** 2, 0)
+    value_stats = {
+        "mean": vpred_mean,
+        "std": vpred_var ** 0.5,
+        "min": vpred_min,
+        "max": vpred_max,
+        "saturated_frac": vpred_saturated / max(vpred_count, 1),
+        "brier_score": brier_sum / max(vpred_count, 1),
+    }
 
     return (
         total_ploss / max(n_policy_batches, 1),
@@ -688,8 +701,8 @@ def main():
                         help="Apply tanh in forward pass during training (fixes mismatch with C++ inference)")
     parser.add_argument("--loss-fn", choices=["mse", "bce"], default="mse",
                         help="Value loss function: mse (default) or bce (BCEWithLogitsLoss)")
-    parser.add_argument("--eval-every-steps", type=int, default=0,
-                        help="Evaluate every N optimizer steps (0=epoch-level only)")
+    parser.add_argument("--eval-every-steps", type=int, default=None,
+                        help="Evaluate every N optimizer steps (default: 5000 for streaming, 0 for non-streaming)")
     parser.add_argument("--subsample-every", type=int, default=1,
                         help="Keep every Nth position per game to reduce temporal correlation (1=all)")
     parser.add_argument("--streaming", action="store_true",
@@ -731,6 +744,11 @@ def main():
 
     streaming_mode = args.streaming and args.selfplay_dir
 
+    # Auto-set eval_every_steps: default 5000 for streaming (epoch-level takes 7+ hours),
+    # default 0 (epoch-level) for non-streaming
+    if args.eval_every_steps is None:
+        args.eval_every_steps = 5000 if streaming_mode else 0
+
     if streaming_mode:
         # Streaming mode: memory-mapped access, no RAM limit
         from load_selfplay import MemmapShardIndex, MemmapSelfPlayDataset
@@ -746,6 +764,15 @@ def main():
             train_indices = rng.choice(train_indices, args.max_records, replace=False)
             train_indices.sort()
             print(f"  Capped training records to {args.max_records:,}")
+
+        # Cap val set for streaming: per-record I/O makes full 2.7M eval very slow.
+        # 100K records gives <0.5% eval noise (std error ~0.16%) and runs in ~2 min.
+        max_val = 100000
+        if len(val_indices) > max_val:
+            rng_val = np.random.RandomState(args.seed + 1)
+            val_indices = rng_val.choice(val_indices, max_val, replace=False)
+            val_indices.sort()
+            print(f"  Capped val records to {max_val:,} (streaming I/O limit)")
 
         est_games_per_record = 1 / 37  # ~37 records per game
         print(f"    Train: {len(train_indices):,} records (~{int(len(train_indices) * est_games_per_record):,} games)")
@@ -893,12 +920,14 @@ def main():
         use_workers = args.num_workers if device.type == "cpu" else min(args.num_workers, 4)
         shuffle_gen = torch.Generator()
         shuffle_gen.manual_seed(args.seed)
+        # pin_memory=False for streaming: avoids XPU pin_memory bugs and provides
+        # no benefit when I/O (not GPU transfer) is the bottleneck
         train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
                                   drop_last=True, num_workers=use_workers,
-                                  generator=shuffle_gen, pin_memory=True,
+                                  generator=shuffle_gen, pin_memory=False,
                                   persistent_workers=use_workers > 0)
         val_loader = DataLoader(val_ds, batch_size=args.batch_size,
-                                num_workers=use_workers, pin_memory=True,
+                                num_workers=use_workers, pin_memory=False,
                                 persistent_workers=use_workers > 0)
 
         # Stub for run_log data section
@@ -1170,6 +1199,13 @@ def main():
                 epoch_vacc_sum += compute_value_accuracy(value_pred, values_target, bce_mode)
                 n_epoch_batches += 1
                 global_step += 1
+
+                # Progress indicator (streaming epochs can be very long)
+                if global_step % 1000 == 0 and global_step % args.eval_every_steps != 0:
+                    avg_loss = epoch_vloss_sum / n_epoch_batches
+                    elapsed = time.time() - t0
+                    print(f"    step {global_step:6d}  loss={avg_loss:.4f}  "
+                          f"elapsed={elapsed:.0f}s", flush=True)
 
                 # Step-level evaluation
                 if global_step % args.eval_every_steps == 0:
