@@ -275,6 +275,7 @@ When the user says "wrapping up", "closing context", or "save everything":
 3. Map any unnamed artifacts to human-readable names (e.g., run timestamps → experiment names)
 4. Run `/revise-claude-md` for CLAUDE.md status and gotcha updates
 5. List anything still only in conversation context so the user knows what would be lost
+6. Save important conversation-only findings to claude-mem (audit results, stale deploy warnings, unfinished work items). Use judgement — no clutter, only items a future session would genuinely benefit from knowing.
 
 ## User Preferences
 
