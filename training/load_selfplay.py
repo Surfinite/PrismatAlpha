@@ -183,6 +183,9 @@ def load_all_shards(directory, validate_crc=True, max_records=0):
         return None
 
     combined = np.concatenate(all_records)
+    if max_records > 0 and len(combined) > max_records:
+        print(f"  Trimming {len(combined):,} -> {max_records:,} records (shard boundary overshoot)")
+        combined = combined[:max_records]
     return combined
 
 
@@ -275,12 +278,12 @@ class MemmapShardIndex:
         # Position subsampling
         if subsample_every > 1:
             original = self.total_records
-            _, inverse = np.unique(self._game_ids, return_inverse=True)
-            counts = np.zeros(inverse.max() + 1, dtype=np.int32)
+            # Vectorized: compute position-within-game for each record
+            order = np.argsort(self._game_ids, kind='stable')
+            _, starts, sizes = np.unique(self._game_ids[order], return_index=True, return_counts=True)
             position_in_game = np.empty(len(self._game_ids), dtype=np.int32)
-            for i in range(len(self._game_ids)):
-                position_in_game[i] = counts[inverse[i]]
-                counts[inverse[i]] += 1
+            for start, size in zip(starts, sizes):
+                position_in_game[order[start:start + size]] = np.arange(size, dtype=np.int32)
             keep = (position_in_game % subsample_every) == 0
             self._shard_indices = self._shard_indices[keep]
             self._local_indices = self._local_indices[keep]

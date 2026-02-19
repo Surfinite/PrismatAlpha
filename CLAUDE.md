@@ -3,19 +3,21 @@
 > **Full project history** (sections 1-29, completed milestones, tournament results): see `docs/PROJECT_HISTORY.md`
 > **Execution plan** for self-play training: see `docs/plans/2026-02-15-selfplay-training-master-plan.md`
 
-## Current Status (Feb 18, 2026)
+## Current Status (Feb 19, 2026)
 
 **305K-game 256h model: 45.3% WR vs OriginalHardestAI** (4,032 games, CI [43.8%, 46.8%], 24 EC2 c5.2xlarge). Massive improvement from 26.7% with 63K games. Trained on 330K games (12.2M records), 256h, LR=1e-5, tanh+MSE, 86.1% val accuracy. Weights: `bin/asset/config/neural_weights_305k.bin` (deployed as `neural_weights.bin`). Previous models: `neural_weights_selfplay_v1.bin` (iter 1, 77% val acc, 10K games), `neural_weights_expert_backup.bin` (expert-trained).
 
-**512h comparison training ON GCP T4 (Feb 18).** Moved from local XPU (stopped at step 80K) to GCP T4 spot (`prismata-training-*`, g2-standard-4 + L4). Local checkpoint uploaded to S3 at `training-runs/512h_330k/local_xpu/best_model.pt`. GCP script: `gcp/launch_training.sh`. Output to `s3://prismata-selfplay-data/training-runs/512h_360k/`. Local checkpoints preserved at `training/models/512h_330k/`.
+**T4 hyperparameter plan COMPLETE (Feb 19).** 12 experiments on GCP L4 in 41 min. Winner: R12_smooth90 (256h/3L, lr=2e-5, dropout=0.20, label_smooth=0.90, val_loss=0.4875). But **tournament showed data > hyperparameters**: R12 trained on 500K records got 19.3% WR (11,060 games), while E2b trained on 2.3M records got 28.9% WR (3,400 games). The 16GB RAM limit on g2-standard-4 forced `--max-records 500000`, nullifying architecture gains. Results: `s3://prismata-selfplay-data/training-runs/plan_2026-02-19_02-27-22/`. Weights: `bin/asset/config/neural_weights_R12_smooth90.bin` (256h/3L, 871K params). Plan: `docs/plans/2026-02-18-t4-training-plan.md`.
+
+**Training pipeline hardened (Feb 19).** 6 fixes from pre-training code review: (1) `max_records` overshoot trimmed in `load_selfplay.py`, (2) streaming mode label sanity check added (samples 10K records at startup), (3) `--num-workers` default lowered from 8→2 (safe for 16GB cloud), (4) LR scheduler state saved/restored on checkpoint resume, (5) double-tanh fix in `export_weights.py` verification for `use_tanh=True` models, (6) vectorized O(N) subsampling loops in both `train.py` and `load_selfplay.py`. **These changes need redeploying to S3** (`s3://prismata-selfplay-data/deploy/training/`) before cloud training.
 
 **V2 hyperparameter experiments COMPLETE (Feb 17).** 9 experiments across 3 phases (loss function, LR sweep, data & capacity). Winner: E2b (hidden_dim=256, LR=1e-5, tanh+MSE, 739K params) — Brier 0.1213, best at step 10000. Key findings: (1) model capacity matters most — smaller model trains longer before overfitting, (2) LR controls overfitting speed but not ceiling, (3) loss function (MSE vs BCE) is a wash, (4) subsampling hurts. **Tournament eval COMPLETE (Feb 17):** 24 EC2 c5.2xlarge instances (12 per model), 2 workers each, ~1,008 games per model vs OriginalHardestAI. Results: **E2b (256h) = 26.7% WR** (269.5/1,008), **E1b (512h) = 19.6% WR** (197.5/1,008). Previous baseline was 3.6% — 5-7x improvement from v2 hyperparameter fixes (tanh activation, proper LR). Run JSONs: `training/runs/20260217_*.json`. Saved checkpoints: `training/models/best_model_E1b_512h.pt`, `training/models/best_model_E2b_256h.pt`. The v1 experiments (3 runs with confounds: expert data mixed in, tanh mismatch unfixed) are superseded.
 
-**Self-play generation ACTIVE** via TheWatcher (Task Scheduler, every 5 min). ~250K+ games generated (Feb 17, growing rapidly with full fleet), targeting 500K for iteration 2+ retraining. Local: `bin/run_selfplay.bat` (double-click from Explorer, 4 threads per process, run multiple times for more CPU). EC2: `bash aws/launch_selfplay.sh c5.2xlarge 5000 1 2` — TheWatcher auto-relaunches when batches finish. GCP: `bash gcp/launch_selfplay.sh n2-standard-8 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Azure: `bash azure/launch_selfplay.sh Standard_D8als_v7 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Use `/status` slash command for a quick dashboard. Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
+**Self-play generation ACTIVE** via TheWatcher (Task Scheduler, every 5 min). ~250K+ games generated (Feb 17, growing rapidly with full fleet), targeting 1M for iteration 2+ retraining. Local: `bin/run_selfplay.bat` (double-click from Explorer, 4 threads per process, run multiple times for more CPU). EC2: `bash aws/launch_selfplay.sh c5.2xlarge 5000 1 2` — TheWatcher auto-relaunches when batches finish. GCP: `bash gcp/launch_selfplay.sh n2-standard-8 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Azure: `bash azure/launch_selfplay.sh Standard_D8als_v7 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Use `/status` slash command for a quick dashboard. Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
 
-**AWS EC2 self-play** pipeline verified working (Feb 15-16). Boots Windows Server, downloads exe+config from S3, patches config to enable SelfPlay_CI, runs self-play, uploads shards to `s3://prismata-selfplay-data/results/` every 5 min (copy-to-temp sync), auto-terminates. AWS account on paid plan (c5 instances unlocked). vCPU quotas: 192 on-demand + 300 spot (Standard, increased from 256 Feb 18). **Spot-only mode ACTIVE** (`spot_only: true` in watcher_config.json) — on-demand disabled to save costs ($0.14/hr spot vs $0.384/hr OD per c5.2xlarge). Fleet: 37 spot c5.2xlarge = 296 vCPUs (~$5.18/hr). Cost per 1K games: $0.32 spot, $0.88 OD. TheWatcher handles S3 sync, auto-relaunch, and quota-aware scale-up (confirmed working: auto-detected spot quota 64→128→256→300 increases and launched additional instances within 30s). **Note:** `launch_selfplay.sh` only supports 1 instance per invocation — use a bash loop for bulk launches (sequential to avoid temp file race).
+**AWS EC2 self-play** pipeline verified working (Feb 15-16). Boots Windows Server, downloads exe+config from S3, patches config to enable SelfPlay_CI, runs self-play, uploads shards to `s3://prismata-selfplay-data/results/` every 5 min (copy-to-temp sync), auto-terminates. AWS account on paid plan (c5 instances unlocked). vCPU quotas: 192 on-demand + 300 spot (Standard, increased from 256 Feb 18). **AWS selfplay DISABLED (Feb 19)** (`selfplay.enabled: false` in watcher_config.json). Re-enable when needed. Spot-only mode was active (`spot_only: true`). Previous fleet: 37 spot c5.2xlarge = 296 vCPUs (~$5.18/hr). Cost per 1K games: $0.32 spot, $0.88 OD. TheWatcher handles S3 sync, auto-relaunch, and quota-aware scale-up (confirmed working: auto-detected spot quota 64→128→256→300 increases and launched additional instances within 30s). **Note:** `launch_selfplay.sh` only supports 1 instance per invocation — use a bash loop for bulk launches (sequential to avoid temp file race).
 
-**AWS GPU training pipeline READY (Feb 18).** `aws/launch_training.sh` launches g4dn.xlarge (NVIDIA T4, 16GB VRAM) spot instances in eu-north-1. AMI: Deep Learning OSS PyTorch 2.6 (Amazon Linux 2023). ~$0.20/hr spot. Downloads training code + selfplay data from S3, trains with `--device cuda`, exports weights, uploads results to `s3://prismata-selfplay-data/training-runs/<label>/`, auto-terminates. Supports env var config (HIDDEN_DIM, LR, EPOCHS, etc.) and parallel sweeps. **GPU quota pending** — G/VT Spot = 0 vCPUs, requested 40 (CASE_OPENED Feb 18). G/VT On-Demand = 0, no request — **spot only**. Quota code: L-3819A6DF (spot), L-DB2E81BA (on-demand). 40 vCPUs = 10 parallel g4dn.xlarge T4 instances. Training code deployed to S3: `s3://prismata-selfplay-data/deploy/training/`.
+**AWS GPU training pipeline TESTED AND WORKING (Feb 19).** `aws/launch_training.sh` launches GPU spot instances in eu-north-1. Default: `g6.2xlarge` (NVIDIA L4, 24GB VRAM, 32GB RAM, ~$0.40/hr spot). AMI: `ami-0bd05d88ea8c3e277` (Deep Learning OSS PyTorch 2.6, Amazon Linux 2023, venv at `/opt/pytorch/`). Downloads training code (5 files including `unit_index.json`) + selfplay data from S3 (~183GB shards, ~22 min download), trains with `--device cuda`, exports weights, uploads results to `s3://prismata-selfplay-data/training-runs/<label>/`, auto-terminates. Uses `request-spot-instances` (queues for capacity instead of instant-fail). Supports env var config (HIDDEN_DIM, LR, EPOCHS, NUM_LAYERS, INSTANCE_TYPE, etc.). **GPU quota APPROVED (Feb 19)** — G/VT Spot = 8 vCPUs. Available types: `g6.2xlarge` (L4, 8 vCPU, 32GB, $0.40/hr — **recommended**), `g6.xlarge` (L4, 4 vCPU, 16GB, $0.35/hr), `g4dn.xlarge` (T4, 4 vCPU, 16GB, $0.20/hr). S3 selfplay data is ~183GB .bin shards (~705K games), crash dumps cleaned. Training code deployed: `s3://prismata-selfplay-data/deploy/training/`.
 
 **GCP GPU training ACTIVE (Feb 18).** `gcp/launch_training.sh` launches Linux DL VM with GPU. Default: `g2-standard-4` + L4 (on-demand). Image: `pytorch-2-7-cu128-ubuntu-2204-nvidia-570` (PyTorch 2.7, CUDA 12.8). GPU quotas in us-central1: `NVIDIA_L4_GPUS=1`, `NVIDIA_T4_GPUS=1`, `NVIDIA_V100_GPUS=1` (on-demand and preemptible each). **`GPUS_ALL_REGIONS=1`** is the project-level gate — only 1 GPU instance at a time across all regions. GCP billing upgraded from free trial Feb 16 (credits still apply). Script supports env var config: `HIDDEN_DIM`, `LR`, `NUM_LAYERS`, `WARMUP_EPOCHS`, `DROPOUT`, `WEIGHT_DECAY`, `LABEL_SMOOTH`, `RESUME_FROM`, `GPU_TYPE`, `MACHINE_TYPE`. Uses `--streaming` for large datasets. Downloads all selfplay data from S3 (~94GB, needs 250GB disk). Auto-deletes on completion. Training plan: `docs/plans/2026-02-18-t4-training-plan.md`.
 
@@ -30,9 +32,8 @@
 **Intel Arc B580 XPU acceleration ENABLED (Feb 17).** PyTorch 2.10.0+xpu installed globally, IPEX removed, native `torch.xpu` backend. New CLI flags: `--device` (force cpu/xpu/cuda), `--amp` (BF16), `--compile` (torch.compile, needs MSVC). Benchmark (100K records, bs=512, seed 42): **XPU+nw4: 13s/epoch vs CPU: 42s/epoch (3.2x per-epoch, 4.5x total)**. BF16 (`--amp`) adds overhead at this model size — skip it. Multi-worker data loading confirmed working (`num_workers=4` is optimal). Earlier "pickle bug" failures were transient Windows handle exhaustion from memory pressure, not a real incompatibility. Plan: `~/.claude/plans/intel-arc-b580-xpu-acceleration-v2.md`. **Production command: `--device xpu --num-workers 4`.**
 
 **Next actions:**
-1. **512h comparison training on GCP T4** — output at `s3://prismata-selfplay-data/training-runs/512h_360k/`. When done: download results, export weights, deploy to S3, run tournament eval to compare 256h vs 512h.
-2. **Continue data generation** toward 500K games. Fleet: AWS (37 spot c5.2xlarge, 296 vCPUs, spot-only). GCP paused (disabled in watcher_config). Azure paused and cleaned. **~364K+ games generated (Feb 18, ~20K/hr at full fleet).**
-3. **Launch cloud GPU training** when G/VT spot quota approved — parallel hyperparameter sweeps on g4dn.xlarge ($0.20/hr). 10 configs in 1 hour for ~$5.
+1. **Retrain R12 architecture with full dataset** — R12_smooth90 (256h/3L, d=0.20, s=0.90) has best val_loss but was limited to 500K records by GCP RAM. Use AWS T4 spot (g4dn.xlarge, $0.20/hr, **G/VT spot quota = 8 vCPUs, 2 instances**) with `--streaming` for full 15M+ record dataset.
+2. **Continue data generation** toward 1M games. **ALL cloud selfplay DISABLED (Feb 19)** — AWS disabled in watcher, all instances terminated. GCP selfplay should also pause (burns $56/day from $240 remaining credits needed for GPU training). Azure paused and cleaned. **~705K+ games generated (Feb 19, 24.7M records).** Local selfplay via `run_selfplay.bat` is free.
 4. ~~**256h 305K-game eval**~~ — DONE (Feb 18). 45.3% WR (4,032 games). Major milestone — up from 26.7% with 63K games.
 5. ~~**Fix streaming DataLoader multi-worker support**~~ — DONE (Feb 17). Lazy init pattern in `MemmapSelfPlayDataset` enables `num_workers>0`. Use `--num-workers 2` for streaming to avoid RAM thrashing (4 causes 94% RAM on 32GB).
 6. ~~**Enable Intel Arc B580 GPU acceleration**~~ — DONE (Feb 17). See above.
@@ -175,7 +176,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Training RAM limit**: Full dataset (8.2M+ records) = ~50GB+. With 32GB RAM: max ~1M records with `--max-records 1000000`. For full dataset, use `--streaming` flag (memory-mapped, never loads full dataset into RAM). Streaming mode supports `--num-workers 2-4` (lazy init fix, Feb 17). Non-streaming mode: `num_workers` works normally. Expert data mixing not supported in streaming mode.
 - **Training RAM: max 2 concurrent jobs**: Running 3 `train.py` jobs simultaneously OOMs during `np.concatenate` in `load_all_shards` (32GB RAM). Safe limit: 2 concurrent runs with `--max-records 1000000`.
 - **best_model.pt gets overwritten**: Each `train.py` run writes to `training/models/best_model.pt`. Copy to a unique filename immediately after a run finishes if you need to preserve it.
-- **C++ NeuralNet hidden_dim is dynamic**: `_hiddenDim` is read from the weight file header, not hardcoded. Can deploy 256h or 512h models by just exporting different weights — no C++ rebuild needed.
+- **C++ NeuralNet hidden_dim AND num_layers are dynamic**: Both `_hiddenDim` and `_numLayers` are read from the weight file header (NeuralNet.cpp:129), not hardcoded. Can deploy 256h/2L, 256h/3L, 512h/2L etc. by swapping weight files — no C++ rebuild needed.
 - **Tournament output needs `2>&1`**: Tournament progress/results use `fprintf(stderr, ...)`. Redirect with `> log.txt 2>&1` to capture. Without this, only per-turn buy actions (stdout) are logged.
 - **Parallel tournament eval**: Use separate directories (`bin_eval_X/`) each with own exe, config.txt, cardLibrary.jso, and neural_weights.bin to run multiple tournaments simultaneously.
 - **D: drive backup**: `D:\PrismataAI_backup\` has selfplay data, models, weights, config, run logs. Created Feb 15.
@@ -185,7 +186,8 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **IPEX is EOL (removed Feb 17)**: `intel_extension_for_pytorch` end-of-life March 2026. Replaced with native `torch.xpu` (PyTorch 2.10.0+xpu). Do NOT install IPEX. `get_device()` uses `hasattr(torch, 'xpu')` — works on any PyTorch version.
 - **XPU training: use `--device xpu --num-workers 4`**: Auto-detected if XPU available. With `num_workers=4`: 3.2x per-epoch speedup vs CPU (13s vs 42s). BF16 (`--amp`) adds overhead for small models — skip it. `torch.compile` (`--compile`) needs MSVC vcvars64.bat — skip unless model gets larger.
 - **XPU + streaming + RAM pressure**: Two concurrent training jobs (~18GB) plus XPU streaming causes disk thrashing (mmap page faults) and transient "cannot pickle 'module' object" errors from Windows handle exhaustion. Keep to 1-2 concurrent training jobs when using streaming mode. Use `--max-records 100000` for quick smoke tests.
-- **Streaming num_workers=2 on 32GB RAM**: With 12M+ records, `--num-workers 4` causes 94% RAM usage, 410K page faults/sec, disk queue 27 — system becomes unusable (watcher hangs, boot protection triggers). **Use `--num-workers 2`** for streaming on 32GB RAM. Cloud training (g4dn.xlarge, 16GB) should use `--num-workers 4` since data fits in RAM.
+- **Streaming num_workers=2 on 32GB RAM**: With 12M+ records, `--num-workers 4` causes 94% RAM usage, 410K page faults/sec, disk queue 27 — system becomes unusable (watcher hangs, boot protection triggers). **Use `--num-workers 2`** for streaming on 32GB RAM. Default is now 2 (changed from 8, Feb 19). Use `--num-workers 4` explicitly only on 32GB+ local machines.
+- **Cloud GPU RAM constraint (16GB)**: Both GCP g2-standard-4 and AWS g4dn.xlarge have only 16GB system RAM. Non-streaming mode: `--max-records 500000` safe, 800K OOMs during `np.concatenate`, 1.5M definitely OOMs. **Must use `--streaming` for full dataset on cloud GPUs.** Default `--num-workers 2` is safe for 16GB; use `--num-workers 4` only on 32GB+ local. Streaming mode avoids the OOM but mmap page faults can slow training if disk is slow.
 
 ### Windows & Python Environment
 
@@ -219,6 +221,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **watcher_log.txt EBUSY crash (FIXED Feb 18)**: `logWatcher` in server.js previously used bare `fs.openSync` — crashed the server when the watcher held an exclusive lock on the log file. Fixed with try-catch; silently skips the poll cycle and retries next time.
 - **Local process monitoring**: `get_local_stats.ps1` detects selfplay, training (with model label, device, worker count from cmdline), and Claude Code processes. Provides CPU%, GPU%, RAM, disk I/O via CIM/WMI (NO Get-Counter — those block ~1s each). Served at `/api/local-stats` with 30s cache. Dashboard shows training/Claude job rows and utilization bars.
 - **All costs displayed in GBP**: `USD_TO_GBP = 0.79` constant in app.js. AWS costs converted from USD, Azure already in GBP. Cloud cost cache TTL: 5 minutes.
+- **Dashboard server restart required for code changes**: `server.js` edits don't take effect until the Node.js process is restarted. Find PID: `Get-NetTCPConnection -LocalPort 3000 -State Listen | Select OwningProcess`, then `Stop-Process -Id <PID>; node dashboard/server.js`.
 
 ### Cloud Operations
 
@@ -232,12 +235,16 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **GCP has THREE separate CPU quotas**: (1) N2_CPUS (per-family, 200), (2) regional CPUS (per-region, 200), (3) **CPUS_ALL_REGIONS (global/project-level, 48)**. The global quota is the real bottleneck — search for `CPUS_ALL_REGIONS` in the GCP Console quota page (NOT "CPUS" which shows per-region). Request ID `91228b40031744c590` got 48 approved (200 was denied — new accounts get incremental increases).
 - **GCP exe crash (was misdiagnosed as Defender)**: GCP instances died after ~8 games with `0xc0000409` (STATUS_STACK_BUFFER_OVERRUN). Initially blamed on Defender (null exit code = external termination), but root cause was **stale exe in S3** — same exe worked on EC2/local but GCP's VM memory layout triggered a latent buffer overrun. Fix: rebuild exe fresh and redeploy to S3. Image switched from `windows-2022-core` to `windows-2022`. Defender exclusions (`Add-MpPreference -ExclusionPath/-ExclusionProcess`) kept. **Always redeploy exe to S3 after rebuilding** (`aws/deploy_for_eval.sh` or manual `aws s3 cp`).
 - **GCP SSD_TOTAL_GB quota = 250**: Each 50GB pd-ssd boot disk counts against this. Max 5 instances with SSD. Switched to `pd-standard` (2048GB quota) since selfplay is CPU-bound. Warning about "disk size under 200GB" is cosmetic — ignore it.
-- **Cloud training disk sizing**: Selfplay data is ~94GB (Feb 18, ~360K games). Cloud training instances need 250GB+ boot disk and `--streaming` flag. Without streaming, loading 13M records requires ~50GB RAM. The `n1-standard-4` (15GB) will OOM; use `n1-standard-8` (30GB) minimum with streaming. Boot disk type must be `pd-standard` (not `pd-ssd`) to avoid `SSD_TOTAL_GB` quota conflict with selfplay instances.
+- **Cloud training disk sizing**: Selfplay data is ~183GB (Feb 19, ~705K games, 7,756+ shards). Cloud training instances need 350GB boot disk and `--streaming` flag. Without streaming, loading 13M records requires ~50GB RAM. The `n1-standard-4` (15GB) will OOM; use `n1-standard-8` (30GB) minimum with streaming. Boot disk type must be `pd-standard` (not `pd-ssd`) to avoid `SSD_TOTAL_GB` quota conflict with selfplay instances.
+- **`aws s3 ls --recursive` fails on large prefixes**: The results/ prefix has 8,000+ objects and times out. Use `aws s3api list-objects-v2 --query "Contents | sort_by(@, &LastModified) | [-5:]"` instead.
 - **S3 provider identification**: EC2 instances don't upload boot logs. GCP boot logs say "GCP Worker Starting". Azure doesn't upload boot logs either. To distinguish EC2 vs Azure in S3 results, check the `patched_config.txt` (Azure uses 250-round batches, EC2 uses 1000-round runs) or check instance naming patterns in logs.
 - **watcher_status.json shard tracking unreliable**: `shard_activity.last_new_shard` can show stale dates (e.g., Feb 16) even with 56+ active EC2 instances. `shards_last_hour` also underreports. Don't rely on these fields for fleet health — check actual S3 data growth or instance counts instead.
-- **Cloud free credits**: AWS $200/12mo (auto-applied), Azure $200/30days (HIGH RISK — burn rate ~$9/hr at 28 VMs, hard 30-day deadline), GCP $300/90days. Azure is the most time-sensitive — monitor via portal Cost Analysis.
+- **watcher `spot_only: true` doesn't terminate existing on-demand**: Setting `spot_only` in watcher_config only prevents NEW on-demand launches. Existing on-demand instances keep running and consuming quota. Must manually terminate them: `aws ec2 terminate-instances --instance-ids $(aws ec2 describe-instances --region eu-north-1 --filters 'Name=tag:Name,Values=PrismataSelfplay*' 'Name=instance-lifecycle,Values=normal' --query 'Reservations[].Instances[].InstanceId' --output text)`.
+- **Cloud free credits — CRITICAL**: AWS $200 is **NOT auto-applied** — it's 6x $20 "Explore AWS" tutorial credits restricted to specific services. They do **NOT** cover EC2 Spot, Data Transfer, or VPC. **Feb bill: $805.34 USD** ($671 pre-tax + $134 tax) for ~4 days of 37-instance spot fleet. Check credits page: https://console.aws.amazon.com/billing/home#/credits. Azure $200/30days (HIGH RISK — hard 30-day deadline, ~£65 over-credit charged). GCP $300/90days (from Feb 16). **All cloud spend is real money — there is no safety net.**
 - **Cloud compute cost comparison (Windows, 8 vCPU, Feb 2026)**: AWS c5.2xlarge: $0.384/hr on-demand, **$0.14/hr spot** (eu-north-1 Stockholm rates from watcher.ps1 rate table). Cost per 1K games: $0.88 OD, **$0.32 spot** (64% savings). Azure D8als_v7: $0.726/hr on-demand, $0.134/hr spot (82% off, **but spot unavailable** for this subscription). **Spot-only mode recommended** — set `spot_only: true` in watcher_config.json.
 - **AWS GPU training costs**: g4dn.xlarge (T4, 4 vCPU, 16GB RAM): ~$0.20/hr spot in eu-north-1. Parallel sweeps: 10 configs x 1 hour = ~$2. Separate G/VT vCPU quota from Standard (selfplay) — both can run simultaneously.
+- **S3 deploy bucket**: `s3://prismata-selfplay-data/deploy/training/` contains 5 required files: `train.py`, `load_selfplay.py`, `export_weights.py`, `schema.json`, `unit_index.json`. Missing `unit_index.json` causes `FileNotFoundError`. Redeploy after local changes.
+- **`aws s3 sync` non-zero exits**: S3 sync returns non-zero on partial transfer warnings even when data transferred OK. Scripts with `set -eo pipefail` die silently. Wrap critical syncs with `|| { echo "WARNING..."; }` to continue.
 - **GCP quota gate**: New GCP accounts must wait 48 hours from creation before quota increase requests are accepted.
 
 ### External Tools
@@ -247,14 +254,14 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 
 ## Claude Code Tooling
 
-**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/revise` (update CLAUDE.md).
+**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/revise` (update CLAUDE.md), `/preflight` (pre-training verification: S3 deploy diff, code review, fleet/quota/git checks).
 
 **Hooks** (in `.claude/settings.local.json`):
 - PreToolUse: Blocks Read/Edit/Write on `.aws_credentials`, `credentials.json`, `.env` files
 - PreToolUse: Blocks Bash commands that would unregister/stop TheWatcher Task Scheduler job
 - Stop: Reminds to run `/revise` on session close
 
-**Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources.
+**Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources. **NOTE: agent file currently missing — needs recreation.**
 
 **MCP**: context7 configured in `.mcp.json` (project-level) — live docs for PyTorch, Express, Chart.js, cloud CLIs.
 
@@ -271,6 +278,7 @@ When the user says "wrapping up", "closing context", or "save everything":
 
 ## User Preferences
 
+- **Cost-conscious** — AWS bill shock ($805 for 4 days of spot fleet). No cloud safety net. Prefer local compute, minimize cloud spend.
 - Efficiency over speed — minimize API credits, maximize local PC computation
 - Comfortable with long-running unattended tasks (hours). Tell them when something can run overnight.
 - Git comfort level: self-described "noob" — explain git ops clearly, always confirm before push/force
@@ -301,7 +309,7 @@ Action → Breach (if wipeout) → Confirm → Defense (if enemy has attack) →
 
 **Will Score** heuristic (`source/ai/Heuristics.cpp`): resource values ATTACK=2.25, BLUE=1.50, GREEN=1.20, GOLD=1.00, RED=0.90, ENERGY=0.50. Cost-based material counting — not strategic value.
 
-**Neural net**: 2-layer ResNet, state_dim=1785, policy+value heads. C++ inference via `NeuralNet::Instance()`. ~2,000 evals/sec/core. Hidden dim is dynamic (read from weight file header) — current best: 256h (E2b). Can deploy 256h or 512h by swapping weight files, no rebuild needed.
+**Neural net**: ResNet, state_dim=1785, policy+value heads. C++ inference via `NeuralNet::Instance()`. ~2,000 evals/sec/core. Hidden dim AND num_layers are dynamic (read from weight file header) — current best: 256h/3L (R12_smooth90). Can deploy 256h/2L, 256h/3L, or 512h by swapping weight files, no C++ rebuild needed.
 
 ### Training Approach
 
@@ -430,6 +438,8 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `docs/plans/2026-02-18-overlay-context.md` | Standalone context document for overlay plan (no prior knowledge needed) |
 | `docs/plans/2026-02-18-t4-training-plan.md` | GPU training experiment plan (L4 on GCP, T4 spot on AWS, 6 phases, 15 runs) |
 | `docs/plans/2026-02-18-training-plan-context.md` | Standalone context doc for external review of training plan |
+| `docs/plans/2026-02-19-training-next-steps.md` | Training plan v3 FINAL — 9 expert reviews incorporated, 3 parallel runs |
+| `docs/plans/2026-02-19-training-plan-context.md` | Context doc v3 FINAL — accompanies training plan for external reviewers |
 
 ## Tournament Results Summary
 
@@ -445,11 +455,15 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | E2b (256h) AB vs OriginalHardestAI | 1,008 | 26.7% | V2 winner, 63K games, tanh+MSE, LR=1e-5 |
 | E1b (512h) AB vs OriginalHardestAI | 1,008 | 19.6% | V2, tanh+MSE, LR=1e-5 |
 | Unfixed model AB vs OriginalHardestAI | 1,120 | 3.6% | Pre-v2 (tanh mismatch, high LR) |
+| R12_smooth90 (256h/3L) AB vs OriginalHardestAI | 11,060 | 19.3% | 500K records, d=0.20, s=0.90 |
+| E2b (256h) AB vs OriginalHardestAI (reconfirmed) | 3,400 | 28.9% | 2.3M records, same 26.7% ballpark |
 | Self-play v1 training | 16 ep (early stop) | 76.9% val acc | 10K games, epoch 1 best, value-only |
 
 ## Replay API
 
 Replays stored as gzipped JSON on S3: `http://saved-games-alpha.s3-website-us-east-1.amazonaws.com/{CODE}.json.gz` (URL-encode `+` → `%2B`, `@` → `%40`).
+
+**Replay search API**: `POST https://prismata-stats.web.app/api/search/replays` (form-encoded: `lower_date`, `upper_date`, `lower_rating`, `replay_rated`). Needs `ssl.CERT_NONE` in Python. `prismata.net` SSL cert expired. 31,506 expert replays fully synced as of Feb 19, 2026 — no new replays missing.
 
 ### Replay Code Sources
 

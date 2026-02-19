@@ -34,7 +34,7 @@
   let sortAsc = true;
   let gamesPerShard = 0; // estimated ratio for converting shard rate → game rate
   let currentGames = 0;
-  let targetGames = 500000;
+  let targetGames = 1000000;
   const USD_TO_GBP = 0.79; // approximate conversion rate
 
   // --- DOM refs ---
@@ -255,7 +255,7 @@
       $('data-rate').textContent = '--';
     }
 
-    // ETA to 500K target
+    // ETA to 1M target
     const etaEl = $('data-eta');
     if (currentGames >= targetGames) {
       etaEl.textContent = 'DONE';
@@ -290,7 +290,7 @@
   // --- Data stats ---
   function updateDataStats(data) {
     currentGames = data.games || 0;
-    targetGames = data.target || 500000;
+    targetGames = data.target || 1000000;
     $('data-games').textContent = fmt(data.games);
     $('data-records-inline').textContent = fmtCompact(data.records);
     $('data-shards-inline').textContent = fmt(data.shards);

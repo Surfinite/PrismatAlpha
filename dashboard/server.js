@@ -194,7 +194,7 @@ async function getDataStats() {
       records: totalRecords,
       games: Math.floor(totalRecords / 37),
       shards: shardCount,
-      target: 500000
+      target: 1000000
     };
     dataStatsCacheTime = Date.now();
     dataStatsInFlight = null;

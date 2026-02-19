@@ -474,12 +474,12 @@ def load_selfplay_data(selfplay_dir, num_units, label_smooth=0.95, max_records=0
     if subsample_every > 1:
         game_ids_raw = records['game_id']
         # Compute position index within each game
-        _, inverse = np.unique(game_ids_raw, return_inverse=True)
-        counts = np.zeros(inverse.max() + 1, dtype=np.int32)
+        # Vectorized: compute position-within-game for each record
+        order = np.argsort(game_ids_raw, kind='stable')
+        _, starts, sizes = np.unique(game_ids_raw[order], return_index=True, return_counts=True)
         position_in_game = np.empty(len(game_ids_raw), dtype=np.int32)
-        for i in range(len(game_ids_raw)):
-            position_in_game[i] = counts[inverse[i]]
-            counts[inverse[i]] += 1
+        for start, size in zip(starts, sizes):
+            position_in_game[order[start:start + size]] = np.arange(size, dtype=np.int32)
         keep_mask = (position_in_game % subsample_every) == 0
         original_count = len(records)
         records = records[keep_mask]
@@ -675,7 +675,8 @@ def main():
                         help="Max training records to load (0=all). Use to cap memory on large datasets.")
     parser.add_argument("--patience", type=int, default=10,
                         help="Early stopping patience on val value loss (0=disabled)")
-    parser.add_argument("--num-workers", type=int, default=8, help="DataLoader workers")
+    parser.add_argument("--num-workers", type=int, default=2,
+                        help="DataLoader workers (default 2, safe for 16GB cloud; use 4 for 32GB+ local)")
     parser.add_argument("--resume", type=str, default=None, help="Resume from checkpoint path")
     parser.add_argument("--overfit-test", action="store_true",
                         help="Run tiny-subset overfit test and exit")
@@ -865,6 +866,30 @@ def main():
         print(f"  Unit types: {num_units}")
         print(f"  Mode: {'value-only' if args.value_only else 'policy+value'} (streaming)")
 
+        # Streaming label sanity check: sample a small batch to catch corrupt data early
+        print("\n--- Streaming Label Sanity Check ---")
+        sample_size = min(10000, len(train_ds))
+        sample_indices = np.random.choice(len(train_ds), sample_size, replace=False)
+        sample_values = []
+        for idx in sample_indices:
+            item = train_ds[int(idx)]
+            sample_values.append(item[2].item())  # value target is 3rd tensor
+        sample_values = np.array(sample_values)
+        v_std = sample_values.std()
+        v_min, v_max = sample_values.min(), sample_values.max()
+        n_pos = (sample_values > 0).sum()
+        n_neg = (sample_values < 0).sum()
+        print(f"  Sample values (n={sample_size}): min={v_min:.3f}, max={v_max:.3f}, "
+              f"std={v_std:.3f}, +1: {n_pos} ({100*n_pos/sample_size:.1f}%), "
+              f"-1: {n_neg} ({100*n_neg/sample_size:.1f}%)")
+        if v_std < 0.01:
+            print(f"  FATAL: Streaming value labels have std={v_std:.6f} < 0.01 — data appears corrupt!")
+            sys.exit(1)
+        if v_min == v_max:
+            print(f"  FATAL: All sampled value labels are identical ({v_min})!")
+            sys.exit(1)
+        print("  Streaming label sanity check: PASSED\n")
+
         # Multi-worker streaming supported via lazy init (each worker opens own memmap handles)
         use_workers = args.num_workers if device.type == "cpu" else min(args.num_workers, 4)
         shuffle_gen = torch.Generator()
@@ -962,6 +987,9 @@ def main():
         if "optimizer_state_dict" in ckpt:
             optimizer.load_state_dict(ckpt["optimizer_state_dict"])
         start_epoch = ckpt.get("epoch", 0) + 1
+        if "scheduler_state_dict" in ckpt:
+            scheduler.load_state_dict(ckpt["scheduler_state_dict"])
+            print(f"  Restored LR scheduler state")
         print(f"  Resuming from epoch {start_epoch}")
 
     # Optional: torch.compile for Intel XPU kernel optimization
@@ -1050,6 +1078,7 @@ def main():
             "global_step": step,
             "model_state_dict": model.state_dict(),
             "optimizer_state_dict": optimizer.state_dict(),
+            "scheduler_state_dict": scheduler.state_dict(),
             "state_dim": state_dim,
             "num_units": num_units,
             "hidden_dim": args.hidden_dim,

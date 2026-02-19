@@ -7,7 +7,7 @@
 - **Data:** 356K games (13.2M records) — **5.7x more than when E2b was trained** (63K games, 2.3M records)
 - **Current best:** E2b (hidden_dim=256, LR=1e-5, MSE, 739K params) = **26.7% WR** vs OriginalHardestAI
 - **305K-game retrain already done:** 256h model on 305K games = **45.3% WR** (4,032 games). This is our actual baseline now.
-- **512h comparison IN PROGRESS** locally on XPU (330K games, epoch 5, step 55000, 85.1% val acc)
+- **512h comparison IN PROGRESS** on GCP T4 spot (instance `prismata-training-193541`, migrated from local XPU at step 80000)
 - **Key insight:** Churchill achieved 58.8% WR with 500K games. Our 45.3% with 330K games is on track.
 - **Data/param ratios:** 256h (739K params): 356K/739K = **0.48:1** (Churchill was 0.45:1 — at parity). 512h (1.08M params): 0.33:1.
 
@@ -75,7 +75,6 @@ Six independent reviews identified these issues. Here's what we're changing and 
 ### Fallback: Local Intel Arc B580
 
 - ~13s/epoch, free. Use if both cloud options are unavailable.
-- 512h comparison already running locally (330K games, in progress).
 
 ### Execution Strategy
 
@@ -277,17 +276,16 @@ Uses the winning hidden_dim and LR from Phase 2.
 
 ---
 
-## GCP L4 Setup Notes
+## GCP L4 Setup Notes — DONE
 
-Need a `gcp/launch_training.sh` script (similar to `aws/launch_training.sh`). Key differences:
+`gcp/launch_training.sh` is built and tested. Supports all hyperparameters via env vars (HIDDEN_DIM, LR, NUM_LAYERS, WARMUP_EPOCHS, DROPOUT, WEIGHT_DECAY, LABEL_SMOOTH, EPOCHS, BATCH_SIZE, etc.). Defaults: `g2-standard-4` + L4, on-demand, 250GB pd-standard disk, `--streaming` mode.
 
-1. **Instance:** `g2-standard-4` + `--accelerator type=nvidia-l4,count=1` in us-central1-a
-2. **Image:** GCP Deep Learning VM (PyTorch 2.x, Linux — NOT Windows)
-3. **Data transfer:** See Data Transfer Plan above
-4. **Training code:** Upload to S3 first (already done: `s3://prismata-selfplay-data/deploy/training/`)
-5. **On-demand** (not preemptible) — runs are <3 min, not worth preemption risk **[CHANGED]**
-6. **Auto-terminate:** `sudo shutdown -h now` after training + results upload
-7. **Results:** Upload to S3 bucket (`s3://prismata-selfplay-data/training-runs/$LABEL/`)
+**Example launch:**
+```bash
+HIDDEN_DIM=256 NUM_LAYERS=2 LR=1e-5 LABEL=baseline_256h_356k bash gcp/launch_training.sh
+```
+
+`aws/launch_training.sh` also updated with matching hyperparameter support (g4dn.xlarge T4, spot by default).
 
 ---
 

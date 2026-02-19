@@ -17,7 +17,7 @@
 #   EVAL_STEPS=5000      Eval every N steps (default: 5000)
 #   MAX_RECORDS=0        Max records to load, 0=all (default: 0)
 #   LABEL=256h_400k      Run label for S3 output dir (default: auto)
-#   INSTANCE_TYPE=g4dn.xlarge  Instance type (default: g4dn.xlarge)
+#   INSTANCE_TYPE=g6.2xlarge   Instance type (default: g6.2xlarge, L4 GPU + 32GB RAM)
 #   USE_SPOT=true        Use spot pricing (default: true)
 #   DRY_RUN=true         Print userdata script without launching (default: false)
 #
@@ -52,7 +52,7 @@ MAX_RECORDS="${MAX_RECORDS:-0}"
 SEED="${SEED:-42}"
 
 # Infrastructure
-INSTANCE_TYPE="${INSTANCE_TYPE:-g4dn.xlarge}"
+INSTANCE_TYPE="${INSTANCE_TYPE:-g6.2xlarge}"
 USE_SPOT="${USE_SPOT:-true}"
 DRY_RUN="${DRY_RUN:-false}"
 REGION="eu-north-1"
@@ -69,7 +69,7 @@ fi
 
 echo "=== Prismata Training GPU Launch ==="
 echo "  Instance:   $INSTANCE_TYPE"
-echo "  GPU:        NVIDIA T4 (16GB)"
+echo "  GPU:        $(if [[ $INSTANCE_TYPE == g6* ]]; then echo 'NVIDIA L4 (24GB)'; else echo 'NVIDIA T4 (16GB)'; fi)"
 echo "  Label:      $LABEL"
 echo "  Hidden dim: $HIDDEN_DIM"
 echo "  LR:         $LR"
@@ -92,7 +92,7 @@ echo ""
 # Build the userdata script (bash for Linux AMI)
 USERDATA=$(cat <<ENDSCRIPT
 #!/bin/bash
-set -euo pipefail
+set -eo pipefail
 
 # ============================================================
 # Prismata Training Worker (g4dn.xlarge, NVIDIA T4)
@@ -124,15 +124,15 @@ exec > >(tee -a "\$LOG") 2>&1
 echo "=== Prismata Training Worker Starting ==="
 echo "Run ID: \$RUN_ID"
 echo "Label: \$LABEL"
-echo "Instance: \$(curl -s http://169.254.169.254/latest/meta-data/instance-type)"
+IMDS_TOKEN=\$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 300" 2>/dev/null || true)
+echo "Instance: \$(curl -s -H "X-aws-ec2-metadata-token: \$IMDS_TOKEN" http://169.254.169.254/latest/meta-data/instance-type 2>/dev/null || echo unknown)"
 date
 
 # ============================================================
-# Setup environment
+# Setup environment (DL AMI uses venv at /opt/pytorch/)
 # ============================================================
-echo "Activating PyTorch environment..."
-source /opt/conda/etc/profile.d/conda.sh
-conda activate pytorch
+echo "Activating PyTorch venv..."
+export PATH="/opt/pytorch/bin:\$PATH"
 
 # Verify GPU
 echo "GPU check:"
@@ -151,9 +151,13 @@ aws s3 cp s3://\$BUCKET/deploy/training/train.py \$WORK/training/train.py --regi
 aws s3 cp s3://\$BUCKET/deploy/training/load_selfplay.py \$WORK/training/load_selfplay.py --region \$REGION
 aws s3 cp s3://\$BUCKET/deploy/training/schema.json \$WORK/training/schema.json --region \$REGION
 aws s3 cp s3://\$BUCKET/deploy/training/export_weights.py \$WORK/training/export_weights.py --region \$REGION
+aws s3 cp s3://\$BUCKET/deploy/training/unit_index.json \$WORK/data/unit_index.json --region \$REGION
 
-echo "Downloading selfplay data from S3..."
-aws s3 sync s3://\$BUCKET/results/ \$WORK/selfplay_data/ --region \$REGION --quiet
+echo "Downloading selfplay data from S3 (shards only, skipping dumps/logs)..."
+aws s3 sync s3://\$BUCKET/results/ \$WORK/selfplay_data/ --region \$REGION --quiet \
+  --exclude "*.dmp" --exclude "*.log" --exclude "*.txt" --exclude "*.jsonl" || {
+  echo "WARNING: S3 sync exited with non-zero code (partial transfer warnings). Continuing..."
+}
 echo "Download complete."
 
 # Count data
@@ -190,7 +194,7 @@ cat > /tmp/run_config.json <<CONFIGEOF
   "weight_decay": \$WEIGHT_DECAY,
   "label_smooth": \$LABEL_SMOOTH,
   "records": \$RECORD_COUNT,
-  "instance_type": "\$(curl -s http://169.254.169.254/latest/meta-data/instance-type)"
+  "instance_type": "\$(curl -s -H \"X-aws-ec2-metadata-token: \$IMDS_TOKEN\" http://169.254.169.254/latest/meta-data/instance-type 2>/dev/null || echo unknown)"
 }
 CONFIGEOF
 aws s3 cp /tmp/run_config.json s3://\$BUCKET/training-runs/\$LABEL/\$RUN_ID/run_config.json --region \$REGION
@@ -210,7 +214,7 @@ echo ""
 cd \$WORK
 
 # Build training command
-TRAIN_CMD="python training/train.py training/data training/models \\
+TRAIN_CMD="python training/train.py data models \\
   --selfplay-dir selfplay_data/ \\
   --value-only \\
   --hidden-dim \$HIDDEN_DIM \\
@@ -239,24 +243,44 @@ fi
 echo "Command: \$TRAIN_CMD"
 echo ""
 
+# Background checkpoint sync — uploads to S3 every 5 min so spot termination doesn't lose progress
+S3_PREFIX="training-runs/\$LABEL/\$RUN_ID"
+(
+  while true; do
+    sleep 300
+    if [ -d models ]; then
+      aws s3 sync models/ s3://\$BUCKET/\$S3_PREFIX/models/ --region \$REGION --quiet 2>/dev/null
+    fi
+    if [ -d runs ]; then
+      aws s3 sync runs/ s3://\$BUCKET/\$S3_PREFIX/runs/ --region \$REGION --quiet 2>/dev/null
+    fi
+    aws s3 cp training_output.log s3://\$BUCKET/\$S3_PREFIX/training_output.log --region \$REGION --quiet 2>/dev/null
+    echo "[sync] Checkpoints uploaded to S3 at \$(date)"
+  done
+) &
+SYNC_PID=\$!
+echo "Background S3 sync started (PID \$SYNC_PID, every 5 min)"
+
 eval \$TRAIN_CMD 2>&1 | tee training_output.log
 TRAIN_EXIT=\$?
+
+# Stop background sync
+kill \$SYNC_PID 2>/dev/null || true
 
 echo ""
 echo "Training exited with code: \$TRAIN_EXIT"
 
 # ============================================================
-# Upload results
+# Upload results (final)
 # ============================================================
-echo "Uploading results to S3..."
-S3_PREFIX="training-runs/\$LABEL/\$RUN_ID"
+echo "Uploading final results to S3..."
 
 # Upload model checkpoints
-aws s3 sync training/models/ s3://\$BUCKET/\$S3_PREFIX/models/ --region \$REGION
+aws s3 sync models/ s3://\$BUCKET/\$S3_PREFIX/models/ --region \$REGION
 
 # Upload run JSONs (metrics)
-if [ -d training/runs ]; then
-  aws s3 sync training/runs/ s3://\$BUCKET/\$S3_PREFIX/runs/ --region \$REGION
+if [ -d runs ]; then
+  aws s3 sync runs/ s3://\$BUCKET/\$S3_PREFIX/runs/ --region \$REGION
 fi
 
 # Upload training output log
@@ -264,9 +288,9 @@ aws s3 cp training_output.log s3://\$BUCKET/\$S3_PREFIX/training_output.log --re
 
 # Export weights to binary format
 echo "Exporting weights..."
-if [ -f training/models/best_model.pt ]; then
-  python training/export_weights.py training/models/best_model.pt training/models/neural_weights.bin
-  aws s3 cp training/models/neural_weights.bin s3://\$BUCKET/\$S3_PREFIX/neural_weights.bin --region \$REGION
+if [ -f models/best_model.pt ]; then
+  python training/export_weights.py models/best_model.pt models/neural_weights.bin
+  aws s3 cp models/neural_weights.bin s3://\$BUCKET/\$S3_PREFIX/neural_weights.bin --region \$REGION
   echo "Weights exported and uploaded."
 else
   echo "WARNING: No best_model.pt found!"
@@ -298,28 +322,102 @@ fi
 USERDATA_FILE="c:/libraries/PrismataAI/aws/.userdata_training_tmp.sh"
 echo "$USERDATA" > "$USERDATA_FILE"
 
+# Base64 encode userdata for spot request API
+USERDATA_B64=$(base64 -w0 "$USERDATA_FILE")
+
 echo "Launching instance..."
 
-SPOT_OPTS=""
 if [ "$USE_SPOT" = "true" ]; then
-  SPOT_OPTS="--instance-market-options MarketType=spot"
-  echo "(Using SPOT pricing)"
-fi
+  echo "(Using SPOT pricing — request will queue until capacity available)"
 
-INSTANCE_ID=$(aws ec2 run-instances \
-  --image-id "$AMI" \
-  --instance-type "$INSTANCE_TYPE" \
-  --key-name "$KEY_NAME" \
-  --security-group-ids "$SG_ID" \
-  --iam-instance-profile Name="$PROFILE" \
-  --user-data "file://$USERDATA_FILE" \
-  --instance-initiated-shutdown-behavior terminate \
-  --block-device-mappings "DeviceName=/dev/xvda,Ebs={VolumeSize=100,VolumeType=gp3}" \
-  $SPOT_OPTS \
-  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=PrismataTraining-${LABEL}}]" \
-  --query 'Instances[0].InstanceId' \
-  --output text \
-  --region "$REGION" 2>&1)
+  # Write launch spec JSON (request-spot-instances queues instead of instant-fail)
+  SPEC_FILE="c:/libraries/PrismataAI/aws/.spot_spec_tmp.json"
+  cat > "$SPEC_FILE" <<SPECEOF
+{
+  "ImageId": "$AMI",
+  "InstanceType": "$INSTANCE_TYPE",
+  "KeyName": "$KEY_NAME",
+  "SecurityGroupIds": ["$SG_ID"],
+  "IamInstanceProfile": {"Name": "$PROFILE"},
+  "UserData": "$USERDATA_B64",
+  "BlockDeviceMappings": [{"DeviceName": "/dev/xvda", "Ebs": {"VolumeSize": 350, "VolumeType": "gp3"}}]
+}
+SPECEOF
+
+  SPOT_REQ_ID=$(MSYS_NO_PATHCONV=1 aws ec2 request-spot-instances \
+    --instance-count 1 \
+    --type "one-time" \
+    --instance-interruption-behavior terminate \
+    --launch-specification "file://$SPEC_FILE" \
+    --query 'SpotInstanceRequests[0].SpotInstanceRequestId' \
+    --output text \
+    --region "$REGION" 2>&1)
+  rm -f "$SPEC_FILE"
+
+  if [[ "$SPOT_REQ_ID" != sir-* ]]; then
+    echo "ERROR: Spot request failed: $SPOT_REQ_ID"
+    rm -f "$USERDATA_FILE"
+    exit 1
+  fi
+
+  echo "  Spot request: $SPOT_REQ_ID"
+  echo "  Waiting for fulfillment (up to 5 min)..."
+
+  # Poll for fulfillment
+  for i in $(seq 1 30); do
+    sleep 10
+    STATUS=$(aws ec2 describe-spot-instance-requests \
+      --spot-instance-request-ids "$SPOT_REQ_ID" \
+      --query 'SpotInstanceRequests[0].[State,Status.Code,InstanceId]' \
+      --output text --region "$REGION" 2>&1)
+    STATE=$(echo "$STATUS" | awk '{print $1}')
+    CODE=$(echo "$STATUS" | awk '{print $2}')
+    INSTANCE_ID=$(echo "$STATUS" | awk '{print $3}')
+
+    if [ "$STATE" = "active" ] && [[ "$INSTANCE_ID" == i-* ]]; then
+      echo "  Fulfilled! Instance: $INSTANCE_ID"
+      # Tag the instance
+      aws ec2 create-tags --resources "$INSTANCE_ID" \
+        --tags "Key=Name,Value=PrismataTraining-${LABEL}" \
+        --region "$REGION" 2>/dev/null
+      break
+    elif [ "$STATE" = "closed" ] || [ "$STATE" = "cancelled" ] || [ "$STATE" = "failed" ]; then
+      echo "  Spot request $STATE: $CODE"
+      INSTANCE_ID=""
+      break
+    fi
+    echo "  [$i/30] Status: $STATE ($CODE)..."
+  done
+
+  if [[ "$INSTANCE_ID" != i-* ]]; then
+    echo "ERROR: Spot request not fulfilled within 5 min."
+    echo "  Cancel with: aws ec2 cancel-spot-instance-requests --spot-instance-request-ids $SPOT_REQ_ID --region $REGION"
+    rm -f "$USERDATA_FILE"
+    exit 1
+  fi
+else
+  # On-demand launch
+  echo "(Using ON-DEMAND pricing)"
+  INSTANCE_ID=$(MSYS_NO_PATHCONV=1 aws ec2 run-instances \
+    --image-id "$AMI" \
+    --instance-type "$INSTANCE_TYPE" \
+    --key-name "$KEY_NAME" \
+    --security-group-ids "$SG_ID" \
+    --iam-instance-profile Name="$PROFILE" \
+    --user-data "file://$USERDATA_FILE" \
+    --instance-initiated-shutdown-behavior terminate \
+    --block-device-mappings "DeviceName=/dev/xvda,Ebs={VolumeSize=350,VolumeType=gp3}" \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=PrismataTraining-${LABEL}}]" \
+    --query 'Instances[0].InstanceId' \
+    --output text \
+    --region "$REGION" 2>&1)
+
+  if [[ "$INSTANCE_ID" != i-* ]]; then
+    echo "ERROR: Launch failed: $INSTANCE_ID"
+    rm -f "$USERDATA_FILE"
+    exit 1
+  fi
+fi
 
 rm -f "$USERDATA_FILE"
 

@@ -121,7 +121,7 @@ echo ""
 # Build the startup script (bash for Linux DL VM)
 STARTUP_SCRIPT=$(cat <<ENDSCRIPT
 #!/bin/bash
-set -euo pipefail
+set -uo pipefail
 
 # ============================================================
 # Prismata Training Worker (GCP GPU)
@@ -146,8 +146,12 @@ SEED=$SEED
 RESUME_FROM="$RESUME_FROM"
 
 RUN_ID=\$(date +%Y-%m-%d_%H-%M-%S)
-WORK="/home/\$(whoami)/training"
-LOG="/home/\$(whoami)/training_boot.log"
+WORK="/root/training"
+LOG="/root/training_boot.log"
+export PYTHONUNBUFFERED=1
+
+# Increase file descriptor limit for streaming DataLoader (6000+ shard mmaps per worker)
+ulimit -n 65536
 
 exec > >(tee -a "\$LOG") 2>&1
 
@@ -174,16 +178,20 @@ if [ -f /opt/conda/etc/profile.d/conda.sh ]; then
     conda activate pytorch 2>/dev/null || conda activate base
 fi
 
-python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}'); print(f'GPU: {torch.cuda.get_device_name(0)}'); print(f'PyTorch: {torch.__version__}')"
+# Ensure python3 is aliased as python (some DL VMs only have python3)
+which python 2>/dev/null || ln -s \$(which python3) /usr/local/bin/python
+
+python3 -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}'); print(f'GPU: {torch.cuda.get_device_name(0)}'); print(f'PyTorch: {torch.__version__}')"
 
 # Install deps
-pip install tqdm --quiet 2>/dev/null || true
+pip install tqdm --quiet 2>/dev/null || pip3 install tqdm --quiet 2>/dev/null || true
 
 # ============================================================
 # Install AWS CLI for S3 access
 # ============================================================
 echo "Installing AWS CLI..."
 if ! command -v aws &>/dev/null; then
+    apt-get update -qq && apt-get install -y -qq unzip > /dev/null 2>&1
     curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscliv2.zip
     cd /tmp && unzip -q awscliv2.zip && sudo ./aws/install --update
     cd -
@@ -204,16 +212,22 @@ echo "AWS S3 access verified"
 # Download training code and data
 # ============================================================
 echo "Downloading training code from S3..."
-mkdir -p \$WORK/training \$WORK/data \$WORK/models
+mkdir -p \$WORK/training/data \$WORK/models
 
 aws s3 cp s3://\$BUCKET/deploy/training/train.py \$WORK/training/train.py --region \$S3_REGION
 aws s3 cp s3://\$BUCKET/deploy/training/load_selfplay.py \$WORK/training/load_selfplay.py --region \$S3_REGION
 aws s3 cp s3://\$BUCKET/deploy/training/schema.json \$WORK/training/schema.json --region \$S3_REGION
 aws s3 cp s3://\$BUCKET/deploy/training/export_weights.py \$WORK/training/export_weights.py --region \$S3_REGION
+aws s3 cp s3://\$BUCKET/deploy/training/unit_index.json \$WORK/training/data/unit_index.json --region \$S3_REGION
 
 echo "Downloading selfplay data from S3..."
-aws s3 sync s3://\$BUCKET/results/ \$WORK/selfplay_data/ --region \$S3_REGION --quiet
+aws s3 sync s3://\$BUCKET/results/ \$WORK/selfplay_data/ --region \$S3_REGION --quiet || echo "WARNING: s3 sync exited non-zero (partial transfer errors are normal for large syncs)"
 echo "Download complete."
+
+# Stage selfplay data to GCS for future runs (avoids S3 egress on subsequent launches)
+echo "Staging selfplay data to GCS (background)..."
+(gsutil -m rsync -r \$WORK/selfplay_data/ gs://prismata-selfplay-data/selfplay_data/ 2>&1 | tail -5 && echo "[gcs] Selfplay data staged to GCS") &
+GCS_STAGE_PID=\$!
 
 # Download resume checkpoint if specified
 if [ -n "\$RESUME_FROM" ]; then
@@ -224,7 +238,7 @@ if [ -n "\$RESUME_FROM" ]; then
 fi
 
 # Count data
-RECORD_COUNT=\$(python -c "
+RECORD_COUNT=\$(python3 -c "
 import os
 base = '\$WORK/selfplay_data'
 total = sum(
@@ -280,7 +294,7 @@ echo ""
 cd \$WORK
 
 # Build training command
-TRAIN_CMD="python training/train.py training/data training/models \\
+TRAIN_CMD="python3 training/train.py training/data training/models \\
   --selfplay-dir selfplay_data/ \\
   --value-only \\
   --hidden-dim \$HIDDEN_DIM \\
@@ -314,17 +328,37 @@ fi
 echo "Command: \$TRAIN_CMD"
 echo ""
 
+# Background checkpoint sync — uploads to S3 every 5 min so preemption doesn't lose progress
+S3_PREFIX="training-runs/\$LABEL/\$RUN_ID"
+(
+  while true; do
+    sleep 300
+    if [ -d training/models ]; then
+      aws s3 sync training/models/ s3://\$BUCKET/\$S3_PREFIX/models/ --region \$S3_REGION --quiet 2>/dev/null
+    fi
+    if [ -d training/runs ]; then
+      aws s3 sync training/runs/ s3://\$BUCKET/\$S3_PREFIX/runs/ --region \$S3_REGION --quiet 2>/dev/null
+    fi
+    aws s3 cp training_output.log s3://\$BUCKET/\$S3_PREFIX/training_output.log --region \$S3_REGION --quiet 2>/dev/null
+    echo "[sync] Checkpoints uploaded to S3 at \$(date)"
+  done
+) &
+SYNC_PID=\$!
+echo "Background S3 sync started (PID \$SYNC_PID, every 5 min)"
+
 eval \$TRAIN_CMD 2>&1 | tee training_output.log
 TRAIN_EXIT=\$?
+
+# Stop background sync
+kill \$SYNC_PID 2>/dev/null || true
 
 echo ""
 echo "Training exited with code: \$TRAIN_EXIT"
 
 # ============================================================
-# Upload results
+# Upload results (final)
 # ============================================================
-echo "Uploading results to S3..."
-S3_PREFIX="training-runs/\$LABEL/\$RUN_ID"
+echo "Uploading final results to S3..."
 
 # Upload model checkpoints
 aws s3 sync training/models/ s3://\$BUCKET/\$S3_PREFIX/models/ --region \$S3_REGION
@@ -340,7 +374,7 @@ aws s3 cp training_output.log s3://\$BUCKET/\$S3_PREFIX/training_output.log --re
 # Export weights to binary format
 echo "Exporting weights..."
 if [ -f training/models/best_model.pt ]; then
-  python training/export_weights.py training/models/best_model.pt training/models/neural_weights.bin
+  python3 training/export_weights.py training/models/best_model.pt training/models/neural_weights.bin
   aws s3 cp training/models/neural_weights.bin s3://\$BUCKET/\$S3_PREFIX/neural_weights.bin --region \$S3_REGION
   echo "Weights exported and uploaded."
 else

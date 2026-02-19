@@ -102,7 +102,7 @@ def python_forward(weights, state_dim, hidden_dim, num_layers, num_units, featur
     return policy, value
 
 
-def verify_export(output_path, model, state_dim, hidden_dim, num_layers, num_units):
+def verify_export(output_path, model, state_dim, hidden_dim, num_layers, num_units, use_tanh=False):
     """Load exported binary weights, run forward pass, compare to PyTorch model."""
     print("\n--- Round-trip verification ---")
 
@@ -162,7 +162,8 @@ def verify_export(output_path, model, state_dim, hidden_dim, num_layers, num_uni
         with torch.no_grad():
             pt_inp = torch.from_numpy(inp).unsqueeze(0)
             pt_policy, pt_value_logit = model(pt_inp)
-            pt_value = torch.tanh(pt_value_logit).item()
+            # If use_tanh=True, model already applied tanh in forward(); don't double-apply
+            pt_value = pt_value_logit.item() if use_tanh else torch.tanh(pt_value_logit).item()
 
         # Compare
         value_diff = abs(np_value - pt_value)
@@ -200,6 +201,7 @@ def main():
     num_layers = checkpoint.get("num_layers", 4)
     value_only = checkpoint.get("value_only", False)
     dropout = checkpoint.get("dropout", 0.1)
+    use_tanh = checkpoint.get("use_tanh", False)
 
     # unit_index may be in checkpoint (best_model) or loaded from file
     if "unit_index" in checkpoint:
@@ -214,7 +216,7 @@ def main():
     # Reconstruct model to get proper parameter names
     model = PrismataNet(state_dim, num_units, hidden_dim=hidden_dim,
                         num_layers=num_layers, dropout=dropout,
-                        value_only=value_only)
+                        value_only=value_only, use_tanh=use_tanh)
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
 
@@ -298,7 +300,7 @@ def main():
     print(f"\nDone! File size: {file_size / 1024 / 1024:.1f} MB")
 
     # Round-trip verification
-    verify_export(output_path, model, state_dim, hidden_dim, num_layers, num_units)
+    verify_export(output_path, model, state_dim, hidden_dim, num_layers, num_units, use_tanh=use_tanh)
 
 
 if __name__ == "__main__":
