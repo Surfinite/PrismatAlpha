@@ -747,10 +747,9 @@ def main():
             train_indices.sort()
             print(f"  Capped training records to {args.max_records:,}")
 
-        n_train_games = len(np.unique(shard_index._game_ids[train_indices]))
-        n_val_games = len(np.unique(shard_index._game_ids[val_indices]))
-        print(f"    Train: {len(train_indices):,} records from {n_train_games:,} games")
-        print(f"    Val:   {len(val_indices):,} records from {n_val_games:,} games")
+        est_games_per_record = 1 / 37  # ~37 records per game
+        print(f"    Train: {len(train_indices):,} records (~{int(len(train_indices) * est_games_per_record):,} games)")
+        print(f"    Val:   {len(val_indices):,} records (~{int(len(val_indices) * est_games_per_record):,} games)")
 
         if args.expert_weight > 0:
             print(f"  WARNING: --expert-weight ignored in streaming mode (use --expert-weight 0)")
