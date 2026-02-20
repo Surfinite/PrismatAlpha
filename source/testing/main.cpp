@@ -19,19 +19,24 @@ using namespace Prismata;
 
 int main(int argc, char* argv[])
 {
-    // Early detection of --suggest mode: stdout must be clean JSON only
+    // Early detection of quiet modes: stdout must be clean (JSON or no output)
     bool isSuggestMode = false;
+    bool isReplayMode = false;
     for (int i = 1; i < argc; ++i)
     {
-        if (std::string(argv[i]) == "--suggest") { isSuggestMode = true; break; }
+        std::string arg(argv[i]);
+        if (arg == "--suggest") { isSuggestMode = true; break; }
+        if (arg == "--replay" || arg == "--replay-dir") { isReplayMode = true; break; }
     }
 
-    if (!isSuggestMode) printf("Benchmarks!\n");
+    bool isQuietMode = isSuggestMode || isReplayMode;
 
-    // In --suggest mode, redirect stdout to stderr during initialization
-    // so that library-internal printfs don't contaminate the JSON output
+    if (!isQuietMode) printf("Benchmarks!\n");
+
+    // In quiet modes, redirect stdout to stderr during initialization
+    // so that library-internal printfs don't contaminate output
     int savedStdout = -1;
-    if (isSuggestMode)
+    if (isQuietMode)
     {
         fflush(stdout);
         savedStdout = _dup(_fileno(stdout));
@@ -43,20 +48,20 @@ int main(int argc, char* argv[])
     // read all the configuration settings
     std::string configDir = "asset/config/";
 
-    if (!isSuggestMode) printf("Initializing card library\n");
+    if (!isQuietMode) printf("Initializing card library\n");
     Prismata::InitFromCardLibrary(configDir + "cardLibrary.jso");
 
-    if (!isSuggestMode) printf("Loading neural network weights\n");
+    if (!isQuietMode) printf("Loading neural network weights\n");
     if (NeuralNet::Instance().loadWeights(configDir + "neural_weights.bin"))
     {
         NeuralNet::Instance().buildCardTypeMapping();
     }
 
-    if (!isSuggestMode) printf("Parsing AI Parameters\n");
+    if (!isQuietMode) printf("Parsing AI Parameters\n");
     Prismata::AIParameters::Instance().parseFile(configDir + "config.txt");
 
     // Restore stdout for JSON output (or normal operation)
-    if (isSuggestMode && savedStdout >= 0)
+    if (isQuietMode && savedStdout >= 0)
     {
         fflush(stdout);
         _dup2(savedStdout, _fileno(stdout));
@@ -64,7 +69,7 @@ int main(int argc, char* argv[])
     }
 
     // Quick neural net sanity test: evaluate parsed game states
-    if (!isSuggestMode && NeuralNet::Instance().isLoaded())
+    if (!isQuietMode && NeuralNet::Instance().isLoaded())
     {
         printf("\n--- Neural Net Quick Test ---\n");
         const auto & stateNames = AIParameters::Instance().getStateNames();
@@ -91,6 +96,10 @@ int main(int argc, char* argv[])
     std::string suggestFile;
     std::string suggestPlayer = "PrismatAlpha_AB";
     int suggestThinkTime = 3000;
+    std::string replayFile;
+    std::string replayDir;
+    std::string replayOutputDir = "training/data/expert/";
+    int replayMinRating = 0;
     for (int i = 1; i < argc; ++i)
     {
         if (std::string(argv[i]) == "--fixedset")
@@ -110,11 +119,30 @@ int main(int argc, char* argv[])
             try { suggestThinkTime = std::stoi(argv[++i]); }
             catch (...) { /* use default */ }
         }
+        if (std::string(argv[i]) == "--replay" && i + 1 < argc)
+            replayFile = argv[++i];
+        if (std::string(argv[i]) == "--replay-dir" && i + 1 < argc)
+            replayDir = argv[++i];
+        if (std::string(argv[i]) == "--output-dir" && i + 1 < argc)
+            replayOutputDir = argv[++i];
+        if (std::string(argv[i]) == "--min-rating" && i + 1 < argc)
+        {
+            try { replayMinRating = std::stoi(argv[++i]); }
+            catch (...) { /* use default */ }
+        }
     }
 
     if (!suggestFile.empty())
     {
         Benchmarks::DoSuggest(suggestFile, suggestPlayer, suggestThinkTime);
+    }
+    else if (!replayFile.empty())
+    {
+        Benchmarks::DoReplay(replayFile, replayOutputDir, replayMinRating);
+    }
+    else if (!replayDir.empty())
+    {
+        Benchmarks::DoReplayBatch(replayDir, replayOutputDir, replayMinRating);
     }
     else if (!validateReplayFile.empty())
     {

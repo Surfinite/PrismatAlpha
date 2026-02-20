@@ -7,6 +7,8 @@
 #include "NeuralNet.h"
 #include "Player_StackAlphaBeta.h"
 #include "Player_UCT.h"
+#include "ReplayStepper.h"
+#include "SelfPlayDataSink.h"
 #include "rapidjson/document.h"
 #include <thread>
 #include <map>
@@ -16,6 +18,8 @@
 #include <cmath>
 #include <fstream>
 #include <sstream>
+#include <atomic>
+#include <filesystem>
 
 using namespace Prismata;
 
@@ -1033,4 +1037,216 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
 
     printf("%s\n", out.str().c_str());
     fflush(stdout);
+}
+
+// ---------------------------------------------------------------------------
+// --replay mode: Process replay JSON -> binary training shards
+// ---------------------------------------------------------------------------
+
+// Process a single replay JSON, writing training data via the provided sink.
+// Returns true if the replay was processed (even partially), false if skipped/failed to init.
+static bool processReplay(const std::string & replayFile, int minRating, SelfPlayDataSink & sink)
+{
+    // 1. Read replay JSON
+    std::ifstream ifs(replayFile);
+    if (!ifs.is_open())
+    {
+        fprintf(stderr, "[Replay] Cannot open: %s\n", replayFile.c_str());
+        return false;
+    }
+    std::string raw((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+    ifs.close();
+    if (raw.empty())
+    {
+        fprintf(stderr, "[Replay] Empty file: %s\n", replayFile.c_str());
+        return false;
+    }
+
+    // 2. Parse JSON
+    rapidjson::Document doc;
+    if (doc.Parse(raw.c_str()).HasParseError())
+    {
+        fprintf(stderr, "[Replay] JSON parse error: %s\n", replayFile.c_str());
+        return false;
+    }
+
+    // 3. Extract required sections
+    if (!doc.HasMember("deckInfo") || !doc["deckInfo"].HasMember("mergedDeck"))
+    {
+        fprintf(stderr, "[Replay] Missing deckInfo.mergedDeck: %s\n", replayFile.c_str());
+        return false;
+    }
+    if (!doc.HasMember("initInfo"))
+    {
+        fprintf(stderr, "[Replay] Missing initInfo: %s\n", replayFile.c_str());
+        return false;
+    }
+    if (!doc.HasMember("commandInfo") || !doc["commandInfo"].HasMember("commandList")
+        || !doc["commandInfo"].HasMember("clicksPerTurn"))
+    {
+        fprintf(stderr, "[Replay] Missing commandInfo: %s\n", replayFile.c_str());
+        return false;
+    }
+    if (!doc.HasMember("playerInfo"))
+    {
+        fprintf(stderr, "[Replay] Missing playerInfo: %s\n", replayFile.c_str());
+        return false;
+    }
+
+    // 4. Rating filter
+    if (minRating > 0 && doc.HasMember("ratingInfo") && doc["ratingInfo"].HasMember("finalRatings"))
+    {
+        const auto & ratings = doc["ratingInfo"]["finalRatings"];
+        if (ratings.IsArray() && ratings.Size() >= 2)
+        {
+            int r0 = ratings[0].HasMember("displayRating") ? ratings[0]["displayRating"].GetInt() : 0;
+            int r1 = ratings[1].HasMember("displayRating") ? ratings[1]["displayRating"].GetInt() : 0;
+            int minR = std::min(r0, r1);
+            if (minR < minRating)
+            {
+                return false;  // Skip — below rating threshold
+            }
+        }
+    }
+
+    const auto & mergedDeck = doc["deckInfo"]["mergedDeck"];
+    const auto & initInfo = doc["initInfo"];
+    const auto & commandList = doc["commandInfo"]["commandList"];
+    const auto & clicksPerTurn = doc["commandInfo"]["clicksPerTurn"];
+    const auto & playerInfo = doc["playerInfo"];
+
+    // 5. Initialize stepper
+    ReplayStepper stepper;
+    if (!stepper.init(mergedDeck, initInfo, commandList, clicksPerTurn, playerInfo))
+    {
+        fprintf(stderr, "[Replay] Init failed: %s\n", replayFile.c_str());
+        return false;
+    }
+
+    // 6. Step through turns, capturing training data
+    int turnsExtracted = 0;
+    while (stepper.hasNextTurn())
+    {
+        // Capture pre-turn state (decision point)
+        sink.onTurnStart(stepper.getState());
+        turnsExtracted++;
+
+        ReplayStepper::StepResult result = stepper.advanceTurn();
+        if (result == ReplayStepper::StepResult::FatalError)
+            break;
+        if (result == ReplayStepper::StepResult::GameOver)
+            break;
+    }
+
+    // 7. Determine winner from replay result field
+    //    result=0 means P1 wins, result=1 means P2 wins
+    PlayerID winner = Players::Player_None;
+    if (doc.HasMember("result"))
+    {
+        int result = doc["result"].GetInt();
+        if (result == 0)
+            winner = Players::Player_One;
+        else if (result == 1)
+            winner = Players::Player_Two;
+    }
+
+    // Call onGameEnd to label all captured turns with the outcome
+    sink.onGameEnd(winner);
+
+    // 8. Log stats to stderr
+    fprintf(stderr, "[Replay] %s: %d turns extracted, %d/%d clicks applied, %d skips, %d errors\n",
+            replayFile.c_str(), turnsExtracted,
+            stepper.getAppliedClicks(), stepper.getTotalClicks(),
+            stepper.getBenignSkips(), stepper.getFatalErrors());
+
+    return true;
+}
+
+void Benchmarks::DoReplay(const std::string & replayFile, const std::string & outputDir, int minRating)
+{
+    // Create output directory if it doesn't exist
+    std::filesystem::create_directories(outputDir);
+
+    // Create sink — single replay mode
+    std::atomic<uint32_t> gameCounter{0};
+    SelfPlayDataSink sink(0, outputDir, gameCounter);
+
+    bool ok = processReplay(replayFile, minRating, sink);
+
+    sink.finalize();
+
+    if (ok)
+    {
+        fprintf(stderr, "[Replay] Done: %u games, %llu records written to %s\n",
+                sink.totalGamesCompleted(), (unsigned long long)sink.totalRecordsWritten(),
+                outputDir.c_str());
+    }
+    else
+    {
+        fprintf(stderr, "[Replay] Failed to process: %s\n", replayFile.c_str());
+    }
+}
+
+void Benchmarks::DoReplayBatch(const std::string & replayDir, const std::string & outputDir, int minRating)
+{
+    // Create output directory if it doesn't exist
+    std::filesystem::create_directories(outputDir);
+
+    // Scan directory for .json files
+    std::vector<std::string> replayFiles;
+    for (const auto & entry : std::filesystem::recursive_directory_iterator(replayDir))
+    {
+        if (!entry.is_regular_file()) continue;
+        std::string ext = entry.path().extension().string();
+        if (ext == ".json")
+        {
+            replayFiles.push_back(entry.path().string());
+        }
+    }
+
+    if (replayFiles.empty())
+    {
+        fprintf(stderr, "[Replay] No .json files found in %s\n", replayDir.c_str());
+        return;
+    }
+
+    std::sort(replayFiles.begin(), replayFiles.end());
+
+    fprintf(stderr, "[Replay] Found %zu replay files in %s\n", replayFiles.size(), replayDir.c_str());
+
+    // Create shared sink for all replays (long-lived — avoids 32K tiny shards)
+    std::atomic<uint32_t> gameCounter{0};
+    SelfPlayDataSink sink(0, outputDir, gameCounter);
+
+    int successCount = 0;
+    int failCount = 0;
+    int skipCount = 0;
+
+    for (size_t i = 0; i < replayFiles.size(); i++)
+    {
+        bool ok = processReplay(replayFiles[i], minRating, sink);
+        if (ok)
+            successCount++;
+        else
+            failCount++;
+
+        // Progress every 100 replays
+        if ((i + 1) % 100 == 0 || i + 1 == replayFiles.size())
+        {
+            fprintf(stderr, "[Replay] Progress: %zu/%zu files, %d success, %d failed, %u games, %llu records\n",
+                    i + 1, replayFiles.size(), successCount, failCount,
+                    sink.totalGamesCompleted(), (unsigned long long)sink.totalRecordsWritten());
+        }
+    }
+
+    sink.finalize();
+
+    fprintf(stderr, "\n=== Replay Batch Summary ===\n");
+    fprintf(stderr, "Total files:     %zu\n", replayFiles.size());
+    fprintf(stderr, "Successful:      %d\n", successCount);
+    fprintf(stderr, "Failed:          %d\n", failCount);
+    fprintf(stderr, "Games written:   %u\n", sink.totalGamesCompleted());
+    fprintf(stderr, "Records written: %llu\n", (unsigned long long)sink.totalRecordsWritten());
+    fprintf(stderr, "Output dir:      %s\n", outputDir.c_str());
+    fprintf(stderr, "============================\n");
 }
