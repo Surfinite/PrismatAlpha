@@ -109,7 +109,7 @@ class OverlayWindow:
         self._root.attributes("-topmost", True)
         self._root.attributes("-transparentcolor", TRANSPARENT_COLOR)
         self._root.configure(bg=TRANSPARENT_COLOR)
-        self._root.geometry("440x200+1440+180")
+        self._root.geometry("440x200+520+180")
 
     def _create_labels(self):
         rows = [
@@ -235,7 +235,8 @@ class OverlayWindow:
 
         think = data.get("think_ms", "?")
         mode = "[DRAG]" if self._drag_mode else "[click-through]"
-        self._set_label("status", f"think: {think}ms | P{data.get('active_player', '?')} | {mode}",
+        player_num = data.get('active_player', -1) + 1  # 0-indexed -> 1-indexed
+        self._set_label("status", f"think: {think}ms | P{player_num} | {mode}",
                         COLOR_STATUS)
 
         return eval_pct
@@ -273,6 +274,7 @@ class AnalysisEngine:
         self._root.after(POLL_INTERVAL_MS, self._poll)
 
     def _dispatch(self, json_str):
+        json_str = _sanitize_gamestate(json_str)
         with self._lock:
             self._seq += 1
             seq = self._seq
@@ -371,7 +373,7 @@ class PrismataAdvisor:
         self._root.after(100, self._apply_initial_click_through)
         self._window.show_analyzing()
         self._window._set_label("eval", "READY", COLOR_STATUS)
-        self._window._set_label("status", "Press F6 in Prismata | Esc=quit | Ctrl+D=drag",
+        self._window._set_label("status", "Press Shift+F6 in Prismata | Esc=quit | Ctrl+D=drag",
                                 COLOR_STATUS)
         self._engine.start_polling()
 
@@ -412,6 +414,57 @@ def _looks_like_gamestate(text):
     if len(text) < 50:
         return False
     return ('"CurrentInfo"' in text or '"gameState"' in text) and '"mergedDeck"' in text
+
+
+def _sanitize_gamestate(text):
+    """Convert F6 clipboard format to valid JSON for the C++ --suggest parser.
+
+    F6 produces:   "CurrentInfo" : { ... }\n"TurnStartInfo" : { ... }\nAI Status Log...
+    Shift+F6 produces: { "mergedDeck": ..., "gameState": ..., "aiParameters": ... }
+
+    The C++ parser handles both { "CurrentInfo": {...} } and bare { gameState }
+    formats, but F6 isn't valid JSON because sections are concatenated.
+    Fix: extract the first top-level JSON object (the CurrentInfo block).
+    """
+    text = text.strip()
+
+    # Shift+F6 format: already valid JSON starting with {
+    if text.startswith("{"):
+        return text
+
+    # F6 format: starts with "CurrentInfo" : { ... }
+    # Find the opening brace and brace-match to find the end of that object
+    brace_start = text.find("{")
+    if brace_start == -1:
+        return text  # not JSON at all, let the exe report the error
+
+    # Brace-match to find the complete JSON object
+    depth = 0
+    in_string = False
+    escape = False
+    for i in range(brace_start, len(text)):
+        c = text[i]
+        if escape:
+            escape = False
+            continue
+        if c == '\\' and in_string:
+            escape = True
+            continue
+        if c == '"':
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if c == '{':
+            depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0:
+                # Found the complete first JSON object, wrap with CurrentInfo key
+                inner_json = text[brace_start:i + 1]
+                return '{ "CurrentInfo" : ' + inner_json + ' }'
+
+    return text  # unbalanced braces, pass through as-is
 
 
 # ============================================================

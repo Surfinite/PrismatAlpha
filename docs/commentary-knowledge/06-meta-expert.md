@@ -305,6 +305,85 @@ P2's extra Drone creates asymmetric opening theory. Some units (Odin) favor P1; 
 
 ---
 
+## Yujiri's Set Reading Worked Examples (analyses 2-9)
+> Source: Yujiri — Set analyses 2-9 (archived from yujiri.xyz/prismata/analysis_2 through analysis_9, Wayback Machine Dec 2022)
+
+Eight detailed worked examples of competitive set reading. Each walks through the full decision process: identify absorber, evaluate key units, find combos/counters, determine strategy.
+
+### Analysis 2: Doomed Wall + Shiver Yeti + Drake + Ossified Drone + Husk
+**Key insight**: Shiver Yeti hard-counters Doomed Wall (freeze on 1 lifespan = no absorb). So no viable big absorber. Drake's threat devalued by Ossified Drone's vigilant blocking. **Conclusion**: Wall-absorb blue/red game with base set attack. Must set up 2 Shiver Yetis *before* resources are consumed by defense, or opponent safely uses Doomed Walls. Credit to Apooche and 307th.
+
+### Analysis 3: Perforator + Shadowfang + Iso Kronus + Cryo Ray + Blood Pact + Apollo
+**Key insight**: Perforator as red sink (not key — needs continuous Animuses), but combos perfectly with Shadowfang (solves the "wasted 4th red" problem). Cryo Ray + Iso Kronus combo eliminates the sync delay penalty. Blood Pact counters Iso/Cryo (Grimbotches fire every other turn vs synchronized attack). Apollo hard-counters Shadowfang but can't work without blue support. **Conclusion**: Shadowfang/Perforator game. Apollo threat forces awareness but isn't viable without support.
+
+### Analysis 4: Arka Sodara + Defense Grid + Tia Thurnax + Thorium Dynamo + Ferritin Sac + Immolite
+**Key insight**: Arka Sodara is autobuy. Buy Arka *before* Defense Grid (promptness wasted if Grid first), but don't let opponent deny absorb — buy Grid once opponent has ~10 attack. Thorium Dynamo eliminates need for 3rd Engineer and covers green. Use Ferritin Sac for Defense Grid's 3rd blue instead of a 3rd Blastforge. **Conclusion**: Open with Thorium Dynamos, don't over-econ (Arka + Tia punish passivity).
+
+### Analysis 5: Doomed Wall + Zemora + Amporilla + Doomed Drone + Odin + Grenade Mech + Gauss Fabricator
+**Key insight**: Rock-paper-scissors set. Zemora/Gauss Fab weak vs Amporilla (too slow). Amporilla weak vs Odin + Grenade Mech (sudden pressure vs red defense). Odin/Grenade Mech weak vs Zemora/Fab + Doomed Wall absorb + Forcefields. **Conclusion**: Reactive play — be last to commit. 3rd Engineer turn 2 is safe. Early Conduit loses to Amporilla. Early Animus loses to Odin.
+
+### Analysis 6: Doomed Mech + Deadeye Operative + Vivid Drone + Hellhound + Scorchilla + Endotherm Kit + Hannibull
+**Key insight**: Deadeye normally dominates (snipes Drones behind Doomed Mech absorb) but Vivid Drone completely counters it (Deadeye targets "Drone" — Vivid Drone isn't named "Drone"). Scorchilla + Endotherm Kit is devastating burst but Hannibull's 7HP vigilant frontline is a hard counter. **Conclusion**: Doomed Mech absorb + Hellhound army. Medium econ (Hellhound spends BR cheaply, removing the usual 3rd Engi need).
+
+### Analysis 7: Borehole Patroller + Redeemer + Bloodrager + Cluster Bolt + Fission Turret + Nivo Charge + Omega Splitter + The Wincer
+**Key insight**: Fission Turret + Cluster Bolt is an absurd combo (click dying Fission Turrets for green → spend on Cluster Bolts for burst). Nivo Charge + Cluster Bolt burst counters Redeemer in mirror. Omega Splitter and Wincer both unplayable — too clunky vs the burst pressure, and Nivo freezes Omega's absorb. **Conclusion**: Fast Conduit, Fission Turret every turn if possible, Borehole for blue spending, avoid Redeemer mirror.
+
+### Analysis 8: Mahar Rectifier + Doomed Mech + Plexo Cell + Electrovore + Manticore + Sentinel + Venge Cannon + Arms Race
+**Key insight**: Both blue (Doomed Mech) and green (Mahar Rectifier) offer 5HP absorb. Plexo Cell breaks the tie — green buys better soak than blue, so forgo blue entirely. Arms Race gives opponent Engineers = free Electrovore fuel. Electrovore + Sentinel combo for backbone offense. Breachproof (Venge) doesn't work when opponent has Plexo Cell soak. **Conclusion**: High-econ green-red, Mahar absorb, Electrovore/Sentinel attack.
+
+### Analysis 9: Urban Sentry + Valkyrion + Mobile Animus + Plasmafier + Asteri Cannon + Trinity Drone + Savior + Shredder + Iceblade Golem
+**Key insight**: Trinity Drone + Asteri Cannon = powerful breachproof combo. Set has only medium-weak absorber (Urban Sentry) and no prompt soak, making breachproof attractive. Iceblade Golem hard-counters Savior (freeze Engineers + frontline damage). Valkyrion is deceptively weak without chill/Cryo support. **Conclusion**: Breachproof Asteri Cannon. Watch for opponent Savior → switch to Iceblades.
+
+---
+
+## Punf's Strategy Guide ("Another Fucking Pris Thing")
+> Source: Punf (guest article on Yujiri's site, archived from yujiri.xyz/prismata/another_fucking_pris_thing, Wayback Machine Dec 2022)
+
+Irreverent but strategically dense guide from a top-ranked player. Key frameworks:
+
+### Economy Heresy
+Punf argues absorber size is "a fairly minor factor" in economy sizing, citing: base+Energy Matrix (5HP absorb) = 2 Engi set, base+Tia Thurnax (no absorb) = 3 Engi set. "Engineers are a bad unit. Drones are the least efficient unit. Don't think about how to defend. Defending is how you lose games."
+
+### Three Types of Attackers
+1. **Fast damage** (greenblue units, Tia Thurnax, Grenade Mech, Drake) — counters high econ/hyperefficient damage
+2. **Hyperefficient damage** (Amporilla, quad-red units like Tatsu/Mauronax/Lucina, Shadowfang, Cynestra, Asteri) — "if not killed, wins the game"; counters econ
+3. **Cheap utility attackers** (Hellhound, Grimbotch = efficient; Militia, Iso Kronus = "shitty")
+
+**Counter triangle**: Rush fast damage to counter hyperefficient damage. Hyperefficient damage beats econ. Econ theoretically counters fast damage but "in practice it really doesn't, damage is just too op."
+
+### Dying / Responding to Rushes
+"Don't respond to rushes by defending. Respond with fast damage." Low econ is great at attacking but bad at defending — exploit the weakness. Forcefield is your friend.
+
+### Pseudo-Breachproof
+Three forms: (1) gambit with frontline attackers — opponent probably won't take the breach, (2) gambit vs damage they won't use (1-lifespan Grimbotches, Rhinos that will die on defense), (3) outright allowing breach to buy another attacker. "Iceblade Golem and Hannibull derive a lot of their strength from going pseudo-bp against low econ."
+
+### Don't Overdefend
+"Don't defend for +1 if you're not getting absorb anyway. Defend for =0, or occasionally even less."
+
+### Tech Selection Rules (Low Econ)
+- Non-blue absorber available → skip blue ("blue sucks")
+- Any decent non-red attacker → skip red ("red sucks")
+- Get green if possible — "forcefield is great and underrated"
+
+### One-Line Unit Protips
+- **Centrifuge/Chrono Filter**: "Only good for cheating things"
+- **Endotherm Kit**: "Fucking useless" (without combo support)
+- **Iceblade Golem**: "Cancer or not at all" — spam or don't buy
+- **Resophore**: "It's actually really bad"
+- **Savior**: Buy iff defenders outnumber attackers AND no hyperefficient attackers exist
+- **Steelforge**: "pls stop forgetting to buy this"
+- **The Wincer**: "Extremely good, need a very strong reason not to buy"
+- **Tia Thurnax**: "Never counterthurnax" (don't try to match her — counter differently)
+- **Zemora**: "Get it on turn 3 or 4 (usually 4), off a C/C line"
+
+### Key Combos
+Antima + whatever, Thunderhead + Redeemer, Flame/Mobile Animus + Shadowfang/Amporilla, Centrifuge + quad red/triple blue, Valkyrion + Cryo Ray.
+
+### Key Counters
+Apollo vs almost anything, Deadeye vs Savior, Mauronax/Tatsu vs absorbers, Chill vs Lifespan.
+
+---
+
 ## Yujiri's Emote/Ability Toggling
 > Source: User-provided research (Yujiri's tips)
 
@@ -314,3 +393,302 @@ Skilled players can observe opponent's ability toggling and emote usage for info
 - Experienced players use deliberate misdirection
 
 This is a form of "soft information" in a perfect-information game — the game state is fully visible, but the opponent's intentions are not.
+
+---
+
+## Msven's Strategic Framework (9-Part Series)
+> Source: Msven — Strategy Series #1-9 (YouTube)
+
+### Evaluating Unit Interactions (#1)
+"A common mistake for inexperienced players is that when they're choosing their strategy, they get fixated on one or two units that they think have the strongest general power level, without considering a better strategy where several of the units synergize and interact well with each other."
+
+Key method: split the set into strategy groups (e.g., blue-red vs green-blue), then evaluate how every unit interacts with each group. Consider attack efficiency, defensive supplies, long-term supply sustainability, and support units.
+
+### Playing Reactively (#2)
+"Sometimes you'll encounter complex rock-paper-scissors style sets. What seems to be the strongest openings can all be easily countered. But sometimes there will be a strategy in the middle that can work decently against everything."
+
+**Key principle**: Don't commit early to a strategy that can be hard-countered. "Wait until your opponent commits to something and play safe until they do -- like just buying drones and a Blastforge to buy a Wall or a Steelsplitter."
+
+Example RPS dynamic: Amporilla beats Defense Grid (uncontested efficiency), Green-Red beats Amporilla (attack pressure prevents Amporilla purchase), D-Grid beats Green-Red (absorb advantage).
+
+### Playing Your Position (#3)
+Three approaches for disadvantaged positions:
+1. Find an underused tech angle (add Animus in a P2-favored Redeemer set)
+2. "Do something so crazy that your opponent will never expect it"
+3. Race to the key unit before your opponent (Elyot Animus)
+
+### Long-Term Investments (#4)
+"Shadowfang is the most efficient vanilla attacker in the entire game, but it's deceptively complicated -- mainly because double Animus is usually a huge long-term investment. If you spend 12 gold and can't buy more than three Fangs, you've most likely lost."
+
+Key counters to long-term investments: fast pressure with semi-breachproof units (e.g., Grenade Mech) that don't care about drone breaches.
+
+Savior as long-term investment: "Has its success hinged on your survival. If your opponent tries to punish it and doesn't kill you, you're likely to win as soon as your defense stabilizes."
+
+### Thorough Planning (#5)
+"Many players only rely on their intuition. It's a bad habit if you're serious about being competitive."
+
+**Method**: On turn 2, project exactly which units you'll buy on turns 3-6 by counting resources per turn. "All of this planning can be done on turn 2 to ensure that your strategy doesn't hit a roadblock."
+
+**Contingency planning**: Establish a main plan, then for each turn observe what your opponent could do to interrupt it. Have a contingency for each.
+
+Example: "Evil Animus" (P1 Animus on turn 3 vs Thorium Dynamo sets) -- the contingency for the defender is to skip their planned unit and go breachproof.
+
+### Disruption Tactics (#6)
+"Counting their defense next turn and attacking for exactly enough to force out one defense is really powerful. It sounds complicated but the gist is: count their defense, and attacking for just enough to force one extra defense purchase is huge."
+
+Example: buying Steelsplitter over Synthesizer (less efficient in vacuum) because 8 attack forces opponent to choose between overdefending with Wall or buying weak attacker instead of planned Tantalum Ray.
+
+Gaussite Symbiote early pop: "Count his defense. If he wants to buy Plasmafier next turn, popping Symbiote forces him to buy a Forcefield and hold a Drone just to get the Plasmafier."
+
+### Gambits (#7)
+"When a top player does a gambit, they calculate how much their opponent has to sacrifice to accept the offer, and make sure things end up a tiny amount in their favor if the opponent does take it."
+
+**Gambit valuation method**: Compare what each side gains and loses in resources if the gambit is accepted vs refused. Include: attack lost on defense, absorb denied, defense tempo cost, follow-up turn implications.
+
+"The goal on every gambit for me is to come out slightly ahead whether my opponent accepts it or not."
+
+**Warning**: "Gambling without calculating everything out thoroughly can be dangerous. Be careful to calculate everything out before committing to one."
+
+### Managing Defensive Supplies (#8)
+"An important goal is to run out of most of your defensive supplies at the same time to avoid being under-defended prematurely."
+
+**Rule**: If you rely entirely on one type of defense (e.g., blue only), you'll exhaust that supply while having unused capacity elsewhere. Balance purchases across colors.
+
+Exception: "If there's something really efficient like Tantalum Ray, favour buying those with green and using blue for defense, because the extra attack efficiency snowballs."
+
+**Prompt defense is more valuable late**: "Near the end of the game when both have huge attack, prompt defense like Wall and Barrier becomes much more valuable because buying Chieftains is no longer an option."
+
+### The Learning Process (#9)
+"The best way to look at losses is as a learning experience. Some people get stuck by stubbornly believing that they always play every single match right despite frequent losses. It's important to avoid this by allowing your beliefs about Prismata strategy to be challenged."
+
+"There will never be any magical tutorial that will show you how to instantly become a great Prismata player. It took me three years of practice to figure this stuff out."
+
+---
+
+## Argeiphontes: Expert Teaching Content
+> Source: argeiphontes — Game Analysis Series + Argei Academy (YouTube)
+
+### Argei Academy: Common Beginner Pitfalls
+> Source: argeiphontes — "Argei Academy #1" (YouTube)
+
+**Pitfall 1 -- Overteching**: "A common pitfall -- players see all the cool advanced set units and want to buy them all. But you really can't. You have to exercise discipline. A good rule: you want to be able to spend every blue and red resource you get every turn."
+
+Economy-tech synchronization guidelines:
+- 1 Blastforge + 1 Animus (2 Tarsiers + 1 Wall/turn) = 13 drones minimum
+- Aggressive mono-red = 10-12 drones
+- Blue midrange = 14-16 drones
+- High-econ defensive sets = 18-20 drones
+
+**Pitfall 2 -- Defending for Exact**: "If you defend for exactly your opponent's attack, you lose your entire defense and have to spend all resources replacing it. Always defend for one more than your opponent's attack."
+
+**Pitfall 3 -- Over-defending**: "On the flip side, don't over-defend. Every extra point of defense is a point of attack you didn't buy. One extra damage forces your opponent to spend 1.5-2 gold per turn on defense -- it snowballs."
+
+**Pitfall 4 -- Wasting Engineer Deaths**: "Don't be afraid to lose Engineers to absorb efficiently. If you save Engineers unnecessarily, your Wall absorbs less damage, costing you in the long run."
+
+**Pitfall 5 -- Cutting Drones Without Committing to Aggression**: "If you cut drones early but then go back to droning, you end up with both less economy AND less attack than either pure path. If you commit to aggression, stay aggressive."
+
+### Offensive Finesse
+> Source: argeiphontes — "Offensive Finesse" (Game Analysis #6, YouTube)
+
+"Attacking for the correct amount of damage to force your opponent to defend as awkwardly as possible."
+
+Key technique: attack for exactly 4 against Wall + Engineer defense. "Four damage is an extremely awkward amount -- it forces the opponent to leave a Drone back, which prevents buying an Engineer, cascading into a series of awkward blocks."
+
+Drone sniping vs Rhino sniping: "Even if the Rhino does 2 points of damage, this game is going to go long enough that 6-7 points of gold income from the lost Drone is more valuable."
+
+"Any time you see that your opponent wants to buy a big expensive unit, check if they'll be sufficiently defended to find opportunities to punish them."
+
+### Tia Thurnax Counter Rush
+> Source: argeiphontes — "The Tia Thurnax Counter Rush" (Game Analysis #16, YouTube)
+
+Infusion Grid as aggression moderator: "Infusion Grid costs the same as a Wall but has one more HP. A player with Infusion Grid can defend aggressive rushes with less resources, allocating the savings into offense."
+
+Plasma Fire vs Tia Thurnax timing: "If I don't apply counter-pressure, my opponent will just stack damage until I crumble. Tia Thurnax gives me a massive spike to 12 damage -- higher than my opponent's."
+
+Plasma Fire long-term cost: "After 4 turns, Plasma Fire's drone sacrifice levels out with Tia's 7-gold cost, then becomes more expensive. The drawback becomes very relevant."
+
+### Gauss Fabricator Opening Theory (Msven)
+> Source: Msven — "Gauss Fabricator" (Unit Analysis, YouTube)
+
+**When to buy Gauss Fab**: "Best when immediate damage is less valuable -- like when it's going to get absorbed by a big defender."
+
+**Fab as economic unit**: "You can look at Fab as an economic unit -- it's like having two Trinity Drones and a Conduit buying a Gauss Cannon every turn. The total cost of two Trinities and a Conduit (20 gold + 2 green) is significantly higher than Fab."
+
+**Breachproof Gauss Fab**: "In breachproof sets, buy Fab very fast -- turn 4 or 5. You want as many Cannons as possible before it becomes vulnerable. Neither player buys a Blastforge, so the defender's advantage via absorb no longer exists."
+
+**Fab kill rule of thumb**: "Killing a lifespan-6 Fab is slightly favorable. Killing a lifespan-5 Fab is slightly unfavorable. Lifespan 5 is almost never worth destroying."
+
+**Ebb Turbine + Fab combo**: "Really P2 specific. Buy Fab then spam Ebb Turbines, sell all drones to the Turbines ASAP, defend drones until transition to breachproof. Ebb Turbine is the most resilient breachproof economic unit at 2 Health per gold income."
+
+**Fab loses to efficient attackers**: "In non-breachproof sets, avoid Fab if the other attackers are very strong. Arms Race, Cynestra completely crush a Gauss Fab strategy."
+
+---
+
+## Elyot Grant: Developer Insights on Rush Balance
+> Source: Elyot Grant (Lunarch Studios) — "The Shadowfang Flame Animus Rush" (YouTube)
+
+"This build has been reported many many times. We get emails all the time from people saying they think it's broken. We haven't nerfed Shadowfang or changed Flame Animus because there's counterplay."
+
+### On Inflation and Force Fields in Fast Games
+"In Shadow Fang games, attack increases every turn at a very high rate. When inflation is high, sacrificing your drones is good because future gold isn't worth as much. Force Fields offer good value in fast games."
+
+### On Adding Random Units
+"The amount of complexity that gets added with just one extra unit is huge. In the vast majority of 8-card sets containing Shadowfang and Flame Animus, there's lots of counterplay. Any small unit that costs a single blue, red, or even green is going to be relevant."
+
+"Even if you study the base+2 game all afternoon, with any other units added, all these lines get muddled up."
+
+---
+
+## Argeiphontes: Tournament Player Profile (Expanded)
+> Source: argeiphontes — YouTube channel (2872)
+
+Competitive player and content creator. Created:
+- **Game Analysis series** (16+ episodes): Detailed post-game analyses of ladder and tournament matches, each focused on a specific strategic concept (Shadowfang Gambits, Offensive Finesse, Cluster Bolt theory, Cryo Ray power, Zemora planning, Drake counters, Centrifuge + Freeze combos, defending Scorchilla/Tia, etc.)
+- **Argei Academy** (teaching series): Replay review format analyzing beginner/intermediate mistakes
+- **Q-Cup tournament commentary**: Quarter-finals, semi-finals, and finals coverage
+- **Walkthrough tutorials** (15+ episodes): Campaign mission guides with strategic commentary
+- **Defense Tactics series** (6 episodes): Dedicated defensive play tutorials
+
+Competed in the Scorchilla Cup (top 16 invite tournament). Known for analytical, educational approach to content.
+
+---
+
+## Wonderboat: Expert Commentary Style
+> Source: Wonderboat — YouTube commentary series (5 videos)
+
+Commentates high-level games (1860-2260 rated players) with real-time strategic evaluation. Style characterized by:
+- **Immediate set reading**: Opens each game with absorber identification, tech color evaluation, and unit synergy assessment before any moves are made
+- **Mistake identification**: Clearly calls out suboptimal purchases ("this Splitter is significantly worse than double Drone") with explanation
+- **Economy tracking**: Constantly monitors drone counts and relative economic positions ("six drones — it's really not much")
+- **Endgame tempo assessment**: "At this point both players are just literally going to be buying nothing but defense. Someone's gonna come out on top."
+
+### Featured Matches and Key Analyses
+- **307th vs Yizgaemded (Steel)**: Shadowfang rush analysis, "10-fang dream," Defense Grid counter-play, premium soak value
+- **Kolento vs 307th**: Apollo+Kinetic vs Zamora dynamics, Protoplasm as Apollo counter, Rhino → Force Field timing
+- **PlagueU vs Steel**: Doom Mech quality assessment, Centrifuge economy, drone conversion timing
+- **Mega-supp vs Dusk**: Windsor + Bombardier + Vivid Drone economy, coil-into-Wall mistake analysis
+- **307th vs Dusk**: Red mirror with Protoplasm, Botch vs Proto dynamics, Corpus click margins
+
+---
+
+## sileneundulata: Analytical Coaching Style
+> Source: sileneundulata — Guest on amalloy's WDIL (YouTube)
+
+Top-50 player who provided a guest coaching session analyzing league games. Key analytical contributions:
+- **Minimax framework**: Formal game theory applied to Prismata defense — "your goal is to minimize the maximum chance of them winning from the choices that you've given them"
+- **Tech building accountability**: Every tech purchase must have a concrete spending plan for next turn
+- **First Splitter revaluation**: "Splitter is a lot more useful than people get credit for — at least for your first Splitter. It provides threat, temporary absorb while you get your big absorber up."
+- **Clean build distinction**: Distinguished "build mistakes" (wrong gold amounts, floating resources) from "strategic mistakes" (wrong unit choices) — "a clean build is a thing you can separate from strategy"
+- **Scorch holding heuristic**: Attributed to "n sub n" — hold Scorches when more are incoming and count is less than or equal to opponent's absorb
+
+---
+
+## amalloy: WDIL Series Coaching Methodology
+> Source: amalloy — "Why Did I Lose?" YouTube series (13+ episodes)
+
+### Analysis Format
+Each episode follows a consistent structure:
+1. **Set reading**: Identify absorbers (guides economy size), key attackers, tech synergies
+2. **Plan formulation**: Outline a 5-turn plan before watching the replay
+3. **Master Bot validation**: Play the plan against Master Bot (3s or 7s think time) to test viability
+4. **Replay review**: Watch the submitted game, identifying divergence from optimal play
+5. **Mistake categorization**: Strategic (wrong plan), tactical (wrong execution), or build (resource inefficiency)
+
+### Common Mistakes Identified Across Episodes
+- **Over-droning**: Most common error. Players build 25+ drones in sets that want 14-18. "Both players built way too many drones — this is a very rushy set."
+- **Over-teching**: Building tech buildings without immediate spending plans, leading to Ferritin Sack purchases
+- **Centurion/matrix timing**: Buying big absorbers before the opponent has meaningful attack
+- **Not clicking attackers**: Windsor, ARCA, Bombardier held when clicking provides strictly better value
+- **Pixie click precision**: "If you click 4 Pixies you let them turn non-granular defense into granular defense. Click 3 instead to force them to lose all three Engineers."
+
+---
+
+## Apooche: Expert Commentator and Competitor
+> Source: Apooche — "Aetherllama vs Allecto League Semifinal" (Twitch)
+
+### Player Profile
+Placed **3rd in Grand Prix 2019** (previously noted in tournament results above). Commentary style is characterized by deep real-time calculation with transparent reasoning — Apooche frequently talks through his analysis step-by-step, catches his own errors mid-sentence, and explains multiple possible lines before settling on an evaluation. Self-correcting commentary style: "wait do you even kill Grimbotches... I'm suddenly like confused" — models genuine analytical process rather than projecting omniscience.
+
+### Commentary Methodology
+- **Resource counting**: Tracks exact gold, tech, and unit counts for both players each turn
+- **Line exploration**: Verbalizes 2-3 alternative purchase plans before evaluating which is optimal
+- **Supply tracking**: Monitors remaining supply of key units (Blood Pact, Gauss Charges) as game-state variables
+- **Breach damage calculation**: Counts exact HP values and determines kill priorities during breach turns
+- **Chat interaction**: Engages with viewers during analysis, incorporating their observations
+- **Hedging**: Uses qualifiers ("I suspect," "I think," "probably") that model uncertainty rather than false certainty
+
+### Key Strategic Contributions
+- **Redeemer post-nerf analysis**: Identified soak dependency as the new condition for Redeemer viability
+- **Blood Pact vs breachproof**: Articulated why low per-turn attack fails against Venge breachproof
+- **Grimbotch breach targeting**: Formalized the "kill Gauss Charges over Grimbotches" rule with stamina math
+- **Triple absorb denial identification**: Nivo + Arka + Thermite as an overwhelming combination
+- **Semi-breachproof as Kit counter**: Defined the defensive posture of "absorb but don't buy vulnerable units"
+
+---
+
+## Aetherllama: Reactive Tournament Strategist
+> Source: Apooche — "Aetherllama vs Allecto League Semifinal" (Twitch, includes post-game interview)
+
+### Player Profile
+League semifinalist. Described by Apooche as a "very sharp player." In the post-game interview, Aetherllama revealed a **highly reactive play style**: rather than committing to a fixed opening plan, he observes opponent purchases turn-by-turn and selects counter-strategies. "I had a plan but then I saw what they were doing and adjusted."
+
+### Notable Game Decisions
+- **Game 4**: Committed to Venge Cannon breachproof against Allecto's Blood Pact aggression. Correctly identified that Blood Pact's low per-turn damage could not break through Gauss Charge HP walls.
+- **Game 5**: Bought the first Arka Sodara reactively after seeing opponent's Nivo Charge + Thermite Core investment. Used P1 Drone-Conduit opening (unconventional) to create strategic confusion.
+- **Game 6**: Executed a Blood Rager rush into Bombardier transition, demonstrating comfort with aggressive openings followed by sustained pressure plans.
+
+### Post-Game Interview Insights
+Aetherllama emphasized contingency planning: always having a second strategy ready if the primary plan is disrupted. His approach to set reading focused less on "what is the best strategy?" and more on "what strategies are available, and which one counters what my opponent is likely to do?"
+
+---
+
+## Allecto: Aggressive Standard Player
+> Source: Apooche — "Aetherllama vs Allecto League Semifinal" (Twitch)
+
+### Player Profile
+League semifinalist (referred to as "Electo" in commentary audio). Won Games 1-2 with standard strategies before Aetherllama adapted. Demonstrated strong opening execution and economy management. Apooche noted Allecto's willingness to commit to aggressive strategies (Blood Pact, Endotherm Kit) as both a strength (early momentum) and weakness (less adaptable when those strategies are countered).
+
+### Tournament Context
+The match (Aetherllama 4-2 Allecto) showcased a common tournament pattern: the more adaptable player loses early games while reading the opponent's tendencies, then wins the remaining games by exploiting those tendencies. Allecto's Games 1-2 wins came from strong execution of favored strategies; Aetherllama's Games 3-6 wins came from reactive counter-play after understanding Allecto's preferences.
+
+---
+
+## 6 Player Round Robin Tournament Profiles
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+### Tournament Structure
+6-player round robin: 307th, Batakiri, Aetherllama, Epicurus, Elliot, Steel. Base + 10 + Vendium, 60-second timer. Drawn games scored 0.5/0.5. Runoff if within 1 point of winner (win-by-two format). Commentated by Apooche with Celerity co-casting early portions. Tournament results were "perfectly transitive" (Will Ma observation) — every player who beat another player also beat everyone below that player — until the runoff broke the pattern.
+
+### Steel: Aggressive Early-Game Strategist
+Steel went 2-0 in the early rounds with aggressive strategies. Apooche noted Steel's tendency toward early Doom Drone purchases and Doom Drone economy ("Steel once again pumping these early Doom Drones"). In the runoff against Aetherllama, Steel chose Zamora (green-based control) in the Savior set and committed to a Blood Phage + Flame Animus rush in the final game — both times choosing the more aggressive option. Steel's weakness appeared to be over-commitment to initial plans when the set demanded adaptation, particularly evident in the Thunderhead game where his Blood Phage rush had no answer to Thunderhead.
+
+### Aetherllama: Runoff Specialist
+Won the tournament through the runoff despite losing the initial head-to-head with Steel. Apooche noted: "Lama used to be plagued by doing really well in the season of Master League and then running into trouble in the high pressure games, but here he's coming through in the clutch." Aetherllama went 5-0 in runoff games across Apooche's tournaments — "the undisputed master of runoffs."
+
+#### Tournament Winner's Interview Insights
+Aetherllama described his Savior game decision-making: "The only reason I did it that early was because he had the Zamora, so he had a bunch of his early investment tied up in something that wasn't going to pressure me." He revealed his opening calculations balanced two lines: triple Drone + Blastforge (better against Grenade Mech rush) vs quad Drone (better against Zamora + Savior). His approach was "trying to split the difference — how do I get enough to beat Zamora + Savior but not too much to be able to get a Blastforge and beat the Grenade Mech rush."
+
+### 307th: Deliberate Analyst (Tournament Context)
+"Definitely has a style of stopping and thinking a lot about a strategy in the early game" and "really likes Tarsiers." 307th and Aetherllama had both deeply analyzed the Zamora vs Tarsier base set matchup. In this tournament, 307th's analysis-heavy style was reflected in carefully considered openings but did not result in runoff qualification.
+
+### Elliot: Big Turn Player
+"Likes these big turns" — Elliot favored strategies with high-impact single turns rather than incremental advantage. His play against Epicurus featured aggressive Iceblade Golem timing, looking for breakthrough turns rather than grinding positional edges.
+
+### Epicurus: Tournament Participant
+Appeared in the lower half of standings. Played Iceblade games against Elliot. Limited commentary on specific style characteristics.
+
+### Batakiri: Tournament Participant
+Won at least one match (against someone in round 5). Limited detailed commentary on playstyle.
+
+### Apooche: Tournament Organizer and Community Builder
+Beyond his commentary role (profiled separately above), Apooche organized the tournament format, managed brackets, and moderated. Self-described as "one of the only people hosting tournaments right now" and "the main tournament host in the history of Prismata." Expressed desire to experiment with novel formats (geometric time control series, other bracket innovations) but scaled back due to community complaints about complexity.
+
+### Will Ma: Community Observer
+Noted from chat that the tournament results were "perfectly transitive" — a rare outcome in round robin play. His mathematical observation reflects the community's analytical culture.
+
+---
+
+## Aetherllama: Previous Tournament Winner
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+Won the previous 3-player tournament (round robin with 307th and Red Raven), also in a runoff. Pattern: Aetherllama tends to lose the decisive round-robin game but then dominates the runoff format, suggesting stronger performance under sustained pressure compared to single must-win situations. His runoff record of 5-0 across Apooche's tournaments is a distinctive statistical signature.

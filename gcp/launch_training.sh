@@ -123,6 +123,25 @@ STARTUP_SCRIPT=$(cat <<ENDSCRIPT
 #!/bin/bash
 set -uo pipefail
 
+# Ensure instance self-deletes on ANY exit (crash, signal, pipefail)
+cleanup_and_shutdown() {
+    echo "[trap] Script exiting (code \$?) — uploading logs and self-deleting..."
+    # Best-effort final log upload
+    if [ -f training_output.log ] && [ -n "\${BUCKET:-}" ] && [ -n "\${S3_PREFIX:-}" ]; then
+        aws s3 cp training_output.log s3://\$BUCKET/\$S3_PREFIX/training_output.log --region \$S3_REGION 2>/dev/null || true
+    fi
+    # Kill background sync if running
+    kill \$SYNC_PID 2>/dev/null || true
+    # Self-delete instance
+    INSTANCE_NAME=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name 2>/dev/null || echo "")
+    INSTANCE_ZONE=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone 2>/dev/null | awk -F/ '{print \$NF}' || echo "")
+    if [ -n "\$INSTANCE_NAME" ] && [ -n "\$INSTANCE_ZONE" ]; then
+        gcloud compute instances delete \$INSTANCE_NAME --zone=\$INSTANCE_ZONE --quiet 2>&1 || true
+    fi
+    sudo shutdown -h now
+}
+trap cleanup_and_shutdown EXIT
+
 # ============================================================
 # Prismata Training Worker (GCP GPU)
 # ============================================================
@@ -185,6 +204,11 @@ python3 -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}');
 
 # Install deps
 pip install tqdm --quiet 2>/dev/null || pip3 install tqdm --quiet 2>/dev/null || true
+
+# Create swap file (prevents OOM kills with streaming mmap)
+echo "Setting up 16GB swap..."
+sudo fallocate -l 16G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile -q && sudo swapon /swapfile
+echo "Swap: \$(swapon --show --noheadings | awk '{print \$3}')"
 
 # ============================================================
 # Install AWS CLI for S3 access
@@ -309,7 +333,7 @@ TRAIN_CMD="python3 training/train.py training/data training/models \\
   --tanh-in-training \\
   --loss-fn \$LOSS_FN \\
   --patience \$PATIENCE \\
-  --num-workers 4 \\
+  --num-workers 2 \\
   --eval-every-steps \$EVAL_STEPS \\
   --seed \$SEED \\
   --streaming \\
@@ -391,11 +415,8 @@ echo "Download model: aws s3 cp s3://\$BUCKET/\$S3_PREFIX/neural_weights.bin bin
 echo "Download checkpoint: aws s3 cp s3://\$BUCKET/\$S3_PREFIX/models/best_model.pt training/models/ --region \$S3_REGION"
 date
 
-# Self-delete the instance
-echo "Self-deleting instance..."
-gcloud compute instances delete \$INSTANCE_NAME --zone=\$INSTANCE_ZONE --quiet 2>&1 || true
-# Fallback
-sudo shutdown -h now
+# Self-delete (trap EXIT handler will run cleanup + shutdown)
+echo "Training script complete. Exiting..."
 ENDSCRIPT
 )
 
@@ -427,7 +448,7 @@ gcloud compute instances create "$INSTANCE_NAME" \
     --maintenance-policy=TERMINATE \
     --image-family="$IMAGE_FAMILY" \
     --image-project="$IMAGE_PROJECT" \
-    --boot-disk-size=250GB \
+    --boot-disk-size=350GB \
     --boot-disk-type=pd-standard \
     --metadata="aws-key-id=$AWS_ACCESS_KEY_ID,aws-secret-key=$AWS_SECRET_ACCESS_KEY,install-nvidia-driver=True" \
     --metadata-from-file="startup-script=$STARTUP_FILE" \

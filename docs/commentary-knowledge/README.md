@@ -6,16 +6,16 @@ See: [Live Commentator Plan](../plans/2026-02-20-live-commentator-plan.md) | [Ex
 
 ## Files
 
-| File | Category | Entries | Description |
-|------|----------|---------|-------------|
-| [01-game-fundamentals.md](01-game-fundamentals.md) | Game Fundamentals | 12 sections | Resources, turn structure, combat, unit mechanics, starting positions, game phases (7-phase), threat types, player asymmetry, branching factor |
-| [02-base-set-units.md](02-base-set-units.md) | Base Set Units | 11 units | All units present in every game — costs, stats, strategy, economic analysis |
-| [03-advanced-units.md](03-advanced-units.md) | Advanced Units | ~140 entries | Tier rankings, absorber rankings (307th), big red units, alternate drones, efficiency analysis, rush units, noticeable units (Foxclear), tactical patterns, balance history |
-| [04-strategy-concepts.md](04-strategy-concepts.md) | Strategy Concepts | 55+ sections | Standard Style, chill theory (6 parts), breachproof (3 parts), breach theory, set reading, granularity & abuse, gambit theory, reaction theory, rush timing, endgame theory, economy sizing |
-| [05-openings-builds.md](05-openings-builds.md) | Openings & Builds | ~50 openings | Build notation, P1/P2 openings (Yujiri + 307th + Foxclear), advanced unit openings, secret opening book, transpositions |
-| [06-meta-expert.md](06-meta-expert.md) | Meta & Expert | 30+ sections | Dev history, community voices, 8+ set reading examples, tournaments, Masterbot exploitation, autowin theory, player statistics |
-| [07-commentary-phrases.md](07-commentary-phrases.md) | Commentary Phrases | 80+ entries | Glossary, jargon, dramatic moments, templates, quotables, gambit/granularity/freeze/reaction commentary |
-| [sources.md](sources.md) | Source Tracking | 115+ sources | 27 prismatalibrary.blog articles, 12 Foxclear wiki guides, 32 chunk items, Wayback recoveries, processing notes |
+| File | Category | Lines | Description |
+|------|----------|-------|-------------|
+| [01-game-fundamentals.md](01-game-fundamentals.md) | Game Fundamentals | 402 | Resources, turn structure, combat, unit mechanics, starting positions, game phases, threat types, player asymmetry, branching factor, game complexity, tech tree philosophy, developer design insights |
+| [02-base-set-units.md](02-base-set-units.md) | Base Set Units | 181 | All 11 units in every game — costs, stats, strategy, economic analysis, developer design commentary, resource spending rules, top player assessments |
+| [03-advanced-units.md](03-advanced-units.md) | Advanced Units | 728 | Tier rankings, absorber rankings, big red units, alternate drones, efficiency analysis, rush units, noticeable units, balance history, legendary purchase frequency, unit profiles (50+ units), developer case studies, top player assessments |
+| [04-strategy-concepts.md](04-strategy-concepts.md) | Strategy Concepts | 911 | Standard Style, chill theory (6 parts), breachproof (3 parts), breach theory, set reading, granularity, gambit theory, reaction theory, rush timing, endgame theory, economy sizing, SDR, minimax defense, tempo, disruption tactics, beginner pitfalls |
+| [05-openings-builds.md](05-openings-builds.md) | Openings & Builds | 384 | Build notation, P1/P2 openings, advanced unit openings, secret opening book, transpositions, Tia Thurnax theory, Shadowfang rush, Cluster Bolt counter, Arka Sodara dynamics |
+| [06-meta-expert.md](06-meta-expert.md) | Meta & Expert | 552 | Dev history, community voices, 16+ set reading examples, tournaments, Masterbot exploitation, autowin theory, player statistics, Msven 9-part framework, argeiphontes teaching content, developer insights |
+| [07-commentary-phrases.md](07-commentary-phrases.md) | Commentary Phrases | 440 | Glossary, jargon, dramatic moments, templates, quotables, disruption/finesse/investment/supply/reactive play commentary templates, expert quotables |
+| [sources.md](sources.md) | Source Tracking | 260+ sources | 148 YouTube transcripts, 45 blog articles, 629 Reddit posts, 27 prismatalibrary.blog articles, 12 Foxclear wiki guides, 24 Wayback recoveries, Twitch VODs |
 
 ## Usage
 
@@ -30,10 +30,18 @@ Every entry includes a `> Source:` blockquote identifying where the information 
 
 ## Extraction Date
 
-February 20, 2026. Based on 6 source categories:
+February 20, 2026. Based on 12+ source categories (~3,600 lines across 7 KB files):
+
+**Text sources (Passes 1-3):**
 - 27 articles from prismatalibrary.blog (307th/Arkanishu)
-- 15 archived pages from Wayback Machine (Yujiri, RuinedShadows)
+- 24 archived pages from Wayback Machine (Yujiri, RuinedShadows, Strategy Guide wiki)
 - 12 wiki strategy guide files (Foxclear — 7 advanced + 5 beginner)
-- 32 items from user-provided strategy content chunks (developer analysis, community insights)
-- 4 batches from initial web research
-- Existing project files (`docs/wiki/PRISMATA_REFERENCE.md`, `docs/wiki/` dump of 448 pages)
+- 32 items from user-provided strategy content chunks
+- 9 recovered source files (Yujiri analyses 2-9 + Punf)
+- Existing project files (`docs/wiki/PRISMATA_REFERENCE.md`, 448-page wiki dump)
+
+**Multimedia sources (Pass 4):**
+- 148 YouTube video transcripts (auto-generated): Msven (17), argeiphontes (40), amalloy (41), Wonderboat (5), Lunarch Studios (44), Jean Ventura (1)
+- 45 Lunarch Studios blog articles (recovered via Wayback Machine CDX API)
+- 629 Reddit r/Prismata posts (retrieved via PullPush API)
+- Twitch VODs: Apooche league commentary (in progress — 7 videos)

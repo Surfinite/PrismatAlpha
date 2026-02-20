@@ -112,10 +112,10 @@ def load_shard(filepath, validate_crc=True):
 
     if record_count == RECORD_COUNT_SENTINEL:
         record_count = inferred_count
-    else:
-        if record_count != inferred_count:
-            print(f"  WARNING: {os.path.basename(filepath)}: header record_count={record_count} "
-                  f"but file has space for {inferred_count}. Using header value.")
+    elif record_count > inferred_count:
+        print(f"  WARNING: {os.path.basename(filepath)}: header record_count={record_count} "
+              f"but file only has space for {inferred_count}. Using inferred count.")
+        record_count = inferred_count
 
     if record_count == 0:
         print(f"  WARNING: {os.path.basename(filepath)} has 0 records, skipping")
@@ -239,6 +239,9 @@ class MemmapShardIndex:
             inferred_count = record_bytes_available // record_size
             if record_count == RECORD_COUNT_SENTINEL:
                 record_count = inferred_count
+            elif record_count > inferred_count:
+                # Truncated shard: header claims more records than file contains
+                record_count = inferred_count
             if record_count == 0:
                 continue
 
@@ -343,6 +346,10 @@ class MemmapSelfPlayDataset:
 
         f.seek(offset)
         record_bytes = f.read(shard['record_size'])
+        if len(record_bytes) < shard['record_size']:
+            # Truncated read — resample a random valid record
+            fallback_idx = idx - 1 if idx > 0 else idx + 1
+            return self.__getitem__(fallback_idx % len(self))
         record = np.frombuffer(record_bytes, dtype=self._dtypes[shard_idx])
 
         features = torch.from_numpy(record['features'][0].copy())

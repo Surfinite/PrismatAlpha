@@ -637,3 +637,503 @@ Standard Drone supply is 21. With starting 6/7 Drones, max total is 27 for P1, 2
 | Medium | 15-18 | Doomed Wall/Infusion Grid | Balanced |
 | High | 19-22 | Energy Matrix/Centurion | Defensive |
 | Very High | 23+ | Centurion/Defense Grid | Ultra-greedy |
+
+---
+
+## Punf's Attacker Classification Framework
+> Source: Punf — guest article on Yujiri's site (archived from yujiri.xyz/prismata/another_fucking_pris_thing, Wayback Machine Dec 2022)
+
+### Three Attacker Types
+1. **Fast damage**: greenblue units, Tia Thurnax, Grenade Mech, Drake — provides immediate pressure
+2. **Hyperefficient damage**: Amporilla, quad-red (Tatsu, Mauronax, Lucina), Shadowfang, Cynestra, Asteri — "if not killed, wins the game"
+3. **Cheap utility attackers**: Hellhound and Grimbotch (efficient), Militia and Iso Kronus (weak)
+
+### Counter Triangle
+- Fast damage counters hyperefficient damage (kills before it comes online)
+- Hyperefficient damage counters economy (wins the value war)
+- Economy *theoretically* counters fast damage — "but in practice it really doesn't, damage is just too op"
+
+### Rush Defense Heresy
+"Don't respond to rushes by defending. Respond with fast damage." Low econ players are great at attacking but terrible at defending — exploit the weakness rather than fighting their strength. Forcefield is key for surviving while counter-attacking.
+
+### Pseudo-Breachproof
+Three forms beyond full breachproof:
+1. **Frontline gambit** — opponent probably won't breach because they need to kill your frontline attacker
+2. **Meaningless damage gambit** — allow breach from units that will die anyway (1-lifespan Grimbotches, Rhinos that block)
+3. **Breach-for-pressure trade** — allow free breach to buy another attacker instead of a Wall
+
+"Iceblade Golem and Hannibull derive a lot of their strength from going pseudo-bp against a low econ opponent."
+
+### Defense Threshold Rule
+"Don't defend for +1 if you're not getting absorb anyway. Defend for =0, or occasionally even less."
+
+---
+
+## Rock-Paper-Scissors Sets
+> Source: Yujiri — Set analysis 5 (archived from yujiri.xyz/prismata/analysis_5, Wayback Machine Dec 2022)
+
+Some sets have multiple viable strategies that counter each other cyclically:
+- Example: Zemora/Gauss Fab (green control) beats Odin/Grenade Mech (blue pressure) beats Amporilla (red aggression) beats Zemora/Gauss Fab
+- "By far the most interesting" set type — no single optimal strategy
+- Key principle: "Be the last one to commit." Ask every turn if you're committing to something your opponent can still counter.
+- "Buying an early Conduit is probably losing because the opponent can just go Amporilla." Safe play: 3rd Engineer turn 2, then react.
+
+---
+
+## Minimax Defense Principle (Frostbite Article)
+> Source: Elyot Grant — "Defending against Frostbites in Prismata" (Lunarch blog, Jul 2015)
+
+### The Core Proverb
+"An optimal defensive play should make the attacker's decision hard."
+
+When defending against Frostbite stacks (or any concentrated threat), the correct defense is NOT to hold back everything to prevent breach. Instead, defend just enough that the opponent faces a genuine dilemma: blow the Frostbites now for a small breach, or save them for later.
+
+### Why Overdefending Is Wrong
+If you hold back all Drones/Steelsplitters to guarantee no breach, the opponent's decision is trivially easy: save the Frostbites. You get no extra Drone gold or Steelsplitter damage, while the opponent loses nothing.
+
+If instead you work/attack with some Drones/Steelsplitters, allowing a small breach: the opponent must choose between (a) saving the Frostbites (same outcome as full defense for them, but you gained gold/attack), or (b) spending 10RRRRR worth of Frostbites to kill one Tarsier plus ~1 HP of defenders. Option (b) is usually a bad trade for the attacker.
+
+### The Optimal Point
+"The optimal number of Drones/Steelsplitters to work with is at least enough to make the opponent's decision difficult." — the minimax point where both options are equally valued by the attacker. At this point, you gain free value (extra gold/attack) at no cost, because the opponent's best play is unchanged.
+
+"If you want to play optimally against an opponent with a huge stack of Frostbites, you should almost always be allowing your opponent a small breach."
+
+### Implication for Chill Perception
+"If an attacker has a large number of Frostbites and the defender is playing optimally, the attacker should have a hard decision regarding the use of those Frostbites almost every single turn." If the attacker's decisions feel easy, the defender is probably misplaying.
+
+**Exception**: When a breach would kill a high-value unit (Lucina, Centurion, Defense Grid), the marginal cost of breach is too high — full defense is warranted.
+
+---
+
+## Shalev's Domination Rules (SDR)
+> Source: Elyot Grant — "Shalev's Rule in Prismata" (Lunarch blog, Oct 2015)
+
+A core design principle ensuring that "stuff that's supposed to be good is never bad." Formally, position A dominates position B if B being a theoretical win implies A is also a theoretical win.
+
+### The Rules
+1. It should be better to own more units
+2. It should be better to own more resources
+3. It should be better to kill the opponent's units than to leave them alive
+4. Units with improved statuses should be better (higher HP > lower HP, higher lifespan > lower lifespan)
+
+### Strategic Implications
+- No unit has "give to opponent" or "steal opponent's unit" effects — owning units is always non-negative
+- Auto-attacking (Tarsiers) is safe because attacking is never worse than not attacking under SDR
+- No board wipes or "punish for having units" effects — players never regret building units
+- Damage assignment is always by the defender, preserving the "killing is good" axiom
+
+### Known Exceptions
+- **Promptness** is not strictly better: prompt units are exposed to breach damage immediately, while non-prompt units get a turn of invulnerability under construction
+- **Invulnerability** can backfire: an invulnerable Drone in front of Lucina lets the opponent bypass it (Prismata's overkill rule requires killing non-invulnerable blockers first)
+
+### AI Relevance
+"Obeying SDR made things easier for the AI" — the engine can assume more units = better position, more resources = better, without checking special cases. This simplifies evaluation heuristics.
+
+---
+
+## Build Time Combos & Timing
+> Source: Elyot Grant — "Longer Build Times in Prismata" (Lunarch blog, Sep 2015)
+
+Units with build time >1 create unique strategic situations:
+
+### Why Build Times Exist
+1. **Dynamic gamestates**: "Some of my favourite in-game situations are those when one player has a Zemora Voidbringer or Resophore under construction, and their opponent is desperately trying to counterattack or mount defenses before it arrives."
+2. **Balance tool**: Tarsier was originally 5R/BT1, changed to 4R/BT2 — "just a hair weaker, which gives us more design space to include other, better attackers"
+3. **Enabling combos**: Line up purchases so everything comes online simultaneously. "Imagine building a Wincer, then two Scorchillas, then a Vai Mauronax and two Nivo Charges."
+
+### Combo Timing Principle
+Different build times let you buy units on consecutive turns to synchronize their arrival. Scorchilla (BT3) + Tarsier (BT2) can be purchased on adjacent turns to hit together. The old 5RG Scorchilla (BT2) could NOT combo with Tarsier (also BT2) since they competed for the same buy turn.
+
+### Build Time Units
+| Unit | Build Time |
+|------|-----------|
+| Tarsier | 2 |
+| Apollo | 2 |
+| Frostbite | 2 |
+| Iso Kronus | 2 |
+| Scorchilla | 3 |
+| Wincer | 3 |
+| Endotherm Kit | 4 |
+| Resophore | 5 |
+| Zemora Voidbringer | 6 |
+
+---
+
+## Common Beginner Mistakes
+> Source: Elyot Grant — "6 Common Prismata Mistakes" (Lunarch blog, Sep 2014)
+
+### Over-Droning
+"Players of many real-time strategy games often like to continue buying Drones for the entirety of a match. This is almost never your best option in Prismata." Aim for 12-15 Drones, then switch to attackers and defenders. "Even if you find yourself running a few gold short, resist the urge to buy more Drones."
+
+### Over-Teching (The Perfect Resource Ratio)
+"A common mistake among beginners is to buy more tech (Animuses, Blastforges or Conduits) than necessary, which is useless if you have an insufficient amount of Gold production per turn." Blue and Red do not store between turns — wasting them means you should have bought a Drone instead.
+
+**Rule of thumb**: 5 Drones per Blastforge (one Wall/turn), 9 Drones per Animus (one Tarsier + one Rhino/turn). For 2 Tarsiers + 1 Wall per turn, need at least 13 Drones.
+
+**Conduit exception**: Green is storable, and Forcefield is always useful — early Conduit is less punishing.
+
+### Overvaluing Base Set
+"They've intentionally been balanced so that they're just a bit weaker than the units that show up in the Random Set." Strategy should depend heavily on the Random Set. Advanced set units provide the backbone of winning strategies.
+
+### Defense Over-Investment
+"Amassing a large amount of defense early is rarely worth it." Buy minimum defense to avoid breach. "Opt for Steelsplitters or other attackers that can give you an early advantage before your opponent has robust defenders."
+
+### Using Drones as Blockers
+"Leaving Drones back to block is a necessary last resort." Trading 3 Drones for saving a Wall + 2 Tarsiers is almost always worthwhile. Many beginners avoid losing Drones at all costs, but Drone defense keeps crucial attackers alive for many more turns.
+
+---
+
+## Msven's Advanced Strategy Framework
+> Source: Msven (former #1 ranked player) — Strategy video series (9 episodes, YouTube)
+
+### Evaluating Unit Interactions (Episode 1)
+"A common mistake for inexperienced players is that when they're choosing the strategy they get fixated on one or two units that they think have the strongest general power level without considering a better strategy where several of the units synergize and interact well with each other."
+
+**Method**: Divide the set into two or three possible tech paths (e.g., blue-red vs. green-blue). For each path, evaluate:
+- How efficiently do these units interact with each other?
+- What are the defensive supplies available to each path?
+- Which path has the biggest disadvantage (weak attackers, limited soak)?
+- Does one path have a unit that directly counters the other (e.g., Frost Brooder freezing Doom Mechs)?
+
+### Playing Reactively (Episode 2)
+"Sometimes you'll encounter complex rock-paper-scissors style sets. You need to be careful about committing to a strategy early on that can be easily countered."
+
+**Key tactics**:
+- Play safe initially: "just buying Drones and a Blastforge to buy a Wall or a Splitter" keeps options open
+- React to opponent's commitments: "After seeing my opponent buy a third Engineer, I assumed he was going for Defense Grid... so I instantly reacted with an Animus for Amporilla"
+- Amporilla is "pretty much a guaranteed win when there's no attack pressure coming from the other side" — but blindly going for it at game start is exploitable by green-red aggression
+
+### Playing Your Position — P1 vs P2 (Episode 3)
+"Because of the asymmetric economies of Player 1 and Player 2, sometimes a strategy will only win for one player." P2 gets better Conduit/Animus openings on turn 2; P1 gets tempo (first tech building on turn 3).
+
+**Three approaches when the set doesn't favor you**:
+1. **Involve unexpected tech**: As P1 in a P2-favored Redeemer/Venge set, get an Animus for surprise burst damage rather than mirroring the P2-favored line
+2. **Do something crazy**: In extreme P2-advantage sets (Wincer + Chrono Filter + Evo), execute a hard counter build the opponent won't expect — "the confusion gives you the best chance of winning"
+3. **The Elyot Animus**: Named after Lunarch's founder — P1 buys Animus on turn 3 with only 8 Drones. "Looks horribly inefficient but the tempo you gain balances out the economic disadvantage." Works best when there are efficient red attackers (Grimbotch, Electrovore, Perforator) and no strong green/blue alternatives.
+
+### Long-Term Investments (Episode 4)
+"Shadowfang is the most efficient vanilla attacker in the entire game but it's deceptively complicated — mainly because double Animus is usually a huge long-term investment. If you spend that 12 gold and can't buy more than three Fangs, you've most likely lost."
+
+**Punishing long-term investments**: When opponent buys Savior (costs 6 gold + 6 drones, does nothing for 2 turns), "double Animus for Fangs suddenly becomes a safe investment since you can get at least four Fangs before the Savior player starts getting real damage."
+
+**Key insight**: The presence of specific counter-units (Cryo Ray + Xaetron against Savior's Plasmafiters) can make a tech path viable that would otherwise be too slow.
+
+### Thorough Planning (Episode 5)
+"Many players who've played Prismata for a long time only rely on their intuition. It's a bad habit to have if you're serious about being competitive."
+
+**Turn-by-turn projection method**:
+1. On turn 2, project the next 4 turns: count exactly how many resources will be available each turn
+2. Plan the specific units to buy each turn, checking for roadblocks (insufficient gold, wrong tech timing)
+3. Verify the plan works before committing
+
+**Contingency planning**: "Establish contingency plans by observing their options each turn." Example: opponent may attempt the "Evil Animus" (P1 Animus on turn 3 against Thorium Dynamo sets), so plan a breachproof fallback using Venge Cannons and Nivo Charges.
+
+### Disruption Tactics (Episode 6)
+"Count their defense next turn and attack for exactly enough to force out one defense." This is more powerful than buying a more efficient unit.
+
+**Example**: Opponent wants to buy Tantalum Ray + Infusion Grid next turn. Buying Steelsplitter (less efficient than Synthesizer in vacuum) attacks for 8 and forces a Wall or Forcefield, disrupting the planned turn.
+
+**Big purchase disruption**: "Any time you see that your opponent wants to buy a big expensive unit, check if they'll be sufficiently defended." Popping a Gaussite Symbiote earlier than expected can force the opponent to buy Forcefield + hold Drone instead of their planned Plasmafire.
+
+### Gambit Calculation (Episode 7)
+"Getting away with the minimum amount of defense necessary on each turn is optimal... however it often goes much deeper than defending for one more than your opponent's attack."
+
+**Gambit value calculation method**:
+1. Identify what the opponent must sacrifice to accept (e.g., lose Rhino on defense, lose Cryo charges)
+2. Calculate what you lose if breached (e.g., Xeno Guardian worth 3 absorb + 1 attack + 4 defense next turn)
+3. Calculate opponent's defense tempo loss (having to buy extra Walls depletes supply faster)
+4. If opponent accepting the gambit puts them in a net-worse position, the gambit is worth offering
+
+"What really won me the game is the efficiency of my gambits — every small advantage I got from a gambit gave me more advantages in each following turn."
+
+**Warning**: "Gambits are great but be careful to calculate everything out before committing to one. The goal is to come out slightly ahead whether your opponent accepts it or not."
+
+### Managing Defensive Supplies (Episode 8)
+"Every so often you'll have a match that's decided by how well the players can manage their supplies."
+
+**Supply balance principle**: "An important goal is to run out of most of your defensive supplies at the same time to avoid being under-defended prematurely." If you rely only on Walls/Infusion Grids for defense and invest all green/red into attackers, you run out of blue defense and must build late-game Conduits (12 gold wasted).
+
+**Exception**: If one tech path has a much more efficient attacker (e.g., Tantalum Ray), favor buying those and use blue for defense — "the extra attack efficiency would start snowballing."
+
+**Prompt defense in endgame**: When both players have massive attack, prompt defense (Wall, Barrier, Forcefield) becomes critical. "If we burn through our Wall supply early we're more likely to lose from running out of prompt defense." Sometimes the less efficient play now (Blood Pact + Engineer instead of 2 Walls) preserves Wall supply for future turns.
+
+### The Learning Process (Episode 9)
+"The best way to look at losses is as a learning experience. It's important to avoid stubbornly believing that you always play every match right despite frequent losses." Observe how opponents win against you and apply those styles.
+
+---
+
+## Argeiphontes' Beginner Pitfalls
+> Source: argeiphontes (top player, YouTube educator) — "Argei Academy #1: Common Beginner Pitfalls" (YouTube)
+
+### Pitfall 1: Over-Teching
+When seeing many exciting advanced set units, resist the urge to buy tech for all of them. "You really can't buy them all." Discipline is required: figure out which units you can afford and which you cannot.
+
+**The rule**: "You want your drone count to be able to support your technology." If you have three Blastforges and an Animus on 13 Drones, you will waste 3 blue and 4 red per turn — equivalent to not having those tech buildings at all.
+
+**Guidelines by strategy**:
+- Aggressive red (Animus all-in): 10-12 Drones
+- Mid-range blue: 14-16 Drones
+- Heavy econ / slow set: 18-20 Drones
+
+### Pitfall 2: Defending for Exact
+"Never defend for exactly the amount of your opponent's attack." When you lose ALL defense, you must spend your entire next turn replacing it — no attack purchased, no economy growth.
+
+**Always defend for opponent's attack + 1**, and ensure at least one non-fragile defender (Wall) survives to absorb. The cost of one extra defense (1 gold, 1 green for Barrier) is far less than the cost of losing a Wall (effectively ~5 gold of defense value).
+
+### Pitfall 3: Over-Defending / Saving Engineers
+Conversely, do not overbuild defense. "Every point of attack you build forces your opponent to buy one point of defense." Defense is expensive (~2 gold per point via Engineer). Extra resources spent on unnecessary defense should go to attack.
+
+**Don't fear losing Engineers in mid-game**: In mid-game, Engineers are cheap and replaceable. Losing 2 Engineers to get full Wall absorb (2 HP) is worth more than saving Engineers and only absorbing 1 HP.
+
+### Pitfall 4: Cutting Drones Without Committing
+"You only want to cut drones if you're going offensive." Cutting a drone for early tech (Conduit, Animus) signals aggression. If you then resume buying drones, you end up with worse economy AND worse attack than either pure path.
+
+**Rule**: "If your opponent has more damage AND more economy than you, you're probably losing." Either have more attack (aggressive path) or more economy (defensive path) — having neither is the worst outcome.
+
+---
+
+## Tempo and Prophylaxis
+> Source: Lunarch Studios — "Strategic Concepts in Prismata" (YouTube, developer video)
+
+### Core Strategic Tension
+"Positions in Prismata often have an imbalance where one player has a bigger economy but the other player starts putting up an attack sooner." The game's core strategic arc is navigating this imbalance.
+
+### Tempo Seizure
+"Units like Rhino can be really crucial in allowing you to seize the initiative because they defend as soon as you buy them and then they allow you to attack immediately after." Rhino enables the transition from defense to counterattack, "vastly diminishing" the opponent's rush potency.
+
+### Prophylactic Moves
+"It might be in your interest to invest in a tech building really early even if you don't end up using that technology for a couple of turns — just the fact that you had access to that technology could have limited your opponent's options and put you in an ultimately better position." This is analogous to prophylactic moves in chess.
+
+### Ignoring Rushes
+"Sometimes the best thing to do against an early attack is actually to just ignore it." Letting the opponent pick off a few Drones while saving resources for a game-changing unit (Defense Grid) can be correct if "the rush didn't do enough damage relative to the economic sacrifice your opponent made."
+
+### Build Order Precision
+"Depending on the situation you can come up with really creative and precise build orders that exploit your opponent — devastating timing attacks where you devote all resources toward disabling your opponent's Defenders and attacking for a massive burst on a specific key turn."
+
+---
+
+## Minimax Defense and Gambit Offering
+> Source: sileneundulata + amalloy — "League Game Analysis: WDIL with sileneundulata" (YouTube)
+
+### Presenting Your Opponent With Two Mediocre Choices
+"Your goal is not to present them with a situation in which the average of the situations is good — you want to present them with a choice in which your worst possible outcome is the best that it can be." This is the minimax principle applied to Prismata defense.
+
+**Practical example (Lance Tooth denial)**: Instead of building a Rhino to guarantee 1 absorb, leave 4 undefended Engineers and no absorb at all. Opponent has two choices: (1) buy Lance Tooth anyway (no absorb denial value, effectively buying a Splitter), or (2) attack your Engineers (kills units that aren't producing anything yet). Both options are acceptable — and you saved the resources you'd have spent on the Rhino.
+
+"I present to you two situations... both of those options are 100% okay with me, and more importantly let me avoid spending resources that I otherwise would have to spend."
+
+### Absorb Denial and Offering Exploits
+In absorb denial games (Lance Tooth, Blood Rager, Arka, thermite cores), you cannot afford to always absorb all damage. "If you always defend in such a way that your opponent can never exploit you, you're going to be over-defending and eventually they'll get more value."
+
+**The chill analogy**: Against freeze (Cryo Rays, Frostbite), the same principle applies. Over-defending means it's always correct for them to hold their freeze. Under-defending slightly means they have two mediocre choices instead of one great one.
+
+### Tech Building Discipline
+> Source: sileneundulata — "League Game Analysis: WDIL with sileneundulata" (YouTube)
+
+"Whenever you're building a tech building — full stop — you should always, always know what you're spending your tech on the next turn." Building tech because you feel you need it, without counting what you'll buy next turn, is a very common mistake. "You can always delay that tech an extra turn or get a different tech."
+
+"Tech is a pretty big investment, especially early game, and it really needs to pay for itself."
+
+---
+
+## Over-Teching and the Ferritin Sack Diagnostic
+> Source: amalloy — "WDIL: AJPiano2 vs Sublimation" (YouTube)
+
+### Ferritin Sack as Symptom, Not Cure
+"If you're building Ferritin Sacks, that's good evidence that you shouldn't have built them" — they're a symptom of over-teching, not a solution. Ferritin Sack delays the problem but doesn't fix it: "trading an over-tech problem this turn for an over-tech problem two turns from now, and it's gonna be a harder one because blue is more expensive to spend than red generally."
+
+### Drone Count Before Tech Commitment
+In high-economy sets (Centurion, Lucena, Energy Matrix), you need to finish droning before committing to heavy tech. "You've just made yourself obligated to spend a lot of tech in a big hurry. You aren't gonna have money left for drones." Rule of thumb: to support Centurion, aim for 18+ drones before buying it.
+
+### Don't Build Centurion When Nobody's Attacking
+"Would you buy a unit that costs 18 GGBBRR, started with no attack, and doesn't block? That would be disastrous." Centurion's value comes from absorbing damage — buying it when the opponent has zero attack wastes it. Build attackers first (Lucena), then Centurion to protect them.
+
+### Lucena Before Centurion in Big-Unit Sets
+"Both players should build a Lucena first and then a Centurion — otherwise the Centurion's kind of wasted." Get the expensive attacker first so the absorber has something to protect.
+
+---
+
+## Fission Turret vs Gauss Cannon Economy
+> Source: amalloy — "WDIL: N-Bone vs Hematite12" (YouTube)
+
+"Fission Turret is a much better attacker than Gauss Cannon. It acts the same as Gauss Cannon for 5 turns and it costs two dollars less — 30% off. Eventually it dies and you stop getting attack, but you get 3 green which you can use to build forcefields, build more fission turrets."
+
+In the meantime, "you can spend that extra 2 bucks on something useful." Fission Turret is the superior choice when you don't need the 4 HP breach resistance of Gauss Cannon.
+
+---
+
+## Chill Freeze Targeting: Granularity Over Size
+> Source: amalloy — "WDIL: Scabe vs BigRickeo" (YouTube)
+
+### Don't Just Freeze the Biggest Things
+"Don't just freeze the biggest thing you can. Think about how your opponent wants to defend and try to deny them that." Freezing the biggest defenders is good if it generates a breach. If not, you want to deny granularity.
+
+**Practical example**: Opponent has 3 Walls, 2 Rhinos, and an Engineer. Freezing 3 Walls forces them to defend with Rhinos + Engineer — they still get good absorb and granularity. Freezing the 2 Rhinos and Engineer instead: they can only absorb for 1 (on Wall), lose their granularity, and must lose a Rhino anyway. "Just the way that you chose to freeze on this turn, you could have destroyed an entire Wall for free."
+
+### Two-Axis Chill Pressure
+"Having extra freeze means the opponent has to do two things: over-defend AND be over-granular. If you just freeze the biggest stuff, they only have to over-defend, which they can do comfortably. Freeze their granularity units instead to exploit the second axis."
+
+---
+
+## Blood Rager Valuation Rule of Thumb
+> Source: amalloy — "WDIL: spectralwabe vs HotPepper" (YouTube)
+
+### Blood Rager = Two Tarsiers at Breakeven
+"If you're doing zero or one real damage, Blood Rager is fantastic. If you're doing two real damage, it's the same as two Tarsiers with a discount. If you're doing three damage, Blood Rager is usually bad — it's worse than two Tarsiers."
+
+This gives a concrete mental shortcut: **count your opponent's non-absorbed damage** before buying Blood Rager. At 0-1 damage, always buy. At 2 damage, buy for the discount. At 3+, prefer Tarsiers or other attackers.
+
+---
+
+## Bombardier Hold Theory
+> Source: amalloy — "League Game Analysis: amalloy v f0x" (YouTube)
+
+### Holding 1-Stamina Bombardier for Defensive Tempo
+"Suppose you have a 1-stamina Bombardier lying around. Should you attack with it? Clicking the Bombardier does not give you any immediate value unless your opponent has to lose something important like an Urban Sentry." Against a Wall target, hold it — "it buys you some defensive tempo. You can buy attackers instead of 4 health worth of soak, and your opponent is still under the same amount of pressure."
+
+The opponent "has to pretend that one of his Walls is dead" as long as you hold the Bombardier. This principle applies equally to **Rhinos at 1 stamina** — the threat provides passive defensive value without spending the attack.
+
+---
+
+## Windsor Evaluation
+> Source: amalloy — "WDIL: TTK vs Miccull" (YouTube)
+
+### Windsor is Bad With Good Soak
+"I don't think Windsor is very good when there's fantastically good soak available in the set." With Paliwal, Plexo Cell, and similar high-HP fragile units, the opponent can absorb a Windsor shot cheaply. "Double Paliwal, Plexo, and like that just eats a Windsor shot."
+
+### Windsor + Arms Race is Anti-Synergy
+"By building Windsor into Arms Race, you're making them get value out of the Engineers you gave them very quickly. The whole point of Arms Race is that your enemies' Engineers do them little good — if the Engineers are actually defending the Windsor, Arms Race is just not good."
+
+### Always Click Windsor When You Can
+"I think you could have gotten a much better position if you had actually attacked your opponent on occasion." Not clicking Windsor means giving up a full 15-damage cycle. "If we had clicked it on the first chance, this would now be our second Windsor click."
+
+### Absorb is the Strongest Mechanic
+"Absorb has been called the strongest mechanic in the game of Prismata. When you can have your enemy attack you and you don't lose units equal to the amount that they attacked for — that's a pretty big deal." Always absorb when possible; clicking Steelsplitters to deal 1 damage while losing 2 HP of absorb "just does not seem like a good trade."
+
+---
+
+## Semi-Breachproof as Kit Counter
+> Source: Apooche — "Aetherllama vs Allecto League Semifinal" (Twitch)
+
+"Semi-breachproof means pretty much you absorb but you don't buy units that are vulnerable to a breach." Against Endotherm Kit, semi-breachproof specifically means: maintain your absorber (Wall, Energy Matrix, etc.) but avoid accumulating fragile attackers or low-HP economy units that Kit's freeze-into-breach can exploit. The goal is to make Kit's freeze less devastating — if you absorb with a Wall but have no Tarsiers or Engineers to kill on breach, the opponent's Kit investment underperforms. This is distinct from full breachproof (which skips absorb entirely) and from standard play (which accumulates breach-vulnerable units).
+
+---
+
+## Venge Cannon Breachproof: Detailed Tactics
+> Source: Apooche — "Aetherllama vs Allecto League Semifinal" (Twitch)
+
+### Click Timing for Maximum Pressure
+Venge Cannon click timing is critical against standard defense. "When do you click the Venge Cannons?" The optimal pattern: hold clicks while building up Venge count, then click all simultaneously for a burst that overwhelms the opponent's defense in a single turn. Clicking one at a time gives the opponent time to adjust their defense planning.
+
+### Breachproof vs Blood Pact Matchup
+Blood Pact's low per-turn attack (1 damage) makes it ineffective against Venge breachproof. The breachproof player accumulates Gauss Charges that keep attacking while Blood Pact runs out of supply. "Blood Pact versus breachproof... just not good enough to make up for having such low attack." The Blood Pact player needs alternative high-damage attackers (Hellhound, Shadowfang, Tatsu) to threaten enough total damage to kill through Gauss Charge HP.
+
+### Defense Grid in Breachproof Mirrors
+When both players have access to breachproof tools AND Defense Grid, the question becomes whether Defense Grid's 5 absorb per turn is enough to outlast the breachproof attack. Apooche noted that Defense Grid combined with Aegis creates a defensive shell that can potentially stall breachproof indefinitely, making the mirror about who commits to breachproof first (and potentially over-commits).
+
+---
+
+## P1 Drone-Conduit Opening as Surprise Play
+> Source: Apooche — "Aetherllama vs Allecto League Semifinal" (Twitch)
+
+"Nobody really knows what's going on... this is exciting." The P1 Drone-Conduit opening (buying Conduit on turn 2 as Player 1) is unconventional because P1 normally uses turn 2 for economy (Drones) or tech building (Blastforge/Animus). The Conduit opening sacrifices tempo for early green access, enabling strategies that normally only P2 can execute. It creates confusion in the opponent's planning — they can't easily identify the intended strategy from a non-standard opening, giving the P1 player an information advantage for 2-3 turns.
+
+---
+
+## Economy Sizing with Absorb Denial Sets
+> Source: Apooche — "Aetherllama vs Allecto League Semifinal" (Twitch)
+
+In sets with multiple absorb denial units (Arka Sodara, Nivo Charge, Thermite Core), standard economy sizing rules break down. The attacker can operate on a smaller economy because absorb denial provides more efficient damage per gold than raw attack. "Arka plus Nivo plus Thermite Core on small economy" — the idea is to build just enough economy to produce denial pressure each turn, rather than building a large economy for big attackers. The defender, conversely, needs a LARGER economy than usual because they must replace denied defense each turn and cannot rely on absorb efficiency to stretch their resources.
+
+---
+
+## Reactive vs Proactive Planning in Tournament Play
+> Source: Apooche — "Aetherllama vs Allecto League Semifinal" (Twitch, post-game interview with Aetherllama)
+
+Aetherllama described his approach as highly reactive: observing the opponent's tech purchases and resources each turn, then choosing the counter-strategy. In Game 5, he bought the first Arka Sodara "because I saw the Nivo Charges and Thermite Cores" — the Arka wasn't in his initial plan but became correct once he identified the opponent's absorb denial strategy. This contrasts with players who commit to a plan early and execute regardless of opponent behavior. Tournament-level play requires constant re-evaluation: "I had a plan but then I saw what they were doing and adjusted."
+
+---
+
+## Breachproof as Reactive Strategy Against Chill
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+Breachproof becomes specifically appealing as a reactive counter when the opponent commits to chill-based strategies. If the opponent invests in Iceblade Golems or other chill units, breachproof negates the freeze-into-breach plan entirely — frozen units that cannot be breached are merely delayed, not destroyed. The decision to go breachproof should be reactive (after seeing chill commitment), not proactive.
+
+---
+
+## Savior Counter-Play Framework
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+### Identifying Savior Counters in a Set
+Savior counters fall into specific categories: burst damage (Grenade Mech, Frostbite), denial (Flame Animus into early pressure), and race strategies (Zamora committing before Savior arrives). Apooche's framework: "Sometimes you look at the set and you say oh Savior gets countered but Zamora doesn't solve the Zamora. Savior counters would be like Flame Animus, Frostbite, or Grenade Mech." The key is identifying whether the counter can kill drones and prevent the Savior player from ever stabilizing with Defense Grid.
+
+### Grenade Mech as Anti-Savior Pressure
+"You just throw down pressure with Grenade Mech to stop them from ever getting drones and stop them from ever getting the absorber." Grenade Mech's burst damage (explode click) disrupts the Savior player's economy-building phase. The critical window: Savior's 6-turn build time creates a window where the Savior player is vulnerable to aggressive pressure if they over-invest in economy.
+
+### Savior Games Simplify Economy Decisions
+With Savior active: "Almost the entire set has blue supported by five drones, so it's sort of easy to plan in a way — it's easier to beat multiple different turns by your opponent just because no matter how offensive versus defensive you have to be, it's always going to be five gold per blue." Savior's gold generation standardizes the resource curve, making calculation more tractable for both players.
+
+### Grenade Mech Click Abilities in Late Savior Games
+In the late game with Savior, Grenade Mechs provide value through click abilities (Blastwedge) even when the player cannot afford new offensive units. "He may not ever be able to buy an offensive unit again with his blue... but the click abilities are going to be nice." This makes Grenade Mech a better investment than Steelsplitter in Savior games where blue becomes scarce.
+
+---
+
+## Tia Thurnax Threat as Strategic Lever
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+Maintaining the threat of Tia Thurnax (keeping enough drones + tech to buy it) is often more valuable than actually purchasing it. "Just threatening Tia is really huge — it sort of prevents certain resource building setups from your opponent." If the opponent must constantly respect the Tia threat, they cannot freely invest in tech buildings or economy. The threat forces suboptimal defensive positioning.
+
+### Tia Threat Timing
+"If you threaten Tia before Centurions come out — if they're even going to come out — it makes it way harder to commit to buying Centurion and have it work against the Tia threat." The Tia threat is most effective during the opponent's tech build-up phase. Once Centurions are already out and absorbing, Tia becomes less impactful because the absorb infrastructure already exists.
+
+### Tia Threat Requires Drone Count
+Maintaining the Tia threat requires keeping enough drones to afford it (approximately 7 drones). Over-vividing (converting too many drones to Vivid Drones) kills the Tia threat: "I wouldn't Vivid down to zero drones, but Vivid when you still have five left should be pretty solid." The balance is between economy efficiency (Vivid conversion) and strategic flexibility (Tia availability).
+
+---
+
+## Wild Drone Economy Games — Strategic Dynamics
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+### Wild Drone Timing and Commitment
+In Wild Drone sets: "How much do you commit to Wild Drone? Because if you commit too hard, maybe Tia becomes really really strong." Over-investing in Wild Drones (buying many and vivid-ing drones) creates vulnerability to large attackers that can breach the weakened drone line. The correct approach is measured Wild investment with maintaining enough drones for defensive purchases.
+
+### The Centurion Paradox in Wild Drone Games
+"By the time your Centurion is absorbing, your Wild Drones are gone — you can't afford Centurion." Wild Drones expire on a timer, so the economy that funds Centurion is temporary. Players must time their Centurion purchase for when Wild economy is peaking, not after it has decayed.
+
+### Fission Click to Kill Wilds as Economy Warfare
+Killing the opponent's Wild Drones with targeted attacks (Fission Turret clicks, Clusterbolt) creates compounding economic advantages. The player whose Wilds survive longer controls the game's economy trajectory.
+
+---
+
+## Sentinel Value in Limiting Tech Access
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+Sentinel's chill effect has a specific strategic value beyond damage denial: "Cuts him off of getting three green next turn which is a pretty big break point." Chilling a Conduit denies not just the 1 green it would produce, but the entire purchase that green would have enabled (e.g., a Frostbite, a specific unit that costs exactly the denied green total). Chill targeting should consider what the frozen resource enables, not just its face value.
+
+---
+
+## Time Pressure and Decision Quality
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+Time bank pressure directly degrades decision quality: "Sometimes the panic just sets in." With 17 seconds in the time bank, "I don't think you had time to calculate the entirety of your opponent's response turn." Tournament commentary should note when players are making decisions under severe time pressure, as the optimal play may differ from what was actually executed. The 60-second base timer with bank means late-game decisions in complex sets are often intuition-based rather than fully calculated.
+
+---
+
+## Runoff Format: Escalating Pressure Dynamics
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+In win-by-two runoff formats, the psychological dynamics shift compared to standard matches. A player who loses the first runoff game faces must-win pressure, while the leader only needs to maintain. Apooche suggested decreasing time controls in later runoff games ("45, 30, 20") to prevent indefinite series. The format rewards consistent performance over peak performance — the player who maintains composure across many games has an edge.
+
+---
+
+## Holding Drone for Defense with Savior
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+With Savior active, holding a drone as defense is more efficient than normal: "It still produces one gold when it's held because the Savior is what produces the extra gold." A held drone in a Savior game loses only 1 gold (from the drone itself) rather than the 2 gold equivalent (1 from drone + 1 from Savior-matched production) — because Savior's gold generation continues regardless. "If you're guaranteed to lose a drone, it's pretty rough to hold it, but if it's holding against threat, it's actually pretty fine."
+
+---
+
+## Infusion Grid + Thunderhead + Nivo Charge Triangle
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+These three units create a strategic triangle: Isochronon beats Thunderhead (denies its attack turn), but Infusion Grid counters Isochronon (absorbs the burst), while Nivo Charge counters Infusion Grid (freezes it). "Between Infusion Grid and Thunderhead existing, you kind of want to go somewhat slow, econ up a little bit — just because if you Iso too early, your opponent throws down a Thunderhead and blocks it." The presence of all three in a set demands careful timing and forces both players to keep multiple strategic options open simultaneously.

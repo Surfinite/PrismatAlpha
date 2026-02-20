@@ -94,14 +94,18 @@ These live URLs failed but content was **recovered via Wayback Machine** (see Ti
 |-----|------------|
 | https://blog.prismata.net/prismatalibrary/ | **FOUND** at different domain: https://prismatalibrary.blog/archive/ — all 27 articles live. The blog moved from a subdirectory of blog.prismata.net to its own domain. See Tier 3 above. |
 
+### Yujiri Pages Fetched & Integrated (Feb 20, 2026 — Pass 3)
+These were recovered from Wayback Machine and integrated into the knowledge base:
+- `analysis_2` through `analysis_9` — 8 set reading worked examples → integrated into 06-meta-expert.md
+- `another_fucking_pris_thing` — guest article by Punf → integrated into 03-advanced-units.md, 04-strategy-concepts.md, 06-meta-expert.md
+- Full text archived in `docs/recovered-sources/` (yujiri-analysis-2.md through yujiri-analysis-9.md, yujiri-punf-guest-article.md)
+
 ### Yujiri Pages Not Yet Fetched (available in Wayback)
-These archived pages exist but were not retrieved in this pass. Can be fetched in a future session:
-- `analysis_2` through `analysis_9` — 8 more set reading examples
-- `another_fucking_pris_thing` — guest article by Punf
-- `achievements` — secret campaign achievement guide
-- `changes` — advocated balance changes
-- `rating` — how to see your rating
-- `secrets` — cheat codes (/RotatingInferno, /baconIceCream)
+These archived pages exist but have not been retrieved:
+- `achievements` — secret campaign achievement guide (low value for commentary)
+- `changes` — advocated balance changes (low value for commentary)
+- `rating` — how to see your rating (no strategy value)
+- `secrets` — cheat codes /RotatingInferno, /baconIceCream (no strategy value)
 
 ---
 
@@ -152,15 +156,97 @@ Content from external AI research sessions, 7 chunks processed. ~32 new items ex
 | Wincer rush shell + meta impact | Community analysis | 03, 05 |
 | Economy classification table | Community convention | 04 |
 
+### Tier 5: YouTube Video Transcripts (Added Feb 20, 2026 — Pass 4)
+Auto-generated transcripts pulled via YouTube API, stored in `docs/recovered-sources/youtube-transcripts/`.
+
+**Msven** (17 videos) — Top player strategy lectures
+| Video Series | Count | Used In |
+|--------------|-------|---------|
+| Msven's Prismata Strategy (episodes 1-9) | 9 | 04, 06 |
+| Unit Strategy Guides (Arka Sodara, Tia Thurnax, Gauss Fabricator, Tatsu Nullifier, Savior) | 5 | 03, 05, 06 |
+| Balance Patch Analysis, Misc | 3 | 03, 06 |
+
+**argeiphontes** (40 videos) — Expert game analysis & teaching
+| Video Series | Count | Used In |
+|--------------|-------|---------|
+| Argei Academy (beginner pitfalls, defense) | ~8 | 04, 06 |
+| Game Analysis (detailed move-by-move) | ~16 | 04, 06 |
+| Q-Cup Tournament Coverage | ~6 | 06 |
+| Walkthroughs & Defense Tactics | ~10 | 03, 04, 05 |
+
+**amalloy** (41 videos) — Expert commentary & game analysis
+| Video Series | Count | Used In |
+|--------------|-------|---------|
+| "Why Did I Lose" (WDIL) Season 1 & 2 | 15 | 04, 06, 07 |
+| Prismata League Season 1 matches | 10 | 06 |
+| League Game Analysis | 4 | 04, 06 |
+| Master Challenges & Expert Scenarios | 8 | 03, 04 |
+| Advanced Exercises | 3 | 03, 04 |
+| Misc (announcements) | 1 | — |
+
+**Wonderboat** (5 videos) — High-rated match commentary
+| Video | Used In |
+|-------|---------|
+| 307th (2247) vs Yizgaemded (2102) | 06, 07 |
+| Plagueu (1903) vs Steel (2167) | 06, 07 |
+| Kolento (2141) vs 307th (2260) | 06, 07 |
+| Mega Supp (1860) vs Dusk (2043) | 06, 07 |
+| 307th (2214) vs Dusk (2112) | 06, 07 |
+
+**Lunarch Studios** (44 videos) — Developer content
+| Video Category | Count | Used In |
+|----------------|-------|---------|
+| Strategy & Gameplay (Strategic Concepts, unit design, balance) | 10 | 01, 03, 04 |
+| Developer Commentary (with Dave Churchill) | 4 | 01, 06 |
+| Balance Patches & Nerfs (Shadowfang, Redeemer, etc.) | 5 | 03, 06 |
+| Game Design Philosophy (no RNG, no decks, undo, blitz) | 5 | 01, 06 |
+| Tutorials & Newbie Content | 4 | 01 |
+| Tournament Coverage (Prismata Cup, Brawl Night) | 4 | 06 |
+| Match Replays & Analysis | 6 | 04, 06 |
+| Unit Spotlights (Kinetic Driver, Thunderhead, etc.) | 4 | 03 |
+| Misc (Kickstarter, early days, Codex review) | 2 | 06 |
+
+**Jean Ventura** (1 video) — Tournament commentary
+| Video | Used In |
+|-------|---------|
+| Prismata tournament VOD (2019) | 06 |
+
+### Tier 5b: Lunarch Studios Blog Articles (Recovered via Wayback Machine, Feb 20, 2026 — Pass 4)
+45 articles from `blog.prismata.net` (2014-2019), recovered via `curl` + Wayback Machine CDX API.
+Full text stored in `docs/recovered-sources/lunarch-blog-*.txt`.
+
+| Article Category | Count | Key Articles | Used In |
+|-----------------|-------|--------------|---------|
+| Unit Design & Balance | 12 | Base Set, Conduit Tech, Frostbite Defense, Thunderhead, Build Time Philosophy, Thorium Dynamo, Deadeye History, Vivid Drone Stats | 01-03 |
+| Strategy & Gameplay | 8 | Common Mistakes, Strategic Concepts, Balancing Openings (3 parts), Shalev's Domination Rules | 01, 04 |
+| Balance Patches | 6 | May 2015 (14 units), Cluster Bolt Nerf, Shadowfang, Scorchilla BT, April 2018 | 03, 06 |
+| Game Design Philosophy | 5 | Perfect Information, No RNG, Game Complexity, Tech Tree Design, Combat Model | 01 |
+| AI & Development | 4 | Master Bot, AI Tournament Results, Prismata AI Architecture | 06 |
+| Tutorials & Introductions | 5 | New Player Guide, Complete Rules, Getting Started | 01 |
+| Misc (Kickstarter updates, events) | 5 | — | — |
+
+### Tier 5c: Reddit r/Prismata (Feb 20, 2026 — Pass 4)
+629 posts retrieved via PullPush API. Key strategy content extracted:
+
+| Post/Author | Content | Used In |
+|-------------|---------|---------|
+| Synx (Synxisback2k) — Unit Review | Comprehensive tier ratings for all units | 02, 03 |
+| Redrame — Scorchilla Combo Guide | Why Scorchilla appears weak + combo partners | 03 |
+| Community — Kinetic Driver Analysis | Two-axis decision design | 03 |
+| Community — Alternate Drone Philosophy | Doomed Drone as balance tool, Auric Impulse skill cap | 03 |
+| Various strategy discussion threads | Economy sizing, rush theory, meta observations | 04, 06 |
+
+### Tier 5d: Twitch VODs (In Progress, Feb 20, 2026)
+Downloaded MP4 files, transcribed locally with faster-whisper.
+
+| Video | Duration | Commentator | Status | Used In |
+|-------|----------|-------------|--------|---------|
+| Aetherllama vs Allecto — Prismata League Semifinal (~2019) | 2h08m | Apooche | Transcribing | — |
+| (6 more videos expected from user) | — | Apooche | Pending | — |
+
 ---
 
 ## Sources Not Yet Processed
-
-### Video Sources (cannot extract text content)
-| Source | URL | Description |
-|--------|-----|-------------|
-| Elyot Grant — YouTube strategy videos | https://www.youtube.com/user/lunaboreal | Developer gameplay + commentary |
-| Various Prismata tournament VODs | YouTube/Twitch | High-level gameplay with community commentary |
 
 ### Inaccessible / Paywalled
 | Source | Description |
@@ -174,4 +260,6 @@ Content from external AI research sessions, 7 chunks processed. ~32 new items ex
 
 - **Pass 1**: 4 batches of content pasted by user from a separate Claude.ai research session. Heavy deduplication required — Standard Style, Tips, and Common Openings each appeared 3-5 times across batches. Many irrelevant search results filtered. Source attribution preserved on every entry.
 - **Pass 2**: 12 wiki strategy guides (Foxclear) extracted from docs/wiki/. 7 additional content chunks from external AI research processed (~32 new items). Wayback Machine fetches attempted for Yujiri analysis_2-9 and Prismata blog articles.
+- **Pass 3**: 9 recovered Wayback Machine sources integrated (Yujiri analyses 2-9 + Punf guest article). All were already in `docs/recovered-sources/` but had not been extracted into the knowledge base files. Added to 03-advanced-units.md (unit insights + Punf assessments), 04-strategy-concepts.md (attacker framework, pseudo-bp, RPS sets), 06-meta-expert.md (8 set reading examples + Punf strategy guide).
+- **Pass 4 (Feb 20, 2026)**: Massive content harvesting sweep. 148 YouTube transcripts pulled (Msven 17, argeiphontes 40, amalloy 41, Wonderboat 5, Lunarch 44, Jean Ventura 1). 45 Lunarch blog articles recovered via Wayback Machine. 629 Reddit posts collected via PullPush API. Content extracted via 5 parallel extraction agents, merged via 5 parallel merge agents. All 7 KB files significantly expanded. Twitch VOD transcription via faster-whisper (in progress).
 - Many irrelevant search results filtered: Cosmoteer ("Ultimate Guide to Prisms"), Banner Saga ("Combat Strategy Primer"), Slime Rancher 2 ("Prisma Plorts"), military defense articles, Reddit business strategy posts

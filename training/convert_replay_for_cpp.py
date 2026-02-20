@@ -267,6 +267,31 @@ def ts_state_to_cpp_json(ts_state, card_set, active_player, turn_number=0):
     return cpp_state
 
 
+def _count_targeting_units(ts_state_before, active_player):
+    """Count available targeting units for the active player.
+
+    A targeting unit can act if it's not building (delay==0) and not frozen.
+    Returns the count of units that can use targeting abilities this turn.
+    """
+    if not ts_state_before:
+        return None  # Can't determine, don't cap
+
+    # Units with targeting abilities (display names)
+    TARGETING_UNITS = {
+        'Cryo Cell', 'Cryo Ray', 'Shiver Yeti', 'Iceblade Golem',
+        'Frost Tarsier', 'Frostbite', 'Blasto', 'Tatsu Nullifier',
+        'Nivo Charge', 'Vai Mauronax', 'Kinetic Driver', 'Apollo',
+    }
+
+    player_key = f'p{active_player}_units'
+    units = ts_state_before.get(player_key, [])
+    count = 0
+    for u in units:
+        if u['name'] in TARGETING_UNITS and u.get('delay', 0) == 0 and not u.get('frozen', False):
+            count += 1
+    return count
+
+
 def convert_actions(ts_actions, active_player, ts_state_before=None):
     """Convert TS action dict to C++ action sequence.
 
@@ -289,6 +314,15 @@ def convert_actions(ts_actions, active_player, ts_state_before=None):
     9. END_PHASE (end breach phase, if breach happened)
     """
     actions = []
+
+    # RC#9 fix: Cap snipe_targets to available targeting units.
+    # The TS parser's CancelUseAbility handler doesn't remove canceled targets
+    # from snipe_targets (cancel events lack target data), causing overcounting.
+    # Keep only the LAST N entries — the committed actions are at the end.
+    snipe_targets = list(ts_actions.get('snipe_targets', []))
+    max_targeting = _count_targeting_units(ts_state_before, active_player)
+    if max_targeting is not None and len(snipe_targets) > max_targeting:
+        snipe_targets = snipe_targets[-max_targeting:] if max_targeting > 0 else []
 
     # Separate frontline kills from actual breach targets (RC#6 fix)
     # Frontline/undefendable units are killed via ASSIGN_FRONTLINE during Action phase,
@@ -322,22 +356,23 @@ def convert_actions(ts_actions, active_player, ts_state_before=None):
             })
         actions.append({"type": "END_PHASE"})
 
-    # Action phase: frontline kills first, then abilities, snipe/chill, then buys
-    for unit_name in frontline_targets:
-        actions.append({
-            "type": "ASSIGN_FRONTLINE",
-            "card_name": unit_name,
-        })
-
+    # Action phase: abilities first (to generate attack/resources),
+    # then snipe/chill, then frontline (needs attack), then buys
     for unit_name in ts_actions.get('activated', []):
         actions.append({
             "type": "USE_ABILITY",
             "card_name": unit_name,
         })
 
-    for unit_name in ts_actions.get('snipe_targets', []):
+    for unit_name in snipe_targets:
         actions.append({
             "type": "SNIPE",
+            "card_name": unit_name,
+        })
+
+    for unit_name in frontline_targets:
+        actions.append({
+            "type": "ASSIGN_FRONTLINE",
             "card_name": unit_name,
         })
 

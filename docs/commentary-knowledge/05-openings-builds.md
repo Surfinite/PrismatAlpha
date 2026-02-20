@@ -252,3 +252,214 @@ The P2 Trinity Drone opening (DD/DDC/D+Trinity) transposes into multiple tech pa
 - With Trinity unclicked: keeps green banked, delays commitment
 
 These transpositions make Trinity Drone one of the most flexible opening units because the decision point comes AFTER purchase, not before.
+
+---
+
+## Msven: P1/P2 Asymmetric Opening Strategy
+> Source: Msven — "Playing Your Position" (Strategy Series #3, YouTube)
+
+Because of the asymmetric economies of P1 and P2, a strategy that wins for one player may automatically lose for the other.
+
+"Player 2 specializes in getting a conduit or animus on turn 2, which is often just much more efficient than when Player 1 gets a conduit or animus on turn 2 or 3, because Player 1 is stuck with too few drones on turn 2 tech purchases and is stuck being a turn behind in damage with turn 3 tech purchases."
+
+### Counter-Strategy When Disadvantaged (P1 in P2-Favored Sets)
+When the set structurally favors your opponent, three approaches:
+1. **Involve underused tech** -- find an off-meta angle. Example: in a Redeemer/Venge-only set favoring P2's conduit openings, P1 adds Animus for Mylight accumulation rather than mirroring Redeemers.
+2. **Do something so crazy your opponent won't expect it** -- unorthodox builds throw off prepared opponents. Example: Chrono Filter + Hannibull rush to hard-counter an expected Wincer build.
+3. **Get the key unit a turn before your opponent** -- if one combo dominates, race to it first. The Elyot Animus (DD/A) is the classic example: "it looks horribly inefficient because you're only on 8 drones and usually float 2 gold two turns in a row, but the tempo you gain balances out the economic disadvantage."
+
+### Elyot Animus Best Conditions (Msven)
+The Elyot Animus "shines the most when there's something like Electrovore, Grimbotch, Perforator, and no other efficient attackers or defenders."
+
+---
+
+## Msven: Tia Thurnax Opening Theory
+> Source: Msven — "Tia Thurnax" (Unit Analysis, YouTube)
+
+### Tia is Rarely Ignorable
+"The most important thing to understand about Tia is that it's rarely ignorable. You can ignore it in a breachproof set or a set with really strong green-blue units and no other red support, but otherwise Tia should be a big part of your strategy."
+
+### Tia Timing Depends on Defense Quality
+Low defense = fast Tia wins. "In sets with no better absorber than Wall and no good soak units, this early Tia timing could win the game right here on 12 drones."
+
+High defense = delay Tia. "In more defensive sets where Xeno for absorb and Doomed Wall for soak means both of us should be building a larger amount of attack before Tia becomes viable."
+
+### Turn 2 Conduit for Aggressive Tia (P1)
+"Going turn 2 conduit tends to lend itself to very aggressive Tia builds because you're committed to a small economy." Only justified when the set is aggressive enough that a superfast Tia wins outright. Otherwise turn 3 conduit is better.
+
+### Naked Tia (No Damage Behind It)
+"A naked Tia is a Tia that doesn't have any damage behind it. You should never do a naked Tia if your opponent has a Blastforge." Exception: naked Tia works as counter-rush against greedy low-econ builds (e.g., P1 turn 2 Animus all-in) that can't defend it.
+
+### Tia + Centurion Sequencing
+In sets requiring both Centurion and Tia, buy Centurion first even if it gives no immediate value. "This play 100% guarantees that I get the first Tia. If he bought Tia here, he has no chance of winning because it guarantees he never gets his Centurion."
+
+### Counter Tia: Commit 100% to Defense
+"It's generally a bad idea to try and buy any attackers against an all-in Tia until it runs out of stamina."
+
+---
+
+## Shadowfang Flame Animus Rush (Developer Analysis)
+> Source: Elyot Grant (Lunarch Studios) — "The Shadowfang Flame Animus Rush" (YouTube)
+
+### The Rush Build (P1)
+```
+1. DD
+2. DD
+3. DDB
+4. Flame Animus + Animus (13 gold, 1 blue)
+5+. Shadowfang + Wall every turn (12 gold, 3R, 1B)
+```
+"Just look how perfect this build is -- we're spending all of our gold, exactly 12 drones, three red and one blue every turn."
+
+### The Defense (P2 Conduit Counter)
+P2 counters by opening DD/DDC (Natural Conduit), mirroring Flame Animus + Animus, then leveraging stored green for Force Fields:
+```
+1. ...DD
+2. ...DDC (stockpile green)
+3. ...DD (match P1's tech timing)
+4. ...Flame Animus + Animus
+5+. Shadowfang + Wall + Force Fields (green stockpile enables survival)
+```
+"Force Fields offer good value in fast games. When inflation is high, sacrificing your drones is good because the gold they'll produce in future turns isn't worth as much."
+
+### Why This Isn't Nerfed
+"In the vast majority of 8-card sets containing Shadowfang and Flame Animus, there's lots of counterplay. Any small unit that costs a single blue, red, or even green is going to be relevant for at least one of the players." Adding even one random unit completely changes the line.
+
+---
+
+## Argeiphontes: Shadowfang Gambit Opening
+> Source: argeiphontes — "Shadowfang Gambit" (Game Analysis #5, YouTube)
+
+### Cutting a Drone to Threaten Double Animus
+"I go drone and pass the turn. I have exactly 8 drones which means next turn I'll have 12 gold -- exactly enough for double Animus, an extremely aggressive play that would let me get a Shadowfang on turn 3."
+
+The threat forced opponent to commit to Conduit (for Venge Cannon counter), but then argeiphontes abandoned the rush and went DD into Animus instead: "Rather than following through with the all-in, I work on my economy. I forced my opponent to commit to green -- that's a pretty big deal."
+
+**Key insight**: The threat of an opening is sometimes more valuable than executing it.
+
+---
+
+## Argeiphontes: Cluster Bolt Rush Counter
+> Source: argeiphontes — "The Cluster Bolt Rush" (Game Analysis #10, YouTube)
+
+### Cluster Bolt All-In Build
+"Ignore everything and mass green. Stockpile green and unleash a giant volley of cluster bolts." Can beat many Animus openings.
+
+### Counter Build (Base Set)
+"Cluster Bolt only has 10 supply, so at most 50 points of damage. If you can survive 50, you win." The magic tech setup is **1 Blastforge + 2 Conduits**, then spam Walls, Engineers, and Force Fields.
+
+### Cluster Bolt Best Use
+"Cluster Bolt is best used as a supplement to your damage. If both of you are attacking for 12-14 and barely defending, the player who cluster bolts and adds 5 additional damage will just win because the opponent can't defend that turn."
+
+---
+
+## Argeiphontes: Economy Sizing Rules of Thumb
+> Source: argeiphontes — "Argei Academy #1: Common Beginner Pitfalls" (YouTube)
+
+| Strategy | Drone Target | Notes |
+|----------|-------------|-------|
+| Aggressive mono-red (Animus into Tarsiers/Grimbotch/Electrovore) | 10-12 | Sometimes 9, rarely above 14 |
+| Midrange blue (blue + possible red/green transition) | 14-16 | Enough for Wall + attacker spending |
+| High economy (weak attackers, big absorbers like Energy Matrix) | 18-20 | "Very heavy on defense" games |
+
+"If your opponent has more damage AND more economy than you, you're probably losing. If you have more attack and they have more economy, it's unclear."
+
+---
+
+## Msven: Arka Sodara Opening Dynamics
+> Source: Msven — "Arka Sodara" (Unit Analysis, YouTube)
+
+### First vs Second Arka
+Against Wall absorb: second Arka player has 5 more defense. Against Infusion Grid: second Arka player has 4 more defense. Against Energy Matrix or larger: "usually pretty even between first and second Arka."
+
+### When First Arka is Correct
+- When your opponent isn't ready to immediately follow with their own Arka (has 6 damage, not 7)
+- When you need Arka before Defense Grid (buying D-Grid first lets opponent get too good an Arka)
+- When both players are well past 7 damage (no absorb denial advantage for either side)
+
+### When to Never Buy Arka
+"There are some situations, usually in Wall absorb sets, where it's correct for both players to never buy Arka because neither player wants to get it first."
+
+### Arka With Gauss Charges/Pixies = Bad
+"Buying Arka with Pixies or Gauss Charges is way more expensive than it should be. You can basically add the cost of these units to the cost of Arka." Get it with permanent attack instead.
+
+---
+
+## amalloy: Hellhound Rush Build Order
+> Source: amalloy — "WDIL: Scabe vs BigRickeo" (YouTube)
+
+### Turn 1 Doomed Drone in Rush Sets
+"Doomed Drones are great defenders and this is such a rushy set that you should get Doom Drone value even if you build one right now." In Hellhound/Electrovore/Grimbotch sets, Turn 1 Doomed Drone is viable because the opponent attacks by Turn 5 and the Doom Drone's 4-turn lifespan aligns perfectly.
+
+### Flame Animus Consideration and Rejection
+"I'm inclined to actually leave alone the Flame Animus and just go for the normal-looking Hellhound opening. If I do Flame Animus, it takes too long to start building attackers — the traditional opening gets a Hellhound and a Tarsier on Turn 4." In very rushy sets, the Flame Animus build-time penalty outweighs its efficiency.
+
+---
+
+## amalloy: Centurion High-Economy Openings
+> Source: amalloy — "WDIL: AJPiano2 vs Sublimation" (YouTube)
+
+### Don't Rush Conduit in Blue-First Sets
+"You just want very little green this set. You as Player 1 could get a Blastforge first. There's plenty of stuff you want to buy — Infusion Grid, several Oxide Mixers." When the set's key blue units are Oxide Mixer and Infusion Grid, getting Conduit first wastes tempo on a tech color you barely need.
+
+### Blastforge-First for Grid/Mixer Sets
+"One Blastforge lets you build Oxide Mixer, Infusion Grid — both great things to buy. Getting the Grid first means your opponent can't make you buy a Wall." Early blue provides both defense (Grid) and stored attack (Pixies) without committing to green.
+
+---
+
+## Wonderboat: Protoplasm Mirror Dynamics
+> Source: Wonderboat — "Prismata Commentary: 307th vs Dusk" (YouTube)
+
+### Red vs Red With Protoplasm
+"In base set plus Protoplasm, you typically go for the Conduit first, respecting economy and the absorb factor of Protoplasm." Protoplasm's 3 absorb plus constant attack makes red mirror games revolve around who can establish Proto-per-turn pressure first.
+
+### Botch Tempo vs Protoplasm Absorb
+"These Botches might just sit around — if both players are buying Protos back and forth for a long time, and you don't click the Proto because you're staying on like 2 damage, the Botches might not get their value." In Proto mirrors, Grimbotch tempo advantage can evaporate if neither player builds enough permanent damage to exceed Proto absorb.
+
+### Corpus Click — The Missing Gold
+"I am a little heartbroken not being able to Corpus click — imagine one more gold, crazy." The ability to click Corpus for 2 gold creates a massive tempo swing in tight endgames. Always check if you're 1 gold short of a devastating play and whether Corpus (or similar click abilities) unlocks it.
+
+---
+
+## Apooche: Savior Opening Framework
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+### Savior + Defense Grid Opening Pattern
+In sets with Savior and Defense Grid but no soak: "There's no soak really — Defense Grid is just so insane." The opening plan: build economy to afford Savior, get Defense Grid as soon as possible after Savior arrives, then click every Plasma Fire and buy Walls/Engineers. The gold from Plasma Fire clicks sustains the defensive wall indefinitely.
+
+### Savior Timing Against Zamora
+"The Savior will arrive before the Zamora" — if the opponent goes Zamora, Savior commits second but arrives first. The correct opening: see the Zamora investment, then go for Savior knowing you'll have it operational before Zamora fires. Aetherllama's insight: stay on three Engineers to enable triple Drone + Blastforge, which beats the Grenade Mech rush line while remaining flexible against Zamora + Savior.
+
+### Savior + Centurion Late-Game Pattern
+"Once you can buy Savior and then buy Centurion right afterwards, then Savior should be the best purchase — unless players are buying more attack than econ." In sets with both units available, the game plan converges on reaching the economy threshold where Savior + Centurion purchases happen on consecutive turns.
+
+---
+
+## Apooche: Wild Drone Opening Theory
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+### P2 Quad-Engineer Wild Build Smoothing
+"Booster slightly smooths out Player 2's Wild Drone builds" — P2's typical Wild Drone opening (Wild + Engineer into Wild + Drone + Drone) creates awkward gold totals. Booster's +1 gold effect helps bridge the gap. "It's always annoying when you go Wild Engineer into Wild Drone Drone into Wild Drone Drone again."
+
+### Vivid + Wild + Forge Opening
+Steel's opening of Vivid Drone + Wild Drone + Blastforge was evaluated as "not bad" because it maintains enough drones for Forcefield access while building economy. The key principle: "You just have to keep enough drones that you have access to Forcefields. I wouldn't Vivid down to zero drones but Vivid when you still have five left should be pretty solid."
+
+### Animus + Ossified Drone Before Centurion
+In Wild Drone + Centurion sets, the recommended mid-game sequence: "Animus — get Rhino, Ossified Drone — move towards killing Wilds and then have the small absorb presented, because if you have like one absorb it makes it difficult for your opponent to decide whether to kill Wild or kill Engineers." Ossified Drones provide insurance while the economy is temporary.
+
+---
+
+## Apooche: Doom Drone + Galvani Drone Economy Smoothing
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+"Third Engineer is generally very safe with Galvani and Doom Drone available, and then just kind of at any point in time use Doom Drones and Galvani Drones to smooth your build out and make Conduit work." In sets with both economic utility units, the third Engineer becomes safe because the gold flow can be adjusted each turn via Doom Drone (sacrifice for gold) and Galvani Drone (convert to 2 gold), avoiding the normal risk of floating resources.
+
+### Engineer + Galvani vs Vendium Click
+"Anytime you can buy Booster — unless you're not planning to flow any of the gold next turn — Engineer into Galvani should be more efficient." The Engineer + Galvani Drone path provides better long-term value than clicking Vendium Scrap early, because the Engineer produces ongoing value while Galvani converts to a one-time gold burst when needed.
+
+---
+
+## Apooche: Vivid Drone + Double Animus Rush
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+In sets with Vivid Drone providing extra economy, the Double Animus opening enables aggressive red-based rushes. The extra gold from Vivid Drones funds the double Animus investment while maintaining enough economy for follow-up attackers (Tarsiers, Rhinos, Perforators). The rush timing works because Vivid Drone economy peaks early, aligning with the aggression window.

@@ -50,6 +50,7 @@ class Card
     bool        m_inPlay             = false;
     bool        m_wasBreached        = false;
     bool        m_abilityUsedThisTurn = false;
+    int         m_clientInstId       = -1;   // instId from F6 JSON (-1 = not set)
 
     std::vector<CardID> m_killedCardIDs;
     std::vector<CardID> m_createdCardIDs;
@@ -77,6 +78,7 @@ public:
     TurnType    getCurrentLifespan() const;
     TurnType    getCurrentDelay() const;
     int         getStatus() const;
+    int         getClientInstId() const;
 
     bool canBlock() const;
     bool isUnderConstruction() const;

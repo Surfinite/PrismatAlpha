@@ -116,8 +116,12 @@ $gcpApiSuccess = $false
 
 if ($config.gcp -and $config.gcp.enabled) {
     $gcpEnabled = $true
+}
+
+# Always count GCP instances (even when disabled) for cost visibility and monitoring
+if ($config.gcp -and $config.gcp.project) {
     $GcpProject = $config.gcp.project
-    $GcpZone = $config.gcp.zone
+    $GcpZone = if ($config.gcp.zone) { $config.gcp.zone } else { 'us-central1-a' }
     $GcpRegion = ($GcpZone -replace '-[a-z]$', '')
 
     $rg = Invoke-CloudApi 'GCP' 'list-instances-alive' {
@@ -137,6 +141,11 @@ if ($config.gcp -and $config.gcp.enabled) {
         }
         if ($rg3.Success) { $gcpSpot = CountLines $rg3.Output }
         $gcpStandard = $gcpRunning - $gcpSpot
+
+        # Warn if instances running but monitoring/relaunch disabled
+        if ($gcpRunning -gt 0 -and -not $gcpEnabled) {
+            Log "WARNING: $gcpRunning GCP instance(s) running but gcp.enabled=false — not monitoring for relaunch. Cost: ~`$$([math]::Round($gcpRunning * 0.39, 2))/hr"
+        }
     } else {
         Log 'GCP API unreachable. Instance counts unknown.'
     }
@@ -153,8 +162,12 @@ $azureApiSuccess = $false
 
 if ($config.azure -and $config.azure.enabled) {
     $azureEnabled = $true
+}
+
+# Always count Azure instances (even when disabled) for cost visibility
+if ($config.azure -and $config.azure.resource_group) {
     $AzureRG = $config.azure.resource_group
-    $AzureLocation = $config.azure.location
+    $AzureLocation = if ($config.azure.location) { $config.azure.location } else { 'northeurope' }
 
     # Count running Azure VMs (no --query: az.cmd mangles JMESPath via cmd.exe)
     $ra = Invoke-CloudApi 'Azure' 'list-vms' {
@@ -172,19 +185,26 @@ if ($config.azure -and $config.azure.enabled) {
                 elseif ($vm.state -eq 'VM stopped') { $azureStopped++; $azureAlive++ }
             }
 
-            # Deallocate and delete stopped VMs (Stop-Computer only stops OS, still bills)
-            foreach ($vm in $azVms) {
-                if ($vm.state -eq 'VM stopped') {
-                    Log "Azure cleanup: deallocating stopped VM $($vm.name)..."
-                    Invoke-CloudApi 'Azure' "deallocate-$($vm.name)" {
-                        az.cmd vm deallocate --resource-group $AzureRG --name $vm.name --no-wait
-                    } | Out-Null
-                }
-                if ($vm.state -eq 'VM deallocated') {
-                    Log "Azure cleanup: deleting deallocated VM $($vm.name)..."
-                    Invoke-CloudApi 'Azure' "delete-$($vm.name)" {
-                        az.cmd vm delete --resource-group $AzureRG --name $vm.name --yes --no-wait
-                    } | Out-Null
+            # Warn if instances running but monitoring/relaunch disabled
+            if ($azureRunning -gt 0 -and -not $azureEnabled) {
+                Log "WARNING: $azureRunning Azure instance(s) running but azure.enabled=false — not monitoring for relaunch. Cost: ~`$$([math]::Round($azureRunning * 0.32, 2))/hr"
+            }
+
+            # Deallocate and delete stopped VMs (only when enabled — active operation)
+            if ($azureEnabled) {
+                foreach ($vm in $azVms) {
+                    if ($vm.state -eq 'VM stopped') {
+                        Log "Azure cleanup: deallocating stopped VM $($vm.name)..."
+                        Invoke-CloudApi 'Azure' "deallocate-$($vm.name)" {
+                            az.cmd vm deallocate --resource-group $AzureRG --name $vm.name --no-wait
+                        } | Out-Null
+                    }
+                    if ($vm.state -eq 'VM deallocated') {
+                        Log "Azure cleanup: deleting deallocated VM $($vm.name)..."
+                        Invoke-CloudApi 'Azure' "delete-$($vm.name)" {
+                            az.cmd vm delete --resource-group $AzureRG --name $vm.name --yes --no-wait
+                        } | Out-Null
+                    }
                 }
             }
         } catch {

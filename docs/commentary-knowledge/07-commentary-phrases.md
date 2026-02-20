@@ -270,3 +270,328 @@
 **Arka Sodara moments**:
 - "Counter-Arka! Buying their own with exactly 7 damage to deny the absorb."
 - "First Arka advantage — they get to click it first!"
+
+---
+
+## Disruption Commentary Templates
+> Source: Synthesized from Msven — "Disruption Tactics" (Strategy Series #6, YouTube)
+
+**Disruption identified**:
+- "Counting the defense -- attacking for exactly enough to force out an extra blocker!"
+- "That Steelsplitter over Synthesizer is the disruption play -- forces a Wall instead of a Tantalum Ray."
+- "Disrupting the big buy -- there's no way to defend and purchase that unit on the same turn."
+
+**Disruption executed**:
+- "Symbiote pop! Early, but it forces a Forcefield and a held Drone just to buy the Plasmafier."
+- "Precise attack number -- the opponent has to choose between overdefending or delaying their key unit."
+
+**Failed disruption**:
+- "The disruption didn't land -- opponent had the extra Engineer to absorb it cleanly."
+- "Tried to force out defense, but the opponent just took the breach and came out ahead."
+
+---
+
+## Offensive Finesse Commentary Templates
+> Source: Synthesized from argeiphontes — "Offensive Finesse" (Game Analysis #6, YouTube)
+
+**Finesse attack**:
+- "Attacking for exactly four -- that's the finesse number against Wall plus Engineer!"
+- "Forcing the Drone back on defense -- no gold left for an Engineer replacement."
+- "Cascade effect -- one awkward block leads to another, and another."
+
+**Drone sniping**:
+- "Targeting the Drone over the Rhino -- long-term gold income matters more than short-term damage."
+- "Sniping the Rhino before it gets to attack -- paying five gold and red for a worse Wall!"
+- "Engineer snipe for free -- the opening attack picks off undefended tech."
+
+**Immolite burst for finesse**:
+- "Double Immolite instead of Tarsiers -- maximizing damage THIS turn to keep the pressure on."
+- "Holding the attack at four instead of seven -- denying the clean block, forcing awkward defense."
+
+---
+
+## Long-Term Investment Commentary Templates
+> Source: Synthesized from Msven — "Long-Term Investments" (Strategy Series #4, YouTube)
+
+**Shadowfang commitment**:
+- "Double Animus for Shadowfangs -- that's a HUGE long-term investment. Need at least four Fangs to justify it."
+- "The Fang train is running -- but can they spend all that red efficiently?"
+- "Punishing the Fang investment with fast Grenade Mechs -- semi-breachproof attackers don't care about drone breaches."
+
+**Savior commitment**:
+- "Savior purchased! Seven gold and six drones for something that does nothing for two turns."
+- "If the Savior player survives, their defense stabilizes and it's likely over."
+- "Punishing the Savior -- double Animus for Fangs suddenly becomes safe."
+
+**Gauss Fabricator investment**:
+- "Gauss Fab down -- it's like buying two Trinity Drones and a Conduit in one purchase."
+- "Fab churning out Cannons -- that long-term value is starting to pay off."
+- "Destroying the Fab at lifespan six -- barely worth it. At five? Probably not."
+
+---
+
+## Supply Management Commentary Templates
+> Source: Synthesized from Msven — "Managing Defensive Supplies" (Strategy Series #8, YouTube)
+
+**Supply awareness**:
+- "Running low on Wall supply -- need to start mixing in Aegis and Force Fields."
+- "Balancing blue and green defense purchases -- can't afford to run out of one color early."
+- "Smart supply management -- both defense types running out at the same pace."
+
+**Supply crisis**:
+- "Out of Walls! Forced into triple Conduit late-game just for Force Fields and Aegis."
+- "The supply crisis hits -- nothing left to buy but Blood Pacts and Engineers."
+- "Blood Pact over Wall this turn! Less efficient short-term, but preserves Wall supply for two Pacts plus a Wall next turn."
+
+**Chieftain/lifespan supply**:
+- "Holding the Chieftain on defense -- buying another Chieftain instead of attacking preserves Wall supply."
+- "Chieftain train established -- attacking AND defending on rotation. Sustainable pressure."
+
+---
+
+## Reactive Play Commentary Templates
+> Source: Synthesized from Msven — "Playing Reactively" (Strategy Series #2, YouTube)
+
+**RPS set recognition**:
+- "Rock-paper-scissors set! Three viable strategies, each countering another."
+- "Neither player wants to commit first -- the one who shows their hand gets countered."
+- "Playing safe until the opponent commits -- just Drones and a Blastforge for now."
+
+**Reaction to opponent's commitment**:
+- "Third Engineer spotted! Time to punish with aggression."
+- "The opponent went conduit -- that telegraphs a Tia or Venge play. Adapting the plan."
+- "Instant reaction to the greedy build -- switching to the fast Amporilla line."
+
+**Counter-strategy execution**:
+- "Forced the opponent into green, then abandoned the Shadowfang rush -- the threat was enough."
+- "The opponent committed to Defense Grid -- Amporilla is basically a guaranteed win when there's no attack pressure."
+
+---
+
+## Tia Thurnax Commentary Templates
+> Source: Synthesized from Msven — "Tia Thurnax" (Unit Analysis, YouTube)
+
+**Tia dropped**:
+- "Tia drops on 12 drones -- opponent needs to defend this or die!"
+- "Early Tia with damage behind it -- this is the kill shot timing."
+- "Naked Tia! No damage support -- risky against that Blastforge."
+
+**Tia defense**:
+- "Committing 100% to defense against the Tia -- no attackers until it runs out of stamina."
+- "Surviving the Tia burst! Three stamina charges absorbed -- now the counter-attack begins."
+- "Tia fizzles out -- the temporary damage wasn't enough. Opponent left with nothing."
+
+**Tia tempo (high econ)**:
+- "Tia as a tempo play in high economy -- only consumes a small fraction of income."
+- "Second Tia stamina forcing Chieftains back on defense -- the tempo advantage is enormous."
+
+**Counter-Tia**:
+- "Counter-Tia half a turn later -- this almost never works out!"
+- "Smart -- NOT buying counter-Tia. Committing fully to defense instead."
+
+---
+
+## Arka Sodara Commentary Templates (Expanded)
+> Source: Synthesized from Msven — "Arka Sodara" (Unit Analysis, YouTube)
+
+**Arka timing**:
+- "First Arka with 7 damage -- denying 2 absorb from the Wall."
+- "Second Arka advantage -- five more defense on the table. That's huge against Wall absorb."
+- "Against Energy Matrix, first and second Arka are roughly even -- the math changes with bigger absorbers."
+
+**Arka with Defense Grid**:
+- "Arka before D-Grid! Can't let the opponent get too good an Arka."
+- "Clicking all four Manticores for 12 gold half a turn before the opponent -- the timing advantage compounds."
+
+**Arka hold vs attack**:
+- "Holding Arka on defense -- six absorb is comparable to Wall. Attacking would cost seven more defense to replace."
+- "Attacking with Arka against Energy Matrix -- losing two absorb but gaining four attack plus prompt damage. Worth it!"
+
+**Tech sniping and Arka**:
+- "Kinetic Driver sniping the Blastforge -- no second Arka possible now!"
+- "Seizing the Arka window while opponent lacks tech to respond."
+
+---
+
+## Expert Quotables (Expanded)
+> Source: Various YouTube transcripts (Msven, argeiphontes, Elyot Grant)
+
+### Msven
+- "Counting their defense next turn and attacking for exactly enough to force out one defense is really powerful."
+- "Shadowfang is the most efficient vanilla attacker in the entire game, but double Animus is usually a huge long-term investment."
+- "The goal on every gambit for me is to come out slightly ahead whether my opponent accepts it or not."
+- "Tia is rarely ignorable."
+- "A naked Tia won't work if your opponent has a Blastforge."
+- "In sets with both Defense Grid and Arka, you don't want to be getting D-Grid first."
+- "It took me three years of practice to figure this stuff out."
+
+### argeiphontes
+- "You want to synchronize your economy and your tech so you can efficiently spend all of your tech every turn."
+- "Always defend for one more than your opponent's attack. On the flip side, don't over-defend."
+- "Everything about this game is efficiency at the end of the day."
+- "If your opponent has more damage AND more economy than you, you're probably losing."
+- "The threat of an opening is sometimes more valuable than executing it."
+- "Don't be afraid to lose your Engineers in order to defend efficiently."
+
+### Elyot Grant (Lunarch Studios)
+- "Just look how perfect this build is -- we're spending all of our gold, exactly 12 drones, three red and one blue every turn."
+- "When inflation is high, sacrificing your drones is good because future gold isn't worth as much."
+- "The amount of complexity that gets added with just one extra unit is huge."
+- "Even if you study the base+2 game all afternoon, with any other units added, all these lines get muddled up."
+
+### amalloy (WDIL Series)
+- "This Engineer is an enemy unit." — on buying 3rd Engineer without an energy sink
+- "Both of those options are 100% okay with me, and more importantly let me avoid spending resources that I otherwise would have to spend." — on offering minimax gambits
+- "If you're building Ferritin Sacks, that's good evidence that you shouldn't have built them." — on over-teching symptoms
+- "Don't just freeze the biggest thing you can. Think about how your opponent wants to defend and try to deny them that." — on chill targeting
+- "If you're doing zero or one real damage, Blood Rager is fantastic. If you're doing two, it's the same as two Tarsiers with a discount. If you're doing three, it's usually bad." — Blood Rager valuation
+- "A Scorch clicked every time is worth 1 attack on average. Holding a Scorch to deny 1 absorb is roughly neutral." — Scorchilla math
+- "Fission Turret is a much better attacker than Gauss Cannon — it costs 30% less and acts the same for 5 turns." — attacker efficiency
+- "We built this winter, this very expensive attacker, and you're treating it like an Endotherm — it's there to threaten to attack but you don't actually want to attack." — on not clicking Windsor
+
+### sileneundulata (Guest on amalloy's WDIL)
+- "Whenever you're building a tech building — full stop — you should always, always know what you're spending your tech on the next turn." — tech discipline
+- "You generally want to make those situations as close together as possible" — minimax defense, making the opponent's choices equally bad
+- "Splitter is a lot more useful than people get credit for — at least for your first Splitter. It provides threat, temporary absorb while you get your big absorber up, and then it becomes an attacker." — Steelsplitter revaluation
+
+### Wonderboat (Match Commentaries)
+- "Doom Mech is such a high quality unit — you can spend a little bit more if you buy Mixers, but that's just not as good as buying Doom Mech." — on unit quality
+- "Proto's not snipeable, so you don't have to worry about your Walls like having three threats from the Apollo." — Protoplasm vs snipe
+- "These Botches might just sit around — if both players are buying Protos back and forth, the Botches might not get their value." — Grimbotch in Proto mirrors
+- "I am a little heartbroken not being able to Corpus click — imagine one more gold, crazy." — on marginal gold in endgames
+- "Splitter purchase is significantly worse than double Drone because Splitter just runs into a Wall." — in slow sets
+- "Getting the absorber and getting the pressure for his Windsor is really strong here." — Bombardier + Windsor synergy
+
+### Apooche (League Semifinal Commentary)
+- "Plexo Cell just makes Redeemer good." — on synergy dependency
+- "Every other turn you have to have a plan for getting a new one." — Doom Wall cycling cost
+- "Non-granular defenses kind of get punished by Manticore." — on Manticore's defense-math pressure
+- "Trinities can be pretty dang good in end games where your attackers are like three or four health." — Trinity Drone endgame value
+- "Kit also excellent with Thermite Core. You keep clicking your Thermites — that forces your opponent to put out a bunch of defense... then you freeze it all and pop your pixies for breach damage." — the Kit + Thermite combo
+- "15 gold and resources for 8 health... more tempo than buying a bunch of engineers and quite a bit more value." — Colossus as tempo defender
+- "Semi-breachproof means pretty much you absorb but you don't buy units that are vulnerable to a breach." — defining semi-breachproof against Kit
+- "Do I want Chieftain or do I want Tesla Coil? Am I going aggressive... or am I going for the Chieftain, excellent defensive unit, high option value, really flexible?" — Chieftain vs Tesla Coil decision
+- "Xaetron is like your friend in this set... the unit that says hey, I'm here to help you deal with Thermite Core, Arka Sodara, Nivo Charge, Oxide Mixer." — Xaetron as anti-absorb-denial champion
+- "Blood Pact versus breachproof... just not good enough to make up for having such low attack." — Blood Pact weakness against Venge builds
+- "When there's a three on them, that means they're attacking you two more times, so yeah you just kill Gauss charges." — breach targeting priority
+- "The Nivos will get very heavy pressure because all of the absorbers are like legendary or important absorbers... you have to play around forks." — Nivo Charge fork threats
+- "Nobody really knows what's going on... this is exciting." — on P1 Drone-Conduit opening creating confusion
+- "Wait, do you even kill Grimbotches... I'm suddenly like confused." — real-time analytical self-correction
+- "I suspect that might be true." — hedging style, modeling uncertainty
+- "So thinking about two Conduits and a Gauss Cannon..." — verbalizing line exploration
+- "That's the turning point... when they run out of Blood Pact supply, suddenly the pressure just evaporates." — identifying game-defining moments
+
+---
+
+## Commentary Templates: Absorb Denial Situations
+> Source: Apooche — "Aetherllama vs Allecto League Semifinal" (Twitch)
+
+### When Multiple Denial Mechanisms Appear
+- "[Player] is facing absorb denial from three different angles — [unit 1], [unit 2], and [unit 3]. That's an almost impossible defensive puzzle."
+- "The freeze is the final piece. [Player] forces defense with Thermite pressure, then denies it all with Kit."
+- "When your absorbers are all legendary, every Nivo Charge represents a potential fork. [Player] has to play around two different freeze targets every single turn."
+
+### Supply Exhaustion Commentary
+- "Watch the [unit] supply — only [N] remaining. Once that runs out, [Player]'s pressure plan fundamentally changes."
+- "That's it for Blood Pact supply. The window is closing."
+- "The supply count is the clock in this game. [Player] needs to convert that pressure into a win before the supply runs dry."
+
+### Breachproof Assessment
+- "[Player] going for the Venge Cannon breachproof — the question is whether [Opponent] has enough raw damage to punch through those Gauss Charge HP totals."
+- "Against breachproof, you need volume of attack, not efficiency. One big attacker is worse than three small ones."
+- "Semi-breachproof here — absorbing with Wall but not buying anything that dies to a breach. Smart adaptation against Kit."
+
+### Reactive Strategy Shifts
+- "Interesting — [Player] just changed their entire plan based on what [Opponent] bought last turn."
+- "That Arka purchase tells us [Player] read the board and decided absorb denial is the winning lane."
+- "This is what separates tournament players — the willingness to abandon a plan two turns in when a better option presents itself."
+
+---
+
+## Commentary Templates: Legendary Unit Contests
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+### When Both Legendaries Are Contested
+- "Most times I've ever seen one player get both [Legendary A] and [Legendary B] and the other player not — the one who got both won."
+- "If you can get both, you probably win. The question is whether [Opponent] can deny one of them."
+- "[Legendary] alone doesn't guarantee a win — there's still the potential for a draw-out."
+
+### Savior-Specific Commentary
+- "Defense Grid is just so insane — what are you spending your gold on? Walls, Engineers, Rhinos. You click every Plasma Fire and just win."
+- "The Savior just wins the game for you on its own."
+- "Savior commits second compared to a lot of things that it beats — it gave it more space to be beating [unit]."
+- "I got breached for one or two drones, but the amount my opponent paid for it meant I won anyways."
+
+### Thunderhead Moments
+- "[Unit] still better value than anything else — even if it dies immediately."
+- "The Thunderhead's always getting one turn because if you respond with Iso, the Isos don't attack right away."
+- "There's no way to make enough damage against that — Thunderhead stops it cold."
+- "Can you still get 11 when your opponent is punching you for four damage with their Thunderhead?"
+
+---
+
+## Commentary Templates: Wild Drone Economy Games
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+### Economy Tracking
+- "In terms of non-Wild economy, [Player] is only down a [unit] and a drone — but on their turn they're killing the third Wild while they still have all four of theirs up."
+- "The paradox: by the time your Centurion is absorbing, your Wild Drones are gone and you can't afford Centurion."
+- "How much do you commit to Wild Drone? If you commit too hard, maybe [big unit] becomes really strong."
+
+### Tia Threat Assessment
+- "Just threatening Tia is really huge — it prevents certain resource building setups from your opponent."
+- "If you threaten Tia before Centurions come out, it makes it way harder to commit to buying Centurion."
+- "[Player] is moving back towards the Tia threat — or just making sure they can afford Centurion when the time comes."
+
+---
+
+## Commentary Templates: Time Pressure and Decision Quality
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+### Time Bank Observations
+- "[Player] down to [N] seconds in the time bank — sometimes the panic just sets in."
+- "I don't think you had time to calculate the entirety of [Opponent]'s response turn."
+- "You spot something that works, you probably just go for it — depending on what frame of mind you were going in, it's going to be a different plan."
+- "[Player] is agonizing a little bit — puzzling out how big they want to go."
+
+### Runoff/Tournament Pressure
+- "[Player] breaks the transitive result and brings it back to [score]."
+- "How the turn tables have turned."
+- "Sometimes you just throw a turn down and say maybe I got confused and can breach my opponent — and then you go wait, no I can't, and resign."
+
+---
+
+## Commentary Templates: Nivo Charge Pressure
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+### Evaluating Nivo Impact
+- "Single Nivo ain't great — barely pressure, doing a damage."
+- "It's for pressure one damage because it freezes the dying [unit] — so it was really three pressure, one damage. But that's still fine."
+- "Buying fewer Nivos than Infusion Grids that your opponent has is problematic."
+- "I kind of don't love the trickling of Nivos because you run out of supply to keep the pressure up for multiple turns."
+- "Double Nivo is really good because there's only one Blastforge — so he'll freeze the Infusion and any Wall that's purchased."
+
+---
+
+## Apooche Quotables (6 Player Round Robin)
+> Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
+
+- "It's actually generally pretty difficult to throw when you have five unkillable units that deal damage." — on overwhelming board advantage
+- "Killing Iceblades is usually equivalent to admitting you've lost." — on the futility of trading stamina for Iceblade kills
+- "Centrifuge turns are impossible." — on the extreme decision complexity of Centrifuge
+- "Takes three of them to freeze it and like six of them to kill it." — on Polywall vs Iceblade Golem
+- "It's always great to swipe across your enemy's shadow things." — on Shadowfang counter-play
+- "Most times I've ever seen one player get both Lucina and Vai and the other player not — the one who got both won." — on legendary dominance
+- "Sometimes the panic just sets in." — on time pressure decision-making
+- "Sometimes you just throw a turn down and say maybe I got confused and can breach my opponent — and then you go wait, no I can't, and resign." — on resignation moments
+- "How the turn tables have turned." — on momentum reversal
+- "The Savior just wins the game for you on its own." — on Savior's dominant economy
+- "Thunderhead stops it cold." — on Thunderhead vs red aggression
+- "Pretty rusty, but still good enough to beat all these scrubs." — Aetherllama's self-deprecating winner's interview
+- "I'm one of the only people hosting tournaments right now." — Apooche on community tournament hosting
+- "Will says the tournament was perfectly transitive — that's really funny." — on the rare round-robin outcome where rankings formed a strict ordering
+- "Nerf Savior — six build time please. Just bring back the old Savior five. Let's compromise, five build time." — on Savior balance frustration
+- "Sometimes you look at the set and you say oh Savior gets countered, but Zamora doesn't solve the Zamora." — on incomplete counter-play analysis
+- "Vai Mauronax alone doesn't guarantee a win because you still have the potential to go Forge into Synthesizer — the old Synthesizer draw-out." — on theoretical escape valves
+- "He's gonna throw some turns on the table just to look at them." — on a player playing out a hopeless position
+- "These additional Blood Phages look even worse." — on diminishing returns of unit stacking without infrastructure

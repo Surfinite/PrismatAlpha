@@ -23,6 +23,7 @@ Usage:
 """
 
 import argparse
+import atexit
 import hashlib
 import json
 import math
@@ -731,6 +732,45 @@ def main():
 
     os.makedirs(args.model_dir, exist_ok=True)
 
+    # Lock file to prevent zombie processes writing to same model directory
+    lock_path = os.path.join(args.model_dir, 'training.lock')
+    if os.path.exists(lock_path):
+        try:
+            with open(lock_path, 'r') as lf:
+                lock_info = json.load(lf)
+            lock_pid = lock_info.get('pid', '?')
+            lock_time = lock_info.get('started', '?')
+            # Check if the process is still alive
+            pid_alive = False
+            try:
+                os.kill(int(lock_pid), 0)
+                pid_alive = True
+            except (OSError, ValueError):
+                pass
+            if pid_alive:
+                print(f"\n  ERROR: Another training process (PID {lock_pid}, started {lock_time}) "
+                      f"is already using {args.model_dir}")
+                print(f"  Lock file: {lock_path}")
+                print(f"  If this is stale, delete the lock file and retry.")
+                sys.exit(1)
+            else:
+                print(f"  WARNING: Stale lock from dead process PID {lock_pid} (started {lock_time}). Removing.")
+                os.remove(lock_path)
+        except (json.JSONDecodeError, IOError):
+            print(f"  WARNING: Corrupt lock file. Removing.")
+            os.remove(lock_path)
+
+    lock_info = {'pid': os.getpid(), 'started': datetime.now().isoformat(), 'model_dir': args.model_dir}
+    with open(lock_path, 'w') as lf:
+        json.dump(lock_info, lf)
+
+    def _remove_lock():
+        try:
+            os.remove(lock_path)
+        except OSError:
+            pass
+    atexit.register(_remove_lock)
+
     device = get_device(args.device)
     use_amp = args.amp and device.type in ("xpu", "cuda")
     if use_amp:
@@ -1018,6 +1058,12 @@ def main():
         if "scheduler_state_dict" in ckpt:
             scheduler.load_state_dict(ckpt["scheduler_state_dict"])
             print(f"  Restored LR scheduler state")
+        if "global_step" in ckpt:
+            global_step = ckpt["global_step"]
+            print(f"  Restored global_step={global_step}")
+        if "best_val_value_loss" in ckpt:
+            best_val_vloss_resume = ckpt["best_val_value_loss"]
+            print(f"  Previous best val_loss={best_val_vloss_resume:.6f}")
         print(f"  Resuming from epoch {start_epoch}")
 
     # Optional: torch.compile for Intel XPU kernel optimization
@@ -1077,6 +1123,7 @@ def main():
     best_step = 0
     patience_counter = 0
     global_step = 0
+    best_val_vloss_resume = None  # track pre-resume best for patience
     early_stopped = False
 
     mode_str = "value-only" if args.value_only else "policy+value"

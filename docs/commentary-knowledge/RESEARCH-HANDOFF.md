@@ -49,15 +49,17 @@ We're building a knowledge base for an AI game commentator that will provide liv
 - Our own PRISMATA_REFERENCE.md (curated from 448 wiki pages)
 - cardLibrary.jso (full unit database with internal names, costs, stats)
 
-### Yujiri Pages We Know About But Haven't Fetched Yet
+### Yujiri Pages — FETCHED AND INTEGRATED (Feb 20, 2026)
 
-These exist in the Wayback Machine and could be fetched. If you find them, great — but we know they exist:
-- `analysis_2` through `analysis_9` — 8 more set reading worked examples
-- `another_fucking_pris_thing` — guest article by Punf
-- `achievements` — secret campaign achievement guide
-- `changes` — advocated balance changes
-- `rating` — how to see your rating
-- `secrets` — cheat codes
+These have been recovered from Wayback Machine and fully integrated into the knowledge base:
+- `analysis_2` through `analysis_9` — 8 set reading worked examples → in 06-meta-expert.md
+- `another_fucking_pris_thing` — guest article by Punf → in 03-advanced-units.md, 04-strategy-concepts.md, 06-meta-expert.md
+
+### Yujiri Pages Still Available But Low Priority
+- `achievements` — secret campaign achievement guide (not strategy)
+- `changes` — advocated balance changes (historical, low commentary value)
+- `rating` — how to see your rating (not strategy)
+- `secrets` — cheat codes (not strategy)
 
 ## What We're MISSING and Want You to Find
 

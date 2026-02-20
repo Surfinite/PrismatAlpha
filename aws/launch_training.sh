@@ -1,5 +1,5 @@
 #!/bin/bash
-# Launch g4dn.xlarge EC2 GPU instance for neural network training
+# Launch GPU EC2 instance for neural network training (default: g6.2xlarge)
 # Usage: bash aws/launch_training.sh [OPTIONS]
 #
 # Options (via env vars):
@@ -94,8 +94,21 @@ USERDATA=$(cat <<ENDSCRIPT
 #!/bin/bash
 set -eo pipefail
 
+# Ensure instance self-terminates on ANY exit (crash, signal, pipefail)
+cleanup_and_shutdown() {
+    echo "[trap] Script exiting (code \$?) — uploading logs and shutting down..."
+    # Best-effort final log upload
+    if [ -f training_output.log ] && [ -n "\${BUCKET:-}" ] && [ -n "\${S3_PREFIX:-}" ]; then
+        aws s3 cp training_output.log s3://\$BUCKET/\$S3_PREFIX/training_output.log --region \$REGION 2>/dev/null || true
+    fi
+    # Kill background sync if running
+    kill \$SYNC_PID 2>/dev/null || true
+    sudo shutdown -h now
+}
+trap cleanup_and_shutdown EXIT
+
 # ============================================================
-# Prismata Training Worker (g4dn.xlarge, NVIDIA T4)
+# Prismata Training Worker (GPU instance)
 # ============================================================
 BUCKET="$BUCKET"
 REGION="$REGION"
@@ -229,7 +242,7 @@ TRAIN_CMD="python training/train.py data models \\
   --tanh-in-training \\
   --loss-fn \$LOSS_FN \\
   --patience \$PATIENCE \\
-  --num-workers 4 \\
+  --num-workers 2 \\
   --eval-every-steps \$EVAL_STEPS \\
   --seed \$SEED \\
   --streaming \\
@@ -306,9 +319,8 @@ echo "Download model: aws s3 cp s3://\$BUCKET/\$S3_PREFIX/neural_weights.bin bin
 echo "Download checkpoint: aws s3 cp s3://\$BUCKET/\$S3_PREFIX/models/best_model.pt training/models/ --region \$REGION"
 date
 
-# Self-terminate
-echo "Shutting down..."
-sudo shutdown -h now
+# Self-terminate (trap EXIT handler will run shutdown)
+echo "Training script complete. Exiting..."
 ENDSCRIPT
 )
 

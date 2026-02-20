@@ -463,7 +463,10 @@ static Action resolveAction(const GameState & state, const std::string & type,
 
     if (type == "SNIPE" || type == "CHILL")
     {
-        // Find source: our card with a targeting ability that can use its ability
+        // Targeting abilities are two-step in the engine:
+        //   Step 1: USE_ABILITY on source card (sets m_targetAbilityCardClicked flag)
+        //   Step 2: SNIPE/CHILL action with source + target (requires flag set)
+        // If the flag is already set, we're on step 2. Otherwise do step 1 first.
         PlayerID enemy = (activePlayer == 0) ? 1 : 0;
         CardID sourceID = (CardID)-1;
 
@@ -471,7 +474,7 @@ static Action resolveAction(const GameState & state, const std::string & type,
         for (size_t i = 0; i < myCards.size(); i++)
         {
             const Card & card = state.getCardByID(myCards[i]);
-            if (card.getType().hasTargetAbility() && card.canUseAbility())
+            if (card.getType().hasTargetAbility() && card.canUseAbility() && !card.hasTarget())
             {
                 sourceID = myCards[i];
                 break;
@@ -483,7 +486,13 @@ static Action resolveAction(const GameState & state, const std::string & type,
             return Action();
         }
 
-        // Find target: enemy card matching name
+        // Step 1: If source not yet clicked, return USE_ABILITY to set the targeting flag
+        if (!state.isTargetAbilityCardClicked())
+        {
+            return Action(activePlayer, ActionTypes::USE_ABILITY, sourceID);
+        }
+
+        // Step 2: Find target enemy card and issue the targeting action
         const CardIDVector & enemyCards = state.getCardIDs(enemy);
         for (size_t i = 0; i < enemyCards.size(); i++)
         {
@@ -645,6 +654,30 @@ void Benchmarks::DoReplayValidation(const std::string & validationFile, const st
             }
 
             state.doAction(action);
+
+            // Targeting abilities are two-step: USE_ABILITY (step 1) then SNIPE/CHILL (step 2).
+            // If resolveAction returned USE_ABILITY for a SNIPE/CHILL request, re-resolve to get step 2.
+            if ((actionType == "SNIPE" || actionType == "CHILL") && action.getType() == ActionTypes::USE_ABILITY)
+            {
+                Action step2 = resolveAction(state, actionType, cardName, activePlayer);
+                if (step2.getType() == ActionTypes::NONE)
+                {
+                    printf("  Turn %zu [P%d %s] action %zu: RESOLVE FAILED (step2): %s '%s' (phase=%d)\n",
+                           t, expectedPlayer, playerName.c_str(), a,
+                           actionType.c_str(), cardName.c_str(), state.getActivePhase());
+                    turnErrors++;
+                    continue;
+                }
+                if (!state.isLegal(step2))
+                {
+                    printf("  Turn %zu [P%d %s] action %zu: NOT LEGAL (step2): %s '%s' (phase=%d)\n",
+                           t, expectedPlayer, playerName.c_str(), a,
+                           actionType.c_str(), cardName.c_str(), state.getActivePhase());
+                    turnErrors++;
+                    continue;
+                }
+                state.doAction(step2);
+            }
         }
 
         // After all explicit actions, ensure turn transition completes.
@@ -757,6 +790,13 @@ static void suggestError(const std::string & msg)
 {
     printf("{\"ok\":false,\"error\":\"%s\"}\n", jsonEscape(msg).c_str());
     fflush(stdout);
+}
+
+static void appendClick(std::stringstream & ss, bool & hasPrev, const char * clickType, int clickId)
+{
+    if (hasPrev) { ss << ","; }
+    ss << "{\"_type\":\"" << clickType << "\",\"_id\":" << clickId << "}";
+    hasPrev = true;
 }
 
 void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & playerName, int thinkTimeMs)
@@ -898,7 +938,79 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
         }
     }
 
-    // 8. Build JSON output
+    // 8. Build click-ready actions for protocol injection
+    //    Mirrors Move::toClientString() logic for automatic END_PHASE insertion
+    std::stringstream clicksOut;
+    clicksOut << "[";
+    bool hasPrevClick = false;
+    for (size_t i = 0; i < move.size(); ++i)
+    {
+        const Action & action = move.getAction(i);
+
+        // Insert END_PHASE between blockers and non-blockers
+        if (i > 0 && action.getType() != ActionTypes::ASSIGN_BLOCKER
+            && move.getAction(i - 1).getType() == ActionTypes::ASSIGN_BLOCKER)
+        {
+            appendClick(clicksOut, hasPrevClick, "space clicked", -1);
+        }
+
+        // Insert END_PHASE before first breach action
+        if (i > 0 && action.getType() == ActionTypes::ASSIGN_BREACH
+            && move.getAction(i - 1).getType() != ActionTypes::ASSIGN_BREACH)
+        {
+            appendClick(clicksOut, hasPrevClick, "space clicked", -1);
+        }
+
+        switch (action.getType())
+        {
+            case ActionTypes::BUY:
+            {
+                // CardType global ID -> mergedDeck index (offset by 2 empty entries)
+                int deckIdx = (int)action.getID() - 2;
+                appendClick(clicksOut, hasPrevClick, "card clicked", deckIdx);
+                break;
+            }
+            case ActionTypes::USE_ABILITY:
+            {
+                int instId = state.getCardByID(action.getID()).getClientInstId();
+                appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                break;
+            }
+            case ActionTypes::ASSIGN_BLOCKER:
+            {
+                int instId = state.getCardByID(action.getID()).getClientInstId();
+                appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                appendClick(clicksOut, hasPrevClick, "end swipe processed", instId);
+                break;
+            }
+            case ActionTypes::ASSIGN_BREACH:
+            {
+                int instId = state.getCardByID(action.getID()).getClientInstId();
+                appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                break;
+            }
+            case ActionTypes::SNIPE:
+            case ActionTypes::CHILL:
+            {
+                // Two-step targeting: click source, then click target
+                int srcId = state.getCardByID(action.getID()).getClientInstId();
+                int tgtId = state.getCardByID(action.getTargetID()).getClientInstId();
+                appendClick(clicksOut, hasPrevClick, "inst clicked", srcId);
+                appendClick(clicksOut, hasPrevClick, "inst clicked", tgtId);
+                break;
+            }
+            case ActionTypes::END_PHASE:
+                // Skip — we insert END_PHASE automatically above
+                break;
+            default:
+                break;
+        }
+    }
+    // Final END_PHASE to commit the turn
+    appendClick(clicksOut, hasPrevClick, "space clicked", -1);
+    clicksOut << "]";
+
+    // 9. Build JSON output
     double evalPct = (neuralValue + 1.0) / 2.0 * 100.0;
     std::stringstream out;
     out << std::fixed;
@@ -911,6 +1023,7 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
     out << ",\"abilities\":" << jsonStringArray(abilities);
     out << ",\"defense\":" << jsonStringArray(defense);
     out << ",\"breach\":" << jsonStringArray(breach);
+    out << ",\"clicks\":" << clicksOut.str();
     out << ",\"think_ms\":" << (int)searchMs;
     out << ",\"timing_ms\":{\"parse\":" << (int)parseMs
         << ",\"eval\":" << (int)evalMs
