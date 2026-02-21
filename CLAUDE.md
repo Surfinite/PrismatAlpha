@@ -297,7 +297,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 
 ## Claude Code Tooling
 
-**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/revise` (update CLAUDE.md), `/preflight` (pre-training verification: S3 deploy diff, code review, fleet/quota/git checks).
+**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/revise` (update CLAUDE.md), `/preflight` (pre-training verification: S3 deploy diff, code review, fleet/quota/git checks), `/document-context` (generate reviewer context doc for most recent plan in `docs/plans/`), `/review-intake` (ingest external reviews + meta-review with tiered plan updates — must-do/should-do auto-applied, consider as pick list).
 
 **Hooks** (in `.claude/settings.local.json`):
 - PreToolUse: Blocks Read/Edit/Write on `.aws_credentials`, `credentials.json`, `.env` files
