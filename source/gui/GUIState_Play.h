@@ -42,6 +42,7 @@ struct HumanTurnAdvice
     bool        neuralValid   = false;
     bool        playoutValid  = false;
     int         adviseRevision = -1;
+    int         forPlayer     = -1;
 };
 
 struct EvalHistoryEntry

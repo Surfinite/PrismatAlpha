@@ -395,7 +395,7 @@ void GUIState_Play::sUserInput()
     sf::Event event;
     int menuIndexChange = 0;
     PlayerID player = m_currentState.getActivePlayer();
-    bool shift = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+    bool shift = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
     while (m_game.window().pollEvent(event))
     {
         // this event triggers when the window is closed
@@ -414,7 +414,7 @@ void GUIState_Play::sUserInput()
                 case sf::Keyboard::Left:    { rewindToPreviousState(); break; }
                 case sf::Keyboard::A:       { buyCardByName("Animus", shift); break; }
                 case sf::Keyboard::D:       { buyCardByName("Drone", shift); break; }
-                case sf::Keyboard::E:       { if (shift) toggleBool(m_showEvalBars); else buyCardByName("Engineer", false); break; }
+                case sf::Keyboard::E:       { if (event.key.shift) toggleBool(m_showEvalBars); else buyCardByName("Engineer", false); break; }
                 case sf::Keyboard::B:       { buyCardByName("Blastforge", shift); break; }
                 case sf::Keyboard::C:       { buyCardByName("Conduit", shift); break; }
                 case sf::Keyboard::F:       { buyCardByName("Forcefield", shift); break; }
@@ -422,7 +422,7 @@ void GUIState_Play::sUserInput()
                 case sf::Keyboard::S:       { buyCardByName("Steelsplitter", shift); menuIndexChange = 1; break; }
                 case sf::Keyboard::T:       { buyCardByName("Tarsier", shift); break; }
                 case sf::Keyboard::R:       { buyCardByName("Rhino", shift); break; }
-                case sf::Keyboard::W:       { if (shift && (m_drawDebugInfo || m_showEvalBars)) toggleBool(m_showWillScoreBar); else { buyCardByName("Wall", shift); menuIndexChange = -1; } break; }
+                case sf::Keyboard::W:       { if (event.key.shift && (m_drawDebugInfo || m_showEvalBars)) toggleBool(m_showWillScoreBar); else { buyCardByName("Wall", event.key.shift); menuIndexChange = -1; } break; }
                 case sf::Keyboard::Z:       { rewindToPreviousState(); break; }
                 case sf::Keyboard::M:       { toggleBool(m_drawMouseOver); break; }
                 case sf::Keyboard::X:       { toggleBool(m_drawPotentials); break; }
@@ -465,7 +465,7 @@ void GUIState_Play::sUserInput()
                 // determine which element of the gui was clicked, if any
                 GUICard * guiCard = getClickedCard(mouse.x, mouse.y);
                 GUICardBuyable * cardBuyable = guiCard ? NULL : getClickedCardBuyable(mouse.x, mouse.y);
-                bool shift = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+                bool shift = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
 
                 // if a card was clicked
                 if (guiCard)
@@ -750,15 +750,20 @@ void GUIState_Play::drawInformation()
         GUITools::DrawMana(m_currentState.getResources(player), origin[player], iconSize, numberSize, sf::Vector2f(10, 0), true, &m_game.window());
     }
 
-    // Gold prediction display (only when debug info is active)
-    if (m_drawDebugInfo)
+    // Gold prediction display — centered in board at 10%/90% screen height
+    if (m_drawDebugInfo || m_showEvalBars)
     {
+        auto wSize = m_game.window().getSize();
+        float boardLeft = BuyablePaneSize.x;
+        float boardCenterX = boardLeft + (wSize.x - boardLeft) / 2.0f;
+        // P0 (ours, bottom) at 90% down, P1 (opponent, top) at 10% down
+        float goldY[2] = { wSize.y * 0.9f, wSize.y * 0.1f };
         for (PlayerID player = 0; player < 2; ++player)
         {
             std::stringstream gs;
             gs << "(+" << m_predictedGold[player] << ")";
-            sf::Vector2f goldPos = origin[player] + sf::Vector2f(0, 34);
-            GUITools::DrawString(goldPos, gs.str(), sf::Color(200, 200, 200), &m_game.window(), 12);
+            GUITools::DrawString(sf::Vector2f(boardCenterX - 18, goldY[player]),
+                                 gs.str(), sf::Color(220, 200, 100), &m_game.window(), 22);
         }
     }
 
@@ -833,8 +838,19 @@ void GUIState_Play::drawInformation()
     }
 
     GUITools::DrawString(space, status, sf::Color::White, &m_game.window(), 16);
+
+    // Turn number — always visible near the horizontal board separator
+    {
+        auto wSize = m_game.window().getSize();
+        float boardLeft = BuyablePaneSize.x;
+        float boardCenterX = boardLeft + (wSize.x - boardLeft) / 2.0f;
+        std::string turnStr = "Turn " + std::to_string(m_currentState.getTurnNumber());
+        GUITools::DrawString(sf::Vector2f(boardCenterX - 25, wSize.y / 2.0f - 12),
+                             turnStr, sf::Color(180, 180, 180), &m_game.window(), 14);
+    }
+
     int spacing = 15;
-    int top = 140;
+    int top = 200;
 
     if (m_replayMode)
     {
@@ -855,14 +871,30 @@ void GUIState_Play::drawInformation()
     }
     else
     {
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top), "Enter: AI Menu" , sf::Color(127, 127, 127), &m_game.window());
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 1*spacing),  "ESC:   Main Menu", sf::Color(127, 127, 127), &m_game.window());
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 2*spacing),  "TAB:   Buy Pane", sf::Color(127, 127, 127), &m_game.window());
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 3*spacing),  "Q:     Tap Drones", sf::Color(127, 127, 127), &m_game.window());
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 4*spacing),  "Z:     Undo Action", sf::Color(127, 127, 127), &m_game.window());
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 5*spacing),  "X:     Toggle Atk/Def", sf::Color(127, 127, 127), &m_game.window());
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 6*spacing),  "M:     Toggle Mouseover", sf::Color(127, 127, 127), &m_game.window());
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 7*spacing),  "~/# :  Toggle Debug", sf::Color(127, 127, 127), &m_game.window());
+        int row = 0;
+        sf::Color grey(127, 127, 127);
+        auto helpY = [&](int r) { return (float)(m_game.window().getSize().y - top + r * spacing); };
+
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "Enter:   AI Menu",        grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "ESC:     Main Menu",      grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "TAB:     Buy Pane",       grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "Q:       Tap Drones",     grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "Z:       Undo Action",    grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "X:       Toggle Atk/Def", grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "M:       Toggle Mouseover", grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "~/# :    Toggle Debug",   grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "Shift+E: Eval Bars",      grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "Shift+W: WillScore Bar",  grey, &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, helpY(row++)), "F7:      AI Advice",      grey, &m_game.window());
+
+        if (m_drawDebugInfo || m_showEvalBars)
+        {
+            row++;
+            GUITools::DrawString(sf::Vector2f(5, helpY(row)), "Card labels:", grey, &m_game.window());
+            GUITools::DrawString(sf::Vector2f(85, helpY(row)), "Heuristic", sf::Color(255, 255, 100), &m_game.window());
+            row++;
+            GUITools::DrawString(sf::Vector2f(5, helpY(row)), "             Eval delta", sf::Color(100, 255, 100), &m_game.window());
+        }
     }
 }
 
@@ -894,11 +926,20 @@ void GUIState_Play::drawDebugInfo()
     if (!m_drawDebugInfo) { return; }
     sf::Vector2f origins[2] = { sf::Vector2f(m_game.window().getSize().x - 450, (m_game.window().getSize().y / 2) + 20), sf::Vector2f(m_game.window().getSize().x - 450, 20)};
 
+    // Consistent colours used throughout debug panel and graph
+    static const sf::Color willScoreColor(100, 180, 255);   // blue
+    static const sf::Color neuralColor(255, 200, 50);        // amber/gold
+
     std::stringstream ss[2];
+    float lineH = 20.0f;  // approximate pixel height of one text line at size 18
 
     for (PlayerID p(0); p<2; ++p)
     {
-        ss[p] << "Will Score: " << std::fixed << std::setprecision(1) << Eval::WillScoreSum(m_currentState, p) << "\n";
+        // WillScore rendered separately in its colour — keep out of ss so we can colour it
+        std::stringstream ws;
+        ws << "Will Score: " << std::fixed << std::setprecision(1) << Eval::WillScoreSum(m_currentState, p);
+        GUITools::DrawString(origins[p], ws.str(), willScoreColor, &m_game.window(), 18);
+        origins[p].y += lineH;
 
         const AIDebugInfo & info = m_aiDebugInfo[p];
 
@@ -941,14 +982,8 @@ void GUIState_Play::drawDebugInfo()
             }
         }
 
-        // "Thinking..." indicator for this player
-        if (m_isThinking && m_autoPlay[p])
-        {
-            ss[p] << "\nThinking...";
-        }
-
-        // Human advice display (for non-auto-play players)
-        if (!m_autoPlay[p] && m_humanAdvice.adviseRevision == m_stateRevision)
+        // Human advice display (only for the player the advice was computed for)
+        if (m_humanAdvice.forPlayer == (int)p && m_humanAdvice.adviseRevision == m_stateRevision)
         {
             if (m_humanAdvice.neuralValid)
             {
@@ -970,9 +1005,18 @@ void GUIState_Play::drawDebugInfo()
             }
         }
 
+        // Diagnostic: raw neural eval from both perspectives
+        if (NeuralNet::Instance().isLoaded())
+        {
+            double evalAsP0 = NeuralNet::Instance().evaluateValue(m_currentState, 0);
+            double evalAsP1 = NeuralNet::Instance().evaluateValue(m_currentState, 1);
+            ss[p] << "\n[NN P0:" << std::fixed << std::setprecision(3) << evalAsP0
+                   << " P1:" << evalAsP1 << "]";
+        }
+
         ss[p] << "\n" << m_aiDescription[p];
 
-        GUITools::DrawString(origins[p], ss[p].str(), sf::Color::White, &m_game.window(), 18);
+        GUITools::DrawString(origins[p], ss[p].str(), neuralColor, &m_game.window(), 18);
     }
 
     // Memory monitoring (Windows-specific)
@@ -1067,42 +1111,33 @@ void GUIState_Play::drawDebugInfo()
         const CardType type = m_guiCardsBuyable[i].getType();
         sf::Vector2f labelPos = m_guiCardsBuyable[i].pos() + sf::Vector2f(205, 5);
 
-        // H: value in yellow
+        // Heuristic value in yellow (no prefix)
         std::stringstream hs;
         hs << std::fixed << std::setprecision(1);
         double hVal = HeuristicValues::Instance().GetInflatedTotalCostValue(type);
-        hs << "H:" << hVal;
+        hs << hVal;
         GUITools::DrawString(labelPos + sf::Vector2f(1, 1), hs.str(), sf::Color::Black, &m_game.window(), 24);
         GUITools::DrawString(labelPos, hs.str(), sf::Color(255, 255, 100), &m_game.window(), 24);
 
-        // N: value + percentage in blue (only for affordable units), or "(value-only)" in grey
-        if (hasNN)
-        {
-            if (policyIsZero)
-            {
-                sf::Vector2f nPos = labelPos + sf::Vector2f(0, 26);
-                std::string voLabel = " N: (value-only)";
-                GUITools::DrawString(nPos + sf::Vector2f(1, 1), voLabel, sf::Color::Black, &m_game.window(), 24);
-                GUITools::DrawString(nPos, voLabel, sf::Color(160, 160, 160), &m_game.window(), 24);
-            }
-            else
-            {
-                auto it = policyPct.find(type.getID());
-                if (it != policyPct.end())
-                {
-                    int unitIdx = NeuralNet::Instance().getUnitIndex(type.getID());
-                    std::stringstream ns;
-                    ns << std::fixed << std::setprecision(3) << " N:" << nnOut.policy[unitIdx];
-                    ns << std::setprecision(0) << " " << it->second << "%";
+        int nextLabelY = 26;
 
-                    sf::Vector2f nPos = labelPos + sf::Vector2f(0, 26);
-                    GUITools::DrawString(nPos + sf::Vector2f(1, 1), ns.str(), sf::Color::Black, &m_game.window(), 24);
-                    GUITools::DrawString(nPos, ns.str(), sf::Color(100, 180, 255), &m_game.window(), 24);
-                }
+        // Policy percentage in blue (only shown when policy data exists, not for value-only models)
+        if (hasNN && !policyIsZero)
+        {
+            auto it = policyPct.find(type.getID());
+            if (it != policyPct.end())
+            {
+                std::stringstream ns;
+                ns << std::fixed << std::setprecision(0) << it->second << "%";
+
+                sf::Vector2f nPos = labelPos + sf::Vector2f(0, nextLabelY);
+                GUITools::DrawString(nPos + sf::Vector2f(1, 1), ns.str(), sf::Color::Black, &m_game.window(), 24);
+                GUITools::DrawString(nPos, ns.str(), sf::Color(100, 180, 255), &m_game.window(), 24);
+                nextLabelY += 26;
             }
         }
 
-        // V: neural value delta (simulate buying this card and measure eval change)
+        // Neural value delta (simulate buying this card and measure eval change)
         if (hasNN)
         {
             Action buyAction(activePlayer, ActionTypes::BUY, type.getID());
@@ -1115,14 +1150,14 @@ void GUIState_Play::drawDebugInfo()
 
                 std::stringstream vs;
                 vs << std::fixed << std::setprecision(3);
-                vs << "V:" << (delta >= 0 ? "+" : "") << delta;
+                vs << (delta >= 0 ? "+" : "") << delta;
 
                 sf::Color vColor;
                 if (delta > 0.01)       vColor = sf::Color(100, 255, 100);  // green = good
                 else if (delta < -0.01) vColor = sf::Color(255, 100, 100);  // red = bad
                 else                    vColor = sf::Color(180, 180, 180);  // grey = neutral
 
-                sf::Vector2f vPos = labelPos + sf::Vector2f(0, 52);
+                sf::Vector2f vPos = labelPos + sf::Vector2f(0, nextLabelY);
                 GUITools::DrawString(vPos + sf::Vector2f(1, 1), vs.str(), sf::Color::Black, &m_game.window(), 24);
                 GUITools::DrawString(vPos, vs.str(), vColor, &m_game.window(), 24);
             }
@@ -1189,8 +1224,8 @@ void GUIState_Play::drawEvalBars()
     float barTop = (wSize.y / 2.0f) - (barHeight / 2.0f);
     float neuralX = wSize.x - 50.0f;
 
-    sf::Color p0Color(50, 200, 50);     // Green for P0 (bottom)
-    sf::Color p1Color(200, 50, 50);     // Red for P1 (top)
+    sf::Color p0Color(80, 140, 255);    // Blue for P0/ours (bottom)
+    sf::Color p1Color(200, 50, 50);     // Red for P1/opponent (top)
     sf::Color borderColor(100, 100, 100);
 
     // Neural eval bar
@@ -1262,17 +1297,17 @@ void GUIState_Play::drawEvalGraph()
     // Dynamic X scaling
     float xScale = graphW / std::max(1, (int)m_evalHistory.size() - 1);
 
-    // Neural eval line (blue)
+    // Neural eval line (amber — matches debug panel neuralColor)
     for (size_t i = 1; i < m_evalHistory.size(); ++i)
     {
         float x1 = graphX + (i - 1) * xScale;
         float x2 = graphX + i * xScale;
         float y1 = centerY - m_evalHistory[i - 1].neuralEval * (graphH / 2.0f);
         float y2 = centerY - m_evalHistory[i].neuralEval * (graphH / 2.0f);
-        GUITools::DrawLine(sf::Vector2f(x1, y1), sf::Vector2f(x2, y2), sf::Color(100, 180, 255), &m_game.window());
+        GUITools::DrawLine(sf::Vector2f(x1, y1), sf::Vector2f(x2, y2), sf::Color(255, 200, 50), &m_game.window());
     }
 
-    // WillScore line (yellow, tanh-normalized)
+    // WillScore line (blue — matches debug panel willScoreColor)
     for (size_t i = 1; i < m_evalHistory.size(); ++i)
     {
         float x1 = graphX + (i - 1) * xScale;
@@ -1281,11 +1316,13 @@ void GUIState_Play::drawEvalGraph()
         float ws2 = (float)tanh(m_evalHistory[i].willScoreDiff / 30.0);
         float y1 = centerY - ws1 * (graphH / 2.0f);
         float y2 = centerY - ws2 * (graphH / 2.0f);
-        GUITools::DrawLine(sf::Vector2f(x1, y1), sf::Vector2f(x2, y2), sf::Color(255, 255, 100), &m_game.window());
+        GUITools::DrawLine(sf::Vector2f(x1, y1), sf::Vector2f(x2, y2), sf::Color(100, 180, 255), &m_game.window());
     }
 
-    // Label
+    // Label + colour legend
     GUITools::DrawString(sf::Vector2f(graphX + 4, graphY + 2), "Eval History", sf::Color::White, &m_game.window(), 12);
+    GUITools::DrawString(sf::Vector2f(graphX + 4, graphY + graphH - 28), "Neural", sf::Color(255, 200, 50), &m_game.window(), 11);
+    GUITools::DrawString(sf::Vector2f(graphX + 4, graphY + graphH - 16), "WillScore", sf::Color(100, 180, 255), &m_game.window(), 11);
 }
 
 void GUIState_Play::exportEvalHistory()
@@ -1392,6 +1429,7 @@ void GUIState_Play::launchBackgroundEvals(PlayerID player)
 void GUIState_Play::launchHumanAdvice(PlayerID player)
 {
     if (m_replayMode) { return; }
+    m_humanAdvice.forPlayer = player;
     int revision = m_stateRevision;
     GameState stateCopy(m_currentState);
 
@@ -1787,7 +1825,29 @@ void GUIState_Play::sRender()
     drawEvalGraph();
     drawTargetAbility();
     drawMouseOverPanes();
-    
+
+    // Thinking indicator — large when AI is computing/blocking, small for background evals
+    if (m_isThinking)
+    {
+        auto wSize = m_game.window().getSize();
+        float boardLeft = 200.0f;
+        float boardCenterX = boardLeft + (wSize.x - boardLeft) / 2.0f;
+        PlayerID activePlayer = m_currentState.getActivePlayer();
+
+        if (m_autoPlay[activePlayer])
+        {
+            // Large: AI is actively computing its move — show in the active player's half
+            float blockY = (activePlayer == 0) ? wSize.y * 0.75f : wSize.y * 0.25f;
+            GUITools::DrawString(sf::Vector2f(boardCenterX - 80, blockY - 18), "Thinking...",
+                                 sf::Color(255, 255, 255), &m_game.window(), 36);
+        }
+        else
+        {
+            // Small: background human advice or eval running — always visible at top of board
+            GUITools::DrawString(sf::Vector2f(boardCenterX - 40, 4), "thinking...",
+                                 sf::Color(160, 160, 160), &m_game.window(), 13);
+        }
+    }
 
     // swap the buffers and draw the frame
     m_game.window().display();
