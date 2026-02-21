@@ -42,7 +42,7 @@
 7. ~~**Build overlay advisor**~~ — DONE (Feb 18). C++ `--suggest` mode + Python overlay (`tools/prismata_advisor.py`) + launcher (`run_advisor.bat`). Run: double-click `run_advisor.bat`, press F6 in Prismata. Plan: `docs/plans/2026-02-18-prismata-overlay-advisor.md`.
 8. ~~**Live game state tracking in sniffer**~~ — DONE (Feb 20). Auto-F6 at turn boundaries via Win32 SendInput, clipboard capture, mid-turn click tracking, JSON + console output. See sniffer gotchas below. **Not yet live-tested.**
 9. ~~**Build live AI commentator — Phase 1 (text + chat)**~~ — DONE (Feb 20). Claude Haiku generates per-turn strategic commentary, injected as in-game PM via sniffer proxy. Adaptive token budget: short/punchy for fast turns (40 tokens), expanded colour for long thinks (120 tokens, >=15s threshold). Chat target defaults to Surfinite (self-PM); set `CHAT_TARGET=<id>` env var to redirect. Tested live on spectated games. Plan: `docs/plans/2026-02-20-live-commentator-plan.md`. Knowledge base: `docs/commentary-knowledge/`. **Phase 2 (TTS + OBS)** still planned — needs `edge-tts`, `sounddevice`, `obsws-python`, VB-Cable.
-10. **Post-game commentary from replay data** — WORKFLOW ESTABLISHED (Feb 21). Fetch replay JSON from S3 (`curl -sL "http://saved-games-alpha.s3-website-us-east-1.amazonaws.com/{CODE}.json.gz"`), parse `commandList`/`clicksPerTurn`/`mergedDeck` to reconstruct per-turn purchases and timing, cross-reference wiki for unit strategy notes, write multi-message commentary. Discord posting: `python tools/discord_post_helper.py bin/commentary_{CODE}.txt` (clipboard mode). Webhook mode planned (needs channel webhook URL from Prismata Discord mod). Commentary files: `bin/commentary_*.txt` with `== MESSAGE N ==` delimiters (<2000 chars each for Discord). Community reception positive (3 games commentated). **Known limitation**: click-based buy counting can't distinguish successful purchases from failed clicks (sold-out OR insufficient resources) — must track resource persistence rules (gold/green persist, blue/red/energy don't).
+10. **Post-game commentary from replay data** — WORKFLOW ESTABLISHED (Feb 21). Full instructions: `docs/plans/commentary-generation-instructions.md`. Tool: `python tools/generate_commentary_data.py "CODE" --think-time 50` (C++ analysis), `--validate` (resource-validated buys), `--eval-only` (neural eval only). Discord posting: `python tools/discord_post_helper.py bin/commentary_{CODE}.txt` (clipboard mode). Webhook mode planned (needs channel webhook URL from Prismata Discord mod). Commentary files: `bin/commentary_*.txt` with `== MESSAGE N ==` delimiters (<2000 chars each for Discord). Community reception positive (3 games commentated). **Known limitation**: click-based buy counting can't distinguish successful purchases from failed clicks (sold-out OR insufficient resources) — `--validate` flag handles this with resource simulation.
 11. ~~**Build autopilot — AI move injection via TCP proxy**~~ — DONE (Feb 20). `--suggest` now outputs `clicks` array with wire-protocol-ready `{_type, _id}` pairs. Python autopilot engine captures state (Shift+F6), runs AI, injects Click/EndTurn messages through sniffer proxy. Semi-auto (file trigger) and full-auto (StartTurn callback) modes. Dry-run mode for testing. Launch: `run_prismata_tools.bat --autopilot`. **Proxy integration verified (Feb 20): game traffic flows, StartTurn detected, bot-game check works. Not yet tested with actual bot game click injection.** Plan: `~/.claude/plans/sequential-launching-mountain.md`.
 12. ~~**C++ replay ingestion mode**~~ — ALL 3 PHASES DONE (Feb 21). `ReplayStepper` class converts replay click sequences into GameState transitions, outputs binary shards (same format as self-play). CLI modes: `--replay`/`--replay-dir` (training shards), `--eval` (per-turn neural evaluation JSON), `--analyze` (AI vs expert buy comparison JSON with agreement rate). **96.6% extraction rate** (12,852/13,299 turns from 500 expert replays, 291/500 error-free). Branch: `feature/cpp-replay-stepper`. Plan: `docs/plans/2026-02-20-cpp-replay-mode.md`.
 
@@ -297,7 +297,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 
 ## Claude Code Tooling
 
-**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/revise` (update CLAUDE.md), `/preflight` (pre-training verification: S3 deploy diff, code review, fleet/quota/git checks), `/document-context` (generate reviewer context doc for most recent plan in `docs/plans/`), `/review-intake` (ingest external reviews + meta-review with tiered plan updates — must-do/should-do auto-applied, consider as pick list).
+**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/revise` (update CLAUDE.md), `/preflight` (pre-training verification: S3 deploy diff, code review, fleet/quota/git checks), `/document-context` (generate reviewer context doc for most recent plan in `docs/plans/`), `/review-intake` (ingest external reviews + meta-review with tiered plan updates — must-do/should-do auto-applied, consider as pick list), `/start-work` (create clean branch from master for new work), `/audit` (repo health check — branches, uncommitted changes, stale files).
 
 **Hooks** (in `.claude/settings.local.json`):
 - PreToolUse: Blocks Read/Edit/Write on `.aws_credentials`, `credentials.json`, `.env` files
@@ -307,6 +307,8 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 **Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources. **NOTE: agent file currently missing — needs recreation.**
 
 **MCP**: context7 configured in `.mcp.json` (project-level) — live docs for PyTorch, Express, Chart.js, cloud CLIs.
+
+**Excalidraw diagrams**: MCP tools available (`read_me`, `create_view`, `export_to_excalidraw`, `read_checkpoint`, `save_checkpoint`). Call `read_me` first for format reference. **VS Code extension can't render Excalidraw** — `create_view` only renders inline on claude.ai web; in VS Code shows raw JSON. Always use `export_to_excalidraw` for a shareable excalidraw.com URL. **`label` property doesn't export** — the `label` shorthand on shapes only works in the MCP inline renderer. For exported diagrams, use native bound text elements: `boundElements` array on rectangles + separate text elements with `containerId`, `originalText`, `textAlign: "center"`, `verticalAlign: "middle"`. Architecture diagram checkpoint: `bae5ace4d2484e41b5` (4-layer diagram with DC/S attribution stamps).
 
 **C++ style**: `.clang-format` at project root (Allman braces, 4-space indent, 120 col limit). Matches existing codebase conventions.
 
@@ -328,6 +330,22 @@ When the user says "wrapping up", "closing context", or "save everything":
 - Comfortable with long-running unattended tasks (hours). Tell them when something can run overnight.
 - Git comfort level: self-described "noob" — explain git ops clearly, always confirm before push/force
 - The user is "Surfinite" everywhere — GitHub, Prismata, Discord, etc.
+
+## Git Workflow
+
+**Branch naming:** `{type}/{short-description}` where type is `fix/`, `feature/`, `docs/`, or `training/`.
+
+**When to branch:** Create a new branch from `master` when starting logically independent work. Use `/start-work fix/description` to automate this. Small related fixes (typos, one-liners) can go on the current branch.
+
+**Branch lifecycle:**
+1. `/start-work fix/description` (or manually: `git checkout PrismatAlpha/master -b fix/description`)
+2. Work, commit with `/commit` as you go
+3. When done: `/commit-push-pr` to push + open PR, or merge locally: `git checkout master && git merge fix/description && git push PrismatAlpha master`
+4. Delete branch after merge: `git branch -d fix/description`
+
+**Push target:** Always `PrismatAlpha` (never `origin`).
+**Commit style:** Imperative mood, focus on "why". One logical change per commit.
+**Before starting new work:** Check if current branch has unrelated uncommitted changes. If so, suggest `/start-work` for a clean branch.
 
 ## Key Architecture
 
@@ -472,7 +490,9 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `tools/prismata_commentator.py` | Live AI commentator — sniffer events → Claude Haiku → chat injection (Phase 1 working) |
 | `tools/prismata_game_state.py` | Shared game state model — TurnRecord, GameContext, GameNarrative with callback registration |
 | `tools/discord_post_helper.py` | Clipboard-based Discord message poster — reads `== MESSAGE N ==` delimited commentary files, copies each to clipboard sequentially |
+| `tools/generate_commentary_data.py` | Fetches replay from S3, runs C++ `--analyze`, outputs per-turn eval/buys/agreement. Flags: `--validate` (resource-validated buys), `--eval-only` (neural eval only), `--verbose` |
 | `tools/commentary_prompt.md` | Condensed Prismata knowledge base for commentary system prompt (~2,400 tokens) |
+| `docs/plans/commentary-generation-instructions.md` | Full commentary writing workflow: data extraction commands, game knowledge reference, Discord format requirements, tone guidelines |
 | `tmp_proxy_hosts.ps1` | Set hosts to PROXY mode (127.0.0.1) for sniffer — needs UAC |
 | `tmp_restore_hosts.ps1` | Set hosts to DIRECT mode (3.229.49.48) for normal play — needs UAC |
 | `prismata_decompiled/` | Decompiled Prismata client ActionScript source (Game.as, State.as, UIKeyboard.as) |

@@ -1699,7 +1699,8 @@ void Benchmarks::DoAnalyze(const std::string & replayFile, const std::string & p
         int turn;
         int player;
         float eval;             // neural eval (P1 perspective)
-        std::vector<std::string> humanBuys;
+        std::vector<std::string> humanBuys;     // from click parsing (may overcount)
+        std::vector<std::string> validatedBuys; // from engine-validated actions
         std::vector<std::string> aiBuys;
         std::vector<std::string> aiAbilities;
         std::vector<std::string> aiDefense;
@@ -1715,8 +1716,6 @@ void Benchmarks::DoAnalyze(const std::string & replayFile, const std::string & p
     while (stepper.hasNextTurn())
     {
         const GameState & state = stepper.getState();
-        int clickStart = stepper.getClickIndex();
-        int clickCount = stepper.getTurnClickCount();
 
         TurnAnalysis ta;
         ta.turn = stepper.getCurrentTurn();
@@ -1726,9 +1725,6 @@ void Benchmarks::DoAnalyze(const std::string & replayFile, const std::string & p
         auto output = NeuralNet::Instance().evaluate(state);
         ta.eval = (state.getActivePlayer() == Players::Player_One)
             ? output.value : -output.value;
-
-        // Extract human buys from clicks
-        ta.humanBuys = extractHumanBuys(commandList, clickStart, clickCount, mergedDeck);
 
         // AI search — create player for correct side
         PlayerPtr turnPlayer;
@@ -1765,13 +1761,23 @@ void Benchmarks::DoAnalyze(const std::string & replayFile, const std::string & p
         categorizeMove(aiMove, state, ta.aiBuys, ta.aiAbilities, ta.aiDefense, ta.aiBreach);
         ta.aiFullMove = aiMove.toString();
 
+        // Extract human buys from click data (naive, may overcount from stimming)
+        int clickStart = stepper.getClickIndex();
+        int clickCount = stepper.getTurnClickCount();
+        ta.humanBuys = extractHumanBuys(commandList, clickStart, clickCount, mergedDeck);
+
+        // Advance turn — this populates stepper's ground-truth buy tracking
+        ReplayStepper::StepResult result = stepper.advanceTurn();
+
+        // Engine-validated buys (only purchases the engine confirmed as legal)
+        ta.validatedBuys = stepper.getTurnBuys();
+        std::sort(ta.validatedBuys.begin(), ta.validatedBuys.end());
+
         // Compare human buys vs AI buys (sorted set equality)
         ta.buyAgreement = (ta.humanBuys == ta.aiBuys);
 
         turns.push_back(ta);
 
-        // Advance to next turn
-        ReplayStepper::StepResult result = stepper.advanceTurn();
         if (result == ReplayStepper::StepResult::FatalError)
         {
             fatalErrorCount++;
@@ -1825,6 +1831,9 @@ void Benchmarks::DoAnalyze(const std::string & replayFile, const std::string & p
     printf(",\"think_time_ms\":%d", thinkTimeMs);
     printf(",\"turns_analyzed\":%zu", turns.size());
     printf(",\"fatal_errors\":%d", fatalErrorCount);
+    printf(",\"stepper_benign_skips\":%d", stepper.getBenignSkips());
+    printf(",\"stepper_applied_clicks\":%d", stepper.getAppliedClicks());
+    printf(",\"stepper_total_clicks\":%d", stepper.getTotalClicks());
     printf(",\"agreement_rate\":%.4f", agreementRate);
     printf(",\"agreements\":%d", agreements);
     printf(",\"total_search_ms\":%.0f", totalSearchMs);
@@ -1838,6 +1847,7 @@ void Benchmarks::DoAnalyze(const std::string & replayFile, const std::string & p
         printf("{\"turn\":%d,\"player\":%d,\"eval\":%.4f,\"eval_pct\":\"%.0f%%\"",
                turns[i].turn, turns[i].player, turns[i].eval, pct);
         printf(",\"human_buy\":%s", jsonStringArray(turns[i].humanBuys).c_str());
+        printf(",\"validated_buy\":%s", jsonStringArray(turns[i].validatedBuys).c_str());
         printf(",\"ai_buy\":%s", jsonStringArray(turns[i].aiBuys).c_str());
         printf(",\"ai_abilities\":%s", jsonStringArray(turns[i].aiAbilities).c_str());
         printf(",\"ai_defense\":%s", jsonStringArray(turns[i].aiDefense).c_str());

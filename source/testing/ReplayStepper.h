@@ -32,6 +32,9 @@ public:
     StepResult advanceTurn();
     int getTurnClickCount() const;
 
+    // Per-turn buy tracking (ground truth — only buys that actually succeeded)
+    const std::vector<std::string> & getTurnBuys() const;
+
     // Click-level stepping (lower-level, used by advanceTurn)
     bool hasNextClick() const;
     StepResult applyNextClick();
@@ -72,6 +75,9 @@ private:
     struct InstIdInfo { CardType cardType; PlayerID player; };
     std::unordered_map<int, InstIdInfo> m_instIdHistory;
 
+    // Per-turn buy tracking (ground truth from engine-validated actions)
+    std::vector<std::string> m_turnBuys;
+
     // Undo/redo snapshots
     struct Snapshot
     {
@@ -79,6 +85,7 @@ private:
         std::unordered_map<int, CardID> instIdToCardId;
         std::unordered_map<CardID, int> cardIdToInstId;
         int nextInstId;
+        std::vector<std::string> turnBuys;
     };
     std::vector<Snapshot> m_snapshots;
     int m_snapshotCursor;

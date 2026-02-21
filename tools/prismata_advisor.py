@@ -294,7 +294,7 @@ class AnalysisEngine:
             cmd = [
                 _EXE_PATH,
                 "--suggest", temp_path,
-                "--player", "PrismatAlpha_AB",
+                "--player", "PrismatAI_AB",
                 "--think-time", str(self._think_ms),
             ]
             proc = subprocess.Popen(

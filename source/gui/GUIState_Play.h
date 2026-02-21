@@ -10,9 +10,46 @@
 #include <SFML/Audio.hpp>
 #include <chrono>
 #include <iostream>
+#include <future>
 
 namespace Prismata
 {
+
+struct AIEvalResult
+{
+    std::string playerName;
+    Move        move;
+    double      score         = 0;
+    std::string scoreLabel;
+    bool        isUCT         = false;
+    double      timeMS        = 0;
+    std::string moveDesc;
+    std::string buyNotation;
+    PlayerID    forPlayer     = 0;
+    int         forStateRevision = -1;
+    bool        isPrimary     = false;
+    bool        isAdvice      = false;
+};
+
+struct HumanTurnAdvice
+{
+    std::string neuralBuy;
+    double      neuralEval    = 0;
+    double      neuralTimeMS  = 0;
+    std::string playoutBuy;
+    double      playoutEval   = 0;
+    double      playoutTimeMS = 0;
+    bool        neuralValid   = false;
+    bool        playoutValid  = false;
+    int         adviseRevision = -1;
+};
+
+struct EvalHistoryEntry
+{
+    int   turnNumber;
+    float neuralEval;     // [-1, +1]
+    float willScoreDiff;  // raw
+};
 
 struct AIDebugInfo
 {
@@ -64,6 +101,27 @@ class GUIState_Play : public GUIState
     std::map<std::string, PlayerPtr> m_players[2];  // AI players for each side
     bool                        m_autoPlay[2] = {false, false};     // Auto-play AI for each side
     AIDebugInfo                 m_aiDebugInfo[2];                    // Per-player debug info
+    int                         m_predictedGold[2] = {0, 0};        // Predicted gold income next turn
+
+    // Eval bars
+    float                       m_evalBarNeural = 0.0f;             // [-1, +1] neural eval for P0
+    float                       m_evalBarWillScore = 0.0f;          // [-1, +1] tanh-normalized WillScore diff
+    bool                        m_showWillScoreBar = false;         // Toggled via Shift+W
+    bool                        m_showEvalBars = false;             // Toggled via Shift+E (independent of debug)
+
+    // Parallel evaluation (Phase 3)
+    int                         m_stateRevision = 0;                // Monotonic counter for staleness checks
+    int                         m_maxConcurrentEvals = 2;           // Conservative for x86 4GB limit
+    bool                        m_parallelEval = true;              // false = synchronous fallback
+    std::vector<std::future<AIEvalResult>> m_evalFutures;
+    bool                        m_isThinking = false;               // True while background evals running
+    Move                        m_pendingAIMove;                    // Move to execute when primary AI completes
+    bool                        m_aiMoveReady = false;              // Set when primary AI result arrives
+    PlayerID                    m_aiMovePlayer = 0;                 // Which player the pending move is for
+    HumanTurnAdvice             m_humanAdvice;                      // AI recommendations for human player
+
+    // Eval history (Phase 4)
+    std::vector<EvalHistoryEntry> m_evalHistory;
 
     // Replay mode
     bool                        m_replayMode = false;
@@ -87,6 +145,7 @@ class GUIState_Play : public GUIState
     PlayerPtr createComparisonPlayer(PlayerPtr primary, PlayerID player, std::string & outName);
     void toggleBool(bool & value);
     void dumpStateToFile();
+    void updateGoldPrediction();
 
     void doGUIAction(const Action & action, int delayMS = 0);
     void doGUIMove(const Move & move, int delayMS = 0);
@@ -101,6 +160,18 @@ class GUIState_Play : public GUIState
     void drawDebugInfo();
     void drawTargetAbility();
     void drawMouseOverPanes();
+    void drawEvalBars();
+    void updateEvalBarNeural();
+
+    void drawEvalGraph();
+    void exportEvalHistory();
+
+    // Parallel evaluation methods
+    void launchBackgroundEvals(PlayerID player);
+    void launchHumanAdvice(PlayerID player);
+    void pollEvalResults();
+    void applyEvalResult(const AIEvalResult & result);
+    void waitForEvals();
 
     GUICard * getClickedCard(const int x, const int y);
     GUICardBuyable * getClickedCardBuyable(const int x, const int y);
@@ -111,6 +182,7 @@ public:
     GUIState_Play(GUIEngine & game, const GameState & state);
     GUIState_Play(GUIEngine & game, const std::vector<GameState> & replayStates,
                   const std::string & p0, const std::string & p1, int winner);
+    ~GUIState_Play();
 
     void onFrame();
 };

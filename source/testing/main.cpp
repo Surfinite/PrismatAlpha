@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
     std::string validateReplayFile;
     std::string validateOutputFile = "validation_output.jsonl";
     std::string suggestFile;
-    std::string suggestPlayer = "PrismatAlpha_AB";
+    std::string suggestPlayer = "PrismatAI_AB";
     int suggestThinkTime = 3000;
     std::string evalFile;
     std::string analyzeFile;

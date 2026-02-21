@@ -142,7 +142,7 @@ for ($i = 0; $i -lt $lines.Length; $i++) {
 $config = $lines -join "`n"
 
 # Patch player TimeLimits for VM speed adjustment
-$config = $config -replace '("PrismatAlpha_AB_Legacy"\s*:\s*\{[^}]*"TimeLimit"\s*:\s*)\d+', "`${1}$timeLimitMs"
+$config = $config -replace '("PrismatAI_AB_Legacy"\s*:\s*\{[^}]*"TimeLimit"\s*:\s*)\d+', "`${1}$timeLimitMs"
 $config = $config -replace '("OriginalHardestAI"\s*:\s*\{[^}]*"TimeLimit"\s*:\s*)\d+', "`${1}$timeLimitMs"
 
 Set-Content "C:\eval\asset\config\config.txt" $config -Encoding ascii
@@ -151,7 +151,7 @@ Write-Host "Config patched: $numRounds rounds, $numProcesses processes, TimeLimi
 # Debug: show patched tournament and player lines
 $debugConfig = Get-Content "C:\eval\asset\config\config.txt" -Raw
 $debugConfig -split "`n" | ForEach-Object {
-    if ($_ -match 'NeuralAB_vs_Original|PrismatAlpha_AB_Legacy|OriginalHardestAI') {
+    if ($_ -match 'NeuralAB_vs_Original|PrismatAI_AB_Legacy|OriginalHardestAI') {
         Write-Host "DEBUG: $_"
     }
 }

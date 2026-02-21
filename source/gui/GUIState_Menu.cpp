@@ -413,7 +413,7 @@ void GUIState_Menu::sUserInput()
                     else if (item.type == ITEM_WATCH_EVAL)
                     {
                         m_game.pushState(std::make_shared<GUIState_WatchTraining>(
-                            m_game, "PrismatAlpha_AB_Legacy", "OriginalHardestAI",
+                            m_game, "PrismatAI_AB_Legacy", "OriginalHardestAI",
                             true, "WATCH EVAL"));
                     }
                     break;

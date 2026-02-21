@@ -56,6 +56,17 @@ KEYWORD_GROUPS = {
         r"\bturn\s*\d+\s+(buy|should|always|never)",
         r"\b(rush|timing|econ|economy|greed|greedy|tempo|pressure)\b.*\b(better|worse|wrong|right|correct)\b",
     ],
+    "commentary_feedback": [
+        r"\bcommentar(y|ies|ator)\b",
+        r"\banalysis\b.*\b(game|replay|match)\b",
+        r"\b(game|replay|match)\b.*\banalysis\b",
+        r"\bSurfinite\b.*\b(bot|AI|cool|nice|awesome|amazing|great|love|neat)\b",
+        r"\b(bot|AI)\b.*\b(commentat|analys|narrat|post|recap)\b",
+        r"\b(cool|nice|awesome|amazing|neat)\b.*\b(bot|AI|analysis|commentary)\b",
+        r"\bPrismatAI\b",
+        r"\bPrismatAlpha\b",
+        r"\bneural\s*(net|network|AI|eval)\b",
+    ],
 }
 
 
@@ -155,9 +166,14 @@ def main():
     output_file = "discord_ai_feedback.json"
 
     args = sys.argv[1:]
+    skip_next = False
     for i, arg in enumerate(args):
+        if skip_next:
+            skip_next = False
+            continue
         if arg == "--output" and i + 1 < len(args):
             output_file = args[i + 1]
+            skip_next = True
         elif not arg.startswith("--"):
             export_dir = arg
 

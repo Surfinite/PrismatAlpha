@@ -6,6 +6,8 @@
 #include <cstdio>
 #include <unordered_set>
 
+#define REPLAY_STEPPER_DEBUG
+
 using namespace Prismata;
 
 ReplayStepper::ReplayStepper()
@@ -207,6 +209,13 @@ void ReplayStepper::updateInstIdMappings()
         auto it = m_cardIdToInstId.find(cardId);
         if (it != m_cardIdToInstId.end())
         {
+#ifdef REPLAY_STEPPER_DEBUG
+            auto histIt = m_instIdHistory.find(it->second);
+            std::string typeName = histIt != m_instIdHistory.end()
+                ? histIt->second.cardType.getUIName() : "?";
+            fprintf(stderr, "[ReplayStepper] Removing instId %d (CardID %d, %s) — card no longer live\n",
+                    it->second, (int)cardId, typeName.c_str());
+#endif
             m_instIdToCardId.erase(it->second);
             m_cardIdToInstId.erase(it);
         }
@@ -239,6 +248,10 @@ void ReplayStepper::updateInstIdMappings()
         const Card & card = m_state.getCardByID(id);
         m_instIdHistory[m_nextInstId] = { card.getType(), card.getPlayer() };
 
+#ifdef REPLAY_STEPPER_DEBUG
+        fprintf(stderr, "[ReplayStepper] Mapped instId %d -> CardID %d (%s, P%d)\n",
+                m_nextInstId, (int)id, card.getType().getUIName().c_str(), card.getPlayer());
+#endif
         m_nextInstId++;
     }
 }
@@ -262,7 +275,7 @@ CardID ReplayStepper::tryRecoverInstId(int instId)
     CardType expectedType = histIt->second.cardType;
     PlayerID expectedPlayer = histIt->second.player;
 
-    // Find a live card of the same type and player with no current instId mapping
+    // Pass 1: Find a live card of the same type and player with no current instId mapping
     const CardIDVector & liveCards = m_state.getCardIDs(expectedPlayer);
     for (size_t i = 0; i < liveCards.size(); i++)
     {
@@ -286,7 +299,46 @@ CardID ReplayStepper::tryRecoverInstId(int instId)
         return candidateId;
     }
 
-    return (CardID)-1;  // No matching unmapped card found
+    // Pass 2: Steal mapping from a mapped card of the same type.
+    // Handles buySac mismatches: the engine sacrificed specific cards (by CardID)
+    // but the real game sacrificed different cards of the same type. Total count
+    // per type is correct, but specific instId<->CardID assignments differ.
+    // We steal from the first mapped same-type card — its instId was likely
+    // the one the real game sacrificed (so the client won't reference it again).
+    for (size_t i = 0; i < liveCards.size(); i++)
+    {
+        CardID candidateId = liveCards[i];
+        const Card & card = m_state.getCardByID(candidateId);
+
+        if (card.getType() != expectedType)
+            continue;
+
+        auto oldIt = m_cardIdToInstId.find(candidateId);
+        if (oldIt == m_cardIdToInstId.end())
+            continue;
+
+        int displacedInstId = oldIt->second;
+
+        // Don't steal from the instId we're trying to recover (shouldn't happen, but guard)
+        if (displacedInstId == instId)
+            continue;
+
+        // Steal: unmap the old instId, remap to the requested instId
+        m_instIdToCardId.erase(displacedInstId);
+        m_cardIdToInstId.erase(oldIt);
+
+        m_instIdToCardId[instId] = candidateId;
+        m_cardIdToInstId[candidateId] = instId;
+
+        fprintf(stderr, "[ReplayStepper] Recovered instId %d -> CardID %d (%s, P%d) "
+                "[displaced instId %d — likely killed in real game]\n",
+                instId, (int)candidateId, expectedType.getUIName().c_str(), expectedPlayer,
+                displacedInstId);
+
+        return candidateId;
+    }
+
+    return (CardID)-1;  // No matching card found (type extinct?)
 }
 
 Action ReplayStepper::tryAlternativeActions(CardID cardId)
@@ -609,6 +661,23 @@ ReplayStepper::StepResult ReplayStepper::applyNextClick()
     m_snapshots.push_back(captureSnapshot());
     m_snapshotCursor = (int)m_snapshots.size() - 1;
 
+    // Record successful BUY before doAction (type info available from action)
+    if (action.getType() == ActionTypes::BUY)
+    {
+        CardType cardType(action.getID());
+        m_turnBuys.push_back(cardType.getUIName());
+    }
+
+#ifdef REPLAY_STEPPER_DEBUG
+    {
+        int liveP0 = (int)m_state.getCardIDs(0).size();
+        int liveP1 = (int)m_state.getCardIDs(1).size();
+        fprintf(stderr, "[ReplayStepper] APPLY click %d: actionType=%d actionId=%d phase=%d player=%d (live: P0=%d P1=%d)\n",
+                m_clickIndex - 1, (int)action.getType(), (int)action.getID(),
+                m_state.getActivePhase(), (int)m_state.getActivePlayer(), liveP0, liveP1);
+    }
+#endif
+
     // Apply action
     m_state.doAction(action);
     updateInstIdMappings();
@@ -628,6 +697,9 @@ ReplayStepper::StepResult ReplayStepper::advanceTurn()
 {
     if (m_turnIndex >= (int)m_clicksPerTurn.size())
         return StepResult::GameOver;
+
+    // Clear buy tracking for this turn
+    m_turnBuys.clear();
 
     int clicksThisTurn = m_clicksPerTurn[m_turnIndex];
     int unknownInstIdSkipsThisTurn = 0;
@@ -729,6 +801,11 @@ const std::vector<std::string> & ReplayStepper::getErrors() const
     return m_errors;
 }
 
+const std::vector<std::string> & ReplayStepper::getTurnBuys() const
+{
+    return m_turnBuys;
+}
+
 // --- Snapshot management ---
 
 ReplayStepper::Snapshot ReplayStepper::captureSnapshot() const
@@ -738,6 +815,7 @@ ReplayStepper::Snapshot ReplayStepper::captureSnapshot() const
     snap.instIdToCardId = m_instIdToCardId;
     snap.cardIdToInstId = m_cardIdToInstId;
     snap.nextInstId = m_nextInstId;
+    snap.turnBuys = m_turnBuys;
     return snap;
 }
 
@@ -751,6 +829,7 @@ void ReplayStepper::restoreSnapshot(int cursor)
     m_instIdToCardId = snap.instIdToCardId;
     m_cardIdToInstId = snap.cardIdToInstId;
     m_nextInstId = snap.nextInstId;
+    m_turnBuys = snap.turnBuys;
 }
 
 void ReplayStepper::saveSnapshot()
