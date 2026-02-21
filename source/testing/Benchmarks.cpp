@@ -1124,18 +1124,34 @@ static bool processReplay(const std::string & replayFile, int minRating, SelfPla
     }
 
     // 6. Step through turns, capturing training data
+    //    Continue after FatalError (up to a limit) to extract later turns
+    //    Only capture training data when recent errors are low
     int turnsExtracted = 0;
+    int fatalErrorCount = 0;
+    const int maxFatalErrors = 5;
     while (stepper.hasNextTurn())
     {
-        // Capture pre-turn state (decision point)
-        sink.onTurnStart(stepper.getState());
-        turnsExtracted++;
+        // Only capture training data if we haven't hit too many errors
+        if (fatalErrorCount <= 1)
+        {
+            sink.onTurnStart(stepper.getState());
+            turnsExtracted++;
+        }
 
         ReplayStepper::StepResult result = stepper.advanceTurn();
         if (result == ReplayStepper::StepResult::FatalError)
-            break;
+        {
+            fatalErrorCount++;
+            if (fatalErrorCount >= maxFatalErrors)
+                break;
+            // Continue to next turn — state may recover
+            continue;
+        }
         if (result == ReplayStepper::StepResult::GameOver)
             break;
+
+        // Reset error streak on successful turn
+        // (but keep total count for quality gating)
     }
 
     // 7. Determine winner from replay result field

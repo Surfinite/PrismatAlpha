@@ -67,6 +67,11 @@ private:
     std::unordered_map<int, CardID> m_instIdToCardId;
     std::unordered_map<CardID, int> m_cardIdToInstId;
 
+    // Historical instId -> CardType tracking (append-only, never cleared)
+    // Enables type-based recovery when instId lookup fails
+    struct InstIdInfo { CardType cardType; PlayerID player; };
+    std::unordered_map<int, InstIdInfo> m_instIdHistory;
+
     // Undo/redo snapshots
     struct Snapshot
     {
@@ -93,6 +98,12 @@ private:
     bool initGameState(const rapidjson::Value & mergedDeck,
                        const rapidjson::Value & initInfo);
     void logError(const std::string & msg);
+
+    // Fix 1: Type-based instId recovery
+    CardID tryRecoverInstId(int instId);
+
+    // Fix 4: Multi-action fallback for phase-confused clicks
+    Action tryAlternativeActions(CardID cardId);
 };
 
 }

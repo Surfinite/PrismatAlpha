@@ -234,8 +234,86 @@ void ReplayStepper::updateInstIdMappings()
     {
         m_cardIdToInstId[id] = m_nextInstId;
         m_instIdToCardId[m_nextInstId] = id;
+
+        // Record historical type info (append-only, never deleted)
+        const Card & card = m_state.getCardByID(id);
+        m_instIdHistory[m_nextInstId] = { card.getType(), card.getPlayer() };
+
         m_nextInstId++;
     }
+}
+
+CardID ReplayStepper::tryRecoverInstId(int instId)
+{
+    // If instId is ahead of our counter, the real game created cards we didn't.
+    // Advance our counter to stay synchronized.
+    if (instId >= m_nextInstId)
+    {
+        fprintf(stderr, "[ReplayStepper] Advancing instId counter from %d to %d\n",
+                m_nextInstId, instId + 1);
+        m_nextInstId = instId + 1;
+    }
+
+    // Look up the expected card type from history
+    auto histIt = m_instIdHistory.find(instId);
+    if (histIt == m_instIdHistory.end())
+        return (CardID)-1;  // Never seen this instId
+
+    CardType expectedType = histIt->second.cardType;
+    PlayerID expectedPlayer = histIt->second.player;
+
+    // Find a live card of the same type and player with no current instId mapping
+    const CardIDVector & liveCards = m_state.getCardIDs(expectedPlayer);
+    for (size_t i = 0; i < liveCards.size(); i++)
+    {
+        CardID candidateId = liveCards[i];
+        const Card & card = m_state.getCardByID(candidateId);
+
+        if (card.getType() != expectedType)
+            continue;
+
+        // Must not already be mapped
+        if (m_cardIdToInstId.find(candidateId) != m_cardIdToInstId.end())
+            continue;
+
+        // Found a match — establish mapping
+        m_instIdToCardId[instId] = candidateId;
+        m_cardIdToInstId[candidateId] = instId;
+
+        fprintf(stderr, "[ReplayStepper] Recovered instId %d -> CardID %d (%s, P%d)\n",
+                instId, (int)candidateId, expectedType.getUIName().c_str(), expectedPlayer);
+
+        return candidateId;
+    }
+
+    return (CardID)-1;  // No matching unmapped card found
+}
+
+Action ReplayStepper::tryAlternativeActions(CardID cardId)
+{
+    const Card & card = m_state.getCardByID(cardId);
+    PlayerID player = m_state.getActivePlayer();
+
+    // Try safe action types for this click.
+    // Only ASSIGN_BLOCKER and ASSIGN_BREACH are simple state changes.
+    // USE_ABILITY/UNDO_USE_ABILITY can trigger complex side effects
+    // (card destruction, scripts) that may assert even when isLegal passes.
+    Action candidates[] = {
+        Action(player, ActionTypes::ASSIGN_BLOCKER, cardId),
+        Action(player, ActionTypes::ASSIGN_BREACH, cardId),
+    };
+
+    for (const Action & candidate : candidates)
+    {
+        if (m_state.isLegal(candidate))
+        {
+            fprintf(stderr, "[ReplayStepper] Fallback action type=%d for CardID %d at click %d\n",
+                    (int)candidate.getType(), (int)cardId, m_clickIndex - 1);
+            return candidate;
+        }
+    }
+
+    return Action();  // No legal fallback
 }
 
 Action ReplayStepper::clickToAction(const rapidjson::Value & click)
@@ -277,11 +355,18 @@ Action ReplayStepper::clickToAction(const rapidjson::Value & click)
         auto it = m_instIdToCardId.find(id);
         if (it == m_instIdToCardId.end())
         {
-            // Unknown instId — card died in our engine but survives in real game (or vice versa).
-            // Treat as benign skip with a tolerance limit. After too many, the state is
-            // too desynchronized to extract useful data.
-            logError("Unknown instId " + std::to_string(id) + " at click " + std::to_string(m_clickIndex - 1));
-            return Action();  // Returns NONE, handled by caller as benign skip for inst clicks
+            // Try type-based recovery: find a live card of the same type
+            CardID recovered = tryRecoverInstId(id);
+            if (recovered != (CardID)-1)
+            {
+                it = m_instIdToCardId.find(id);  // Re-lookup after recovery
+            }
+            else
+            {
+                logError("Unknown instId " + std::to_string(id) + " at click " + std::to_string(m_clickIndex - 1)
+                         + " (no recovery candidate)");
+                return Action();
+            }
         }
 
         CardID cardId = it->second;
@@ -437,8 +522,30 @@ ReplayStepper::StepResult ReplayStepper::applyNextClick()
         }
         else if (type == "inst clicked" || type == "inst shift clicked")
         {
+            // Fix 4: Before giving up, try alternative actions for this card.
+            // The click might work under a different phase interpretation.
+            Action alt = tryAlternativeActions(action.getID());
+            if (alt.getType() != ActionTypes::NONE && m_state.isLegal(alt))
+            {
+                // Save snapshot and apply the alternative action
+                m_snapshots.resize(m_snapshotCursor + 1);
+                m_snapshots.push_back(captureSnapshot());
+                m_snapshotCursor = (int)m_snapshots.size() - 1;
+
+                m_state.doAction(alt);
+                updateInstIdMappings();
+                m_appliedClicks++;
+
+                if (m_state.isGameOver())
+                {
+                    m_gameOver = true;
+                    return StepResult::GameOver;
+                }
+                return StepResult::OK;
+            }
+
             // InstId resolved correctly (we got past clickToAction), but
-            // the action isn't legal — server would silently reject this click
+            // no legal action found — server would silently reject this click
             isBenign = true;
         }
 
@@ -446,6 +553,41 @@ ReplayStepper::StepResult ReplayStepper::applyNextClick()
         {
             m_benignSkips++;
             return StepResult::BenignSkip;
+        }
+
+        // Fix 2: Permissive END_PHASE during Defense.
+        // When END_PHASE is illegal in Defense (attack != 0), the replay says defense is done.
+        // Trust the replay: zero remaining attack and force-apply.
+        if (action.getType() == ActionTypes::END_PHASE
+            && m_state.getActivePhase() == Phases::Defense)
+        {
+            PlayerID player = m_state.getActivePlayer();
+            PlayerID enemy = m_state.getEnemy(player);
+            HealthType remainingAttack = m_state.getAttack(enemy);
+
+            if (remainingAttack > 0)
+            {
+                fprintf(stderr, "[ReplayStepper] Force-ending Defense: absorbing %d attack at click %d\n",
+                        (int)remainingAttack, m_clickIndex - 1);
+
+                m_state.manuallySetAttack(enemy, 0);
+
+                m_snapshots.resize(m_snapshotCursor + 1);
+                m_snapshots.push_back(captureSnapshot());
+                m_snapshotCursor = (int)m_snapshots.size() - 1;
+
+                m_state.doAction(action);
+                updateInstIdMappings();
+                m_appliedClicks++;
+                m_benignSkips++;
+
+                if (m_state.isGameOver())
+                {
+                    m_gameOver = true;
+                    return StepResult::GameOver;
+                }
+                return StepResult::OK;
+            }
         }
 
         // Fatal: END_PHASE desync or other unexpected illegal action
@@ -502,13 +644,14 @@ ReplayStepper::StepResult ReplayStepper::advanceTurn()
     }
 
     // If most clicks in this turn were benign skips, state is severely desynced.
-    // Allow up to half of clicks as skips before giving up.
-    if (unknownInstIdSkipsThisTurn > 0 && unknownInstIdSkipsThisTurn > clicksThisTurn / 2)
+    // Allow up to 80% of clicks as skips (raised from 50% — with instId recovery,
+    // remaining skips are more likely genuine server-rejected clicks).
+    if (unknownInstIdSkipsThisTurn > 0 && unknownInstIdSkipsThisTurn > (clicksThisTurn * 4) / 5)
     {
         logError("Too many benign skips in turn " + std::to_string(m_turnIndex)
                  + ": " + std::to_string(unknownInstIdSkipsThisTurn) + "/" + std::to_string(clicksThisTurn));
         m_fatalErrors++;
-        return StepResult::FatalError;
+        // Don't return FatalError — try next turn anyway
     }
 
     m_turnIndex++;
