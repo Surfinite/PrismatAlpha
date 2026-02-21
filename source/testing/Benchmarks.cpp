@@ -1480,3 +1480,383 @@ void Benchmarks::DoEval(const std::string & replayFile)
     printf("}\n");
     fflush(stdout);
 }
+
+// ---------------------------------------------------------------------------
+// --analyze mode: Replay JSON -> per-turn AI comparison -> JSON output
+// ---------------------------------------------------------------------------
+
+// Helper: categorize a Move into buy/ability/defense/breach string lists
+static void categorizeMove(const Move & move, const GameState & state,
+                           std::vector<std::string> & buys,
+                           std::vector<std::string> & abilities,
+                           std::vector<std::string> & defense,
+                           std::vector<std::string> & breach)
+{
+    buys.clear(); abilities.clear(); defense.clear(); breach.clear();
+    for (size_t i = 0; i < move.size(); ++i)
+    {
+        const Action & action = move.getAction(i);
+        switch (action.getType())
+        {
+            case ActionTypes::BUY:
+                buys.push_back(CardType(action.getID()).getUIName());
+                break;
+            case ActionTypes::USE_ABILITY:
+                abilities.push_back(state.getCardByID(action.getID()).getType().getUIName());
+                break;
+            case ActionTypes::ASSIGN_BLOCKER:
+                defense.push_back(state.getCardByID(action.getID()).getType().getUIName());
+                break;
+            case ActionTypes::ASSIGN_BREACH:
+                breach.push_back(state.getCardByID(action.getID()).getType().getUIName());
+                break;
+            case ActionTypes::SNIPE:
+                abilities.push_back(state.getCardByID(action.getID()).getType().getUIName()
+                    + " snipe " + state.getCardByID(action.getTargetID()).getType().getUIName());
+                break;
+            case ActionTypes::CHILL:
+                abilities.push_back(state.getCardByID(action.getID()).getType().getUIName()
+                    + " chill " + state.getCardByID(action.getTargetID()).getType().getUIName());
+                break;
+            default:
+                break;
+        }
+    }
+    std::sort(buys.begin(), buys.end());
+    std::sort(abilities.begin(), abilities.end());
+    std::sort(defense.begin(), defense.end());
+    std::sort(breach.begin(), breach.end());
+}
+
+// Helper: extract human buys from commandList clicks for a given turn
+static std::vector<std::string> extractHumanBuys(
+    const rapidjson::Value & commandList, int clickStart, int clickCount,
+    const rapidjson::Value & mergedDeck)
+{
+    std::vector<std::string> buys;
+    int clickEnd = clickStart + clickCount;
+    if (clickEnd > (int)commandList.Size())
+        clickEnd = (int)commandList.Size();
+
+    for (int i = clickStart; i < clickEnd; ++i)
+    {
+        if (!commandList[i].IsObject()) continue;
+        if (!commandList[i].HasMember("_type")) continue;
+
+        std::string type = commandList[i]["_type"].GetString();
+        if (type == "card clicked" || type == "card shift clicked")
+        {
+            int deckIdx = commandList[i]["_id"].GetInt();
+            if (deckIdx >= 0 && deckIdx < (int)mergedDeck.Size())
+            {
+                const auto & card = mergedDeck[deckIdx];
+                if (card.HasMember("UIName") && card["UIName"].IsString())
+                    buys.push_back(card["UIName"].GetString());
+                else if (card.HasMember("name") && card["name"].IsString())
+                    buys.push_back(card["name"].GetString());
+            }
+        }
+        else if (type == "revert clicked")
+        {
+            // Undo last buy if any
+            if (!buys.empty()) buys.pop_back();
+        }
+    }
+    std::sort(buys.begin(), buys.end());
+    return buys;
+}
+
+void Benchmarks::DoAnalyze(const std::string & replayFile, const std::string & playerName, int thinkTimeMs)
+{
+    // 1. Check neural net
+    if (!NeuralNet::Instance().isLoaded())
+    {
+        printf("{\"ok\":false,\"error\":\"Neural network weights not loaded\"}\n");
+        fflush(stdout);
+        return;
+    }
+
+    // 2. Read and parse replay JSON
+    std::ifstream ifs(replayFile);
+    if (!ifs.is_open())
+    {
+        printf("{\"ok\":false,\"error\":\"Cannot open: %s\"}\n", jsonEscape(replayFile).c_str());
+        fflush(stdout);
+        return;
+    }
+    std::string raw((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+    ifs.close();
+
+    rapidjson::Document doc;
+    if (doc.Parse(raw.c_str()).HasParseError())
+    {
+        printf("{\"ok\":false,\"error\":\"JSON parse error\"}\n");
+        fflush(stdout);
+        return;
+    }
+
+    // 3. Validate required sections
+    if (!doc.HasMember("deckInfo") || !doc["deckInfo"].HasMember("mergedDeck")
+        || !doc.HasMember("initInfo")
+        || !doc.HasMember("commandInfo") || !doc["commandInfo"].HasMember("commandList")
+        || !doc["commandInfo"].HasMember("clicksPerTurn")
+        || !doc.HasMember("playerInfo"))
+    {
+        printf("{\"ok\":false,\"error\":\"Missing required replay sections\"}\n");
+        fflush(stdout);
+        return;
+    }
+
+    // 4. Extract player names, ratings, winner, code
+    const auto & playerInfo = doc["playerInfo"];
+    std::string p0Name = "Player 1";
+    std::string p1Name = "Player 2";
+    int p0Rating = 0, p1Rating = 0;
+
+    if (playerInfo.IsArray() && playerInfo.Size() >= 2)
+    {
+        if (playerInfo[0].HasMember("name"))
+            p0Name = playerInfo[0]["name"].GetString();
+        if (playerInfo[1].HasMember("name"))
+            p1Name = playerInfo[1]["name"].GetString();
+    }
+    if (doc.HasMember("ratingInfo") && doc["ratingInfo"].HasMember("finalRatings"))
+    {
+        const auto & ratings = doc["ratingInfo"]["finalRatings"];
+        if (ratings.IsArray() && ratings.Size() >= 2)
+        {
+            if (ratings[0].HasMember("displayRating"))
+                p0Rating = (int)ratings[0]["displayRating"].GetDouble();
+            if (ratings[1].HasMember("displayRating"))
+                p1Rating = (int)ratings[1]["displayRating"].GetDouble();
+        }
+    }
+
+    int winner = -1;
+    if (doc.HasMember("result"))
+        winner = doc["result"].GetInt();
+
+    std::string code = replayFile;
+    size_t lastSlash = code.find_last_of("/\\");
+    if (lastSlash != std::string::npos) code = code.substr(lastSlash + 1);
+    size_t dotPos = code.rfind(".json");
+    if (dotPos != std::string::npos) code = code.substr(0, dotPos);
+
+    // 5. Redirect stdout → stderr for noisy init/stepping
+    const auto & mergedDeck = doc["deckInfo"]["mergedDeck"];
+    const auto & initInfo = doc["initInfo"];
+    const auto & commandList = doc["commandInfo"]["commandList"];
+    const auto & clicksPerTurn = doc["commandInfo"]["clicksPerTurn"];
+
+    fflush(stdout);
+    int savedFd = _dup(_fileno(stdout));
+    _dup2(_fileno(stderr), _fileno(stdout));
+
+    ReplayStepper stepper;
+    bool initOk = stepper.init(mergedDeck, initInfo, commandList, clicksPerTurn, playerInfo);
+
+    if (!initOk)
+    {
+        fflush(stdout);
+        _dup2(savedFd, _fileno(stdout));
+        _close(savedFd);
+        printf("{\"ok\":false,\"error\":\"ReplayStepper init failed\"}\n");
+        fflush(stdout);
+        return;
+    }
+
+    // 6. Create AI player
+    PlayerPtr player;
+    try
+    {
+        player = AIParameters::Instance().getPlayer(Players::Player_One, playerName);
+    }
+    catch (std::exception & e)
+    {
+        fflush(stdout);
+        _dup2(savedFd, _fileno(stdout));
+        _close(savedFd);
+        printf("{\"ok\":false,\"error\":\"Cannot create player '%s': %s\"}\n",
+               jsonEscape(playerName).c_str(), jsonEscape(std::string(e.what())).c_str());
+        fflush(stdout);
+        return;
+    }
+
+    // Override think time
+    if (thinkTimeMs > 0)
+    {
+        auto * sabPlayer = dynamic_cast<Player_StackAlphaBeta *>(player.get());
+        auto * uctPlayer = dynamic_cast<Player_UCT *>(player.get());
+        if (sabPlayer)
+            sabPlayer->getParams().setTimeLimit(thinkTimeMs);
+        else if (uctPlayer)
+            uctPlayer->getParams().setTimeLimit(thinkTimeMs);
+    }
+
+    // 7. Step through turns: eval + AI search + human move extraction
+    struct TurnAnalysis
+    {
+        int turn;
+        int player;
+        float eval;             // neural eval (P1 perspective)
+        std::vector<std::string> humanBuys;
+        std::vector<std::string> aiBuys;
+        std::vector<std::string> aiAbilities;
+        std::vector<std::string> aiDefense;
+        std::vector<std::string> aiBreach;
+        std::string aiFullMove;
+        bool buyAgreement;
+        double searchMs;
+    };
+    std::vector<TurnAnalysis> turns;
+    int fatalErrorCount = 0;
+    const int maxFatalErrors = 5;
+
+    while (stepper.hasNextTurn())
+    {
+        const GameState & state = stepper.getState();
+        int clickStart = stepper.getClickIndex();
+        int clickCount = stepper.getTurnClickCount();
+
+        TurnAnalysis ta;
+        ta.turn = stepper.getCurrentTurn();
+        ta.player = (int)stepper.getActivePlayer();
+
+        // Neural eval
+        auto output = NeuralNet::Instance().evaluate(state);
+        ta.eval = (state.getActivePlayer() == Players::Player_One)
+            ? output.value : -output.value;
+
+        // Extract human buys from clicks
+        ta.humanBuys = extractHumanBuys(commandList, clickStart, clickCount, mergedDeck);
+
+        // AI search — create player for correct side
+        PlayerPtr turnPlayer;
+        try
+        {
+            turnPlayer = AIParameters::Instance().getPlayer(state.getActivePlayer(), playerName);
+            if (thinkTimeMs > 0)
+            {
+                auto * sab = dynamic_cast<Player_StackAlphaBeta *>(turnPlayer.get());
+                auto * uct = dynamic_cast<Player_UCT *>(turnPlayer.get());
+                if (sab) sab->getParams().setTimeLimit(thinkTimeMs);
+                else if (uct) uct->getParams().setTimeLimit(thinkTimeMs);
+            }
+        }
+        catch (...)
+        {
+            turnPlayer = player;  // fallback
+        }
+
+        Timer searchTimer;
+        searchTimer.start();
+        Move aiMove;
+        try
+        {
+            turnPlayer->getMove(state, aiMove);
+        }
+        catch (std::exception &)
+        {
+            // AI search failed — leave aiMove empty
+        }
+        ta.searchMs = searchTimer.getElapsedTimeInMilliSec();
+
+        // Categorize AI move
+        categorizeMove(aiMove, state, ta.aiBuys, ta.aiAbilities, ta.aiDefense, ta.aiBreach);
+        ta.aiFullMove = aiMove.toString();
+
+        // Compare human buys vs AI buys (sorted set equality)
+        ta.buyAgreement = (ta.humanBuys == ta.aiBuys);
+
+        turns.push_back(ta);
+
+        // Advance to next turn
+        ReplayStepper::StepResult result = stepper.advanceTurn();
+        if (result == ReplayStepper::StepResult::FatalError)
+        {
+            fatalErrorCount++;
+            if (fatalErrorCount >= maxFatalErrors)
+                break;
+            continue;
+        }
+        if (result == ReplayStepper::StepResult::GameOver)
+            break;
+    }
+
+    // Restore stdout
+    fflush(stdout);
+    _dup2(savedFd, _fileno(stdout));
+    _close(savedFd);
+
+    // 8. Compute statistics
+    int agreements = 0;
+    double totalSearchMs = 0.0;
+    for (const auto & t : turns)
+    {
+        if (t.buyAgreement) agreements++;
+        totalSearchMs += t.searchMs;
+    }
+    float agreementRate = turns.empty() ? 0.0f : (float)agreements / (float)turns.size();
+
+    float maxSwing = 0.0f;
+    int biggestMistakeTurn = -1;
+    float biggestMistakeDrop = 0.0f;
+    for (size_t i = 1; i < turns.size(); i++)
+    {
+        float delta = turns[i].eval - turns[i - 1].eval;
+        float absDelta = std::abs(delta);
+        if (absDelta > maxSwing) maxSwing = absDelta;
+
+        float mistake = (turns[i - 1].player == 0) ? -delta : delta;
+        if (mistake > biggestMistakeDrop)
+        {
+            biggestMistakeDrop = mistake;
+            biggestMistakeTurn = turns[i - 1].turn;
+        }
+    }
+
+    // 9. Output JSON
+    printf("{\"ok\":true");
+    printf(",\"code\":\"%s\"", jsonEscape(code).c_str());
+    printf(",\"players\":[\"%s\",\"%s\"]", jsonEscape(p0Name).c_str(), jsonEscape(p1Name).c_str());
+    printf(",\"ratings\":[%d,%d]", p0Rating, p1Rating);
+    printf(",\"winner\":%d", winner);
+    printf(",\"ai_player\":\"%s\"", jsonEscape(playerName).c_str());
+    printf(",\"think_time_ms\":%d", thinkTimeMs);
+    printf(",\"turns_analyzed\":%zu", turns.size());
+    printf(",\"fatal_errors\":%d", fatalErrorCount);
+    printf(",\"agreement_rate\":%.4f", agreementRate);
+    printf(",\"agreements\":%d", agreements);
+    printf(",\"total_search_ms\":%.0f", totalSearchMs);
+
+    // Per-turn data
+    printf(",\"turns\":[");
+    for (size_t i = 0; i < turns.size(); i++)
+    {
+        if (i > 0) printf(",");
+        float pct = (turns[i].eval + 1.0f) / 2.0f * 100.0f;
+        printf("{\"turn\":%d,\"player\":%d,\"eval\":%.4f,\"eval_pct\":\"%.0f%%\"",
+               turns[i].turn, turns[i].player, turns[i].eval, pct);
+        printf(",\"human_buy\":%s", jsonStringArray(turns[i].humanBuys).c_str());
+        printf(",\"ai_buy\":%s", jsonStringArray(turns[i].aiBuys).c_str());
+        printf(",\"ai_abilities\":%s", jsonStringArray(turns[i].aiAbilities).c_str());
+        printf(",\"ai_defense\":%s", jsonStringArray(turns[i].aiDefense).c_str());
+        printf(",\"ai_breach\":%s", jsonStringArray(turns[i].aiBreach).c_str());
+        printf(",\"buy_agree\":%s", turns[i].buyAgreement ? "true" : "false");
+        printf(",\"search_ms\":%.0f", turns[i].searchMs);
+        printf(",\"ai_move\":\"%s\"", jsonEscape(turns[i].aiFullMove).c_str());
+        printf("}");
+    }
+    printf("]");
+
+    // Summary stats
+    printf(",\"eval_swing\":%.4f", maxSwing);
+    if (biggestMistakeTurn >= 0)
+    {
+        printf(",\"biggest_mistake\":{\"turn\":%d,\"eval_drop\":%.4f}",
+               biggestMistakeTurn, biggestMistakeDrop);
+    }
+
+    printf("}\n");
+    fflush(stdout);
+}
