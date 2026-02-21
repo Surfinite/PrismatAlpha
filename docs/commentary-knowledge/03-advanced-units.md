@@ -532,6 +532,169 @@ Official purchase frequencies (% chance a given player buys the unit when availa
 
 ---
 
+## Tantalum Ray — Phased Value Assessment
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+Tantalum Ray is "the second most efficient attacker" in the early game, but its value shifts across game phases. In the first few turns, Gauss Charges are essentially free damage. However, as the game lengthens, Gauss Charges become liabilities because they die easily to breach. "Tantalum gets less strong early game as you have larger absorbers in the set" — big absorbers like Xaetron or Energy Matrix eat Tantalum's first attack arrival for free. Against Scorchilla, Tantalum Ray is "mediocre mid-game because gauss charges die to breach, but good in the early phase" before Scorch hits land. In slow sets with Trinity Drone + blue/green options, leading with Tantalum and transitioning later is often stronger than committing to Flame Animus + Tarsier.
+
+---
+
+## Xaetron Timing and Absorb Rotation
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Heal to 12 HP Exception
+"Against fixed attack totals, it's almost never correct to heal the Xaetron to 12, but when your opponent has an ATK total [that varies], it's an exception." When the opponent has Scorchilla or other burst damage, healing Xaetron to full 12 HP is correct because you know the burst is coming and need every HP. The calculation: "if you don't make this play, you're probably forced to buy some defense preemptively."
+
+### Xaetron Survival as Win Condition
+In pressure games where the opponent has committed to burst (e.g., 4 Tesla Coils + Scorchilla), the game pivots on one question: "if he doesn't kill the Xaetron and get in for a breach, he has very little attack against the Xaetron." When permanent attack is low but burst is high, keeping Xaetron alive means surviving the burst equals winning.
+
+---
+
+## Colossus — Omega Splitter Comparison
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"Same efficiency as Omega Splitter but a bigger unit." As an absorber-attacker, Colossus benefits from high-magnitude absorb, which is "generically the most efficient thing in the game." But the real design distinction: "It has all the benefits of Omega Splitter without being Monotech and without being Resident Sleeper" — games end faster because Colossus health depletes. "It's more punishable. You can freeze it." Unlike Omega Splitter, Colossus is clunky to time and creates real decision tension. Apooche's design preference: Omega Splitter should be replaced with a Colossus-like unit.
+
+---
+
+## Apollo — Warping Set Dynamics
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Apollo Snipe Target Priority
+In long games with Apollo: snipe Steel Splitters first (they convert to Lancetooth), then Drones (deny economy when green floats), then Conduits (deny cluster/green unit access). "You snipe conduits before you snipe blast forge" because green units drive both offense and cluster burst. Blast Forge targets are lower priority since blue units are fewer.
+
+### Apollo Creates Gauss Cannon Piles
+"It's pretty rare for Apollo games to just come down to Gauss Cannon piles" — but it happens. When Apollo denies all fragile units (Tarsiers, Steel Splitters, Walls), games converge on Apollo-proof attackers: Gauss Cannon, Cluster Bolt, Lancetooth (from held Splitter bodies), and Chieftain (unsnipabl). "Every single attacker besides Gauss Cannon either times out or dies to Apollo."
+
+### Apollo as Pseudo-Defense Grid
+"Vivid Drone is basically an Overwork in this set, except it eats up your Apollo snipe and kills four drones instead of one." In Apollo sets, Vivid Drone and Apollo both function as economy tools — Apollo "makes drones and it destroys attack" similar to Defense Grid, which "makes drones and gives you absorb."
+
+---
+
+## Odin — Defensive Purchase Paradox
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"You usually buy Odin defensively, which is kind of funny given how much of a pressure unit it is." The standard play: get Borehole or Splitter first (chip damage), then Odin (forces a response), then Lancetooth pair (converts the Odin pressure into material advantage). When one player gets a "smooth first Odin" — fitting it into the build without sacrificing economy — the tempo lead is decisive. In Odin mirrors, the player with better tactical timing wins: "they're running the same strategy so it all just kind of comes down to the tactics."
+
+---
+
+## Venge Cannon — Clickability History
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+Venge Cannon's click ability (sacrifice for green Gauss Charges) has been rebalanced multiple times: "There have been multiple times in Venge's history where it was 4 green and multiple times where it was 3 green." Even after nerfs, "the clickability still gets used in non-breachproof games over buying it" — players find the click conversion valuable even when the unit was explicitly buffed for breachproof play. Sven considers Venge Cannon "one of the strongest units in the game."
+
+---
+
+## Tatsu Shinori — Rush and Counter Theory
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Tatsu Rush Lines
+"Tatsu is such a fast unit" — the 12-drone Tatsu rush (skip Conduit, float 4 gold into Drone + double Animus) is the default P2 opening in Tatsu sets. "You just need one Tatsu to deny the rest of the set." Getting a second Tatsu is desirable but the first already forces the opponent into constrained responses.
+
+### Dead Eye vs Tatsu Counter-play
+Dead Eye Operative works against Tatsu because "dead eye gives you a lot of free defense to deal with annoying stuff like Saib" and the dead-eye bodies provide expendable HP to absorb Tatsu freeze damage. "It's nice to see that Tatsu doesn't run over Dead Eye — if Lunarch's gonna make a toxic unit, they should at least make a toxic unit that beats another toxic unit."
+
+### Four Tatsu Threshold
+"You need a fourth Tatsu to have a chance" — three Tatsu freeze (6 damage) only kills a Wall + Engineer per turn, leaving the opponent with ten drones to outproduce you. Four Tatsu (8 damage) forces more significant defensive commitments.
+
+---
+
+## Endotherm Kit — Grenade Mech Pressure Strat
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Kit as Alternative to Amporilla
+In Wild Drone + Amporilla sets, the Kit provides an alternative aggressive line. When the Amporilla tempo race looks unfavorable ("the amporilla race would probably be lost"), Kit + Cauterizer offers burst pressure instead of sustained freeze. The risk: "the Kit play is getting there pretty crazy" — it either overwhelms or runs out of gas.
+
+### Frostbite Cycle and Supply Exhaustion
+With multiple Frostbite generators (Kit + Cauterizer), "nine freeze" or "ten freeze" turns force the defender into losing positions. But Saib supply matters: "Arka's almost out of Saibs" — once supply exhausts, the pressure collapses entirely.
+
+---
+
+## Manticore — Arms Race Synergy
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"Arms Race Manticore is the best Manticore because it kind of removes the downside of Manticore" — normally Manticore forces an awkward economy transition, but Arms Race smooths the red tech requirement. Manticore is "so good at dealing with Energy Matrix" because the 4-damage deny from a Thermite Core against Matrix's 4 absorb is exactly efficient: "12 gold with manticores" vs "4 damage absorbed." Every Thermite Core click is "a slightly bad deal" individually, but the accumulated effect of denying Matrix absorb repeatedly is decisive.
+
+---
+
+## Chieftain — Hold vs Click Decision
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"Chieftain hold is almost as good as Chieftain click" — the threat of a 7-damage lifespan click often provides as much value as actually clicking. In Omega Splitter games, the first Chieftain purchase timing depends on opponent damage: "With Energy Matrix, you need your opponent to have 11 for the Chieftain to get value." The priority order in midgame: "Omega Splitter is very good and Chieftain attacks are not that special" — get all Omegas before committing Chieftain clicks.
+
+---
+
+## Scorchilla — Four Tesla Coil Pressure
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"Four Teslas was enough — it's still a scary unit sometimes." In Scorchilla sets, three Tesla Coils provide adequate Engineer production, but four creates overwhelming Scorchilla pressure: 18+ damage turns that deplete Wall supply. The counter-strategy: survive the Scorchilla burst turns and win the post-burst economy. "If he doesn't kill the Xaetron and get in for a breach, he has very little attack against the Xaetron" — the burst-vs-survival dynamic defines Scorchilla games.
+
+---
+
+## Drake — Threat Value and Timing
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Drake vs Zamora Interaction
+"Drake doesn't feel too great against Zamora, honestly" — Zamora's persistent freeze reduces Drake's effective threat. Early Drake is "NG sitting out because of Vivid" — in Vivid Drone sets, the Engineer cost of Drake is more painful. However, Drake + Vivid into Drake (second Drake) creates double-click burst that can overwhelm defenses.
+
+### Fourth Drake Rarity
+"I don't know if I've ever seen a fourth Drake — not since the change to two blue at least." Four Drakes represents extreme aggression, consuming Engineer supply rapidly. The fourth Drake trade-off: massive pressure but "relying on 10 defense seeds, which seems really scary."
+
+---
+
+## Vi Mauronax + Lucina Spinos — Legendary Combo Power
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"Usually when you see one player get Vi Lucina before the other, that player wins." The combo is so dominant that the entire game often revolves around who secures both legendaries first. Four Vi Lucina games appeared in the OQ/IQ round, confirming the pattern. Counter-play options: Drakes or Iceblades if you have the foresight to commit early. Doom Drone helps the Vi Lucina player because "good soak and flexibility in the opening."
+
+---
+
+## Reservoir + Drone Economy Switch
+> Source: Apooche, "90 Seconds Round Robin Tournament" (Twitch VOD, ~2017)
+
+"Stop buying Tarsiers almost immediately after Reservoir — switch to Drones." The Reservoir timing principle: once Reservoir arrives, each Drone effectively pays for its own Forcefield via the extra gold. The gold generation from Reservoir converts what would be dead economy (Drones behind defense) into active Forcefield purchasing power.
+
+---
+
+## Polywall — Purchase Timing and Over-buying
+> Source: Apooche, "90 Seconds Round Robin Tournament" (Twitch VOD, ~2017)
+
+### Best as First Absorber
+Polywall is "best when it's your first absorber — you get the full 6 health value next turn." The 6-health body plus Prompt defense makes Polywall extremely efficient when it arrives before any other absorber. Once other absorbers are on the table, subsequent Polywalls become diminishing returns.
+
+### Common Over-purchase Mistake
+"These Polywalls really need to stop" — players frequently over-purchase Polywalls beyond defensive need, wasting resources on redundant health. The correct approach: buy Polywall for the first absorb slot, then switch to more efficient defense (Walls, Forcefields) for subsequent turns.
+
+---
+
+## Feral Warden — Efficient Absorb-Attacker
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"Most efficient absorb-attacker because it's tiny." Feral Warden's small size means its absorb-to-cost ratio is excellent — unlike Colossus or Omega Splitter, Feral Warden doesn't tie up massive resources while providing absorb + attack. In Odin sets, "you're countering the pressure of Odin by buying double Feral."
+
+---
+
+## Doom Drone Hold vs Cryo Ray Timing
+> Source: Apooche, "90 Seconds Round Robin Tournament" (Twitch VOD, ~2017)
+
+"One gold or one tempo? Usually gold is slightly better" — when choosing between holding a Doom Drone for gold value vs sacrificing it for tempo against Cryo Ray freeze, the gold advantage is typically more valuable. Doom Drone hold preserves economy; the tempo from early sacrifice rarely compensates.
+
+---
+
+## Ferritin Sac — Transition Tool
+> Source: Apooche, "90 Seconds Round Robin Tournament" (Twitch VOD, ~2017)
+
+Ferritin Sac appears repeatedly as a mid-game transition tool in tournament commentary. Its role: convert dying/obsolete units into burst damage or economy during the critical mid-to-late game transition phase. Multiple games referenced Ferritin Sac purchases as the signal that a player was shifting from build-up to aggression.
+
+---
+
+## Shadow Fang — Tarsier Timing Conflict
+> Source: Apooche, "90 Seconds Round Robin Tournament" (Twitch VOD, ~2017)
+
+"Tarsier on same turn as Shadow Fang is almost always wrong" — the resources spent on a Tarsier alongside Shadow Fang indicate a build order inefficiency. Shadow Fang demands full commitment to its burst timing; splitting resources with permanent attackers dilutes both strategies.
+
+---
+
 ## Frostbite Defense Theory
 > Source: Lunarch Studios Blog — "Defending against Frostbites in Prismata" (Elyot Grant, Jul 2015)
 

@@ -1137,3 +1137,67 @@ With Savior active, holding a drone as defense is more efficient than normal: "I
 > Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
 
 These three units create a strategic triangle: Isochronon beats Thunderhead (denies its attack turn), but Infusion Grid counters Isochronon (absorbs the burst), while Nivo Charge counters Infusion Grid (freezes it). "Between Infusion Grid and Thunderhead existing, you kind of want to go somewhat slow, econ up a little bit — just because if you Iso too early, your opponent throws down a Thunderhead and blocks it." The presence of all three in a set demands careful timing and forces both players to keep multiple strategic options open simultaneously.
+
+---
+
+## Survival Game Theory — Declining Attack
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"It's unintuitive as a Prismata player to play the survival game because you're used to attack constantly ramping up — not used to situations where attack goes down." When the opponent commits to burst strategy (Scorchilla + Tesla Coils), the correct response is to prioritize survival over counter-attack. After the burst phase ends, the opponent's permanent attack may be low. "If he doesn't win after the third Scorch blast, DB is in trouble." Players who try to push attack instead of survive often lose positions they would have won by simply outlasting the burst.
+
+---
+
+## Mono-Blastforge Weakness with Vivid Drone
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"Mono Blastforge builds don't work out too well with Vivid — you need the defense because of Vivid Drone and like not having regular drones to hold, but you're just so fixed in how you can buy defense. It's just wall wall wall wall wall." When Vivid Drones replace regular drones, the player loses Forcefield access (needs green) and drone-hold defense flexibility. With only blue tech, defense options collapse to just Walls and Engineers — insufficient granularity against varied attack profiles.
+
+---
+
+## Tech Diversity Principle
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"Even when there's not multiple colors of good advanced units, it's kind of nice to have two tech buildings just for some diversity in terms of what defenses you can purchase." The principle: even when one tech color dominates the set's attackers, having a second tech building provides defensive flexibility. A single Conduit alongside Blastforges enables Forcefields and green defense options that pure blue cannot offer. The cost of the tech building (3-4 gold) is often repaid by avoiding situations where defense supply or granularity collapses.
+
+---
+
+## Omega Splitter: Second Purchase Advantage at High Economy
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+"The higher econ you go, the more promising it kind of seems to get Omega second because you actually get the better blocks on Omega when you get it second." Counter-intuitively, in high-economy Omega mirrors, the second player to buy Omega may have an advantage: they get cleaner timing (block better since Omega is on the table a turn later) and "your build's a little bit less awkward." At high economy, "the four Omegas are pretty guaranteed" regardless of buy order, so the timing advantage of buying first diminishes.
+
+---
+
+## Cluster Bolt Timing — Don't Hold Too Long
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+In sets with Cluster Bolt + large Conduit economy, players accumulate massive green pools while waiting for the optimal Cluster moment. But waiting too long is dangerous: "If Arka didn't drop the clusters soon... he just can't even do the cluster." The Doom Wall or other lifespan absorbers on the opponent's side may time out, creating a window. If that window passes, the opponent transitions to high-HP defense (Chieftain, Gauss Cannons) that survives the Cluster burst. The recall damage (2 per Cluster Bolt to self) also becomes proportionally more dangerous as your own health diminishes.
+
+---
+
+## Grenade Mech + Thermite Core Absorb Denial Loop
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+When Grenade Mech click generates pixies each turn and Thermite Core denies absorb, the combination creates a repeating pressure loop: "It really does just feel like the old Grenade Mech is back with all the cores going on." Each turn, Grenade Mech converts a Blastforge into pixie burst while Thermite Cores deny Energy Matrix absorb. The attacker must hold drone defense against the burst but can force the defender to choose between Wall supply depletion or accepting breach. "Cores help make up for the cost of the click."
+
+---
+
+## Amporilla Race Dynamics
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Amporilla as Tarsier-Per-Turn Engine
+"You can think of the Amporillas as like eight more drones because they're both buying a Tarsier per turn as long as your regular drones buy a Tarsier per turn." Amporilla converts freeze pressure into permanent damage growth. After the freeze phase ends, the accumulated Tarsiers determine the winner. The player who maintains more drones alongside Amporilla production wins the long game.
+
+### Arms Race Anti-Synergy with Amporilla
+"Against Amporilla, Arms Race makes pretty much no sense — it's doing the opposite of what you want." Arms Race produces Engineers that Amporilla's freeze makes immediately useless. "If you have four Amporillas out and you buy an Arms Race, those four Engineers are just all dying to the extra damage from the Amporilla." The only exception: "the main time you see Arms Race with Amporilla is when you want to get Tarsier numbers 11 through 14" — using Arms Race as a late-game Tarsier supply extender.
+
+---
+
+## Breach-Proof Transition Timing by Unit Lifecycle
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Early Splitters as Apollo Bait
+"An issue I've seen happen with early Splitters is that all 10 Splitters get shot well before it's reasonable to do a breachproof transition." In Apollo sets, early Steel Splitter purchases get sniped, wasting resources. Players who buy Tarsiers first (Apollo's best snipe target) then transition to breachproof after all Tarsiers are dead have cleaner transitions: "there's nothing stopping you from having a good breachproof transition later."
+
+### Doom Wall Expiration as Transition Signal
+"By the time these Doom Walls die out, you're going to want to be breach-proof." Doom Wall's lifespan creates a natural clock for the standard-to-breachproof transition. Plan the transition to coincide with Doom Wall expiration so you don't waste a turn gap without absorb.

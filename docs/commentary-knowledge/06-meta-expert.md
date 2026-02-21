@@ -692,3 +692,53 @@ Noted from chat that the tournament results were "perfectly transitive" — a ra
 > Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
 
 Won the previous 3-player tournament (round robin with 307th and Red Raven), also in a runoff. Pattern: Aetherllama tends to lose the decisive round-robin game but then dominates the runoff format, suggesting stronger performance under sustained pressure compared to single must-win situations. His runoff record of 5-0 across Apooche's tournaments is a distinctive statistical signature.
+
+---
+
+## Masters League OQ/IQ Player Profiles
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Tournament Structure
+Masters League Open Qualifier (OQ) and Invitational Qualifier (IQ) rounds. Best-of-5 series with 45-second time control. Multiple series: Mr. Guy vs Acha (winners bracket), Red Raim vs Steel/Coal (losers bracket), Arcanisshu vs Msven. Final qualifier determined by IQ results.
+
+### D. Belange (DB): Smooth Technical Execution
+Won a 4-0 sweep against Anonymous in the OQ. Demonstrated strong tactical timing, particularly with early Odin purchases ("that was a very smooth first Odin — smoother than smooth") and Kit/Cauterizer pressure builds. Apooche noted "definitely showing his stuff" with consistently cleaner tactical execution than his opponent. In the Xaetron + Scorchilla set, DB went ultra-aggressive with 4 Tesla Coils — a high-variance strategy that paid off. "DB delayed Xaetron an extra two turns... which is odd to me" — sometimes prioritizes immediate pressure over optimal timing.
+
+### Anonymous (Anon): Technical but Over-Aggressive
+Lost 0-4 to D. Belange despite reasonable strategic decisions. Key weaknesses: pushed attack when survival was the correct goal ("trying to push out attack against someone who has committed to losing after a certain point in the game"), bought Tantalum Ray when defense was needed, and missed the "survival game" dynamic against burst strategies. "There were a few small decisions that just didn't line up."
+
+### Arcanisshu (Arka): High Variance Player
+"Definitely a high variance player, as the chat's been pointing out." Lost 1-3 to Msven but won two games with creative strategies (quad-Blastforge Grenade Mech pressure, Vi Lucina rush). Arka's games featured unconventional openings: 5 Blastforges, 7 Conduits with no splitters, mono-Blastforge Drake strategies. Pattern: either brilliant execution or costly over-commitment. "I don't think the one damage was that relevant" — sometimes makes purchases that don't align with the game plan. Arka's strength is creative aggression; weakness is over-extending when the position calls for patience.
+
+### Msven: Precise and Patient
+Won 3-1 against Arcanisshu, qualifying for Masters League. Consistently praised: "I can't think of anything that Sven could have done better that game, honestly" and "Sven's been playing really well — he deserves the slot more than Arka." Key strengths: precise defense tempo, willingness to play the survival/patience game when needed, and accurate late-game calculation. In the Apollo/Doom Wall game, "everything felt kind of bad and it felt like everything Sven did was the least bad." Considers Venge Cannon "one of the strongest units in the game." In the Tatsu game, Msven's Dead Eye counter-play demonstrated superior tactical reading: "Sven just made the right calls up till here."
+
+### Mr. Guy: Decisive Fast Player
+From the 90-second round robin: "doesn't like thinking, just clicks buttons." Won the 90-second tournament with 7.5 points. In Masters League context, known for decisive plays and fast execution under time pressure.
+
+### Red Raim: Breachproof Specialist
+Co-caster for the stream. "Loves breachproof, Iceblades, Dynamos." Provided analytical commentary throughout, particularly on breachproof timing, Xaetron rotation theory, and Colossus evaluation. His expertise in unconventional defensive strategies informed much of the technical analysis.
+
+### Tournament Format Impact on Play
+The 45-second time control (significantly shorter than standard) creates specific dynamics: "Clock management in large-economy sets" becomes critical. "Sven is the one who has to make more calculations per turn in this game by a lot" — the player with the more complex position suffers more under time pressure. This favors simpler strategies and punishes intricate multi-unit plans.
+
+---
+
+## 90-Second Round Robin Tournament Results
+> Source: Apooche, "90 Seconds Round Robin Tournament" (Twitch VOD, ~2017)
+
+### Final Standings
+| Place | Player | Points |
+|-------|--------|--------|
+| 1st | Mr. Guy | 7.5 |
+| 2nd | Llama (Aetherllama) | 6 |
+| 3rd | Dirty Magic | 5 |
+
+Base + 11 + Vendium format with 90-second time control. The extended timer (vs 45 or 60 seconds) allowed more calculated play but still created pressure in complex endgames.
+
+---
+
+## Centurion Balance History
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+A brief glimpse of old balance data: "Centurion costs 14 GBR... and Shadow Fang is 6 red red red" — reflecting a much older version of the game. "This Centurion version was so broken." The balance changes over Prismata's history significantly altered unit viability and strategy. Players who remember older versions sometimes reference historical costs when evaluating current units.

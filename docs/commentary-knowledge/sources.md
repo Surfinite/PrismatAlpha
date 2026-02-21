@@ -236,13 +236,40 @@ Full text stored in `docs/recovered-sources/lunarch-blog-*.txt`.
 | Community — Alternate Drone Philosophy | Doomed Drone as balance tool, Auric Impulse skill cap | 03 |
 | Various strategy discussion threads | Economy sizing, rush theory, meta observations | 04, 06 |
 
-### Tier 5d: Twitch VODs (In Progress, Feb 20, 2026)
-Downloaded MP4 files, transcribed locally with faster-whisper.
+### Tier 5d: Twitch VODs (COMPLETE, Feb 20, 2026)
+Downloaded MP4 files, transcribed locally with faster-whisper (small model, CPU).
 
-| Video | Duration | Commentator | Status | Used In |
-|-------|----------|-------------|--------|---------|
-| Aetherllama vs Allecto — Prismata League Semifinal (~2019) | 2h08m | Apooche | Transcribing | — |
-| (6 more videos expected from user) | — | Apooche | Pending | — |
+**Apooche (7 videos, 24h33m total):**
+| Video | Duration | Status | Used In |
+|-------|----------|--------|---------|
+| Aetherllama vs Allecto — Prismata League Semifinal (~2019) | 2h08m | Done | 03, 04, 06, 07 |
+| 6 Player Round Robin Tournament (~2017) | 3h17m | Done | 03, 04, 05, 06, 07 |
+| 3 Man Round Robin Picks Tourney (~2017) | 2h07m | Done | 03, 04, 05, 06, 07 |
+| Prismata Draft Tournament (~2016) | 1h20m | Done | 03, 04, 05, 06, 07 |
+| Masters League IQ Round 1 (~2016) | 3h48m | Done | 03, 04, 05, 06, 07 |
+| 90 Seconds Round Robin Tourney (~2017) | 4h15m | Done | 03, 04, 05, 06, 07 |
+| Masters League OQ and IQ Round 2 (~2016) | 7h36m | Done | 03, 04, 05, 06, 07 |
+
+**Msven (17 videos, 11h55m total):**
+| Video | Duration | Status | Used In |
+|-------|----------|--------|---------|
+| Personal Replay Analysis #3 | 17m | Done | 03, 04, 05, 06, 07 |
+| Personal Replay Analysis #2 | 50m | Done | 03, 04, 05, 06, 07 |
+| Personal Replay Analysis #1 | 32m | Done | 03, 04, 05, 06, 07 |
+| Personal Replay Analysis #0.3 | 28m | Done | 03, 04, 05, 06, 07 |
+| Personal Replay Analysis #0.2 | 27m | Done | 03, 04, 05, 06, 07 |
+| Personal Replay Analysis #0.1 | 26m | Done | 03, 04, 05, 06, 07 |
+| Apooche vs Aetherllama — League S2 Finals | 2h18m | Done | 03, 04, 05, 06, 07 |
+| Commentary on League Matches vs Aetherllama | 19m | Done | 03, 04, 05, 06, 07 |
+| Golden Cup: Arkanishu92 vs mquander | 1h49m | Done | 03, 04, 05, 06, 07 |
+| Living the 2300 Dream | 3h02m | Done | 03, 04, 05, 06, 07 |
+| Maybe Too Many Drones | 27m | Done | 03, 04, 05, 06, 07 |
+| Dynamo Shenanigans | 23m | Done | 03, 04, 05, 06, 07 |
+| Not a Drone Was Bought | 22m | Done | 03, 04, 05, 06, 07 |
+| Crazy Wincer Endgame | 26m | Done | 03, 04, 05, 06, 07 |
+| April Balance Patch in a Nutshell | 13m | Done | 03, 04, 05, 06, 07 |
+| Centurion Best Soak Unit | 2m | Done | 07 |
+| Arka Sodara + Grenade Mech Analysis | 20m | Done | 03, 04, 05, 06, 07 |
 
 ---
 

@@ -463,3 +463,49 @@ In Wild Drone + Centurion sets, the recommended mid-game sequence: "Animus — g
 > Source: Apooche, "6 Player Round Robin Tournament" (Twitch VOD, ~2017)
 
 In sets with Vivid Drone providing extra economy, the Double Animus opening enables aggressive red-based rushes. The extra gold from Vivid Drones funds the double Animus investment while maintaining enough economy for follow-up attackers (Tarsiers, Rhinos, Perforators). The rush timing works because Vivid Drone economy peaks early, aligning with the aggression window.
+
+---
+
+## Apooche: Splitter Core into Manticore Opening
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### The Triple-Forge Manticore Line
+In Energy Matrix sets with Manticore: "You probably go Splitter, Core, and a third Blastforge, and then two drones, and then you go Manticore and Splitter." This opening builds early pressure through Steel Splitters while setting up the Blastforge infrastructure for Manticore. The third Blastforge is key — it enables buying Manticore + Splitter simultaneously on the critical turn. "Especially great because your opponent's looking into mirroring something similar, in which case you don't want the Wall because the Wall's not going to get value."
+
+### Skipping Wall in Mirror Pressure Games
+When both players are building similar blue-based aggression, buying a Wall is wasteful: "the Wall's not going to get value" because neither player is putting out enough damage to justify the absorb investment. Better to invest that 5BB in attack output, maintaining pressure parity without the defensive overhead.
+
+---
+
+## Apooche: Vivid Drone + Zamora Opening Lines
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### P2 Will Build into Zamora
+"You can effectively follow the Will build, which is turn one Drone Conduit, turn two Drone Engineer, and then you have Vivid Drone, Vivid Drone, Blastforge, maybe into Zamora." The Will build provides a smooth economy into green tech, and Vivid Drone smooths the gold total. However, "the old Player 2 Vivid Zamora opening" was nerfed by Zamora cost changes — P2 no longer has the automatic advantage in this line.
+
+### Vivid + Animus Omega Pivot
+When Vivid Animus is available but Zamora is also in the set: "If I saw an Animus, I would just forget about the Zamora and go for Omega." The logic: Vivid Drone + Tarsiers is efficient but less efficient than Omega Splitter if you already have the economy. The Animus enables a pivot from green-based (Zamora) to blue-based (Omega) without losing the Vivid economy investment.
+
+---
+
+## Apooche: Tatsu Rush Standard Opening
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### The 12-Drone Tatsu Rush (P2)
+"The standard rush is when you skip a Conduit here and just float four into Drone Animus Animus." In Tatsu sets, the P2 Tatsu rush skips Conduit entirely, floats 4 gold, then buys Drone + double Animus for immediate Tatsu access. This puts the opponent under freeze pressure before they can establish defense. P1's counter: get their own Tatsu (mirror) or commit to Dead Eye Operative for expendable HP.
+
+---
+
+## Apooche: Doomdrone into Vi Lucina Opening
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### SAA (Wall + double Animus) + Doom Economy
+Doom Drone provides "good soak and flexibility in the opening" for the Vi Lucina rush. The opening: shift-Doomdrone early (sacrifice for gold), then use the burst gold to fund Wall + double Animus purchases, transitioning into Lucina + Vi. "It's like even at that point, because you're gonna lose them all — you're missing out on one gold." The temporary economy from Doom Drones aligns with the aggressive Vi Lucina timing.
+
+---
+
+## Apooche: Odin Smooth First Purchase Line
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Borehole into Lancetooth into Odin
+The standard Odin opening: Borehole first (chip damage + threat), then Lancetooth (forces a response), then Odin when the economy is ready. "That was a very smooth first Odin — smoother than smooth." A smooth Odin means fitting the purchase into the build without sacrificing economy turns or defense. The tempo lead from a smooth Odin is decisive in mirrors: "What happens when you get a smooth first Odin?" — the opponent can't easily counter because they're a turn behind on the legendary.

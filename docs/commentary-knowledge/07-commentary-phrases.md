@@ -595,3 +595,134 @@
 - "Vai Mauronax alone doesn't guarantee a win because you still have the potential to go Forge into Synthesizer — the old Synthesizer draw-out." — on theoretical escape valves
 - "He's gonna throw some turns on the table just to look at them." — on a player playing out a hopeless position
 - "These additional Blood Phages look even worse." — on diminishing returns of unit stacking without infrastructure
+
+---
+
+## Commentary Templates: Burst Survival
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Scorchilla / Burst Evaluation
+- "If that third Scorch blast doesn't win, I think DB is in trouble."
+- "28 damage is a lot."
+- "Full health for his Xaetron helps a lot."
+- "He just has to survive at this point."
+- "Four Teslas was enough — it's still a scary unit sometimes."
+- "[Player] had a very good chance to knock one off there."
+
+### Survival Game Dynamics
+- "It's unintuitive as a Prismata player to play the survival game because you're used to attack constantly ramping up."
+- "Trying to push out attack against someone who has committed to losing after a certain point in the game."
+- "Not used to situations where attack goes down."
+- "[Player] really just has to survive at this point — not make a commitment to killing the opponent."
+
+---
+
+## Commentary Templates: Legendary Timing
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Odin Purchase Evaluation
+- "That was a very smooth first Odin — smoother than smooth."
+- "You usually buy Odin defensively, which is kind of funny given how much of a pressure unit it is."
+- "Odin's good but not essential enough to actually cut drones."
+- "What happens when you get a smooth first Odin?"
+
+### Vi Lucina Pattern
+- "Usually when you see one player get Vi Lucina before the other — that player wins."
+- "Once Vi Lucina comes out, it's a Blood Pact number one — but it's kind of usually a sign of doom."
+- "It's just amazing how quickly you lose these games once Vi Lucina comes out."
+- "I've seen so much Vi Lucina today — it's kind of funny."
+
+### Tatsu Evaluation
+- "Tatsu is such a fast unit."
+- "You just need one Tatsu to deny the rest of the set."
+- "You need a fourth Tatsu to have a chance — three Tatsu freeze is only 6 damage."
+- "It's nice to see that Tatsu doesn't run over Dead Eye."
+- "If Lunarch's gonna make a toxic unit, they should at least make a toxic unit that beats another toxic unit."
+
+---
+
+## Commentary Templates: Economy and Tech Decisions
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Over-Committing to One Tech Color
+- "Mono Blastforge builds don't work out too well with Vivid — it's just wall wall wall wall wall."
+- "Seven conduits — maybe a little much."
+- "All the dunemaks plus the Xaetron plus all the barriers — there's a lot of health in this set."
+- "He has seven forges — but no conduit."
+
+### Conduit Timing
+- "Conduits, they can always be worth a gold because of Trinity Drone, which is really nice."
+- "The conduit wanted to be around a while earlier."
+- "In order for you to buy conduits when the green is worth the gold, you have to take advantage of the specific units in the set."
+
+### Economy vs Aggression Reads
+- "Flame Animus is pretty efficient — so that's close, but I want to say it's surprising to me."
+- "If you're only buying a Kinetic and then buying Engineers — I think clicking Synth was better."
+- "It doesn't feel good when you're also buying Animuses."
+
+---
+
+## Commentary Templates: Apollo Games
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+- "Every single attacker besides Gauss Cannon either times out or dies to Apollo."
+- "Welcome to Apollo games."
+- "There's only one Apollo and yet this still somehow still happens sometimes — most of the time."
+- "This Apollo is starting to not really do anything, even though it's denying so many options."
+- "There's this huge wash of decisions you can make that are all kind of about as good as each other."
+- "I would hate playing it, but I can enjoy watching it."
+- "You get to watch someone else struggle instead of feel the struggle yourself."
+
+---
+
+## Commentary Templates: Gambit Evaluation
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+- "I think the gambit gets taken — for sure. I mean, you're killing a Matrix."
+- "The defense is so non-granular that you just get a good enough exploit without accepting the gambit."
+- "Chieftain hold is almost as good as Chieftain click."
+- "One drone hold is a good price for getting [opponent] to not breach."
+- "Gambit-ing — I don't love gambit-ing."
+- "[Player] even going to gambit it — pretty serious."
+
+---
+
+## Commentary Templates: Player Evaluation
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+- "I can't think of anything that Sven could have done better that game, honestly."
+- "Everything felt kind of bad and it felt like everything Sven did was the least bad."
+- "Definitely a high variance player, as the chat's been pointing out."
+- "Definitely showing his stuff — I didn't feel like Anonymous was playing really badly or anything."
+- "He deserves the slot more than [opponent]."
+- "Maybe [player] was just trolling us — he wanted all seven games just so he could show off his awesome strats."
+
+---
+
+## Commentary Templates: Design Commentary
+> Source: Apooche + Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+### Unit Design Preferences
+- "It has all the benefits of Omega Splitter without being Monotech and without being Resident Sleeper."
+- "Omega Splitter — you don't fall asleep because eventually there's no more Colossus to block with."
+- "It's more punishable. You can freeze it."
+- "Just have Omega Splitter get a balance change that makes it a good one."
+
+### Embargo/Set Generation
+- "You embargo and you hope."
+- "Too many units to embargo, even though none of them are actually bad designs — they're just all ones that randomly annoy me."
+- "Some people love them, some people hate them — if you hate them, you embargo them."
+- "And then 30% of the time you still see them anyways, unless you're me — and then you see them 130% of the time."
+
+---
+
+## Red Raim Quotables (Masters League Co-Cast)
+> Source: Red Raim, "Masters League OQ/IQ Round 2" (Twitch VOD, ~2018)
+
+- "Tantalum gets less strong early game as you have larger absorbers in the set."
+- "Feral Warden — most efficient absorb-attacker because it's tiny."
+- "Colossus — same efficiency as Omega Splitter but a bigger unit."
+- "Against fixed attack totals, it's almost never correct to heal the Xaetron to 12, but when your opponent has varying ATK total, it's an exception."
+- "Arms Race Manticore is the best Manticore — it kind of removes the downside."
+- "Sven considers Venge Cannon to be one of the strongest units in the game — he's said that a few times."
+- "Absorb is generically the most efficient thing in the game."
