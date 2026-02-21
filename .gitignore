@@ -186,3 +186,40 @@ emscripten/*.js
 emscripten/*.data
 emscripten/*.mem
 qt/build-PrismataAI-*
+
+# --- Temp PowerShell scripts and scratch files in root ---
+tmp_*.ps1
+tmp_*.json
+tmp/
+
+# --- bin/ generated/debug/log files ---
+bin/*.log
+bin/*.txt
+bin/*.json
+bin/replays_test/
+
+# --- Archived neural weight variants (keep only committed neural_weights.bin) ---
+bin/asset/config/neural_weights_*.bin
+
+# --- Dashboard screenshots and logs ---
+dashboard/logs/
+dashboard/*.png
+dashboard/*.md
+dashboard_*.png
+
+# --- GCP temp/debug dot-scripts and output files ---
+gcp/.*
+gcp/*.log
+gcp/*.txt
+
+# --- AWS log copies ---
+aws/log_copy/
+
+# --- Training run logs ---
+training/*.log
+
+# --- docs/wiki binary files ---
+docs/wiki/*.pdf
+
+# --- Python cache in tools/ ---
+tools/__pycache__/
