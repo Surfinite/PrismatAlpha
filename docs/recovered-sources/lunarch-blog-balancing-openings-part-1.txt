@@ -1,0 +1,129 @@
+# Balancing Prismata Openings Through Unit Design - part 1
+# Source: blog.lunarchstudios.com/2015/05/22/balancing-prismata-openings-part-1/
+# Wayback: https://web.archive.org/web/20191122020715/http://blog.lunarchstudios.com/2015/05/22/balancing-prismata-openings-part-1/
+# Retrieved: 2026-02-20
+
+Hello everyone!
+
+In today’s article, I’m going to reveal a few Prismata secrets that we’ve never shared with the public: we’ll be showing off some pages from our ***secret opening book*** (yes, we have one!)
+
+Before I do that, I have two announcements to make:
+
+(1) A huge balance patch is happening this weekend, and it will go live at noon EST on Saturday, May 23rd. We’ll be tweaking a total of 13 different Prismata units. Just for fun, the tweaks are being revealed one at a time on our Twitter page. Be sure to follow us to receive every update as it arrives.
+
+(2) Our AI Mastermind Dave is conducting a Prismata AI survey. We’re really interested in how people think we’re doing with respect to the Prismata bots, so if you haven’t filled out the survey yet, we’d really appreciate it!
+
+Prismata’s robot overlords will be taking over soon.
+
+Now, let’s get to the meat of the article. I apologize in advance for the fact that this is a bit rambly, geeky, and somewhat technical. But revealing secret openings is serious business!
+
+## Our goal: Find the BEST version of every Prismata unit
+
+Prismata’s design places a lot of tight constraints on the types of units we can create, and the level of balance we aim to achieve is higher than that of many other games. Units that are too strong create all kinds of unfun situations, and weak units simply never get bought, reducing the overall variety and enjoyment in each randomly generated Prismata unit set. So our goal in designing Prismata units is for *every single unit to be as awesome and balanced as possible*.
+
+Our policy in balancing every unit lies in stark contrast to that of collectible card games Magic: The Gathering or Hearthstone. Magic’s lead designer, Mark Rosewater, has spoken at some length about how his design team strives to deliberately include bad cards in every Magic expansion. There are a number of reasons behind the diversity in card strength seen in collectible card games, but these don’t apply to Prismata for several reasons:
+
+- Players don’t need to collect cards to build decks in Prismata, so we have no reason to include overpowered “chase rares” in order to increase the sales of booster packs.
+
+- Similarly, we don’t need to provide beginners with loads of weak cards so that they are incentivized to grow their collections in order to replace them.
+
+- Players never own copies of the units in Prismata, so we can make balance adjustments long after they are released without upsetting our players.
+
+ 
+
+In short, we genuinely strive to improve the play and balance of each Prismata unit until no further changes could possibly improve it anymore.
+
+Of course, due to Prismata’s small numbers and lack of randomness, perfect balance can be tricky to achieve. A unit like Shiver Yeti can sometimes feel a bit weak at a cost of 5R, but he would be quite overpowered if he had a cost of 4R, an HP of 3, or the ability to chill for 3 instead of 2.
+
+Is this the best possible version of Shiver Yeti? What change could improve it?
+
+#### Just add more design power?
+
+Sometimes, I find myself wishing that I could give Shiver Yeti a 0.5 gold discount, or increase his HP to 2.5. Long in the past (probably around 2012), we even discussed doubling all the HP and attack values of Prismata units so we’d have a bit more granularity available in unit balancing. For example, we’d be able to increase Shiver Yeti’s HP from 4 to 5 in this land of “doubled HP values”, effectively giving him 2.5 HP. We could even have used this method to give Drones 1.5 HP, which is something that I’ve always secretly wanted to try (2HP drones were tried, but they ended up being way too beefy, causing games to last too long).
+
+At the time, doubling all HP and attack values felt justified in light of the fact that many other card games have attack and HP values much larger than Prismata’s. A unit with two attack in Prismata is a fairly strong attacker, but in other card games like Magic, two attack is pretty small, and there are a much larger fraction of units with attack and HP values of 4 or more. However, Prismata’s combat system works differently than that in other games, because of how attack is pooled. Accordingly, the “double all HP and attack values” idea ended up being unanimously shot down because we felt that it was much more important to keep the attack and HP numbers as small and elegant as possible so that combat arithmetic was kept simple. I don’t ever regret this decision for a moment.
+
+ 
+
+#### Burfs
+
+Sometimes units can be improved by buffing them, but then simultaneously applying a nerf (a weakening balance change) to partially counteract the buff. These “burfs” (changes that combine buffs and nerfs) are often good solutions to balance issues, and we’ve applied them several times in the past (such as with Cluster Bolt).
+
+For a unit like Shiver Yeti, we’ve considered a number of things. We could, for example, increase the power of his chill ability to 3 instead of 2, while simultaneously giving him a finite lifespan or limited stamina. Lifespan and stamina often provide very precise balancing fine-tuning controls to allow us to adjust the strength of any unit to be tuned to precisely what we want. We could even make changes to Shiver Yeti’s tech colour, by changing his cost to something like 4B (though this wouldn’t really make sense from Shiver Yeti’s design flavour, even if we redid his art and renamed him.)
+
+Ultimately, we’ve decided to leave Shiver Yeti where he is for now. Shiver Yeti still plays a huge role in red mirrors, is a decent counter to Forcefields, and can be a very strong counter to Plexo Cells, Doomed Walls, and other defenders with lifespan. Shiver Yeti is preferable to Rhino in a huge number of situations (though not all; that would be bad too!) Though he’s not a highly influential chill unit like Frostbite or a powerful defender like Corpus, Shiver Yeti still provides a lot of options to the player and fills a role in many games. His current design is very clean, and a change like those mentioned above likely won’t produce enough improvement in gameplay to justify the added complexity. So it makes sense to keep him as-is for now.
+
+ 
+
+## How Prismata openings can create design challenges
+
+In designing a perfect-information strategy game with no randomness, we’ve always been incredibly careful to avoid introducing *autowins—*situations in Prismata where the first or second player might have a guaranteed, unstoppable victory as long as he or she has access to the right units. Unit design plays a crucial role in this.
+
+Of course, every single Prismata position is a theoretical win for either the first or second player (or a theoretical draw), but in practice, most Prismata positions are far too complicated to provably solve for the winner (even with the assistance of computer searches). This is notoriously true of games like chess, and Prismata’s state space is over a billion billion times larger than that of chess, with a branching factor that can reach millions of possibilities in a single turn (see Dave’s AI article for more of these bewildering facts).
+
+Autowins are instead a practical consideration. We don’t ever want players to sit down for a base+8 Prismata game and feel like they’ve already lost on turn 1 by the virtue of being randomly selected to go first (or second). Moreover, we certainly don’t want players to feel that they must memorize specific opening move sequences in order to force victories in specific base+8 sets. One of the core purposes of the randomized game setup used in Prismata is to remove the requirement that players deeply study openings, which acts as a huge barrier to entry in many games like chess. Prismata must never become a contest of who can memorize the most pre-computed paths to victory.
+
+ 
+
+#### The definition of an autowin
+
+In practice, the types of *autowin situations* that we look out for are *situations where a single player has access to a **provably winning line with no refutations**, with that winning line and the associated variations being **simple enough for a human to memorize and execute** in an actual Prismata game.*
+
+Here’s a real-world example: Before the current round of unit balance changes, player 1 could force a win in many (but not all) situations when **Hannibull** and **Flame Animus** were both present. This forced win relies on a specific timing attack that’s relatively easy to execute, but player 2 also has a number of possible counterplay options that player 1 must memorize refutations to. These refutations themselves have multiple variations depending on the opponent’s specific move choices, to the point where it’s likely that several pages of moves must be learned and memorized in order for player 1 to have the knowledge of how to win against every single possibility that player 2 might choose to go for.
+
+I posted a video showing some of these lines from our *secret opening book*; take a look below:
+
+In truth, I’m still not 100% confident that player 1 wins in base set + Hannibull + Flame Animus. I’d put my level of confidence at around 80%. There are many, many branches in the tree of possible player 2 responses, and even though we tried to explore every relevant line, it’s quite likely that oversights were made during the analysis. (For reference, I’ve flip-flopped my view on “which player wins in *Base Set Only*” about 6 times in the last year.)
+
+ 
+
+#### **When are autowins bad?**
+
+Ultimately, we want to eliminate any situations where a player could gain a strong advantage by knowing or memorizing specific forcing lines. Autowins are examples of such situations, and one metric by which we judge their severity is simply “how much rating strength (or Elo) could a strong player gain by studying this situation for an hour?” This comes down to three factors:
+
+- How often does the problematic situation occur?
+
+- How easy it is to execute the forced win? Do a huge number of possible branches of refutations need to be memorized?
+
+- How volatile it the forced win? Is it spoiled by the addition of other random set units, forcing players to play “out of the book”?
+
+Let’s consider some examples:
+
+ 
+
+**(Hypothetical example 1)** A player discovers a specific set of 4 random units that yield a game in which player 1 can easily win by following a memorized build order.
+
+**Would this be a concern?** No.
+
+**Why not? **A 4-unit combination comes up in less than one in 10000 base+8 games. Not a single Prismata player has hit 10000 games yet, so most Prismata players would obtain no benefit whatsoever from memorizing this rush.
+
+ 
+
+**(Hypothetical example 2) **A player employs several days of effort, including many complex computer searches and hand calculations, to establish that player 1 wins in “Base Set + Doomed Mech”.
+
+**Would this be a concern? **No.
+
+**Why not? **Even if it was possible to memorize every single variation of the winning line (learning proper responses to every single move that the opponent count make), it’s not likely that this memory work would lead to forced victories in actual Base + 8 games involving Doomed Mech. The addition of other random units likely introduces new lines and counterplay, invalidating the pre-planned strategy. (Of course, doing this type of study might substantially improve your skills at using Doomed Mech. But the specific memorization of a huge number of optimal moves in Base Set + Doomed Mech is likely not that useful.)
+
+ 
+
+**(Hypothetical example 3) **A player discovers that player 1 can execute an easy-to-memorize strategy to win all games in which Shadowfang and Flame Animus are present, but Energy Matrix is not.
+
+**Would this be a concern? **Yes.
+
+**Why?** About 1% of Prismata games would be affected, so those who have memorized this strategy would have a 0.5% winrate advantage over those didn’t (since they would be in a position where they could execute this strategy whenever they were selected to be player 1).
+
+ 
+
+## So what’s the verdict?
+
+Suppose a player reports an autowin involving the Prismata base set, plus *N* other units. We tend to be most concerned when *N* is 1 or 2. If three or more specific units are all required to achieve a situation where a given player has a forced win, then a very small fraction of games (1 in 1000 or less) are likely affected.
+
+Some two-unit forced wins may also fail to be a concern if the winning line is highly volatile, meaning that many other units could be used to refute it. Hypothetical example 3 is actually a bit far-fetched, since it’s quite likely that any easy-to-memorize winning strategy involving Shadowfang and Flame Animus would be spoiled by many Prismata units (not just Energy Matrix). If a 2-unit rush fails 95% of the time when 6 other random units are thrown into the mix, then it’s a lesser concern.
+
+The Hannibull example above was, in our judgement, too great a concern to ignore. As a 2-unit combo, Flame Animus and Hannibull show up often enough together that knowledge of this rush could have a serious effect on player winrates. Moreover, there are a large number of Prismata units that don’t do much to help the defending player deal with the rush. Hence, we felt compelled to make a balance adjustment. Here’s the new Hannibull:
+[Image: burf]
+
+A “burfed” Hannibull. Its cost has been increased by 1 to nerf the player 1 rush, but its health and defensive abilities have been buffed to keep it strong later in the game.
+
+Something worth pointing out is that even in situations where a strong rush can be countered by a carefully executed defense, the presence of strong timings often reveals other areas of the game that need tweaking. We’ll see some examples of this in part 2 next week!

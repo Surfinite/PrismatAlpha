@@ -1,0 +1,1060 @@
+Benchmarks!
+Initializing card library
+Base     set has 11 cards
+Dominion set has 105 cards
+Loading neural network weights
+NeuralNet: loading weights (state_dim=1785, units=161, hidden=256, layers=2)
+NeuralNet: loaded 26 tensors, 161 unit names
+NeuralNet: feature layout: 161 unit slots × 11 + 14 global = 1785 state_dim
+NeuralNet: schema.json not found (Context 2 hasn't delivered it yet). Skipping cross-language validation.
+NeuralNet: UNMAPPED type id=0 name='None' uiName='None'
+NeuralNet: UNMAPPED type id=1 name='None' uiName='None'
+NeuralNet: mapped 116 / 118 engine card types (2 unmapped)
+Parsing AI Parameters
+Reading AI Parameters File: asset/config/config.txt
+Parsing Buy Limits...
+Parsing Card Filters...
+Parsing Opening Books...
+Parsing Partial Players...
+Parsing Move Iterators...
+Parsing Players...
+Parsing States...
+Assertion thrown!
+Assertion thrown!
+Assertion thrown!
+Assertion thrown!
+Assertion thrown!
+Assertion thrown!
+Assertion thrown!
+Assertion thrown!
+Assertion thrown!
+Assertion thrown!
+States Parsed: 5
+Parsing Complete!
+Opening Books:      2
+Partial Players:    74, parses: 148
+Move Iterators:     11, parses: 22
+Players:            45, parses: 88
+States:             5
+Parse Time:         392.168ms
+
+--- Neural Net Quick Test ---
+  State 'Base Set': value=0.3004  policy_nonzero=0/161
+  State 'Base + 4': value=0.2518  policy_nonzero=0/161
+  State 'Base + 8': value=-0.4923  policy_nonzero=0/161
+--- End Neural Net Test ---
+
+Running Benchmarks
+Saving replays to: asset/replays/NeuralAB_vs_Original_2026-02-18_11-07-19/
+Tournament 'NeuralAB_vs_Original': 42 rounds, 4 threads
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Engineer, Engineer
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Engineer, Engineer
+  [T1] OriginalHardestAI: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone, Engineer
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone, Engineer
+  [T2] PrismatAlpha_AB_Legacy: Doomed Drone, Doomed Drone
+  [T3] OriginalHardestAI: Drone, Vivid Drone, Drone
+  [T3] OriginalHardestAI: Drone, Drone, Conduit
+  [T3] OriginalHardestAI: Doomed Drone, Doomed Drone, Animus
+  [T3] OriginalHardestAI: Drone, Vivid Drone, Drone
+  [T4] PrismatAlpha_AB_Legacy: Vivid Drone, Thorium Dynamo
+  [T4] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T4] PrismatAlpha_AB_Legacy: Doomed Drone, Doomed Drone, Animus, Conduit
+  [T4] PrismatAlpha_AB_Legacy: Vivid Drone, Drone, Conduit
+  [T5] OriginalHardestAI: Drone, Blastforge, Vivid Drone
+  [T5] OriginalHardestAI: Drone, Drone, Blastforge
+  [T5] OriginalHardestAI: Tarsier, Tarsier, Doomed Drone
+  [T5] OriginalHardestAI: Vivid Drone, Vivid Drone, Blastforge
+  [T6] PrismatAlpha_AB_Legacy: Vivid Drone, Drone, Blastforge
+  [T6] PrismatAlpha_AB_Legacy: Drone, Drone, Animus
+  [T6] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge, Nitrocybe
+  [T6] PrismatAlpha_AB_Legacy: Vivid Drone, Drone, Blastforge
+  [T7] OriginalHardestAI: Vivid Drone, Vivid Drone, Conduit, Steelsplitter
+  [T7] OriginalHardestAI: Tarsier, Tarsier, Doomed Drone, Doomed Drone
+  [T7] OriginalHardestAI: Vivid Drone, Ebb Turbine, Drone, Conduit
+  [T7] OriginalHardestAI: Iso Kronus, Iso Kronus, Oxide Mixer
+  [T8] PrismatAlpha_AB_Legacy: Wall, Vivid Drone, Drone, Animus
+  [T8] PrismatAlpha_AB_Legacy: Wall, Drone, Drone, Nitrocybe, Nitrocybe
+  [T8] PrismatAlpha_AB_Legacy: Mahar Rectifier, Steelsplitter
+  [T8] PrismatAlpha_AB_Legacy: Shredder, Tarsier, Tarsier
+  [T9] OriginalHardestAI: Gauss Cannon, Steelsplitter, Drone
+  [T9] OriginalHardestAI: Rhino, Tarsier, Doomed Drone, Doomed Drone
+  [T9] OriginalHardestAI: Drone, Drone, Drone, Drone, Blastforge, Drone
+  [T9] OriginalHardestAI: Wall, Drone, Blastforge
+  [T10] PrismatAlpha_AB_Legacy: Tesla Coil, Tarsier, Vivid Drone
+  [T10] PrismatAlpha_AB_Legacy: Steelsplitter, Rhino, Rhino
+  [T10] PrismatAlpha_AB_Legacy: Vivid Drone, Ebb Turbine, Gauss Cannon
+  [T10] PrismatAlpha_AB_Legacy: Rhino, Tarsier, Steelsplitter
+  [T11] OriginalHardestAI: Drone, Drone, Drone, Drone, Conduit
+  [T11] OriginalHardestAI: Rhino, Rhino, Drone, Drone
+  [T11] OriginalHardestAI: Wall, Mahar Rectifier, Steelsplitter
+  [T11] OriginalHardestAI: Doomed Mech, Iso Kronus
+  [T12] PrismatAlpha_AB_Legacy: Gaussite Symbiote, Steelsplitter, Drone
+  [T12] PrismatAlpha_AB_Legacy: Wall, Forcefield, Bloodrager, Nitrocybe
+  [T12] PrismatAlpha_AB_Legacy: Vivid Drone, Drone, Animus, Gauss Cannon, Drone
+  [T12] PrismatAlpha_AB_Legacy: Wall, Drone, Drone, Conduit
+  [T13] OriginalHardestAI: Wall, Drone, Drone, Drone, Blastforge
+  [T13] OriginalHardestAI: Rhino, Rhino, Doomed Drone, Doomed Drone
+  [T13] OriginalHardestAI: Wall, Steelsplitter, Kinetic Driver, Engineer, Engineer, Drone
+  [T13] OriginalHardestAI: Wall, Steelsplitter, Engineer
+  [T14] PrismatAlpha_AB_Legacy: Gaussite Symbiote, Steelsplitter, Drone, Drone
+  [T14] PrismatAlpha_AB_Legacy: Wall, Forcefield, Rhino, Nitrocybe
+  [T14] PrismatAlpha_AB_Legacy: Wall, Forcefield, Tarsier, Tarsier, Drone, Engineer, Engineer
+  [T14] PrismatAlpha_AB_Legacy: Wall, Forcefield, Blood Pact, Engineer, Engineer
+  [T15] OriginalHardestAI: Wall, Wall, Forcefield, Forcefield, Forcefield, Drone, Drone, Conduit
+  [T15] OriginalHardestAI: Rhino, Rhino, Engineer
+  [T15] OriginalHardestAI: Steelsplitter, Steelsplitter, Drone, Drone
+  [T15] OriginalHardestAI: Doomed Mech, Iso Kronus
+  [T16] PrismatAlpha_AB_Legacy: Tesla Coil, Tarsier, Tarsier
+  [T16] PrismatAlpha_AB_Legacy: Wall, Blastforge
+  [T16] PrismatAlpha_AB_Legacy: Steelsplitter, Kinetic Driver, Drone, Drone, Drone
+  [T16] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge, Iso Kronus
+  [T17] OriginalHardestAI: Wall, Forcefield, Steelsplitter, Gauss Cannon, Engineer, Engineer
+  [T17] OriginalHardestAI: Bloodrager, Tarsier
+  [T17] OriginalHardestAI: Wall, Forcefield, Steelsplitter, Kinetic Driver, Drone, Drone
+  [T17] OriginalHardestAI: Plasmafier
+  [T18] PrismatAlpha_AB_Legacy: Wall, Rhino, Rhino, Gauss Cannon
+  [T18] PrismatAlpha_AB_Legacy: Wall, Nitrocybe, Nitrocybe, Engineer
+  [T18] PrismatAlpha_AB_Legacy: Wall, Forcefield, Engineer, Engineer, Animus, Drone
+  [T18] PrismatAlpha_AB_Legacy: Wall, Wall, Forcefield, Blood Pact, Blood Pact, Engineer
+  [T19] OriginalHardestAI: Wall, Forcefield, Drone, Drone, Animus
+  [T19] OriginalHardestAI: Drone, Engineer, Blastforge, Nitrocybe
+  [T19] OriginalHardestAI: Wall, Drone, Animus, Kinetic Driver
+  [T19] OriginalHardestAI: Iso Kronus, Doomed Mech
+  [T20] PrismatAlpha_AB_Legacy: Wall, Engineer, Engineer, Conduit, Tarsier
+  [T20] PrismatAlpha_AB_Legacy: Forcefield, Drone, Engineer, Nitrocybe, Nitrocybe
+  [T20] PrismatAlpha_AB_Legacy: Forcefield, Drone, Drone, Blastforge, Tarsier, Tarsier
+  [T20] PrismatAlpha_AB_Legacy: Wall, Wall, Blood Pact, Drone
+  [T21] OriginalHardestAI: Drone, Engineer, Animus
+  [T21] OriginalHardestAI: Wall, Wall, Forcefield, Forcefield, Forcefield, Forcefield, Forcefield, Forcefield, Engineer, Engineer, Blastforge
+  [T21] OriginalHardestAI: Steelsplitter, Rhino, Nitrocybe
+  [T21] OriginalHardestAI: Wall, Rhino, Forcefield, Drone, Drone, Drone
+  [T22] PrismatAlpha_AB_Legacy: Wall, Wall, Forcefield, Blood Pact, Blood Pact
+  [T23] OriginalHardestAI: Drone, Drone, Conduit, Oxide Mixer
+  [T24] PrismatAlpha_AB_Legacy: Wall, Forcefield, Forcefield, Blood Pact, Blood Pact
+  [T25] OriginalHardestAI: Drone, Drone, Conduit, Oxide Mixer
+  [T22] PrismatAlpha_AB_Legacy: Wall, Drone, Drone, Engineer, Engineer, Conduit, Tarsier
+  [T22] PrismatAlpha_AB_Legacy: Plexo Cell, Plexo Cell, Drone, Nitrocybe
+  [T22] PrismatAlpha_AB_Legacy: Wall, Forcefield, Engineer, Engineer, Animus, Drone
+  [T26] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier
+  [T27] OriginalHardestAI: Drone, Drone, Iso Kronus, Oxide Mixer
+  [T28] PrismatAlpha_AB_Legacy: (no buys)
+  [T29] OriginalHardestAI: Drone, Drone, Doomed Mech
+  [T30] PrismatAlpha_AB_Legacy: (no buys)
+  [T31] OriginalHardestAI: Drone, Drone, Iso Kronus, Iso Kronus
+  [T23] OriginalHardestAI: Wall, Engineer, Engineer, Nitrocybe, Nitrocybe
+  [T24] PrismatAlpha_AB_Legacy: Plexo Cell, Wall
+  [T25] OriginalHardestAI: Drone, Drone, Animus, Nitrocybe
+  [T26] PrismatAlpha_AB_Legacy: Wall
+  [T27] OriginalHardestAI: Engineer, Engineer, Blastforge, Tarsier, Nitrocybe
+  [T28] PrismatAlpha_AB_Legacy: (no buys)
+  [T29] OriginalHardestAI: Drone, Drone, Conduit, Perforator, Nitrocybe
+  [T30] PrismatAlpha_AB_Legacy: (no buys)
+  [T31] OriginalHardestAI: Drone, Drone, Conduit, Tarsier, Nitrocybe, Nitrocybe
+  [T23] OriginalHardestAI: Wall, Wall, Wall
+  [T23] OriginalHardestAI: Wall, Rhino, Forcefield, Blastforge, Engineer, Tarsier
+  [T0] OriginalHardestAI: Drone, Drone
+  [T0] OriginalHardestAI: Drone, Drone
+  [T24] PrismatAlpha_AB_Legacy: Drone, Drone, Engineer, Engineer, Blastforge, Tarsier, Tarsier
+  [T24] PrismatAlpha_AB_Legacy: Wall, Rhino, Rhino, Drone
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T25] OriginalHardestAI: Rhino, Rhino, Forcefield, Forcefield, Forcefield, Forcefield, Engineer
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T25] OriginalHardestAI: Arka Sodara, Rhino, Forcefield, Drone, Drone
+  [T2] OriginalHardestAI: Drone, Drone
+  [T26] PrismatAlpha_AB_Legacy: Wall, Thorium Dynamo, Thorium Dynamo, Xaetron
+  [T27] OriginalHardestAI: Rhino, Rhino, Drone
+  [T2] OriginalHardestAI: Drone, Drone
+  [T28] PrismatAlpha_AB_Legacy: Engineer, Engineer, Blastforge, Tarsier, Tarsier
+  [T29] OriginalHardestAI: Engineer, Engineer
+  [T30] PrismatAlpha_AB_Legacy: Wall, Drone, Drone, Engineer, Engineer, Animus, Tesla Coil
+  [T31] OriginalHardestAI: (no buys)
+  [T32] PrismatAlpha_AB_Legacy: Tesla Coil, Vai Mauronax, Gauss Cannon, Drone
+  [T33] OriginalHardestAI: (no buys)
+  [T34] PrismatAlpha_AB_Legacy: Thorium Dynamo, Omega Splitter, Gaussite Symbiote, Tarsier, Rhino
+  [T26] PrismatAlpha_AB_Legacy: Wall, Forcefield, Drone, Blastforge
+  [T3] PrismatAlpha_AB_Legacy: Drone, Drone, Conduit
+  [T3] PrismatAlpha_AB_Legacy: Doomed Drone, Doomed Drone, Animus
+  [T0] OriginalHardestAI: Drone, Drone
+  [T27] OriginalHardestAI: Wall, Wall, Rhino, Forcefield, Engineer, Engineer
+  [T4] OriginalHardestAI: Drone, Drone, Blastforge
+  [T4] OriginalHardestAI: Doomed Drone, Doomed Drone, Animus
+  [T1] PrismatAlpha_AB_Legacy: Drone, Engineer, Engineer
+  [T28] PrismatAlpha_AB_Legacy: Arka Sodara, Rhino, Engineer
+  [T5] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T29] OriginalHardestAI: Wall, Blastforge, Hellhound, Tarsier
+  [T30] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino
+  [T5] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Doomed Drone
+  [T31] OriginalHardestAI: Wall, Rhino, Forcefield, Tarsier
+  [T32] PrismatAlpha_AB_Legacy: Engineer
+  [T33] OriginalHardestAI: Rhino, Engineer, Hellhound
+  [T2] OriginalHardestAI: Drone, Drone, Engineer
+  [T34] PrismatAlpha_AB_Legacy: Engineer
+  [T35] OriginalHardestAI: Conduit, Mahar Rectifier
+  [T36] PrismatAlpha_AB_Legacy: Engineer
+  [T37] OriginalHardestAI: Mahar Rectifier, Tarsier
+  [T38] PrismatAlpha_AB_Legacy: (no buys)
+  [T39] OriginalHardestAI: Mahar Rectifier
+  [T6] OriginalHardestAI: Steelsplitter, Drone, Drone
+  [T6] OriginalHardestAI: Drone, Drone, Blastforge, Nitrocybe, Nitrocybe
+  [T3] PrismatAlpha_AB_Legacy: Drone, Vivid Drone, Drone
+  [T0] OriginalHardestAI: Drone, Drone
+  [T7] PrismatAlpha_AB_Legacy: Wall, Drone, Drone
+  [T7] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Doomed Drone, Doomed Drone
+  [T4] OriginalHardestAI: Thorium Dynamo, Thorium Dynamo
+  [T1] PrismatAlpha_AB_Legacy: Drone, Engineer, Engineer
+  [T8] OriginalHardestAI: Shredder, Drone, Drone, Conduit
+  [T8] OriginalHardestAI: Wall, Drone, Drone, Conduit
+  [T5] PrismatAlpha_AB_Legacy: Thorium Dynamo, Thorium Dynamo
+  [T2] OriginalHardestAI: Drone, Drone, Engineer
+  [T9] PrismatAlpha_AB_Legacy: Plasmafier, Drone
+  [T9] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Doomed Drone, Doomed Drone
+  [T6] OriginalHardestAI: Drone
+  [T3] PrismatAlpha_AB_Legacy: Drone, Vivid Drone, Drone
+  [T10] OriginalHardestAI: Steelsplitter, Iso Kronus, Blastforge
+  [T10] OriginalHardestAI: Tarsier, Tarsier, Gauss Cannon, Doomed Drone
+  [T7] PrismatAlpha_AB_Legacy: Vivid Drone, Drone
+  [T4] OriginalHardestAI: Vivid Drone, Drone, Conduit
+  [T11] PrismatAlpha_AB_Legacy: Iso Kronus, Shredder, Drone, Drone
+  [T11] PrismatAlpha_AB_Legacy: Rhino, Bloodrager, Engineer, Engineer
+  [T8] OriginalHardestAI: Gauss Cannon, Gauss Cannon, Vivid Drone
+  [T5] PrismatAlpha_AB_Legacy: Drone, Blastforge, Vivid Drone
+  [T12] OriginalHardestAI: Doomed Mech, Gauss Cannon
+  [T12] OriginalHardestAI: Wall, Forcefield, Drone, Drone, Blastforge
+  [T9] PrismatAlpha_AB_Legacy: Drone, Drone, Drone, Drone, Blastforge
+  [T6] OriginalHardestAI: Drone, Blastforge, Vivid Drone
+  [T13] PrismatAlpha_AB_Legacy: Wall, Drone, Drone, Animus
+  [T13] PrismatAlpha_AB_Legacy: Rhino, Drone, Drone, Blastforge, Nitrocybe
+  [T10] OriginalHardestAI: Gauss Cannon, Gauss Cannon, Thorium Dynamo
+  [T7] PrismatAlpha_AB_Legacy: Drone, Animus, Vivid Drone, Drone
+  [T14] OriginalHardestAI: Wall, Wall, Engineer, Engineer
+  [T14] OriginalHardestAI: Wall, Wall, Drone, Drone
+  [T11] PrismatAlpha_AB_Legacy: Wall, Drone, Animus, Drone, Gauss Cannon
+  [T8] OriginalHardestAI: Vivid Drone, Drone, Animus, Gauss Cannon
+  [T15] PrismatAlpha_AB_Legacy: Bloodrager, Bloodrager, Iso Kronus
+  [T15] PrismatAlpha_AB_Legacy: Wall, Drone, Animus, Nitrocybe
+  [T12] OriginalHardestAI: Gauss Cannon, Gauss Cannon
+  [T9] PrismatAlpha_AB_Legacy: Wall, Vivid Drone, Drone, Drone
+  [T16] OriginalHardestAI: Doomed Mech, Gauss Cannon
+  [T16] OriginalHardestAI: Wall, Wall, Forcefield, Engineer, Engineer, Nitrocybe, Nitrocybe
+  [T13] PrismatAlpha_AB_Legacy: Wall, Gaussite Symbiote, Gauss Cannon, Engineer, Engineer
+  [T10] OriginalHardestAI: Mahar Rectifier, Hellhound
+  [T17] PrismatAlpha_AB_Legacy: Wall, Blood Pact, Bloodrager, Drone
+  [T17] PrismatAlpha_AB_Legacy: Drone, Engineer, Blastforge, Tarsier
+  [T14] OriginalHardestAI: Gauss Cannon, Gauss Cannon, Gauss Cannon
+  [T11] PrismatAlpha_AB_Legacy: Ebb Turbine, Tarsier, Tarsier, Drone, Drone
+  [T18] OriginalHardestAI: Wall, Wall, Forcefield, Drone
+  [T18] OriginalHardestAI: Wall, Forcefield, Drone, Drone, Animus
+  [T15] PrismatAlpha_AB_Legacy: Wall, Forcefield, Drone, Conduit, Drone, Tarsier
+  [T12] OriginalHardestAI: Hellhound, Tarsier, Gauss Cannon
+  [T19] PrismatAlpha_AB_Legacy: Wall, Forcefield, Forcefield, Rhino, Rhino
+  [T19] PrismatAlpha_AB_Legacy: Vai Mauronax
+  [T16] OriginalHardestAI: Gauss Cannon, Engineer, Engineer, Blastforge
+  [T13] PrismatAlpha_AB_Legacy: Rhino, Drone, Drone, Blastforge, Hellhound, Drone, Conduit
+  [T20] OriginalHardestAI: Wall, Wall, Forcefield, Engineer, Engineer
+  [T20] OriginalHardestAI: Wall, Wall, Rhino, Forcefield, Forcefield
+  [T17] PrismatAlpha_AB_Legacy: Wall, Forcefield, Forcefield, Engineer, Engineer, Blastforge, Tarsier, Tarsier
+  [T14] OriginalHardestAI: Steelsplitter, Rhino, Rhino
+  [T21] PrismatAlpha_AB_Legacy: Wall, Rhino, Forcefield, Forcefield, Engineer
+  [T21] PrismatAlpha_AB_Legacy: Steelsplitter, Steelsplitter, Nitrocybe
+  [T18] OriginalHardestAI: Wall, Drone, Drone, Conduit
+  [T15] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Rhino, Drone, Drone
+  [T22] OriginalHardestAI: Wall, Rhino, Forcefield
+  [T22] OriginalHardestAI: Wall, Iso Kronus, Oxide Mixer
+  [T23] PrismatAlpha_AB_Legacy: Engineer, Engineer, Conduit, Tarsier, Nitrocybe
+  [T24] OriginalHardestAI: Rhino, Rhino, Forcefield
+  [T25] PrismatAlpha_AB_Legacy: Drone, Drone, Conduit, Nitrocybe, Nitrocybe
+  [T26] OriginalHardestAI: Rhino, Forcefield
+  [T27] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Rhino, Nitrocybe
+  [T28] OriginalHardestAI: (no buys)
+  [T29] PrismatAlpha_AB_Legacy: Bloodrager, Bloodrager
+  [T30] OriginalHardestAI: (no buys)
+  [T31] PrismatAlpha_AB_Legacy: Bloodrager, Bloodrager
+  [T19] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Rhino, Vivid Drone
+  [T16] OriginalHardestAI: Mahar Rectifier, Hellhound
+  [T23] PrismatAlpha_AB_Legacy: Iso Kronus, Tarsier, Engineer
+  [T20] OriginalHardestAI: Wall, Drone, Engineer
+  [T17] PrismatAlpha_AB_Legacy: Wall, Wall, Forcefield, Forcefield, Rhino, Rhino, Drone, Engineer, Drone
+  [T24] OriginalHardestAI: Wall, Wall, Drone
+  [T21] PrismatAlpha_AB_Legacy: Wall, Wall, Forcefield, Tarsier, Tarsier, Engineer, Engineer
+  [T18] OriginalHardestAI: Rhino, Hellhound, Gauss Cannon
+  [T25] PrismatAlpha_AB_Legacy: Wall, Blood Pact, Engineer
+  [T26] OriginalHardestAI: Wall, Forcefield, Forcefield, Forcefield, Drone, Engineer, Oxide Mixer
+  [T22] OriginalHardestAI: Wall, Drone, Engineer, Blastforge
+  [T19] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Forcefield, Rhino, Drone, Drone
+  [T27] PrismatAlpha_AB_Legacy: Iso Kronus, Tarsier
+  [T28] OriginalHardestAI: Forcefield, Drone, Engineer, Animus
+  [T29] PrismatAlpha_AB_Legacy: Wall, Forcefield, Forcefield
+  [T30] OriginalHardestAI: Drone, Engineer, Tarsier
+  [T31] PrismatAlpha_AB_Legacy: Shredder
+  [T32] OriginalHardestAI: (no buys)
+  [T33] PrismatAlpha_AB_Legacy: Blood Pact
+  [T34] OriginalHardestAI: (no buys)
+  [T35] PrismatAlpha_AB_Legacy: Tarsier
+  [T36] OriginalHardestAI: (no buys)
+  [T37] PrismatAlpha_AB_Legacy: Engineer
+  [T23] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Rhino, Drone, Drone
+  [T20] OriginalHardestAI: Hellhound, Tarsier, Gauss Cannon, Vivid Drone
+  [T24] OriginalHardestAI: Wall, Wall, Drone, Engineer
+  [T21] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Rhino, Forcefield, Drone, Engineer
+  [T22] OriginalHardestAI: Drone, Drone, Drone, Blastforge
+  [T25] PrismatAlpha_AB_Legacy: Forcefield, Forcefield, Steelsplitter, Steelsplitter, Rhino, Engineer
+  [T23] PrismatAlpha_AB_Legacy: Wall, Rhino, Forcefield, Blastforge, Hellhound
+  [T24] OriginalHardestAI: Drone, Drone, Blastforge, Arka Sodara, Tarsier
+  [T25] PrismatAlpha_AB_Legacy: Arka Sodara, Forcefield, Steelsplitter, Tarsier, Engineer
+  [T26] OriginalHardestAI: Drone, Drone, Conduit, Mahar Rectifier
+  [T27] PrismatAlpha_AB_Legacy: Hellhound, Hellhound
+  [T28] OriginalHardestAI: Drone, Drone, Mahar Rectifier, Hellhound
+  [T29] PrismatAlpha_AB_Legacy: (no buys)
+  [T30] OriginalHardestAI: Drone, Drone, Drone, Odin
+  [T26] OriginalHardestAI: Tesla Coil, Drone
+  [T27] PrismatAlpha_AB_Legacy: Rhino, Rhino, Forcefield, Steelsplitter, Drone, Engineer
+  [T28] OriginalHardestAI: Wall, Wall, Forcefield, Drone
+  [T29] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone, Engineer
+  [T30] OriginalHardestAI: Wall, Wall, Engineer, Engineer
+  [T31] PrismatAlpha_AB_Legacy: Forcefield, Tesla Coil, Tarsier
+  [T32] OriginalHardestAI: Wall, Drone, Drone
+  [T33] PrismatAlpha_AB_Legacy: Rhino, Forcefield, Drone, Drone, Engineer
+  [T34] OriginalHardestAI: Forcefield, Forcefield, Engineer, Engineer
+  [T35] PrismatAlpha_AB_Legacy: Forcefield, Forcefield, Tesla Coil
+  [T36] OriginalHardestAI: Drone
+  [T37] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Drone, Engineer
+  [T38] OriginalHardestAI: Engineer
+  [T39] PrismatAlpha_AB_Legacy: Drone, Blastforge, Engineer, Tarsier
+  [T40] OriginalHardestAI: (no buys)
+  [T41] PrismatAlpha_AB_Legacy: Tesla Coil
+  [T42] OriginalHardestAI: (no buys)
+  [T43] PrismatAlpha_AB_Legacy: Tarsier, Gauss Cannon, Engineer
+  [T44] OriginalHardestAI: (no buys)
+  [T45] PrismatAlpha_AB_Legacy: Steelsplitter, Engineer, Engineer
+  [T46] OriginalHardestAI: (no buys)
+  [T47] PrismatAlpha_AB_Legacy: Animus, Gauss Cannon
+  [T48] OriginalHardestAI: (no buys)
+  [T49] PrismatAlpha_AB_Legacy: Vai Mauronax
+  [T50] OriginalHardestAI: (no buys)
+  [T51] PrismatAlpha_AB_Legacy: Tesla Coil
+                        PrismatAlpha_AB_Legacy  OriginalHardestAI  TotalScore
+PrismatAlpha_AB_Legacy  -                       4                       4
+OriginalHardestAI       4                       -                       4
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Wild Drone, Wild Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T3] OriginalHardestAI: Wild Drone, Wild Drone, Animus
+  [T3] OriginalHardestAI: Drone, Drone, Conduit
+  [T3] OriginalHardestAI: Wild Drone, Wild Drone, Animus
+  [T3] OriginalHardestAI: Thorium Dynamo, Thorium Dynamo
+  [T4] PrismatAlpha_AB_Legacy: Wild Drone, Wild Drone, Animus
+  [T4] PrismatAlpha_AB_Legacy: Drone, Drone, Conduit
+  [T4] PrismatAlpha_AB_Legacy: Wild Drone, Wild Drone, Animus
+  [T4] PrismatAlpha_AB_Legacy: Thorium Dynamo, Thorium Dynamo
+  [T5] OriginalHardestAI: Tarsier, Tarsier
+  [T5] OriginalHardestAI: Drone, Drone, Blastforge
+  [T5] OriginalHardestAI: Tarsier, Tarsier
+  [T5] OriginalHardestAI: Drone
+  [T6] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Wild Drone, Wild Drone
+  [T6] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T6] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Wild Drone, Wild Drone
+  [T6] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T7] OriginalHardestAI: Immolite, Immolite, Wild Drone, Wild Drone
+  [T7] OriginalHardestAI: Drone, Drone, Conduit, Pixie
+  [T7] OriginalHardestAI: Tarsier, Tarsier, Wild Drone, Wild Drone
+  [T7] OriginalHardestAI: Drone, Drone, Blastforge
+  [T8] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Wild Drone, Wild Drone
+  [T8] PrismatAlpha_AB_Legacy: Wall, Drone, Drone, Conduit
+  [T8] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Wild Drone, Wild Drone
+  [T8] PrismatAlpha_AB_Legacy: Thorium Dynamo, Thorium Dynamo, Gauss Cannon
+  [T9] OriginalHardestAI: Rhino, Rhino, Wild Drone
+  [T9] OriginalHardestAI: Gauss Fabricator, Pixie, Drone
+  [T9] OriginalHardestAI: Gaussite Symbiote, Wild Drone
+  [T9] OriginalHardestAI: Wall, Thorium Dynamo, Thorium Dynamo, Gauss Cannon
+  [T10] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Wild Drone, Wild Drone
+  [T10] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge, Gauss Cannon, Pixie
+  [T10] PrismatAlpha_AB_Legacy: Rhino, Rhino, Wild Drone
+  [T10] PrismatAlpha_AB_Legacy: Tantalum Ray, Drone
+  [T11] OriginalHardestAI: Immolite, Immolite, Wild Drone, Wild Drone
+  [T11] OriginalHardestAI: Gaussite Symbiote, Wild Drone, Wild Drone
+  [T11] OriginalHardestAI: Wall, Gauss Cannon, Gauss Cannon
+  [T11] OriginalHardestAI: Drone, Animus
+  [T12] PrismatAlpha_AB_Legacy: Rhino, Rhino
+  [T12] PrismatAlpha_AB_Legacy: Gaussite Symbiote, Wild Drone, Wild Drone
+  [T12] PrismatAlpha_AB_Legacy: Thunderhead, Pixie
+  [T12] PrismatAlpha_AB_Legacy: Tantalum Ray, Tantalum Ray, Gauss Cannon
+  [T13] OriginalHardestAI: Rhino, Rhino, Wild Drone, Wild Drone
+  [T13] OriginalHardestAI: Rhino, Rhino
+  [T13] OriginalHardestAI: Innervi Field, Drone, Drone, Blastforge, Pixie
+  [T13] OriginalHardestAI: Forcefield, Tantalum Ray, Tantalum Ray, Tarsier, Tarsier
+  [T14] PrismatAlpha_AB_Legacy: Rhino, Rhino
+  [T14] PrismatAlpha_AB_Legacy: Rhino, Rhino, Forcefield
+  [T14] PrismatAlpha_AB_Legacy: Steelsplitter, Steelsplitter, Gauss Cannon
+  [T14] PrismatAlpha_AB_Legacy: Engineer, Engineer, Blastforge, Gauss Cannon, Animus
+  [T15] OriginalHardestAI: Rhino, Rhino
+  [T16] PrismatAlpha_AB_Legacy: Rhino
+  [T17] OriginalHardestAI: Rhino, Rhino
+  [T18] PrismatAlpha_AB_Legacy: Engineer
+  [T19] OriginalHardestAI: Rhino, Rhino
+  [T20] PrismatAlpha_AB_Legacy: Engineer
+  [T21] OriginalHardestAI: Engineer, Engineer
+  [T22] PrismatAlpha_AB_Legacy: Engineer
+  [T23] OriginalHardestAI: Drone, Wild Drone
+  [T24] PrismatAlpha_AB_Legacy: (no buys)
+  [T25] OriginalHardestAI: (no buys)
+  [T26] PrismatAlpha_AB_Legacy: (no buys)
+  [T27] OriginalHardestAI: (no buys)
+  [T28] PrismatAlpha_AB_Legacy: (no buys)
+  [T29] OriginalHardestAI: (no buys)
+  [T15] OriginalHardestAI: Gaussite Symbiote, Engineer
+  [T15] OriginalHardestAI: Wall, Innervi Field, Animus, Engineer, Pixie
+  [T16] PrismatAlpha_AB_Legacy: Rhino, Forcefield, Engineer
+  [T15] OriginalHardestAI: Aegis, Tantalum Ray, Steelsplitter
+  [T17] OriginalHardestAI: Rhino
+  [T18] PrismatAlpha_AB_Legacy: Forcefield
+  [T19] OriginalHardestAI: Forcefield
+  [T20] PrismatAlpha_AB_Legacy: Forcefield
+  [T21] OriginalHardestAI: Forcefield
+  [T22] PrismatAlpha_AB_Legacy: (no buys)
+  [T23] OriginalHardestAI: (no buys)
+  [T24] PrismatAlpha_AB_Legacy: (no buys)
+  [T25] OriginalHardestAI: (no buys)
+  [T0] OriginalHardestAI: Drone, Drone
+  [T16] PrismatAlpha_AB_Legacy: Steelsplitter, Steelsplitter, Engineer, Engineer
+  [T16] PrismatAlpha_AB_Legacy: Aegis, Wall, Gauss Cannon, Tarsier, Drone
+  [T0] OriginalHardestAI: Drone, Drone
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T17] OriginalHardestAI: Wall, Innervi Field, Drone, Engineer, Pixie
+  [T17] OriginalHardestAI: Aegis, Wall, Tarsier, Tarsier, Engineer
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] OriginalHardestAI: Drone, Drone
+  [T18] PrismatAlpha_AB_Legacy: Drone, Drone, Animus, Manticore
+  [T18] PrismatAlpha_AB_Legacy: Aegis, Wall, Rhino, Rhino
+  [T2] OriginalHardestAI: Drone, Drone
+  [T3] PrismatAlpha_AB_Legacy: Wild Drone, Wild Drone, Animus
+  [T19] OriginalHardestAI: Centurion, Engineer
+  [T19] OriginalHardestAI: Aegis, Rhino, Rhino, Drone
+  [T3] PrismatAlpha_AB_Legacy: Wild Drone, Wild Drone, Animus
+  [T4] OriginalHardestAI: Drone, Drone, Animus
+  [T20] PrismatAlpha_AB_Legacy: Centurion, Forcefield, Drone
+  [T20] PrismatAlpha_AB_Legacy: Aegis, Wall, Blood Pact, Tantalum Ray
+  [T4] OriginalHardestAI: Drone, Drone, Animus
+  [T5] PrismatAlpha_AB_Legacy: Immolite, Immolite, Wild Drone
+  [T21] OriginalHardestAI: Drone, Engineer, Conduit, Tarsier, Tarsier
+  [T21] OriginalHardestAI: Aegis, Wall, Blood Pact, Drone, Engineer, Tarsier
+  [T5] PrismatAlpha_AB_Legacy: Tarsier, Tarsier
+  [T6] OriginalHardestAI: Immolite, Immolite, Wild Drone, Wild Drone
+  [T22] PrismatAlpha_AB_Legacy: Aegis, Manticore, Gauss Cannon, Tarsier
+  [T22] PrismatAlpha_AB_Legacy: Aegis, Wall, Forcefield, Rhino, Tarsier
+  [T6] OriginalHardestAI: Drone, Drone, Blastforge
+  [T7] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Wild Drone, Wild Drone
+  [T23] OriginalHardestAI: Aegis, Drone, Engineer, Tarsier, Pixie, Pixie
+  [T23] OriginalHardestAI: Aegis, Wall, Tarsier, Tarsier, Drone
+  [T7] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Wild Drone, Wild Drone
+  [T8] OriginalHardestAI: Tarsier, Tarsier, Engineer, Engineer
+  [T24] PrismatAlpha_AB_Legacy: Aegis, Wall, Forcefield, Engineer, Engineer, Pixie
+  [T24] PrismatAlpha_AB_Legacy: Aegis, Steelsplitter, Gauss Cannon, Engineer
+  [T8] OriginalHardestAI: Wall, Drone, Drone, Conduit
+  [T9] PrismatAlpha_AB_Legacy: Immolite, Immolite, Wild Drone, Wild Drone
+  [T25] OriginalHardestAI: Aegis, Forcefield, Drone, Engineer, Tarsier, Tarsier
+  [T25] OriginalHardestAI: Aegis, Wall, Forcefield, Tarsier, Tarsier, Drone
+  [T9] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Wild Drone
+  [T10] OriginalHardestAI: Rhino, Rhino, Wild Drone, Wild Drone
+  [T26] PrismatAlpha_AB_Legacy: Wall, Wall, Forcefield, Drone, Drone
+  [T26] PrismatAlpha_AB_Legacy: Aegis, Rhino, Tarsier, Shredder
+  [T10] OriginalHardestAI: Steelsplitter, Sentinel, Wild Drone, Wild Drone
+  [T11] PrismatAlpha_AB_Legacy: Rhino, Rhino, Wild Drone, Wild Drone
+  [T27] OriginalHardestAI: Innervi Field, Innervi Field, Drone, Engineer, Tarsier, Pixie, Pixie
+  [T27] OriginalHardestAI: Aegis, Wall, Forcefield, Forcefield, Tarsier, Rhino, Engineer
+  [T11] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Wild Drone, Wild Drone
+  [T12] OriginalHardestAI: Rhino, Rhino, Drone
+  [T28] PrismatAlpha_AB_Legacy: Aegis, Wall, Wall, Rhino
+  [T28] PrismatAlpha_AB_Legacy: Aegis, Wall, Rhino, Tarsier
+  [T12] OriginalHardestAI: Doomed Wall, Sentinel, Engineer
+  [T29] OriginalHardestAI: Aegis, Rhino, Drone, Engineer, Tarsier
+  [T13] PrismatAlpha_AB_Legacy: Rhino, Rhino, Wild Drone
+  [T29] OriginalHardestAI: Aegis, Wall, Rhino, Forcefield, Drone
+  [T13] PrismatAlpha_AB_Legacy: Rhino, Drone, Drone, Conduit
+  [T30] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Forcefield, Forcefield
+  [T31] OriginalHardestAI: Wall, Innervi Field, Drone, Drone, Tarsier, Pixie
+  [T14] OriginalHardestAI: Rhino, Rhino, Engineer, Engineer
+  [T30] PrismatAlpha_AB_Legacy: Aegis, Aegis, Wall, Blood Pact
+  [T14] OriginalHardestAI: Militia, Sentinel, Tarsier, Wild Drone, Wild Drone
+  [T32] PrismatAlpha_AB_Legacy: Wall, Wall, Forcefield, Forcefield
+  [T33] OriginalHardestAI: Aegis, Drone, Engineer, Tarsier, Tarsier, Pixie, Pixie
+  [T34] PrismatAlpha_AB_Legacy: Innervi Field, Rhino, Rhino, Engineer, Pixie
+  [T35] OriginalHardestAI: Rhino, Rhino, Gauss Cannon, Gauss Cannon, Pixie, Pixie
+  [T36] PrismatAlpha_AB_Legacy: Drone, Engineer, Pixie
+  [T37] OriginalHardestAI: Engineer, Thunderhead, Rhino, Pixie
+  [T38] PrismatAlpha_AB_Legacy: Pixie
+  [T39] OriginalHardestAI: Rhino, Rhino, Gauss Cannon, Gauss Cannon, Pixie, Pixie
+  [T15] PrismatAlpha_AB_Legacy: Rhino, Rhino
+  [T31] OriginalHardestAI: Aegis, Wall, Rhino, Forcefield, Blood Pact, Engineer
+  [T15] PrismatAlpha_AB_Legacy: Rhino, Forcefield, Rhino, Wild Drone, Wild Drone
+  [T0] OriginalHardestAI: Drone, Drone
+  [T16] OriginalHardestAI: Rhino, Rhino, Drone
+  [T32] PrismatAlpha_AB_Legacy: Aegis, Wall, Blood Pact, Blood Pact, Engineer
+  [T16] OriginalHardestAI: Doomed Wall, Sentinel, Wild Drone
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T17] PrismatAlpha_AB_Legacy: Drone, Drone, Animus
+  [T33] OriginalHardestAI: Aegis, Wall, Rhino, Blood Pact
+  [T17] PrismatAlpha_AB_Legacy: Rhino, Forcefield, Rhino, Wild Drone
+  [T2] OriginalHardestAI: Drone, Drone
+  [T18] OriginalHardestAI: Rhino, Rhino
+  [T34] PrismatAlpha_AB_Legacy: Wall, Blood Pact, Blood Pact, Drone, Engineer, Blastforge
+  [T18] OriginalHardestAI: Wall, Rhino, Forcefield, Tarsier, Wild Drone
+  [T3] PrismatAlpha_AB_Legacy: Drone, Drone, Conduit
+  [T19] PrismatAlpha_AB_Legacy: Drone, Engineer, Conduit
+  [T35] OriginalHardestAI: Wall, Rhino, Rhino, Drone, Engineer
+  [T19] PrismatAlpha_AB_Legacy: Sentinel, Tarsier
+  [T4] OriginalHardestAI: Drone, Drone, Conduit
+  [T20] OriginalHardestAI: Engineer, Engineer, Animus
+  [T36] PrismatAlpha_AB_Legacy: Wall, Wall, Forcefield, Blood Pact, Blood Pact, Gauss Cannon, Drone
+  [T20] OriginalHardestAI: Militia, Sentinel, Tarsier, Wild Drone
+  [T5] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T21] PrismatAlpha_AB_Legacy: Drone, Drone, Conduit, Immolite
+  [T37] OriginalHardestAI: Rhino, Forcefield, Drone, Drone, Blastforge, Tantalum Ray
+  [T21] PrismatAlpha_AB_Legacy: Sentinel, Tarsier
+  [T6] OriginalHardestAI: Drone, Drone, Blastforge
+  [T22] OriginalHardestAI: Drone, Drone, Conduit
+  [T38] PrismatAlpha_AB_Legacy: Rhino, Rhino, Forcefield, Steelsplitter, Shredder, Engineer
+  [T22] OriginalHardestAI: Gaussite Symbiote, Militia, Wild Drone, Wild Drone
+  [T7] PrismatAlpha_AB_Legacy: Drone, Drone, Conduit, Pixie
+  [T23] PrismatAlpha_AB_Legacy: Protoplasm, Sentinel, Engineer
+  [T24] OriginalHardestAI: Forcefield, Engineer, Engineer
+  [T39] OriginalHardestAI: Engineer, Engineer, Blastforge, Rhino, Gauss Cannon, Steelsplitter
+  [T23] PrismatAlpha_AB_Legacy: Drone, Blastforge
+  [T25] PrismatAlpha_AB_Legacy: Shadowfang, Tarsier
+  [T26] OriginalHardestAI: Forcefield
+  [T27] PrismatAlpha_AB_Legacy: Amporilla, Cluster Bolt
+  [T28] OriginalHardestAI: (no buys)
+  [T29] PrismatAlpha_AB_Legacy: Amporilla
+  [T8] OriginalHardestAI: Wall, Drone, Drone, Conduit
+  [T40] PrismatAlpha_AB_Legacy: Rhino, Blood Pact, Tantalum Ray, Gauss Cannon
+  [T24] OriginalHardestAI: Gaussite Symbiote, Militia, Wild Drone
+  [T41] OriginalHardestAI: Drone, Drone, Gauss Cannon, Steelsplitter, Steelsplitter
+  [T9] PrismatAlpha_AB_Legacy: Gauss Fabricator, Pixie, Drone
+  [T42] PrismatAlpha_AB_Legacy: Rhino, Rhino, Shredder, Engineer
+  [T43] OriginalHardestAI: Engineer, Engineer, Gauss Cannon, Steelsplitter, Steelsplitter, Steelsplitter
+  [T44] PrismatAlpha_AB_Legacy: Steelsplitter, Drone
+  [T45] OriginalHardestAI: Drone, Drone, Gauss Cannon, Steelsplitter, Steelsplitter
+  [T46] PrismatAlpha_AB_Legacy: (no buys)
+  [T47] OriginalHardestAI: Engineer, Engineer, Shredder, Shredder, Shredder, Gauss Cannon
+  [T48] PrismatAlpha_AB_Legacy: (no buys)
+  [T49] OriginalHardestAI: Drone, Drone, Shredder, Shredder, Shredder, Gauss Cannon
+  [T25] PrismatAlpha_AB_Legacy: Doomed Wall, Forcefield, Drone
+  [T10] OriginalHardestAI: Drone, Drone, Blastforge, Gauss Cannon, Pixie
+  [T0] OriginalHardestAI: Drone, Drone
+  [T26] OriginalHardestAI: Doomed Wall, Forcefield, Drone
+  [T11] PrismatAlpha_AB_Legacy: Wall, Drone, Drone, Blastforge
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T27] PrismatAlpha_AB_Legacy: Wall, Sentinel
+  [T28] OriginalHardestAI: Rhino, Militia, Tarsier
+  [T29] PrismatAlpha_AB_Legacy: Wall, Forcefield, Forcefield
+  [T30] OriginalHardestAI: Wall, Forcefield
+  [T12] OriginalHardestAI: Drone, Drone, Conduit, Gauss Cannon, Pixie, Pixie
+  [T31] PrismatAlpha_AB_Legacy: Doomed Wall, Forcefield
+  [T32] OriginalHardestAI: Wall, Forcefield
+  [T33] PrismatAlpha_AB_Legacy: Wall, Forcefield
+  [T34] OriginalHardestAI: Forcefield
+  [T35] PrismatAlpha_AB_Legacy: Forcefield
+  [T36] OriginalHardestAI: (no buys)
+  [T37] PrismatAlpha_AB_Legacy: (no buys)
+  [T38] OriginalHardestAI: (no buys)
+  [T39] PrismatAlpha_AB_Legacy: (no buys)
+  [T40] OriginalHardestAI: (no buys)
+  [T41] PrismatAlpha_AB_Legacy: (no buys)
+  [T42] OriginalHardestAI: (no buys)
+  [T2] OriginalHardestAI: Drone, Drone
+  [T13] PrismatAlpha_AB_Legacy: Steelsplitter, Steelsplitter, Gauss Cannon
+  [T3] PrismatAlpha_AB_Legacy: Thorium Dynamo, Thorium Dynamo
+  [T14] OriginalHardestAI: Forcefield, Thunderhead, Pixie, Drone
+  [T4] OriginalHardestAI: Thorium Dynamo, Thorium Dynamo
+  [T15] PrismatAlpha_AB_Legacy: Aegis, Manticore, Gauss Cannon, Engineer
+  [T5] PrismatAlpha_AB_Legacy: Drone
+  [T16] OriginalHardestAI: Gauss Cannon, Gauss Cannon, Gauss Cannon, Pixie, Pixie
+  [T6] OriginalHardestAI: Thorium Dynamo
+  [T17] PrismatAlpha_AB_Legacy: Wall, Innervi Field, Gauss Cannon, Pixie, Drone
+  [T7] PrismatAlpha_AB_Legacy: Tantalum Ray, Thorium Dynamo
+  [T18] OriginalHardestAI: Engineer, Engineer, Animus, Gauss Cannon, Pixie, Pixie
+  [T8] OriginalHardestAI: Drone, Drone, Blastforge
+  [T19] PrismatAlpha_AB_Legacy: Wall, Wall, Innervi Field, Engineer, Engineer
+  [T9] PrismatAlpha_AB_Legacy: Tantalum Ray, Drone, Drone
+  [T20] OriginalHardestAI: Centurion, Drone
+  [T10] OriginalHardestAI: Wall, Tantalum Ray, Tantalum Ray
+  [T21] PrismatAlpha_AB_Legacy: Wall, Forcefield, Drone, Drone, Conduit, Pixie
+  [T11] PrismatAlpha_AB_Legacy: Tantalum Ray, Gauss Cannon, Thorium Dynamo
+  [T22] OriginalHardestAI: Aegis, Innervi Field, Engineer, Engineer, Tarsier, Pixie, Pixie
+  [T12] OriginalHardestAI: Aegis, Gauss Cannon, Steelsplitter
+  [T23] PrismatAlpha_AB_Legacy: Aegis, Wall, Engineer, Engineer, Animus
+  [T13] PrismatAlpha_AB_Legacy: Aegis, Engineer, Engineer, Blastforge
+  [T24] OriginalHardestAI: Aegis, Forcefield, Drone, Drone, Tarsier, Pixie, Pixie
+  [T14] OriginalHardestAI: Aegis, Steelsplitter, Engineer, Engineer
+  [T25] PrismatAlpha_AB_Legacy: Centurion, Forcefield
+  [T15] PrismatAlpha_AB_Legacy: Aegis, Gauss Cannon, Steelsplitter
+  [T26] OriginalHardestAI: Aegis, Wall, Wall, Engineer, Engineer
+  [T16] OriginalHardestAI: Aegis, Steelsplitter, Thorium Dynamo, Drone
+  [T27] PrismatAlpha_AB_Legacy: Forcefield, Engineer, Engineer, Tarsier, Tarsier, Pixie, Pixie
+  [T17] PrismatAlpha_AB_Legacy: Aegis, Wall, Gauss Cannon, Engineer, Engineer
+  [T28] OriginalHardestAI: Aegis, Wall, Wall, Drone, Drone
+  [T18] OriginalHardestAI: Aegis, Steelsplitter, Drone
+  [T29] PrismatAlpha_AB_Legacy: Innervi Field, Tarsier, Tarsier, Gauss Cannon, Pixie, Pixie
+  [T19] PrismatAlpha_AB_Legacy: Aegis, Gauss Cannon, Steelsplitter, Drone
+  [T30] OriginalHardestAI: Wall, Wall, Innervi Field, Innervi Field, Rhino
+  [T20] OriginalHardestAI: Aegis, Forcefield, Engineer, Engineer, Animus, Steelsplitter
+  [T31] PrismatAlpha_AB_Legacy: Innervi Field, Innervi Field, Steelsplitter, Pixie, Engineer
+  [T32] OriginalHardestAI: Wall, Wall, Rhino, Rhino, Forcefield, Forcefield, Forcefield
+  [T33] PrismatAlpha_AB_Legacy: Innervi Field, Innervi Field, Manticore, Gauss Cannon
+  [T34] OriginalHardestAI: Aegis, Wall, Rhino, Engineer, Pixie
+  [T21] PrismatAlpha_AB_Legacy: Aegis, Wall, Gauss Cannon, Engineer
+  [T35] PrismatAlpha_AB_Legacy: Steelsplitter, Steelsplitter, Tarsier
+  [T36] OriginalHardestAI: Engineer, Tarsier, Tarsier, Pixie, Pixie
+  [T37] PrismatAlpha_AB_Legacy: Steelsplitter, Steelsplitter, Engineer
+  [T38] OriginalHardestAI: Pixie
+  [T39] PrismatAlpha_AB_Legacy: Steelsplitter, Steelsplitter, Engineer
+  [T40] OriginalHardestAI: (no buys)
+  [T41] PrismatAlpha_AB_Legacy: Drone, Drone, Manticore, Tarsier
+  [T22] OriginalHardestAI: Aegis, Tarsier, Tarsier, Gauss Cannon
+  [T23] PrismatAlpha_AB_Legacy: Aegis, Drone, Engineer, Animus
+  [T24] OriginalHardestAI: Aegis, Wall, Tarsier, Tarsier
+  [T25] PrismatAlpha_AB_Legacy: Aegis, Wall, Blood Pact, Tantalum Ray, Tarsier
+  [T26] OriginalHardestAI: Aegis, Wall, Forcefield, Drone, Drone, Tarsier
+  [T27] PrismatAlpha_AB_Legacy: Aegis, Wall, Rhino, Forcefield, Engineer, Engineer
+  [T28] OriginalHardestAI: Aegis, Wall, Forcefield, Forcefield, Tarsier, Tarsier
+  [T29] PrismatAlpha_AB_Legacy: Aegis, Wall, Blood Pact, Drone, Drone
+  [T30] OriginalHardestAI: Aegis, Wall, Engineer, Engineer, Blastforge
+  [T31] PrismatAlpha_AB_Legacy: Aegis, Wall, Rhino, Forcefield, Forcefield, Drone
+  [T32] OriginalHardestAI: Wall, Wall, Rhino, Rhino, Drone
+  [T33] PrismatAlpha_AB_Legacy: Wall, Forcefield, Blood Pact, Blood Pact, Drone, Engineer, Blastforge
+  [T34] OriginalHardestAI: Wall, Wall, Rhino, Forcefield, Drone, Engineer, Tarsier
+  [T35] PrismatAlpha_AB_Legacy: Wall, Wall, Blood Pact, Rhino, Gauss Cannon, Drone
+  [T36] OriginalHardestAI: Wall, Blood Pact, Tantalum Ray, Tarsier, Shredder
+  [T37] PrismatAlpha_AB_Legacy: Wall, Rhino, Forcefield, Tantalum Ray, Engineer
+  [T38] OriginalHardestAI: Drone, Drone, Blastforge, Tantalum Ray, Tarsier
+  [T39] PrismatAlpha_AB_Legacy: Rhino, Steelsplitter, Rhino, Drone
+  [T40] OriginalHardestAI: Drone, Drone, Rhino, Rhino, Gauss Cannon, Steelsplitter
+  [T41] PrismatAlpha_AB_Legacy: Blastforge
+  [T42] OriginalHardestAI: Drone, Engineer, Rhino, Rhino, Gauss Cannon, Steelsplitter
+  [T43] PrismatAlpha_AB_Legacy: (no buys)
+  [T44] OriginalHardestAI: Drone, Engineer, Shredder, Shredder, Shredder, Rhino
+  [T45] PrismatAlpha_AB_Legacy: (no buys)
+  [T46] OriginalHardestAI: Drone, Drone, Shredder, Shredder, Shredder, Tantalum Ray, Rhino
+                        PrismatAlpha_AB_Legacy  OriginalHardestAI  TotalScore
+PrismatAlpha_AB_Legacy  -                       6                       6
+OriginalHardestAI       10                      -                       10
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T3] OriginalHardestAI: Drone, Drone, Conduit
+  [T3] OriginalHardestAI: Drone, Drone, Conduit
+  [T3] OriginalHardestAI: Drone, Drone, Conduit
+  [T3] OriginalHardestAI: Drone, Drone, Conduit
+  [T4] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T4] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T4] PrismatAlpha_AB_Legacy: Drone, Drone, Animus
+  [T4] PrismatAlpha_AB_Legacy: Drone, Drone, Animus
+  [T5] OriginalHardestAI: Drone, Drone, Blastforge
+  [T5] OriginalHardestAI: Gauss Cannon, Drone
+  [T5] OriginalHardestAI: Drone, Drone, Blastforge
+  [T5] OriginalHardestAI: Drone, Drone, Blastforge
+  [T6] PrismatAlpha_AB_Legacy: Drone, Drone, Animus
+  [T6] PrismatAlpha_AB_Legacy: Wall, Drone, Blastforge
+  [T6] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Drone
+  [T6] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T7] OriginalHardestAI: Ebb Turbine, Gauss Cannon, Gauss Charge
+  [T7] OriginalHardestAI: Gauss Cannon, Gauss Cannon
+  [T7] OriginalHardestAI: Urban Sentry, Gauss Cannon
+  [T7] OriginalHardestAI: Drone, Drone, Blastforge
+  [T8] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier
+  [T8] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge, Immolite
+  [T8] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier
+  [T8] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T9] OriginalHardestAI: Militia, Gauss Cannon, Mobile Animus, Mobile Animus
+  [T9] OriginalHardestAI: Wall, Gauss Cannon, Drone
+  [T9] OriginalHardestAI: Urban Sentry, Drone, Drone, Conduit
+  [T9] OriginalHardestAI: Drone, Drone, Blastforge, Shredder
+  [T10] PrismatAlpha_AB_Legacy: Steelsplitter, Rhino, Rhino
+  [T10] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier
+  [T10] PrismatAlpha_AB_Legacy: Shredder, Rhino, Rhino
+  [T10] PrismatAlpha_AB_Legacy: Omega Splitter
+  [T11] OriginalHardestAI: Drone, Drone, Conduit, Militia
+  [T11] OriginalHardestAI: Gauss Cannon, Steelsplitter, Engineer
+  [T11] OriginalHardestAI: Urban Sentry, Gauss Cannon, Drone
+  [T11] OriginalHardestAI: Tantalum Ray, Urban Sentry, Shredder
+  [T12] PrismatAlpha_AB_Legacy: Wall, Rhino, Tarsier
+  [T12] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier, Engineer
+  [T12] PrismatAlpha_AB_Legacy: Rhino, Tarsier, Steelsplitter
+  [T12] PrismatAlpha_AB_Legacy: Omega Splitter
+  [T13] OriginalHardestAI: Wall, Forcefield, Forcefield, Engineer, Engineer, Gauss Charge, Mobile Animus
+  [T13] OriginalHardestAI: Gauss Cannon, Steelsplitter
+  [T13] OriginalHardestAI: Urban Sentry, Gauss Cannon, Engineer, Engineer
+  [T13] OriginalHardestAI: Drone, Drone, Blastforge, Urban Sentry
+  [T14] PrismatAlpha_AB_Legacy: Wall, Drone, Engineer, Tarsier
+  [T14] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier
+  [T14] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier
+  [T14] PrismatAlpha_AB_Legacy: Wall, Steelsplitter, Steelsplitter
+  [T15] OriginalHardestAI: Drone, Drone, Militia, Gauss Charge, Gauss Charge
+  [T15] OriginalHardestAI: Wall, Forcefield, Drone, Drone, Conduit
+  [T15] OriginalHardestAI: Urban Sentry, Gauss Cannon, Drone
+  [T15] OriginalHardestAI: Barrier, Omega Splitter
+  [T16] PrismatAlpha_AB_Legacy: Steelsplitter, Rhino, Engineer
+  [T16] PrismatAlpha_AB_Legacy: Wall, Rhino, Immolite
+  [T16] PrismatAlpha_AB_Legacy: Rhino, Tarsier, Shredder
+  [T16] PrismatAlpha_AB_Legacy: Wall, Steelsplitter, Drone
+  [T17] OriginalHardestAI: Wall, Drone, Gauss Charge, Gauss Charge, Engineer
+  [T17] OriginalHardestAI: Engineer, Engineer, Animus, Urban Sentry
+  [T17] OriginalHardestAI: Wall, Forcefield, Forcefield, Engineer, Engineer
+  [T17] OriginalHardestAI: Wall, Steelsplitter, Steelsplitter, Engineer
+  [T18] PrismatAlpha_AB_Legacy: Wall, Rhino, Rhino
+  [T18] PrismatAlpha_AB_Legacy: Wall, Rhino, Engineer
+  [T18] PrismatAlpha_AB_Legacy: Wall, Rhino, Engineer
+  [T18] PrismatAlpha_AB_Legacy: Energy Matrix, Steelsplitter, Drone
+  [T19] OriginalHardestAI: Wall, Forcefield, Drone, Gauss Charge, Drone
+  [T19] OriginalHardestAI: Urban Sentry, Tarsier, Tarsier
+  [T19] OriginalHardestAI: Wall, Forcefield, Barrier, Drone, Blastforge
+  [T19] OriginalHardestAI: Energy Matrix, Urban Sentry, Gauss Cannon
+  [T20] PrismatAlpha_AB_Legacy: Wall, Rhino, Tarsier
+  [T20] PrismatAlpha_AB_Legacy: Steelsplitter, Rhino
+  [T20] PrismatAlpha_AB_Legacy: Wall, Drone, Engineer, Immolite
+  [T20] PrismatAlpha_AB_Legacy: Energy Matrix, Drone, Engineer
+  [T21] OriginalHardestAI: Wall, Forcefield, Forcefield, Engineer, Mobile Animus
+  [T21] OriginalHardestAI: Wall, Protoplasm, Engineer
+  [T21] OriginalHardestAI: Wall, Wall, Barrier, Barrier
+  [T21] OriginalHardestAI: Barrier, Omega Splitter, Engineer
+  [T22] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier, Engineer
+  [T22] PrismatAlpha_AB_Legacy: Wall, Rhino
+  [T22] PrismatAlpha_AB_Legacy: Wall, Rhino, Engineer
+  [T22] PrismatAlpha_AB_Legacy: Energy Matrix, Wall, Drone, Animus
+  [T23] OriginalHardestAI: Protoplasm, Wall, Engineer
+  [T23] OriginalHardestAI: Wall, Gauss Charge, Gauss Charge
+  [T23] OriginalHardestAI: Wall, Wall, Barrier, Engineer
+  [T23] OriginalHardestAI: Barrier, Omega Splitter, Engineer
+  [T24] PrismatAlpha_AB_Legacy: Wall, Rhino
+  [T25] OriginalHardestAI: Protoplasm, Wall
+  [T24] PrismatAlpha_AB_Legacy: Steelsplitter, Rhino, Tarsier
+  [T25] OriginalHardestAI: Engineer, Engineer, Militia, Gauss Charge, Gauss Charge
+  [T26] PrismatAlpha_AB_Legacy: Wall, Rhino, Rhino
+  [T27] OriginalHardestAI: (no buys)
+  [T28] PrismatAlpha_AB_Legacy: Steelsplitter, Tarsier, Tarsier
+  [T29] OriginalHardestAI: (no buys)
+  [T30] PrismatAlpha_AB_Legacy: Militia, Mobile Animus, Mobile Animus, Mobile Animus
+  [T31] OriginalHardestAI: (no buys)
+  [T32] PrismatAlpha_AB_Legacy: Engineer, Engineer, Militia
+  [T24] PrismatAlpha_AB_Legacy: Wall, Drone, Drone
+  [T24] PrismatAlpha_AB_Legacy: Energy Matrix, Wall, Rhino
+  [T26] PrismatAlpha_AB_Legacy: Wall
+  [T27] OriginalHardestAI: Protoplasm, Wall
+  [T0] OriginalHardestAI: Drone, Drone
+  [T25] OriginalHardestAI: Wall, Wall, Barrier, Barrier, Engineer
+  [T25] OriginalHardestAI: Forcefield, Omega Splitter, Engineer
+  [T28] PrismatAlpha_AB_Legacy: Wall
+  [T26] PrismatAlpha_AB_Legacy: Wall, Wall, Wall, Rhino
+  [T29] OriginalHardestAI: Wall, Engineer, Engineer, Tarsier
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T27] OriginalHardestAI: Energy Matrix, Drone, Engineer
+  [T26] PrismatAlpha_AB_Legacy: Wall, Rhino, Rhino, Engineer
+  [T30] PrismatAlpha_AB_Legacy: Tarsier
+  [T28] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Engineer
+  [T31] OriginalHardestAI: Drone, Drone, Animus
+  [T29] OriginalHardestAI: Energy Matrix, Drone, Engineer, Animus
+  [T32] PrismatAlpha_AB_Legacy: Tarsier
+  [T33] OriginalHardestAI: Drone, Drone, Blastforge, Resophore
+  [T30] PrismatAlpha_AB_Legacy: Rhino, Rhino
+  [T34] PrismatAlpha_AB_Legacy: (no buys)
+  [T35] OriginalHardestAI: Drone, Drone, Conduit, Shredder
+  [T31] OriginalHardestAI: Wall, Drone, Drone, Conduit, Urban Sentry
+  [T32] PrismatAlpha_AB_Legacy: (no buys)
+  [T33] OriginalHardestAI: Engineer, Engineer, Shredder, Shredder, Shredder, Tarsier
+  [T34] PrismatAlpha_AB_Legacy: (no buys)
+  [T35] OriginalHardestAI: Drone, Drone, Shredder, Shredder, Shredder
+  [T2] OriginalHardestAI: Drone, Drone
+  [T27] OriginalHardestAI: Forcefield, Forcefield, Forcefield, Ebb Turbine, Engineer
+  [T0] OriginalHardestAI: Drone, Drone
+  [T0] OriginalHardestAI: Drone, Drone
+  [T3] PrismatAlpha_AB_Legacy: Drone, Animus
+  [T28] PrismatAlpha_AB_Legacy: Wall, Drone, Engineer, Immolite
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T4] OriginalHardestAI: Drone, Drone, Blastforge
+  [T29] OriginalHardestAI: Forcefield, Forcefield, Steelsplitter, Steelsplitter, Engineer
+  [T2] OriginalHardestAI: Drone, Drone
+  [T2] OriginalHardestAI: Drone, Drone
+  [T5] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T30] PrismatAlpha_AB_Legacy: Rhino, Rhino, Steelsplitter
+  [T3] PrismatAlpha_AB_Legacy: Drone, Animus
+  [T31] OriginalHardestAI: Barrier, Barrier, Drone, Drone
+  [T3] PrismatAlpha_AB_Legacy: Drone, Drone, Conduit
+  [T6] OriginalHardestAI: Ebb Turbine, Mobile Animus, Drone
+  [T32] PrismatAlpha_AB_Legacy: Rhino, Rhino, Engineer
+  [T4] OriginalHardestAI: Drone, Drone, Animus
+  [T4] OriginalHardestAI: Drone, Drone, Blastforge
+  [T33] OriginalHardestAI: Barrier, Engineer, Drone
+  [T7] PrismatAlpha_AB_Legacy: Militia, Tarsier, Tarsier
+  [T34] PrismatAlpha_AB_Legacy: Rhino, Ebb Turbine
+  [T5] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Drone
+  [T5] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T35] OriginalHardestAI: Drone, Drone
+  [T36] PrismatAlpha_AB_Legacy: Engineer, Engineer, Blastforge, Immolite, Immolite
+  [T37] OriginalHardestAI: Engineer
+  [T38] PrismatAlpha_AB_Legacy: Ebb Turbine, Ebb Turbine, Drone
+  [T39] OriginalHardestAI: Barrier
+  [T40] PrismatAlpha_AB_Legacy: Ebb Turbine, Ebb Turbine, Immolite, Immolite, Drone, Drone
+  [T41] OriginalHardestAI: (no buys)
+  [T42] PrismatAlpha_AB_Legacy: Ebb Turbine, Ebb Turbine, Tarsier, Tarsier, Drone, Drone, Drone, Drone
+  [T8] OriginalHardestAI: Steelsplitter, Rhino, Mobile Animus
+  [T6] OriginalHardestAI: Drone, Drone, Blastforge
+  [T6] OriginalHardestAI: Steelsplitter, Drone, Drone
+  [T0] OriginalHardestAI: Drone, Drone
+  [T9] PrismatAlpha_AB_Legacy: Rhino, Ebb Turbine
+  [T7] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Drone
+  [T7] PrismatAlpha_AB_Legacy: Wall, Drone, Blastforge
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T10] OriginalHardestAI: Militia, Tarsier, Mobile Animus, Mobile Animus
+  [T8] OriginalHardestAI: Wall, Tarsier, Tarsier
+  [T8] OriginalHardestAI: Drone, Drone, Blastforge, Conduit
+  [T2] OriginalHardestAI: Drone, Drone
+  [T11] PrismatAlpha_AB_Legacy: Wall, Rhino, Engineer, Engineer, Drone
+  [T9] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Drone
+  [T9] PrismatAlpha_AB_Legacy: Tantalum Ray, Urban Sentry
+  [T3] PrismatAlpha_AB_Legacy: Drone, Animus
+  [T12] OriginalHardestAI: Rhino, Engineer, Militia
+  [T10] OriginalHardestAI: Steelsplitter, Rhino, Rhino
+  [T10] OriginalHardestAI: Drone, Drone, Blastforge, Shredder
+  [T4] OriginalHardestAI: Drone, Drone, Animus
+  [T13] PrismatAlpha_AB_Legacy: Wall, Rhino, Tarsier
+  [T11] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone
+  [T11] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge, Shredder
+  [T5] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Drone
+  [T14] OriginalHardestAI: Wall, Drone, Engineer, Mobile Animus
+  [T12] OriginalHardestAI: Wall, Rhino, Engineer
+  [T12] OriginalHardestAI: Energy Matrix, Drone, Drone, Conduit
+  [T6] OriginalHardestAI: Drone, Drone, Blastforge
+  [T15] PrismatAlpha_AB_Legacy: Wall, Drone, Engineer, Drone
+  [T13] PrismatAlpha_AB_Legacy: Rhino, Rhino, Engineer
+  [T13] PrismatAlpha_AB_Legacy: Omega Splitter
+  [T7] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Drone
+  [T16] OriginalHardestAI: Militia, Tarsier, Mobile Animus
+  [T14] OriginalHardestAI: Wall, Rhino, Tarsier
+  [T14] OriginalHardestAI: Omega Splitter, Drone
+  [T8] OriginalHardestAI: Wall, Tarsier, Tarsier
+  [T17] PrismatAlpha_AB_Legacy: Rhino, Ebb Turbine, Tarsier
+  [T15] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone
+  [T15] PrismatAlpha_AB_Legacy: Energy Matrix, Urban Sentry, Drone
+  [T18] OriginalHardestAI: Engineer, Engineer, Militia
+  [T9] PrismatAlpha_AB_Legacy: Immolite, Immolite, Drone, Drone
+  [T16] OriginalHardestAI: Wall, Rhino, Drone
+  [T19] PrismatAlpha_AB_Legacy: Wall, Rhino, Tarsier, Drone
+  [T16] OriginalHardestAI: Wall, Urban Sentry, Urban Sentry, Tantalum Ray
+  [T20] OriginalHardestAI: Drone, Drone, Militia
+  [T10] OriginalHardestAI: Rhino, Steelsplitter, Rhino
+  [T21] PrismatAlpha_AB_Legacy: Wall, Tarsier, Drone
+  [T22] OriginalHardestAI: Drone, Drone, Militia
+  [T23] PrismatAlpha_AB_Legacy: Wall, Drone
+  [T24] OriginalHardestAI: Engineer, Engineer, Militia, Mobile Animus
+  [T25] PrismatAlpha_AB_Legacy: Engineer, Engineer
+  [T26] OriginalHardestAI: Militia
+  [T27] PrismatAlpha_AB_Legacy: Mobile Animus
+  [T28] OriginalHardestAI: Drone
+  [T29] PrismatAlpha_AB_Legacy: (no buys)
+  [T30] OriginalHardestAI: Drone, Mobile Animus
+  [T17] PrismatAlpha_AB_Legacy: Rhino, Rhino, Engineer
+  [T17] PrismatAlpha_AB_Legacy: Omega Splitter, Drone
+  [T11] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone
+  [T18] OriginalHardestAI: Wall, Rhino, Tarsier
+  [T18] OriginalHardestAI: Omega Splitter, Engineer, Engineer
+  [T12] OriginalHardestAI: Wall, Tarsier, Tarsier
+  [T19] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone
+  [T19] PrismatAlpha_AB_Legacy: Omega Splitter, Engineer
+  [T13] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone, Engineer
+  [T20] OriginalHardestAI: Wall, Rhino, Drone
+  [T20] OriginalHardestAI: Energy Matrix, Urban Sentry, Tantalum Ray
+  [T14] OriginalHardestAI: Wall, Rhino, Engineer
+  [T21] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Engineer, Engineer
+  [T21] PrismatAlpha_AB_Legacy: Energy Matrix, Tantalum Ray, Drone
+  [T15] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone, Engineer
+  [T22] OriginalHardestAI: Rhino, Drone, Engineer, Conduit
+  [T22] OriginalHardestAI: Energy Matrix, Urban Sentry, Tantalum Ray
+  [T16] OriginalHardestAI: Wall, Rhino, Immolite
+  [T23] PrismatAlpha_AB_Legacy: Tarsier
+  [T24] OriginalHardestAI: Wall, Drone, Drone, Animus, Resophore
+  [T25] PrismatAlpha_AB_Legacy: Engineer
+  [T26] OriginalHardestAI: Wall, Drone, Engineer, Blastforge, Tarsier
+  [T27] PrismatAlpha_AB_Legacy: (no buys)
+  [T28] OriginalHardestAI: Drone, Drone, Conduit, Urban Sentry, Urban Sentry
+  [T29] PrismatAlpha_AB_Legacy: (no buys)
+  [T30] OriginalHardestAI: Engineer, Engineer, Conduit, Shredder, Shredder, Tarsier
+  [T23] PrismatAlpha_AB_Legacy: Energy Matrix, Wall, Barrier, Barrier, Drone
+  [T17] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone
+  [T24] OriginalHardestAI: Wall, Tantalum Ray, Tantalum Ray, Engineer
+  [T18] OriginalHardestAI: Wall, Rhino
+  [T25] PrismatAlpha_AB_Legacy: Energy Matrix, Wall, Barrier, Barrier, Barrier, Engineer
+  [T19] PrismatAlpha_AB_Legacy: Rhino, Rhino, Engineer, Engineer
+  [T26] OriginalHardestAI: Energy Matrix, Wall, Tantalum Ray
+  [T20] OriginalHardestAI: Wall, Rhino, Engineer
+  [T27] PrismatAlpha_AB_Legacy: Wall, Wall, Wall, Drone
+  [T21] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Drone
+  [T28] OriginalHardestAI: Wall, Wall, Wall, Engineer, Engineer
+  [T22] OriginalHardestAI: Wall, Drone, Engineer, Blastforge
+  [T29] PrismatAlpha_AB_Legacy: Wall, Wall, Wall, Forcefield, Forcefield, Engineer
+  [T30] OriginalHardestAI: Wall, Wall, Drone, Drone, Urban Sentry
+  [T23] PrismatAlpha_AB_Legacy: Tarsier, Engineer
+  [T24] OriginalHardestAI: Drone, Engineer, Blastforge, Immolite
+  [T25] PrismatAlpha_AB_Legacy: Drone
+  [T26] OriginalHardestAI: Drone, Drone, Conduit, Tarsier, Tarsier
+  [T27] PrismatAlpha_AB_Legacy: (no buys)
+  [T28] OriginalHardestAI: Wall, Drone, Engineer, Conduit, Immolite
+  [T29] PrismatAlpha_AB_Legacy: (no buys)
+  [T30] OriginalHardestAI: Drone, Drone, The Wincer, Tarsier
+  [T31] PrismatAlpha_AB_Legacy: Wall, Forcefield, Drone, Engineer, Animus
+  [T32] OriginalHardestAI: Barrier, Engineer, Engineer, Animus, Urban Sentry, Urban Sentry
+  [T33] PrismatAlpha_AB_Legacy: Barrier, Omega Splitter
+  [T34] OriginalHardestAI: Drone, Drone, Omega Splitter
+  [T35] PrismatAlpha_AB_Legacy: (no buys)
+  [T36] OriginalHardestAI: Drone, Engineer, Omega Splitter, Tarsier
+  [T37] PrismatAlpha_AB_Legacy: (no buys)
+  [T38] OriginalHardestAI: Engineer, Shredder, Shredder, Shredder, Tantalum Ray
+  [T39] PrismatAlpha_AB_Legacy: (no buys)
+  [T40] OriginalHardestAI: Shredder, Shredder, Shredder, Tantalum Ray, Tarsier
+                        PrismatAlpha_AB_Legacy  OriginalHardestAI  TotalScore
+PrismatAlpha_AB_Legacy  -                       8                       8
+OriginalHardestAI       16                      -                       16
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T0] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T1] OriginalHardestAI: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T2] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T3] OriginalHardestAI: Drone, Drone, Conduit
+  [T3] OriginalHardestAI: Drone, Drone, Conduit
+  [T3] OriginalHardestAI: Drone, Animus
+  [T3] OriginalHardestAI: Drone, Drone, Conduit
+  [T4] PrismatAlpha_AB_Legacy: Drone, Drone, Animus
+  [T4] PrismatAlpha_AB_Legacy: Drone, Drone, Animus
+  [T4] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T4] PrismatAlpha_AB_Legacy: Thorium Dynamo, Thorium Dynamo
+  [T5] OriginalHardestAI: Drone, Animus
+  [T5] OriginalHardestAI: Drone, Animus
+  [T5] OriginalHardestAI: Drone, Drone, Blastforge
+  [T5] OriginalHardestAI: Gauss Cannon, Thorium Dynamo
+  [T6] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge
+  [T6] PrismatAlpha_AB_Legacy: Gaussite Symbiote, Drone
+  [T6] PrismatAlpha_AB_Legacy: Steelsplitter, Drone, Drone
+  [T6] PrismatAlpha_AB_Legacy: Thorium Dynamo
+  [T7] OriginalHardestAI: Tarsier, Tarsier, Gauss Cannon
+  [T7] OriginalHardestAI: Rhino, Drone, Drone, Immolite
+  [T7] OriginalHardestAI: Wall, Tarsier, Drone
+  [T7] OriginalHardestAI: Thorium Dynamo, Drone
+  [T8] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier
+  [T8] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone
+  [T8] PrismatAlpha_AB_Legacy: Drone, Drone, Blastforge, Oxide Mixer
+  [T8] PrismatAlpha_AB_Legacy: Drone, Engineer, Blastforge
+  [T9] OriginalHardestAI: Rhino, Rhino, Venge Cannon, Drone
+  [T9] OriginalHardestAI: Drone, Drone, Blastforge
+  [T9] OriginalHardestAI: Tarsier, Tarsier, Oxide Mixer
+  [T9] OriginalHardestAI: Drone, Drone, Blastforge
+  [T10] PrismatAlpha_AB_Legacy: Rhino, Forcefield, Rhino, Drone
+  [T10] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Steelsplitter
+  [T10] PrismatAlpha_AB_Legacy: Drake, Drone
+  [T10] PrismatAlpha_AB_Legacy: Wall, Drone, Engineer, Blastforge, Gauss Cannon
+  [T11] OriginalHardestAI: Rhino, Rhino, Forcefield
+  [T11] OriginalHardestAI: Rhino, Endotherm Kit, Drone
+  [T11] OriginalHardestAI: Wall, Drone, Drone, Blastforge, Animus
+  [T11] OriginalHardestAI: Rhino, Tarsier, Steelsplitter
+  [T12] PrismatAlpha_AB_Legacy: Rhino, Forcefield, Forcefield, Tarsier, Engineer
+  [T12] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Steelsplitter
+  [T12] PrismatAlpha_AB_Legacy: Drake, Gauss Cannon, Drone
+  [T12] PrismatAlpha_AB_Legacy: Wall, Wall, Drone, Animus
+  [T13] OriginalHardestAI: Forcefield, Gaussite Symbiote
+  [T13] OriginalHardestAI: Wall, Rhino, Forcefield, Tarsier, Engineer
+  [T13] OriginalHardestAI: Wall, Blastforge, Engineer
+  [T13] OriginalHardestAI: Forcefield, Bombarder, Rhino, Thorium Dynamo, Drone
+  [T14] PrismatAlpha_AB_Legacy: Rhino, Forcefield, Tarsier
+  [T14] PrismatAlpha_AB_Legacy: Wall, Rhino, Tarsier
+  [T14] PrismatAlpha_AB_Legacy: Wall, Tarsier, Tarsier, Oxide Mixer
+  [T14] PrismatAlpha_AB_Legacy: Drake, Gauss Cannon
+  [T15] OriginalHardestAI: Immolite, Immolite, Engineer
+  [T15] OriginalHardestAI: Wall, Forcefield, Rhino, Engineer
+  [T15] OriginalHardestAI: Drake
+  [T15] OriginalHardestAI: Wall, Wall, Tarsier, Tarsier
+  [T16] PrismatAlpha_AB_Legacy: Forcefield, Gaussite Symbiote, Engineer
+  [T16] PrismatAlpha_AB_Legacy: Steelsplitter, Rhino
+  [T16] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Engineer, Engineer
+  [T16] PrismatAlpha_AB_Legacy: Wall, Plasmafier, Engineer
+  [T17] OriginalHardestAI: Gaussite Symbiote
+  [T17] OriginalHardestAI: Wall, Rhino, Engineer
+  [T17] OriginalHardestAI: Wall, Rhino, Forcefield
+  [T17] OriginalHardestAI: Wall, Wall, Drone, Engineer, Tarsier, Tarsier
+  [T18] PrismatAlpha_AB_Legacy: Forcefield, Immolite, Immolite, Engineer
+  [T18] PrismatAlpha_AB_Legacy: Wall, Wall, Frost Brooder
+  [T18] PrismatAlpha_AB_Legacy: Steelsplitter, Tarsier, Engineer
+  [T18] PrismatAlpha_AB_Legacy: Steelsplitter, Steelsplitter, Drone, Engineer
+  [T19] OriginalHardestAI: Rhino, Engineer
+  [T20] PrismatAlpha_AB_Legacy: Rhino, Drone
+  [T21] OriginalHardestAI: Rhino, Forcefield, Forcefield
+  [T22] PrismatAlpha_AB_Legacy: Rhino, Immolite
+  [T23] OriginalHardestAI: Rhino
+  [T24] PrismatAlpha_AB_Legacy: Engineer, Engineer
+  [T25] OriginalHardestAI: Engineer, Engineer
+  [T26] PrismatAlpha_AB_Legacy: (no buys)
+  [T27] OriginalHardestAI: Drone, Drone
+  [T19] OriginalHardestAI: Wall, Wall, Drone
+  [T19] OriginalHardestAI: Wall, Rhino, Engineer
+  [T19] OriginalHardestAI: Wall, Wall, Drone, Drone, Tarsier, Tarsier, Gauss Cannon
+  [T0] OriginalHardestAI: Drone, Drone
+  [T20] PrismatAlpha_AB_Legacy: Wall, Wall, Frost Brooder, Drone
+  [T20] PrismatAlpha_AB_Legacy: Steelsplitter, Rhino, Engineer
+  [T20] PrismatAlpha_AB_Legacy: Forcefield, Drone, Drone, Animus, Gauss Cannon, Pixie, Pixie
+  [T1] PrismatAlpha_AB_Legacy: Drone, Drone
+  [T21] OriginalHardestAI: Wall, Rhino, Drone
+  [T21] OriginalHardestAI: Innervi Field, Tarsier, Tarsier
+  [T21] OriginalHardestAI: Wall, Wall, Forcefield, Forcefield, Corpus, Drone, Engineer
+  [T2] OriginalHardestAI: Drone, Drone
+  [T22] PrismatAlpha_AB_Legacy: Wall, Steelsplitter, Rhino, Engineer
+  [T22] PrismatAlpha_AB_Legacy: Wall
+  [T22] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Rhino, Engineer, Engineer
+  [T3] PrismatAlpha_AB_Legacy: Drone, Animus
+  [T23] OriginalHardestAI: Wall, Wall
+  [T23] OriginalHardestAI: Wall, Forcefield, Engineer, Engineer
+  [T23] OriginalHardestAI: Wall, Forcefield, Forcefield, Forcefield, Forcefield, Drone, Drone, Tarsier, Pixie
+  [T4] OriginalHardestAI: Drone, Drone, Animus
+  [T24] PrismatAlpha_AB_Legacy: Rhino, Rhino, Drone, Drone
+  [T24] PrismatAlpha_AB_Legacy: Wall, Drone
+  [T24] PrismatAlpha_AB_Legacy: Wall, Forcefield, Steelsplitter, Rhino
+  [T5] PrismatAlpha_AB_Legacy: Immolite, Immolite, Drone
+  [T25] OriginalHardestAI: Wall, Wall
+  [T25] OriginalHardestAI: Tarsier, Tarsier, Drone
+  [T25] OriginalHardestAI: Forcefield, Forcefield, Forcefield, Forcefield, Drake, Tarsier
+  [T6] OriginalHardestAI: Rhino, Rhino
+  [T26] PrismatAlpha_AB_Legacy: Rhino, Rhino, Steelsplitter, Engineer
+  [T26] PrismatAlpha_AB_Legacy: Steelsplitter, Drone
+  [T26] PrismatAlpha_AB_Legacy: Wall, Wall, Rhino, Engineer
+  [T7] PrismatAlpha_AB_Legacy: Tarsier, Tarsier, Drone
+  [T27] OriginalHardestAI: Rhino, Rhino, Engineer, Engineer
+  [T27] OriginalHardestAI: Wall, Forcefield, Engineer, Engineer, Tarsier
+  [T27] OriginalHardestAI: Rhino, Forcefield, Forcefield, Forcefield, Drone, Engineer, Bombarder

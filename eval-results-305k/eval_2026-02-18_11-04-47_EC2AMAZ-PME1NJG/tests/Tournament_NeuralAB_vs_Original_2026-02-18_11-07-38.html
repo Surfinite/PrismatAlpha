@@ -1,0 +1,35 @@
+<html>
+<head>
+<script type="text/javascript" src="javascript/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="javascript/jquery.tablesorter.js"></script>
+<link rel="stylesheet" href="javascript/themes/blue/style.css" type="text/css" media="print, projection, screen" />
+</head>
+<table cellpadding=2 rules=all style="font: 12px/1.5em Verdana; border: 1px solid #cccccc;">
+<tr><td width=150><b>Tournament Name</b></td><td width=200 align=right>NeuralAB_vs_Original</td></tr>
+<tr><td><b>Date Started</b></td><td align=right>2026-02-18_11-07-38</td></tr>
+<tr><td><b>AI Compiled</b></td><td align=right>Feb 15 2026 11:54:32</td></tr><tr><td><b>Assert Level</b></td><td align=right>All Asserts</td></tr><tr><td><b>Tournament Rounds</b></td><td align=right>42</td></tr>
+<tr><td><b>Time Elapsed</b></td><td align=right>1h 24m 6s</td></tr>
+<tr><td><b>Games Played</b></td><td align=right>84 (0.0166465/s)</td></tr>
+</table>
+<br><br>
+<br><br>
+Overall Statistics <a href="#" onclick='document.getElementById("statsTableDiv").style.display="block";'>Show</a>  <a href="#" onclick='document.getElementById("statsTableDiv").style.display="none";'>Hide</a> <script type="text/javascript"> $(function() { $("#statsTable").tablesorter({widgets: ['zebra']}); });</script>
+<div id="statsTableDiv"><table cellpadding=2 border=1 rules=all style="font: 12px/1.5em Verdana" id="statsTable" class="tablesorter">
+<thead><th width="120">Player</th><th width="80">Score</th><th width="80">Games</th><th width="80">Wins</th><th width="80">Loss</th><th width="80">Draw</th><th width="80">Turns</th><th width="80">Turns/G</th><th width="80">MS/Turn</th><th width="80">Max MS</th></thead>
+<tr><td>PrismatAlpha_AB_Legacy</td><td>0.428571</td><td>84</td><td>36</td><td>48</td><td>0</td><td>1571</td><td>18.7024</td><td>5301.89</td><td>7098</td></tr>
+<tr><td>OriginalHardestAI</td><td>0.571429</td><td>84</td><td>48</td><td>36</td><td>0</td><td>1571</td><td>18.7024</td><td>5022.45</td><td>7144</td></tr>
+</table></div>
+<br><br>
+Bot vs. Bot Score Table (row score vs. column) <a href="#" onclick='document.getElementById("winPercentageTableDiv").style.display="block";'>Show</a>  <a href="#" onclick='document.getElementById("winPercentageTableDiv").style.display="none";'>Hide</a> <script type="text/javascript"> $(function() { $("#winPercentageTable").tablesorter({widgets: ['zebra']}); });</script>
+<div id="winPercentageTableDiv"><table cellpadding=2 border=1 rules=all style="font: 12px/1.5em Verdana" id="winPercentageTable" class="tablesorter">
+<thead><th width="120"></th><th width="120">PrismatAlpha_AB_Legacy</th><th width="120">OriginalHardestAI</th><th width="120">Total</th></thead>
+<tr><td>PrismatAlpha_AB_Legacy</td><td>-</td><td>0.428571</td><td>0.428571</td></tr>
+<tr><td>OriginalHardestAI</td><td>0.571429</td><td>-</td><td>0.571429</td></tr>
+</table></div>
+<br><br>
+Bot vs. Bot Avg Turns Per Game <a href="#" onclick='document.getElementById("totalScoreTableDiv").style.display="block";'>Show</a>  <a href="#" onclick='document.getElementById("totalScoreTableDiv").style.display="none";'>Hide</a> <script type="text/javascript"> $(function() { $("#totalScoreTable").tablesorter({widgets: ['zebra']}); });</script>
+<div id="totalScoreTableDiv"><table cellpadding=2 border=1 rules=all style="font: 12px/1.5em Verdana" id="totalScoreTable" class="tablesorter">
+<thead><th width="120"></th><th width="120">PrismatAlpha_AB_Legacy</th><th width="120">OriginalHardestAI</th><th width="120">Total</th></thead>
+<tr><td>PrismatAlpha_AB_Legacy</td><td>-</td><td>37.7857</td><td>1571</td></tr>
+<tr><td>OriginalHardestAI</td><td>37.7857</td><td>-</td><td>1571</td></tr>
+</table></div>

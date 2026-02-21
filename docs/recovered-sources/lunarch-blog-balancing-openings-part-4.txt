@@ -1,0 +1,136 @@
+# Balancing Prismata Openings Through Unit Design - part 4
+# Source: blog.lunarchstudios.com/2015/07/08/balancing-prismata-openings-through-unit-design-part-4/
+# Wayback: https://web.archive.org/web/20191115225209/http://blog.lunarchstudios.com/2015/07/08/balancing-prismata-openings-through-unit-design-part-4/
+# Retrieved: 2026-02-20
+
+Hello everyone!
+
+I’m back again today to drone on some more about Prismata openings. Specifically, I’ll be focusing on how the Prismata design team investigates claims of busted Prismata unit combos, and how this has led to the creation of the ***secret opening book*** that I mentioned all the way back in part 1.
+
+But first… **OBLIGATORY INTERLUDE FOR SKIN SPOILERS! **We just got finished with a few skins from our Medieval theme, check them out:
+
+Excalibur Redeemer
+
+Ballista Sentinel
+
+## 
+
+## A Nightmare Design Flaw?
+
+Many years ago when working on earlier incarnations of Prismata, we found ourselves in uncharted territory. As an economic strategy game with no randomness, no fog-of-war, and very tight tactical mechanics, Prismata left us feeling uncertain about whether the game would someday be “solved”—with all the optimal strategies identified, and all the interesting lines of play explored. What if the game just didn’t turn out to be interesting? What if pro players knew exactly what to do in every game? To be an interesting game with a long lifespan, Prismata needed to be deep and complex like chess or go—not simple like tic-tac-toe. Lacking a crystal ball, we didn’t really know where Prismata might lie on the complexity spectrum, and we were always a bit paranoid that we might design a game system that simply wasn’t complex enough.
+[Image: Screenshot from a 2012-era game of Prismata]
+
+Screenshot from a Prismata game in late 2012, before mechanics like “Fragile” and “Chill” existed.
+
+We had reasons to be fearful. Old versions of Prismata contained some *really broken stuff.* 4hp Walls. No supply limits. No gold-storing at the end of each turn. 6RRR Shadowfangs. Nothing was balanced, resulting in few viable lines of play. Consequently, it sometimes felt like certain key openings were almost “forced”, leading to narrow games that didn’t offer the same level of branching seen in Prismata games today. Preserving sufficient complexity became a huge part of our design and balance goals, because we feared that Prismata couldn’t survive as a competitive game without it.
+
+However, in the years since those early days, my opinion (on how worried we should be) has shifted completely.
+
+As we continue to work on Prismata, I’ve become increasingly convinced that the game will *never* be solved, and that truly game-theoretically optimal strategies will forever remain outside the reach of human players for the vast majority of Prismata sets.
+
+This article is about why my opinion changed.
+
+ 
+
+## Most Autowins… Aren’t.
+
+We actually get a **lot** of reports of the form “opening X is broken” or “units Y and Z lead to a player 1 autowin.” They come in through a variety of channels—our in-game bug reporting system, Reddit posts, discussions in streams, or random private messages from other players.
+
+Whenever we receive a report claiming the existence of an autowin or other powerful opening, Will and I investigate it, often with other folks at Lunarch, members of our Luminary group, or high-ranking ladder players. Anything that looks troublesome can get several hours of analysis or playtesting, often with the two of us working together. We also explore variations, incorporating alternative economic units or other unit availabilities that might affect the game.
+
+The primary reason that I’m no longer worried about Prismata being solveable is that these investigations almost always fail to find something truly, irrefutably broken. After doing this for boatloads of 1-unit rushes and 2-unit combinations, the conclusion is almost always the same—with few exceptions, every perceived autowin we’ve ever studied has had a refutation. Most autowin claims are mistaken, even though some of them come from very strong players.
+
+Let’s take a look at some examples, pulled from our *secret opening book*.
+
+ 
+
+### **Single-unit near-misses**
+
+Single-unit rushes are common causes for unit nerfs, even in situations where they don’t lead to autowins. Since a given unit will show up about 10% of the time in a random base+8 Prismata game, we need to ensure that memorized rushes involving that unit don’t win too often, otherwise they might inflate the winrates of one side or another, or make new players feel like they need to memorize refutations in order to win.
+
+A recent example is Al2718x’s **Venge Cannon** rush, which ultimately caused us to nerf Venge Cannon even though the rush was beatable in a variety of ways. Unfortunately, the rush was incredibly easy to execute and defending against it required very nuanced, prophylactic play, putting players at a huge disadvantage if they weren’t aware of the specific rush. See my rant in Al2718x’s reddit thread for more information.
+
+**Shadowfang**, which was priced at 6RRR for years, got the nerf to 7RRR after numerous players complained that a player 2 D/AA rush involving Shadowfangs was too strong. In fact, the rush was quite easy to defeat with player 1 DD/DD/DCB but many players weren’t aware of this. We were actually quite worried that with additional red units (Husk, Frostbite, Electrovore, etc.), this rush might have been winning, but despite much searching, we never found a winning line. We created a youtube video that provides a whole lot more information on the specific opening lines.
+
+**Cluster Bolt** was recently modified because we were worried that Cluster Bolt rushes were too difficult to defend against. Though we didn’t know of any autowins, we feared that they might eventually occur if we didn’t do something. Here’s a comment I made at the time:
+
+> 
+
+It’s conceivable that players could even study sets like [Base Set + Cluster Bolt + Venge Cannon] to the point that they were completely solved. These two units together occur in about 1% of Prismata games, and many Base + 8 games involving Cluster Bolt and Venge Cannon essentially reduce to [Base Set + Cluster Bolt + Venge Cannon] because of how resistant the Cluster Bolt rush is to counterplay. Hence, solving this Prismata subgame could yield complete solutions to a non-trivial fraction of all Prismata Base + 8 games, which is definitely something we don’t want.
+
+Of course, there’s **Wincer**, which we talked about last time. Even with the most broken version of Wincer, we could never find a player 2 autowin in base+Wincer or any 2-unit combination involving the unit.
+
+**Scorchilla** had a reputation as favouring player 2 back when it was priced at 7RG with buildtime 1. The DD/DDC/DA opening allowed player 2 to get a perfect double Scorchilla on turn 4, and this was often game-winning, especially among newer players. However, many expert players told us that this rush was *far* from an autowin (and was actually quite weak in most circumstances). That said, after witnessing a 58% player 2 winrate whenever Scorchilla was available (which was the highest of any unit except Wincer), we decided that a change was necessary.
+
+**Electrovore** shall be our final example, and unlike the other units in this list, it has never been nerfed. In some situations, a player 2 DD/DA into Electrovore pump can be quite strong. Sometime late last year, we had multiple players report that they thought it was game-winning in base+Electrovore, especially when following up with TT against a Blastforge-based p1 response. However, we later discovered that the rush can be countered by player 1 altogether if p1 opens DD/A and then purchases a single Tarsier and a single Electrovore on turn 3. The game that follows is incredibly complex and nuanced (and is quite far from an autowin). In fact, we still don’t know who wins in base+Electrovore after [DD/DD, A/DA] but we’ve had at least one player tell us that they think it’s p1. In any case, there may be other p2 responses that are playable in response to p1’s Animus, and practically speaking, it’s extremely unlikely to create any autowin situations in a random base+8 game.
+
+The Venge Cannon, Shadowfang, Cluster Bolt, Scorchilla, and Wincer rushes are all examples of non-autowins that nonetheless required nerfs to target specific builds, because the difficulty of defending against these rushes was too high. Moreover, they were *one-unit rushes*, meaning that they could be executed by a player any time the specific required unit was available (about 10% of base+8 games). In Electrovore’s case, we didn’t feel that it was necessary to make a change, due to the availability of practical defenses to the rush in almost all random base+8 games. We’ve thought about making changes (such as reducing Electrovore’s HP to 1 to make it weaker in rushes), but so far, we’ve never felt that such changes were necessary.
+
+ 
+
+### **A larger example: Flame Animus and Shadowfang**
+
+Though some single-unit rushes have been strong enough to prompt us to nerf units, single-unit autowins have never existed in Prismata (because we’re generally careful enough to check for them before releasing any new units). However, some 2-unit interactions can be quite a bit stronger, like the Flame Animus + Hannibull combo that led to our recent Hannibull changes.
+
+A combo we’ve known about for a long time involves the units **Flame Animus and Shadowfang**. Will and I were initially convinced that it was broken, because of p1’s DD/DD/DDB/A+Flame Animus into Wall+Shadowfang spam being incredibly strong. Actually, p2 can put up a good fight with DD/DDC/DDB/A + Flame Animus into p2’s own Wall + Shadowfang spam. Having tons of green to spare, p2 can construct a huge number of Forcefields, providing efficient defense in the late stages of the game. The resulting line is *very* close. For a while, we thought that p2 was able to win, but after a monumental amount of effort playing and analyzing with base + Flame Animus + Shadowfang, we’re somewhat convinced that p1 *barely* wins against p2 DD/DDC, though the winning line relies heavily on very precise defense and Rhino buying, and seems to win by an incredibly tiny margin.
+
+Are we 100% sure that p1 wins in base + Flame Animus + Shadowfang? Not really; it’s quite likely that our analysis contains mistakes, and it’s not always possible to consider every single possibility. We’ve been wrong many times before when analyzing other unit sets; in some cases my opinion on “who wins with these units” has flip-flopped a dozen times through the course of experimenting with a specific combination of units.
+
+At the end of the day, it’s a moot point. Memorizing the entire suite of p1 responses to all possible p2 refutations in base + Flame Animus + Shadowfang is an enormous task, and such memorization will likely be completely invalidated by the addition of other random set units. As an exercise, try playing with Flame Animus, Shadowfang, and 6 other random units. We tried it dozens of times, and never came across a set that we felt was autowinning for either player.
+[Image: While initially seeming very strong for player 1, ]
+
+An actual Prismata game involving Flame Animus and Shadowfang. Is p1 advantaged when playing with this unit set?
+
+To drive this point home even further, take a look at this reddit thread, in which Prismata player FlakManiak shares a replay of a game featuring Shadowfang, Flame Animus, and several other units (depicted above). Though several strong Prismata players initially believed that p2 couldn’t win against a p1 Flame Animus + Shadowfang attack, multiple p2 counter-builds were found using both DD/DDC/DDB and DD/DDC/AB openings to defeat p1’s Flame Animus + Shadowfang rush. Of course, this doesn’t necessarily prove that p2 wins; it’s quite possible that p1 could still win with a variation on the original strategy, or another build entirely. Nevertheless, p2 most definitely has opening options that lead to a complex and dynamic middlegame with no autowin in sight.
+
+ 
+
+### **More examples:**
+
+Want another example? Try opening with an Animus on turn 1 as player 2 in a set with **Gaussite Symbiote** **and Protoplasm**, and building two early Symbiotes. What results is a bizarre, complex, and incredibly sharp rush game. We have no idea which player wins in the case where only those two units are present.
+
+**Feral Warden and Grimbotch** are another pair that we mentioned last time. In fact, we’ve flip-flopped a few times on this one too. Player 2 has a strong attack with the opening DD/AC into Feral Warden and Grimbotch spam. During a previous analysis, Will was convinced that player 1 could equalize by playing a similar build. Upon closer inspection, it seems that p2 can gain a lead by skipping the first Feral Warden. We’re still not 100% sure who wins (for the record, I’m now on the p2 side of the fence, but that could change!)
+
+We did spend a bit of time trying to solve some sharp red rush combos like **base + Electrovore + Bloodrager**. We were unsuccessful at establishing either player as having a forced win; it seems that even with just DEATR + Electrovore + Bloodrager available for purchase, the resulting Prismata game is still much too complex for a human to solve.
+
+Through these and dozens of other similar experiences, we’ve come to the following humbling conclusions:
+
+- Even the strongest Prismata players, devs included, have difficulty finding truly optimal build orders when first playing a set.
+
+- Build orders that seem irrefutable at first usually have counters.
+
+- It’s *ridiculously difficult* to find forced wins for player 1 or player 2 in any Prismata set, even those with small numbers of units.
+
+> 
+
+To this day, we have never once encountered a randomly chosen 8-unit set in the wild that was later shown to be provably winning for player 1 or player 2.
+
+ 
+
+## Complexity as a Byproduct of Balance
+
+When I playtested the very first version of Prismata (which essentially only had Drone, Blastforge, and a few simple Steelsplitter-like attackers), I remember being utterly blown away by the level of emergent complexity that arose from the game’s extremely simple rules. Prismata’s surprising amount of interesting and complex gameplay was the discovery that inspired us to develop the game further. For some reason that I can’t fully explain, the precise nature of Prismata’s flexible economics and tactical combat leads to a higher-than-expected amount of emergent depth, with many surprising plays (like an early Conduit in a Shadowfang and Flame Animus game) turning out to be correct.
+
+As Dave points out in his article on the Prismata AI, Prismata’s complexity (and the resulting difficulty in writing an AI for it) can be attributed to the game’s enormous branching factor (thousands of times larger than chess) and state space (more than a billion billion times larger than chess). But something more can be said. Prismata games offer a huge number of options to players each turn, and *lots* of those options are, in fact, *good *options. Thus, it’s not easy for humans to see multiple moves ahead in a Prismata game, because it’s often extremely difficult to “prune the search tree” by ruling out a lot of lines of play.
+
+But why is this the case? How come there isn’t there a “best play” in most Prismata situations?
+
+In fact, Prismata’s **balance** is the main contributing factor. If we can price units (and their abilities) such that multiple different ways of spending your resources are equally good, then there will be more good options available on each turn, and consequently, a higher amount of emergent complexity in Prismata games. Thus, **good balance is really really important **for the long-term value of Prismata as a competitive game.
+
+ 
+
+## One Final Example
+
+The most studied Prismata set of all time is *base set only*, or *BSO*. After many years, thousands of games, and hundreds of hours of effort by a huge number of members of our community, we still don’t know whether p1 or p2 can force a win. As recently as two months ago, players were still discovering new lines, and refutations to those lines. Remarkably:
+
+- The community opinion on “who wins in BSO” seems to have flip-flopped about half a dozen times since last September as new lines and refutations were discovered.
+
+- There are multiple main lines and a huge number of branching variations.
+
+- A huge amount of high-depth study has been necessary in pretty much every variation that has been fully resolved.
+
+- Every single base set unit sees play in the main lines, including Gauss Cannon.
+
+I remember having a conversation with Timex—a good friend of mine, and one of the top players on the Prismata ladder—in early October of last year. He told me that he believed the Prismata community would solve BSO by last Halloween.
+
+To my knowledge, it’s still open.
