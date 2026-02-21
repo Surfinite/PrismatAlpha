@@ -20,6 +20,9 @@
 #include <sstream>
 #include <atomic>
 #include <filesystem>
+#ifdef _WIN32
+#include <io.h>     // _dup, _dup2, _close, _fileno
+#endif
 
 using namespace Prismata;
 
@@ -1099,8 +1102,8 @@ static bool processReplay(const std::string & replayFile, int minRating, SelfPla
         const auto & ratings = doc["ratingInfo"]["finalRatings"];
         if (ratings.IsArray() && ratings.Size() >= 2)
         {
-            int r0 = ratings[0].HasMember("displayRating") ? ratings[0]["displayRating"].GetInt() : 0;
-            int r1 = ratings[1].HasMember("displayRating") ? ratings[1]["displayRating"].GetInt() : 0;
+            int r0 = ratings[0].HasMember("displayRating") ? (int)ratings[0]["displayRating"].GetDouble() : 0;
+            int r1 = ratings[1].HasMember("displayRating") ? (int)ratings[1]["displayRating"].GetDouble() : 0;
             int minR = std::min(r0, r1);
             if (minR < minRating)
             {
@@ -1265,4 +1268,215 @@ void Benchmarks::DoReplayBatch(const std::string & replayDir, const std::string 
     fprintf(stderr, "Records written: %llu\n", (unsigned long long)sink.totalRecordsWritten());
     fprintf(stderr, "Output dir:      %s\n", outputDir.c_str());
     fprintf(stderr, "============================\n");
+}
+
+// ---------------------------------------------------------------------------
+// --eval mode: Replay JSON -> per-turn neural evaluation -> JSON output
+// ---------------------------------------------------------------------------
+
+void Benchmarks::DoEval(const std::string & replayFile)
+{
+    // 1. Check neural net is loaded
+    if (!NeuralNet::Instance().isLoaded())
+    {
+        printf("{\"ok\":false,\"error\":\"Neural network weights not loaded\"}\n");
+        fflush(stdout);
+        return;
+    }
+
+    // 2. Read and parse replay JSON
+    std::ifstream ifs(replayFile);
+    if (!ifs.is_open())
+    {
+        printf("{\"ok\":false,\"error\":\"Cannot open: %s\"}\n", jsonEscape(replayFile).c_str());
+        fflush(stdout);
+        return;
+    }
+    std::string raw((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+    ifs.close();
+
+    rapidjson::Document doc;
+    if (doc.Parse(raw.c_str()).HasParseError())
+    {
+        printf("{\"ok\":false,\"error\":\"JSON parse error\"}\n");
+        fflush(stdout);
+        return;
+    }
+
+    // 3. Validate required sections
+    if (!doc.HasMember("deckInfo") || !doc["deckInfo"].HasMember("mergedDeck")
+        || !doc.HasMember("initInfo")
+        || !doc.HasMember("commandInfo") || !doc["commandInfo"].HasMember("commandList")
+        || !doc["commandInfo"].HasMember("clicksPerTurn")
+        || !doc.HasMember("playerInfo"))
+    {
+        printf("{\"ok\":false,\"error\":\"Missing required replay sections\"}\n");
+        fflush(stdout);
+        return;
+    }
+
+    // 4. Extract player names and ratings
+    const auto & playerInfo = doc["playerInfo"];
+    std::string p0Name = "Player 1";
+    std::string p1Name = "Player 2";
+    int p0Rating = 0, p1Rating = 0;
+
+    if (playerInfo.IsArray() && playerInfo.Size() >= 2)
+    {
+        if (playerInfo[0].HasMember("name"))
+            p0Name = playerInfo[0]["name"].GetString();
+        if (playerInfo[1].HasMember("name"))
+            p1Name = playerInfo[1]["name"].GetString();
+    }
+    if (doc.HasMember("ratingInfo") && doc["ratingInfo"].HasMember("finalRatings"))
+    {
+        const auto & ratings = doc["ratingInfo"]["finalRatings"];
+        if (ratings.IsArray() && ratings.Size() >= 2)
+        {
+            if (ratings[0].HasMember("displayRating"))
+                p0Rating = (int)ratings[0]["displayRating"].GetDouble();
+            if (ratings[1].HasMember("displayRating"))
+                p1Rating = (int)ratings[1]["displayRating"].GetDouble();
+        }
+    }
+
+    // 5. Determine winner
+    int winner = -1;
+    if (doc.HasMember("result"))
+        winner = doc["result"].GetInt();
+
+    // 6. Extract replay code from filename (strip path and .json extension)
+    std::string code = replayFile;
+    size_t lastSlash = code.find_last_of("/\\");
+    if (lastSlash != std::string::npos) code = code.substr(lastSlash + 1);
+    size_t dotPos = code.rfind(".json");
+    if (dotPos != std::string::npos) code = code.substr(0, dotPos);
+
+    // 7. Initialize stepper and run eval loop
+    //    Redirect stdout to stderr for the entire stepping phase to suppress
+    //    PRISMATA_ASSERT noise (prints to stdout, can corrupt JSON output)
+    const auto & mergedDeck = doc["deckInfo"]["mergedDeck"];
+    const auto & initInfo = doc["initInfo"];
+    const auto & commandList = doc["commandInfo"]["commandList"];
+    const auto & clicksPerTurn = doc["commandInfo"]["clicksPerTurn"];
+
+    fflush(stdout);
+    int savedFd = _dup(_fileno(stdout));
+    _dup2(_fileno(stderr), _fileno(stdout));
+
+    ReplayStepper stepper;
+    bool initOk = stepper.init(mergedDeck, initInfo, commandList, clicksPerTurn, playerInfo);
+
+    if (!initOk)
+    {
+        fflush(stdout);
+        _dup2(savedFd, _fileno(stdout));
+        _close(savedFd);
+        printf("{\"ok\":false,\"error\":\"ReplayStepper init failed\"}\n");
+        fflush(stdout);
+        return;
+    }
+
+    // 8. Step through turns, evaluating each position
+    struct TurnEval
+    {
+        int turn;
+        int player;
+        float eval;     // raw value from neural net (P1 perspective)
+    };
+    std::vector<TurnEval> turnEvals;
+    int fatalErrorCount = 0;
+    const int maxFatalErrors = 5;
+
+    while (stepper.hasNextTurn())
+    {
+        const GameState & state = stepper.getState();
+
+        // Neural eval — value is from active player's perspective
+        // Convert to P1's perspective for consistent output
+        auto output = NeuralNet::Instance().evaluate(state);
+        float evalP1 = (state.getActivePlayer() == Players::Player_One)
+            ? output.value : -output.value;
+
+        TurnEval te;
+        te.turn = stepper.getCurrentTurn();
+        te.player = (int)stepper.getActivePlayer();
+        te.eval = evalP1;
+        turnEvals.push_back(te);
+
+        ReplayStepper::StepResult result = stepper.advanceTurn();
+        if (result == ReplayStepper::StepResult::FatalError)
+        {
+            fatalErrorCount++;
+            if (fatalErrorCount >= maxFatalErrors)
+                break;
+            continue;
+        }
+        if (result == ReplayStepper::StepResult::GameOver)
+            break;
+    }
+
+    // Restore stdout now that stepping is complete (PRISMATA_ASSERT noise suppressed)
+    fflush(stdout);
+    _dup2(savedFd, _fileno(stdout));
+    _close(savedFd);
+
+    // 9. Compute eval statistics
+    float maxSwing = 0.0f;
+    int biggestMistakeTurn = -1;
+    float biggestMistakeDrop = 0.0f;
+
+    for (size_t i = 1; i < turnEvals.size(); i++)
+    {
+        float delta = turnEvals[i].eval - turnEvals[i - 1].eval;
+        float absDelta = std::abs(delta);
+        if (absDelta > maxSwing)
+            maxSwing = absDelta;
+
+        // A "mistake" is when the eval drops significantly for the player who just moved
+        // If P1 just moved (turnEvals[i-1].player == 0) and eval dropped, P1 made a mistake
+        // If P2 just moved (turnEvals[i-1].player == 1) and eval rose, P2 made a mistake
+        float mistake = 0.0f;
+        if (turnEvals[i - 1].player == 0)
+            mistake = -delta;  // P1 moved; drop in P1 eval = P1 mistake
+        else
+            mistake = delta;   // P2 moved; rise in P1 eval = P2 mistake
+
+        if (mistake > biggestMistakeDrop)
+        {
+            biggestMistakeDrop = mistake;
+            biggestMistakeTurn = turnEvals[i - 1].turn;
+        }
+    }
+
+    // 10. Output JSON
+    printf("{\"ok\":true");
+    printf(",\"code\":\"%s\"", jsonEscape(code).c_str());
+    printf(",\"players\":[\"%s\",\"%s\"]", jsonEscape(p0Name).c_str(), jsonEscape(p1Name).c_str());
+    printf(",\"ratings\":[%d,%d]", p0Rating, p1Rating);
+    printf(",\"winner\":%d", winner);
+    printf(",\"turns_evaluated\":%zu", turnEvals.size());
+    printf(",\"fatal_errors\":%d", fatalErrorCount);
+
+    // Turn-by-turn evals
+    printf(",\"turns\":[");
+    for (size_t i = 0; i < turnEvals.size(); i++)
+    {
+        if (i > 0) printf(",");
+        float pct = (turnEvals[i].eval + 1.0f) / 2.0f * 100.0f;  // [-1,1] -> [0%,100%]
+        printf("{\"turn\":%d,\"player\":%d,\"eval\":%.4f,\"eval_pct\":\"%.0f%%\"}",
+               turnEvals[i].turn, turnEvals[i].player, turnEvals[i].eval, pct);
+    }
+    printf("]");
+
+    // Summary stats
+    printf(",\"eval_swing\":%.4f", maxSwing);
+    if (biggestMistakeTurn >= 0)
+    {
+        printf(",\"biggest_mistake\":{\"turn\":%d,\"eval_drop\":%.4f}",
+               biggestMistakeTurn, biggestMistakeDrop);
+    }
+
+    printf("}\n");
+    fflush(stdout);
 }

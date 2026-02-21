@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
     {
         std::string arg(argv[i]);
         if (arg == "--suggest") { isSuggestMode = true; break; }
+        if (arg == "--eval") { isSuggestMode = true; break; }  // --eval also needs quiet stdout
         if (arg == "--replay" || arg == "--replay-dir") { isReplayMode = true; break; }
     }
 
@@ -96,6 +97,7 @@ int main(int argc, char* argv[])
     std::string suggestFile;
     std::string suggestPlayer = "PrismatAlpha_AB";
     int suggestThinkTime = 3000;
+    std::string evalFile;
     std::string replayFile;
     std::string replayDir;
     std::string replayOutputDir = "training/data/expert/";
@@ -119,6 +121,8 @@ int main(int argc, char* argv[])
             try { suggestThinkTime = std::stoi(argv[++i]); }
             catch (...) { /* use default */ }
         }
+        if (std::string(argv[i]) == "--eval" && i + 1 < argc)
+            evalFile = argv[++i];
         if (std::string(argv[i]) == "--replay" && i + 1 < argc)
             replayFile = argv[++i];
         if (std::string(argv[i]) == "--replay-dir" && i + 1 < argc)
@@ -135,6 +139,10 @@ int main(int argc, char* argv[])
     if (!suggestFile.empty())
     {
         Benchmarks::DoSuggest(suggestFile, suggestPlayer, suggestThinkTime);
+    }
+    else if (!evalFile.empty())
+    {
+        Benchmarks::DoEval(evalFile);
     }
     else if (!replayFile.empty())
     {

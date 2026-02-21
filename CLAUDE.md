@@ -42,6 +42,7 @@
 9. ~~**Build live AI commentator — Phase 1 (text + chat)**~~ — DONE (Feb 20). Claude Haiku generates per-turn strategic commentary, injected as in-game PM via sniffer proxy. Adaptive token budget: short/punchy for fast turns (40 tokens), expanded colour for long thinks (120 tokens, >=15s threshold). Chat target defaults to Surfinite (self-PM); set `CHAT_TARGET=<id>` env var to redirect. Tested live on spectated games. Plan: `docs/plans/2026-02-20-live-commentator-plan.md`. Knowledge base: `docs/commentary-knowledge/`. **Phase 2 (TTS + OBS)** still planned — needs `edge-tts`, `sounddevice`, `obsws-python`, VB-Cable.
 10. **Post-game commentary from sniffer/replay data** — WORKING (Feb 20). Manual workflow: sniffer captures live game → parse commandInfo + live clicks → Claude generates full-game analysis → format for Discord. Community reception positive (2 games commentated, Wonderboat: "super cool dude!"). **Known limitation**: click-based buy counting can't distinguish successful purchases from failed clicks on sold-out cards — must enforce supply limits (see gotcha above). Replay API (`deckInfo.mergedDeck`) provides same data as sniffer. Commentary files: `bin/commentary_*.txt`.
 11. ~~**Build autopilot — AI move injection via TCP proxy**~~ — DONE (Feb 20). `--suggest` now outputs `clicks` array with wire-protocol-ready `{_type, _id}` pairs. Python autopilot engine captures state (Shift+F6), runs AI, injects Click/EndTurn messages through sniffer proxy. Semi-auto (file trigger) and full-auto (StartTurn callback) modes. Dry-run mode for testing. Launch: `run_prismata_tools.bat --autopilot`. **Proxy integration verified (Feb 20): game traffic flows, StartTurn detected, bot-game check works. Not yet tested with actual bot game click injection.** Plan: `~/.claude/plans/sequential-launching-mountain.md`.
+12. **C++ replay ingestion mode** — PHASE 1 + BREACH FIXES DONE (Feb 21). `ReplayStepper` class converts replay click sequences into GameState transitions, outputs binary shards (same format as self-play). `--replay` and `--replay-dir` CLI modes in Benchmarks.cpp. **96.6% extraction rate** (12,852/13,299 turns from 500 expert replays, 291/500 error-free). Branch: `feature/cpp-replay-stepper`. Fixes: instId history+type-based recovery, permissive defense END_PHASE, 80% skip threshold with error continuation, safe fallback actions (blocker/breach only). Download helper: `tools/download_replays.py`. Plan: `docs/plans/2026-02-20-cpp-replay-mode.md`. **Next: Phase 2 (`--eval` CLI for neural evaluation per turn), Phase 3 (`--analyze` CLI for full AI comparison).**
 
 **Current neural net strength:** **256h 305K model = 45.3% WR** vs OriginalHardestAI (4,032 games, AB search + NeuralNet eval, Feb 18). Up from 26.7% with 63K games — 5x more data gave ~70% relative WR improvement. 512h comparison in progress. Previous: E2b (63K) = 26.7%, E1b (512h, 63K) = 19.6%, unfixed model = 3.6%. Historical: ~42% WR vs MediumAI (expert UCT). Churchill got 58.8% WR vs playout with 500K games — our 45.3% with 330K games and continued data generation toward 500K suggests we're on track to match or exceed that.
 
@@ -144,6 +145,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Feature schema contract**: `training/schema.json` + `training/FEATURES.md`. State dim = 1785 (161 units × 11 + 14 global). Changes must sync across `vectorize.py`, `NeuralNet.cpp`, and `schema.json`.
 - **NeuralNet.cpp diagnostics**: Gated behind `#ifdef NEURAL_NET_DEBUG`.
 - **PRISMATA_ASSERT**: Soft assert — prints to **stdout** (`std::cout` in `PrismataAssert.cpp:30`), does NOT abort. Use `std::ifstream` instead of `FileUtils::ReadFile` when stdout must stay clean (e.g., `--suggest` mode).
+- **`isLegal()` doesn't fully validate USE_ABILITY side effects**: `isLegal(USE_ABILITY)` can return true but `doAction()` triggers PRISMATA_ASSERT (e.g., "not enough cards to destroy"). When trying speculative/fallback actions, only ASSIGN_BLOCKER and ASSIGN_BREACH are safe — they're simple state changes with no scripts or card destruction.
 - **x86 OOM — 4 threads max per process**: `/LARGEADDRESSAWARE` gives 4GB. Use `"Threads": 4` + multiple bat instances. Process dies silently at ~1400 games — config uses 1000 rounds/batch, `run_selfplay.bat` loops automatically.
 - **x86 OOM with large vectors**: Don't pre-allocate large `std::vector<GameState>` upfront. Allocate per-batch. Symptom: silent exit with no `[SelfPlay] COMPLETE` message.
 - **Console output routing**: `[SelfPlay]` and `[Progress]` use `fprintf(stderr, ...)`. Per-turn logging only when `SaveReplays: true`. New messages in Tournament.cpp should use stderr.
@@ -393,6 +395,7 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `source/engine/Constants.h` | Game constants, EvaluationMethods enum |
 | `source/testing/Tournament.cpp` | Multi-threaded tournament runner |
 | `source/testing/TournamentGame.cpp` | Single game runner with self-play data export |
+| `source/testing/ReplayStepper.h/cpp` | Replay click→action stepper with instId tracking and error recovery (96.6% extraction) |
 | `source/testing/SelfPlayDataSink.h/cpp` | Binary shard writer for self-play features |
 | `source/testing/IDataSink.h` | Virtual interface for game event capture |
 | `source/gui/GUIState_Play.cpp` | Game play GUI, debug panel, replay viewer |
@@ -407,6 +410,7 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `training/requirements.txt` | Python deps (torch, numpy, tqdm) with XPU install instructions |
 | `training/opening_book.py` | Opening book extraction from expert replays |
 | `tools/verify_selfplay.py` | Validates self-play binary output |
+| `tools/download_replays.py` | Download expert replay JSONs from S3 (gzipped, threaded, rating filter) |
 | `training/retest_validation.py` | Re-test failed replays against fixed C++ engine with error categorization |
 | `training/analyze_mismatches.py` | Aggregate mismatch analysis across failed replay validations |
 | `training/convert_replay_for_cpp.py` | Convert TS replay states to C++ validation format (RC#9 cap for snipe_targets) |
@@ -496,7 +500,7 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `docs/claude-app-instructions.md` | Updated project instructions for Claude Windows app |
 | `docs/plans/2026-02-20-live-commentator-plan.md` | Live AI commentator plan (sniffer → Haiku → edge-tts → OBS/Twitch) |
 | `docs/plans/2026-02-20-commentary-knowledge-extraction.md` | Instructions for new context to extract game knowledge from guides |
-| `docs/commentary-knowledge/` | Extracted Prismata strategy knowledge for commentator (8 category files + README + sources). 115+ sources, 70+ from prismatalibrary.blog + Wayback. See README.md for index. |
+| `docs/commentary-knowledge/` | Extracted Prismata strategy knowledge for commentator (7 KB files + README + sources, ~5,090 lines). 280+ sources: 148 YouTube transcripts, 24 Twitch VODs (36.5h), 45 blog articles, 629 Reddit posts, 27 prismatalibrary.blog articles, 12 wiki guides, 24 Wayback recoveries. See README.md for index. |
 | `docs/commentary-knowledge/RESEARCH-HANDOFF.md` | Instructions for delegating further Prismata research to external AI — lists all processed sources to avoid duplication |
 | `docs/prismata-strategy-guide.md` | Comprehensive human-readable strategy guide (17 chapters, synthesized from all sources) |
 | `docs/recovered-sources/` | Full-text archive of recovered wiki guides + Wayback Machine content (21 files) |
