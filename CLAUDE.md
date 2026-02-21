@@ -45,6 +45,7 @@
 10. **Post-game commentary from replay data** — WORKFLOW ESTABLISHED (Feb 21). Full instructions: `docs/plans/commentary-generation-instructions.md`. Tool: `python tools/generate_commentary_data.py "CODE" --think-time 50` (C++ analysis), `--validate` (resource-validated buys), `--eval-only` (neural eval only). Discord posting: `python tools/discord_post_helper.py bin/commentary_{CODE}.txt` (clipboard mode). Webhook mode planned (needs channel webhook URL from Prismata Discord mod). Commentary files: `bin/commentary_*.txt` with `== MESSAGE N ==` delimiters (<2000 chars each for Discord). Community reception positive (3 games commentated). **Known limitation**: click-based buy counting can't distinguish successful purchases from failed clicks (sold-out OR insufficient resources) — `--validate` flag handles this with resource simulation.
 11. ~~**Build autopilot — AI move injection via TCP proxy**~~ — DONE (Feb 20). `--suggest` now outputs `clicks` array with wire-protocol-ready `{_type, _id}` pairs. Python autopilot engine captures state (Shift+F6), runs AI, injects Click/EndTurn messages through sniffer proxy. Semi-auto (file trigger) and full-auto (StartTurn callback) modes. Dry-run mode for testing. Launch: `run_prismata_tools.bat --autopilot`. **Proxy integration verified (Feb 20): game traffic flows, StartTurn detected, bot-game check works. Not yet tested with actual bot game click injection.** Plan: `~/.claude/plans/sequential-launching-mountain.md`.
 12. ~~**C++ replay ingestion mode**~~ — ALL 3 PHASES DONE (Feb 21). `ReplayStepper` class converts replay click sequences into GameState transitions, outputs binary shards (same format as self-play). CLI modes: `--replay`/`--replay-dir` (training shards), `--eval` (per-turn neural evaluation JSON), `--analyze` (AI vs expert buy comparison JSON with agreement rate). **96.6% extraction rate** (12,852/13,299 turns from 500 expert replays, 291/500 error-free). Branch: `feature/cpp-replay-stepper`. Plan: `docs/plans/2026-02-20-cpp-replay-mode.md`.
+13. ~~**GUI analysis enhancements**~~ — ALL 7 PHASES DONE (Feb 21). Policy fix, gold prediction, eval bars (Shift+E/W), parallel async eval (`std::async`), human turn advice (F7), eval history graph + CSV export, card value overlay (V: labels). PrismatAlpha → PrismatAI naming consolidation (7 files). Branch: `feature/cpp-replay-stepper`. Plan: `docs/plans/2026-02-21-gui-enhancement-plan-v2.md`.
 
 **Current neural net strength:** **Run B 256h/3L 722K model = 51.9% WR** vs OriginalHardestAI (2,016 games, CI [49.7%, 54.1%], AB search + NeuralNet eval, Feb 21). First model to cross 50%. Up from 45.3% with 305K model (330K games, 256h/2L). **512h confirmed worse** — Run C (512h/2L) peaked at step 15K (val_loss=0.5127, val_acc=77.5%), overfitting after. Terminated Feb 20. Previous: E2b (63K) = 26.7%, E1b (512h, 63K) = 19.6%, unfixed model = 3.6%. Historical: ~42% WR vs MediumAI (expert UCT). Churchill got 58.8% WR vs playout with 500K games — we're at 51.9% with 722K games, closing the gap.
 
@@ -154,7 +155,8 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Console output routing**: `[SelfPlay]` and `[Progress]` use `fprintf(stderr, ...)`. Per-turn logging only when `SaveReplays: true`. New messages in Tournament.cpp should use stderr.
 - **Tournament `tests/` directory required**: `HTMLTable::appendHTMLTableToFile()` crashes (NULL `fprintf`) if `tests/` doesn't exist in the working directory. Always `mkdir tests` when setting up a new tournament directory. The cloud launcher script already handles this (line 85 of `launch_tournament.sh`).
 - **GUI Watch Training / Watch Eval modes**: Menu items in Prismata_GUI. Watch Training = self-play (1s think). Watch Eval = PrismatAI_AB_Legacy vs OriginalHardestAI (7s think). 4 threads each. Source: `source/gui/GUIState_WatchTraining.cpp/.h`.
-- **GUI eval overlay (Feb 21)**: Shift+E = neural eval bars, Shift+W = WillScore comparison, F7 = human advice (runs AI search, shows recommended buys). Eval history graph (Shift+G) with CSV export. Parallel async evaluation (max 2 concurrent for x86 memory). Source: `GUIState_Play.cpp`.
+- **GUI analysis overlay (Feb 21)**: 7-phase enhancement. (1) **Policy fix**: detects value-only models, shows "(value-only)" instead of bogus N: percentages. (2) **Gold prediction**: `(+N)` label from Drone count. (3) **Eval bars**: Shift+E toggles neural eval bar (vertical, right edge), Shift+W toggles WillScore bar. (4) **Parallel eval**: `std::async`/`std::future` background AI evaluation (max 2 concurrent for x86 4GB limit), non-blocking polling in `onFrame()`. (5) **Human advice**: F7 runs PrismatAI_AB + OriginalHardestAI on human's position, shows recommended buys. Auto-triggers when debug on. (6) **Eval history graph**: 300x200px at bottom-right, neural (blue) + WillScore (yellow). CSV export on game end. (7) **Card value overlay**: V: labels on buyable cards showing neural eval delta from simulated purchase (green=good, red=bad, grey=neutral). Plan: `docs/plans/2026-02-21-gui-enhancement-plan-v2.md`. Source: `GUIState_Play.cpp/.h`.
+- **GUI key conflicts**: E = buy Engineer, W = buy Wall. Analysis toggles use Shift+E (eval bars), Shift+W (WillScore bar). Any new hotkeys must check for conflicts with buy keys (A-Z map to card names via `buyCardByName`).
 - **GUI/engine decoupling**: Engine has zero SFML imports — compiles independently. GUI is ~4,100 LOC. SFML doesn't support WASM — web needs SDL2 abstraction or JS rewrite.
 - **Prismata client architecture**: Adobe AIR/Flash app. C++ engine compiled to AVM2 bytecode via CrossBridge. Memory reading infeasible — use clipboard or network proxy for live state access. **Adobe AIR ignores PostMessage/SendMessage** for keystrokes — must use `SetForegroundWindow` + `SendInput` (brief focus steal ~100ms). This is a platform limitation of AIR's input handling.
 - **Clipboard game state export (WORKING)**: F6 copies game state JSON to clipboard. F6 = full (with TurnStartInfo), Shift+F6 = compact. Requires SWF dev mode patch (see below). JSON wrapper key is `"CurrentInfo"` containing `mergedDeck`, `gameState`, `aiParameters`. Card names are **display names** (e.g., "Tarsier" not "Tesla Tower"). Table entries are per-instance (with `instId`, `constructionTime`, `role`, `health`). Source: `prismata_decompiled/scripts/client/Game.as:1226-1249`, `UIKeyboard.as:122-135`.
@@ -426,7 +428,7 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `source/testing/ReplayStepper.h/cpp` | Replay click→action stepper with instId tracking and error recovery (96.6% extraction) |
 | `source/testing/SelfPlayDataSink.h/cpp` | Binary shard writer for self-play features |
 | `source/testing/IDataSink.h` | Virtual interface for game event capture |
-| `source/gui/GUIState_Play.cpp` | Game play GUI, debug panel, replay viewer |
+| `source/gui/GUIState_Play.cpp` | Game play GUI, debug panel, replay viewer, eval bars, parallel AI eval, card value overlay |
 | `source/gui/GUIState_WatchTraining.cpp/.h` | Watch Training/Eval GUI — live display + training data generation |
 | `training/train.py` | PyTorch training (PrismataNet, supports `--selfplay-dir`) |
 | `training/load_selfplay.py` | Binary shard loader → numpy arrays |
@@ -539,14 +541,15 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `docs/commentary-knowledge/RESEARCH-HANDOFF.md` | Instructions for delegating further Prismata research to external AI — lists all processed sources to avoid duplication |
 | `docs/prismata-strategy-guide.md` | Comprehensive human-readable strategy guide (17 chapters, synthesized from all sources) |
 | `docs/recovered-sources/` | Full-text archive of recovered wiki guides + Wayback Machine content (21 files) |
+| `docs/plans/2026-02-21-gui-enhancement-plan-v2.md` | GUI enhancement plan v2 (7 phases: policy fix, eval bars, parallel eval, history graph, card overlay, naming) |
 
 ## Tournament Results Summary
 
 | Matchup | Games | Win Rate | Notes |
 |---|---|---|---|
-| PrismatAlpha_UCT vs MediumAI | 60 | 41.7% | Neural eval has real signal |
-| PrismatAlpha_UCT vs OriginalHardestAI | 64 | 10.9% | Weak but not random |
-| PrismatAlpha_AB vs MediumAI | 128 | 43.8% | Search type doesn't matter |
+| PrismatAI_UCT vs MediumAI | 60 | 41.7% | Neural eval has real signal |
+| PrismatAI_UCT vs OriginalHardestAI | 64 | 10.9% | Weak but not random |
+| PrismatAI_AB vs MediumAI | 128 | 43.8% | Search type doesn't matter |
 | HardestAI vs OriginalHardestAI | 60 | 50.0% | Track A fixes are neutral |
 | RandomAI vs MediumAI | 100 | 0% | Baseline floor |
 | EasyAI vs MediumAI | 100 | 6% | Baseline |
