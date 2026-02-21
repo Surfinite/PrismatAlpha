@@ -2,10 +2,11 @@
 
 using namespace Prismata;
 
-PartialPlayer_Breach_GreedyKnapsack::PartialPlayer_Breach_GreedyKnapsack(const PlayerID playerID, bool lowTechPriority, EvaluationType (*heuristic)(const Card &, const GameState &, const HealthType))
+PartialPlayer_Breach_GreedyKnapsack::PartialPlayer_Breach_GreedyKnapsack(const PlayerID playerID, bool lowTechPriority, bool legacy, EvaluationType (*heuristic)(const Card &, const GameState &, const HealthType))
     : _heuristic(heuristic)
     , _totalBreachDamageLoss(0)
     , _lowTechPriority(lowTechPriority)
+    , _legacy(legacy)
 {
     _playerID = playerID;
     _phaseID = PPPhases::BREACH;
@@ -51,7 +52,25 @@ void PartialPlayer_Breach_GreedyKnapsack::getMove(GameState & state, Move & move
             // figure out the value of actually breaching this card for this much damage
             HealthType breachDamageToAssign = std::min(card.currentHealth(), state.getAttack(_playerID));
             double breachTrueTargetLoss = _heuristic(card, state, breachDamageToAssign);
-            double breachDamageLoss = breachTrueTargetLoss / card.currentHealth();
+            double breachDamageLoss;
+
+            if (!_legacy && !card.getType().isFragile() && breachDamageToAssign < card.currentHealth())
+            {
+                // Non-legacy, non-fragile, non-lethal: use partial-value density so the AI
+                // can distinguish a damaged 2-HP unit from a full-health 10-HP unit.
+                // damageRatio uses startingHealth (fraction of total value destroyed),
+                // outer division uses currentHealth (prioritize damaged units).
+                // Scaled by 0.01 so lethal hits always rank above non-lethal hits.
+                EvaluationType fullValue = card.getType().hasCustomHeuristicValue()
+                    ? card.getType().getCustomHeuristicValue()
+                    : HeuristicValues::Instance().GetInflatedTotalCostValue(card.getType());
+                double damageRatio = static_cast<double>(breachDamageToAssign) / card.getType().getStartingHealth();
+                breachDamageLoss = (damageRatio * fullValue * 0.01) / card.currentHealth();
+            }
+            else
+            {
+                breachDamageLoss = breachTrueTargetLoss / card.currentHealth();
+            }
 
             // lower the breach damage loss of tech types if we're using low tech priority breaching
             if (_lowTechPriority && card.getType().isTech())

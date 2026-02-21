@@ -536,11 +536,13 @@ PPPtr AIParameters::parsePartialPlayer(const PlayerID player, const std::string 
             }
             else if (heuristic == "BuyAttackValue")
             {
-                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, &Heuristics::BuyAttackValue, legacy));
+                auto fn = legacy ? &Heuristics::BuyAttackValue : &Heuristics::BuyAttackValue_Improved;
+                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, fn, legacy));
             }
             else if (heuristic == "BuyBlockValue")
             {
-                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, &Heuristics::BuyBlockValue, legacy));
+                auto fn = legacy ? &Heuristics::BuyBlockValue : &Heuristics::BuyBlockValue_Improved;
+                playerPtr = PPPtr(new PartialPlayer_ActionBuy_GreedyKnapsack(player, filter, fn, legacy));
             }
             else
             {
@@ -579,8 +581,8 @@ PPPtr AIParameters::parsePartialPlayer(const PlayerID player, const std::string 
     { 
         playerPtr = PPPtr(new PartialPlayer_Breach_Random(player));
     }
-    else if (partialPlayerClassName == "Breach_GreedyKnapsack")  
-    { 
+    else if (partialPlayerClassName == "Breach_GreedyKnapsack")
+    {
         bool lowTechPriority = true;
         if (playerValue.HasMember("lowTechPriority"))
         {
@@ -589,7 +591,9 @@ PPPtr AIParameters::parsePartialPlayer(const PlayerID player, const std::string 
             lowTechPriority = playerValue["lowTechPriority"].GetBool();
         }
 
-        playerPtr = PPPtr(new PartialPlayer_Breach_GreedyKnapsack(player, lowTechPriority));
+        bool legacy = playerValue.HasMember("legacy") && playerValue["legacy"].IsBool() && playerValue["legacy"].GetBool();
+
+        playerPtr = PPPtr(new PartialPlayer_Breach_GreedyKnapsack(player, lowTechPriority, legacy));
     }
     else if (partialPlayerClassName == "ActionAbility_DontAttack")  
     { 

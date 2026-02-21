@@ -16,6 +16,8 @@ class HeuristicValues
     std::vector<EvaluationType> _precomputedInflatedManaCostValue;
     std::vector<EvaluationType> _precomputedInflatedTotalCostValue;
     std::vector<EvaluationType> _precomputedInflatedManaCostsGivenToEnemy;
+    std::vector<EvaluationType> _precomputedEffectiveBuyCost;
+    std::vector<EvaluationType> _precomputedInflatedEffectiveCostValue;
     std::vector<double>         _precomputedInflation;
 
     HeuristicValues();
@@ -26,6 +28,7 @@ class HeuristicValues
     EvaluationType CalculateBuyManaCost(const CardType type);
     EvaluationType CalculateBuySacCost(const CardType type);
     EvaluationType CalculateInflatedManaCostGivenToEnemy(const CardType type);
+    EvaluationType CalculateSubUnitInflatedCostCreatedBySelf(const CardType type);
 
 public:
 
@@ -37,6 +40,8 @@ public:
     EvaluationType GetInflatedManaCostValue(const CardType type);
     EvaluationType GetInflatedTotalCostValue(const CardType type);
     EvaluationType GetInflatedManaCostValueGivenToEnemy(const CardType type);
+    EvaluationType GetEffectiveBuyCost(const CardType type);
+    EvaluationType GetInflatedEffectiveCostValue(const CardType type);
 };
 
 namespace Heuristics
@@ -47,6 +52,8 @@ namespace Heuristics
     EvaluationType BuyHighestCost(const CardType type, const GameState & state, const PlayerID player);
     EvaluationType BuyAttackValue(const CardType type, const GameState & state, const PlayerID player);
     EvaluationType BuyBlockValue(const CardType type, const GameState & state, const PlayerID player);
+    EvaluationType BuyAttackValue_Improved(const CardType type, const GameState & state, const PlayerID player);
+    EvaluationType BuyBlockValue_Improved(const CardType type, const GameState & state, const PlayerID player);
 
     // GENERIC EVALUATIONS
     EvaluationType CurrentCardValue(const Card & blocker, const GameState & state);

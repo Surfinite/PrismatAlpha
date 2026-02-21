@@ -13,10 +13,11 @@ class PartialPlayer_Breach_GreedyKnapsack : public PartialPlayer
     EvaluationType (*_heuristic)(const Card &, const GameState &, const HealthType);
     double  _totalBreachDamageLoss;
     bool    _lowTechPriority;
+    bool    _legacy;
 
 public:
 
-    PartialPlayer_Breach_GreedyKnapsack(const PlayerID playerID, bool lowTechPriority, EvaluationType (*heuristic)(const Card &, const GameState &, const HealthType) = &Heuristics::DamageLoss_WillCost);
+    PartialPlayer_Breach_GreedyKnapsack(const PlayerID playerID, bool lowTechPriority, bool legacy = false, EvaluationType (*heuristic)(const Card &, const GameState &, const HealthType) = &Heuristics::DamageLoss_WillCost);
     void getMove(GameState & state, Move & move);
     double getTotalBreachDamageLoss() const;
 

@@ -34,6 +34,8 @@ void HeuristicValues::ResetData()
     _precomputedInflatedManaCostValue           = std::vector<EvaluationType>(CardTypes::GetAllCardTypes().size(), 0);
     _precomputedInflatedTotalCostValue          = std::vector<EvaluationType>(CardTypes::GetAllCardTypes().size(), 0);
     _precomputedInflatedManaCostsGivenToEnemy   = std::vector<EvaluationType>(CardTypes::GetAllCardTypes().size(), 0);
+    _precomputedEffectiveBuyCost               = std::vector<EvaluationType>(CardTypes::GetAllCardTypes().size(), 0);
+    _precomputedInflatedEffectiveCostValue      = std::vector<EvaluationType>(CardTypes::GetAllCardTypes().size(), 0);
     _precomputedInflation                       = std::vector<double>(30, 0);
 }
 
@@ -92,6 +94,16 @@ void HeuristicValues::Init()
         _precomputedInflatedManaCostsGivenToEnemy[type.getID()] = CalculateInflatedManaCostGivenToEnemy(type);
     }
 
+    // effective cost = total cost minus the inflated cost of self-created buy-script sub-units
+    // this corrects overvaluation of cards like Borehole Patroller (creates Pixie) and Corpus (creates Husks)
+    for (const CardType type : CardTypes::GetAllCardTypes())
+    {
+        EvaluationType subUnitCredit = CalculateSubUnitInflatedCostCreatedBySelf(type);
+        EvaluationType effectiveCost = std::max(GetBuyManaCost(type), GetBuyTotalCost(type) - subUnitCredit);
+        _precomputedEffectiveBuyCost[type.getID()]           = effectiveCost;
+        _precomputedInflatedEffectiveCostValue[type.getID()] = effectiveCost * _precomputedInflation[type.getConstructionTime()];
+    }
+
     // forcefield's inflated resource cost is slightly less than that of engineer, which leads to some issues on blocking
     // let's just say for now that forcefield does not incur inflation, due to its extra drone cost
     if (CardTypes::CardTypeExists("Forcefield"))
@@ -148,6 +160,31 @@ EvaluationType HeuristicValues::CalculateInflatedManaCostGivenToEnemy(const Card
     }
     
     return cost;
+}
+
+EvaluationType HeuristicValues::CalculateSubUnitInflatedCostCreatedBySelf(const CardType type)
+{
+    EvaluationType credit = 0;
+
+    for (const auto & createDesc : type.getBuyScript().getEffect().getCreate())
+    {
+        if (createDesc.getOwn())
+        {
+            credit += GetInflatedTotalCostValue(createDesc.getType()) * createDesc.getMultiple();
+        }
+    }
+
+    return credit;
+}
+
+EvaluationType HeuristicValues::GetEffectiveBuyCost(const CardType type)
+{
+    return _precomputedEffectiveBuyCost[type.getID()];
+}
+
+EvaluationType HeuristicValues::GetInflatedEffectiveCostValue(const CardType type)
+{
+    return _precomputedInflatedEffectiveCostValue[type.getID()];
 }
 
 EvaluationType Heuristics::CurrentCardValue(const Card & blocker, const GameState & state)
@@ -374,6 +411,50 @@ EvaluationType Heuristics::BuyBlockValue(const CardType type, const GameState & 
     EvaluationType block = type.canBlock(false) ? type.getStartingHealth() : 0;
 
     return (block*block) / HeuristicValues::Instance().GetBuyTotalCost(type);
+}
+
+EvaluationType Heuristics::BuyAttackValue_Improved(const CardType type, const GameState & state, const PlayerID player)
+{
+    EvaluationType attack = GetAttackProduced(type, state, player);
+    EvaluationType denom  = HeuristicValues::Instance().GetEffectiveBuyCost(type);
+
+    if (denom <= 0)
+    {
+        denom = HeuristicValues::Instance().GetBuyTotalCost(type);
+    }
+
+    EvaluationType val = (attack / denom);
+
+    bool singleUse = type.getAbilityScript().isSelfSac() || type.getBeginOwnTurnScript().isSelfSac();
+    bool resonates = AITools::NumResonatorsReady(type, state, player, 1) > 0 || AITools::NumResonateesReady(type, state, player, 1) > 0;
+
+    const EvaluationType permanentBonus = 10000;
+    const EvaluationType dominionBonus  = 1000;
+
+    if (val > 0)
+    {
+        val += 100;
+        val += (singleUse && !resonates) ? 0 : permanentBonus;
+        val += (!type.isBaseSet() || resonates) ? dominionBonus : 0;
+        return val;
+    }
+    else
+    {
+        return BuyHighestCost(type, state, player);
+    }
+}
+
+EvaluationType Heuristics::BuyBlockValue_Improved(const CardType type, const GameState & state, const PlayerID player)
+{
+    EvaluationType block = type.canBlock(false) ? type.getStartingHealth() : 0;
+    EvaluationType denom = HeuristicValues::Instance().GetEffectiveBuyCost(type);
+
+    if (denom <= 0)
+    {
+        denom = HeuristicValues::Instance().GetBuyTotalCost(type);
+    }
+
+    return (block * block) / denom;
 }
 
 bool Heuristics::CardActivateOrderComparator::operator() (CardID c1, CardID c2) const
