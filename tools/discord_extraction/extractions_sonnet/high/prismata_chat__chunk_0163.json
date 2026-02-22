@@ -1,0 +1,242 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Cauterizer (Scorch) is more expensive than Tarsier in terms of resource cost, but worth buying as your first attacker because it comes close to Tarsier's efficiency even ignoring absorb denial—and any absorb denial achieved (e.g., denying Wall absorb twice) makes the first four Scorches significantly better than Tarsiers, more than compensating for subsequent Scorches being slightly weaker.",
+    "units": [
+      "Cauterizer",
+      "Tarsier",
+      "Wall",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Discussion about whether Scorch is 'cheaper' than Tarsier in base set, clarifying cost vs. value tradeoff.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "After purchasing a Conduit, green mana effectively becomes a free resource, making it correct to continue buying additional Scorches even if they are individually weaker than Tarsiers, provided there is no better use for the green.",
+    "units": [
+      "Cauterizer",
+      "Conduit",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Debate about the value of follow-up Scorch purchases once a Conduit has already been bought.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Late in a game, a single Tarsier can outperform a Scorch because even changing the opponent's turn by 1 gold's worth is often sufficient—the Tarsier's lower resource cost enables faster tempo when the game is nearly decided.",
+    "units": [
+      "Tarsier",
+      "Cauterizer"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Discussion of when Tarsier is preferable to Scorch late in a game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The Q defense algorithm prioritizes soaking based on unit cost (hp/cost ratio) and does not account for stamina, causing it to irrationally deprioritize soaking 0-stamina units like Deadeye Operative and Bombarder—treating expensive but currently inactive units as high-priority to preserve.",
+    "units": [
+      "Deadeye Operative"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Community discussion about Q defense misbehavior, specifically soaking 3 Perforators over 2 Steelsplitters.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "sano712",
+    "report_date": "2023-04-21"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Q defense incorrectly prefers to soak Perforators over Steelsplitters in certain situations, likely because it does not recognize Perforators as permanent attackers and treats them as lower-priority soak targets compared to Steelsplitters.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "sano712",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Sano observed Q choosing to soak 3 Perforators over 2 Steelsplitters and questioned the algorithm's logic.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "sano712",
+    "report_date": "2023-04-21"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Q defense uses a priority list for soaking that was originally designed around a cost-based heuristic; when new units were added to the game, they were incorporated into this system by cost rather than by careful evaluation, causing units like Bombarder and stamina-based Deadeye Operative to be mistreated by the algorithm.",
+    "units": [
+      "Deadeye Operative"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "apooche explained the root cause of Q defense misordering for newer units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Thorium Dynamo synergizes strongly with Zemora Voidbringer by making the Zemora build breach-proof (so even if defenses are broken the units remain sturdy) and by providing discounted Conduits, strengthening the overall Zemora strategy.",
+    "units": [
+      "Thorium Dynamo",
+      "Zemora Voidbringer",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Post-game analysis where silentslayers commented on Endotherm Kit's weakness vs. tanky units in what appeared to be a Zemora set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Arka (an absorb-based unit with limited supply) should only be purchased when it will actually absorb or deny absorb; buying it when the opponent has only 1 attack that would be absorbed by Wall anyway, or when absorb denial can be achieved by holding existing attackers, wastes the supply slot and loses the opportunity to use it at a more impactful moment.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2023-05",
+    "replay_code": null,
+    "context": "Game review for T-Flash where Arka was bought without absorbing or denying absorb.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Thermite Core is only valuable for denying absorb or exploiting lack of granularity; buying it when it does not change the opponent's absorb outcome is a waste of the 1 gold (and possibly Blastforge resource) it costs, as it merely shifts X attack from now to later rather than generating additional value.",
+    "units": [
+      "Antima Comet",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2023-05",
+    "replay_code": null,
+    "context": "Game review where Thermite Cores failed to deny absorb against an opponent with excess Engineers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Antima Comet sets with Blastforge+1 tech, a third Engineer opening is correct; buying tech and attackers instead of the third Engineer leaves you unable to defend against the Antima, and the attackers merely hit into a pile of Engineers.",
+    "units": [
+      "Antima Comet",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2023-05",
+    "replay_code": null,
+    "context": "Debate about optimal opening in an Antima Comet set; jamberine and silentslayers both confirmed third Engineer as correct.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Odin is a burst-damage unit best purchased when the opponent has difficulty defending; buying it when the opponent has a large pile of Engineers (high defensive capacity) wastes the tempo advantage Odin is meant to provide.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2023-05",
+    "replay_code": null,
+    "context": "Game review where a player bought Odin against an opponent with 21 Engineers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When some of the opponent's attack or freeze is 'fake' (e.g., they have 4 frostbites but you only have 2 Walls to freeze), it is correct to gambit rather than over-defend—for instance, firing Plasmafier to kill drones forces the opponent to use all their frostbites to breach for just one Tarsier, which is a favorable trade.",
+    "units": [
+      "Plasmafier",
+      "Wall",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2023-05",
+    "replay_code": null,
+    "context": "Game review identifying turns where fake freeze was not recognized and an unnecessary defense was taken.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Savior has a niche but strong application in Deadeye Operative sets when Droneforge (Dgrid) is present: after Deadeye attrition depletes both players' Drone counts, Savior converts remaining Drones into a doubled economy base, and Droneforge's passive Drone generation then replenishes supply—making Savior net positive econ even starting from as few as 15 Drones (15 → 9 after Savior, 9×2 = 18 econ, plus +2 per turn from each Droneforge proc).",
+    "units": [
+      "Deadeye Operative",
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2023-08",
+    "replay_code": null,
+    "context": "Discussion of late-game Savior purchases in Deadeye+Droneforge sets where econ is severely depleted.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The standard style principle of respecting the biggest absorber in the set means planning your economy and tech around it before committing to aggressive lines; sets with large absorbers (e.g., Droneforge) make buying attack very inefficient late, so pivoting to econ units like Savior is correct.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "weill0",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "weill0 summarized 307th's Standard Style article for a newer player, reinforced by community agreement.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

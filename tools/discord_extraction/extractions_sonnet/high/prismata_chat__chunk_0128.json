@@ -1,0 +1,159 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Wild Drone, going high economy (e.g., 11E) is generally a poor strategy because high econ is predicated on absorb being better than aggro, but absorb is typically weak in Wild Drone sets. Frontline spam (e.g., Wild + Shredder rush) is preferred over passive economy builds.",
+    "units": [
+      "Wild Drone",
+      "Shredder"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion of how to beat the bot in the 'Extremely Unfair Challenge' set containing Wild Drone, Shredder, and heavy soak units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When deciding whether to block with a Rhino, consider whether blocking would give the opponent a free hold. For example, blocking a single Steelsplitter with a Rhino is bad because the opponent can hold it for free; but blocking when the opponent has two Steelsplitters or a Steelsplitter plus a Wall makes the hold useless for them.",
+    "units": [
+      "Rhino",
+      "Steelsplitter",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "masn6811 advising flakmaniak on blocking decisions in the Extremely Unfair Challenge set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Killing a Wild Drone is analogous to killing an economic unit (compared to killing a Forcefield, which provides no gold). Wild Drones generate income and can absorb, so forcing the opponent to build Forcefields and then killing their Wild Drones instead inflicts maximum economic damage.",
+    "units": [
+      "Wild Drone",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion of attack targeting priority when the opponent has Wild Drones mixed with blockers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When targeting with attack, denying absorb is generally good, but if absorb is not being denied, it is better to attack blockers than Wild Drones. However, with a very large number of Wild Drones, attacking blockers can be better even if it only denies 1-2 absorb from Wild Drones.",
+    "units": [
+      "Wild Drone"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "awaclus providing a rule of thumb for attack targeting when opponent has a mix of Wild Drones and other blockers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a set with Chrono Filter, Galvani Drone, and Antima Comet, the optimal time for P1 to build tech is Turn 2: earlier is not strong enough, and later allows P2 to build an Antima Comet that is too strong to overcome. P2 can survive and counterattack but will lack enough tempo to establish their own Antima Comet.",
+    "units": [
+      "Chrono Filter",
+      "Galvani Drone",
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion of optimal tech timing in a specific set involving Chrono Filter, Galvani Drone, and Antima Comet.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with strong soak units like Hannibull and Innervi, an opponent's advantage in attack and tempo counts for less than it would in other sets, because the soak units blunt the effectiveness of early pressure. A large income lead can overcome a deficit in attack power in such sets.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "velizar_ and p0lari analyzing a game where one player had more attack/tempo but the other had 19 vs 9 income and strong soak units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The Master Bot cannot actually run out of time on its turn; its clock stays at 0 seconds indefinitely, making bot games appear much longer in playtime than intended (e.g., showing 56 minutes).",
+    "units": [],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "velizar_ observing that the bot timer stays at 0 and never expires, inflating the displayed game duration.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-05-02"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "In the 'Extremely Unfair Challenge' set (Wild Drone, Auric, Cryo Ray, Aegis, Tantalum Ray, Manticore, Shredder, Polywall, Corpus, Chieftain, Feral Warden), the Master Bot's opening varies (DD/DDB, DD/D1B, etc.) and tends to rush Shredders, but players who beat the bot reported using a Wild Drone + Shredder rush rather than a defensive or high-economy build. The bot's variable openings make it harder to exploit with a single strategy.",
+    "units": [
+      "Wild Drone",
+      "Shredder",
+      "Tantalum Ray",
+      "Corpus",
+      "Feral Warden"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "flakmaniak and masn6811 discussing how to beat the Master Bot in the Extremely Unfair Challenge scenario, with masn6811 noting the bot plays differently each time and a Wild/Shredder rush was their winning approach.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2020-05-03",
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In the Extremely Unfair Challenge set, building Corpus early (Turn 4: Wild + Conduit + Corpus after DD/DD/DDA) outperformed a Turn-to-Conduit-then-tech approach. Following up with Feral Warden on Turn 5 to set up a Shredder kill was effective, with the second Feral Warden saved for when the opponent has bought a Wild Drone for it to kill.",
+    "units": [
+      "Wild Drone",
+      "Corpus",
+      "Feral Warden",
+      "Conduit",
+      "Shredder"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "masn6811 coaching flakmaniak through specific turn sequences in the Extremely Unfair Challenge set against the Master Bot.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

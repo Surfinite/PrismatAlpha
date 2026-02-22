@@ -1,0 +1,127 @@
+[
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Energy is generally worth less than 0.5 gold in most game states. Community estimates range from ~0.3 to 0.56 depending on the model, with bky noting it is either worth very little (<0.1) or worth 1+ depending on the set context (e.g., Electrovore sets where it converts to ~2.2 gold of damage value).",
+    "units": [
+      "Electrovore"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of how to cost a custom spell unit that gives Auric Impulses, requiring estimation of Energy's gold value.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Breachproof value of a unit is not determined by its HP-to-effect ratio alone, but by the cost of purchase relative to the effect it provides. A cheap unit like a 1-Red-Energy drone fails as a breachproof tool not because of low HP but because it is not efficient enough to justify the purchase in a breachproof context.",
+    "units": [],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a custom red drone unit and whether its breachproof properties were a design concern.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The real advantage of breachproof units is that as a final purchase before losing all economy, they pay back the gold spent, forcing the opponent to either target them or allowing you to build an Engineer two turns later.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of breachproof drone designs and what makes a unit genuinely useful in a breachproof context.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Ossified Drone functions more like a red Forcefield than a breachproof drone in gambit scenarios, and serves as the primary absorb unit in mono-red games. Opponents tend to target it before attackers, which is an incidental upside.",
+    "units": [
+      "Ossified Drone"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of red economy and defense design, specifically whether a new red drone unit would create breachproof issues.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Economy units are historically difficult to balance in Prismata. Vivid Drone required many iterations before reaching a good state, Wild Drone and Thorium Dynamo were flagged as potentially needing changes, and Centrifuge was described as a persistent balancing nightmare. Doomed Mech was cited as a rare successful economy unit.",
+    "units": [
+      "Vivid Drone",
+      "Wild Drone",
+      "Thorium Dynamo",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "General design discussion about the difficulty of making balanced economy-focused units.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "A soak-style absorber unit that gains HP over time (like the discussed Paraxaelon design) becomes progressively less efficient to keep absorbing on at larger sizes because the inflation cost of clicking it increases with size while the soak gain per click remains constant. Without an additional benefit for larger sizes (such as gold gain), it is seldom correct to keep absorbing on it past 4-5 HP or to delay soaking with it past that threshold.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Evaluation of a custom green absorber unit (Paraxaelon) that gains 1 HP per turn, comparing it to Bubble Screen design iterations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A symmetric spell that gives both players the same resource (like a hypothetical 'Fair Trade Deal' giving both players Auric Impulses) is inherently advantageous to the buyer because the buyer invests their gain after the opponent, meaning their snowballing investments compound on top of the opponent's, giving the buyer a larger total gold lead over subsequent turns.",
+    "units": [
+      "Auric Impulse"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Design discussion of a custom spell that constructs Auric Impulses for both players, analyzing whether it is degenerate.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Any unit that provides a discount on multiple Auric Impulses at once is likely to be degenerate, because avoiding that degeneracy by raising the cost too high will make the unit completely worthless instead. The design space for such units is extremely narrow.",
+    "units": [
+      "Auric Impulse"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community design contest discussion attempting to cost a spell that constructs Auric Impulses for the buyer.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

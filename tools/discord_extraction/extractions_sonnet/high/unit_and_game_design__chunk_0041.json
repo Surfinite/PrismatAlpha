@@ -1,0 +1,140 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prismata's design guidelines enforce a monodirectional resource exchange flow: resources only convert 'downstream' (e.g., red -> attack -> gold), never in reverse. This prevents SDR-breaking undo loops where clicking and unclicking units could reach game states otherwise unreachable.",
+    "units": [],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about whether consuming prompt units or reverse resource exchanges would break SDR, referencing Pjoelj's design guidelines.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Units like Ferritin Sac do not need to respect the monodirectional resource exchange rule because their exchange happens over multiple turns rather than within a single click action.",
+    "units": [],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Apooche explaining why multi-turn resource conversion units are exempt from the single-turn resource flow ordering rule.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Defensive efficiency cannot snowball and therefore cannot break the game on its own; defense is only as strong as the attack it enables you to buy or protect. Even very efficient soak units like Plexo Cell change how you must play without creating unfair win conditions.",
+    "units": [
+      "Plexo Cell"
+    ],
+    "confidence": "high",
+    "author": "xyotsuba",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about whether a hypothetical high-efficiency defensive unit (Shimmer Brick) could be game-breaking, with xyotsuba arguing defense fundamentally cannot snowball.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Against a unit like the proposed Shimmer Brick (which converts damage taken into Gauss Charges for the opponent), the optimal freeze target depends on context: freeze Shimmer Brick only if it lets you reach value kills (blocking attackers or drones) or if the resulting Gauss Charges will be wasted (e.g., opponent has fully synced Iso Kronuses or a Chieftain+Doomed Wall expiring next turn to exploit).",
+    "units": [
+      "Iso Kronus"
+    ],
+    "confidence": "medium",
+    "author": "xyotsuba",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of strategic freeze decisions against a hypothetical damage-delay defensive unit that generates Gauss Charges for the opponent when hit.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Any unit with a Gauss Blastforge-Green cost for Redeemer is likely to be Player 2-favored, since P2 generally gets better builds around that resource combination.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "masn6811 discussing a proposed Redeemer redesign, noting that GGB-cost units structurally favor P2 due to better available build orders.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Units that require other non-base-set units as part of their cost (e.g., consuming Gauss Charges or Pixies) are effectively unplayable in most sets where those token units are absent, making such designs very situational and generally poor for set diversity.",
+    "units": [
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "wilson0862",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Community discussion about a proposed unit (Golden Aura) that consumed Gauss Charges, with multiple players noting the fundamental playability problem of non-base-set token costs.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Apollo is considered a hard counter to Cynestra and Lucina because it can deny their attack for one turn at 3 Blastforge cost, and continues to provide value even after those units are destroyed. Its high cost and obvious telegraphing are the main factors keeping it balanced.",
+    "units": [
+      "Apollo",
+      "Cynestra"
+    ],
+    "confidence": "medium",
+    "author": "leary93",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about whether a proposed Exhaust mechanic unit would be overpowered, using Apollo's counter-play against Cynestra/Lucina as a comparison point.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Applying an Exhaust 2 effect to a lifespan unit actually extends its effective lifespan, because the unit cannot use its click or act during the exhaust period but the lifespan timer does not advance.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about a proposed Electric Pixie unit with an Exhaust mechanic, where bky and RiFT confirmed that delaying a lifespan unit also extends its lifespan.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "SDR (Shalev's Dominion Rules) is used as shorthand in the Prismata community for the set of game design rules that govern valid unit behavior, particularly around resource exchange ordering and on-death effects. Players frequently reference whether a unit 'breaks SDR' when evaluating new designs.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Recurring references across multiple threads to SDR as a design constraint, with players debating whether proposed mechanics violate it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

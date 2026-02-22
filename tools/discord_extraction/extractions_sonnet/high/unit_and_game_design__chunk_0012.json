@@ -1,0 +1,169 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata's SDR (Strictly Dominated by Replacement) framework, 'improved statuses' are strictly defined and do not include Prompt or buildtime for normal purchases. Exhaustedness is considered a strictly worse status, while Blocker (independent of promptness) dominates non-Blocker on the same unit — you should never wish your unit lacked Blocker.",
+    "units": [
+      "Borehole Patroller"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Extended expert discussion about what constitutes an 'improved status' for SDR purposes, with namington, http404error, liadahlia, mrguy888, and .bky_1556 all participating.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "SDR (Strictly Dominated by Replacement) is broken when a player might wish their units had less HP, that they didn't have a unit at all, that they had less resources/attack/supply seeds, that a unit lacked Blocker, or that a unit had lower lifespan/stamina. It is NOT broken by wishing for less buildtime, no invulnerability, no Prompt on a purchased unit, or having a Drone instead of a Vivid Drone, as those cases already exist in the game.",
+    "units": [
+      "Vivid Drone"
+    ],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "http404error summarizing conditions for breaking vs. not breaking SDR in a design challenge discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prompt does not dominate gold (constructing) status, and gold does not dominate Prompt either — neither is strictly better than the other in the SDR sense, similar to how 2 Husks and 1 Wall do not dominate each other (Wall is usually better but loses value against Frostbite).",
+    "units": [
+      "Husk",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of which statuses dominate which in the SDR framework, with liadahlia, .bky_1556, and http404error contributing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Steelsplitter is typically not bought because you want Steelsplitters specifically — you go blue for Wall or other units like Manticore fuel, and buy Steelsplitters to avoid wasting blue resources. Gauss Cannon can sometimes be the better buy, and 2 Drones can be better than a Steelsplitter in some cases.",
+    "units": [
+      "Steelsplitter",
+      "Wall",
+      "Gauss Cannon",
+      "Manticore"
+    ],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Side discussion comparing Steelsplitter and Gauss Cannon as base-set attackers, prompted by a comment about unit design.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Green mana is saved (carries over between turns) while the more expensive resources (Blue, Red) are not. This creates meaningful asymmetry in opportunity costs across resource types: wasting unsaved resources is more punishing, and the saveable nature of green enables units with high green costs to exist viably.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "liadahlia, http404error, and kaelii discussing the strategic implications of resource-saving mechanics in the context of unit design.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A hypothetical unit called 'Berserker' (8GRR, 4 supply, 4 Health, Blocker, Fragile, Click: gain 1 attack per missing health) was assessed as effectively a cheaper, buildtime-2 Cynestra once it has taken 3 damage, making it extremely powerful and likely breaking the game by strongly punishing any early attacking (e.g., making Tarsiers nearly unplayable in the first 5 turns).",
+    "units": [
+      "Cynestra",
+      "Tarsier",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Expert analysis of a community-submitted unit design for a design challenge, with http404error and liadahlia evaluating its power level.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "The submitted 'Gauss Splitter' unit (6G, 10 supply, 3 Health, Blocker, Click: gain 1 attack, becomes Fragile the first time it absorbs damage) was confirmed by http404error and .bky_1556 to genuinely break SDR due to a very obscure game rule, with http404error noting the rule likely exists solely because of SDR.",
+    "units": [],
+    "confidence": "medium",
+    "author": "http404error",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": ".bky_1556 posed this as a puzzle on Reddit and in Discord; http404error confirmed it as a valid SDR-breaking unit after initially being skeptical.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "A Wall absorbs roughly 8 health over 4 turns (2 absorb per turn), and a Matrix (Defense Grid) absorbs 24 health over 6 turns plus its own health. These benchmarks were used by liadahlia to evaluate the relative value of hypothetical defensive unit designs involving granular blocking.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "liadahlia performing rough cost-benefit analysis on a custom unit design by comparing to known defensive units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, all Green+Red tech units with more than 1 health are Fragile, with the notable exception of Endotherm Kit. Antima Comet has GR cost and 1 health. This is an observed pattern in the base unit set rather than a codified rule.",
+    "units": [
+      "Endotherm Kit",
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about patterns in GR unit design and whether 1-health Fragile units exist in the game.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "SDR breaking can be framed as: 'Take something that is currently Always True in Prismata and make it no longer Always True.' For example, it is currently Always True that a player would rather lose a Wall than a Steelsplitter, but a unit that required sacrificing a Wall to build would invalidate that. This framing exposes meaningful gray areas in SDR definitions.",
+    "units": [
+      "Wall",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "http404error synthesizing the SDR design challenge discussion with an alternative framing of what it means to break SDR.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

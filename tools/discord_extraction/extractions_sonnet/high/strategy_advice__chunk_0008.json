@@ -1,0 +1,237 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying a Nivo every turn to deny absorb on an opponent's Matrix is generally correct, costing roughly 3 gold to deny approximately 4.5 gold worth of absorb. The strategy becomes less effective if the opponent can easily buy additional Matrices to re-enable absorb, but in dedicated Matrix games you will eventually want to freeze all Matrices, with the key question being timing.",
+    "units": [
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about whether buying one Nivo per turn to deny absorb on a Matrix is worth the cost.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When deciding between Forcefielding a Drone now versus holding a 2-lifespan Doomed Drone for one more turn, the gold value is approximately equal. Forcefielding provides 1 extra defense immediately (useful for granularity), while holding the Doomed Drone preserves the option to not Forcefield next turn and keeps +1 gold income for that turn.",
+    "units": [
+      "Drone",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Multi-thread discussion about the trade-off between Forcefielding a Drone immediately versus holding a 2-lifespan Doomed Drone.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Pixies should almost always be clicked to kill Engineers when given the opportunity, because the defender's choice mechanic means the opponent can ensure those pixies trade against those specific engineers anyway. The only valid reasons to hold a Pixie rather than kill an Engineer are non-granularity reasons: needing to reach an absorb threshold for a Frontline or high-HP unit (e.g., Blastforge, Shadowfang scenario), freeze/chill interactions, Arka setups, or Bloodrager triggers.",
+    "units": [
+      "Pixie",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Extended debate about whether saving Pixies for granularity exploits is ever correct versus clicking them to kill Engineers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Holding Pixies does not manufacture additional granularity exploits compared to clicking them against Engineers: the opponent, via defender's choice, can force those Pixies to trade against those Engineers regardless of timing. Saving Pixies is only correct when the Pixie energy can be applied to a more impactful target such as a Frontline unit, or to reach an absorb threshold for a high-HP unit like a Blastforge.",
+    "units": [
+      "Pixie",
+      "Engineer",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "mqp explaining the granularity-exploit logic behind Pixie clicking decisions after community debate.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Ebb Turbine is best used after the game's midpoint when you no longer want additional Drones; it effectively converts Drone income into attack and defense by sacrificing Drones for Blue mana. It is also valuable when you want one expensive high-tech unit (e.g., Vai Mauronax, Lucina, Colossus) but won't have enough economy to spend all generated tech afterwards, letting you burn excess tech profitably.",
+    "units": [
+      "Drone",
+      "Vai Mauronax",
+      "Colossus"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Player asking about proper usage of Ebb Turbine; mqp and crash_overlord explaining its role.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Corpus is primarily valuable for its click ability (option defense similar to Rhino vs. Drake), not as raw soak; buying an Animus specifically to purchase Corpus as soak is not efficient since Corpus costs 6RR for 3 health versus Wall's 5B for 3 health. Corpus clicks can extend Wall supply and are best used as a gambit unit against threats like Drake rather than as a primary defensive purchase.",
+    "units": [
+      "Corpus",
+      "Rhino",
+      "Wall",
+      "Drake",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "307th",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Debate about whether to buy an Animus for Corpus in a set featuring Cryo Ray, Grenade Mech, and freeze mechanics.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In Hound sets, one Blastforge plus one Animus is generally preferred over two Blastforges, as the second Blastforge provides soak later but overall value has shifted toward the leaner tech structure. A second Animus is rarely correct in Hound sets because Hellhounds are gold-cheap but tech-heavy, making additional tech redundant when the bottleneck is gold and soak rather than red production.",
+    "units": [
+      "Animus",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Review of a Hellhound set game where the player bought a second Animus; discussion of proper tech structure in Hound sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets where Apollo and Cynestra are both available, the recommended line for Player 1 is to open with a natural Blastforge, buy Militia and Drones, and acquire Lancetooths, only purchasing Apollo if the opponent commits to Red. Attempting to 'sneakily' wait to get Cynestra while the opponent watches for Apollo is risky; the easier line is to just open Lancetooth and respond to what the opponent does.",
+    "units": [
+      "Apollo",
+      "Cynestra",
+      "Militia"
+    ],
+    "confidence": "medium",
+    "author": "mqp",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a set featuring Apollo and Cynestra where both players are debating the correct strategic response.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When an opponent is setting up Thunderhead against a Lucina build, the correct counter is to get Tarsiers first rather than rushing Lucina, since Lucina will get Thunderheaded if built too quickly. Building Lucina must be paced carefully to avoid Thunderhead, which negatively impacts the Lucina strategy.",
+    "units": [
+      "Thunderhead"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Live game discussion where a player lost after their Lucina was Thunderheaded; experts explaining the correct response.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Xaetron is one of the strongest counters to Chill/Frostbite strategies, particularly when paired with a large absorber: on turns you planned to overdefend Xaetron to gain absorb, freeze merely deals the difference between attack and absorb threshold rather than full damage. However, on turns where Xaetron was going to block normally (not absorb), Chill still forces out extra soak.",
+    "units": [
+      "Cryo Ray"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "spiritfryer asking about how much to overdefend Xaetron to save Tarsiers versus opponent's Frostbite/Chill setup.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A rough rule of thumb for Pixie clicking with many Pixies available: click just enough to eliminate all of the opponent's granularity (1-HP units like Engineers), or click enough that the opponent is forced to sacrifice a specific unit. Clicking a medium number of Pixies is generally suboptimal because it gives the opponent more flexibility in how they soak incoming damage.",
+    "units": [
+      "Pixie",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community discussion on optimal Pixie clicking strategy in the context of Borehole Patroller and Grenade Mech sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Drake sets, you should aim to buy Drakes equal to the number of Blastforges you own; having too many Gauss Cannons and Steelsplitters relative to Drakes is a common mistake that leads to overcommitment on non-Drake attackers when Drake is the primary damage dealer available.",
+    "units": [
+      "Drake",
+      "Blastforge",
+      "Gauss Cannon",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "mqp reviewing a player's game and pointing out they bought too many Gauss Cannons and Steelsplitters rather than Drakes.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "\"Kibitzing\" in Prismata refers specifically to unsolicited advice during an ongoing game, while \"coaching\" is solicited advice. Coaching an ongoing game is generally permitted but considered somewhat discourteous to the opponent, as set evaluation is a core skill in Prismata and receiving external help on it during a live game gives a meaningful advantage.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community discussion about whether asking for set evaluation advice during a live ladder game constitutes kibitzing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

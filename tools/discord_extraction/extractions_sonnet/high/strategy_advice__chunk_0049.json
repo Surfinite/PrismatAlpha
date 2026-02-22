@@ -1,0 +1,463 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Buying a Drone and Forcefield on the same turn costs 4 gold total (not 3), because the newly purchased Drone does not mine before the Forcefield is purchased — both purchases happen in the same action phase, so the Drone has not yet generated income.",
+    "units": [
+      "Drone",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "mrguy888 was correcting a misconception that buying a Drone alongside a Forcefield reduces the Forcefield's effective cost by 1 gold due to the Drone mining once first.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "For P2 in a Thorium Dynamo + Zemora Voidbringer set, a strong line is 1.DC 2.D1 3.DD 4.D12 5.C11 (where 1=Dynamo, 2=Zemora). Transposing the T1 Conduit and T2 Drone gives an extra gold and 1 less green on T5, with the green used to click Dynamo for an extra Conduit on T5.",
+    "units": [
+      "Thorium Dynamo",
+      "Zemora Voidbringer",
+      "Drone",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "spiritfryer asked apooche about a Thorium Dynamo + Zemora Voidbringer opening line he had mentioned on stream.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "A T3 Zemora Voidbringer opening for P2 in Thorium Dynamo + Zemora sets may be viable: 1...DC 2...DC 3...Zemora+Dynamo.",
+    "units": [
+      "Zemora Voidbringer",
+      "Thorium Dynamo",
+      "Drone",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "mtanzer mentioned discovering this line while exploring Thorium Dynamo + Zemora Voidbringer openings with apooche.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Pixies should almost always be clicked when they will destroy a 1-health unit (e.g., Engineer or Husk), because not clicking allows the opponent to reserve that unit as granularity on future turns, making the opponent strictly better off. The exception is when hitting a wall makes the opponent non-granular next turn in a way you can exploit.",
+    "units": [
+      "Pixie",
+      "Engineer",
+      "Husk",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "Discussion about optimal Pixie targeting between walls and Engineers when the opponent has mixed defense.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When deciding whether to click a Rhino or hold it for soak, you must weigh the soak value next turn against the exploit opportunity, and also consider that a 2-stamina Rhino click delays the second charge as well.",
+    "units": [
+      "Rhino",
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "Follow-up discussion on Pixie and Rhino targeting decisions in the context of modular damage sources.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In sets with only base units plus Shadowfang, Lucina, and Apollo, the correct approach is generally to rush Apollo into Gauss Cannons, since Tarsiers are vulnerable to being sniped and Apollo's cost makes alternative builds awkward. However, the presence of units like Fugue Chime significantly changes this calculus.",
+    "units": [
+      "Apollo",
+      "Gauss Cannon",
+      "Tarsier",
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2019-01",
+    "replay_code": "uVO@7-HGIIU",
+    "context": "sano712 asked how to play sets with base + Shadowfang, Lucina, and Apollo, questioning whether rushing Apollo was correct.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets where Plexo Cell is available, red attack strategies are significantly weakened because Plexo Cell is among the best soak units in the game and directly counters the Engineer-train and Ossifying Drone synergies that red relies on.",
+    "units": [
+      "Plexo Cell"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": "4Hl6m-t+uSU",
+    "context": "masn6811 reviewed a replay where red was chosen in a set featuring Plexo Cell, concluding red was fundamentally weak in that set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "When leading with Blastforge before Conduit (or vice versa), having Ebb (or an Ebb Turbine) in the set makes it correct to prioritize Forge over Conduit on T4, to enable faster access to Tatsu Nullifier spam requiring double Animus.",
+    "units": [
+      "Blastforge",
+      "Conduit",
+      "Animus",
+      "Tatsu Nullifier",
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": "BOSQ6-0Y3RB",
+    "context": "masn6811 reviewed a replay and identified turn-order mistakes in the opener, noting the importance of getting two Animus up quickly for Tatsu Nullifier spam.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "With Plasmafier, your goal is to convert all Drones into damage as quickly as possible. Holding Plasmafiers at 1 HP instead of clicking them wastes tempo and lets the opponent drag out the game, which is disadvantageous for the Plasmafier player.",
+    "units": [
+      "Plasmafier",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-01",
+    "replay_code": "dJSuI-9K8JC",
+    "context": "amalloy reviewed a game where the Plasmafier player won despite repeatedly holding 1-HP Plasmafiers instead of clicking them.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Holding a Plasmafier to defend (instead of clicking it) is effectively equivalent to paying 5 gold in lost tempo, making it almost always wrong to hold a Plasmafier for defense.",
+    "units": [
+      "Plasmafier"
+    ],
+    "confidence": "high",
+    "author": "f300xen",
+    "date": "2019-01",
+    "replay_code": "dJSuI-9K8JC",
+    "context": "f0x and amalloy discussed the cost of holding a Plasmafier to defend rather than clicking it for damage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The DD/A opening ('Elyot Animus') for P1 is only strong when the set contains small red units such as Immolite, Nitrocybe, or Electrovore. Without them, it is generally inferior to a Natural Conduit response to fastimus.",
+    "units": [
+      "Drone",
+      "Animus",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Discussion of P1 responses to P2 fastimus lines in base-set-heavy games, referencing the BSO tree and Cynestra sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In the base set opening, the P2 DD/DA (fastimus) line is answered most convincingly by a Natural Conduit approach rather than the DD/A ('Elyot Animus') line. Multiple P2 lines (DD/DD/DA/DTT, DD/DD/DA/DDT) have long been known as P2 wins, though the DD/DD/DA/DTT line requires tight play.",
+    "units": [
+      "Drone",
+      "Animus",
+      "Tarsier",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "masn6811 corrected the posted BSO tree, stating that Natural Conduit is more convincing against fastimus and that several P2 win lines were already known before the tree was created.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "After the Odin nerf (to 20BBB cost), masn6811 considers Odin weaker than Omega Splitter, which was already on the weak side. The nerf effectively discourages Odin mirrors by making Odin weak enough that players usually skip it, rather than fixing the mirror balance directly.",
+    "units": [
+      "Omega Splitter"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Community discussion following an Odin balance patch, comparing Odin's new cost against Omega Splitter and Defense Grid.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "With the post-nerf Odin, since the value of not clicking has decreased (Odin is no longer as valuable as an absorber compared to alternatives), the correct adjustment is to click Odin more aggressively — use all 3 clicks and then soak with it — and use the tempo from those clicks to build permanent damage rather than maintaining Odin.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "sano712",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "sano712 and amalloy discussed how Odin's role changed after the cost nerf, with the consensus being to click it more and soak with it rather than preserve it.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Arms Race is a slow unit that must be purchased early or not at all. Buying it after the key defensive window (e.g., after Iceblades have already been dealt with) is typically too late to gain value from it.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "amalloy reviewed a game where Arms Race was purchased after Iceblades were already gone, explaining why the timing was wrong.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Arms Race is well-suited against Iceblades because it avoids giving Engineers value; by contrast, Amphibion (Ampo) struggles against Iceblades due to breach vulnerability and over-commitment of resources to non-defensive units.",
+    "units": [
+      "Wall",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "amalloy explained the matchup dynamics of Arms Race vs Iceblades compared to Amphibion vs Iceblades.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "With Wild Drone in the set, a potential P2 third-Engineer opening is D1E DD1, using the Wild Drone to avoid floating gold that would otherwise be wasted. However, committing to 6 Engineers this early is questionable and may be too awkward for tech development.",
+    "units": [
+      "Wild Drone",
+      "Engineer",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "amalloy and masn6811 discussed how the (then-new) Wild Drone changes third-Engineer opening considerations for P2.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When an opponent spams Wild Drones, each Wild Drone the attacker kills represents roughly half a point of absorb value — a smaller drawback than killing old Wild Drones because the attacker is doing so at a worse ratio. The key difference from old Wild Drone is that the opponent does not need a Rhino to kill the first one.",
+    "units": [
+      "Wild Drone",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "masn6811 compared the new Wild Drone to the old version in terms of the trade-off between spamming Wilds and delaying absorb.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The most defensive Defense Grid rush line is DD/DDE/DDD/DDDB/WBB. This specific sequence was used as a counter when opponents played overly aggressive Animus openings (e.g., 'fastimus').",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Blastforge",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": "2UlAT-vBCDJ",
+    "context": "masn6811 corrected Master Bot's Defense Grid rush sequence and provided what he considered the optimal defensive Defense Grid rush line.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In blue mirror sets with Omega Splitter and Grenade Mech, Defense Grid is generally better than Lucina and difficult to skip. One way to fit both is to use Grenade Mech to sell excess Blastforges and pivot, since red attack is slightly better than blue and Lucina is significantly better than blue sinks.",
+    "units": [
+      "Omega Splitter",
+      "Grenade Mech",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": "2UlAT-vBCDJ",
+    "context": "masn6811 and amalloy discussed how to fit both Defense Grid and Lucina in a blue mirror set with Omega Splitter and Grenade Mech.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot's Defense Grid rush in the referenced game was not the correct sequence, indicating it does not execute the optimal Defense Grid rush line.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": "2UlAT-vBCDJ",
+    "context": "masn6811 noted that Master Bot's Defense Grid rush was suboptimal and provided the correct defensive line.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2019-01"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot applies very little pressure against any strategy, making it poor practice for human players. It commonly opens with weak lines like DD DD DDA DDB, and does not adapt its responses to opponent strategies — for example, it may buy Walls and Tarsiers defensively even when the human opponent has a Savior, making the human's builds appear wrong when they are actually fine against a real opponent.",
+    "units": [
+      "Drone",
+      "Animus",
+      "Blastforge",
+      "Savior",
+      "Wall",
+      "Tarsier",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "masn6811 and amalloy discussed why playing against Master Bot is not good practice, giving specific examples of its passive and non-adaptive play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2019-01",
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot's defensive choices are highly predictable — for example, it will sacrifice a Rhino instead of a Wall when given the choice, allowing human players to gambit their Centurion with confidence. This predictability would not be exploitable against a human opponent.",
+    "units": [
+      "Rhino",
+      "Wall",
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "masn6811 gave the Rhino-vs-Wall sacrifice as a concrete example of Master Bot's predictable defensive decisions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2019-01"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot makes no effort to protect its Borehole Patrollers, making absorb-denial strategies appear less useful than they actually are in real games — players may underutilize absorb denial because the bot never contests it.",
+    "units": [
+      "Borehole Patroller"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "masn6811 noted that unlike flame animus + absorb denial setups, vigilant-unit absorb denial strategies feel useless against Master Bot because it never protects its Boreholes.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2019-01"
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "In base-set-only games, P2 wins without using any random set units, and any single random set unit is generally enough to beat the base set — implying the base set alone is significantly underpowered relative to even one additional unit.",
+    "units": [
+      "Plasmafier"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": "rtYLu-adOqW",
+    "context": "masn6811 responded to a 'Base Set best set?' post, explaining that the base set is easily beaten by P2 alone or by a single advanced unit.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "A Savior on turn 5 is considered quite late; if Savior is the plan, skipping the Conduit to get it on turn 4 is much better. P1 can threaten a turn-3 Savior with DD DD DD1, and P2 can do DD/DDE/DDD/DD3.",
+    "units": [
+      "Savior",
+      "Conduit",
+      "Drone",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-12",
+    "replay_code": "2ZuT@-6FD3V",
+    "context": "amalloy reviewed a game where the player asked how to beat a Savior, and noted that the opponent's T5 Savior was already late.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

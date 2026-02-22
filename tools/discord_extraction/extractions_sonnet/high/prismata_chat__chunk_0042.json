@@ -1,0 +1,102 @@
+[
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Base Set Only (BSO), Player 2 is widely considered to have a significant advantage, with top players consistently finding P2 wins across all tested lines including against 'green-blue' (Gauss Cannon + Steelsplitter) and 3rd Engineer openings. However, no simple fixed algorithm is believed to guarantee a P2 win against all possible P1 lines due to the large number of possible P1 plays.",
+    "units": [
+      "Gauss Cannon",
+      "Steelsplitter",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Extended discussion among top players about whether P2 has a provably winning strategy in BSO and how robust that advantage is.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In BSO, the 3rd Engineer opening for P1 is considered a clear and easy P2 win, tested by Steel against Aetherllama.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "steel0229e",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of specific P1 openings in BSO and whether any can challenge P2's advantage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In BSO, after the sequence DD/DD, DD/DA, DDA/TTD, BTD/TTD, WTT/BR, WTT/WTT, WTT/WTT, the recommended P2 continuation is to hold the Rhino on turn 7 and then spam Wall + Rhino + Engineer (WRE) starting turn 8, accepting any gambit P1 offers without needing to offer gambits as P2.",
+    "units": [
+      "Drone",
+      "Tarsier",
+      "Blastforge",
+      "Wall",
+      "Rhino",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "mtanzer was helping incnone work through a specific BSO line from a Reddit post about BSO theory.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A key mid-to-late game principle is to work towards a desired economy size and then commit all resources to attackers, avoiding floating gold where possible. Buying an extra Conduit or Blastforge can help avoid floating gold. The plan for economy size should be made relative to the best available absorber in the set.",
+    "units": [
+      "Conduit",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "steel0229e",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Steel was explaining to a newer player when and why to stop droning and transition to attackers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The bots (including pacifist bot and others) consistently exhibit a known behavioral pattern that has been reproducible for a long time, suggesting systematic weaknesses in how they handle certain board states. When the AI (PrismataAI.exe) times out or returns an illegal move, the Wacky Bot built into the client takes over seamlessly.",
+    "units": [],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about bot architecture: PrismataAI.exe handles MB/Adept/BottyMcBotFace, while Wacky Bot is a client-side fallback when the external AI fails.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2018-04-27"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Wacky Bot is built directly into the Prismata client, while Master Bot, Adept Bot, and BottyMcBotFace run as a separate external executable (PrismataAI.exe). If the external AI crashes or times out, the client-side Wacky Bot automatically takes over. A client hang of several seconds before resuming can be a symptom of the external AI timing out rather than a true client crash.",
+    "units": [],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Technical discussion about how the AI bots are implemented and what happens when they fail mid-game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2018-04-27"
+  }
+]

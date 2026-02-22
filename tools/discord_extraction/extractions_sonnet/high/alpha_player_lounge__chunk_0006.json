@@ -1,0 +1,85 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a pure Gauss Cannon (Tarsier) mirror endgame with no other units, the winning and losing board states follow a Fibonacci-like sequence based on total health of units on each side; the player who first reaches a losing position in that sequence loses the race.",
+    "units": [
+      "Gauss Cannon",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Expert players including extratricky, mrguy888, and spiritfryer collaboratively derived and verified lookup tables of winning/losing board states in Gauss Cannon mirror endgames, referencing an Elyot Reddit post on the Fibonacci pattern.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a Gauss Cannon endgame where one player also has a Blastforge, killing the forge early (when the 3rd cannon is dying, not the 4th) is the correct timing; after the forge kill the board state transitions into the standard forgeless Gauss Cannon winning/losing sequence.",
+    "units": [
+      "Gauss Cannon",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "mrguy888 and extratricky discussed and corrected each other on the precise turn to kill a Blastforge in a Gauss Cannon endgame, building lookup tables for forge-present winning positions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tarsier (Gauss Cannon) mirror endgame winning/losing positions, expressed as total HP on board per side, follow a Fibonacci-like ratio; the equivalent analysis for a different unit (referred to as 'geese') follows a different sequence with a ratio of approximately 0.91 rather than 0.618, and has additional irregularities from off-by-one kills.",
+    "units": [
+      "Tarsier",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "extratricky explained the mathematical structure of Gauss Cannon and 'geese' endgame sequences when spiritfryer asked whether the Fibonacci pattern applied to both.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "liadahlia recommends that players be able to beat Master Bot consistently before transitioning to ranked PvP, treating consistent MB wins as a benchmark of readiness for competitive play.",
+    "units": [],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about the recommended progression path from campaign/combat training to ranked PvP for new players.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Wincer was buffed by one gold at some point because the community broadly thought it was too weak; additionally, early players did not know whether to click or hold Omega Splitter when walls were present, with top player DB being an Omega clicker — illustrating how much game understanding has improved over time.",
+    "units": [
+      "Wincer",
+      "Omega Splitter",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "mrguy888 cited these examples to support the claim that high-level Prismata play has improved substantially since early access.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

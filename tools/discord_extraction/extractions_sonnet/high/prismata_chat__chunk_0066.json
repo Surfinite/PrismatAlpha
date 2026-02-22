@@ -1,0 +1,256 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays very poorly with Ebb Turbine, buying 4 Ebb Turbines and clicking them all every turn to churn through its entire drone supply, then rebuying the drones — a deeply inefficient loop.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "amalloy observed Master Bot's behavior in a game featuring Ebb Turbine and described the specific mistake pattern.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-06-16"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot generally struggles with knowing when to stop buying drones and start buying attack units. The Ebb Turbine case is an extension of this broader weakness: by consuming the drone supply through Ebb Turbine clicks, the bot sidesteps its own economy-to-attack transition problem.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "namington followed up amalloy's Ebb Turbine observation with a general explanation of Master Bot's drone/attack timing weakness.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "namington",
+    "report_date": "2018-06-16"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot's effective skill level is highly set-dependent: on some sets it plays at roughly 2200 MMR equivalence, while on others it drops below 1200 MMR. When it makes a mistake on a given set, it repeats that mistake every single time due to its deterministic nature.",
+    "units": [],
+    "confidence": "high",
+    "author": ".jrkirby",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "jrkirby discussed using Master Bot for practice and noted the extreme variance in bot quality across different unit sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".jrkirby",
+    "report_date": "2018-06-16"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Including Venge Cannon in the set makes it trivially easy to beat Master Bot; the bot cannot handle the Venge Cannon all-in strategy and will reliably lose to it.",
+    "units": [
+      "Venge Cannon"
+    ],
+    "confidence": "medium",
+    "author": "f300xen",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "f300xen and awaclus discussed strategies for beating Master Bot to earn daily rewards, with awaclus confirming that including Venge Cannon in the set essentially guarantees a win.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "f300xen",
+    "report_date": "2018-06-16"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Syncing Scorchillas is only advantageous when you are actively denying your opponent's absorb. If the opponent is already absorbing for maximum value every turn, you should buy Scorchillas as fast as possible regardless of sync.",
+    "units": [
+      "Scorchilla"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "awaclus explained absorb-denial as the sole strategic reason to sync Scorchillas during a game review discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Feral Warden provides 2 absorb on the turn it is purchased and then deals damage permanently, effectively acting as a free Wall while building efficient attackers. It gives red-green strategies access to absorb that is normally reserved for blue builds, often pushing those sets toward a red-green rush unless a superior large absorber is available.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "awaclus and darkeisbein explained Feral Warden's strategic value to a player who did not understand why the community rated it highly.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When attacking a Venge Cannon mirror, you should almost always target Venge Cannon charges rather than the cannon itself if you cannot fully kill a unit, because leaving charges allows the opponent to spend them on your own charges to reach the same board state.",
+    "units": [
+      "Venge Cannon"
+    ],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "extratricky and namington discussed targeting priority in Venge Cannon mirrors, with extratricky providing the core reasoning.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Venge Cannon targeting decisions: kill charges if you cannot fully kill the Venge Cannon; if you can kill the Venge Cannon but targeting charges would preserve a friendly cannon, kill charges; otherwise kill the Venge Cannon.",
+    "units": [
+      "Venge Cannon"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "namington summarized targeting priority guidelines for Venge Cannon engagements, building on extratricky's mirror-game reasoning.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When breachproofing with Zemora Voidbringer, the Conduits are normally the breach-vulnerable component; however, if the board situation shifts (e.g., with Thorium Dynamo support providing extra health), Zemora herself can become the breach vulnerability instead. Thorium Dynamo makes breachproof Zemora strategies significantly safer.",
+    "units": [
+      "Zemora Voidbringer",
+      "Thorium Dynamo",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "extratricky analyzed a game position involving Zemora breachproof strategy, explaining which components are breach-vulnerable and how Thorium Dynamo changes the calculus.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Odin's value is heavily dependent on it arriving with 3 Steelsplitters; without those Steelsplitters, Odin is considered quite weak. Its full value is 4 threat + 3 absorb + 3 Steelsplitters.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "1m2o",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "A player admitted they did not know Odin came with 3 Steelsplitters; 1m2o explained that this package is what makes Odin good.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a set featuring both Flame Animus and Antima Comet, a turn-2 Blastforge opening (the 'masterbot opening') is generally inefficient, but Flame Animus itself is highly efficient and a strong strategic choice. The two factors roughly cancel out, making the opening playable. Getting the first Antima Comet is especially important in this set because of the degenerate synergy between Antima Comet and Hellhound.",
+    "units": [
+      "Animus",
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "namington analyzed a game screenshot where P1 opened with turn-2 Blastforge in a Flame Animus + Antima Comet + Hellhound set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Savior beats a base-set opponent but only barely, while Venge Cannon beats base by a slightly larger margin. Savior benefits significantly from having soak available, and in the Savior vs. Venge Cannon all-in matchup, Savior is likely at a disadvantage.",
+    "units": [
+      "Savior",
+      "Venge Cannon"
+    ],
+    "confidence": "medium",
+    "author": "f300xen",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "f300xen and namington compared Savior and Venge Cannon all-in strategies, discussing their relative strength vs. base set and against each other.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "A specific Savior all-in line as P1 against base-set-only (BSO) is: DD / DD / DDE+DA / DDD+TTD / DDDB+TTD / WD1E+TTD / DDDE+TTB / WBEE+STT / WWEE+RRD / then WWDDDDEEE and click Savior.",
+    "units": [
+      "Savior",
+      "Drone",
+      "Engineer",
+      "Animus",
+      "Tarsier",
+      "Wall",
+      "Blastforge",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "f300xen",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "f300xen posted a turn-by-turn Savior rush build order in response to a question about how to execute the Savior all-in.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Cryo Ray is strong in sets containing Doomed Mech and Barrier because it makes Doomed Mech worse and nullifies Barrier.",
+    "units": [
+      "Cryo Ray",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "namington listed Cryo Ray's strategic value while discussing opening options in a set with Centurion, Doomed Mech, and Cryo Ray.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Analysis mode allows a player to freely manipulate both sides of a game — useful for tactical puzzles (e.g., 'does drone-hold attack with Rhino win here?'), sketching out build sequences unilaterally by passing the opponent's turns, and set analysis to determine which player wins a given base+N configuration.",
+    "units": [
+      "Rhino",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "namington and amalloy explained the multiple uses of analysis mode to a player who thought it was only for reviewing turns.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

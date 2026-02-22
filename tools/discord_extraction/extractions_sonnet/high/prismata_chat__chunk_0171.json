@@ -1,0 +1,226 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot has known weaknesses in evaluating long lead-time units like Zemora Voidbringer and Reso, using freeze abilities effectively, and making correct defensive decisions against attackers that cost energy.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "high",
+    "author": "liquideggproduct",
+    "date": "2026-02",
+    "replay_code": null,
+    "context": "Discussion about why Master Bot cannot achieve top-level play, with specific failure modes enumerated.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "liquideggproduct",
+    "report_date": "2026-02-11"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot's core limitations are: (1) a restricted set of sub-turn algorithms that prevent it from generating certain strong moves, and (2) evaluating board states by total unit cost rather than accurate positional value. Searching deeper does not improve it due to these structural limitations.",
+    "units": [],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2026-02",
+    "replay_code": null,
+    "context": "apooche described Master Bot's internal MCTS architecture and identified the two primary bottlenecks limiting its strength.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2026-02-11"
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Community members suggest Master Bot could be significantly improved by: adding an opening book keyed to the top units in each random set, using an AlphaGo-style approach to generate candidate moves and evaluate board states, and improving the set of algorithms considered for each sub-turn phase.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2026-02",
+    "replay_code": null,
+    "context": "Extended discussion among apooche, spiritfryer, and wonderboat about how Master Bot works and what would make it stronger.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "spiritfryer",
+    "report_date": "2026-02-11"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot resigned two turns before a player's Savior even finished construction, suggesting MB incorrectly evaluates or over-weights the threat of Savior before it becomes active.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": ".holyfire",
+    "date": "2025-10",
+    "replay_code": "scmG1-OcNum",
+    "context": ".holyfire shared a game where MB resigned prematurely upon seeing a Savior purchase.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".holyfire",
+    "report_date": "2025-10-05"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not consider blue as a viable second player strategy, according to liquideggproduct's explicit calculation; it would lose against red as P2 but not necessarily against other colors.",
+    "units": [],
+    "confidence": "medium",
+    "author": "liquideggproduct",
+    "date": "2025-09",
+    "replay_code": null,
+    "context": "Discussion analyzing a replay where the strategic calculation was made specifically because the opponent was Master Bot and its known color-strategy limitations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "liquideggproduct",
+    "report_date": "2025-09-04"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot lost a game that would otherwise have been a draw because it had a charge remaining on its Venge Cannon, suggesting MB may mismanage Venge Cannon charges in close endgame situations.",
+    "units": [
+      "Venge Cannon"
+    ],
+    "confidence": "medium",
+    "author": ".holyfire",
+    "date": "2026-01",
+    "replay_code": "ZxdlK-@ZTeE",
+    "context": ".holyfire shared a frustrating game where MB's Venge Cannon charge prevented what should have been a draw.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".holyfire",
+    "report_date": "2026-01-20"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot was designed with generalized AI so it would not break with new units, which makes it less optimal than a narrower bot could be now that the game is no longer receiving new units. A tighter, more game-specific AI could outperform it.",
+    "units": [],
+    "confidence": "high",
+    "author": "_wonderboat",
+    "date": "2026-02",
+    "replay_code": null,
+    "context": "wonderboat explained the design philosophy behind Master Bot's generalization trade-off versus a game-specific AI.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Protoplasm is a prompt unit that can either deal 4 burst attack damage or serve as a 4HP blocker. Its disposable burst nature (self-destructs after use) means it forces opponents to defend with permanent units that get consumed, eroding their economy while the attacker's resource investment vanishes cleanly.",
+    "units": [
+      "Protoplasm"
+    ],
+    "confidence": "high",
+    "author": "_wonderboat",
+    "date": "2026-02",
+    "replay_code": "WjhmP-WWdXx",
+    "context": "wonderboat corrected the AI commentary bot's description of Protoplasm, emphasizing its prompt status and dual offensive/defensive role.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Apollo, buying cheap low-HP attackers early (such as Tarsiers or Steelsplitters) is counterproductive because Apollo can snipe any unit with 3HP or less, making those units immediate snipe fodder; the correct response is to prioritize economy and reach expensive high-HP units first.",
+    "units": [
+      "Apollo",
+      "Galvani Drone"
+    ],
+    "confidence": "high",
+    "author": "surfinite",
+    "date": "2026-02",
+    "replay_code": "uP8mG-tr75d",
+    "context": "Game commentary on an Apollo mirror match noted that both players correctly avoided cheap attackers because Apollo would immediately destroy them.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Drake's activated ability sacrifices a Blastforge for 2 additional attack, which is powerful in the short term but permanently destroys blue production infrastructure. Using multiple Drakes' abilities late in a game to mount a desperation push is a known losing pattern because it leaves the player unable to sustain their economy.",
+    "units": [
+      "Drake"
+    ],
+    "confidence": "high",
+    "author": "surfinite",
+    "date": "2026-02",
+    "replay_code": "uP8mG-tr75d",
+    "context": "Game commentary identified the third Drake's Blastforge-sac ability as a desperation move that accelerated Hey's economic collapse in the endgame.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "As a rough rule of thumb, 1 attack is worth approximately 2.8 gold, meaning a Tarsier (1 attack/turn) is worth roughly 2.8 times a Drone (1 gold/turn). A player with 10 more Drones but 5 fewer Tarsiers than the opponent is at a significant disadvantage.",
+    "units": [
+      "Tarsier",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2026-01",
+    "replay_code": null,
+    "context": ".holyfire explained the relative value of attack versus economy to help a newer player understand late-game pressure.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Base Set Only, 13 Drones is the target economy size because it generates enough gold to buy 1 Wall and 2 Tarsiers every turn. Fewer drones and opponent defenses nullify early attack; more drones and the opponent's accumulated attack overwhelms you.",
+    "units": [
+      "Drone",
+      "Wall",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2026-01",
+    "replay_code": null,
+    "context": ".holyfire gave Base Set Only opening theory advice to a player named Warrigal.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Deadeye Operative is a poor choice in sets dominated by Thorium Dynamo and Steelforge because the high-value snipe targets are too well-protected or absent; it may still get one snipe off but is not worth the investment.",
+    "units": [
+      "Deadeye Operative",
+      "Thorium Dynamo"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2025-09",
+    "replay_code": null,
+    "context": "spiritfryer commentated a live game where a player bought Deadeye Operative in a Dynamo/Steelforge set and noted it was a questionable choice.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Burst attackers like Protoplasm beat grinding red strategies like Blood Phage plus Tarsier in fast sets because Protoplasm deals 4 damage immediately while Blood Phage generates only 1 attack starting two turns later; the tempo difference is decisive at short game lengths.",
+    "units": [
+      "Protoplasm",
+      "Blood Phage",
+      "Tarsier",
+      "Cluster Bolt"
+    ],
+    "confidence": "high",
+    "author": "surfinite",
+    "date": "2026-02",
+    "replay_code": "WjhmP-WWdXx",
+    "context": "AI commentary bot analysis of a 16-turn game where Protoplasm burst strategy defeated standard red grind engine.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

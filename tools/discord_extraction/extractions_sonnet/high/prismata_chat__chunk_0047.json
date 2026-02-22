@@ -1,0 +1,178 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The 2016 version of Master Bot had hardcoded Vivid Drone openings, but Vivid Drone was reworked in 2017, making those hardcoded lines outdated and potentially suboptimal or incorrect for the reworked unit.",
+    "units": [
+      "Vivid Drone"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "apooche noted that Master Bot's Vivid Drone opening logic was hardcoded to pre-rework behavior, making it stale after the 2017 rework.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2018-05-12"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "After a code change intended to stop the bot from buying too many mobile Animuses, the bot may instead be buying and immediately clicking them, suggesting the fix introduced or exposed a new behavioral bug. A replay code was provided: qivv4-6CAIG.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "vanitascabal6962",
+    "date": "2018-05",
+    "replay_code": "qivv4-6CAIG",
+    "context": "VanitasCabal asked Elyot whether the bot fix for over-purchasing mobile Animuses resulted in the bot immediately clicking them instead.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "vanitascabal6962",
+    "report_date": "2018-05-12"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Master Bot is significantly stronger than the other built-in bots (BottyMcBotFace, Wacky Bot, Adept Bot), and community consensus is that players should practice exclusively against Master Bot once past the beginner stage, as the others are too easy to provide meaningful competition.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Multiple community members advising a new player on how to progress, with f0x and others recommending Master Bot exclusively over other bots.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Being able to beat Master Bot consistently is treated as the community benchmark for readiness to enter ranked play, implying that players who can reliably beat Master Bot have developed sufficient strategic fundamentals to compete at the lower end of the ranked ladder.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Multiple experienced players (awaclus, darkeisbein, vanitascabal6962) discussed the progression path from bots to ranked play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When facing a Blood Pact player, it is generally correct to target the opponent's economy (Drones) over their attackers, because Blood Pact attackers tend to be tougher to kill than Blood Pact Drones. High-value economy units like Trinity are especially good targets; weak attackers like Militia and Goose are not worth prioritizing.",
+    "units": [
+      "Militia"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "A player asked whether to kill economy or attackers when the opponent goes Blood Pact; liadahlia explained the general principle with unit-specific nuance.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In Tia Threnody mirror games, the outcome is highly dependent on timing and build quality rather than simply going first or second. Common claims like 'second Tia wins' are not reliably supported; both players must evaluate whether their Tia line is actually winning before committing, since a bad Tia line loses regardless of order.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion among mrguy888, xyotsuba, shadourow, and others about who wins in a Tia Threnody mirror and what determines the outcome.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tia Threnody typically only requires one Conduit, unless green defenders or a green attacker like Cryo Ray are present in the set, in which case a second Conduit may be needed to guarantee the Tia threat arrives on time.",
+    "units": [
+      "Tia Threnody",
+      "Conduit",
+      "Cryo Ray"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "shadourow and xyotsuba discussed when a second Conduit is warranted in a Tia Threnody rush.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Against a Tia Threnody rush, having Shredder, Ferritin, and Sentinel available makes it much easier to defend, reducing the pressure of fast Tia lines.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "mrguy888 noted specific defender units that mitigate Tia Threnody rush strategies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a base set + Tia Threnody game, the P1 opening DD/DC/DA appears to be crushed by P2's DD/DDC/AC/Tia+Rhino line, suggesting that P2 has a strong answer to standard P1 economic openers when Tia Threnody is in the set.",
+    "units": [
+      "Tia Threnody",
+      "Rhino",
+      "Drone",
+      "Conduit",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "shadourow analyzed base+Tia openings against himself and found P2's Tia+Rhino line dominant over P1's standard economic opener.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Shadowfang is considered by liadahlia to be the only unviable unit in the game in PvP, though it does see use in single-player campaign content.",
+    "units": [
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "liadahlia stated Shadowfang is the only unviable unit; shadourow noted it is used in single-player campaign.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Player 2 holds a slight statistical advantage in Prismata, with community estimates placing P2's win rate around 53%, meaning the first-player/second-player coinflip introduces a small but real asymmetry despite the game's otherwise deterministic nature.",
+    "units": [],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "New players asked about first-player advantage; experienced community members estimated P2 wins approximately 53% of games.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

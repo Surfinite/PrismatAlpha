@@ -1,0 +1,393 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot ignores unit stamina and health when assigning defense, leading to absurd choices such as soaking on a spent Bombarder via Xeno, absorbing on a spent Corpus instead of a Wall, targeting a 2-health Tantalum Ray over a Steelsplitter with Apollo, and absorbing on Borehole Patroller over Steelsplitter or Doomed Wall.",
+    "units": [
+      "Corpus",
+      "Wall",
+      "Tantalum Ray",
+      "Steelsplitter",
+      "Borehole Patroller",
+      "Doomed Wall"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2025-01",
+    "replay_code": null,
+    "context": "Multiple observations by .holyfire about MB's defense assignment logic ignoring stamina and health values.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".holyfire",
+    "report_date": "2025-01-05"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot values units primarily based on their purchase cost rather than their current in-game value. This causes it to overvalue Borehole Patroller (not accounting for the Pixie cost already spent) and to absorb on more expensive units even when cheaper units are better defenders.",
+    "units": [
+      "Borehole Patroller",
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2025-03",
+    "replay_code": null,
+    "context": "apooche explaining the general principle behind MB's repeated poor unit-valuation decisions observed by .holyfire and liquideggproduct.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2025-03-09"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot exhibits 'Galvanophobia': it targets Galvani Drone with breach damage instead of strictly superior targets such as Drones, or even instead of breaching at all (e.g., killing two Galvani Drones instead of a Wall and a Drone).",
+    "units": [
+      "Galvani Drone",
+      "Drone",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2025-03",
+    "replay_code": "78xVR-XRYE0",
+    "context": ".holyfire reporting MB prioritizing Galvani Drone kills over objectively better breach targets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".holyfire",
+    "report_date": "2025-03-07"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot will click Asteri even when there is no possibility that the barrier ability will have any effect on the game state.",
+    "units": [],
+    "confidence": "medium",
+    "author": ".holyfire",
+    "date": "2025-01",
+    "replay_code": null,
+    "context": ".holyfire noting an observed MB behavior of uselessly activating Asteri.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".holyfire",
+    "report_date": "2025-01-14"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot will absorb on a Borehole Patroller in preference to a Steelsplitter or Doomed Wall, because its valuation is cost-based rather than based on actual in-game defensive value.",
+    "units": [
+      "Borehole Patroller",
+      "Steelsplitter",
+      "Doomed Wall"
+    ],
+    "confidence": "high",
+    "author": "liquideggproduct",
+    "date": "2025-08",
+    "replay_code": null,
+    "context": "liquideggproduct observing MB absorbing on Patroller over Splitter and Doomed Wall, with apooche confirming it is because Patroller costs more.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "liquideggproduct",
+    "report_date": "2025-08-06"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot has a known architecture limitation: it uses approximately four fixed defense algorithms and applies MCTS only to choose among them. When all four algorithms are suboptimal for a given situation, MB cannot defend correctly.",
+    "units": [],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2025-01",
+    "replay_code": null,
+    "context": "apooche explaining MB's internal defense architecture after .holyfire noted cases where MB defends worse than Q-defense.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2025-01-01"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot sometimes buys Mobile Animus and then double-clicks it the following turn, wasting the stamina it bought it for.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": "liquideggproduct noted MB loves Mobile Animus; siepu added it double-clicks it the next turn.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "liquideggproduct",
+    "report_date": "2024-12-19"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Q-defense (the game's auto-defense algorithm) can be confused by specific combinations of defenders: with Wall, Forcefield, two Rhinos (all prompt) and a Steelsplitter plus Infusion Grid, Q-defense incorrectly soaks on the Steelsplitter instead of the Wall. Manually clicking a Rhino first and then pressing Q corrects the behavior.",
+    "units": [
+      "Wall",
+      "Forcefield",
+      "Rhino",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2025-08",
+    "replay_code": "5VnVG-XG@fB",
+    "context": ".holyfire reporting an unusual Q-defense bug with a specific combination of blocking units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".holyfire",
+    "report_date": "2025-08-10"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When breaching an opponent, the general priority rule is: kill Tarsiers over Drones (since Tarsiers deal damage one turn earlier than Drones generate economy), but kill Drones over Steelsplitters (because 2 Drones generate value equivalent to 1 attacker, while 3 Steelsplitters are needed to kill one Steelsplitter per turn). Kill Drones instead of Tarsiers only if you can breach once and the game will slow down afterwards.",
+    "units": [
+      "Tarsier",
+      "Drone",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": ".holyfire asking about breach target priority among Drones, Steelsplitters, Tarsiers, and Vivid Drones; silentslayers providing a detailed framework.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When breaching and Vivid Drone is present, kill Vivid Drones only if they are buying high-value units (e.g., Walls or breach-proof units) AND killing the opponent's Tarsiers would not save anything important on your side. Otherwise, continue to prioritize killing Tarsiers.",
+    "units": [
+      "Vivid Drone",
+      "Wall",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": "silentslayers elaborating on Vivid Drone as a breach target exception to the general Tarsier-first rule.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A Tarsier can kill a Tarsier or Vivid Drone per turn, but a Vivid Drone cannot produce a Tarsier or Vivid Drone per turn, making Tarsier the higher-value breach target. However, if the opponent can build Gauss Cannons, two Vivid Drones produce one Gauss Cannon per turn while it takes five Tarsiers to kill one, so Vivid Drones become the priority target.",
+    "units": [
+      "Tarsier",
+      "Vivid Drone",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": "apooche providing a production-rate-based framework for deciding breach targets between Tarsiers and Vivid Drones.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Rhino's 1-attack threat is often real even when you plan to soak it: the opponent must borrow defense to prevent a breach, and if they let you breach their Wall while soaking on Rhino, both sides lose a Wall but you retain the Rhino for future use, making the trade significantly in your favor.",
+    "units": [
+      "Rhino",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": "silentslayers and .holyfire discussing Rhino's offensive threat value and the consequences of opponent absorbing on Rhino vs Wall during a breach.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In the mid-game, absorbing on Rhino instead of Wall is generally suboptimal because 3 (Wall soak) is greater than 2 (Rhino soak). However, when a breach is possible, the calculus changes dramatically: if the opponent absorbs on Rhino to prevent the breach, they effectively give up two extra damage worth of swing compared to absorbing on Wall, since you retain the Rhino.",
+    "units": [
+      "Rhino",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": "Discussion of Punf's quote about absorbing on Rhino vs Wall, with megasupp and silentslayers clarifying the correct and incorrect applications of the rule.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Rhino's effective defensive cost can be approximately 2.66 BV per unit of defense (vs Engineer's 2.8 BV) when accounting for the opponent's borrowing cost at r=1.4, making Rhino potentially better than Engineers for defense even during phases when you still want Tarsiers\u2014though Rhino is not fully granular and some Engineers are still needed.",
+    "units": [
+      "Rhino",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": ".holyfire",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": ".holyfire calculating Rhino's effective BV cost relative to Engineers during a theoretical modeling discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In practice, when Tarsier and Rhino are close in value, the simple rule is: if you have 6 gold buy Tarsier + Engineer; if you have 7 gold buy Rhino + Engineer. The Rhino is particularly strong if it immediately makes the opponent's turn worse.",
+    "units": [
+      "Tarsier",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": "silentslayers summarizing practical real-game decision logic between Tarsier and Rhino.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "If Player 1 buys TTD (Tarsier, Tarsier, Drone) instead of TDB on turn 4 in a base set game, Player 2 can respond with RR (double Rhino) and dominate, as demonstrated in real BS+8 games against top players.",
+    "units": [
+      "Tarsier",
+      "Drone",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": "silentslayers giving a concrete opening example where Rhino punishes a greedy P1 Tarsier-heavy opener.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Energy Matrix is effectively a 3-Engineer unit in principle, but the poor follow-up value of Blastforge tech after buying Matrix usually keeps it functioning like a low-econ unit. In sets where Blastforge tech is strong or Wall supply is plentiful, Energy Matrix supports a larger economy.",
+    "units": [],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": "silentslayers analyzing why Energy Matrix is described as a 'low-econ unit' and the conditions under which it can support bigger economies.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Centurion generates 2 attack at start of turn (not via a click ability), so it contributes attack while blocking each turn without needing to be clicked. Any unit with the Blocker property and no click ability defends while performing its start-of-turn effects automatically.",
+    "units": [
+      "Centurion",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2025-04",
+    "replay_code": null,
+    "context": "spiritfryer explaining how Centurion differs from Steelsplitter in its attack-generation mechanic and clarifying the general rule for blockers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Reducing Tarsier supply from 10 to 8 is unlikely to be a meaningful nerf in most sets: in base-set-only games, 10 Tarsiers are rarely purchased anyway; in Amporilla sets, earlier Amporilla pressure typically prevents full Tarsier buyouts; and in sets with efficient attackers or attack/defense hybrids, Tarsiers are naturally kept in check. Supply reduction would disproportionately harm non-Apollo players in Apollo sets by removing a critical tempo buffer.",
+    "units": [
+      "Tarsier",
+      "Amporilla",
+      "Apollo"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2025-05",
+    "replay_code": null,
+    "context": "Community discussion of whether reducing Tarsier supply would be a meaningful balance change, with spiritfryer analyzing the edge cases.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When a Sentinel's attack would simply be absorbed, it is usually better to click it for the Engineer value than to save the stamina, especially at max stamina. The tempo from forcing the opponent to spend resources absorbing outweighs preserving stamina in most mid-game situations.",
+    "units": [],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2025-07",
+    "replay_code": null,
+    "context": ".holyfire asking whether to click a Sentinel that would be absorbed; silentslayers advising tempo favors clicking.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "HISTORICAL",
+    "insight": "Old Wild Drone and old Vivid Drone were reworked because they made openings highly constrained and one-sided: you cannot acquire half a unit, so whichever player's natural opening more easily obtained the good resource-generating version gained a disproportionate advantage.",
+    "units": [
+      "Wild Drone",
+      "Vivid Drone"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2025-06",
+    "replay_code": null,
+    "context": "Community discussing historical reworks to Wild Drone and Vivid Drone, with apooche explaining the design problem.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When breaching, using precision to leave the opponent at specific gold breakpoints (e.g., exactly 4 gold so they cannot buy a Wall), or at attack numbers where their damage is wasted, or with too few Drones to resume absorbing, generates disproportionate value compared to simply maximizing damage dealt.",
+    "units": [
+      "Wall",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2024-12",
+    "replay_code": null,
+    "context": "silentslayers listing breach target decision heuristics including gold/attack breakpoint manipulation.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "In an observed game, Master Bot spent resources on Gauss Charges and Rhinos without apparent strategic coherence before committing to Tia Threnody, resulting in a position where the human player could comfortably reply with Protoplasm into Tia Threnody supported by Fission Turret.",
+    "units": [
+      "Tia Threnody",
+      "Rhino",
+      "Gauss Cannon",
+      "Fission Turret"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2025-07",
+    "replay_code": null,
+    "context": "amalloy analyzing a game cale shared where MB made incoherent purchases before committing to Tia Threnody.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "cale",
+    "report_date": "2025-07-02"
+  }
+]

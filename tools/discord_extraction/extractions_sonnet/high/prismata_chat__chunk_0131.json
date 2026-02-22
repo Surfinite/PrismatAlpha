@@ -1,0 +1,273 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "\"Overteched\" means wasting colored resources and/or accumulating useless gaussite because you don't have the gold to spend it all. Being slightly overteched is acceptable to give yourself options or afford a single powerful unit, but heavy overteching (e.g., buying a Blastforge when you can't use its blue output) is a significant error.",
+    "units": [
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "bky was reviewing a replay of matrix30815 playing against Expert Bot and identified overteching as a key mistake.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "As P2, not buying a Conduit on turn 2 (called 'natural conduit') gives you a leg up on tech by saving the 3 gold for other purchases while still getting the Conduit the following turn via natural income.",
+    "units": [
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "jeacaveo",
+    "date": "2020-05",
+    "replay_code": "NJjpj-EjhOa",
+    "context": "jeacaveo was reviewing matrix30815's Expert Bot replay and flagged the missed natural conduit as an opening mistake.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When building toward Bloodrager, instead of buying a second set of Tarsiers, consider buying one Rhino so you can pump a Bloodrager out the same turn the first Tarsiers come online, improving your attack timing.",
+    "units": [
+      "Bloodrager",
+      "Tarsier",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "jeacaveo",
+    "date": "2020-05",
+    "replay_code": "NJjpj-EjhOa",
+    "context": "jeacaveo was reviewing matrix30815's Expert Bot replay and suggested a more efficient Bloodrager build path.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying a Wall on turn 6 in a Cauterizer-based set is almost certainly a mistake when you don't yet need it; the resources are better spent on something immediately useful like a Cauterizer. Buying a Blastforge when you are already using red resources for Tarsiers wastes a red that could have been another Tarsier.",
+    "units": [
+      "Wall",
+      "Cauterizer",
+      "Blastforge",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": "NJjpj-EjhOa",
+    "context": "bky was reviewing matrix30815's Expert Bot replay and pointing out specific turn-by-turn errors.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Set-reading (determining an endgame strategy from the random unit set) is not just about identifying the best attacker, but also finding a workable path to that tech and economy while getting useful units in the middle. For newer players, improving turn-by-turn tactics and unit knowledge should come before focusing on set-reading.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Multiple experts (bky, jeacaveo, deadhour) discussed the learning priorities for a newer player struggling against bots.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot can misallocate resources badly in certain sets; in one reviewed game it wasted 8 gold buying two Conduits suboptimally while facing a Doomed Wall defensive situation, leaving it vulnerable to a slow but effective attacker build.",
+    "units": [
+      "Conduit",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "amalloy critiqued a game Zera shared as a Master Bot win, noting the bot's poor Conduit purchases were the actual cause of the human's advantage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2020-05"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot went to 19 Drones against a mono-frontline (Doomed Wall) strategy, which bky flagged as a notable error (overdroning), though amalloy argued 19 drones may be fine with Doomed Wall since one Doomed Wall per turn can defend against all 4 attackers, giving plenty of time to build up counter-attack.",
+    "units": [
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "amalloy and bky debated whether Master Bot's 19-drone build against a Doomed Wall defensive opponent was correct or an AI error.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "The Master Bot AI was built as a serious academic research project (PhD thesis), making it qualitatively different from typical card game bots. It took the researcher approximately one month or more of regular play for most players to beat it consistently.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Community members explained Master Bot's difficulty and origins to a new player asking how to beat it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "A reliable low-effort strategy to beat Master Bot is buying Rectifiers on 11 Drones and 2 Conduits, which Zera reported giving a 26-game win streak against Master Bot.",
+    "units": [
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Zera described their best Master Bot win streak and the 'cheesy, low-effort' strategy used to achieve it.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "zera777",
+    "report_date": "2020-05"
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Deadeye Operative's power is primarily derived from restricting the opponent's Drone supply; if Drones were unlimited, Deadeye would be niche and much weaker. Its value is further complicated by Savior: going Savior too early loses to opponents who don't go Savior, and Deadeye's presence in a set can shift safe Savior timings.",
+    "units": [
+      "Deadeye Operative",
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion about a hypothetical Deadeye variant that returned drones to supply rather than removing them, and how Deadeye interacts with Savior strategies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Drone-to-Plasmafier conversion can be used purely for free soak (defense), but this is rarely optimal; usually you generate enough attack with the Plasmas to kill the opponent outright, which causes many auto-lose Savior situations for the opponent. Skillful Savior games involve heavy soak with many genuine strategic options.",
+    "units": [
+      "Plasmafier",
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "silentslayers commented on a Savior game where drone-to-Plasma conversion was used for soak rather than offense.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "The 3 HP version of Odin (after a balance change reducing it from 4 HP) makes the decision to sacrifice Odin as soak worse on average: you lose 4 threat but only gain 3 health from the sacrifice. This shifts the overdefend-vs-gambit decision toward overdefending when holding Odin as potential soak, and makes swing timing and whether to swing at all more strategically interesting.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "apooche and silentslayers discussed how Odin's HP reduction changed the absorb and sacrifice decision calculus.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "You should almost always click Arka Sodara versus Vai Mauronax, and always click it when the opponent also has Arka tech. The main exceptions are when inflation is very low or clicking it prevents a key purchase for yourself. Simple defensive setups like Wall + Wall + Forcefield/Rhino that survive make clicking Arka clearly worth it.",
+    "units": [
+      "Vai Mauronax"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "silentslayers answered questions about when to hold vs. click Arka Sodara in various matchup scenarios.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Antima Comet into Savior is a viable transition in sets with minor RPS elements; after defending the Antima attack, pivoting to Savior can be correct, though it requires specific supporting units (e.g., Infusion Grid, Aegis, Galvani Drone, Cauterizer, Blood Pact in the set) to be worth considering.",
+    "units": [
+      "Antima Comet",
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "spiritfryer suggested an Antima-into-Savior line after conceding a game; silentslayers confirmed it is possible with RPS elements.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, drones used as Savior soak cost effectively 2 gold next turn: 1 gold from the drone being unable to click (unlike Forcefield), and 1 gold from Savior's ongoing cost. This makes drone soak under Savior not truly 'free' despite drones having no direct gold cost.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "bky and shadourow debated whether drones used as Savior soak are free compared to Forcefields.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The standard notation for Prismata openings lists P1 and P2 lines separately (e.g., 'DD DDE DDD DDDC vs DD DDE DDDC'), with P2 openings prefixed by '..' to indicate P2 acts second, providing mental reinforcement of the turn order offset.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "bky and masn6811 discussed the community convention for writing out opening notation when a question arose about how to denote a double Doomed Drone opening.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Wacky Bot is considered an appropriate starting point for complete beginners before progressing to higher-level bots; at least one expert (bky) started with Wacky Bot as well. Expert Bot is an intermediate challenge, and Master Bot is the strongest built-in opponent requiring approximately one to two months of regular play to beat consistently.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Community members advised matrix30815 on a progression path through the available bots.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

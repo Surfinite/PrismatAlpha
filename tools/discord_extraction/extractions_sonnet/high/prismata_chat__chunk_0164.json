@@ -1,0 +1,258 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot appears to never buy Gauss Cannon charges (also referred to as 'gauss charges') in at least some game states, making Cluster Bolt a potentially free win against it when the bot fails to respond to the threat.",
+    "units": [
+      "Gauss Cannon",
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "aa01blue",
+    "date": "2023-10",
+    "replay_code": null,
+    "context": "aa01blue observed MB not buying gauss charges, leading to a near-win with Cluster Bolt due to supply constraints.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "aa01blue",
+    "report_date": "2023-10-10"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does buy Cluster Bolt in specific edge cases, such as to kill Bulldogs (units with low HP), but likely avoids it when it would complicate defense logic or negatively impact defensive calculations.",
+    "units": [
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "liquideggproduct",
+    "date": "2023-10",
+    "replay_code": null,
+    "context": "Discussion about whether MB ever buys Cluster Bolt; liquideggproduct confirmed it buys CB to kill specific low-HP units like bulls.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "liquideggproduct",
+    "report_date": "2023-10-10"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot has confirmed instances of buying Cluster Bolt, as evidenced by replay codes NvCJw-NGHu4 and jVWAk-RksBn shared by liquideggproduct.",
+    "units": [
+      "Cluster Bolt"
+    ],
+    "confidence": "high",
+    "author": "liquideggproduct",
+    "date": "2023-10",
+    "replay_code": "NvCJw-NGHu4",
+    "context": "liquideggproduct shared replays demonstrating MB purchasing Cluster Bolt to counter the claim it never buys it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "liquideggproduct",
+    "report_date": "2023-10-15"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot (3s) will buy Tia Threnody and attempt to 'absorb' on it while simultaneously soaking on Centurion, demonstrating a misunderstanding of which units are appropriate absorb/soak targets.",
+    "units": [
+      "Tia Threnody",
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2024-03",
+    "replay_code": "Z7nus-v@YI5",
+    "context": ".holyfire reported a specific replay showing MB misusing Tia and Centurion for absorb/soak in an incorrect way.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".holyfire",
+    "report_date": "2024-03-15"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot generally has trouble understanding that certain units (such as Immolites and Centurion) are not intended as soak targets, and will incorrectly assign damage to them during defense even when those units should be protected or used differently.",
+    "units": [
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2024-03",
+    "replay_code": null,
+    "context": ".holyfire generalized from the Tia/Centurion bug report that MB has a broader pattern of misidentifying valid soak targets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".holyfire",
+    "report_date": "2024-03-15"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot (7s) is notably weak against green-heavy sets; aa01blue reports rolling full green sets as P1 and winning because MB forgets to buy absorb for several turns.",
+    "units": [],
+    "confidence": "medium",
+    "author": "aa01blue",
+    "date": "2024-03",
+    "replay_code": null,
+    "context": "Discussion about whether 7s MB is significantly stronger than 3s MB; aa01blue described exploiting MB's green set weakness.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "aa01blue",
+    "report_date": "2024-03-06"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "The 7s Master Bot is not significantly stronger than the 3s Master Bot in practice; the main advantage of playing against the 7s bot is that it takes longer turns, giving the human player more total time to think each round (6s per round vs 3s, or 10s vs 7s combined).",
+    "units": [],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2024-03",
+    "replay_code": null,
+    "context": "awaclus explained that playing the 7s bot is easier mainly because of extra thinking time for the human, not because the bot itself plays much better.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Alternating between buying 2x Immolite every turn versus alternating between 2x Perforator + 1x Animus produces equivalent gold expenditure and attack output per turn, assuming you always click all attackers and are already above the opponent's absorb threshold with other units.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-11",
+    "replay_code": null,
+    "context": "Extended discussion between awaclus, sano712, and spiritfryer debating the strategic equivalence of Immolite spam versus Perforator/Animus alternation.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When you already have at least 2 other sources of attack, clicking Immolites immediately every turn (rather than volleying them) is correct, since the absorb barrier is already overcome by other attackers.",
+    "units": [],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-11",
+    "replay_code": null,
+    "context": "awaclus clarified the conditions under which always clicking Immolites is optimal during the Immolite vs Perforator strategy discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "P1 advantage in Prismata is comparable percentage-wise to White's advantage in chess, but random set variance can amplify the player-order advantage in ways that chess cannot, making it feel more oppressive in certain sets.",
+    "units": [],
+    "confidence": "medium",
+    "author": "liquideggproduct",
+    "date": "2023-11",
+    "replay_code": null,
+    "context": "Discussion about player-order balance in Prismata; liquideggproduct drew an analogy to chess White advantage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Econ-heavy sets tend to favor P1, green sets tend to favor P2, and aggressive Animus sets are usually P2 favored.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "zera777 asked for rules of thumb on set P1/P2 favorability; awaclus provided a concise breakdown.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Xaetron is a versatile unit with a rare but valuable use case: in sets with high burst-threat accumulation (e.g. Wincer or Odin/Endotherm combos) paired with a large absorber that must be protected (e.g. Centurion), sacrificing Xaetron as a soak target on the opponent's burst turn can be an efficient defensive play, especially when the opponent must spend multiple resources (e.g. 4 Bites + an Odin click) to kill it.",
+    "units": [
+      "Wincer",
+      "Centurion",
+      "Endotherm Kit"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "spiritfryer and silentslayers discussed advanced Xaetron use cases, including absorb cycling and soak sacrifice on burst turns.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tatsu Nullifier in a set with Xaetron can enable a mindless red rush strategy that undermines green-based play, making Tatsu one of the more problematic green-synergy offenders.",
+    "units": [
+      "Tatsu Nullifier"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "spiritfryer and silentslayers discussed sets where Xaetron inadvertently enables degenerate red rush lines, citing Tatsu Nullifier as the prime example.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A Centurion + Tatsu Nullifier + Cryo Ray combo can generate a 31-gold burst turn; if the opponent does not interfere with the Cryo Ray, the freeze effect deals significant damage but the opponent may gain a Xenotorpedo in compensation, making interference decisions complex.",
+    "units": [
+      "Centurion",
+      "Tatsu Nullifier",
+      "Cryo Ray"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2024-04",
+    "replay_code": "TAo5O-SSDxF",
+    "context": "spiritfryer shared a replay of a Centurion/Tatsu/Cryo Ray combo and analyzed the opponent's decision not to interfere with the Cryo Ray.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Using Ctrl+left-click on a blocker assigns absorb specifically to that unit ('Q absorb' on a specific blocker), which is most relevant when Xaetron is in play and the auto-absorb (Q) keeps making incorrect assignments.",
+    "units": [],
+    "confidence": "high",
+    "author": "iminabearsuit",
+    "date": "2024-03",
+    "replay_code": null,
+    "context": "Discussion of keyboard shortcuts for fast play; iminabearsuit explained Ctrl+click for targeted absorb assignment, particularly useful with Xaetron.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Shift+clicking a unit letter key (e.g. Shift+D for Drone, Shift+E for Engineer) buys the maximum affordable quantity of that unit, and Shift+clicking a clickable unit activates all of them at once; these shortcuts are essential for fast time controls.",
+    "units": [
+      "Drone",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2024-03",
+    "replay_code": null,
+    "context": "Community discussion of UI shortcuts for playing efficiently, especially on fast time controls.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

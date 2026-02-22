@@ -1,0 +1,359 @@
+[
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "The community uses 'absorb' loosely to mean ctrl-clicking a unit to defend (including fragile units like Feral Warden or Engineer), even though some players distinguish 'absorb' (provides defense tempo next turn) from 'soak' (unit is consumed/converted and provides no future defense). The practical consensus is that both terms are understood contextually.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2024-06",
+    "replay_code": null,
+    "context": "Discussion about terminology for defensive assignments, prompted by Feral Warden and Protoplasm examples.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Protoplasm can be conceptualized as absorbing 3 HP of damage and then converting 4 HP into 4 Gauss Cannon charges, making it efficient for gaining tempo while transitioning from defense to offense.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2024-06",
+    "replay_code": null,
+    "context": "Discussion of absorb/soak terminology using Protoplasm as an example of a unit that converts defensive HP into offensive value.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Xaetron (Xae) is exceptionally versatile: it functions as a standard absorber, a by-turn absorber, a weak attacker, a source of granular defense, an anti-burst soaker (occasionally absorbing up to 12 damage), and an anti-freeze unit, justifying its legendary supply.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2024-06",
+    "replay_code": null,
+    "context": "Community appreciation discussion of Xaetron's design versatility, with spiritfryer and zezetel agreeing on its multiple roles.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In Zemora Voidbringer + Cluster Bolt sets, clustering early (around 12 green) without permanent damage behind it can be correct if it deflates the opponent. If you wait too long and the opponent clusters first, you must Forcefield their clusters while being unable to cluster back simultaneously, resulting in a bad trade — this 'undercut' is a key strategic pitfall.",
+    "units": [
+      "Zemora Voidbringer",
+      "Cluster Bolt",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Analysis of a Zemora + Cluster Bolt set game played against Master Bot, where silentslayers explained the correct timing for early clustering.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In Zemora Voidbringer + Cluster Bolt + Synthesizer sets, building many Conduits and Synthesizers early to accumulate green is correct, because the Synthesizer removes the green-per-turn cap, allowing you to both activate Zemora and fire Cluster Bolts in the same turns.",
+    "units": [
+      "Zemora Voidbringer",
+      "Cluster Bolt",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": ".holyfire",
+    "date": "2024-11",
+    "replay_code": "8oFXt-@Tth4",
+    "context": "Post-game analysis of a Zemora + Cluster Bolt + Synthesizer set, discussing optimal green economy build-up.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays suboptimally in Zemora Voidbringer + Cluster Bolt sets, mishandling the opening and failing to compete with a human player's Zemora timing and Cluster Bolt sequencing.",
+    "units": [
+      "Zemora Voidbringer",
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2024-11",
+    "replay_code": "8oFXt-@Tth4",
+    "context": "After reviewing a bot game replay, silentslayers noted it was 'a bit of a non-game cause master bot botched the opening.'",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "silentslayers",
+    "report_date": "2024-11-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not know how to play Mobile Animus effectively, making sets featuring it easy to exploit against the bot.",
+    "units": [],
+    "confidence": "medium",
+    "author": "pikachumemes.",
+    "date": "2024-11",
+    "replay_code": "0G9PV-4r5MG",
+    "context": "Discussing a Wincer + Cryo Ray set game against Master Bot where the bot's handling of Mobile Animus was called out as a specific weakness.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "pikachumemes.",
+    "report_date": "2024-11-21"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "On the Antima Comet purchase turn, spending gold primarily on Engineers (rather than Drones or tech buildings) is generally correct because Engineers trade evenly into the opponent's defense while leaving you with permanent attackers; buying a Drone on the same turn as Antima is considered very poor value, and an attacker like Tarsier can also be fine.",
+    "units": [
+      "Antima Comet",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Thread discussing optimal gold spending on the Antima Comet purchase turn, with amalloy and silentslayers both advising against buying Drones on that turn.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When deciding whether to buy a Drone on the Antima Comet turn versus an Engineer, calculate your exact gold total after the Shift+E turn: if you are one gold short of a desired purchase the following turn (e.g., need 14 gold for TT+DD but have 13), that Drone becomes comparatively better.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Detailed breakdown of gold allocation decisions on and around the Antima Comet purchase turn.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A Tarsier is almost always worth buying on the Antima turn because it provides 1 less pressure than an Engineer but yields a permanent attacker instead of 2 HP + 1 ATK, which is typically a good trade given that extra HP is usually surplus defense.",
+    "units": [
+      "Antima Comet",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Detailed breakdown of gold allocation on the Antima Comet turn, comparing Tarsier vs Engineer purchases.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Antima Comet Engineers are valued at approximately 2.2–2.5 gold each using barrier value analysis (BV ≈ 2.2 for a Wall), with delay discounting applied at roughly the drone growth rate (~3/4 per turn of delay in early-game tempo contexts).",
+    "units": [
+      "Antima Comet",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "lezaleas",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Mathematical discussion of barrier value and delay discounting to evaluate Engineer value on the Antima Comet purchase turn.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The inflation rate r (how much more valuable a resource is now versus next turn) can be derived from Tarsier economics and barrier value: assuming BV = 2.2 (Wall), r ≈ 1.375; with BV = 2.3, r ≈ 1.39. This is computed from the geometric series of future barrier hits a Tarsier generates: value = BV / ((r-1)*sqrt(r)) = Tarsier cost (5).",
+    "units": [
+      "Tarsier",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": ".holyfire",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Mathematical derivation thread about inflation rate and barrier value in the context of evaluating Engineers on the Antima turn.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Deadeye Operative is heavily Player 1 favored because the optimal P2 line requires floating 4 gold (not DD/BB), and the correct P2 line (DD DD DBB DDE1) is more awkward and less efficient than the P1 line; in many sets Deadeye is skipped entirely or only 1–2 are bought as a transition to units like Bombarder or Doomed Mech.",
+    "units": [
+      "Deadeye Operative"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2024-07",
+    "replay_code": null,
+    "context": "Discussion of opening lines and P1/P2 balance for blue units, focusing on Deadeye Operative.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Deadeye Operative's drone sniping does not fully cover its cost in offensive value alone; its worth depends on being soaked at least once after running out of stamina. All 4 Deadeyes are generally only correct to buy in slow 3-Engineer sets.",
+    "units": [
+      "Deadeye Operative"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2024-07",
+    "replay_code": null,
+    "context": "Analysis of Deadeye Operative value and correct purchase quantities in different set contexts.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Scorchilla has strong synergy against Infusion Grid but the Grid is powerful enough that buying it alongside premium blue follow-ups (e.g., Apollo, Odin, Omega Splitter, Hellhound) can still be correct even in Scorchilla sets.",
+    "units": [
+      "Scorchilla",
+      "Apollo",
+      "Omega Splitter"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2024-07",
+    "replay_code": null,
+    "context": "Brief discussion of Scorchilla vs Infusion Grid interactions and when the Grid remains worth buying despite the counter.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Plasmafier is arguably the best attacker in the game despite requiring blue-green (Blastforge + Animus) tech, and units like Drake and Lancetooth provide strong attack as mono-blue options; Xaetron is a strong absorber despite being green.",
+    "units": [
+      "Plasmafier",
+      "Drake",
+      "Blood Pact"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2024-08",
+    "replay_code": null,
+    "context": "Discussion of resource system design and how strong units sometimes appear in unexpected color combinations.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Blood Pact is superior to Rhino as a defensive option and is one of the better red defensive units, but in a vacuum (absent granularity or tech-waste concerns) the preferred defensive order is Wall > Forcefield > Blood Pact.",
+    "units": [
+      "Blood Pact",
+      "Rhino",
+      "Wall",
+      "Forcefield"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes.",
+    "date": "2024-08",
+    "replay_code": null,
+    "context": "Discussion of red defensive unit rankings and Blood Pact's relative strength at high inflation.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Blood Pact has good synergy with Shiver Yeti; Shiver Yeti is noted as being 2 blue cheaper than a unit that does 2 freeze + 1 attack, making it efficient, and combos like Yeti + Valkyrion are considered genuinely strong.",
+    "units": [
+      "Blood Pact",
+      "Shiver Yeti"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes.",
+    "date": "2024-08",
+    "replay_code": null,
+    "context": "Discussion of Blood Pact's synergies, with Shiver Yeti combos mentioned as actually good despite the joking tone.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "For Iso Kronus, the optimal purchase timing is determined by parity: you want to buy it on a turn such that when your turn starts, the clock counter and skull counter have the same parity (both odd or both even). The base case is clock=1 and skull=1 during your turn; match that parity when purchasing.",
+    "units": [
+      "Iso Kronus"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2024-06",
+    "replay_code": null,
+    "context": "Discussion of when to buy Iso Kronus in a set containing it, with silentslayers providing a parity-based rule and zezetel noting most doomed units have odd timers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Community members requested that beating Master Bot consistently should count toward or unlock ranked rating progression (e.g., allowing players to reach 1500 rating via bot games), with suggestions to raise or remove the current 500 MMR cap on bot games.",
+    "units": [],
+    "confidence": "medium",
+    "author": "zezetel",
+    "date": "2024-06",
+    "replay_code": null,
+    "context": "zezetel suggested that consistently beating Master Bot should qualify players for a 1500 rating floor, and silentslayers suggested raising the MMR cap for bot games.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "zezetel",
+    "report_date": "2024-06-30"
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Rushing Hellhound as an opener to enable a triple-Drone purchase the following turn is a viable (if unusual) opening that disrupts normal tempo; it is compared in spirit to Chrono Filter openings that similarly warp tempo expectations.",
+    "units": [],
+    "confidence": "medium",
+    "author": "iminabearsuit",
+    "date": "2024-06",
+    "replay_code": null,
+    "context": "iminabearsuit described the Hellhound rush opener enabling triple Drone next turn, with spiritfryer and silentslayers acknowledging it as a real but unusual opener.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Engineer as a pure defensive unit is considered S-tier; Hellhound and Sentinel are highly valued because they produce Engineers as part of their effect, partially substituting for drafting Engineer in limited-slot formats.",
+    "units": [],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2024-06",
+    "replay_code": null,
+    "context": "Discussion of hypothetical draft formats and the relative value of Engineer vs Engineer-producing units like Hellhound and Sentinel.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,208 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The effective barrier value (BV) of Wall is theoretically 2.222 gold per defense, but in practice closer to 2.3 because walls lack granularity and engineers must be purchased to fill gaps, with engineers having an effective BV of approximately 2.8 (at r=1.4). A mixed wall+engineer defense averages around 2.375 BV per defense.",
+    "units": [
+      "Wall",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Deep theoretical discussion on the cost of defense in gold-equivalent terms, comparing wall and engineer efficiency.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The marginal cost to defend against each additional Tarsier (beyond the base engineer tax) is exactly one Wall (2.222 BV), because the engineer granularity tax is a fixed base cost independent of the number of attackers — extra attackers do not increase the need to buy more engineers proportionally.",
+    "units": [
+      "Tarsier",
+      "Wall",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "consensus (.holyfire and lezaleas)",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Discussion on whether additional Tarsiers raise the effective BV cost of defense through increased engineer purchases.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Attack from a single tech building scales quadratically (more attackers purchased each turn), while Wall-based defense scales only linearly (at most one Wall per turn from a single Blastforge). This asymmetry means that as the game progresses, defense becomes increasingly harder and the effective growth rate r rises above 1.4 in the lategame.",
+    "units": [
+      "Tarsier",
+      "Wall",
+      "Animus",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Discussion on why attackers inherently outpace defenders in a pure Tarsier vs. Wall scenario over time.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Plexo Cell has a theoretical barrier value of approximately 1.775–1.95 gold per defense depending on assumptions about drone valuation, making it the most efficient soak unit in the game. However, its energy costs significantly reduce practical efficiency, and when accounting for energy (valued at ~0.56–0.67 gold each), Plexo Cell still cannot keep pace with a sustained Tarsier offensive.",
+    "units": [
+      "Plexo Cell",
+      "Tarsier",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Extended calculation comparing Plexo Cell soak efficiency against Tarsier attack under a simplified pure-strategy model.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In a direct comparison, Plexo Cell (BV ~1.775) and Aegis (BV ~1.8) are very close in soak efficiency when drones are not being repurchased; Aegis is marginally better in that framing, but Plexo Cell is better when its consumed drones are valued at their full ongoing income (~3.5 gold unclicked). The distinction matters because Plexo Cell costs a clicked drone while Aegis does not.",
+    "units": [
+      "Plexo Cell"
+    ],
+    "confidence": "medium",
+    "author": "consensus (.holyfire and silentslayers)",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Discussion comparing soak efficiency of Plexo Cell versus Aegis under different drone valuation assumptions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A Rhino's total value, when all charges are used, is approximately b*(r^-0.5 + r^-1.5 + 2*r^-3), where b is barrier value and r is the growth rate. The blocking charge occurs roughly 3 turns after purchase (not 2), giving approximately 2.25 BV at r=1.4. Each of the first two attack charges forces the opponent to build defense 0.5 and 1.5 turns sooner respectively.",
+    "units": [
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "consensus (.holyfire, silentslayers, lezaleas)",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Mathematical analysis of Rhino's total value accounting for when each charge contributes attack and when the block charge becomes relevant.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Antima Comet is particularly strong when it forces the opponent into pure defensive preparation, preventing them from growing their economy during the Antima build-up window. In this scenario, Engineers used to build the Antima have additional value because the opponent did not grow during the period of threat.",
+    "units": [
+      "Antima Comet",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Discussion of practical upside of Antima Comet beyond raw barrier value, in the context of economic disruption.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Permanent absorb (e.g., a Wall that blocks every turn) is worth approximately 7–8 gold at the time of purchase (at r=1.4, bv=2.3), compared to one-time soak worth roughly 2 gold. A Wall providing 2 absorb permanently is worth approximately 14 gold more than having no absorbers, making absorb disproportionately valuable relative to its purchase cost.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": ".holyfire",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Calculation comparing the value of permanent absorb versus one-time soak in a sustained attack scenario.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a pure economy model (drones, engineers, conduits, blastforge only), the maximum theoretical growth rate per turn accounting for energy costs is approximately r=1.2808 per turn, with energy worth approximately 0.562 gold in this mode. A player with sufficient starting economy can approach this growth rate and outgrow any fixed attacker strategy over infinite time.",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Conduit",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": ".holyfire",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Theoretical modeling of maximum sustainable growth rate in Prismata including energy costs.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a hypothetical pure-defense scenario (with infinite supply), a defender starting with approximately 10–12 drones can hold off a standard attacker starting with 6 drones and one Animus indefinitely by building engineers to scale defense. However, in real games with finite supply, the attacker always eventually wins, and without a sufficient economy head-start the defender cannot survive.",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Animus",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": ".holyfire",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Theoretical modeling of attacker-vs-defender scenarios with infinite supply to understand fundamental game balance.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Attack and defense are always offset by half a turn in Prismata's timing model: a unit purchased on turn T forces the opponent to build defense roughly 0.5 turns later (they respond on their next turn). This half-turn offset is the basis for discounting future costs by r^0.5 in barrier value calculations.",
+    "units": [],
+    "confidence": "high",
+    "author": ".holyfire",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Discussion of timing model used in BV calculations and Rhino value formula derivation.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "The community uses 'r' (growth rate, typically ~1.4 in midgame) and 'b' (barrier value, typically ~2.3) as standard parameters for evaluating unit efficiency. 'BV' (barrier value) represents the gold cost to generate one permanent point of attack or defense. 'Absorb' refers to blocking that prevents damage without being destroyed, while 'soak' refers to taking hits with units that die or are sacrificed.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2024-11",
+    "replay_code": null,
+    "context": "Extended theoretical discussion using these terms consistently throughout, with explicit definitions clarified between participants.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Doomed Divinity (a proposed custom unit costing 6 Gold + 6 Energy, 6 Health Blocker, Lifespan 6, Start of turn: Gain Green/Blue/Red/Gold) is considered potentially overpowered because it functions simultaneously as a strong absorber (comparable to a Doomed Drone + Conduit) and a tech enabler, allowing access to multiple colors including Red for Tarsier or Blue for Centurion without requiring an Animus, all for a low gold cost.",
+    "units": [
+      "Centurion",
+      "Tarsier",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Community discussion of a fan-proposed 'Doomed Divinity' custom unit design and its balance implications.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When transitioning into a high-health absorber like Doomed Divinity, the standard line is to use Walls as a first absorber, then build 6 Engineers when opponent hits 3-4 damage, buy the absorber next turn, and continue absorbing onto Wall while the absorber is in buildtime. The 6 Engineers also provide granularity once the absorber is active.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of the practical acquisition sequence for a proposed 6-Energy-cost absorber unit.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Temporary colored resource production (Blue or Red) from a lifespan unit is most valuable for purchasing limited-supply units or reaching threshold costs (e.g., 3rd Red, 2nd/3rd Blue), and in 3-Engineer-start games the cost of gaining multiple colors temporarily can be cheaper than buying the tech buildings directly.",
+    "units": [
+      "Conduit",
+      "Blastforge",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "kaelii",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Analysis of when temporary tech production from a lifespan unit is strategically worth acquiring.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A proposed 'Traitor Drone' unit (Click: consume a Drone, construct a Traitor Drone for opponent, gain 1 Gold per Drone you have) creates Fibonacci-sequence drone growth when both players click it, rapidly draining both players' economies. Each successive click generates less gold than the previous because the consumed drone is not counted in the gold gain and supply accumulates on the opponent's side.",
+    "units": [
+      "Wild Drone"
+    ],
+    "confidence": "high",
+    "author": "coscott",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Community analysis of a fan-proposed Traitor Drone custom unit and its degenerate economic implications.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When a unit creates a mirrored or symmetrical effect available to both players (like the proposed Traitor Drone or Savior), the first player to acquire it gains a tempo advantage, but the second player can sometimes compensate by having accumulated more resources before triggering the effect. This dynamic creates an Arka-like incentive for both players to let the opponent buy it first.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "coscott",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of the strategic tempo dynamics of symmetrical-effect units in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Apollo's click ability can interact with click order: sniping a fragile unit before dealing 1 damage to it produces a different outcome than dealing damage first, making Apollo one of the few units where click ordering affects the result in specific edge cases involving fragile units.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "medium",
+    "author": "coscott",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of click-order implications for the proposed Traitor Drone unit, with Apollo cited as an existing parallel.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Cynestra is used as a benchmark for evaluating multi-color producing attack units: designs that produce GBR plus attack are compared unfavorably to Cynestra ('bad Cynestra') if they require more tech infrastructure or produce less efficiently, and favorably if they offer comparable output at lower cost.",
+    "units": [
+      "Cynestra"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Community evaluation of multiple fan-designed multi-color producing units submitted for a design challenge.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When a unit that consumes Pixies is combined with a unit that produces Pixies (such as Thermite Core, which produces 8 Pixies), the consumed Pixie still fires its own click ability before being consumed, meaning the consuming unit effectively gains both the Pixie's attack and its own bonus attack from consuming it.",
+    "units": [
+      "Grenade Mech"
+    ],
+    "confidence": "medium",
+    "author": "xyotsuba",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Analysis of a fan-designed Mech Grenade unit that consumes Pixies for bonus attack, noting interaction with Pixie click timing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Red color is associated with more aggressive, low-to-mid econ strategies, while Blue is associated with lower inflation and more defensive setups; a cheap prompt Blue absorber that trades Drones for health would be less problematic than an equivalent Red version, because Red already enables aggressive drone-selling strategies that could be destabilizing at low cost.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of a proposed Blue prompt absorber unit and the color-based balance implications of cheap drone-consuming defenders.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Smorcus costs 11 Gold + 2 Red for 2 attack per turn, and is considered a weak benchmark for Red attack units because the effective cost per attack is high; the unit's secondary ability is not reliable enough to justify the premium over simpler Red attackers.",
+    "units": [],
+    "confidence": "medium",
+    "author": "f300xen",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Community discussion comparing various fan-designed Red attack units to existing benchmarks like Smorcus and Drake.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

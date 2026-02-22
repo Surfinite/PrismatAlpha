@@ -1,0 +1,246 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot may play a slower economic game when Blood Pact is in the set, possibly because it sees Blood Pact as providing extra soak and therefore delays building attack pressure. This causes it to over-rely on Blood Pact for defense instead of building enough attack to prevent the opponent from accumulating a massive threat.",
+    "units": [
+      "Blood Pact"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Discussion of Master Bot's tendencies when Blood Pact is available in the set, following a list of MB's perceived strategic errors.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "awaclus",
+    "report_date": "2022-07-16"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "In replay m+Yhp-rSaTr, Master Bot chose to kill two Wild Drones rather than breach the opponent for Lucina plus 1 Tarsier, missing what appears to be the stronger play.",
+    "units": [
+      "Wild Drone",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2022-06",
+    "replay_code": "m+Yhp-rSaTr",
+    "context": "velizar_ shared a replay where Master Bot made a suboptimal attacking decision, choosing to kill Wild Drones instead of breaching for higher-value targets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2022-06-04"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot exhibits a list of consistent strategic errors including: always buying Mobile Animus, treating Rhino as the best early attacker universally, buying Cluster Bolt even when the opponent has 5 attack and Polywall is present, using Blood Pact as primary defense, and spending limited Chill even when it denies 0 absorb.",
+    "units": [
+      "Rhino",
+      "Cluster Bolt",
+      "Blood Pact",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "zera777",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Zera compiled a humorous but specific list of Master Bot's known strategic mistakes based on observation of its play patterns.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "zera777",
+    "report_date": "2022-07-16"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Top players report winning approximately 95% of games against Master Bot, with at least one top player claiming to never lose against it. Losses to Master Bot among strong players are largely attributed to playing on autopilot rather than the bot being competitive.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Discussion of how strong players perform against Master Bot, with amalloy citing personal experience and mrguy888's position on losses being due to inattention.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2022-07-16"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot bought a Resophore with no Drones, meaning it would likely never generate any attack value from the unit, demonstrating it does not properly evaluate units that require Drone sacrifices as a resource condition.",
+    "units": [],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "awaclus explained to a newer player why the bot's Resophore purchase was a mistake, noting it had no Drones to sacrifice.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "awaclus",
+    "report_date": "2022-07-20"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot understands and executes Iso Kronus synchronization, a non-trivial tactical concept involving timing cooldown attackers to fire simultaneously for maximum effect.",
+    "units": [
+      "Iso Kronus"
+    ],
+    "confidence": "medium",
+    "author": "liquideggproduct",
+    "date": "2022-09",
+    "replay_code": null,
+    "context": "Discussion of how bots handle cooldown attackers; liquideggproduct noted that Master Bot does sync Isos, with amalloy noting bots in general may not.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "liquideggproduct",
+    "report_date": "2022-09-21"
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Community members have requested a 'Grandmaster Bot' that uses stronger AI, as Master Bot is beatable at a very high rate even by top players and does not provide a sufficient challenge.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Discussion about Master Bot's weakness led to community suggestions for a stronger AI opponent.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".sha6001",
+    "report_date": "2022-07-16"
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Plexo Cell is questionable when Wincer is in the set, implying the two units interact poorly or that Plexo Cell's defensive/economic value is undermined by Wincer's exhaust mechanic.",
+    "units": [
+      "Plexo Cell",
+      "Wincer"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "amalloy briefly noted the anti-synergy between Plexo Cell and Wincer during a broader discussion.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Vivid Drone's drone-sacrifice cost can be treated as net neutral (2 drones in, 3 drones' worth of gold out), making its real cost approximately 2 gold and 2 energy for 1 gold of net output — extremely efficient when excess energy is available. Its main drawback is increased breach vulnerability and reduced defense availability.",
+    "units": [
+      "Vivid Drone"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2022-09",
+    "replay_code": null,
+    "context": "awaclus explained Vivid Drone's efficiency to a newer player, breaking down its effective cost by netting out the drone exchange.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against cooldown attackers like Scorchilla and Wincer, the primary strategic adjustment is to use non-prompt defense options (e.g. Shredder, Infusion Grid) when available, and to otherwise play normally rather than over-adjusting. Cooldown attackers only slightly reduce the value of large absorbers.",
+    "units": [
+      "Scorchilla",
+      "Wincer",
+      "Iso Kronus"
+    ],
+    "confidence": "high",
+    "author": "lyra1712",
+    "date": "2022-09",
+    "replay_code": null,
+    "context": "lyra1712 and awaclus advised a newer player struggling against cooldown attackers, providing a prioritized framework for dealing with them.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Antima Comet and Chrono Filter, Player 1 is favored because they can acquire Antima Comet first. A strong P1 line is T1 Conduit, T2 Chrono Filter, T3 Antima Comet; alternatives include T1 Thorium Dynamo plus Galvani Drone, or double Auric Impulse.",
+    "units": [
+      "Antima Comet",
+      "Chrono Filter",
+      "Thorium Dynamo",
+      "Galvani Drone"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes.",
+    "date": "2022-11",
+    "replay_code": null,
+    "context": "Discussion of a specific set featuring Antima Comet and Chrono Filter where P1 advantage was identified as decisive.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In base set (simpler sets), Player 2 has a structural advantage, and the simpler the set the more significant the turn-order imbalance becomes. Most advanced units that favor P1 tend to make games more complex.",
+    "units": [],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2022-09",
+    "replay_code": null,
+    "context": "awaclus explained the relationship between set complexity and player turn-order advantage to a newer player asking about turn order.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'Float' in Prismata refers to resources not spent on a given turn that carry over to future turns (e.g. floating 1 gold in certain openings). This is distinct from deliberately wasting resources.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Community discussion clarifying the precise meaning of 'float' as a term for unspent resources that carry over.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Drones used for defense generate more immediate value than 1 gold and are more efficient than an Engineer for that purpose, though they are lost. A drone that generates economy for a few turns before being used as a blocker is more efficient than an Engineer in that role.",
+    "units": [
+      "Drone",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2022-09",
+    "replay_code": null,
+    "context": "awaclus explained to a newer player when and why sacrificing Drones for defense is acceptable and even efficient.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In the Zoo campaign mission, killing enemy attackers whenever possible is the highest-priority action — even above buying Shadowfangs — because breaching attackers is extremely high value. Most sacrifices made to enable killing more attackers are worth it.",
+    "units": [
+      "Shadowfang",
+      "Rhino",
+      "Husk",
+      "Grimbotch"
+    ],
+    "confidence": "high",
+    "author": "lyra1712",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "lyra1712 and zera777 advised a player struggling with the Zoo campaign mission, identifying attacker-killing as the dominant strategic priority.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

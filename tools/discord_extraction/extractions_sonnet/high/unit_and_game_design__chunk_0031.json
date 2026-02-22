@@ -1,0 +1,155 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a Centurion mirror, Protoplasm is exceptionally strong because it simultaneously attacks and defends, whereas in a normal game you must choose between the 4 Fragile defense or 4 Attack. In a Centurion mirror you cannot afford to be breached, so getting both functions from one unit is highly efficient.",
+    "units": [
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of unit design for a Thermite Nest suggestion led to masn6811 explaining why Protoplasm is particularly strong in Centurion mirrors.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Savior leads to many autowins for the player who gets it first; P1's standard line (DD/DD/DDE/DDD/DD+Savior) is significantly stronger than P2's equivalent due to the half-turn timing advantage, and getting Savior half a turn later is often not viable. This creates highly uneven player-advantaged lines, suggesting a recost or effect change is warranted.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "masn6811 analyzed the opening theory around Savior and argued it creates asymmetric P1/P2 outcomes similar to the problem with 5-cost Centrifuge.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Savior is best pursued in high-econ games with good soak and no strong attackers in the set, as it effectively doubles gold income and generates a Plasmafier each turn. Heavy economy (e.g., DD/DDE/DDDC/DDSav) is the required context to make Savior viable.",
+    "units": [
+      "Savior",
+      "Plasmafier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Multiple participants discussed Savior opening lines and when the strategy is appropriate.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Golden armor (immunity to damage on the turn of purchase) applies only to units directly purchased from the sidebar (e.g., Cluster Bolt charges on purchase, Redeemer, Hellhound). Units constructed by abilities after purchase do not receive golden armor \u2014 for example, Gauss Charges constructed by Xaetron mid-game can be killed before they fire.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of a custom unit that constructs a prompt unit on death raised the question of whether constructed units receive golden armor, leading to a clarification of the rule.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When a unit is destroyed during the damage assignment phase, any prompt unit it constructs as an on-death effect cannot be used for defense on that same phase, because damage is only applied after the player confirms assignment. A design solution is to give the constructed unit Exhaust 1 or Chill so it cannot block immediately, making the timing explicit.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of a custom blocker (Ceramic Wall) that constructs a unit when destroyed raised the question of whether that unit could block on the same phase.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In breachproof games, the opponent breaching your drones is not nearly as bad as it feels intuitively. Semi-breachproof scenarios where drones are the breach target do not typically reach the high-inflation conditions needed to make sacrificing your own drones to generate extra attack worthwhile.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "bky was analyzing a custom unit (Harja Marshal) whose click sacrifices drones for attack, and discussed the real-game value of losing drones to breach vs. spending them offensively.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Centrifuge at 5 gold cost (rather than 9) creates heavily player-advantaged lines analogous to the Savior problem, where P1 gets significantly better lines than P2. The higher cost of 9 avoids this asymmetry.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "masn6811 compared the Savior timing problem to Centrifuge costing as examples of units whose cost creates extreme player-order advantages.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Cauterizer (Hellhound 'vore) becomes notably cheaper with an engineer-multiplying economy unit: the effective cost drops from 10RR/2 attack to approximately 9BRR/2 attack once you account for the saved energy. A threshold of 5R per attack was Lunarch's internal benchmark for an acceptable strong combo, though most such combos were eventually nerfed.",
+    "units": [
+      "Cauterizer"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "bky analyzed how mqp's custom Project Manager unit (gain E per Engineer) would interact with Cauterizer, using Lunarch's historical 5R-per-attack benchmark.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Lunarch Studios avoids all resource cycles (positive or negative) in click-ability design for simplicity, even though negative cycles (e.g., click A to enable click B which reverts A) may be technically acceptable. The resource DAG property that underlies easy correctness proofs would be broken by any such cycle.",
+    "units": [],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of a custom inverse-Auride Core unit raised the question of whether it would violate the undo rule or create click cycles.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "\"Golden armor\" is an informal community term for the protection newly purchased units have against being damaged on the turn they are bought. It is not an official game term but is understood across the community.",
+    "units": [],
+    "confidence": "high",
+    "author": "1000mh",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "During a rules discussion, Henry (1000mh) clarified the community nickname 'golden armor' for the standard purchase-turn immunity mechanic.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

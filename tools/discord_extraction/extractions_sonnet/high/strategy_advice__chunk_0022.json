@@ -1,0 +1,265 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Mathematical analysis of Prismata units is most useful when presented as a graph across different values of R (resource ratio/inflation) rather than a single number, because units like Zemora Voidbringer or Savior vary dramatically in value depending on the game state. A single number forces misleading assumptions about game context.",
+    "units": [
+      "Zemora Voidbringer",
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about the validity of mathematical unit evaluation methods, contrasting apooche's graph-based approach with simpler single-number rankings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The important insight from math on units like Omega Splitter is not a single rule ('always hold Omega') but understanding the tradeoffs: hold Omega Splitter when the tempo and absorb gained outweigh the damage lost, which in a fully granular position they typically do.",
+    "units": [
+      "Omega Splitter"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Apooche explaining the limitations of presenting math results without assumptions, using Omega Splitter as an example of a unit where context determines the correct play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Using the assumptions R=1.4, red costs 1 gold, and tech cost is perfectly convertible to gold can produce misleading conclusions such as Husk and Blood Pact being terrible, when in reality those assumptions fail to capture the true value of those units.",
+    "units": [
+      "Husk",
+      "Blood Pact"
+    ],
+    "confidence": "high",
+    "author": "p0lari",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Polari critiquing oversimplified mathematical assumptions used to rank units, specifically calling out how those assumptions misvalue Husk and Blood Pact.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The fastest Wincer rush lines are P1: DD DC B1 and P2: DD DDC B1, but the P2 line is mathematically infeasible in base set because P2 only accumulates 21 gold by the relevant turn while the Chrono Filter plus Wincer setup costs 22 gold. Support units like Galvani Drone would be needed to make the P2 ultra-rush viable.",
+    "units": [
+      "Wincer",
+      "Chrono Filter",
+      "Galvani Drone"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of standard Chrono Filter + Wincer opening lines and their feasibility for both players.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Reso (Resonatrix/Resophore) is generally bad when soak is good because good soak implies good economy, and Forcefields cost economy. However, train units like Doomed Mech are often good soak against Reso specifically because Reso's long build time can mitigate the timing advantage of a well-set-up train.",
+    "units": [
+      "Doomed Mech",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about counters to Reso strategies, particularly how train units interact with Reso's long build time.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Green soak helps Reso strategies more than other types of soak, because when playing Reso your economy goes down and using green resources on soak to save Forcefields is more efficient than buying Forcefields and losing them or floating excess green.",
+    "units": [
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "kristian1103",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of what kinds of soak are favorable for Reso-based strategies.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When given a choice between Barrier and Forcefield while absorbing, Barrier is typically better because a Forcefield used just to save health next turn is worse than keeping the drone. However, when being breached for certain, Forcefield is better because it forces the opponent to kill the drone, whereas Barrier gives them the option to kill something else instead.",
+    "units": [
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion comparing the tactical use of Barrier versus Forcefield in absorb and breach scenarios.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When the opponent is attacking for only 1 damage, building an Infusion Grid is often better than building a Wall: you lose one Engineer but gain one health immediately plus ongoing absorb, making it a net positive in low-pressure situations.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Reviewing a Deadeye Operative game where the choice between Wall and Infusion Grid came up under low attack pressure.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Early Apollo is valuable in Deadeye Operative strategies not only for sniping damage but also to prevent multiple Gaussite Symbiotes from exploding on the same turn, which can be a significant tempo swing.",
+    "units": [
+      "Apollo",
+      "Deadeye Operative",
+      "Gaussite Symbiote"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": "eR8ap-A0ktX",
+    "context": "Apooche reviewing a Deadeye Operative set game, explaining why getting Apollo earlier than the player did would have been stronger.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Barriers can be exploited by opponents with granular attackers like Pixie: if you have two Barriers up, they can attack for 5 instead of 7 to kill an Engineer rather than a Wall, and killing Engineers is worth more than killing Walls.",
+    "units": [
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of the strategic weaknesses of Barrier as a defensive tool when the opponent has granular attackers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Grimbotch is considered one of the best units in the game while Tarsier is considered one of the worst, despite Tarsier being cheaper. Grimbotch held at 1 lifespan functions as 3 damage and 2 health over its lifetime; the key is getting full value by holding it rather than attacking with it at lifespan 1 unless breaching to kill something critical like a Shadowfang.",
+    "units": [
+      "Grimbotch",
+      "Tarsier",
+      "Shadowfang"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": "adByh-U194q",
+    "context": "Reviewing a new player's game where they went Tarsier against an opponent going Grimbotch, Asteri, and Valkyrion.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tarsier's build time of 2 means its effective resource cost is significantly higher than its sticker price of 4R+1 red; accounting for inflation the true cost is closer to 5.5-6 resources equivalent. The key weakness is that Tarsier does not pressure the opponent on the turn immediately after purchase, allowing them to develop economy and attack freely, and this early advantage snowballs due to exponential economy growth.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": "adByh-U194q",
+    "context": "Explaining to a new player why Tarsier is weak despite appearing cheap, using the game where they won by going Grimbotch/Asteri/Valkyrion over Tarsier.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Arms Race is best bought early in the game, not late, because engineers given to the opponent early do not provide immediate defensive value. Buying Arms Race late means the opponent can immediately use those engineers for defense, making the trade worse. It is generally bought in quantities of 1-2 rather than 4, even as a primary attacker.",
+    "units": [],
+    "confidence": "high",
+    "author": "msven",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of whether Arms Race is a good unit and how many copies to buy, including why it is better early than late.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Arka (likely Arkadikos), setting up Arka in rushy sets is usually bad if your opponent can set up counter-Arka. The correct approach is to be ready to counter-Arka rather than commit to Arka yourself.",
+    "units": [],
+    "confidence": "medium",
+    "author": "kristian1103",
+    "date": "2018-04",
+    "replay_code": "rJ@tm-8tuLu",
+    "context": "Reviewing a game where a second Blastforge was bought unnecessarily in an attempt to set up Arka in a rushy set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When evaluating whether good soak counters Reso, the key consideration is that if there is good attack in the set, soak favors the non-Reso player; if there is no good attack, soak favors the Reso player. Good attackers make going for giant economy (Reso + soak) punishable.",
+    "units": [],
+    "confidence": "medium",
+    "author": "redrame",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of when soak counters Reso strategies and the role of available attackers in that determination.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Steelsplitter and Gauss Cannon are considered worse than virtually every advanced set attacker, making them a low baseline for evaluating whether a random set unit is worthwhile as an attacker.",
+    "units": [
+      "Steelsplitter",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of baseline attacker quality comparing base set attackers to advanced set attackers.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

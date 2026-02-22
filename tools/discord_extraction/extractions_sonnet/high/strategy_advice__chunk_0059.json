@@ -1,0 +1,425 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Base+5 sets, top players often converge on the same answer, leading to a high percentage of 'non-games' where the outcome feels predetermined. This is not because Base+5 is easily solved, but because hard-to-spot counters are frequently missed by both players.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion about whether Base+5 is suitable for beginners vs experienced players, and whether it leads to degenerate games.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tarsiers at 4R are cheaper than Steelsplitters at 6B, making them more cost-effective attackers in sets where both are available. Early opponent Doomed Drones that time out can leave the opponent wasting R or B each turn and unable to use banked G effectively.",
+    "units": [
+      "Tarsier",
+      "Steelsplitter",
+      "Doomed Mech"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": "+vij9-XFYQz",
+    "context": "Analysis of a game where the player came back from behind using Tarsiers while the opponent's Doomed Drones timed out.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The opening DDC/DDE/DGG can be transposed to DDCE/DDD/GG, buying the same units but with the Drone purchased one turn earlier, resulting in a 'gold gain' with identical final unit composition.",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Opening analysis feedback given to a player reviewing their game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The 'drivenupthewall' AI (mono-blue Wall strategy) refuses to consider green units, which caused it to lose when it ran out of Wall supply. This exploitable pattern means players can win by outlasting the bot's Wall supply rather than breaking through its defense directly.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Analysis of a game where a player beat the bot by allowing it to exhaust its Wall supply, as the bot ignored green units entirely.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": ".bky_1556",
+    "report_date": "2020-05"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Sacrificing a Rhino on defense when a Polywall is present is a major blunder because it prevents killing the Polywall. Only Engineers should be sacrificed in such situations to preserve the Rhino for breaching.",
+    "units": [
+      "Rhino",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Game review where a player sacrificed a Rhino on defense instead of Engineers, costing them the ability to kill a Polywall.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Losing Xaetron without immediately breaching back in response is usually game-losing, because Xaetron regenerates and keeping it alive is very important. Getting breached without breaching back should not be considered an advantage.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Game analysis where the player incorrectly thought getting breached was advantageous after losing Xaetron.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When facing a predictable Wall defense, it is better to hold Gauss Cannons to accelerate getting a Gauss Fabricator online rather than ramming them into the Wall early. Getting the Fabricator sooner allows the second Gauss Cannon to deal real damage rather than being wasted on absorb.",
+    "units": [
+      "Gauss Cannon",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Post-game review where a player wasted two Gauss Cannons ramming a predictable Wall instead of using them to fast-track a Gauss Fabricator.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The double Thorium Dynamo opening commonly gets two Gauss Cannons on turn 5 in the mirror to cut off further drone production before the opponent can acquire another Dynamo. Going double Dynamo on turn 2 into double Gauss Cannon on turn 4 is only playable if the opponent has no hint of blue yet.",
+    "units": [
+      "Thorium Dynamo",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion of aggressive Thorium Dynamo mirror openings and when early Gauss Cannons are correct.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Arka Sodara is almost always better used on defense than attacking. Comparing Arka absorb to Infusion Grid absorb, the 7-defense tempo gain from absorbing is better than 1 extra damage per turn. Only with Energy Matrix (or when protecting a must-survive unit like Centurion) should attacking with Arka be seriously considered; with Xaetron, alternating Arka absorb and Arka attack is correct.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Discussion prompted by a wiki quote claiming Arka should usually defend, with experts silentslayers and masn6811 confirming and refining the conditions under which attacking is correct.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The P1 Vivid Drone + Conduit opening (Vivid+C // Trinity Drone + DE) is considered worse than DD/DC, which is itself already a poor opening. Its flexibility (option for early green without clicking Trinity Drone every turn) does not compensate for the lack of a strong high-econ follow-up.",
+    "units": [
+      "Vivid Drone",
+      "Conduit",
+      "Drone",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Discussion between bky, amalloy, and rus079760 about the viability of a Vivid Drone + Conduit P1 opening.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Knowing Base+1 solutions is practically useful because many Base+5 sets degenerate to Base+2, and occasionally Base+8 sets near-degenerate as well. Understanding the simpler sub-cases directly informs play in fuller random sets.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Discussion about whether studying Base+1 theory has practical value for Base+8 competitive play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "There are two primary justifications for a 4th Engineer opening: (1) the available soak is so strong relative to the opponent's attack that a larger economy is warranted, or (2) the optimal tech base requires high gold throughput. Sets with Energy Matrix-level absorb and sinks in all three colors generally do not meet either criterion, making 3rd Engineer correct in such sets.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Expert debate between masn6811 and silentslayers about whether a 3-color set with Infusion Grid, Matrix, and Sentinel warranted a 4th Engineer opening.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Base+Centurion, P1 can win with both 2-Engineer and 3-Engineer openings. The 3-Engineer line may be the stronger winning line. In Base+Gauss Fabricator, P2 wins both by buying the Fabricator and by ignoring it and going fast Animus.",
+    "units": [
+      "Engineer",
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Discussion of Base+1 solved set outcomes for Centurion and Gauss Fabricator, confirmed by multiple testers including masn6811 and mtanzer.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Base+Tia Threnody, the set is considered a likely P2 win. P1's best defense is the DDE (2-Engineer) turn-2 opening; any other turn-2 choice is flatly crushed by P2's Tia line.",
+    "units": [
+      "Tia Threnody",
+      "Engineer",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Discussion of Base+1 solved outcomes for Tia Threnody, with multiple experts involved in testing.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "In sets containing Centrifuge and Vai Mauronax, the openings P1: DD/D+Centrifuge/DDA/Vai+Wall and P2: Centrifuge/DD/A/Vai+Wall are described as 'pretty scary' against Master Bot, getting Vai and a Wall very early. The reporter was uncertain whether these lines are as effective against human opponents.",
+    "units": [
+      "Vai Mauronax",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Discussion of Centrifuge+Vai Mauronax sets and openings that work well against Master Bot.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "zera777",
+    "report_date": "2020-07"
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Endotherm Kit is not viable in Base+1 sets and is even worse in sets with Breachproof attackers, since Breachproof units negate the core value proposition of Endotherm Kit's damage boost.",
+    "units": [
+      "Endotherm Kit"
+    ],
+    "confidence": "high",
+    "author": "lyra1712",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Set analysis discussion where lyra1712 identified Endotherm Kit as a mistake to buy in the given set due to Breachproof attackers being present.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Iso Kronus becomes stronger as absorbers get larger, because absorb denial matters more in those situations. It is also naturally well-suited to Breachproof sets, but is generally weaker than Tarsier in base-set contexts.",
+    "units": [
+      "Iso Kronus",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "lyra1712",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Set analysis discussion evaluating whether Iso Kronus was worth buying given the available units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Cluster Bolt enables triple-Conduit openings (e.g., DD/DDC/CCD) by providing a viable gold sink. Without Cluster Bolt or another appropriate sink, 3 Conduits produces more green than can be effectively spent, making a double-Conduit opening with Forcefield as the sink the reasonable upper bound.",
+    "units": [
+      "Conduit",
+      "Cluster Bolt",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Set analysis discussing how Cluster Bolt justifies a high-Conduit opening that would otherwise produce unspendable green.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a Fission Turret + Cluster Bolt engine, the 'train' consists of one Fission Turret per turn being clicked as they expire to produce one Cluster Bolt per turn. Borehole Patrollers are bought independently of this engine rather than being part of the same chain.",
+    "units": [
+      "Cluster Bolt",
+      "Borehole Patroller"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Clarification during set analysis of a green-blue mirror involving Fission Turrets, Cluster Bolts, and Borehole Patrollers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In green-blue mirror sets featuring Fission Turret, Cluster Bolt, Iso Kronus, Borehole Patroller, and Forcefield, the P1 opening DD/DD/DDC/2BC (natural Blastforge on turn 4 into double blue) threatens to overwhelm Borehole-only defenses, achieves a good Wall timing, and accelerates the Fission/Cluster engine by half a turn compared to slower alternatives like DDC or DCB.",
+    "units": [
+      "Borehole Patroller",
+      "Iso Kronus",
+      "Cluster Bolt",
+      "Forcefield",
+      "Conduit",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2020-06",
+    "replay_code": "QesG9-PPH51",
+    "context": "Expert discussion of P1 options in a specific green-blue set with Borehole Patroller, Fission Turret, Cluster Bolt, and Iso Kronus.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "DCB (Drone/Conduit/Blastforge) into Borehole Patroller openings are generally poor because they prevent buying additional Drones or an Animus, leaving the player on approximately 10 drones. Managing granularity against enemy Boreholes then requires buying expensive Engineers and Forcefields that further degrade an already undersized economy.",
+    "units": [
+      "Drone",
+      "Conduit",
+      "Borehole Patroller",
+      "Engineer",
+      "Forcefield",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Discussion of P1 opening choices in a green-blue set where DCB into Borehole was considered as a line.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When stopping drone purchases and spending all gold on tech (Animus, Blastforge, Conduit), attack output begins increasing each turn rather than being flat, because the full gold throughput is now redirected to attackers. This represents an extra derivative of attack growth.",
+    "units": [
+      "Animus",
+      "Blastforge",
+      "Conduit",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Conceptual explanation of the economic inflection point when a player stops buying drones and fully transitions to attack.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Yujiri's unit efficiency math system is useful for getting a rough sense of how efficient units are past the absorb barrier, but any system that reduces Prismata card value to a single number will be incorrect in some cases. The transposition of Immolite and Perforator being assigned different inflation values is a known inconsistency.",
+    "units": [],
+    "confidence": "medium",
+    "author": "anesotericman",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Discussion of Yujiri's unit efficiency math and whether the Immolite/Perforator transposition inconsistency invalidates the system.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "In Tia Threnody sets, buying the first Conduit and then mirroring Tia Threnody as soon as the opponent buys it (buying one turn before them) is described as a strategy that beats Master Bot. Expert consensus is that 'counter-Tia' (responding to Tia with a different strategy) is usually a poor approach.",
+    "units": [
+      "Tia Threnody",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Discussion of how to handle Tia Threnody sets, with zera777 claiming a simple mirror strategy beats Master Bot.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "zera777",
+    "report_date": "2020-07"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Once past the absorb barrier, Rhinos are usually better than additional Tarsiers because Tarsiers contribute attack that is already in excess of the absorb threshold, while Rhinos provide defense that is immediately useful.",
+    "units": [
+      "Rhino",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "siepu",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "General strategic advice discussion about when to stop buying Tarsiers and transition to defensive units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,333 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays poorly with Antima Comet, frequently wasting its red resource. Players have noted the bot seems unable to use Antima effectively, making it easily exploitable in sets containing that unit.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "flakmaniak",
+    "date": "2020-04",
+    "replay_code": "unbAt-ZnUX2",
+    "context": "flakmaniak noted the bot wasted its red resource while playing with Antima Comet in a game where he used a Doomed Drone opening.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "flakmaniak",
+    "report_date": "2020-04-19"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot struggles with units requiring planning or forethought, particularly alternate-resource-cost units and units with additional activation costs. This makes it exploitable in sets containing such units.",
+    "units": [],
+    "confidence": "medium",
+    "author": "iminabearsuit",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion about Master Bot's weaknesses, prompted by jeacaveo's observation that MB seemed bad with Arka or confused by Doomed Mech.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "iminabearsuit",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is noted to be intimidating for newer players but becomes increasingly beatable as players gain experience, implying it has exploitable strategic patterns that skilled players can identify and target.",
+    "units": [],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "shadourow commented that Master Bot seems terrifying as a newcomer but becomes much less threatening with experience, implying readable strategic weaknesses.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "shadourow",
+    "report_date": "2020-04-19"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays poorly against Centurion, such that buying Centurion tends to be the correct play even when Vai Mauronax (a known Centurion counter) is in the set, because the bot does not exploit Vai effectively.",
+    "units": [
+      "Centurion",
+      "Vai Mauronax"
+    ],
+    "confidence": "medium",
+    "author": "jeacaveo",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "jeacaveo tested buying Centurion against Master Bot and found it was consistently the stronger play even with Vai in the set, confirming the bot cannot exploit the Vai counter.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "jeacaveo",
+    "report_date": "2020-04-22"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When defending against a breach, the correct decision should be evaluated in terms of how much absorb the breach denies and what units it destroys, not simply whether a breach occurs. Holding units purely to avoid a breach can be worse if the opponent gains no absorb denial either way.",
+    "units": [],
+    "confidence": "high",
+    "author": "megasupp",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "megasupp was correcting flakmaniak's understanding of breach value during a replay analysis, clarifying that absorb denial and SDR grants are the core metrics.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Losing a clicked drone is equally bad as losing an Engineer when the opponent's breach target is a drone and there is no absorb available, because in both cases you lose the resource spent. The additional harm of getting breached for drones is specifically the loss of absorb capacity, not the unit loss itself.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": "8TC1i-KzsZI",
+    "context": "velizar_ was analyzing a replay and discussing optimal defense decisions, specifically whether holding drones to block was correct versus letting them die.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Grenade Mech derives its strategic value from the opponent's inability to defend efficiently or being forced into inefficient defense, not from its raw persistent attack output (which is only 1 per turn). When facing a Grenade Mech rush, the correct response is to ensure you can defend efficiently rather than allowing a breach.",
+    "units": [
+      "Grenade Mech"
+    ],
+    "confidence": "high",
+    "author": "megasupp",
+    "date": "2020-04",
+    "replay_code": "8TC1i-KzsZI",
+    "context": "megasupp corrected flakmaniak's reasoning about allowing a breach against Grenade Mech, explaining the unit's core threat mechanism.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying a Rhino provides strong value in Hellhound sets because buying a Wall in such sets means not buying a Hellhound (an opportunity cost), and Rhinos avoid that cost while also providing exact damage. Additionally, Rhinos make defense harder for the opponent the following turn when you want to click your Valkyrion.",
+    "units": [
+      "Rhino",
+      "Wall",
+      "Hellhound"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "jamberine and masn6811 were discussing optimal defense choices in a Hellhound/Valkyrion set, evaluating Rhino versus Wall.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Xaetron should not be used as a back-line absorber every turn. Since Xaetron heals 4 health regardless of whether it blocks (as long as it is below 9 health), you should also absorb on a Wall every other turn to gain additional value, reserving Xaetron blocking only for when defense becomes very difficult.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "amalloy corrected flakmaniak who was treating Xaetron as a passive absorber to block with every turn, explaining when and how to maximize its value.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Cauterizer (Scorch) is better supported by the P1 slow Conduit line (DD/DDC) in scorch sets specifically, because P1 does not have to cut drones to access green resources, giving a mild economic advantage in those lines.",
+    "units": [],
+    "confidence": "medium",
+    "author": "sano712",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "sano712 was discussing when P1 slow Conduit is justified, noting scorch sets as the specific exception where it is more viable.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The P2 Doomed Drone opening DE1/DDD (Drone-Engineer turn 1, three Drones turn 2) is a valid opening specifically when P2 intends to go triple Engineer, as it is simply an improved version of the standard triple Engineer opening rather than a reason on its own to go triple Engineer.",
+    "units": [
+      "Doomed Drone"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "flakmaniak asked about Doomed Drone openings and whether DE1/DDD was particularly strong; shadourow and megasupp clarified its role.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Turn 1 Thorium Dynamo combined with Doomed Drone is a strong P2 opening motivated by economy optimization rather than green resource access. The decision to buy it should not depend heavily on the number of good green units in the set.",
+    "units": [
+      "Thorium Dynamo",
+      "Doomed Drone"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "flakmaniak questioned whether a set with few good green units would change the Thorium+Doomed turn 1 decision; amalloy clarified the motivation is economic.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Flame Animus rush (e.g. T2 Blastforge into T3 Flame Animus) is best avoided when the set has a high-economy win condition such as Energy Matrix. In those sets, building substantial economy before buying attackers (e.g. the longer Doomed Drone opener into T5+ Flame Animus) is preferred.",
+    "units": [
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "stacko",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "stacko answered flakmaniak's question about when not to go for a Flame Animus rush, citing high-econ sets with units like Energy Matrix as the primary dissuading factor.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Thorium Dynamo is almost a must-buy in most sets because it allows spending more gold without requiring additional energy, aligning with the principle of not wasting gold or energy. The only case to skip it entirely is if it leaves you vulnerable to a red rush you cannot defend.",
+    "units": [
+      "Thorium Dynamo"
+    ],
+    "confidence": "high",
+    "author": "stacko",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "stacko explained general Thorium Dynamo buying guidelines when answering flakmaniak's questions about economy openings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Cauterizer (Smorcus) is most useful when a player wants early Animus value but needs a different late-game unit. It is also strong when building multiple Animuses (e.g. for Lucina), and buying it early to provide 2 threat even before clicking it is a legitimate strategic play.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ was explaining when to buy Smorcus in response to flakmaniak's questions about the unit's strategic role.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The value of a breach is best understood as absorb denial plus all the SDRs (Soak-Damage Ratio gains) it grants to the attacker. These two components together determine whether forcing or allowing a breach is correct.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "masn6811 summarized the correct framework for evaluating breach value during a discussion on defense decisions in a replay analysis thread.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Community members expressed interest in a Master Bot with a continuous difficulty slider (rather than discrete levels) and in a stronger neural-network-based AI, noting that even Master Bot on its hardest setting (Master 7s) is not particularly challenging for many experienced players.",
+    "units": [],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ and sano712 discussed the existing discrete difficulty levels (Basic, Adept, Expert, Master, Master 3s, Master 7s) and whether a better AI with a continuous slider would be preferable.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-19"
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a set with both Doomed Drone and Engineers as key units, buying 4 Engineers to spam Doomed Drones is sub-optimal because there are only 10 Doomed Drones in supply; after 2-3 turns of maximum output the supply is exhausted and the extra Engineers become dead weight.",
+    "units": [
+      "Doomed Drone"
+    ],
+    "confidence": "high",
+    "author": "megasupp",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "megasupp and shadourow were debating the viability of a 4-Engineer Doomed Drone spam strategy, noting the 10-unit supply cap as the key limiting factor.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Centurion is generally a stronger buy than Vai Mauronax even when Vai is in the set as a counter, because Vai is only effective if the opponent lacks Blood Pact (Phage); without Phage the opponent's Vai is much weaker, making Centurion the more reliable win condition.",
+    "units": [
+      "Centurion",
+      "Vai Mauronax",
+      "Blood Pact"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "jamberine and jeacaveo discussed whether buying Vai to counter the opponent's Centurion was better than simply building your own Centurion, concluding Centurion was usually stronger.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Venge Cannon synergy weakens significantly when the player is already converting Drones into Thorium Dynamo, because additional Drones must then be purchased solely to fuel the Venge Cannon rather than contributing to the core economy, making the second Venge Cannon particularly poor value.",
+    "units": [
+      "Venge Cannon",
+      "Thorium Dynamo",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "crash_overlord",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "crash_overlord and jamberine analyzed jeacaveo's replay where buying a second Venge Cannon alongside Thorium Dynamo proved to be a critical mistake.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tia Threnody rush is generally a weak opening in base set unless paired with a T3 Blastforge as P1, since Blastforge enables the defensive output needed to contest Tia. Triple Engineer builds in particular struggle to stop a standard Tia rush. Additionally, Tia rush is weak in sets that lack cheap attackers to back it up.",
+    "units": [
+      "Tia Threnody",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "flakmaniak asked whether a basic Tia rush stops triple Engineer builds; amalloy and lyra1712 discussed the conditions under which Tia rush is or is not effective.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

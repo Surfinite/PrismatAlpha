@@ -1,0 +1,131 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The bot (implied AI opponent) is very bad at handling freeze mechanics, appearing to always use freeze even when there is no exploit opportunity or breach situation, wasting the freeze ability.",
+    "units": [],
+    "confidence": "medium",
+    "author": "sonoja",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "Discussion about granularity and exploit mechanics led to a side comment about bot behavior with freeze.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "sonoja",
+    "report_date": "2018-10-12"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "A Steelsplitter rush is a reliable strategy to beat Wacky Bot, implying Wacky Bot cannot adequately defend against early aggressive Steelsplitter pressure.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "Brief mention during a general social conversation thread about streamers and the game.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "mrguy888",
+    "report_date": "2018-10-09"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The auto-assign (Q) defense system prioritizes killing units with lifespan 1 first before assigning remaining damage to higher-health units, which can result in counterintuitive blocking suggestions such as killing Barriers before absorbing on a high-health unit like Omega Splitter.",
+    "units": [
+      "Omega Splitter"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "A player was confused why Q defense suggested killing Barriers and absorbing on a 6-health Omega Splitter when facing 6 attack; mrguy888 explained Barriers have lifespan and Q loses lifespan-1 units first.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Granularity's purpose is to avoid being exploited; treating granularity as a goal in itself leads to mistakes such as sacrificing a Wall to keep Engineers, which actually self-exploits in order to maintain granularity that is no longer serving its intended function.",
+    "units": [
+      "Wall",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "magnars",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "Discussion about the concept of granularity and its proper application in defense decisions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Barriers provide 'slow' granularity rather than true prompt granularity: they can be purchased incrementally to avoid over-defending, but because they have lifespan they cannot be used to block flexibly turn-by-turn. Husk, by contrast, provides genuine prompt granularity. Barriers can still approach perfect granularity if the opponent has no flexible attack.",
+    "units": [
+      "Husk"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "Thread debating whether Barriers count as granularity tools, with ruinedshadows distinguishing purchase granularity from blocking granularity, and amalloy adding the caveat about opponents with no flexible attack.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Sacrificing a Wall to preserve Engineers can be correct when the self-exploit is smaller (e.g., losing 1) than the exploit you would suffer otherwise (e.g., losing 2), making it a net gain despite appearing to misuse granularity principles.",
+    "units": [
+      "Wall",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "awaclus pushed back on the blanket claim that saccing Wall to keep Engineers is always bad, arguing it depends on the relative exploit sizes.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Apollo's value derives almost entirely from the fundamental difference between sniping (targeting any unit of 3 HP or less regardless of position) and dealing 3 damage; if that distinction doesn't matter in a given game state, Apollo is typically a bad buy. Apollo is primarily used to snipe attackers rather than soaks or walls.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "Extended debate comparing Apollo's snipe to Cynestra-style damage, with mrguy888 and others arguing the two are fundamentally different in most game states.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Apollo cannot snipe a unit from 5 HP down to 2 HP; snipe only functions on units at or below the snipe threshold (3 HP or less), meaning it cannot chip high-health attackers like Gauss Cannon the way raw damage can.",
+    "units": [
+      "Apollo",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "amalloy clarified a factual limitation of snipe during the Apollo vs. damage discussion to counter the claim that snipe and damage accomplish the same thing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,258 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The standard refutation to a turn-1 Animus from P2 is P1 responding with turn-2 DD (double drone), not an immediate Blastforge. Blastforging right away is considered wrong, and P2 going faster than DD/DDEE with any tech loses in that scenario.",
+    "units": [
+      "Animus",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Discussion of correct responses to early Animus openings in a set containing Electrovore and Smorcus.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Thunderhead is highly effective at punishing fast Animus (fastimus) openings. Scorch or Bolt can counter Thunderhead, but fastimus cannot; a natural Conduit into Animus is required to counterplay Thunderhead via a green-tech route.",
+    "units": [
+      "Thunderhead",
+      "Animus",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Expert discussion of Thunderhead's strategic role and its hard counter to fast Animus openings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a set with Tia Threnody and no Forcefield or Wall, the correct P2 response to an early Tia rush is defensive (e.g., DD, DDC, then a Blastforge or similar), not a counter-Tia rush, which is essentially conceding. P1 opening DD/DC signals a likely Tia threat when no other fast green unit is in the set.",
+    "units": [
+      "Tia Threnody",
+      "Forcefield",
+      "Wall",
+      "Blastforge",
+      "Drone",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-09",
+    "replay_code": "EAtMh-nxczb",
+    "context": "amalloy analyzed a game where P2 mirrored a Tia rush instead of defending, and explained the correct defensive response.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Venge Cannon without clicking its ability is roughly comparable in efficiency to Shadowfang under standard mid-game economic assumptions (approx. 152% vs 151% efficient relative to direct resource cost), making it a near-par attacker as a green sink even before factoring in its click ability.",
+    "units": [
+      "Venge Cannon",
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "anesotericman",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Detailed mathematical analysis of Venge Cannon efficiency using a constant 33.33% interest rate model and 2.4 barrier value assumption.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Venge Cannon's value is highly context-dependent: if it forces the opponent into buying Forcefields and Engineers to defend, it is very strong; if it allows the opponent to churn Polywalls and Plexo Cells, it is weak. Its drone-selling nature means buying it alongside other inefficient units drastically reduces its value.",
+    "units": [
+      "Venge Cannon",
+      "Forcefield",
+      "Engineer",
+      "Plexo Cell"
+    ],
+    "confidence": "high",
+    "author": "anesotericman",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Expert discussion on when Venge Cannon is actually good, emphasizing opponent's defensive options as the key variable.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In unit efficiency modeling, a standard approach uses a 33.33% interest rate (derived from Drone cost/benefit), assigning resource values of gold=1, red=1, green=4/3, blue=5/3. Under these assumptions, one attack per turn is worth approximately 2.77 gold now, and one persistent attacker is worth approximately 8.31 gold. Barrier Value of 2.3–2.4 is considered a reasonable default for mid-game.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "anesotericman",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Esoteric explained the mathematical framework used to evaluate unit efficiency, with community agreement on the reasonableness of the assumptions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Barrier Value (the cost to defend one damage) is lumpy in practice: defending 1 damage costs ~4, defending 2 costs ~5.33, defending 3 costs ~6.66, reflecting the marginal cost of forcing the opponent to buy an additional Engineer. What matters strategically is the cost of the last (marginal) defender, not the average.",
+    "units": [
+      "Engineer",
+      "Wall",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "anesotericman",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Expert discussion on the non-linearity of barrier value in practical mid-game scenarios.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a Bloodrager set with Galvani Drone present, fast Animus (fastimus) is a strong opening because Bloodrager is powerful enough to make the set low-economy even when high-economy units like Plexo Cell, Aegis, and Infusion Grid are available. The Galvani Drone further accelerates getting to 3 red for the Bloodrager.",
+    "units": [
+      "Bloodrager",
+      "Animus",
+      "Galvani Drone",
+      "Plexo Cell"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion of opening theory in a set featuring Bloodrager, Galvani Drone, Plexo Cell, and Infusion units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "A fastimus (early Animus) opening can beat Master Bot in sets containing Bloodrager, as Bloodrager's pressure is strong enough that Master Bot cannot handle it effectively.",
+    "units": [
+      "Animus",
+      "Bloodrager"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Zera reported beating Master Bot with an Elyot Animus (fastimus) opening in a Bloodrager set, with bky agreeing the Galvani Drone is the key enabler.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "zera777",
+    "report_date": "2020-09-07"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Velizar_ failed to beat both Master Bot and Adept Bot with a Rhino + Forcefield + Steelsplitter strategy but succeeded against Basic Bot, suggesting the strategy is too slow or suboptimal for even mid-tier bots.",
+    "units": [
+      "Rhino",
+      "Forcefield",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-09",
+    "replay_code": "J80j8-yMb9X",
+    "context": "Community challenge to beat Master Bot using a Rhino, Forcefield (Porcepield), Steelsplitter strategy; velizar_ tested and reported results against multiple bots.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-09-07"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Steelsplitter combined with Wall is described as an easy strategy to beat Master Bot, whereas adding mandatory Rhinos and Forcefields to the build makes it substantially harder or impossible.",
+    "units": [
+      "Steelsplitter",
+      "Wall",
+      "Rhino",
+      "Forcefield"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Follow-up to the RPS strategy challenge; velizar_ noted Steelsplitter+Wall alone is exploitable against Master Bot.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-09-08"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets where Wincer is available alongside Xeno Guardian, Lucina's performance perf ability is weak because perfing into a vigilant Wincer wastes red resources and attacking for 4-6 into a Xeno Guardian is very favorable for the Wincer player. Wincer likely needs Xeno Guardian to win against Lucina; without it, the Lucina player's Corpus provides enough soak to outlast the Wincer's blue expenditure.",
+    "units": [
+      "Wincer",
+      "Tia Threnody",
+      "Corpus"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion of whether Wincer beats Lucina with or without Xeno Guardian support, with testing mentioned.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a Deadeye Operative mirror, the debate between P2's 2-engineer vs 3-engineer opening is unresolved at the top level: mrguy888 and Coffeeyay support 2-engineer as always better, while other top players (Yotsuba, Msven, others) believe a 3rd engineer has merit in specific sets, such as when Apollo is also available for a cleaner Apollo buy.",
+    "units": [
+      "Deadeye Operative",
+      "Apollo",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Silentslayers summarized community debate on P2's engineer count in Deadeye Operative mirrors, noting expert disagreement.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Smorcus (likely a community name for an unnamed unit) is particularly effective at attacking for 4 and denying Wall purchases, which makes a Blastforge-first opening (to buy Walls) less attractive when the opponent has Smorcus, as P1 is likely forced to buy Steelsplitters instead.",
+    "units": [
+      "Wall",
+      "Steelsplitter",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "masn6811 argued against a BA (Blastforge+Animus) opening for P1 in a set with Smorcus, noting Smorcus denies Wall-based defense.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

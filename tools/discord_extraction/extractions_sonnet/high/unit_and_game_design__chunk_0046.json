@@ -1,0 +1,163 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Sentinel is considered a below-average but not terrible unit whose use cases are uncommon. It is very slow to get value from and is difficult to time correctly: buying it too early is wasteful, but when you are pressed for defense it is hard to fit in. It makes red/green slightly better but should not define a gameplan.",
+    "units": [
+      "Sentinel"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion comparing Sentinel and Chieftain as soak/attack units in green-red builds.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Sentinel compared to Chieftain: Chieftain (8GGB, 4-6 damage, 0-7 health) is significantly faster to get value from than Sentinel (7GR, 3 damage, 7 health), and Chieftain can be held early on 2-lifespan gold and absorbed on immediately, whereas Sentinel requires attacking at least twice before generating value. Inflation strongly favors Chieftain's speed advantage.",
+    "units": [
+      "Sentinel",
+      "Chieftain"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Players debating whether Sentinel is overpriced relative to Chieftain as a soak and attack unit.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Sentinel's off-color status (red-green) can be its key advantage in sets where the usual blue absorbers like Plexo Cell or Aegis are absent, since green-red builds can struggle hard for soak without them.",
+    "units": [
+      "Sentinel",
+      "Plexo Cell"
+    ],
+    "confidence": "medium",
+    "author": "xujhan",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of when Sentinel is worth buying despite its slowness.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Grimbotch works at 4-lifespan because it is efficient as an attacker, unlike Sentinel which is a poor attacker. Units that serve dual attack and soak roles are easier to justify buying during the attack phase than pure soak units.",
+    "units": [
+      "Grimbotch",
+      "Sentinel"
+    ],
+    "confidence": "medium",
+    "author": "xyotsuba",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of why Sentinel is awkward to buy despite its soak efficiency.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Sentinel is primarily a red-green unit, and the usual absorber in Prismata is blue-colored, which means Sentinel's color combination is inherently misaligned with the color of the typical soak pieces, making it harder to fit into most builds even when its stats are reasonable.",
+    "units": [
+      "Sentinel"
+    ],
+    "confidence": "medium",
+    "author": "xyotsuba",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussing why Sentinel feels overpriced compared to Chieftain despite comparable stats.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, units that are created by click or start-of-turn abilities use Exhaust rather than Buildtime (Time). Buildtime/golden armor only applies to units that are purchased. A unit constructed by an ability that is intended to have golden armor must explicitly call this out, as it is not granted by default.",
+    "units": [],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of Nanoswarm fan-made unit design and whether constructed units receive golden armor from Time vs Exhaust notation.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prismata is a perfect-information game by core design principle, and hidden-information mechanics such as 'secrets' are fundamentally incompatible with the game's design. Additionally, hidden information would create awkward interactions with the undo system.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of whether Hearthstone-style secret mechanics could work in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Units that produce resources renewably (e.g., from green mana each turn) and use those resources to construct other units require the constructed units to have Lifespan in order to be permissible in game design, since Lifespan prevents an unbounded accumulation of units on the board at once. The design constraint is about units on the board simultaneously, not the total number of units created over the course of the game.",
+    "units": [
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of fan-made Kiln unit design and whether generating Pixies with Lifespan from renewable resources violates Prismata design rules.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Half a Barrier per turn (0.5 absorb) is valued at approximately one Drone worth of gold (around 3-3.5 gold), based on Barrier costing 1 Green which requires a Drone and a Conduit to generate each turn (combined value ~7 gold), making half that production worth ~3.5 gold per turn.",
+    "units": [
+      "Drone",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "supergreyman",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Evaluating the value of a fan-made unit that generates half a Barrier per turn using green mana.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Breachproof attackers such as Gauss Cannons are effective counters to Apollo because they cannot be walled, and accumulating many of them (potentially supplemented by additional breachproof supply) forces opponents to slog through large amounts of HP before reaching the attacker line.",
+    "units": [
+      "Gauss Cannon",
+      "Apollo"
+    ],
+    "confidence": "medium",
+    "author": "darkeisbein",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of a fan-made Nanoswarm unit that is breachproof, and comparison to Gauss Cannons as Apollo counters.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

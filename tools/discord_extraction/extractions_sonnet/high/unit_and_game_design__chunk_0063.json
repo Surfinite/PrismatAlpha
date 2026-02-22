@@ -1,0 +1,288 @@
+[
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "A colorless absorb unit at 2 HP is considered unacceptable by masn6811 because it provides efficient soak at a colorless resource cost, which violates the design principle that colorless units should not absorb. At 1 HP it would be interesting but slightly weak; a 4/3 for 5e might make for a more balanced design.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-01",
+    "replay_code": null,
+    "context": "Discussion about a fan-designed colorless drone-style unit with 2 HP and gold-generation ability.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Colorless and green units are not supposed to absorb damage, even if they are not blockers \u2014 this is a color pie design rule in Prismata. Blastforge counts as a blue unit for this purpose, and Savior was historically an exception (formerly fragile) that was later changed due to text box clutter.",
+    "units": [
+      "Blastforge",
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "Discussion about a fan-designed colorless attacker with 2 HP and whether colorless units should be able to absorb.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Resource cycles (e.g., clicking a unit that converts attack to more attack) are not allowed in Prismata because they can generate resources ex nihilo through sequences like: click Steelsplitter, click the cycling unit, then unclick Steelsplitter, yielding a net gain of attack.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "Discussion about a fan-designed colorless attacker whose click ability converts attack into more attack, which was flagged as an illegal resource cycle.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Plexo Cell is a lifespan-1 unit that displays 'Absorb' text in-game, which is considered a UI inconsistency by both players and developers. The developer (elyot) considered hiding the absorb text on lifespan-1 units but noted that any solution to this edge case is problematic.",
+    "units": [
+      "Plexo Cell"
+    ],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "Discussion about whether Plexo Cell should be made fragile and whether its absorb text display is correct.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Red units in Prismata are designed to have poor soak but can absorb up to 1 damage (non-fragile), distinguishing them from green units which can absorb 0. Green units are intended to have better soak overall than blue units, but many sets end up where blue provides better soak than green.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "Discussion about color pie design rules for soak and absorb across different resource colors in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Green units are not supposed to have soak units smaller than 2 HP, and blue units are not supposed to have soak units smaller than 3 HP \u2014 meaning neither color gets truly granular soak. Corpus (red) provides granular soak roughly as efficient as Engineers, though red's granular soak should ideally be slightly less efficient than Engineers.",
+    "units": [
+      "Corpus"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "Discussion about color pie rules for soak unit sizing across green, blue, and red resource colors.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The difference between having 1 and 2 Resophores is approximately twice as large as the difference between 0 and 1 Resophores, because going from 1 to 2 means getting a Gauss Cannon for free (via the click), whereas going from 0 to 1 only means getting a Gauss Cannon at the cost of a Forcefield.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-01",
+    "replay_code": null,
+    "context": "Discussion about scaling returns from purchasing multiple Resophores.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In sets with expensive absorbers like Centurion, a fan-designed unit (Tia Soaknax) that can sacrifice 7 drones for 7 attack acts as both a 4-HP blocker and a 7-attack threat simultaneously \u2014 masn6811 evaluated this as providing 11 HP worth of value (4 defense + 7 attack) for 7GGGR in Centurion/Endotherm threat-heavy sets, comparing it favorably to Protoplasm which provides 4 defense and 4 attack in similar situations.",
+    "units": [
+      "Centurion"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-01",
+    "replay_code": null,
+    "context": "Evaluation of a fan-designed unit 'Tia Soaknax' that functions as a blocker with a threat-based sacrifice ability.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, Prompt does not imply Blocker \u2014 a unit can have Prompt without being a Blocker, meaning it can act on the turn it is bought without being able to block. These are two separate keywords and must both be specified if both behaviors are intended.",
+    "units": [],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2020-01",
+    "replay_code": null,
+    "context": "Discussion about a fan-designed unit that had both Blocker and Prompt, with shadourow noting this was the first fan unit design to correctly combine both keywords.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Prismata is not fully symmetric despite both players sharing the same unit pool \u2014 there is a P1 and P2 distinction, which means units available to both players can still cause significant asymmetric outcomes and cannot be dismissed as balanced simply because both players can access them (analogous to Antima Comet, Galvani Drone, and Chrono Filter being strong despite availability to both).",
+    "units": [
+      "Antima Comet",
+      "Galvani Drone",
+      "Chrono Filter"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2020-01",
+    "replay_code": null,
+    "context": "Debate about whether an overpowered fan-designed unit is acceptable because both players can use it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Cryo Ray is sometimes better than Gauss Charge because it allows the player to choose its target, enabling precise application of damage that Gauss Charge cannot replicate.",
+    "units": [
+      "Cryo Ray"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "Comparison between Cryo Ray and Gauss Charge in terms of damage output and targeting flexibility.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Apollo is cited as a good example of how to design a unit that directly interacts with the opponent's units without being oppressive: it has a clunky tri-color tech cost and cannot target units with more than 3 health, which limits its use to specific situations without hard-countering everything.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "megasupp",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "Discussion about the design of a fan unit (Chroni) that exhausts opponent non-blocker units, with Apollo cited as a design benchmark.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays poorly with Zemora Voidbringer and Mobile Animus. Even with units it handles better (e.g., Thunderhead), it exhibits specific misplays: it prioritizes building Wall over setting up 7 damage, and absorbs on Wall instead of the Rhino that would provide the 7th point of damage needed for a key threshold.",
+    "units": [
+      "Zemora Voidbringer",
+      "Thunderhead",
+      "Wall",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "Discussion about which units Master Bot plays well or poorly with, prompted by velizar's suggestion to document bot-friendly sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2020-03"
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "velizar_ suggested creating and publishing a curated list of units that Master Bot plays well with, so players can construct custom game sets optimized for bot play \u2014 noting that the bot is specifically bad with Zemora Voidbringer and Mobile Animus but that identifying its strengths is unclear.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "velizar_ proposed a community resource to help players enjoy games against Master Bot by using sets the bot handles well.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-03-18"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A hypothetical unit with a taking-opponent's-turn mechanic would be effectively unbeatable even at extreme costs like 50RRBBGGEEEE with Build Time 2 in a Centurion game, because controlling your opponent's turn is so powerful in Prismata that no reasonable cost can balance it for PvP. Such a unit would only be appropriate for campaign/solo content.",
+    "units": [
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "Discussion about a fan-designed 'Helpmate' unit that would allow a player to take control of their opponent's turn.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Shredder is a strong attacker in situations where it will not deny your own absorb, because its stats are comparable to Tarsier (inflation ~1.387 vs Tarsier's ~1.39). Its Frontline keyword is what limits its usefulness as both attacker and defender simultaneously.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion about a hypothetical 4-health blocker with a 1-attack click ability, with Shredder raised as a comparison.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Green resource (G) costs approximately 1.333 gold equivalent, and requiring green additionally locks a player out of pure blue or red strategies, making the effective cost of green higher than the nominal conversion rate suggests.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion about the cost of a hypothetical 4GB unit and whether it is more expensive than a 5B unit like Infusion Grid.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "masn6811 confirmed that adding Conduit to a base-set game (to support Amporilla alongside Wall) is not viable because the economy cannot support both Amporilla and Wall, and adding Conduits to the resource chain makes the econ strain even worse.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "Discussion about whether an Amber Drone fan unit enabling green-to-red conversion could make Amporilla viable in base set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,281 @@
+[
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In base-set-only (BSO) games, community analysis strongly suggests P2 is winning, but this has not been exhaustively proven. Experts have analyzed many lines and P2 consistently comes out ahead, but the search space is too large for a complete computer-assisted proof.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-04",
+    "replay_code": null,
+    "context": "Extended discussion between amalloy, mrguy888, masn6811, and mtanzer about whether BSO is provably a P2 win.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In the BSO TTD line (DD..DD DD..DA DDB..DTT), a key winning move for P1 involves buying a Forcefield over holding a Drone — a counterintuitive play that analysts repeatedly missed. P1 also prefers DDC over DDB for the 2 extra HP. mrguy888 claims to have thoroughly analyzed every gambit branch in this line.",
+    "units": [
+      "Forcefield",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2019-04",
+    "replay_code": null,
+    "context": "mrguy888 and mtanzer debating the BSO TTD line analysis and key moves that were repeatedly overlooked.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The 'Elyot Animus' opening (P1 DD/A) is a legitimate, non-troll strategy in small red sets. However, in sets with Feral Warden available, P2 responding DD/AC makes it extremely difficult for P1 to win, as Feral Warden simultaneously handles offense and defense that usually overloads P1's Elyot Animus pressure.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2019-03",
+    "replay_code": null,
+    "context": "shadourow tested the Elyot Animus opening against siepu in a small red+Feral Warden set and concluded P1 cannot win against DD/AC response.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Amporilla strategy is not primarily about getting Amporilla first; it's about finding the right balance of Tarsiers before buying Amporilla. A 3-tarsier Amporilla is acceptable; a 5-tarsier Amporilla is preferable if the opponent goes slow. Amporilla most often functions as a threat that deters greedy play rather than a unit that is always purchased.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-03",
+    "replay_code": null,
+    "context": "Discussion about how to play Amporilla sets, with amalloy correcting the misconception that getting Amporilla first is the key goal.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When holding a Bombarder at 1 stamina rather than clicking it, you still threaten the same units next turn but gain 4 defensive tempo and 1 absorb to invest in more Bombarders. Clicking Bombarder when the opponent is forced to hold drones anyway provides little additional gain, since they must hold the same drones again next turn.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-04",
+    "replay_code": "li5sa-YVId@",
+    "context": "amalloy analyzing a replay where the player clicked Bombarder when holding would have been equally threatening while enabling faster Bombarder scaling.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Cynestra is classified as fragile (can be damaged for 1 HP) rather than having 2 defense, which matters because a Rhino can kill a unit with 2 HP but not one with 2 defense. This distinction can determine whether a breach is survivable when Cynestra has taken chip damage.",
+    "units": [
+      "Cynestra",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "zera777",
+    "date": "2019-03",
+    "replay_code": null,
+    "context": "Discussion about why Cynestra's fragile property is mechanically relevant, clarifying HP vs defense distinction.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When choosing between buying an Urban (or similar unit with absorb) and a Wall for defense, the order generally does not matter while wall supply remains above 1, because the defensive tempo is preserved either way. The only time the order strictly matters is when you are down to your last wall(s) in supply.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-03",
+    "replay_code": "Fx4r5-px4S5",
+    "context": "amalloy and jamberine debating whether buying Urban before Wall vs Wall before Urban matters for defensive supply management.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Gaussite Symbiote pop is significantly less efficient than Cluster Bolt as a damage source. It requires banking green resources and syncing with other units, but unless you only have 3 green available, Cluster Bolt is generally the stronger option for converting economy into damage.",
+    "units": [
+      "Gaussite Symbiote",
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2019-03",
+    "replay_code": "Fx4r5-px4S5",
+    "context": "jamberine and others discussing a replay where the player banked green for a Gaussite Symbiote pop instead of buying Cluster Bolts earlier.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Xeno (Centurion) counters Endotherm Kit strategies. In sets where Endotherm Kit is present, buying Centurion on the correct turn and avoiding unnecessary Blastforges is critical; getting 4 Blastforges without a plan is identified as a key mistake.",
+    "units": [
+      "Centurion",
+      "Endotherm Kit"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2019-03",
+    "replay_code": "4wNrP-y6Bhk",
+    "context": "mrguy888 analyzing a replay where the player lost to Endotherm Kit despite having access to Centurion, citing missed Centurion timing and excess Blastforges.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against a Savior set, Animus into Tarsiers is an extremely slow and losing response. Faster alternatives include Cluster Bolt rush, buying Venge Cannon (identified as 'the unit that wins'), or DCG into Rectifiers, which amalloy found looks unstoppable in analyze mode.",
+    "units": [
+      "Animus",
+      "Tarsier",
+      "Cluster Bolt",
+      "Venge Cannon"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-03",
+    "replay_code": "2XeKe-0HNEa",
+    "context": "amalloy analyzing a replay where the player went Animus into Tarsiers against a Savior set and lost, recommending faster aggressive responses.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Absorbing on Arka (holding Arka to absorb instead of attacking) costs 4 attack, making it roughly equivalent to a Wall in absorb value but at the cost of Arka's offensive threat. By contrast, Centurion absorbs for 5 at no opportunity cost. The correct play is almost always to attack with Arka and absorb on Centurion.",
+    "units": [
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2019-03",
+    "replay_code": "sBBXv-mf49q",
+    "context": "shadourow and jamberine correcting zera777's decision to hold Arka for absorb while sacrificing Centurion, explaining the opportunity cost error.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In a Venge Cannon + Cluster Bolt set against high-econ opponents (e.g., Vivid Drone builds), Venge Cluster can be assembled fast enough to make acquiring Arka very difficult for the opponent. The soak value of units like Shredder and Hannibull matters less in this context because their threat and attack don't apply against Venge Cannon.",
+    "units": [
+      "Venge Cannon",
+      "Cluster Bolt",
+      "Vivid Drone"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2019-03",
+    "replay_code": "+VIgS-LslkP",
+    "context": "jamberine analyzing whether Venge Cluster was correct against a high-econ opponent in a set with Shredder and Hannibull.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a set with Dynamo and Zemora Voidbringer, the standard P2 opening is DC / 1D / DD / 12D, which gets Zemora on turn 4 as in non-Dynamo openings. An alternative T3 opening exists: DC / DC / 12 / DD, which may offer different tempo, though it has rarely been tested.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2019-04",
+    "replay_code": null,
+    "context": "mtanzer describing the standard and alternative P2 openings in a Dynamo+Zemora set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a set analyzed by amalloy (replay pdwTc-rv4+n), a Cluster Bolt spam line (DD CC CC CC + Clusters) defeats a red rush. This was discovered by a viewer after amalloy failed to find a winning line during his video analysis.",
+    "units": [
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-03",
+    "replay_code": "pdwTc-rv4+n",
+    "context": "amalloy reporting that a viewer found Cluster Bolt spam as the winning response to red rush in a set he had analyzed on YouTube.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a replay where the player was losing as an 'econ main', the recommended correction was to delay red purchases: instead of buying 11A on T4, the line DD1C into DDDDB (getting more Drones) before acquiring red units was identified as winning. Building more Drones can be correct even when the player already has a heavy economy focus.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-03",
+    "replay_code": "JW+SQ-uSwt1",
+    "context": "amalloy analyzing a losing replay and finding the key mistake was insufficient Drone investment before pivoting to red units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'Elyot Animus' (also called 'Manimus' informally) refers to a P1 opening of DD/A (buying Animus on turn 2) as an aggressive early red strategy. It is considered a legitimate opening, not a gimmick, in small red sets.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2019-03",
+    "replay_code": null,
+    "context": "shadourow and siepu discussing terminology and legitimacy of the Elyot Animus opening.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "A +5 gold handicap given to Master Bot results in dramatically stronger opening play (e.g., DD/DDCB on turn 2), causing it to consistently outpace the human player in attack. This illustrates that Master Bot's opening strength is highly sensitive to gold advantage, and players should verify handicap settings before attributing the bot's performance to AI quality.",
+    "units": [
+      "Drone",
+      "Conduit",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "zera777",
+    "date": "2019-03",
+    "replay_code": null,
+    "context": "zera777 discovered they had accidentally left a +5 gold handicap on while grinding the 'Master Monster' achievement, explaining why Master Bot seemed impossibly strong.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "zera777",
+    "report_date": "2019-03-20"
+  }
+]

@@ -1,0 +1,154 @@
+[
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When breaching and choosing between killing Vivid Drone or Tarsier, killing Tarsier is generally better. In a breaching situation, inflation is very high and the 'one turn later' disadvantage of Vivid Drone is enormous. However, there are specific turns (e.g., when you pop a resource and buy many units at once) where killing Vivid Drone is correct instead.",
+    "units": [
+      "Vivid Drone",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-04",
+    "replay_code": null,
+    "context": "Discussion about breach priority between Vivid Drone and Tarsier, with amalloy initially suggesting it doesn't matter and mrguy888 correcting that it can matter.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Old versions of both Vivid Drone and Wild Drone suffered from inflexible early-turn costs that forced specific openings, similar to a scenario where Drone costs 7 gold — this creates asymmetric opening efficiency between P1 and P2, making many sets heavily unfair for one side.",
+    "units": [
+      "Vivid Drone",
+      "Wild Drone"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2019-04",
+    "replay_code": null,
+    "context": "Discussion of why old Vivid Drone caused P1/P2 winrate imbalances within specific sets even when aggregate winrates appeared even.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Vivid Drone historically favored P1 in low-econ sets (opening DD DDE 1A followed by red units) due to Animus being strong, and favored P2 in higher-econ sets (opening DD DDEE 1D + EE or Conduit). This split caused aggregate winrates to appear balanced while individual set winrates were highly skewed.",
+    "units": [
+      "Vivid Drone"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2019-04",
+    "replay_code": null,
+    "context": "apooche explaining the P1/P2 asymmetry in Vivid Drone sets based on economy level and opening structure.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is susceptible to absorb denial: if a player opens with a unit like Flame Animus into Auride Core, the bot will always respond by buying a Wall instead of an attacker, even when buying an attacker would be stronger.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-05",
+    "replay_code": null,
+    "context": "Discussion of specific exploitable Master Bot behaviors that give knowledgeable players an edge even when those plays are suboptimal against strong human opponents.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2019-05"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot always spends all of its flexible attack as long as doing so kills at least one Engineer, even if that means wasting many attackers (e.g., blowing 10 Pixies to kill one Engineer). Players can exploit this by holding back a unit like Chieftain and absorbing on Wall, baiting the bot into inefficient attacks.",
+    "units": [
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-05",
+    "replay_code": null,
+    "context": "amalloy listing specific predictable Master Bot behaviors that can be exploited by players who know the bot's patterns in advance.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2019-05"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot never gambits (makes sacrificial early aggressive plays), which is a known exploitable pattern. Players who are aware of this can safely ignore gambit-defense considerations and optimize their opening purely for economy and standard play.",
+    "units": [],
+    "confidence": "high",
+    "author": "siepu",
+    "date": "2019-05",
+    "replay_code": null,
+    "context": "Discussion of what players know about Master Bot's behavior that gives them an advantage when aware they are facing it.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "siepu",
+    "report_date": "2019-05"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot cannot purchase technology buildings (tech units), which severely limits its strategic options and makes it predictable in sets where tech units are key. Top players estimate their winrate against Master Bot at roughly 90-95%, with losses mostly attributable to misreading the set rather than the bot outplaying them.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-05",
+    "replay_code": null,
+    "context": "Extended community discussion about Master Bot's strength level, with amalloy estimating ~90-95% winrate and mrguy888 arguing top players should be near 100% when trying.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Knowing Master Bot's predictable weaknesses (absorb denial response, overkill attack behavior, no gambits, no tech purchases) allows players to make plays that are suboptimal against strong humans but optimal against the bot. This knowledge gap means players who know they are facing Master Bot have a measurably higher winrate than against an anonymous opponent of equivalent strength.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-05",
+    "replay_code": null,
+    "context": "Discussion of whether Master Bot was harder to beat when disguised as a ladder opponent; amalloy argues exploitable patterns require knowing you face the bot.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2019-05"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Master Bot is estimated at approximately 1100 Elo strength, making it beatable by players above roughly 1600 rating. Players who previously found it easy to beat when knowing it was Master Bot performed noticeably worse against it when it was disguised as a ladder opponent, suggesting exploitable patterns are a significant component of its apparent weakness.",
+    "units": [],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2019-05",
+    "replay_code": null,
+    "context": "mrguy888 estimating Master Bot's rating in context of discussing whether it could reach Tier 9 if it laddered today.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Auride Core converting absorb denial into gold rather than direct attack is strategically advantageous because of starting Engineers: gold can be used to buy Engineers and Drones, which interact with the opponent's absorbed Engineers more efficiently than raw attack would. Bridge absorbers are also a relevant consideration in this dynamic.",
+    "units": [
+      "Auride Core"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Discussion comparing Auride Core to Thermite Core, with mrguy888 explaining why gold generation from absorb denial is stronger than direct attack generation.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

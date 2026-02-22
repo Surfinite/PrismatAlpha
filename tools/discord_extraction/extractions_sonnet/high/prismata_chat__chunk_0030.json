@@ -1,0 +1,158 @@
+[
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Master Bot uses alpha-beta search with heuristics that generate a small subset of moves to evaluate each turn, rather than any neural network or data-driven component. Community members note this architecture makes it meaningfully weaker than a hypothetical NN-based bot trained on game data.",
+    "units": [],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about the feasibility of building a stronger Prismata AI to rival top players, with mtanzer describing Master Bot's technical architecture.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is generally considered not strong by expert players; mtanzer explicitly states 'master bot isn't good, it's possible to do a lot better than mbot for sure', suggesting skilled players can exploit its limited move-generation heuristics.",
+    "units": [],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community discussion about the quality of Master Bot relative to top human players and the potential for a stronger AI.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "mtanzer",
+    "report_date": "2018-03"
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Community members suggested that beating Master Bot (or Expert Bot) a set number of times should serve as an alternative skill-based unlock condition for ranked play, rather than requiring a pure grind.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about lowering the barrier to ranked play for new players, with p0lari, upskuttle, and jeacaveo agreeing on a bot-beating unlock alternative.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wincer (synced burst attack) is strong against large absorbers because the absorber gets absorb value less often than every turn, reducing the absorber's efficiency. Efficient attackers and non-prompt defense are the recommended counters to Wincer.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "high",
+    "author": "wilson0862",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "jeacaveo asked about unit counter chains including Wincer and Zemora; Wilson clarified the mechanics behind Wincer's effectiveness against absorbers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When buying Doomed Mech alongside a Drone, buying Doomed Mech first (then floating, then buying the Drone) is more flexible due to lifespan considerations, though buying Drone first gives strictly higher lifespan on the Doomed Mech.",
+    "units": [
+      "Doomed Mech",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about the ordering of purchases involving Doomed Mech and Drone, with awaclus and p0lari examining the lifespan implications.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Lucina is widely considered the best attacker in the game and viewed by much of the community as overtuned, though 'balanced' is acknowledged as subjective.",
+    "units": [],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Direct question asking whether Lucina is balanced; namington gave a concise expert assessment.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "The first Red resource from an Animus is significantly more valuable than the second (estimated 3.5 vs 2.5 in forward-looking accounting), because the first Red opens more strategic options and is less restrictive than the second.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "bky mentioned using forward-looking accounting that values Animus halves at 4/2; namington refined the estimate to roughly 3.5/2.5 and explained the asymmetry.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Elyot (developer) noted that Frost Brooder is often misperceived as overpowered by beginners because it is strong against the drone-heavy economy strategies beginners learn first, but it is actually weak against Gauss Cannon strategies.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Quote from Elyot's stream/Q&A relayed in the Discord, discussing why beginners overrate Frost Brooder.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Elyot (developer) noted that among base set units, Steelsplitters interact with units like Manticore and Odin, Gauss Cannons interact with Fabricator, and Tarsiers interact with Amporilla, but Rhinos have lacked dedicated interaction units — motivating the design of the new 'Mobile Animus' unit.",
+    "units": [
+      "Steelsplitter",
+      "Rhino",
+      "Tarsier",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Namington relayed developer comments from Elyot's stream about design philosophy for a new unit intended to provide Rhino interactions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A tech building that generates a resource each turn and can sacrifice itself to produce a combat unit (like the speculated Mobile Animus click to gain a Rhino) provides strategic flexibility: use it to enable high-tech units early, then convert to a combat unit when the tech is no longer needed, avoiding being overteched.",
+    "units": [
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Namington theorycrafted the strategic value of a sac-for-Rhino click ability on the leaked Mobile Animus unit.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

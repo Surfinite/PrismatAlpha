@@ -1,0 +1,210 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "A fragile blocker with 1 HP that you never intend to block with creates confusion when calculating defense, because it technically provides blocking status but using it to absorb damage is almost never correct. This is a known design problem illustrated by Sentry among existing units.",
+    "units": [
+      "Sentry"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed unit with fragile blocker status and a click-to-attack ability, evaluating design pitfalls.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Soaking on Borehole Patroller is approximately as bad as soaking on Steelsplitter, because to soak a Steelsplitter you must hold it (costing 1 attack), which is roughly equivalent to giving up 1 HP of soak from Borehole. The exact comparison depends on the situation.",
+    "units": [
+      "Borehole Patroller",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion of relative soak efficiency when absorbing on attackers of different HP values.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "SDR (Shalev's Rule) is a community term from a Prismata blog post, referring to the design principle that no unit should make the opponent regret having units on the board. Golden Armor is cited as the only existing mechanic that breaks SDR, and it exists to prevent situations like an Apollo sniping a unit before it can act.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion of fan unit designs and whether they comply with Shalev's Rule, referencing the official Prismata blog post on SDR.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Innervi Field cannot serve as a substitute for a Wall or Rhino as a true absorber. While it can be used to absorb once or twice in specific situations (e.g., absorbing a Gauss Cannon + Electrovore + Scorchilla poke into mono-conduit while buying a Blastforge), it should not generally be considered a permanent absorber in the way Wall provides recurring absorb.",
+    "units": [
+      "Innervi Field",
+      "Wall",
+      "Rhino",
+      "Gauss Cannon",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Extended community discussion about whether Innervi Field qualifies as an absorber and how it should be used strategically.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The community distinguishes between 'absorb' (recurring damage mitigation that resets each turn, like Wall or Rhino) and 'soak' (finite total damage mitigation). Innervi Field occupies an intermediate role: it can absorb once (the HP it regains at start of turn), but is generally categorized as soak since it provides a finite total mitigation over its lifespan.",
+    "units": [
+      "Innervi Field",
+      "Wall",
+      "Rhino",
+      "Barrier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Multi-thread debate on the precise definitions of absorb vs. soak in the context of units like Innervi Field, Xaetron, Barrier, and Doomed Mech.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Plexo Cell is considered by the community to be the strongest soak unit in the game, used as a balancing reference point when evaluating other soak units.",
+    "units": [
+      "Plexo Cell"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion evaluating a fan-designed unit (Golden Aegis) as soak, with Plexo Cell cited as the benchmark strongest soak unit.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Blue color should not receive small, prompt, efficient blockers, as this violates the thematic and balance role of blue in Prismata. Green is the color traditionally given the best soak units, so blue soak units must be designed with extra care and constraints such as Frontline.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Multiple designers independently noted that giving blue small prompt defense is a design mistake when evaluating fan-submitted blue blocker units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Giving a blue soak unit the Frontline keyword is a good design approach because it provides soak value without adding granularity to the defender's blocking options, and it allows the unit to be priced more aggressively. Shredder and Polywall are cited as existing examples of this design pattern.",
+    "units": [
+      "Shredder",
+      "Polywall",
+      "Infusion Grid"
+    ],
+    "confidence": "high",
+    "author": "randomflyingtaco",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion of how to design efficient blue non-prompt soak units without stepping on existing units like Infusion Grid.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Blood Pact used to give a Grimbotch with full (normal) lifespan and used to cost more gold. The current version reduces Grimbotch lifespan relative to its original design, and the cost was also reduced. These two changes are related balance adjustments.",
+    "units": [
+      "Blood Pact",
+      "Grimbotch",
+      "Husk"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Discussion of whether Blood Pact could be adjusted to give one more Husk in exchange for the Grimbotch having reduced lifespan, revealing historical balance changes.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Prismata, damage now is better than damage later as a general principle, which is why Blood Pact's Grimbotch having reduced lifespan (giving the opponent fewer turns of Grimbotch attack) matters even if the buyer receives one more Husk as compensation.",
+    "units": [
+      "Blood Pact",
+      "Grimbotch",
+      "Husk"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Evaluating whether giving Blood Pact one more Husk while restoring Grimbotch's full lifespan would be balanced.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Corpus automatically constructs a Husk only when purchased by a player from the supply, not when constructed by another unit's ability. Units that construct Corpus via abilities need to explicitly include Husk construction in their effect if a Husk is intended.",
+    "units": [
+      "Corpus",
+      "Husk"
+    ],
+    "confidence": "medium",
+    "author": "deadhour",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Discussion of a fan unit that constructs a prompt Corpus, questioning whether the Husk is automatically included.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Comparing Tantalum Ray and Borehole Patroller: Tantalum Ray does not immediately threaten for 2 damage on the turn it is bought, whereas a unit that constructs a prompt Corpus on purchase can defend for 2 prompt on the turn of purchase, making early defense timing a key differentiator between attacker designs.",
+    "units": [
+      "Tantalum Ray",
+      "Borehole Patroller",
+      "Corpus",
+      "Husk"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Evaluating a fan unit that constructs a prompt Corpus on purchase, comparing it to Tantalum Ray and Borehole Patroller.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

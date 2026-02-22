@@ -1,0 +1,518 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Gambiting is a defensive strategy where a player deliberately allows the opponent to breach (giving up absorb and possibly losing units post-breach) in exchange for forcing the opponent to expend their threat resource. It is distinct from simply failing to defend.",
+    "units": [],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Discussion of the two main defensive options in Prismata and edge cases like gambiting and absorb denial.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Absorb denial strategies include syncing Iso Kronuses against a large defender when other attack options are weak, or spamming Thermites to delay giving the opponent absorb, though the latter is rarely optimal.",
+    "units": [
+      "Iso Kronus"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Discussion of defensive options and when absorb denial is worthwhile.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Venge Cannon is potentially the only unit that can make some sets breachproof even on its own, without requiring any other dedicated breachproof unit.",
+    "units": [
+      "Venge Cannon"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Discussion of breachproof variants and which units enable breachproof strategies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When facing a breachproof opponent, you can value attack slightly less (since breachproof units have more efficient HP than soak), but before they acquire an absorber you can sometimes value attack more aggressively to force them into buying Forcefields or committing to breachproof earlier than desired. Against a breachproof opponent, prioritize hitting economy units over attackers unless supply is limited or you need to defend.",
+    "units": [
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Advice thread on how to play against a breachproof opponent.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In some sets, the optimal strategy for both players is to avoid committing to a specific tech path, because anything either player commits to has a counter. Posturing without committing until a key turning point can be the correct play.",
+    "units": [],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Discussion of whether 'meta-game' or strategic deception is possible in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Playing a move like a third Engineer that leaves enough flexibility to respond aggressively if needed is not deceptive play — it is genuinely flexible play. If the opponent over-commits to countering a perceived strategy, the mistake is theirs for misreading the board.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Discussion of whether strategic deception or meta-game play is possible in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot appears to rarely or never buy Cluster Bolt even in situations where buying 4 Cluster Bolts would be a winning move, preferring Gauss Charge instead. Lyra observed the bot hoarding green resources without spending them on Cluster Bolt, resulting in a draw rather than a win for the bot.",
+    "units": [
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "lyra1712",
+    "date": "2022-07",
+    "replay_code": null,
+    "context": "Discussion of bot behavior while attempting achievements involving Master Bot in custom sets with Venge Cannon, Galvani Drone, and Cluster Bolt.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "lyra1712",
+    "report_date": "2022-07-29"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "A Venge Cannon + Cluster Bolt + Galvani Drone rush as P1 with bait units added to the set is an effective strategy to beat Master Bot (and Adept Bot) for achievement purposes. Adding Mobile Animus to the set also helps.",
+    "units": [
+      "Venge Cannon",
+      "Cluster Bolt",
+      "Galvani Drone"
+    ],
+    "confidence": "high",
+    "author": "lyra1712",
+    "date": "2022-07",
+    "replay_code": "pRZrm-4XbNx",
+    "context": "Helping a player obtain bot-beating achievements using custom sets against Master Bot.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "lyra1712",
+    "report_date": "2022-07-29"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "For achievements requiring a high-econ win against bots, picking a custom set with strong defensive units (e.g. blue defenders) plus 5 random units is effective. Avoiding strong attacker units like Tatsu Nullifier and Cynestra in the random pool is important as they can disrupt the strategy.",
+    "units": [
+      "Tatsu Nullifier",
+      "Cynestra"
+    ],
+    "confidence": "high",
+    "author": "lyra1712",
+    "date": "2022-07",
+    "replay_code": "gaC27-oK@6d",
+    "context": "Helping a player obtain achievement wins against Master Bot using custom sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "lyra1712",
+    "report_date": "2022-07-29"
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "As Player 2, DD/DD (buying two drones on both turns 1 and 2) is a losing opening in the vast majority of situations — estimated to be a winning line less than 5% of the time. The standard P2 turn-2 options are DA (Drone + Animus) or DDC (two Drones + Conduit), with DDE also viable in some sets.",
+    "units": [
+      "Drone",
+      "Animus",
+      "Conduit",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "pikachumemes.",
+    "date": "2023-02",
+    "replay_code": null,
+    "context": "Analysis of a replay where the player went DD/DD as P2 and lost, with awaclus and pikachumemes agreeing on the assessment.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "As Player 2, going DA (Drone + Animus) on turn 2 does create an inconvenient econ situation, but the pressure it puts on the opponent is generally sufficient to make it a winning or fine line. It can be followed up with DDT (wasting one red), which is apparently a winning line in base set.",
+    "units": [
+      "Drone",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-02",
+    "replay_code": null,
+    "context": "Replay analysis of a game where P2 went DD/DD and lost, discussing P2 standard openings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A second Animus is generally only justified if the set contains a unit that costs 3 or more red, or a unit with a click ability that costs red, or in very rare extremely high-econ situations. Buying a second Animus without such conditions is a significant mistake.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-02",
+    "replay_code": "fXc5z-QAEIC",
+    "context": "Replay analysis where the player bought two Animuses without sufficient red sinks in the set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying drones and floating tech resources (blue/green) when you already have enough drones to efficiently use your tech buildings is generally inefficient. Unless there is a specific reason to do so, avoid building drones while wasting tech.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-02",
+    "replay_code": "fXc5z-QAEIC",
+    "context": "Replay analysis identifying inefficient plays in a game with Shredder and Bloodrager.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Hannibull is especially strong in sets with Bloodrager because Bloodrager creates a threat of more damage than the opponent will actually deal. Using Hannibull as a blocker neutralizes the threat while still dealing damage, and in the late game its 7-soak is highly valuable against large Bloodrager stacks.",
+    "units": [
+      "Bloodrager"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-02",
+    "replay_code": "fXc5z-QAEIC",
+    "context": "Replay analysis of a game with Bloodrager and Polywall, discussing optimal unit choices.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Zemora Voidbringer, like other high-econ units, is generally not good into absorb denial strategies. However, Bloodrager is not the most efficient long-term absorb denial unit, making Zemora close to viable in Bloodrager sets — at least good enough to beat Master Bot.",
+    "units": [
+      "Zemora Voidbringer",
+      "Bloodrager",
+      "Polywall"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2023-02",
+    "replay_code": null,
+    "context": "Discussion of Zemora viability in a set containing Bloodrager and Polywall after replay analysis.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot can be beaten using a Zemora Voidbringer line in a Bloodrager + Polywall set, though the matchup is close enough that it is likely not viable against a human opponent without excellent play.",
+    "units": [
+      "Zemora Voidbringer",
+      "Bloodrager",
+      "Polywall"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2023-02",
+    "replay_code": null,
+    "context": "Post-replay analysis testing Zemora lines against Master Bot in a Bloodrager set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "awaclus",
+    "report_date": "2023-02-08"
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Rhino is especially important as the third attack unit because it enables buying Bloodrager, which makes the opponent's Polywall a massive waste of tempo. Losing the Rhino by misassigning damage blocks this critical synergy.",
+    "units": [
+      "Rhino",
+      "Bloodrager",
+      "Polywall"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-02",
+    "replay_code": "fXc5z-QAEIC",
+    "context": "Replay analysis where the player misassigned damage to a Rhino instead of an Engineer, losing access to the Bloodrager buy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Gauss Cannon is generally not a strong early-game purchase and should not be your main attack force. It is worthwhile when it will deal damage and you would otherwise float significant gold or green, or in breachproof builds, or specifically against units like Frost Brooder.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2022-09",
+    "replay_code": null,
+    "context": "Multiple players (vanilvanil, amalloy, awaclus, zera777) discussing Gauss Cannon's role in openings and early game.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wasting small amounts of red or blue is sometimes the correct play at the top level. Situations include: buying Animus to access an efficient unit (e.g. Shadowfang or Cynestra) while wasting some red on defense or Conduits; buying Vai Mauronax despite not being able to spend all red afterward; or overtechning to obtain a legendary unit before its supply runs out.",
+    "units": [
+      "Animus",
+      "Shadowfang",
+      "Cynestra",
+      "Vai Mauronax"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2022-08",
+    "replay_code": null,
+    "context": "Discussion of when wasting tech resources is justified, with examples from top-level play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The P1 DB (Drone + Blastforge) opening gains much of its strength from trivial access to Wall in aggressive games. It can be beaten by high-econ lines or units that make Wall not worth building for a while, if those units are powerful enough.",
+    "units": [
+      "Drone",
+      "Blastforge",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-02",
+    "replay_code": "m9Bx1-X68l2",
+    "context": "Analysis of why a P1 DB Flame Animus line lost in a specific replay, and the general strengths of the DB opening.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The line DD/DB/D1/DD1/DWT leads to exactly the right number of drones and tech to build Wall + Tarsier + Tarsier (WTT) every turn, making it a well-calibrated build order for Flame Animus sets.",
+    "units": [
+      "Wall",
+      "Drone",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-02",
+    "replay_code": "m9Bx1-X68l2",
+    "context": "Discussion of optimal build orders in a Flame Animus set after replay analysis.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Cauterizer used as permanent attack is slightly less efficient than a Tarsier (paying 3 blue to get 2 damage a turn earlier), but becomes more efficient than Tarsier if the Engineers it produces provide protection from empty threat, or if you would otherwise waste blue.",
+    "units": [
+      "Cauterizer",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2023-03",
+    "replay_code": null,
+    "context": "Discussion of whether buying Cauterizer as permanent attack is better than buying Tarsier in a specific set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tatsu Nullifier is generally weak in base+1 due to pressure from the opponent before it can establish itself, but becomes viable in sets where the opponent gets greedy and cannot punish Tatsu quickly enough.",
+    "units": [
+      "Tatsu Nullifier"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Discussion of the viability of a P2 Tatsu Nullifier opening attempted against Master Bot.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The P2 DD/DD/DDAA/Tatsu Nullifier opening worked against Master Bot but is considered easily beatable by expert players (e.g. with Gauss Cannon spam), suggesting Master Bot does not correctly punish this greedy early line.",
+    "units": [
+      "Tatsu Nullifier",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "A player asking if a Tatsu Nullifier opening is legitimate after it worked against Master Bot; experts indicate it should lose to correct play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "zera777",
+    "report_date": "2023-04-05"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Prismata's interactivity is demonstrated by the fact that having access to opponent board information (standard in a normal game) can allow a significantly weaker player to increase their win rate dramatically — e.g. from ~10% to ~50% against a much stronger player — because correct responses to what the opponent is building are critical.",
+    "units": [],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2022-10",
+    "replay_code": null,
+    "context": "Debate on whether Prismata is interactive or whether breachproof is boring, with awaclus citing a blind-play experiment against Punf.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A common mistake in breachproof sets is building Drones and converting them to Forcefields rather than building dedicated breachproof units directly. Economy units tend to be less breachproof than attackers, so the correct breachproof transition involves buying the right defensive units rather than over-droning.",
+    "units": [
+      "Drone",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "pikachumemes.",
+    "date": "2022-10",
+    "replay_code": "L9@wC-RAsmy",
+    "context": "Pikachumemes citing widespread player errors in breachproof sets, with a replay example.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'Crazimus' refers to an aggressive early Animus purchase (e.g. 1. A as P1 or a very early Animus as P2) used for fast red production in sets with strong red-based aggression units. It is triggered by sets with units like Smorc and Perforator.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2023-03",
+    "replay_code": null,
+    "context": "Discussion of optimal P2 responses in a set with Smorc Vore and other aggressive units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Animus is generally more efficient than Mobile Animus in most situations. Animus costs 2 more gold than Mobile Animus but produces 1 more red per turn, making it effectively a very efficient drone-equivalent for red production. Mobile Animus at 4 gold for 1 red per turn (without factoring the click ability) is not efficient; it is mainly justified when red granularity is specifically valuable.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2023-09",
+    "replay_code": "82ZZy-9DOYR",
+    "context": "Post-game feedback on a new player's ranked game, discussing Animus vs Mobile Animus choice.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In base set only, with only base units available, P1 is considered to be in a losing position with current analysis — the game is not solved beyond that point but P2's advantage is considered established.",
+    "units": [],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2022-11",
+    "replay_code": null,
+    "context": "Discussion of how far base set openings have been solved and whether P1 can win in base set only.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Wincer is listed as viable in MasN's opening analysis hub, but there are no documented proof lines for it in base+1, and both spiritfryer and awaclus were unable to find the supporting analysis. Its viability claim may be unverified.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2022-08",
+    "replay_code": null,
+    "context": "Discussion of whether Wincer is viable in base+1 and examination of MasN Hub for proof lines.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Wincer base+1, P2 should not buy Animus on the same turn they Wall (without Sentinel in the set). Sentinel in the set should benefit the Wincer player.",
+    "units": [
+      "Wincer",
+      "Animus",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2022-08",
+    "replay_code": null,
+    "context": "Analysis of Wincer base+1 lines after spiritfryer questioned its viability against P2 fast Animus.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

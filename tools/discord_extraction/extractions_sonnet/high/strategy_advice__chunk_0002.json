@@ -1,0 +1,299 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When calculating defense against freeze while wanting to preserve certain units, those units should simply be excluded from both your blocking assignment and from freeze threat calculations. If a unit is not designated as a blocker, the opponent gains nothing by freezing it, so you can safely ignore freeze options targeting those units.",
+    "units": [],
+    "confidence": "high",
+    "author": "punf",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Spiritfryer was confused about how freeze interacts with units you want to preserve when calculating defense totals.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Killing 2 Engineers with 2 damage is generally better than taking a Lancetooth, but key exceptions exist: if the opponent has a Thunderhead incoming (making the damage pressure irrelevant next turn), if the opponent is already over-defended, or if the attacker you would buy instead is weak. With Steelsplitter as the alternative, Lancetooth is preferable so you can apply repeated pressure.",
+    "units": [
+      "Lancetooth",
+      "Thunderhead",
+      "Steelsplitter",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Discussion about whether to cash in 2 damage on Engineers or take a Lancetooth, with Steel, punf, and Polari all contributing analysis.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Punf asserts that Lancetooth is bad against Thunderhead, while Steel argues Lancetooth still provides value by accelerating damage to kill Thunderhead or denying absorb. The community did not reach consensus, with Steel pointing out that general unit matchup claims are context-dependent.",
+    "units": [
+      "Lancetooth",
+      "Thunderhead"
+    ],
+    "confidence": "medium",
+    "author": "punf",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Debate about Lancetooth versus Thunderhead matchup, with punf and Steel disagreeing on the generalization.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Punf claims that Bloodrager is terrible against Thunderhead, while Steel argues Bloodrager can be excellent against Thunderhead by denying absorb, provided you can survive with red and have a good red sink and defense. Steel says he has replays of Bloodrager beating Thunderhead against 1900+ rated opponents.",
+    "units": [
+      "Bloodrager",
+      "Thunderhead"
+    ],
+    "confidence": "medium",
+    "author": "steel0229e",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Argument between punf and Steel about whether Bloodrager is viable against Thunderhead; no consensus reached.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Punf states that a 12-cost Savior is never worth buying, calling elyot's past claim to the contrary 'blatantly wrong.' Apooche sarcastically defended the claim. The expert community consensus leans toward Savior at 12 cost being unplayable.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "punf",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Discussion evaluating elyot's historical balance claims; punf and others treated 12-cost Savior as a clear example of a wrong take.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Punf claims that Flame Animus plus Shadowfang was a P1 autowin, contradicting elyot's earlier position. Crash confirms it was ultimately determined to be a P1 win and resulted in Flame Animus being nerfed, though it was complicated because P2 had strong green options that required careful P1 responses.",
+    "units": [
+      "Shadowfang"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Historical discussion about the Flame Animus + Shadowfang combo and whether elyot's balance assessments were accurate.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "An optimal defensive play against chill/freeze should aim to make the attacker's freeze allocation decision as difficult as possible — leaving the opponent indifferent between their freeze options is a key principle of defending against chill pressure.",
+    "units": [],
+    "confidence": "high",
+    "author": "307th",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "307th citing elyot's blog post on defending against frostbites, referencing the principle of making the attacker indifferent in their freeze decisions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "The Redeemer plus Xeno Guardian combo is considered so strong it can constitute a P2 autowin in many sets. P1's best counterplay in sets containing this combination may involve using Centrifuge to access units needed to break the combo, or racing to their own Redeemer and Xeno Guardian.",
+    "units": [
+      "Redeemer",
+      "Xeno Guardian",
+      "Centrifuge"
+    ],
+    "confidence": "high",
+    "author": "steel0229e",
+    "date": "2018-02",
+    "replay_code": "FVDm0-g@3+U",
+    "context": "Steel analyzing a replay where the Redeemer+Xeno combo dominated, advising the player to prioritize getting Redeemer fast followed by Xeno Guardian.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Gauss Fabricator should generally be avoided in sets where Redeemer is available, as the slower economic payoff of Gauss Fab is outpaced by the immediate board impact of Redeemers.",
+    "units": [
+      "Gauss Fabricator",
+      "Redeemer"
+    ],
+    "confidence": "high",
+    "author": "steel0229e",
+    "date": "2018-02",
+    "replay_code": "FVDm0-g@3+U",
+    "context": "Steel reviewing a replay where the player bought Gauss Fab in a Redeemer set, calling it a mistake.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When running a Cauterizer, it is important to precisely count how many Engineers you will have each turn to ensure the Cauterizer stays active. Missing the count and allowing the Cauterizer to turn off costs significant damage output. Buying an extra Forcefield to preserve a Cauterizer activation (trading a drone equivalent for 2 damage) is described as outstanding value.",
+    "units": [
+      "Cauterizer",
+      "Forcefield",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "steel0229e",
+    "date": "2018-02",
+    "replay_code": "FVDm0-g@3+U",
+    "context": "Steel reviewing a replay where the player failed to maintain Cauterizer uptime due to miscounting Engineers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In sets with Odin and Synth, floating gold to rush Odin is less punishing than usual. The line dd/d1e/111b/1112/111es with early Doomed Drones can enable a fast counterodin from P2 without requiring a third Engineer on turn 2, and is considered a strong P2 line in such sets.",
+    "units": [
+      "Doomed Mech",
+      "Synth"
+    ],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2018-03",
+    "replay_code": "zmg25-@D8Nf",
+    "context": "Mtanzer asked for advice on a game where opponent floated gold to rush Odin; Polari and Steel analyzed the optimal P2 opening with Doomed Drone and Synth.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Punf states as a general principle that floating 7+ gold to rush Odin loses if there is any viable alternative line that does not require Odin, because the tempo loss from floating is too large unless Odin is the only strong option in the set.",
+    "units": [],
+    "confidence": "medium",
+    "author": "punf",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Punf commenting on the Odin rush analysis, reiterating a consistent position that floating gold is usually bad.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Manticore supports floating gold to rush Odin, whereas Drake likely supports the non-float player by presenting a viable alternative to Odin that is not a strong follow-up after Odin.",
+    "units": [
+      "Manticore",
+      "Drake"
+    ],
+    "confidence": "medium",
+    "author": "punf",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about which units make floating to rush Odin correct; Arkanishu listed Drake and Manticore as supportive and punf refined the distinction.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Galvani Drone in the set changes the Redeemer+Xeno dynamic significantly, as P1 can also access first Redeemer and Xeno Guardian, making the set less of a clear P2 autowin and possibly player-balanced.",
+    "units": [
+      "Galvani Drone",
+      "Redeemer",
+      "Xeno Guardian"
+    ],
+    "confidence": "medium",
+    "author": "steel0229e",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Steel noting that Galvani Drone in the analyzed replay set complicates the usual P2 Redeemer+Xeno dominance.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The natural P1 double-Conduit opening (dd/dde/ddd/dddee/ddddd/dddddcc) can access an Asteri Cannon on the next turn without any further Conduit investment beyond two Conduits.",
+    "units": [
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "punf",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Punf describing a specific opening sequence to efficiently reach Asteri Cannon.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "The term 'autowin' in Prismata community usage means there is an obvious line that always wins for one player, not merely that with perfect analysis one player wins. If the obvious line loses, it is not considered an autowin set even if perfect play favors one side.",
+    "units": [],
+    "confidence": "high",
+    "author": "307th",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "307th clarifying the definition of autowin during discussion of the Flame Animus + Shadowfang set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Iso Kronus was historically considered the most overpowered unit in the game during the early beta period, before balance changes. The old 12-drone Tatsu rush was also once considered very strong and hard to beat, when Tatsu cost 11RRRR, before counter-strategies like DD/DD/DDA into Tarsiers and Rhino spam were discovered.",
+    "units": [
+      "Iso Kronus",
+      "Tatsu Nullifier",
+      "Tarsier",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Discussion of historical balance misconceptions in the community, including units and strategies that were previously misunderstood.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When facing a Plexo Cell in the pool with only 1 Bite attacking, the defender can handle the breach with Plexo Cell alone, making the attacker's 3-Bite sacrifice for a breach much less appealing.",
+    "units": [
+      "Plexo Cell"
+    ],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Spiritfryer and Polari discussing whether to take a gambit breach when Plexo Cell is in the pool and attack is limited.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,219 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot tends to go natural Animus even in sets where delaying would be stronger, giving the opponent extra time to develop their position safely.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "flakmaniak",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion of a set with Centurion, Tia Threnody, Endotherm Kit, and Cluster Bolt where flakmaniak noted the bot went natural Animus, allowing a comfortable turn-6 Centurion purchase.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "flakmaniak",
+    "report_date": "2020-04-27"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is poor at buying large absorbers in a timely fashion, often failing to build Centurion when it is clearly indicated by the set.",
+    "units": [
+      "Centurion"
+    ],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "p0lari commented 'the bot is pretty bad at buying the big absorber' after flakmaniak described the bot failing to build Centurion while he built it on turn 6.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "p0lari",
+    "report_date": "2020-04-27"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot over-purchases Grimbotch relative to persistent attackers like Tarsier, leaving itself without sustained attack pressure once Grimbotches die.",
+    "units": [
+      "Grimbotch",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "flakmaniak",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "flakmaniak observed the bot buys too many Grimbotches and not enough Tarsiers, and that once its Grimbotches die it loses persistent attack; community debated whether this is actually suboptimal given Grimbotch's strength.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "flakmaniak",
+    "report_date": "2020-04-27"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot buys Gauss Charges that deal zero damage because the opponent already has absorb (e.g. Urban Sentry or Infusion Grid) in play; it fails to recognize that the charges will be fully absorbed even when the absorbing unit is already constructed.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ reported that Master Bot bought 2 Gauss Charges against an already-built Urban Sentry and also bought Gauss Charges that did nothing against an Infusion Grid; community discussed that the bot may not be looking ahead far enough to see the absorb.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-29"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot made multiple severely suboptimal plays in a single game on replay 3@0pW-fHoKx, including not buying any defense despite having Valkyrion and Apollo available.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": "3@0pW-fHoKx",
+    "context": "velizar_ shared a replay and noted that not buying any defense when holding Valkyrion and Apollo is 'totally insane', indicating multiple severe bot errors in one game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-27"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot appears to treat a Gauss Charge as simply a cheap Gauss Cannon (i.e. +1 damage next turn) without accounting for whether the opponent has absorb that will nullify it entirely.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "zera777 summarized the community's analysis of why the bot buys Gauss Charges into absorb: it evaluates them as cheap Gauss Cannons without modeling the opponent's defensive structure.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "zera777",
+    "report_date": "2020-04-29"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Grimbotch is effective as long as you expect to be able to soak damage with it; the key risk to avoid is buying Grimbotch in situations where it forces you into buying Walls or where it dies without having soaked any damage.",
+    "units": [
+      "Grimbotch",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "shadourow and a deleted user discussed Grimbotch's strength, with shadourow articulating the soak-expectation heuristic as a rule of thumb for when to buy it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Cluster Bolt paired with Conduits functions similarly to a persistent attacker: buying Conduits during the econ phase and firing Cluster Bolts each turn is roughly equivalent to buying a unit that attacks for 4 every turn, making Conduits effectively purchasable as attackers in such sets.",
+    "units": [
+      "Cluster Bolt",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "p0lari",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "p0lari explained to flakmaniak why a set with Cluster Bolt and Lancetooth does have good attack options, arguing that Conduits bought during econ function as delayed persistent attackers when Cluster Bolt is available.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Centurion is strong enough as an absorber that it may be worth buying an Animus solely to access it, even if red is not used for any other purpose in the set.",
+    "units": [
+      "Centurion",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion of whether to skip Centurion in an Apollo-focused build; p0lari argued that Centurion is so strong it justifies the Animus investment even with no other red payoff.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "With Auric Impulse, the correct timing is typically to replace the last Drone you would have bought with an Auric Impulse instead; players consistently feel they should have bought it one turn earlier than they did.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "flakmaniak noted he always feels he should have bought Auric a turn earlier; shadourow gave the concrete heuristic of replacing the last planned Drone with Auric.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "If never looking further than 3 turns ahead, Doomed Drone always appears to be a better purchase than a regular Drone, illustrating why short-horizon evaluation overrates temporary attackers.",
+    "units": [
+      "Doomed Drone",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "amalloy made this observation in passing during a discussion about rematch features and bot evaluation horizons.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "The 'Grandmaster Set' developed by Lunarch (Centrifuge, Perf, Scorch, Tia, Doomed Mech, Defense Grid, Plasmafier, Gauss Fabricator) was ultimately dominated by a P2 natural Conduit into Animus and double Scorch on turn 5, building toward Tia with Perfs and more Scorch.",
+    "units": [
+      "Conduit",
+      "Animus",
+      "Tia Threnody",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "iminabearsuit",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "iminabearsuit recalled details of the Grandmaster Set that was abandoned because the community solved it, identifying the dominant line.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When Apollo is used to snipe Rhinos, targeting only the Rhino with the most stamina is not always correct; Rhinos with less stamina may be acting as blockers and are therefore higher-priority snipe targets.",
+    "units": [
+      "Apollo",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion about Apollo targeting decisions in a hypothetical Twitch Plays Prismata scenario; awaclus corrected the assumption that most-stamina is always the right target.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,185 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Learning to absorb (block properly) is one of the highest-leverage fundamental skills in Prismata; a player who does not absorb is estimated to be hundreds of Elo worse than an otherwise equal player who does.",
+    "units": [],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-03-20",
+    "replay_code": null,
+    "context": "Elyot responding to bky's question about what new players learn that drives large early Elo gains.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tarsiers are more efficient attackers than Steelsplitters, but this is not immediately obvious to new players; new players who learned via base-set-only games often discovered this the hard way by losing to Tarsier-based strategies.",
+    "units": [
+      "Tarsier",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "themightyflango",
+    "date": "2018-03-19",
+    "replay_code": null,
+    "context": "Discussion about which fundamentals new players learn quickly that drive rapid Elo improvement.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Redeemer appears highly imbalanced in aggregate stats but when restricted to games between players rated 1900+, it drops out of the top 10 most imbalanced units, suggesting stronger players are better equipped to deal with it.",
+    "units": [],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-03-28",
+    "replay_code": null,
+    "context": "Elyot discussing internal balance stats in response to questions about P1/P2 win rates and unit imbalance.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "The overall P1/P2 win rate disparity in Prismata is less than 2%, even at the 1900+ skill band, which the developers consider acceptable.",
+    "units": [],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-03-29",
+    "replay_code": null,
+    "context": "Elyot confirming internal win rate data in response to community questions about first-player advantage.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Tantalum Ray was considered overpowered by the developers in early 2018 and was slated for a nerf in the upcoming balance patch, while Redeemer was receiving only a very small change or none at all.",
+    "units": [
+      "Tantalum Ray"
+    ],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-04-02",
+    "replay_code": null,
+    "context": "Elyot confirming upcoming patch changes in response to community balance discussion.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Ossified (Antima Comet's Ossified token) has supply 1 by design, partly so that the risk of it going extinct creates meaningful high-stakes decisions; having only one remaining creates strategic pressure around preserving or sacrificing it.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-03-26",
+    "replay_code": null,
+    "context": "Elyot explaining the supply-1 design decision for Ossified in response to Masne98888's question.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Antima Comet and Ossified, advanced players sometimes execute lines such as DD/DD/AA/ShOs/ShOs, and there are edge cases where buying an additional Engineer late-game as red and clicking Ossified is relevant, unless doing so would allow a 1-damage breach.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-03-26",
+    "replay_code": null,
+    "context": "Masne98888 challenging the supply-1 Ossified design by pointing out legitimate multi-Ossified use cases at high levels.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "\"Prompt\" in Prismata is defined by build time 0, not by the assignedBlocking field in the unit JSON; the assignedBlocking field relates to blocking assignment behavior, not promptness.",
+    "units": [],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-03-30",
+    "replay_code": null,
+    "context": "Elyot clarifying the meaning of the prompt mechanic in response to wiwiweb's question about the public unit JSON fields.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Going for a third Engineer against Tantalum Ray while using only Wall as defense (without a tighter buildup) is a losing line; a specific losing example involves Animus for clicked Blood Phage with the third Engineer bought on turn 5, leading to Rhino/Wall/Antima defense while bleeding Engineers.",
+    "units": [
+      "Tantalum Ray",
+      "Wall",
+      "Animus",
+      "Rhino",
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-04-01",
+    "replay_code": "UVhAR-uZ+q4",
+    "context": "bky and Silverspawn discussing replay evidence of Tantalum Ray dominance and the weakness of greedy Engineer builds against it.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The casual match bot pool contains bots (e.g., EpiCRusheR) that are far weaker than Master Bot and essentially provide non-games for intermediate-to-advanced players, while Master Bot remains the only bot offering a meaningful challenge in that skill range.",
+    "units": [],
+    "confidence": "medium",
+    "author": "bifurcatedbitch",
+    "date": "2018-04-05",
+    "replay_code": null,
+    "context": "bifurcatedbitch explaining why they prefer Quick Play over Casual Match due to bot quality differences.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "bifurcatedbitch",
+    "report_date": "2018-04-05"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "The casual match bots (e.g., EpiCRusheR) are designed to execute specific strategies hard rather than play optimally, making them educational for players unfamiliar with those strategies but trivially easy for experienced players; Master Bot and BottyMcBotFace are the only casual bots considered genuinely difficult.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-04-05",
+    "replay_code": null,
+    "context": "darkeisbein and bifurcatedbitch discussing the design intent and relative difficulty of casual match bots versus Master Bot.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Players want Quick Play vs. Master Bot to award the same casual match trophies, so that experienced players who find casual match bots trivially easy are not forced to choose between earning rewards and playing challenging bot games.",
+    "units": [],
+    "confidence": "medium",
+    "author": "bifurcatedbitch",
+    "date": "2018-04-05",
+    "replay_code": null,
+    "context": "bifurcatedbitch explaining the conflict between casual match trophy rewards and the superior bot quality available in Quick Play.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "bifurcatedbitch",
+    "report_date": "2018-04-05"
+  }
+]

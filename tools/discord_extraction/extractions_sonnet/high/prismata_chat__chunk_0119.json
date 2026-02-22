@@ -1,0 +1,169 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot struggles to respond correctly to aggressive Animus-based openings (e.g., A/11/11/11/11 as P1) in Base+Immolite sets, allowing this line to be exploited for the 'Kappa' achievement badge.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion about which badges are hardest to earn and how to exploit MB for the Kappa badge.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "shadourow",
+    "report_date": "2019-10-19"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot sometimes defends and then buys a Cluster Bolt on the same turn, creating a situation where the opponent can achieve an exact breach on a Centurion — a clear tactical error by the bot.",
+    "units": [
+      "Centurion",
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Casual observation about a specific Master Bot blunder involving defense and Cluster Bolt purchase sequencing.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2019-10-20"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "In Red Base (Animus + Tarsier only, no Drones or Engineers), Master Bot as P2 appears much harder to beat than as P1, suggesting the bot plays near-optimally in that specific constrained setup when it has the second-player advantage, but human P2 likely wins with a fastimus line against MB as P1.",
+    "units": [
+      "Animus",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-10",
+    "replay_code": "j6TOF-M2yA5",
+    "context": "Discussion of hyreon's attempts to beat Master Bot in Red Base only as P1, with amalloy and hyreon analyzing P1/P2 asymmetry.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "hyreon",
+    "report_date": "2019-10-21"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "In Tarsimus (base set restricted to Animus and Tarsier with starting units, no Drones or Engineers), a human P2 can reliably beat Master Bot using a fastimus opening, exploiting the severe first-player advantage that exists in this restricted unit set.",
+    "units": [
+      "Animus",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of whether Master Bot's performance in constrained sets proves game-theoretic outcomes; amalloy notes MB can lose these setups.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "hyreon",
+    "report_date": "2019-10-21"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tia Threnody's presence in a set obliges both players to play more cautiously; the player who was already winning tends to buy it and accelerate their win, rather than Tia being an independent win condition that dominates regardless of game state.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Debate over whether Tia Threnody is overpowered and auto-wins for whoever buys it first; amalloy and awaclus push back on this framing.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Deliberately holding attack at exactly 4 damage (when the opponent has only blue tech) can be more effective than clicking Tantalum Ray to reach 5, because 4 damage forces the opponent into an awkward choice between defending Wall onto Wall or holding two Drones, whereas 5 damage lets them defend cleanly.",
+    "units": [
+      "Tantalum Ray",
+      "Wall",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "amalloy explaining a nuanced case where activating Tantalum Ray is actually a mistake due to removing a tactical exploit.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A Savior polywall requires 5 Drones to construct but needs 6 attackers to destroy, giving a net defensive advantage; however, selling the 5 Drones to build the polywall effectively also loses the Blastforge used to build them, making the true cost higher than it appears.",
+    "units": [
+      "Savior",
+      "Drone",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "apooche analyzing the actual cost and value of constructing a Savior polywall, noting the hidden Blastforge cost.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Deadeye Operative is most valuable in high-econ games where limiting the opponent's Drone supply matters, or in low-econ games as a rare counter to a red rush by depleting attacker Drones, and also functions as a Blue resource sink.",
+    "units": [
+      "Deadeye Operative",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of when Deadeye Operative is worth buying versus simply massing Drones, in the context of infinite-supply theoretical scenarios.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Savior dramatically increases the value of Drones by allowing them to be cashed in defensively; with unlimited Savior supply, massing Drones becomes potentially broken because the usual supply constraint on Savior is removed.",
+    "units": [
+      "Savior",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "vargus2254870",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Theoretical discussion of infinite-supply scenarios, with shadourow and velizar_ agreeing that Savior makes Drones disproportionately strong.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Removing units from the available set increases player imbalance, because fewer options make it more likely there is a single correct timing or line that is accessible to only one player.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "amalloy responding to hyreon's Red Base experiments, explaining why restricted sets amplify first- or second-player advantages.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

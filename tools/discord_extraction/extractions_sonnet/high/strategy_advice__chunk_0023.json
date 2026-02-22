@@ -1,0 +1,336 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Arms Race is a high-impact unit specifically in sets where other attackers are weak or bad. When Arms Race is good, it tends to dominate the game and becomes the correct play for both players, accelerating games significantly. However, the number of sets where it is good is relatively low.",
+    "units": [
+      "Arms Race",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Community discussion evaluating Arms Race's power level and situational applicability.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Arms Race is only good when there is not a strong dedicated attacker in the set; in those sets it functions as the best available attacker and winning or losing the Arms Race commitment determines the game. Its impact is therefore conditional but decisive when it applies.",
+    "units": [
+      "Arms Race"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "liadahlia and crash_overlord explaining the conditional power of Arms Race in sets without strong attackers.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When using Apollo to snipe an opponent's unit, you should generally snipe the Tarsier rather than the Wall. Sniping the Tarsier is almost always correct because the attacker provides ongoing damage value, whereas removing a Wall only provides defensive tempo.",
+    "units": [
+      "Apollo",
+      "Tarsier",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of absorb-denial value and unit-sniping decisions with Apollo during a replay review.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A useful rule of thumb for evaluating whether to spend damage killing an attacker instead of dealing it to the opponent is that killing an attacker is worthwhile at a cost of roughly 4 damage. This accounts for the attacker's HP (e.g., 2 for a Borehole Patroller), the damage it would deal each turn, and inflation.",
+    "units": [
+      "Borehole Patroller"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-05",
+    "replay_code": "np9gs-@PFP2",
+    "context": "mtanzer explaining the value of killing attackers versus dealing direct damage in a game featuring Thermite and Centurion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When choosing between denying absorb (e.g., clicking Thermite to deny Centurion absorb) versus killing attackers (e.g., Pixie destroying Borehole Patrollers), the decision hinges on whether leaving the attacker alive lets it deal damage to something important. If you are not under pressure, holding the deny is usually correct; killing attackers is worth it when you can do so at a net damage profit.",
+    "units": [
+      "Thermite",
+      "Centurion",
+      "Pixie",
+      "Borehole Patroller"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": "np9gs-@PFP2",
+    "context": "amalloy asking about absorb-denial versus attacker-kill decisions in a game against Master Bot.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A non-prompt Wall is roughly worth 4.5 gold equivalent, and a Tarsier that is past its build time is worth approximately 6.3. These values are useful benchmarks when evaluating whether to buy a Wall late or snipe an opponent's Tarsier.",
+    "units": [
+      "Wall",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "bky providing quantitative valuations for non-prompt Wall and a Tarsier past build time.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying a non-prompt Wall is underrated: compared to buying 3 Engineers it saves 1 gold, and is correct in many of the same spots you would buy engineers when you have leftover gold and additional soak the following turn is useful. Reasons not to buy it include needing granularity, having something better to spend on, or being overteched on soak.",
+    "units": [
+      "Wall",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "mtanzer arguing that players undervalue non-prompt Wall purchases relative to Engineers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Arka Sadora should almost never be clicked for its attack ability; holding it as an absorber is correct the vast majority of the time. The exception cases include: when clicking lets you kill one or more attackers, when you already have a superior absorber in play, or when clicking immediately wins the game.",
+    "units": [
+      "Arka Sadora"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Extended community discussion about when it is correct to click Arka Sadora versus holding it as an absorber.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When Arka Sadora absorbs 5 or more attack, holding it as an absorber is almost always correct. If it would absorb only 3 or fewer, clicking it becomes more reasonable. The threshold around which you consider clicking scales with how much absorb you would otherwise receive.",
+    "units": [
+      "Arka Sadora"
+    ],
+    "confidence": "medium",
+    "author": "Deleted User",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "cooledcannon explaining the absorb threshold that determines when clicking Arka is worthwhile.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In an Arka Sadora set, being slightly slower (higher econ) than your opponent is actually advantageous because defense is a high-inflation buy and the higher-econ player can more easily afford to hold Arka as an absorber. The lower-econ player needs defense less desperately and has more flexibility to click, but generally should still hold.",
+    "units": [
+      "Arka Sadora"
+    ],
+    "confidence": "medium",
+    "author": "Deleted User",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "cooledcannon and liadahlia debating which player — higher or lower econ — benefits more from clicking Arka.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Arka Sadora is a strong attacker in high-absorb sets because its 7 attack click cost is nearly free when that damage would have been absorbed anyway. In such sets, clicking becomes more justified as a tempo or kill tool.",
+    "units": [
+      "Arka Sadora"
+    ],
+    "confidence": "medium",
+    "author": "darkeisbein",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "darkeisbein explaining why high-absorb sets increase Arka's value as an attacker.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Counter-Arka is very strong because Arka Sadora is prompt: a second Arka counters the first so effectively that both players often set up Arka but neither actually clicks it. This mutual deterrence is a defining feature of the unit's design and makes it overtuned relative to non-prompt attackers of similar cost.",
+    "units": [
+      "Arka Sadora"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "masn6811 discussing Arka Sadora's design and the counter-Arka dynamic in the context of balance.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Immaculon constructs 3 prompt Plexo Cells with lifespan 1 when bought. This was added as a buff to prevent it from being a straightforward rush in most sets: the opponent's counter-Immaculon wastes your Plexo Cells and blocks your first charge, making first-Immaculon much weaker than it initially appears.",
+    "units": [
+      "Plexo Cell"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "masn6811 explaining Immaculon's on-buy Plexo Cell mechanic and why counter-Immaculon is so effective.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Zemora Voidbringer is not strictly better than Resophore even though it is generally stronger. Zemora requires a large number of Conduits (3 green), so in sets where you can only produce 1 green, you can buy Resophore but not Zemora, making them non-comparable in the strict game-theory sense.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Community debate clarifying the correct use of 'strictly better' when comparing Zemora Voidbringer and Resophore.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In practice, you almost never choose to buy Resophore over Zemora Voidbringer when both are in the set, because Zemora performs Resophore's role more efficiently at scale. However, there exist edge-case situations (e.g., very limited green production) where Resophore is purchased and Zemora is not.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": "gr2HI-DZHyX",
+    "context": "Discussion following a replay showing a rare case where Resophore was bought in a Zemora set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Thermite + Valkyrion + Bloodrager + Blood Pact is described as an exceptionally powerful combo. Xenosynth (Xeno) enables it further by letting you run 2 Blastforges to acquire Thermites very quickly, generating damage fast enough to force the opponent to hold Grimbotches for multiple consecutive turns.",
+    "units": [
+      "Bloodrager",
+      "Blood Pact",
+      "Grimbotch"
+    ],
+    "confidence": "medium",
+    "author": "xyotsuba",
+    "date": "2018-05",
+    "replay_code": "wkIcx-DcIMF",
+    "context": "xyotsuba sharing a replay featuring the Thermite + Valkyrion + Bloodrager + Blood Pact combo and explaining why it is so strong.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When sniping with Apollo, you should generally target the Tarsier rather than the Wall because an attacker provides recurring damage value each turn, whereas a Wall only provides one-time defensive tempo. mtanzer considers killing an attacker worth paying up to ~4 damage, so sniping a Tarsier (removing future attack) is almost always the higher-value snipe.",
+    "units": [
+      "Apollo",
+      "Tarsier",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "amalloy asked whether sniping Wall or Tarsier is better with Apollo; mtanzer and amalloy agreed Tarsier is correct in general.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Prismata no unit is strictly better than another in the game-theory sense (i.e., always chosen over the other regardless of situation), because cost structure, build requirements, and set context always create situations where the supposedly 'worse' unit is preferable. Strictly better comparisons are only meaningful within a single game state for specific lines of play.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Community clarifying the correct definition of 'strictly better' after a claim that Zemora is strictly better than Resophore.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding both Arka Sadora and Odin as absorbers simultaneously creates a powerful gambit: clicking either is very costly, so the opponent must click both to break through, which is extremely expensive. This allows the Arka+Odin player to threaten with a Gambit 4 (4 total attack) and forces the opponent into difficult decisions.",
+    "units": [
+      "Arka Sadora"
+    ],
+    "confidence": "medium",
+    "author": "Deleted User",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "cooledcannon explaining the synergy between holding Arka Sadora and Odin together as absorbers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a set with base units plus Fission Turret and Venge Cannon, the recommended Player 1 opening is DD DDC DDB or DD DC DD1, since these lines provide strong tempo. Attempting to rush double Fission Turret by turn 4 can be countered by the opponent walling and maintaining more effective damage output.",
+    "units": [
+      "Fission Turret",
+      "Venge Cannon"
+    ],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2018-05",
+    "replay_code": "NphjD-x8gIT",
+    "context": "p0lari advising on the correct response and opening lines in a Fission Turret + Venge Cannon set after reviewing a replay.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

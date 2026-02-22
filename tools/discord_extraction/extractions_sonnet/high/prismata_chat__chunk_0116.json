@@ -1,0 +1,169 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot exhibits exploitable behavior with frontline units in sets containing Feral and Polywall Shredder, specifically offering opportunities to deny absorb by attacking frontline units. This weakness is noted in the context of the 'Extremely Unfair Challenge' bot game.",
+    "units": [
+      "Feral"
+    ],
+    "confidence": "medium",
+    "author": "sano712",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Discussion of strategies to beat the Extremely Unfair Challenge against the bot, where sano notes the bot offers multiple exploits with its frontline units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "sano712",
+    "report_date": "2019-09-04"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "A bugged replay (code: bcmmA-YbKcj) shows Master Bot purchasing a Savior on turn 1, which is an anomalous opening. The replay also appears to show units from outside the active set, though this was later clarified to be a different-sets game option.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2019-09",
+    "replay_code": "bcmmA-YbKcj",
+    "context": "velizar_ shared a replay flagged as bugged, noting Master Bot bought a Savior on turn 1 as an unusual behavior.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2019-09-10"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "If Master Bot crashes, the game reverts to Wacky Bot, which is the only bot entirely contained within the client. Master Bot relies on external components that can crash, while Wacky Bot is fully local.",
+    "units": [],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "mrguy888 explained the fallback behavior when Master Bot crashes during a game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "The Extremely Unfair Challenge bot can be beaten using only Feral as the advanced set unit, with no Blastforge required. The recommended line is DD / DD / DDA / TTC / then Engineer+Rhino+Feral each turn from turns 5-15, fully utilizing Rhino and Feral for attack and defense.",
+    "units": [
+      "Feral",
+      "Rhino",
+      "Engineer",
+      "Drone",
+      "Animus",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Multiple players (sano712, zera777, apooche) converged on this line as the optimal way to beat the Extremely Unfair Challenge, with apooche confirming Feral is the only advanced unit required.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In base+1 Feral sets, the Feral Warden opening is viable for Player 1, with the book line being: DD/DD // DD/DDC // DDA/DA // TTC/TTDD // CTT/FeFe C. This is considered the best opening in base+1 Feral, giving P1 a win.",
+    "units": [
+      "Feral",
+      "Drone",
+      "Animus",
+      "Conduit",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "sano712",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "sano712 presented the book opening for base+1 Feral sets in response to discussion about the Extremely Unfair Challenge and general Feral viability.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Feral is considered potentially too efficient at 8BBR for a 4 HP unit dealing 3 damage on 2 stamina, with multiple experts (mrguy888, awaclus) arguing a direct cost increase (e.g., to 9BBR) would be a more principled nerf than a supply reduction. Supply nerfs are viewed as inferior because they fail to address the efficiency of each individual purchase.",
+    "units": [
+      "Feral"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Extended community debate about whether Feral needs a nerf, with mrguy888 and awaclus advocating a cost nerf over supply reduction.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Supply nerfs are generally considered a poor balance approach unless the unit's power is specifically tied to buying multiples in a single shift-E turn (like Antima Comet, where the second copy dramatically reduces effective cost). For most units, reducing supply leaves the per-unit efficiency problem intact.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "mrguy888 articulated a design principle during the Feral nerf discussion, citing Antima Comet as the rare case where supply reduction is a valid nerf.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Feral is a permanent attacker (not a soak unit), so unlike Bombarder or Chieftain trains, a supply limit does not cause the game to naturally de-escalate — the game continues to escalate regardless, making supply nerfs especially ineffective for Feral.",
+    "units": [
+      "Feral",
+      "Bombarder"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "amalloy distinguished Feral from other 'train' units (Rhino, Bombarder, Chieftain) when discussing whether a supply nerf would limit the Feral train.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wild Drone plus floating 1 gold is considered almost strictly worse than buying a Drone, per awaclus. Wilds are situationally good only when a player expects to struggle for defense, but the threshold for preferring Wild+float over Drone is rarely met.",
+    "units": [
+      "Wild Drone",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Discussion of Wild Drone's value in the context of the Extremely Unfair Challenge set, where siepu expressed uncertainty about when Wilds are good.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The win condition in Prismata is only checked at the end of a turn, not mid-turn. This means a player can be in a losing board state mid-turn and still act before the loss is registered.",
+    "units": [],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "awaclus clarified this in response to a question about whether buying a Drone instead of a Steelsplitter could save a player from losing mid-turn.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,166 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not use Amporilla (referred to as 'ampo'), which may cause new players to underestimate the unit initially since they won't face it from the AI.",
+    "units": [],
+    "confidence": "medium",
+    "author": "307th",
+    "date": "2018-01",
+    "replay_code": null,
+    "context": "Discussion about which units new players would complain about after release, with 307th noting masterbot doesn't use ampo so players might like it at first.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "307th",
+    "report_date": "2018-01-30"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays poorly against Electrovore and against tier-2 blue opening strategies, which are known exploitable weaknesses even though the bot is considered strong relative to other game AIs.",
+    "units": [],
+    "confidence": "medium",
+    "author": "crash_overlord",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Community discussion about Master Bot difficulty and how good it is compared to AIs in other games, with crash_overlord and randomflyingtaco calling out specific weaknesses.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "crash_overlord",
+    "report_date": "2018-02-05"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Against bots weaker than Master Bot, absorbing every turn without ever getting breached accounts for roughly 50% of the success needed to beat them, making efficient defense the primary skill to develop.",
+    "units": [],
+    "confidence": "medium",
+    "author": "steel0229e",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "A newer player was struggling to beat Expert bot despite having a better economy; steel0229e and crash_overlord explained over-econing and breach avoidance as the key issues.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wincer is not viable in sets where the opponent can apply early burst pressure (e.g. Grenade Mech plus Cluster Bolt combinations), because the Wincer player dies before the strategy comes online; recognizing whether a set allows Wincer requires reading the opponent's burst potential.",
+    "units": [
+      "Wincer",
+      "Grenade Mech",
+      "Cluster Bolt"
+    ],
+    "confidence": "high",
+    "author": "steel0229e",
+    "date": "2018-01",
+    "replay_code": null,
+    "context": "Discussion about which strategies new players struggle to defend against, with steel0229e giving a specific game example where he denied Wincer by going Grenade Mech plus Cluster Bolt.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wild Drones should almost always be attacked immediately; attacking Galvani Drones is correct when the opponent is heavily overdefended (e.g. with Antima Comet), when killing one denies a large unit purchase, or when eliminating one deactivates another unit (e.g. two Engineers, two Galvani Drones, two Walls versus exactly 5 damage).",
+    "units": [
+      "Wild Drone",
+      "Galvani Drone",
+      "Antima Comet",
+      "Engineer",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "msven",
+    "date": "2018-01",
+    "replay_code": null,
+    "context": "gex asked when to target Wild Drones and Galvani Drones; msven provided specific decision criteria.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Chill units, sniper units, and burst-damage units (such as Wincer) are historically the categories most complained about by new players because they fall outside what standard base-set defensive play can handle; Apollo in particular was anticipated to draw heavy complaints from incoming players.",
+    "units": [
+      "Wincer",
+      "Apollo"
+    ],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2018-01",
+    "replay_code": null,
+    "context": "Pre-release discussion about which units would generate the most new-player frustration upon full launch.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a base-plus-all-units hypothetical meta, the Galvani Drone / Chrono Filter / Antima Comet rush line was believed by at least one expert (mqp) to dominate most opposing strategies, based on prior testing; however, historical evidence suggested that going Infusion Cauterizer Antima instead of Chrono Galvani Antima was often the correct Antima build when an opponent committed to green/blue units.",
+    "units": [
+      "Galvani Drone",
+      "Chrono Filter",
+      "Antima Comet",
+      "Cauterizer"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Experts speculating on dominant strategies in a theoretical base-plus-all-units set; apooche cited a past event where Antima players threw by picking Chrono Galvani Antima over Infusion Cauterizer Antima.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Zemora Voidbringer has among the highest number of distinct board states of any single unit in Prismata because it can simultaneously have variable build time (up to its full construction delay) and variable health (down to 1, if it is the last non-under-construction unit), yielding a large combinatorial product of health-times-buildtime states.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Experts discussing which Prismata unit has the most possible game states, concluding Zemora wins due to its combination of fragile health and long build time.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Cryo Ray's number of distinct states is unusually high because its 'clicked' state encodes which specific enemy unit it is currently chilling; destroying a chilled unit can leave some Cryo Rays unable to be clicked while others remain clickable, making Cryo Ray state-space analysis dependent on the rest of the board.",
+    "units": [
+      "Cryo Ray"
+    ],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Expert discussion about unit state-space complexity; apooche pointed out that Cryo Ray's clicked state references its target, complicating state counting.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Sentinel's intuitive value as '1 attack plus 1 defense next turn' significantly understates its calculated value; the correct assessment accounts for 1 attack now, 1 attack plus 1 blocker value next turn, and 5 blocker value in three turns, making it considerably stronger than a naive read suggests.",
+    "units": [
+      "Sentinel"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-02",
+    "replay_code": null,
+    "context": "Discussion about units whose intuitive value diverges most from their calculated value; crash_overlord used Sentinel as the key example of a unit that reads as weak but is much stronger when properly valued.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

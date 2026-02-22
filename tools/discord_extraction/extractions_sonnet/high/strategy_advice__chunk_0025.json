@@ -1,0 +1,316 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying 4 Tarsiers before the first Amporilla deals 4 more total damage than buying Amporilla first then Tarsiers, but the damage comes later. In high-inflation Amporilla games, the delay has significant cost, so the optimal sequencing depends on inflation rate and whether the extra attack tempo can be protected.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about elyot's observed play of buying 4 additional Tarsiers before his first Amporilla rather than buying Amporilla immediately after getting double Animus.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wincer is weak against breachproof strategies because its damage is inefficient against high-HP units. In sets where the opponent can go breachproof quickly (e.g., with Trinity Drone), Wincer should be avoided unless it can be set up early enough that the opponent is still vulnerable when it first fires. Deadeye Operative is also notably strong against fast Wincer builds.",
+    "units": [
+      "Wincer",
+      "Deadeye Operative"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Post-game analysis where a player lost because their opponent became breachproof while they had committed to Wincer.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Buying a drone and immediately using it to block is equivalent to paying 3 gold for an Engineer, plus the inflation cost of that gold — making it strictly worse than a prompt Engineer in most situations. Replacing drones with Forcefields is marginally better: approximately 4 gold for 2 prompt defense (~2.66 BV), which beats Wall (~2.22 BV), but only worthwhile if you have green mana you will never otherwise spend.",
+    "units": [
+      "Drone",
+      "Forcefield",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about the opportunity cost of drone-blocking and whether replacing blocked drones is ever worthwhile.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding Lancetooth back to buy more attackers is usually a mistake: it reduces pressure rather than increasing it, because you lose 3 defensive tempo by not absorbing on Lancetooth (forcing you to start the next turn with 0 defense instead of 3 from Wall), and you often cannot actually attack with all units the following turn anyway. Holding is only justified if you cannot otherwise defend, or if you need to slow the game down because you are guaranteed to win the long game.",
+    "units": [
+      "Lancetooth",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": "vIdMt-9wDnB",
+    "context": "Analysis of a specific replay where the player wavered on whether to hold Lancetooth on turn 11.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Holding Omega Splitter is generally correct because its absorb (5) greatly exceeds its attack (3), making it more valuable to absorb on than to swing with in most situations. Lancetooth's absorb (3) is only slightly less than its attack (3/2 difference vs Omega's 5/3), making the hold decision far less clear-cut for Lancetooth.",
+    "units": [
+      "Omega Splitter",
+      "Lancetooth"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion comparing the hold decision for Omega Splitter vs Lancetooth during Lancetooth replay analysis.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding Lancetooth back gives the opponent time to multiply Ossified Drones, which protects their Centurion and reduces the value of the delayed swing.",
+    "units": [
+      "Lancetooth",
+      "Centurion"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": "vIdMt-9wDnB",
+    "context": "Follow-up analysis of the Lancetooth hold decision in the specific replay game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Venge Cannon is ineffective in sets where the opponent has access to multiple strong defenders (e.g., Doomed Mech, Polywall, Doomed Drone, Sentinel). Going Venge requires committing early; a slow Venge build against an opponent who has transitioned to breachproof units is very difficult to execute.",
+    "units": [
+      "Venge Cannon",
+      "Doomed Mech",
+      "Sentinel"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": "xYDZr-9kRnJ",
+    "context": "Post-game analysis where a player went Venge too slowly against an opponent with Doomed Mech and Polywall.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Defense Grid and Colossus are awkward together because both want to serve as the primary absorber. The practical approach is to buy Colossi earlier and stockpile them, since many Defense Grid games accelerate fast enough to end before the Grid runs out — at which point you want the more efficient attacker, not a late Colossus.",
+    "units": [
+      "Colossus"
+    ],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about the difficulty of using Defense Grid and Colossus together in the same set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tatsu Nullifier is generally strong against large attackers that players hold back to defend (e.g., Colossus). If the opponent gets two Tatsus out, Colossus-based strategies become very weak.",
+    "units": [
+      "Tatsu Nullifier",
+      "Colossus"
+    ],
+    "confidence": "high",
+    "author": "p0lari",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about whether Colossus is viable when Tatsu Nullifier is in the set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tia Threnody is better used as a threat than as an early purchase: the threat of Tia restricts opponent options, and you typically buy it when the opponent has failed to respect that threat enough. Rushing Tia is only correct when your opponent goes very heavily red. Getting Tia on 1 Conduit is significantly better than on 2 Conduits in most cases, since the extra Conduit represents wasted econ for a unit that wants to be fast.",
+    "units": [
+      "Tia Threnody",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Debate on whether Tia Threnody is a rush unit and when to buy it.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tia Threnody becomes effectively worth its cost once it has destroyed approximately 7 drones' worth of value; anything beyond that is game-winning. In sets without great defense or econ-boosting options, Tia is especially threatening because the opponent cannot efficiently race or absorb.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "leary93",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Analysis of a game where the player lost to an early Tia Threnody threat.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The target drone count should be derived from the set: identify the desired defender and attackers, determine their tech costs, and calculate how many drones are needed to efficiently spend all tech each turn. For base set (Walls + Tarsiers), this suggests roughly 13 drones. Better defensive tools (high absorb, good prompt soak) push the optimal drone count higher.",
+    "units": [
+      "Drone",
+      "Wall",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about a beginner question on how many drones to buy relative to the set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The rough target drone count formula is 4 × (absorber health). For base set this gives 12 drones; with Infusion Grid it becomes 16. In practice the count should be tuned to enable good mid-game turns given the specific set (e.g., 17 drones for Infusion Grid + Cynestra).",
+    "units": [
+      "Drone",
+      "Cynestra"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Follow-up to discussion on how many drones to buy, providing a quantitative formula.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Fast Blastforge (buying Blastforge before Conduit) is almost never correct; Conduit into Forge is superior in ~99% of cases. The only legitimate reasons to go fast Blastforge are sets containing Manticore or Flanimus.",
+    "units": [
+      "Blastforge",
+      "Conduit",
+      "Manticore"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about P2 opening options when green is bad in the set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The opening DD DD ABD (buying both Animus and Blastforge as P2 after 4 drones) requires specific conditions to be correct: green must be bad, both blue and red must be useful, floating 4 gold must not be disastrous, and fast red rush or Blood Phage lines must not be available (otherwise fast Animus alone is superior).",
+    "units": [
+      "Animus",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "leary93",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about when the dual-tech P2 opening DD DD ABD is justified.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "In Base Set Only (BSO), 7 Tarsiers is considered the optimal count — having 9 Tarsiers loses more often than 7, likely due to over-investment in attack relative to defense and econ. BSO is considered close to 'solved' or at least very deeply analyzed, with a community-produced decision tree available.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about win conditions and optimal Tarsier counts in BSO during a broader strategy conversation.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Zemora Voidbringer functions as both alternate economy and a win condition: it requires surviving the build time and making enough Conduits to fire every turn. Getting Zemora with good absorb, low attack pressure, good soak, and early enough to deny opponent absorb are the key conditions for the strategy to succeed.",
+    "units": [
+      "Zemora Voidbringer",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "xyotsuba",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about how to conceptualize Zemora Voidbringer strategically — as econ, win condition, or both.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Savior is best purchased in sets with good soak and no fast attack options available to either player, allowing time for it to pay off before the opponent can breach through.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Brief discussion about when Savior is the correct buy after a player was surprised it won against Venge Cannon.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

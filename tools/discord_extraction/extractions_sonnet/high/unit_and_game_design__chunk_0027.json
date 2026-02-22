@@ -1,0 +1,141 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The 'Waning' keyword (whenever a unit survives damage, its health decreases by a set amount) is distinct from 'Fragile': Fragile reduces HP to 1 after absorbing any damage, while Waning N reduces HP by N each time the unit survives damage, allowing a gradual degradation (e.g., Waning 2 on an 8 HP unit goes 8→6→4→2). Waning infinity on a blocker is functionally equivalent to Fragile.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Community discussion about a custom 'Shrinking Shield' unit design featuring the Waning mechanic, comparing it to Fragile.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Waning on a Blocker creates a subtle SDR (Strictly Dominant Response) issue: because during a breach, damage can only be assigned to a unit if it would kill it, a Waning blocker can sometimes make 'having a blocker' strictly worse than not having one (e.g., a Tarsier beats a Shrinking Shield but draws against a non-blocking equivalent). ExtraTricky's proposed fix was to allow partial damage to non-blockers during breaches for Waning units.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Design discussion about whether Waning on a Blocker violates the SDR principle that 'more attributes = better'.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prompt is an SDR-violating keyword because it is neither strictly good nor strictly bad: while it allows a unit to act immediately, it also removes golden armor the turn the unit is purchased, which can be a disadvantage (e.g., sometimes you would want a unit like Tia Threnody to not be able to take damage the turn you buy it).",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "high",
+    "author": "iminabearsuit",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about which unit keywords violate SDR, prompted by comparison of Prompt and Fragile.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Fragile does not violate SDR because it is strictly a negative attribute — there is no game situation where having Fragile is better than not having it. SDR is violated only when an attribute can be both beneficial and detrimental depending on context.",
+    "units": [],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about SDR violations comparing Prompt, Fragile, and Waning keywords.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Colorless attack (attack produced without any tech color) is considered a design rule violation (pie break / shock risk) unless the producing unit has a buildtime of 2 or greater, because without a delay it functions as 'shock' — immediate colorless threat — which the developers try to avoid.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about a custom 'Power Burner' unit that produces colorless attack, and whether colorless pseudo-absorb is a pie break.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Community members (including masn6811) believed Thorium Dynamo was the core problem in breachproof sets rather than the attackers themselves, with masn6811 advocating for a nerf to 7 Fragile HP to address oppressive BP gameplay.",
+    "units": [
+      "Thorium Dynamo"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Brief discussion about what makes breachproof strategies problematic in certain sets.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "In the community's view, green is intended to have worse attack efficiency than red as a color identity, making green offensive finesse units that match or exceed red attack output a balance concern. Tantalum Ray received a nerf partly for this reason.",
+    "units": [
+      "Tantalum Ray"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about a custom unit with green offensive finesse that produced attack comparable to two Tarsiers.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "The community uses 'absorb' and 'soak' as distinct terms: 'soak' refers to total damage a blocker can absorb before dying (its HP), while 'absorb' refers to the effective damage reduction provided to the player's other units or health by a blocking unit that survives. A Waning unit provides less effective absorb on subsequent turns because its HP decreases.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about costing the custom Shrinking Shield unit required clarification between absorb and soak terminology.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A click ability that converts Gold into Green would create an illegal click cycle in conjunction with Zemora Voidbringer (which converts Green into Gold), so such a conversion is considered forbidden in unit design. Similarly, Blue-to-Green conversion is forbidden due to Synthesizer, and Attack-to-Green and Gold-to-Green are forbidden due to Zemora.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Evaluation of a custom 'Catalyzed Drone' unit whose click ability (Pay 1 Gold + Energy, Gain Green) was identified as creating a click cycle with Zemora.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

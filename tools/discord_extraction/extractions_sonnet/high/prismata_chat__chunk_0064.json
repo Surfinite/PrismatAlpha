@@ -1,0 +1,258 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not know base set only (BSO) lines at all; it appears to nat conduit, which always loses except against a Master Bot blastforge opening, and even then it likely plays poorly.",
+    "units": [
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of whether BSO lines could be tested against Master Bot to verify community analysis.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "namington",
+    "report_date": "2018-06-07"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot in a base-set-only game made the move WDD float 4GGG on turn 8, which is considered extremely poor play (buying a Wall then floating 4 gold with no productive use), indicating MB has no understanding of BSO opening theory.",
+    "units": [
+      "Wall",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "extratricky tested a BSO game against Master Bot to observe its behavior after community claimed MB doesn't know BSO lines.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "extratricky",
+    "report_date": "2018-06-07"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot caused a disconnect/crash by stalling long enough that Prismata announced it lost connection to the AI thread, forcing the human player to resign; a fix was reportedly being worked on by the developer.",
+    "units": [],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "amalloy reported that Master Bot's AI thread connection dropped mid-game and waiting for reconnection did not help in his case.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-06-08"
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In base set only, p2's DD DA TTD (or TDD) line is considered a win against both p1 blastforge and animus openings; TDD is generally agreed to win more decisively than TTD.",
+    "units": [
+      "Drone",
+      "Animus",
+      "Blastforge",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Extended community discussion analyzing base set only opening lines and player advantages.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In base set only, natural animus (fastimus) for p1 is generally considered losing because it is flatly behind in tempo without a compensating tech difference; the 2-drone difference from p2's response lines likely does not make up for the tempo loss.",
+    "units": [
+      "Animus",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "leary93",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Community debate on whether nat animus is truly losing or merely close in BSO.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "A critical p2 BSO line involves holding a Rhino on turn 7 to set up an exploit on a future turn; this counter to p1 natural blastforge was not widely known and, without it, p1 was previously thought to be winning.",
+    "units": [
+      "Rhino",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "mtanzer explained why BSO is closer than most players appreciate, citing the rhino hold line as a key discovery.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In base set only with Energy Matrix in the set, the game becomes a p1 win; adding Energy Matrix as the +1 unit to a base set significantly shifts the balance toward p1.",
+    "units": [],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of how individual +1 units shift the base set balance, using Energy Matrix as an example.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Lancetooth has the same problem as Tarsier in that it gets worse as inflation (economy size / attack required) increases; Bloodrager is superior in high-inflation situations, and with a Rhino+Shiver Yeti setup, Bloodrager can be acquired the following turn.",
+    "units": [
+      "Tarsier",
+      "Bloodrager",
+      "Rhino",
+      "Shiver Yeti"
+    ],
+    "confidence": "medium",
+    "author": "leary93",
+    "date": "2018-06",
+    "replay_code": "pkQ77-pxWQT",
+    "context": "leary93 was reviewing a replay game involving Shiver Yeti, Rhino, and inflation-sensitive attackers.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Amphitheater (Ampo) with 4 Tarsiers is very strong and with 6 Tarsiers is considered nearly unbeatable; getting Tarsiers 7 and 8 before securing Ampo itself is greedy and can cost the game.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "xujhan",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Post-game analysis where a player was observed rushing Tarsiers beyond the Ampo threshold before securing Ampo, which was called a throw.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Plexo Cell is relatively weak against a Wincer hold strategy; if pursuing Wincer, players should be cautious about relying on Plexo Cell alongside it.",
+    "units": [
+      "Wincer",
+      "Plexo Cell"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of a set containing Arms Race, Wincer, Plexo Cell, and Ebbs, evaluating the best strategic approach.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a heavy blue set with Omega Splitter and Energy Matrix, the p2 recommended opening is approximately DD/DDE/DDDC/DDDB/DDDW(if absorb needed)/BBS then Omega spam starting turn 7; floating 4 gold as p2 to rush straight to Blastforge is considered by some experts preferable to buying an early Conduit in such sets.",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Conduit",
+      "Blastforge",
+      "Wall",
+      "Omega Splitter"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "shadourow provided detailed opening feedback to a new player in a heavy blue Omega Splitter set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a heavy blue Omega Splitter set, rushing Omegas without first building an Energy Matrix is risky; a Matrix allows all Omegas to be clicked safely, and if the opponent rushes Omegas too early, the correct counter is to build an Energy Matrix instead.",
+    "units": [
+      "Omega Splitter",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Debate about the optimal p2 line in a set featuring Omega Splitter, Energy Matrix, Doomed Mech, and Pixie.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When choosing where to absorb damage, absorbing on a fragile unit like Tia Threnody rather than a Doomed Wall can cost granularity or deny future absorb opportunities; generally absorb should be placed on Doomed units when possible to avoid wasting lifespan.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "drevoed",
+    "date": "2018-06",
+    "replay_code": "pkQ77-pxWQT",
+    "context": "Post-game nitpick discussion about absorb placement choices on fragile versus doomed units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Using a Doomed Drone as early as turn 1 instead of a regular Drone can be correct in very rushy sets, as the Doomed Drone can provide defensive value while also hitting an economic breakpoint; this is unusual but situationally justified.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": "EqyY-2CNfE",
+    "context": "amalloy analyzed a shared replay and concluded the best p1 opening involved an unusually early Doomed Drone for both economic and defensive purposes.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "invalid_replay_code"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a set with Gaussite Symbiote and Sentinel, it is possible to stall long enough with absorb to accumulate 26 Gauss Cannon charges, which can be a decisive game-winning threat if the opponent is not anticipating such a build.",
+    "units": [
+      "Gaussite Symbiote",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "swapgo",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "swapgo described a game where stalling with Sentinel absorb enabled an extreme Gauss Cannon charge accumulation.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

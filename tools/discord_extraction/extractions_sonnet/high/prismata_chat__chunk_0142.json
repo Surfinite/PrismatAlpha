@@ -1,0 +1,232 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Naive P1 Wincer loses to Lucina in base set games. According to efficiency spreadsheet analysis, Lucina rates at 41% efficient (excluding click ability) at 2.4 BV and 1.38 Inflation, while Wincer always clicking is only 22% efficient, and Wincer that never clicks and just threatens 15 damage is only 10% efficient.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "Discussion comparing Wincer and Lucina efficiency in base set and general sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wincer's main value in actual games comes from support synergies and its ability to dodge absorb with its threat of 15 damage, rather than raw efficiency stats alone.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "Discussion of Wincer vs Lucina efficiency and situational strengths.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot misuses Cryo Ray chill ability: on turn 11 of the referenced replay, it wastes 6 Cryo Ray shots chilling Walls that do not affect the outcome of the block, when chilling the Barrier instead would have been correct.",
+    "units": [
+      "Cryo Ray",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "alex319",
+    "date": "2020-11",
+    "replay_code": "izkDb-sy6uF",
+    "context": "alex319 reported a specific reproducible case of Master Bot wasting chill shots on irrelevant Wall units instead of the Barrier.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "alex319",
+    "report_date": "2020-11-20"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is systematically poor at using chill abilities, failing to prioritize high-value chill targets such as Barriers over low-value targets such as Walls when the latter do not affect block outcomes.",
+    "units": [
+      "Cryo Ray",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "alex319",
+    "date": "2020-11",
+    "replay_code": "izkDb-sy6uF",
+    "context": "Observation from a reported replay in which MB wasted multiple chill shots on suboptimal targets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "alex319",
+    "report_date": "2020-11-20"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "1-lifespan Cryo Rays are strictly worse than Gauss Charges (Gauss Cannon shots) when you have no other freeze units, regardless of whether you try to freeze soak units or the absorber. Freezing soak units just replaces which unit soaks without benefit; freezing the absorber only denies one less absorb than the freeze charges used. This proof was constructed by velizar_ and confirmed by silentslayers.",
+    "units": [
+      "Cryo Ray",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "velizar_ posted a formal logical proof comparing 1ls Cryo Rays to Gauss Charges in the absence of other freeze units, confirmed by silentslayers and masn6811.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A Cryo Ray with 2 or more uses can be stronger than a Gauss Charge in specific situations, for example when it can freeze a Barrier across multiple turns. Additionally, if other freeze sources already exist (e.g., a Frostbite combined with attack against a Doomed Wall), a Cryo Ray can be preferable to a Gauss Charge.",
+    "units": [
+      "Cryo Ray",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "Addenda to the Cryo Ray vs Gauss Charge proof, noting exceptions when freeze has multi-turn value or when existing freeze units create synergy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Electrovore at 1 HP (proposed nerf) was considered an upgrade by the community in terms of game health, because the previous version enabled degenerate Fastimus combinations. silentslayers argued that Fastimus with Electrovore, Grimbotch, and Smorcus created severely oppressive openings against fast and medium-speed sets, forcing opponents into walls and impossible mirror situations.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "silentslayers explained why the Electrovore HP nerf to 1 is good for the game, detailing Fastimus + Electrovore pressure sequences.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Magna Cronus (10GGBB, BT2, 14 Fragile, 3 Attack, click: +5 Attack and 3 Exhaust) should generally not be clicked against soak units like Forcefields or Walls unless it is about to be breached and killed, as clicking against soak provides no net benefit. Elyot (the designer) confirmed this explicitly.",
+    "units": [
+      "Forcefield",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "Discussion of Magna Cronus click ability usage during the balance event, with elyot confirming that clicking against soak is a mistake.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Shadowfangs exhibit a near-Fibonacci scaling property in mirror matchups: 239 Shadowfangs vs 577 Shadowfangs is approximately an even match when going first, analogous to the Tarsier situation where relative parity follows an almost-Fibonacci progression.",
+    "units": [
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "velizar_ noted the near-Fibonacci parity property of Shadowfang mirror matchups, drawing an analogy to a similar known property with Tarsiers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The Gaussite Pivot proposed unit gives P1 a free unit from turn 1 (P2 does not receive it). Its click ability sacrifices the Pivot and pays Green+Gold to gain two Green resources, functioning as a color conversion tool to compensate for P2's structural advantage in green-heavy unit sets.",
+    "units": [
+      "Gaussite Symbiote"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "Discussion of the Gaussite Pivot proposed asymmetric unit designed to reduce P2's win-rate advantage, particularly in green-heavy sets.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In double Antima Comet openings, a T4 Engineer that could instead be a Drone while still obtaining the same sized Comets represents a suboptimal build, as the Drone provides superior long-term economic value without sacrificing the Comet timing.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-11",
+    "replay_code": "BaxLD-33KEQ",
+    "context": "amalloy critiqued a double Antima Comet opening replay where an Engineer was bought instead of a Drone on T4 unnecessarily.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "SDR stands for 'Special Damage Rights' in Prismata community terminology, referring to the right to deal damage to a specific target unit behind the wall. It is used when evaluating whether breaching to kill a specific unit (e.g., a Drone) is worth more than absorb denial.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "masn6811 clarified the meaning of SDR during a discussion about gambit lines and absorb denial decisions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When evaluating whether to gambit (offer a breach), if the unit behind the wall is a Drone, the SDR (Special Damage Rights) value of killing it is worth less than absorb denial, making gambit lines less attractive in that situation.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "Discussion of gambit decisions involving absorb denial vs. killing units behind the wall, specifically referencing Drone as a low-SDR target.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Frost Brooder was considered overpowered by beginners primarily because it is very strong against the specific early strategies beginners first learn, but it is considered weak against Gauss Cannons. Elyot stated this directly, and the unit received approximately 5 nerfs over the game's history.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "silentslayers quoted Elyot explaining why Frost Brooder appeared overpowered to beginners despite being weak in certain matchups.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

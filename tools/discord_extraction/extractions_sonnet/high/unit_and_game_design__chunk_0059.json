@@ -1,0 +1,216 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Cauterizer is efficient compared to Rhino as a red sink, since it only needs to be efficient relative to Rhino to justify its cost (RR), and it clearly surpasses Rhino in that comparison.",
+    "units": [
+      "Cauterizer",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Discussion comparing Cauterizer's efficiency to other red-spending options like Steelsplitter and Smorcus.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Chrono Filter's current design allows players to effectively access 11-cost tech for only 4 gold by timing purchases around its alternating resource output, which is considered a fundamental balance problem rather than an acceptable combo mechanic.",
+    "units": [
+      "Chrono Filter"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Extended debate about whether Chrono Filter should alternate resources (B one turn, R the next) rather than giving both on one turn and nothing on the other.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Chrono Filter's problematic combo interactions (e.g., with Wincer and Antima Comet) stem from the unit's core design of providing double resources on one turn, and simply adding a green resource to its cost would worsen these interactions rather than fix them.",
+    "units": [
+      "Chrono Filter",
+      "Wincer",
+      "Antima Comet"
+    ],
+    "confidence": "high",
+    "author": "redrame",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Community discussion about redesigning Chrono Filter to address degenerate combo games.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Chrono Filter is coded as producing both resources on one turn and then exhausting, rather than truly alternating; there is no existing mechanic in the game that alternates resource production turn-by-turn, making an alternating redesign non-trivial to implement.",
+    "units": [
+      "Chrono Filter"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Discussion of whether an alternating B/R Chrono Filter could be implemented with the existing codebase.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Double Animus red breachproof is considered the only viable mono-red breachproof strategy; other proposed red breachproof approaches are dismissed as unviable by experienced players.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Discussion about a proposed Giant Tarsier unit and whether red breachproof strategies are viable.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Red color is designed to lack overly efficient defenders (absorbers, high-HP blockers) to balance its stronger attackers, preventing mono-red from being oppressive; this is a deliberate asymmetric color identity constraint rather than an accidental gap.",
+    "units": [],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Discussion about whether a mono-red absorber unit could or should exist in the game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Vivid Drone is strictly better than Wild Drone in Elyot Animus sets (where T1 Animus is the dominant strategy), except for the edge case of holding drones for defensive purposes.",
+    "units": [
+      "Vivid Drone",
+      "Wild Drone",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2019-07",
+    "replay_code": null,
+    "context": "Discussion about whether Wild Drone is broken in Elyot Animus sets, with comparison to Vivid Drone.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Wild Drone is not independently broken in fast Animus sets: any set where a P1 Turn-1 Animus strategy is broken is already broken without Wild Drone, and Smorcus's presence in such games is the actual culprit.",
+    "units": [
+      "Wild Drone",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-07",
+    "replay_code": null,
+    "context": "Community member claiming Wild Drone is broken in Elyot Animus sets; mrguy888 disputes this.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Galvani Drone enables P2 to achieve a Turn-1 Animus purchase when red is sufficiently strong, giving P2 a meaningful response in aggressive red sets.",
+    "units": [
+      "Galvani Drone",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "kristian1103",
+    "date": "2019-07",
+    "replay_code": null,
+    "context": "Discussion about fast Animus openings and which drone variants enable them.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "An alternate Chrono Filter that produces Blue on one turn and Red on the next (instead of both on one turn) would eliminate the ability to cheat out expensive tech cheaply, while still offering unique strategic flexibility not available from other tech buildings.",
+    "units": [
+      "Chrono Filter"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Discussion of a proposed B-R-B-R alternating Chrono Filter redesign as a fix for the unit's balance issues.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Cauterizer plus Steelsplitter costs the same as Cauterizer alone, and while the combo lacks Engineer cycling, it provides an extra point of threat and future red-to-attack conversion flexibility, making the comparison non-trivial for evaluating Cauterizer's value.",
+    "units": [
+      "Cauterizer",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Debate about whether Cauterizer is an efficient red sink compared to alternatives.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "\"Elyot Animus\" refers to sets where a first-turn Animus purchase is the dominant strategy, named after developer Elyot; these sets are considered inherently problematic for game balance regardless of other units present.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2019-07",
+    "replay_code": null,
+    "context": "Multiple players discussing Wild Drone and Vivid Drone in the context of fast Animus openings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Early Day 1/Day 2 Chrono Hound as P2 can lose to Blastforge-Animus tech in many sets; however, P2 has a secondary option of a natural-turn Chrono Hound (after a standard DDE opening) that covers high-economy sets where early drone investment is required.",
+    "units": [
+      "Chrono Filter"
+    ],
+    "confidence": "medium",
+    "author": "redrame",
+    "date": "2019-06",
+    "replay_code": null,
+    "context": "Debate between redrame and mrguy888 about whether P2 Chrono Hound openings are dominant or conditional.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

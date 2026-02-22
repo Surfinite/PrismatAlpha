@@ -1,0 +1,130 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot has no coherent strategy for Savior and makes unintelligible plays whenever the unit is in the set. It cannot handle Savior's build-time correctly, failing to recognize the unit is on the board while it has build time remaining.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "Community discussion about Master Bot's poor handling of Savior, confirmed by multiple players including apooche.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2018-08-13"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot buys Vivid Drone after Savior comes online, apparently because the drone supply is exhausted and it still wants to increase economy, but it fails to recognize that Vivid Drone actually reduces net gold income (costs 2 gold and 2 energy to produce -1 gold per turn net).",
+    "units": [
+      "Savior",
+      "Vivid Drone"
+    ],
+    "confidence": "high",
+    "author": "_theavatar",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "Specific observed instance of Master Bot buying Vivid Drones immediately after Savior came online, with community discussion of why this is wrong.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "_theavatar",
+    "report_date": "2018-08-13"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot's Q auto-breach does not correctly account for fragile units that are not at their default health, causing it to, for example, put breach damage on a Gauss Cannon instead of killing four 1-health Colossi when breaching for exactly 4 damage. This has been a persistent bug.",
+    "units": [
+      "Gauss Cannon",
+      "Colossus"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "amalloy noted Q auto-breach kills Tarsiers before 1-hp Ferals; apooche and sorawotobu confirmed the general bug that Q breach mishandles damaged fragile units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-08-14"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not properly account for build time on units it has purchased, failing to plan around them while they are still being constructed. This is a general architectural limitation rather than a unit-specific bug.",
+    "units": [],
+    "confidence": "medium",
+    "author": "kristian1103",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "Discussion about Master Bot buying Vivid Drones after Savior, with kristian1103 suggesting the root cause is that MB doesn't recognize units on the board during build time.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "kristian1103",
+    "report_date": "2018-08-13"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Master Bot can be cheesed to win every game with zero skill, making it viable for fast experience grinding via bullet games.",
+    "units": [],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "Discussion about fastest ways to level up in Prismata, with mrguy888 recommending bullet vs Master Bot as exploitable for guaranteed wins.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Vivid Drone is net negative for economy when Savior is already online, since the player can no longer sacrifice drones (drone supply is capped by Savior), making Vivid Drone's cost of 2 gold and 2 energy yield only -1 gold per turn in practice.",
+    "units": [
+      "Vivid Drone",
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "Community analyzing why Master Bot's Vivid Drone purchase after Savior is online is a mistake, with crash_overlord summarizing the economics.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "DD BB into Deadeye Operative as Player 2 is considered always wrong or nearly so, as it prevents P2 from double-droning afterward and is easily punished.",
+    "units": [
+      "Deadeye Operative"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "amalloy observed an opponent attempt DD BB into Deadeyes as P2 and get punished, questioning whether this opening has any valid use case.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Firespinner functions as a compressed burst-attack unit, delivering approximately 40 attack for around 60 gold at build time 2, equivalent to 1.5 gold per Tarsier-equivalent of damage. Its key advantage over building equivalent Tarsier+Animus infrastructure is that it delivers the attack all at once without requiring multiple turns of purchasing.",
+    "units": [
+      "Tarsier",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "f300xen",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "Community discussion comparing Firespinner's cost-efficiency to building equivalent Tarsier/Amp infrastructure, highlighting the tempo advantage of consolidated burst damage.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

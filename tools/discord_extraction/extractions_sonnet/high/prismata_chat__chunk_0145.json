@@ -1,0 +1,193 @@
+[
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Pixie is considered too weak and low-impact to be worth including in random sets. Even if it were reduced to cost only Blue (no gold), it would make Blastforge compare too favorably to Tarsier, since Tarsier is balanced around requiring a tech building and being countered by Wall, while a Blue-only Pixie wouldn't face the same constraints.",
+    "units": [
+      "Pixie",
+      "Blastforge",
+      "Tarsier",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "Community discussion about whether Pixie should be buffed or removed from the game.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Pixie's primary in-game role is as a Blue sink: it lets players buy Blastforges they can't fully support by spending excess Blue on Pixies, which is inefficient but better than floating Blue. This creates no difficult decisions and is considered unfun compared to units like Oxide Mixer which fill a similar role more interestingly.",
+    "units": [
+      "Pixie",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "Discussion about Pixie's design weaknesses and whether it should be buffed or cut.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Apollo has a discrete 3HP cutoff: units with 3HP or fewer are completely vulnerable to Apollo's snipe, while units with 4HP or more are completely invulnerable. This binary interaction is considered a design issue that creates degenerate plays, since Apollo can bypass any number of defenders to snipe specific targets.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Discussion about Apollo's mechanics and whether a cost-based snipe threshold would be less degenerate.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Apollo sniping a Tarsier every turn is approximately 17% less efficient than a Tarsier in a direct cancellation matrix analysis. An Apollo matched against Splitters (rather than Tarsiers) is better than Splitters, but Apollo against Tarsiers is not better than Splitters, making Apollo's value highly dependent on what the opponent is building.",
+    "units": [
+      "Apollo",
+      "Tarsier",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Masne performed cancellation matrix calculations during a testing session with cooledcannon on infinite-supply sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Multiple Apollos can synergize: the second Apollo is stronger than the first because together they can completely lock an opponent out of absorb or proper tech, even if the third and fourth have diminishing returns.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "medium",
+    "author": "xyotsuba",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Discussion about Apollo's power level and whether buying multiple Apollos is correct.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Apollo and Defense Grid but no other viable attackers, the optimal strategy may be the same as base+grid without Apollo: build up to a large drone count (~80) to breach the absorb barrier rather than relying on Apollo sniping, because Apollo that sniping Drones is less efficient than just buying Drones.",
+    "units": [
+      "Apollo",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Post-game analysis after masn and cooledcannon played an infinite-supply test game with Apollo and Defense Grid.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Apollo is most valuable in sets where it counters specific random-set units; in base-set-only (BSO) contexts, even at 4 supply it is not viable. Apollo's value drops off significantly when an opponent has unlimited Tarsiers, but is higher when the opponent is forced into Splitters.",
+    "units": [
+      "Apollo",
+      "Tarsier",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Testing session conclusion after masn and cooledcannon played Apollo in BSO and infinite-supply scenarios.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying too many Apollos is a known throwing line: cooledcannon identified in replay analysis that buying a 3rd Apollo was the losing move in an otherwise winning position, suggesting Apollo has hard diminishing returns after 1-2 copies.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "cooledcannon",
+    "date": "2021-01",
+    "replay_code": "GztWS-++mY1",
+    "context": "cooledcannon shared a replay where buying a 3rd Apollo lost a game that was otherwise easily winning.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Stacking multiple Animuses to buy out a full supply of Tarsiers and Shadowfangs in a single turn is a known counter-strategy against Apollo in sets with no other attackers. Analysis suggested 3-4 Animuses is correct for this purpose; 5 Animuses is likely one too many.",
+    "units": [
+      "Animus",
+      "Tarsier",
+      "Shadowfang",
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "amalloy recalled a serious match where multiple Animuses were bought out to counter Apollo; masn confirmed post-game analysis showed 3-4 was optimal.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Vivid Drone combined with Flanimus (Feral Warden or equivalent fast Animus) is a powerful rush combo, but it requires the best attacker in the set to be a small Red unit (Electrovore, Grimbotch, Smorcus, or ideally Perforator). The combo is countered by large absorbers like Centurion, Matrix, or Doomed Mech, though with very strong support like Perforator or Smorcus it may beat even Doomed Mech.",
+    "units": [
+      "Vivid Drone",
+      "Tarsier",
+      "Grimbotch",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Discussion about what constitutes an unbeatable early rush in Prismata.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Player 2 has a substantial advantage in BSO (Base Set Only) format, primarily because small Red units gave strong early pressure. The community has been nerfing small Red units to address this imbalance. In B+8 sets the P2 advantage rarely occurs, but it remains a notable issue in B+5 which is commonly played by newer players.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "Discussion of format balance issues in BSO and B+5 queues.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

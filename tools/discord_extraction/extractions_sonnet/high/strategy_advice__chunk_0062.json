@@ -1,0 +1,310 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When absorbing on Colossus (row 3) instead of Wall, you temporarily gain 8 soak on that turn, but must repay 3 soak the next turn when you rebuy Wall, yielding a net long-term gain of only 5 soak. The key value is the temporary 8-soak spike on that single turn.",
+    "units": [
+      "Colossus",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion about absorb mechanics and the temporary versus long-term soak value of holding Colossus versus Wall.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Savior is extremely difficult to evaluate with standard efficiency models because its actual cost includes severe tempo loss over many turns while waiting for it to come online, and because its value depends heavily on how many Drones and Plasmafiers are bought and on which specific turns they are clicked or used as soak — making per-game analysis mode a better tool than any general formula.",
+    "units": [
+      "Savior",
+      "Plasmafier"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Thread debating whether Savior's inflation or efficiency metric can be meaningfully calculated and compared to slow strategies like Zemora.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Going breach-proof forfeits the value of good absorbers (e.g. Energy Matrix), good soak units (e.g. Plexo Cell), and breach-vulnerable attackers (e.g. Cynestra). Conversely, breach-proof becomes stronger when the set contains freeze effects (especially Nivo), breach-proof drones, additional breach-proof attackers, or Cluster Bolts.",
+    "units": [
+      "Plexo Cell",
+      "Cynestra",
+      "Cluster Bolt"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-10",
+    "replay_code": null,
+    "context": "Discussion about when breach-proof strategies are strong or weak relative to set contents.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "With asymmetric access to Redeemer (P1 only), P1's strongest line is DD DD DDB SDC; if P2 tries TTD on turn 5, P1's Redeemer punishes their weak defense, and even against TTE the tested response WGE wins easily.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "mtanzer and silentslayers testing Redeemer viability in asymmetric access scenarios, concluding P1 wins with this specific line.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against a Venge Cannon all-in, good soak and a good absorber are the primary defensive tools; going breach-proof to survive the all-in trades away the value of those absorbers and soak units, making it a double loss in sets with strong examples of either.",
+    "units": [
+      "Venge Cannon"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2020-10",
+    "replay_code": "btChn-lsowS",
+    "context": "Discussion of how to counter a Venge Cannon all-in strategy, noting the tension between breach-proof defense and absorb/soak value.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Infusion Grid acts as a soft counter to Wincer because it provides absorb value that reduces the effective damage from Wincer's large burst attack, similar to how any strong absorber mitigates a single large hit.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-12",
+    "replay_code": "fO2h8-bO@NA",
+    "context": "velizar_ analyzing a Wincer rush game and suggesting defensive alternatives including Infusion Grid and Plexo Cell.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When a Hannibull (Flanimus + Hannibull) all-in is used in sets containing strong counters like Drake, Valk, Pixie, Sentry, Goose, or Charge, the all-in is particularly weak because those units are hostile to the bull strategy and give the opponent easy lines to win.",
+    "units": [
+      "Drake"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "Post-game analysis of a Flanimus Hannibull all-in that lost to a Drake response in a set with multiple anti-bull units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The DD/DDC/DDB opening into Chrono-Wincer-Drake is generally considered a dominant early game line ('usually unbeatable') when those three units are available together in a set.",
+    "units": [
+      "Wincer",
+      "Drake"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-11",
+    "replay_code": "Fgs9K-o2DJ0",
+    "context": "Analysis of a Zemora vs Wincer game where masn6811 identified DD/DDC/1b+Chrono as the standard dominant line when Chrono Wincer Drake is available.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Doomed Wall, Omega Splitter and Mahar are both partially redundant as defensive tools, since Doomed Wall already provides strong hold/absorb value; buying Omega while also buying Mahar is inefficient because Mahar can be held instead.",
+    "units": [
+      "Omega Splitter"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-11",
+    "replay_code": "Fgs9K-o2DJ0",
+    "context": "Analysis of a ladder game where a player bought both Omega Splitter and Mahar in a Doomed Wall set, which velizar_ identified as redundant.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding (blocking with) Omega Splitter is significantly better than clicking it: clicking forces your opponent to buy 3 more defense, but costs you 6 defensive tempo requiring 2 Walls in response; holding instead lets you buy absorb units like Infusion Grid, which on the next turn gives 3 more absorb and 2 extra HP, requiring 5 less defense — a much better outcome than forcing 3 defense half a turn earlier.",
+    "units": [
+      "Omega Splitter"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "velizar_ asked about 3rd Engineer in sets with good absorbers like Omega Splitter; jamberine analyzed the hold vs click decision for Omega Splitter in detail.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Strong soak units only slightly encourage higher economy because high-quality soak tends to arrive in large chunks that are irrelevant until the opponent reaches a threshold of attack, and you often can't benefit from more than one soak unit once above the threshold; absorb is the far stronger driver of high-economy play.",
+    "units": [],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "velizar_ asked whether strong soak (e.g. Aegis-style) or strong absorbers justify a 3rd Engineer; jamberine explained the soak case is weak.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When buying attackers like Doomed Mech that the opponent may absorb on, your last few attackers still provide indirect value by discouraging the opponent from attacking freely, even while you are below the absorb threshold — though this value is less than full attack value because it also makes the opponent's absorber-attacker more powerful.",
+    "units": [
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "Thread analyzing whether 3rd Engineer is justified in sets with good absorbers, specifically examining cases like Doomed Mech and Mahar.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Small red games (sets with only a small amount of red resource available) are typically heavily player-favored with almost no counterplay available to the losing side, because the entire game often hinges on one or two gold-level decisions that are essentially deterministic in outcome.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "masn6811 and silentslayers discussing the nature of small red sets and why they feel like non-games.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Felid is strong enough to work as your first attacker when you have an Animus, and it is correct to buy the entire Felid supply in that case; apply a Bombarder-like rule of buying at least some permanent attack before committing to Felid.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "Player asked how to play Eviscerator and Felid; velizar_ gave guidance on Felid's power level and purchasing rule.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "The old Grenade Mech with 0-cost click was meaningfully stronger than Drake spam: it cost 2 less gold AND dealt 1 more damage (because you can hold Pixies to deny absorb), making the old version a genuinely dominant strategy rather than just a minor efficiency gain.",
+    "units": [
+      "Grenade Mech",
+      "Drake"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "shadourow asked how the old free-click Grenade Mech compared to Drake spam; masn6811 explained it was strictly better due to lower cost and higher effective damage via Pixie holding.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a 2-unit set (base + 2 advanced units), a T1 Blastforge opening for P2 is believed by high-level players (punf, masn6811) to be effectively an autowin, as no non-Bull line can outrace it and Bull cannot outrace it either.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-11",
+    "replay_code": null,
+    "context": "Discussion of whether Flanimus Hannibull is an autowin for P2 in 2-unit combos; masn6811 noted that in pure 2-unit sets the T1 Blastforge line is believed to be an autowin.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot frequently buys Drones well into the mid-to-late game when it should instead be buying attackers or other relevant units, indicating a systematic failure to recognize when drone purchasing is no longer optimal.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-12",
+    "replay_code": "eUfkH-nBFhd",
+    "context": "masn6811 shared a replay where Master Bot played a poor endgame; velizar_ and masn6811 identified the T11 drone purchase as a recurring pattern where MB buys drones instead of stronger plays.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-12-08"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "In replay eUfkH-nBFhd, Master Bot on turn 11 buys a Drone instead of a stronger play (Wall+Corpus or Steelsplitter+Husk+Drone); both velizar_ and masn6811 agree that any line spending the blue resource easily wins the game from MB's position, making this a clear suboptimal decision.",
+    "units": [
+      "Drone",
+      "Wall",
+      "Corpus",
+      "Husk"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-12",
+    "replay_code": "eUfkH-nBFhd",
+    "context": "masn6811 posted a replay asking if Master Bot could have played the endgame better; velizar_ confirmed they could win in MB's place and identified the T11 drone buy as the critical error.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2020-12-08"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is poor at holding (blocking with) Drones at the right time in the endgame, sometimes sacrificing Walls to save and click a Corpus in situations where the game is already lost due to a misplay multiple turns earlier.",
+    "units": [
+      "Drone",
+      "Wall",
+      "Corpus"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-12",
+    "replay_code": "eUfkH-nBFhd",
+    "context": "Discussion of Master Bot's endgame in replay eUfkH-nBFhd, where it sacrificed a Wall to save Corpus rather than finding a winning line two turns earlier.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2020-12-08"
+  }
+]

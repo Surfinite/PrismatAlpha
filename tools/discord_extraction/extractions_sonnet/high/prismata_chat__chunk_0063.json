@@ -1,0 +1,239 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Floating 2 gold is suboptimal but acceptable; floating 3 or more gold is generally something to avoid, as it typically indicates being underteched or misallocating resources.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about gold floating thresholds and when to buy Engineers vs. save gold.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying Engineers to soak when you would otherwise float 3+ gold is only correct if those Engineers will actually matter the following turn; otherwise it is strictly worse than saving the gold for a specific purchase.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about when to spend surplus gold on Engineers versus holding it for a planned purchase such as a Wall plus another unit.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying a second Blastforge specifically to produce two Walls per turn is generally wrong: Walls are not efficient soakers and the Wall supply runs out quickly, unlike units such as Aegis whose soak efficiency can justify dedicated tech.",
+    "units": [
+      "Blastforge",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Player asked whether a second Blastforge for Walls is ever correct; multiple experts agreed it is almost always wrong.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A Conduit purchased solely to enable Forcefield soaking is usually not worth it by itself; however, Conduit plus Forcefield becomes cheaper per point of defense than Engineers after the second Forcefield, so a Conduit already bought for other reasons can make Forcefields attractive late-game.",
+    "units": [
+      "Conduit",
+      "Forcefield",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "cogito3",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about late-game tech decisions involving Conduit and Forcefield versus Engineer spam.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The DD/DC opening is generally a bad build because cutting a Drone for green tech is suboptimal in most sets; however, it is the standard opening line for Zemora Voidbringer strategies.",
+    "units": [
+      "Drone",
+      "Conduit",
+      "Zemora Voidbringer"
+    ],
+    "confidence": "high",
+    "author": "cogito3",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of opening theory and when DD/DC is appropriate.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The standard P1 Scorch rush line is DD/DC/DA/buy 2 Scorchillas; P2's mirror response is DD/DDC/DA/11 (where '1' represents a Scorchilla). This line is noted as strong in sets where Scorchilla is available alongside Gauss Cannon, whose timing syncs well.",
+    "units": [
+      "Drone",
+      "Conduit",
+      "Animus",
+      "Scorchilla",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "cogito3",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Cogito provided specific opening lines for a Scorchilla rush strategy in a set also containing Energy Matrix and Omega Splitter.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When combining two damage sources such as Tarsier and Antima Comet (smorcus), buying the tech buildings in the order TT then Antima is better than Antima then TT: in the latter order the Antima Comet gets absorbed twice before Tarsiers arrive, whereas in the former the opponent gets no absorb until all three damage points are online simultaneously.",
+    "units": [
+      "Tarsier",
+      "Antima Comet"
+    ],
+    "confidence": "high",
+    "author": "cogito3",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Cogito reviewed a player's replay and pointed out a sequencing error in building Tarsier tech before Antima Comet tech.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "With Vivid Drone in the set, the basic heuristic is: if you would only buy one Drone anyway on a given turn, buy Vivid Drone instead, since the extra resource is essentially free in that spot.",
+    "units": [
+      "Vivid Drone",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "cogito3",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Explaining alternate-drone usage to a newer player after linking 307th's article on alternate drones.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The P1 opener DD / AE (Animus + Engineer on turn 2) is considered nearly always terrible; the only conceivable scenario where it could be passable is if P2 opens turn-1 Animus in a set with units like Grimbotch or Bloodrager that immediately threaten Engineers, since you would need the replacement Engineers urgently.",
+    "units": [
+      "Drone",
+      "Animus",
+      "Engineer",
+      "Grimbotch"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "namington posed a hypothetical about whether DD/AE is ever passable; cogito3, namington, and mqp discussed edge cases.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Golden (under-construction) units can be attacked only after all non-golden units are dead, but targeted destruction abilities (e.g., Golden Shield, Kinetic abilities) do not additionally single out golden units even in that state. The cleaner rule is: once all non-golden units are dead, golden units become valid attack targets but are still not individually targetable by special abilities.",
+    "units": [],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about whether special abilities can snipe golden (under-construction) units when no non-golden units remain.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "In Prismata community discussions, 'smorcus' or 'smorcus train' refers to the Antima Comet unit, used as informal slang.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Multiple messages in the thread use 'smorcus' when referring to Antima Comet in opening lines and strategy discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Shiver Yeti completely warps the game relative to Rhino despite both being defensive units, because their divergent effects on the game state (Shiver Yeti's freeze ability vs. Rhino's passive blocking) lead to drastically different optimal strategies.",
+    "units": [
+      "Shiver Yeti",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "amalloy commented after a player made a surprising Shiver Yeti purchase, noting it warped the game compared to buying a Rhino.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Using a Centrifuge to produce a single blue for Energy Matrix is significantly better than buying a second Blastforge in sets where the blue would otherwise not be used for other units, since double Blastforge is expensive and wastes build capacity.",
+    "units": [
+      "Blastforge",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "cogito3",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Reviewing a player's replay where they bought a second Blastforge for Energy Matrix rather than using a Centrifuge.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A Scorchilla rush can deny Energy Matrix absorb, making it a strong counter-strategy in sets where both are available; Gauss Cannon's attack timing also syncs well with a Scorchilla rush line.",
+    "units": [
+      "Scorchilla",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "amalloy and cogito3 agreed that Scorchilla rush may be strictly better than a Centrifuge-into-Energy-Matrix line in the discussed set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

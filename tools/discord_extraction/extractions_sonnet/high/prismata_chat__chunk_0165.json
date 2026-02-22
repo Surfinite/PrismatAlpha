@@ -1,0 +1,188 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Blue/green (Gauss Cannon + Wall + Forcefield) is significantly easier for new players to execute than red (Tarsier-based) strategies. The defense in blue/green is straightforward, while red requires understanding inflation, the Rhino/Tarsier transition, and knowing when to switch from buying Tarsiers to Engineers.",
+    "units": [
+      "Gauss Cannon",
+      "Wall",
+      "Forcefield",
+      "Tarsier",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes.",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "Discussion about what advice to give new players regarding opening strategies in the base set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tarsier-based red strategies are breach-vulnerable and difficult for new players because red is generally poor at defending, requiring knowledge of when to transition to Rhinos and when to stop buying Tarsiers in favor of Engineers.",
+    "units": [
+      "Tarsier",
+      "Rhino",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "Discussion between pikachumemes. and aa01blue about new player difficulty with red strategies.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot crashes and falls back to random moves under certain conditions. The most reliable known trigger is playing a large number of units when there is no unit limit. Other crash triggers exist but are not remembered by the reporter.",
+    "units": [],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "velizar_ responded to spiritfryer's vague recollection about the bot 'going stupid sometimes', confirming a crash-to-random-moves bug.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2024-04"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets featuring a large absorber, the game tends to scale to bigger economies. The biggest absorber available, the efficiency of soak units, and the strength/rushiness of available attackers collectively determine how large (or small) a given set will play.",
+    "units": [],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "spiritfryer was advising a new player on how to assess a set and decide on economy size.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In the standard game arc, the early game prioritizes drones, the mid-game prioritizes attackers and soak to protect the absorber and avoid breach, and the late game shifts to devoting all resources to defense. As the endgame approaches, drones become less useful and Forcefields or even held drones (used as 1 HP soak) become important, especially when protecting a squishy backline like Tarsiers.",
+    "units": [
+      "Drone",
+      "Forcefield",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "spiritfryer was explaining general game strategy to a new player.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A key early-game decision is whether to buy additional Engineers for more Drones (going big econ) or staying on 2 Engineers. This depends on the size of the biggest absorber, soak efficiency, attacker strength, and the presence of rush strategies. Alternative drone units can enable big econ while staying on 2 Engineers.",
+    "units": [
+      "Engineer",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "spiritfryer elaborating on set assessment and economy decisions for a new player.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Wincer synergizes well with freeze effects (e.g., Shiver Yeti), particularly when freeze is used on large absorbers. However, the synergy is weakened if you cannot fire the freezing unit multiple times, as the threat becomes fake and the freeze provides no value.",
+    "units": [
+      "Wincer",
+      "Shiver Yeti",
+      "Cynestra"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2024-04",
+    "replay_code": "pW4np-1Z@td",
+    "context": "spiritfryer analyzed a set featuring Wincer, Cynestra, Shiver Yeti, and Ebb, assessing dominant strategies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "As Player 1, if rushing a Fabricator (Gauss Fabricator), the optimal build order is 1.DD 2.CC 3.DD 4.Fab to avoid floating gold in the opener. Floating gold in the first few turns while going for Fab is a notable inefficiency.",
+    "units": [
+      "Drone",
+      "Conduit",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2024-04",
+    "replay_code": "lO+7T-3R0lU",
+    "context": "spiritfryer reviewed thextrategist's game against Master Bot, pointing out a suboptimal Fabricator build order.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying Drones late into the game and holding them unused the following turn is inefficient. Similarly, buying an Animus and immediately making a unit with it the next turn (e.g., buying Animus then making a Rhino the turn after) is inefficient. Players should plan defense a turn ahead to avoid this.",
+    "units": [
+      "Drone",
+      "Animus",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2024-04",
+    "replay_code": "lO+7T-3R0lU",
+    "context": "spiritfryer gave feedback on thextrategist's game against Master Bot, noting late-game inefficiencies.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Doomed Mech provides strong support for Antima Comet (Ampo) strategies, at minimum by threatening the combo to force opponent responses, even if the Ampo is never actually executed.",
+    "units": [
+      "Doomed Mech",
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2024-04",
+    "replay_code": "jr6SR-BusV1",
+    "context": "silentslayers reviewed .slaughtergarden's game featuring a Doomed Mech + Antima Comet strategy.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "BS+9 through BS+11 (Base Set plus 9-11 random units) is considered significantly more balanced at high-level play than BS+8, and BS+5 has a notably higher probability of generating unfair sets compared to larger pools.",
+    "units": [],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2024-05",
+    "replay_code": null,
+    "context": "Discussion about P1/P2 balance and set fairness in different random set configurations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

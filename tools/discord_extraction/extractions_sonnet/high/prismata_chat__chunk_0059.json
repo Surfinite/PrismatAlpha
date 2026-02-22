@@ -1,0 +1,158 @@
+[
+  {
+    "category": "MB_COMPARISON",
+    "insight": "The casual bots (BottyMcBotFace, Wacky Bot, Adept Bot) follow specific strategies and are described as slightly easier than Master Bot, but not by a large margin.",
+    "units": [],
+    "confidence": "medium",
+    "author": "ruinedshadows",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "A new player asked about the difficulty difference between casual bots and Master Bot.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "ruinedshadows",
+    "report_date": "2018-05-28"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays at approximately low Masters or Tier 8/9 level according to community assessment; a Tier 6 player reports being able to beat it consistently, suggesting it is beatable by intermediate players.",
+    "units": [],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "A new player asked how hard Master Bot is; namington and xujhan both weighed in on its skill level.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "namington",
+    "report_date": "2018-05-28"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Using the in-game chat command /RotatingInferno converts Master Bot into Wacky Bot behavior, making it trivially easy to beat with certain unit combinations such as buying out the Animus and using a Fire Spinner (Scorchilla) while the bot does nothing effective.",
+    "units": [
+      "Animus",
+      "Scorchilla"
+    ],
+    "confidence": "high",
+    "author": "p0lari",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about setting up favorable unit sets to beat the bot for dailies or challenges; p0lari discovered /RotatingInferno switches Master Bot to Wacky Bot behavior.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "p0lari",
+    "report_date": "2018-05-28"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot handles certain unit combinations very poorly; p0lari initially believed it was just bad at units like Immaculon, but realized the /RotatingInferno command was actually switching it to Wacky Bot mode, meaning the apparent weakness may be a mode-switch rather than a genuine strategic flaw in Master Bot.",
+    "units": [],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "p0lari discussed their experience dunking on the bot with Immaculon and a Fire Spinner, then discovered /RotatingInferno was the cause.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "p0lari",
+    "report_date": "2018-05-28"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In rush-heavy sets, attempting to rush a defensive absorber like Defense Grid is dangerous if there are no other absorbers available; getting caught without absorbers against early aggression (e.g., Immolite + Grimbotch) results in being overwhelmed before the Defense Grid comes online.",
+    "units": [
+      "Grimbotch"
+    ],
+    "confidence": "high",
+    "author": "miuna6933",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about macro fundamentals and set reading for newer players; miuna and xujhan discussed rush sets as a key exception to the general advice of not over-focusing on set reading.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "P2 has an intrinsic advantage in Prismata at high levels of play, with top-10 players showing significantly higher P2 win rates (6-10% above 50%), largely attributed to strong P2 openings like Natural Conduit and Fastimus being easier to execute than the P1 response.",
+    "units": [
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Top players discussing P1/P2 win rate data from prismata-stats.com, with multiple experts including masn6811, kristian1103, apooche, and p0lari contributing.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The Gaussite Symbiote pivot was suggested by masn6811 as a P1 counter to the Natural Conduit and Fastimus openings that favor P2, implying it offers an alternative econ-tech line for P1.",
+    "units": [
+      "Gaussite Symbiote",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "masn6811 briefly mentioned proposing the Gaussite pivot specifically to address the P2 advantage from Natural Conduit and Fastimus.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Getting tech for an absorber like Centurion does not necessarily mean committing to the absorber immediately; the tech can be spent on other units (e.g., Manticores with Defense Grid tech, or CBA+second Blastforge leading into Centurion the following turn), making absorber tech lines more flexible than they appear.",
+    "units": [
+      "Centurion",
+      "Manticore",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about when to commit to absorber tech requirements and whether it is awkward to set up absorber tech without buying the absorber.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Rushing Fuge (Forcefield) tends to leave the player severely gold-deprived, making the 3-gold cost of related units highly relevant and pushing toward committing to the Forcefield rush hard rather than splitting resources.",
+    "units": [
+      "Forcefield"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "masn6811 commented on the gold economy implications of Forcefield rush strategies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A well-executed but strategically suboptimal plan will usually beat the correct strategy executed poorly; new players should focus on clean execution before perfecting set reading, with the notable exception of rush sets where misreading the set can be immediately punishing.",
+    "units": [],
+    "confidence": "high",
+    "author": "xujhan",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "xujhan giving strategic advice to a newer player struggling against Adept Bot, with miuna6933 adding the rush-set caveat.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

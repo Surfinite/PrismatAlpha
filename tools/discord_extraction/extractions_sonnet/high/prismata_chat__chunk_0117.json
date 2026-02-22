@@ -1,0 +1,252 @@
+[
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "The AI (bot) exhibits a seemingly inexplicable drone hold that achieves nothing strategically. Unlike other suboptimal plays (targeting frontline too much, always attacking with Rhinos) which stem from lack of effort, this drone hold appears to result from the AI actively putting in effort to reach a useless outcome.",
+    "units": [
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "drevoed",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "drevoed was analyzing an AI game and noted that while most bot mistakes are predictable and understandable, the drone hold was uniquely baffling as it appeared to achieve nothing.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "drevoed",
+    "report_date": "2019-09-16"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Attempting to buy 625 Gauss Charges in a single click caused the pacifist bot to crash and start attacking, likely due to an O(n^2) operation in the game logic triggered by a very large number of unit purchases in one action.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "velizar_ was attempting to set a maximum single-turn damage record and caused a game crash by buying an extreme number of Gauss Charges at once.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2019-09-16"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Skillmata (a variant with RNG tech draws), undoing your turn with Ctrl+X changes the RNG outcome for tech draws, effectively allowing RNG manipulation. This was confirmed to work in analysis mode and reportedly in proper matches as well, though it costs timebank.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Community discussion about whether undoing turns in Skillmata mode changes RNG outcomes, with spiritfryer testing in analysis mode and mrguy888 confirming it works in matches once defenders are present.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Skillmata, the RNG appears to use the same seed when replaying the same set, meaning repeated plays of an identical set yield identical tech draws unless the turn is undone. This is likely a bug where the RNG is not properly re-seeded.",
+    "units": [],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "apooche observed that replaying the same set in Skillmata produces the same RNG results, suggesting a fixed or poorly-seeded RNG.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Drones outpace Deadeye Operatives in raw economy, but a large stack of Deadeye HP creates a soak threat your opponent does not want to give value to by attacking into it, which creates a strategic tension and disincentivizes attacking.",
+    "units": [
+      "Deadeye Operative"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "mrguy888 was explaining the strategic value of Deadeye Operatives despite drones having better raw economic output.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The DD/DDE (third Engineer on turn 2) opening is generally correct when there is a 4-health or higher absorber available (e.g., Centurion at 6 health), though there are special cases where a third Engineer is correct without a big absorber or incorrect even when one is present.",
+    "units": [
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "New player slimfishy asked when DD/DDE is a good opening, and awaclus and shadourow provided the rule of thumb.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wild Drone is primarily useful for avoiding floating 2 gold at the end of a turn, enabling more flexible openings. It is also a solid soak unit at effectively 3 gold for 2 HP, making it generally not worth killing unless doing so denies the opponent absorption.",
+    "units": [
+      "Wild Drone"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "New player asked about Wild Drone usage; shadourow, zera777, and awaclus collectively explained its primary uses.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Savior is generally only buyable when there are no efficient attackers in the set and good defense is available, because Savior requires approximately 4 turns to come online (costing 30 over that period), leaving the buyer vulnerable to rushes in the meantime.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "New player asked about Savior; shadourow, awaclus, and zera777 all agreed on the conditions required to make Savior viable.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Thorium Dynamo enables very efficient openings for both players: P1 goes DD/D(Dynamo)/DD and P2 goes DD/(Dynamo)(Dynamo)/D. Thorium Dynamo is efficient because it allows buying two drones and a Conduit on a single energy with only two Engineers.",
+    "units": [
+      "Thorium Dynamo",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "zera777",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "New player asked what build order to use when Thorium Dynamo is in the set; zera777 provided the standard openings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Cryo Ray is sometimes better than Gauss Charge because you get to choose Cryo Ray's target, giving it tactical flexibility. Additionally, the existence of Cryo Ray in a set can make buying two Conduits worthwhile.",
+    "units": [
+      "Cryo Ray"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Discussion of problematic or notable units for new players; awaclus and shadourow explained Cryo Ray's advantages over Gauss Charge.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Iso Kronus is more efficient than Steelsplitter as an attacker, can cut the opponent's absorb in half, and is more breachproof. However, having a Steelsplitter with Wall absorb against Iso Kronus can be strategically valid precisely because Iso denies absorb every two turns, making the Wall's absorb more relevant.",
+    "units": [
+      "Iso Kronus",
+      "Steelsplitter",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "shadourow posed a comparison between Iso Kronus and Steelsplitter; zera777 and shadourow discussed the tradeoffs.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Turn 2 Animus (DD/A) is solid in many sets as P2, but as P1 it generally only works with units like Smorcus or Immolite in the set and no good defense available. When DD/A is correct, you typically buy only the strong small red units from the random set rather than Tarsiers.",
+    "units": [
+      "Animus",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "zera777",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "New player phin1046 mentioned habitually going turn-2 Animus after campaign conditioning; zera777 and shadourow explained the correct conditions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Steelsplitter is considered super expensive for what it does and is regarded as one of the weakest base-set units by top players. Multiple community members agreed with this assessment.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "New player slimfishy said they disliked Steelsplitter; awaclus and others in the community agreed it is weak.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Doomed Drones are worth buying whenever you think you can sacrifice them on defense on their last turn, but are acceptable even if you don't end up defending with them. The marginal value from actually defending with them is significant in Prismata's tight resource economy.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "New player slimfishy asked when to build Doomed Drones; shadourow and awaclus jointly explained the decision criteria.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A minimum of roughly 11-12 drones is typically needed in most games. The exact number depends on how fast the opponent's attack outpaces your absorb: more absorb in the set allows for slower games and more drones, while efficient/aggressive attackers push toward buying attackers and defense sooner.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "New player asked about minimum drone count; awaclus and zera777 gave complementary answers forming a consensus.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a Wincer + Centrifuge set, p2's turn-1 Centrifuge is very likely winning or at minimum not losing, while p1 turn-1 Centrifuge is likely losing. P1's stronger line may be going third Engineer after Wincer to be the player who actually gets to use Bloodragers.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "apooche and mrguy888 were analyzing a disputed set involving Wincer and Centrifuge, debating whether P1 or P2 had the advantage and what the correct lines were.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

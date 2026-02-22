@@ -1,0 +1,98 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prompt is not a strictly dominating attribute in Prismata because build-time invulnerability (golden armor) means there exist edge cases where you would prefer a unit not have Prompt \u2014 for example, a Rhino with Prompt can be killed immediately after being built, whereas without Prompt it would survive to attack. This is a deliberate design decision by Lunarch, not an oversight.",
+    "units": [
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of Shalev's Domination Rules and whether Prompt constitutes a strictly dominant attribute in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Tarsier is more breach-proof than Rhino in certain situations because Tarsier will get at least one attack off before dying, whereas Rhino's Prompt means it can be killed immediately after construction with no attack delivered.",
+    "units": [
+      "Tarsier",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "wiwiweb",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of how Prompt interacts with build-time invulnerability and SDR, using Tarsier vs Rhino as a concrete example.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Units spawned by other units (e.g. units spawned by Gaussite Symbiote) do not receive build-time invulnerability (golden armor), unlike units purchased directly by a player, which do receive it.",
+    "units": [
+      "Gaussite Symbiote"
+    ],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion clarifying which units receive build-time invulnerability as part of the SDR and Prompt debate.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Cluster Bolt can subtly approach SDR violation because there are situations where a player has leftover green and would prefer not to spend it on Cluster Bolt \u2014 more so than most other units \u2014 though because it is an instant 'spell' that is never lingering on the board, whether it truly breaks SDR is debated.",
+    "units": [
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community discussion about which existing units most closely approach breaking Shalev's Domination Rules.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Lifespan is decremented before start-of-turn effects resolve. This means a unit with a lifespan-scaled start-of-turn ability produces zero on its first turn (since it has not yet lost any lifespan) and also produces zero on its last turn (since lifespan hits zero before the effect fires). This was raised in the context of the Grimbotch/Fission Turret distinction: Grimbotch requires a click for its attack, so it does not get a free attack just before dying, unlike a hypothetical start-of-turn unit.",
+    "units": [
+      "Grimbotch",
+      "Fission Turret"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Unit design challenge discussion about a custom lifespan-scaling unit, where the timing of lifespan decrement relative to start-of-turn effects was examined.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "Shalev's Domination Rules (SDR) refers to a set of domination properties the Lunarch developers intended to hold in Prismata: owning more units is better, owning more resources is better, dealing damage is better, and units with improved statuses (higher HP, more remaining lifespan, etc.) are better. The term 'SDR-breaking' describes a unit or mechanic that violates one of these intended dominance relationships.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Extended community debate about the precise definition and scope of SDR, citing the official Prismata blog post on the topic.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

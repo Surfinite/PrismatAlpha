@@ -1,0 +1,69 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not understand the value of absorbing damage, suggesting it fails to optimally assign incoming damage to blockers/defenders to preserve key units.",
+    "units": [],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "awaclus made an offhand comment that someone should tell Master Bot that absorbing is good, implying the bot undervalues defensive absorption play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "awaclus",
+    "report_date": "2018-12-08"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Shalev's Domination Rule (SDR) in Prismata states that for every unit X, it should always be better to have X than to have nothing — units must not be designed so that owning them can be actively harmful. Invulnerability is a known exception because having only invulnerable units lets the opponent choose which to attack, making them sometimes detrimental.",
+    "units": [],
+    "confidence": "high",
+    "author": "mbingo, mrguy888",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "Discussion of Prismata's unit design principles, referencing the official Prismata blog post on Shalev's Rule and how invulnerability breaks it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a maximum single-turn damage calculation across all sets, units like Cluster Bolt (50), Venge Cannon (45), Arms Race (44), Grenade Mech (42–46), Antima Comet (22), and base set (40) contribute to a total max damage figure around 463–470, with exact values depending on combo interactions and which units replace others (e.g., Venge Cannon outperforms Savior in damage output at 45 vs 40).",
+    "units": [
+      "Cluster Bolt",
+      "Venge Cannon",
+      "Antima Comet",
+      "Grenade Mech",
+      "Scorchilla",
+      "Thermite Core",
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888, zera777, apooche, swapgo",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "Community discussion calculating the theoretical maximum single-turn attack damage achievable across all available Prismata sets, with multiple contributors refining the numbers.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When evaluating units for a maximum damage turn, any unit contributing less than 20 total damage should likely be cut in favor of higher-damage alternatives; Cauterizers are worth 24 damage and Sentinels 30 damage if Antima Comet is already in the set.",
+    "units": [
+      "Cauterizer",
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "amalloy was advising on which units to include or cut when constructing a maximum damage combo, referencing Oxides (12 damage) as too weak and comparing Cauterizers and Sentinels.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

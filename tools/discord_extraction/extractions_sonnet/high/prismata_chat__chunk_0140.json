@@ -1,0 +1,148 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot exhibits a pattern of never buying any attackers before resigning in certain sets, instead only buying absorb and soak units. This was observed in a specific replay where the bot built only defensive units and then resigned without having purchased any offensive units.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-09",
+    "replay_code": "9TaJh-ntrow",
+    "context": "velizar_ shared a replay of a bot game in the context of discussing bot behavior in the custom RPS (Rhino/Porcefield/Steelsplitter) set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-09-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is not very good at base-set-only games restricted to Rhino, Forcefield, and Steelsplitter (the 'RPS' variant). A strategy of buying Blastforge followed by four or five Steelsplitters (B/S/S/S/S) appears strong against it, with velizar_ winning as both P1 and P2 using this line.",
+    "units": [
+      "Rhino",
+      "Forcefield",
+      "Steelsplitter",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-09",
+    "replay_code": "FIjLu-BcDU@",
+    "context": "velizar_ was experimenting with a custom RPS (Rhino/Porcefield/Steelsplitter) restricted set against Master Bot and reported the bot struggled against a heavy Steelsplitter rush.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-09-10"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot has been observed resigning in games where the player's only attackers were Clickers (very low damage units), suggesting the bot's resignation logic misevaluates board states. A specific replay demonstrates this behavior.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-09",
+    "replay_code": "LIIfR-GD6sF",
+    "context": "Discussion about how the bot decides when to resign, prompted by velizar_ sharing a replay where MB resigned despite the opponent having minimal attacking capability.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-09-14"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "According to the PrismataAI source code, Master Bot's resignation logic triggers when the enemy's score is at least 1.3 times the bot's score (despite an outdated comment saying 1.5 times), where 'score' appears to represent total net worth of units currently on the board. This threshold-based resignation can cause the bot to resign or play on incorrectly in edge cases.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "amalloy linked to the PrismataAI open-source repository to clarify how the bot determines when to resign, following community discussion about bot resignation behavior.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2020-09-14"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Master Bot's resignation logic specifically assumes the opponent will play optimally (like Master Bot) but will not buy any new units from that point forward. If the bot calculates it would still lose under those assumptions, it resigns. This can cause incorrect resignations when the bot misevaluates the resulting board state.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "amalloy explained and cited the PrismataAI source code when the community was debating whether the bot resigns when losing assuming opponent does nothing vs. assuming opponent buys nothing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Player 2 has a structural advantage in most set types: red (early Animus) sets favor P2 because Grimbotch and other small red units give P2 strong tempo with minimal counterplay; green sets favor P2 due to natural Conduit flexibility; and with alternate drones available, even big blue sets that normally favor P1 shift to favor P2. Only pure big blue sets without alternate drones or green units favor P1.",
+    "units": [
+      "Grimbotch",
+      "Animus",
+      "Conduit",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "masn6811 gave an extended analysis of P1 vs P2 balance across different set types, arguing P2 is broadly advantaged in the current meta.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In standard opening lines, P2's floats (0 gold turn 1, 1 gold turn 2 or similar) give them a quantitative resource advantage that snowballs, because the ratio 8:7 (P2's gold advantage each turn) represents a proportionally larger edge than 7:6 (P1's). This advantage increases as sets grow larger with more branching options.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "masn6811 elaborated on why P2 has a structural opening advantage by analyzing gold float sequences in standard openings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Fastimus (early Animus for Player 1) is considered more problematic than natural Conduit because it has less counterplay: natural Conduit can be answered with lines like DD/DC/DD+Fission Turret or outbuilding with DD/DDE/DDD, but there exist sets where every response to Fastimus loses and elyot Animus (standard Animus timing) is insufficient due to requiring too much support.",
+    "units": [
+      "Animus",
+      "Conduit",
+      "Fission Turret"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "masn6811 and silentslayers discussed P1 vs P2 balance issues, with masn6811 arguing fastimus lacks counterplay options compared to natural Conduit.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In sets with Thorium Dynamo available, a P2 opening of Drone/Drone into Drone plus a 2-energy alternate drone (e.g., Doomed Mech) combined with Thorium Dynamo is a solid opening because neither side floats gold and P2 maintains a favorable position.",
+    "units": [
+      "Thorium Dynamo",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "masn6811 was analyzing P2 opening options with alternate drones in the context of a broader P1/P2 balance discussion.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

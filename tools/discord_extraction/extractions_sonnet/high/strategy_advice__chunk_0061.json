@@ -1,0 +1,183 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The 'drone inflation' interest rate (approximately 33.3%) represents the time-value of gold assuming the marginal use of resources is buying Drones without energy cost. This corresponds to a 25% discount rate: 1 gold now equals 1.333 gold next turn or 0.75 gold last turn. The community uses both 'interest' and 'discount' framings interchangeably, but they describe the same relationship.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Extended discussion among multiple players about how to frame and apply drone inflation / time-value-of-gold calculations for unit evaluation.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The effective interest rate for a good attacker is approximately 40%, higher than the 33.3% drone inflation rate. Units like Tarsier, Immolite, Mahar Rectifier, and Tantalum Ray cluster around this 40% rate, meaning gold invested in these attackers mid-game returns value faster than droning. Using a blended rate of roughly 38% is reasonable for mid-game evaluations when you are buying neither pure economy nor pure defense.",
+    "units": [
+      "Tarsier",
+      "Tantalum Ray"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion of what interest rate to use for mid-game unit evaluation, referencing Yujiri's math data site and community spreadsheets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Simple inflation-based attacker valuations significantly underestimate the value of burst attackers (e.g., Gaussite Symbiote click, Scorchilla) because they do not account for absorb denial. Forcing the opponent into less efficient soak (e.g., Rhinos instead of Wall absorb) is a real benefit not captured by pure permanent-damage calculations.",
+    "units": [
+      "Gaussite Symbiote",
+      "Scorchilla"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion of why tarsiers and burst attackers outperform what naive inflation math predicts, citing absorb denial as the missing factor.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Holding a Lancetooth (absorbing with it instead of clicking) in a Wall-absorb set is approximately break-even by default math: you gain 4 health now and roughly 1 absorb, but lose 3 health next turn (the Wall is consumed) and deal 2 less damage to the opponent this turn (which they effectively get to defend on their next turn). Whether holding is net positive depends on the specific absorber in play; absorbing on an Urban Sentry instead of a Wall makes the hold worse despite the same absorb amount.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "xnor_gate",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Detailed mathematical breakdown of the Lancetooth hold decision across different absorber types using the community efficiency spreadsheet.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "The Gaussite Symbiote click ability scores poorly in static inflation math, but the unit purchase itself is strong because it can be decomposed into a high-efficiency fast attacker (for roughly 6 gold) plus a Conduit (for roughly 4 gold). The click is only worth activating when it forces inefficient soak from the opponent or when green mana would otherwise be wasted.",
+    "units": [
+      "Gaussite Symbiote",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Analysis of Gaussite Symbiote on community spreadsheets; mtanzer explains decomposing the unit cost to reveal why the purchase is stronger than the click efficiency suggests.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When computing the value of a delayed attack (e.g., a Gauss Cannon BT2 charge), the standard formula is: AttackValue × (discount_rate)^(number_of_turns_delayed), where discount_rate ≈ 0.75 per turn (the reciprocal of 1.333). An important subtlety is that prompt soak has approximately a 1-turn delay and a next-turn attack has approximately a 1.5-turn delay because the opponent can build defense on their intervening turn.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "xnor_gate",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "silentslayers asked how to value a BT2 Gauss Cannon charge; xnor_gate and anesotericman walked through the formula explicitly.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Units like Savior are extremely difficult to evaluate with standard inflation-based formulas because key assumptions (e.g., 'unit clicks forever', fixed economy size) break down completely. Attempting to reduce a Savior opening to a single efficiency number is not considered useful by expert players; the better approach is to compare total resources on both sides at a fixed future turn.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "anesotericman",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "silentslayers asked whether anyone computes Savior value mathematically; anesotericman and jamberine agreed the standard framework is ill-suited for it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding a Mega Drone (keeping it unclicked to absorb) appears break-even or slightly positive in Wall-absorb sets according to mathematical analysis, but in practice players rarely do it until defense becomes very tight. The reason is that if you already have a Wall, holding Mega Drone typically over-defends early on, and the Blue resource is better spent on a Wall purchase rather than a Steelsplitter when a Wall already covers the defense.",
+    "units": [
+      "Wall",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "xnor_gate",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion of the efficiency spreadsheet's 'holds' tab showing Mega Drone hold as good by default in Wall absorb, contrasted with practical play patterns.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding a Scorchilla (keeping it unclicked to absorb in place of a Wall) appears marginally positive in abstract math even without absorb denial, but expert players consider this result misleading in practice: holding Scorch preemptively weakens your defense and the 3-damage delay often matters significantly. The math result is only valid under the dubious assumption that Scorch health level (1 vs 3) does not matter for future turns.",
+    "units": [
+      "Scorchilla",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion of the holds tab in xnor's efficiency spreadsheet showing Scorch hold as positive by default, with silentslayers and jamberine pushing back on the real-game applicability.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "The community maintains multiple public unit-efficiency spreadsheets (by xnor_gate and mtanzer) that compute gold-equivalent value for all Prismata units using time-discounted formulas with adjustable interest rates. These are considered useful for theory-crafting and identifying large valuation errors, but experienced players (jamberine, silentslayers) caution that in-game decisions involve too many contextual factors for the raw numbers to be directly actionable.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Multi-hour conversation in which xnor_gate, mtanzer, anesotericman, jamberine, and silentslayers discussed and cross-checked two separate unit valuation spreadsheets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  }
+]

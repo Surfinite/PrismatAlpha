@@ -1,0 +1,190 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, every Click ability has zero or one targets; there is no multi-select system for Click abilities. Mass-clicking via sweep only works to activate the same Click ability on multiple copies of the same unit, not to select multiple different units as targets for a single ability.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed unit that proposed a 'per 2 engineers selected' mechanic, which masn6811 explained was impossible given Prismata's UI and Click ability constraints.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Golden armor (the protection that prevents a newly purchased unit from being targeted immediately) is only granted on purchase, not when a unit is constructed via a Click ability. Units constructed mid-turn via Click arrive without golden armor.",
+    "units": [],
+    "confidence": "high",
+    "author": ".jrkirby",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed unit (Amber Specimen) whose Click ability would construct a copy of itself, raising the question of whether constructed units receive golden armor.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Units constructed via Click abilities default to Exhaust (i.e., they cannot act the turn they are constructed) unless the card explicitly states a different buildtime. A designer can write a buildtime directly on the card to override this default.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed unit whose Click ability would construct a copy of itself, prompting clarification on what buildtime constructed units receive.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Shalev's rule prohibits unit designs where a player would ever be better off NOT clicking an untargeted, cost-free Click ability. Even edge-case violations (e.g., a scenario where having Lucina is worse than not having it due to SDR implications) disqualify a design.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of fan-designed units and whether their Click abilities could ever be suboptimal to use, referencing Shalev's rule as a formal Prismata design constraint.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "SDR (Sudden Death Rules) compliance for units with death-triggered construction effects requires that the newly constructed unit be dominated by the dying unit — e.g., the constructed unit must be vulnerable and killable, and any attack it generates must be no greater than the attack the original unit would have provided while alive.",
+    "units": [
+      "Husk"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed Phoenix unit that reconstructed itself on death, with bky explaining the SDR compliance conditions for such recursive death-effect units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "HISTORICAL",
+    "insight": "An earlier version of Redeemer gave opponents 3 Gauss Charges with buildtime 1 and 3 Gauss Charges with buildtime 2 immediately upon purchase (rather than the final version's delayed construction). This enabled a dominant 'Redeemer Polywall' strategy where a player bought Redeemers until the opponent reached 6 attack, then fortified with Polywalls, with no effective counter.",
+    "units": [
+      "Redeemer",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "A fan-designer proposed restoring instant Gauss Charge construction to Redeemer, prompting masn6811 to explain why this had been removed after proving unbalanced in earlier versions.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "invalid_category"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Defense Grid's drone-per-turn income bonus serves a deliberate design purpose: it speeds up games by giving both players free economy to purchase attackers, which is especially important in sets with high-absorb units like Apollo or Deadeye Operative that would otherwise cause games to stall.",
+    "units": [
+      "Apollo",
+      "Deadeye Operative"
+    ],
+    "confidence": "high",
+    "author": ".jrkirby",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed high-absorb unit inspired by Defense Grid, during which jrkirby articulated the design rationale behind Defense Grid's economy component.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Centurion represents approximately the upper limit of absorb the developers were willing to allow on a permanent unit without providing an alternate removal condition (such as Xaetron's regen being overcome over multiple turns or Defense Grid timing out).",
+    "units": [
+      "Centurion"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed high-absorb blocker, with bky referencing Centurion as the benchmark for maximum acceptable absorb on a permanent unit.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "The 'electrovore advantage' (being able to sacrifice one Engineer and immediately buy a replacement) functions as effective Husk-buying rights. Any unit that provides a tech-fixing effect without consuming the Engineer's energy allows the Engineer to be 'used twice' in the same turn, which is a very strong tempo gain.",
+    "units": [
+      "Husk"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "masn6811 evaluating the power level of a fan-designed tech-fixing unit that spent GBRR per two Engineers selected, noting its synergy with the electrovore mechanic.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tech-fixing (converting one color of resource to another) is extremely powerful in Prismata because it allows a player to buy expensive multi-tech units incrementally — purchasing the tech buildings on separate turns — without being over-teched. This also resolves the core tension that makes Tesla Coil and Cauterizer together awkward, since combining them risks buying too many Engineers.",
+    "units": [
+      "Cauterizer"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "masn6811 assessing the balance of a fan-designed tech-fixing unit and explaining why tech-fixing is inherently a high-power mechanic in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Zemora Voidbringer should not always be clicked; there are edge cases where not clicking is correct. For example, against a double Plexo Cell setup, clicking Zemora may be suboptimal.",
+    "units": [
+      "Zemora Voidbringer",
+      "Plexo Cell"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of whether certain units with always-positive-seeming Click abilities (Tatsu Nullifier, Zemora Voidbringer, Savior, Apollo) truly always benefit from being clicked, as a counterexample to the design principle of units you always click.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'Shalev's rule' is a named Prismata design principle stating that no unit may have an untargeted, cost-free Click ability where any game state could arise in which a player would prefer not to click it. Even theoretical edge cases violate the rule.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Multiple messages in a fan unit design discussion where masn6811 repeatedly invoked 'Shalev's rule' to disqualify proposed unit designs.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

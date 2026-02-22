@@ -1,0 +1,273 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Frontline combined with Fragile is considered mechanically valid by community consensus, with the rule being that the enemy assigns damage to Frontline units as if breaching. However, this interaction does not work correctly in the current client implementation.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of a custom unit design featuring Fragile Frontline, leading to clarification of how the mechanic should work vs. how it is coded.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Frontline can be interpreted as 'you may always assign damage to this unit as if you were breaching,' and units get unclicked every time the attack value changes during a breach. This distinguishes Frontline from normal unit targeting rules.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Clarifying the mechanical rule for Frontline and Fragile interaction in a unit design discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Gauss Charge lacks finesse compared to Nitrocybe or Pixie: once purchased, the attack is locked in and cannot be adjusted, whereas red and blue tend to have more post-purchase control over attack output.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Discussion of color pie identity in Prismata, specifically whether green is the 'finesse' color, concluding that Gauss Charge is not a finesse tool because it locks in attack.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "Gauss Charge, Pixie, and Nitrocybe are collectively referred to as 'trinkets' by the community \u2014 all cost 1 gold and 1 tech, have 1 defense, and deal 1 damage.",
+    "units": [],
+    "confidence": "high",
+    "author": "randomflyingtaco",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "A player pointed out the shared stat profile of these three units, and randomflyingtaco confirmed the 'trinkets' label.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Iso Kronus and Thorium Dynamo together in a breach-proof strategy appear to beat Feral Warden, partly because attack is relatively less valuable and defense is relatively more valuable against BP strategies.",
+    "units": [
+      "Iso Kronus",
+      "Thorium Dynamo",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Players discussing whether Iso+Thorium BP beats Feral Warden, with jamberine explaining why Feral is weaker than usual against BP.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Thorium Dynamo produces 5 gold per turn, meaning its output can be split between Gauss Cannons (2 per 10G) or Iso Kronus (3 per 15GGG), with Isos often mixed in simply to avoid floating gold rather than for dedicated strategic reasons.",
+    "units": [
+      "Iso Kronus",
+      "Thorium Dynamo",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Discussion of when to buy Iso Kronus alongside Thorium Dynamo and Gauss Cannons in a breach-proof context.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The correct timing to click a Gauss Drone (sacrifice for 1 attack + 1 Gauss Charge) is not always immediately: if clicking would not cause a breach, you are trading a Drone for a Gauss Charge, which is a bad exchange. Clicking is only good when it enables or contributes to a breach.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "vargus2254870",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Discussion of a custom Gauss Drone unit design and when its sacrifice click ability has positive value.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Historical versions of Corpus costed 9RRR and 10RRR as a 3 HP red blocker, but this was found to combo too powerfully with big red strategies and had to be reduced to the current 2 HP version. Red units with even higher HP would be considered very broken.",
+    "units": [
+      "Corpus"
+    ],
+    "confidence": "high",
+    "author": "jamesa7171",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Discussion of red absorb units and the design history of Corpus.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Corpus is more comparable to Rhino than to a pure absorber: for 1R more than Rhino it provides a Husk on the prompt turn, and its click ability gives 3 defense instead of 1 attack at roughly equivalent value. Attack is cheap in red but defense can still be preferable first.",
+    "units": [
+      "Corpus",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "vargus2254870",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Comparing Corpus to Rhino and discussing its role as a red 'absorber' in unit design conversation.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Animus has 2 HP, making it as efficient to kill as a Drone during a breach. Targeting Animus is therefore a valid breach strategy when it prevents the opponent from producing key red units such as Iceblades.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Discussion about whether breaching to destroy Animus is worthwhile, with masn6811 confirming they have done it in real games to stop Iceblade production.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A common problem with buying double Animus even with high economy is that all Tarsiers sell out very quickly, leaving the player buying Rhinos or wasting red income.",
+    "units": [
+      "Animus",
+      "Tarsier",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Discussion of a custom unit that generates red tech, highlighting the pitfall of surplus red production in base set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Steelsplitter tends to be better than Gauss Cannon in late game when you can no longer afford to defend, because Steelsplitters generate ongoing value when mixed with backline attackers like Tarsiers.",
+    "units": [
+      "Steelsplitter",
+      "Gauss Cannon",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Discussion of a custom red unit and which blue attackers pair better with it in a low-defense late game.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In games with breach-proof strategies, once a breach begins it typically does not stop, making single-turn invulnerability effects less valuable than they first appear \u2014 the cost of temporarily protecting a unit like Cynestra (around 4 attack) is not worth it when you likely want to trade it for 12-14 attack anyway.",
+    "units": [
+      "Cynestra"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of a hypothetical unit that could grant Time tokens to allied units, evaluating its use against freeze and breach scenarios.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Any unit that costs half an Animus (i.e., requires an Animus to build) must be carefully tuned or it risks being auto-bought every game, since players already float a red every second turn early on, making the half-Animus cost worth roughly only 1.5 gold in practice.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "chlobes",
+    "date": "2020-01",
+    "replay_code": null,
+    "context": "Discussion of a custom Blood Boiler unit costing one Animus, evaluating whether half-Animus cost units are inherently overpowered.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "elyot (developer) confirmed that an unreleased unit similar to community-designed Charger Mech exists in the internal unit pool, using stamina (pay 3, gain 2, max 4) rather than HP as its resource, suggesting the mechanic has been seriously evaluated by the development team.",
+    "units": [],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "elyot commented on a community-designed unit with a stamina-like mechanic, revealing an analogous unreleased unit.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a Zemora Voidbringer strategy, each Conduit effectively produces an attacker and a Drone when Zemora is active, which is high value since a typical attacker costs at least 5 gold plus a tech building. You only need the green income when Zemora is online, not permanently.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "medium",
+    "author": "vargus2254870",
+    "date": "2019-11",
+    "replay_code": null,
+    "context": "Discussion comparing Zemora Voidbringer's output to Resophore and evaluating green tech investment for Zemora strategies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In economy-focused games (high econ or Feral Warden games), floating red every second turn is not common, making red conversion units less generally applicable than they might initially appear.",
+    "units": [],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2020-01",
+    "replay_code": null,
+    "context": "Evaluating whether a custom Blood Boiler unit (half-Animus cost, converts red to attack) would be overpowered with units like Smorcus, Phage, and Perforator.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

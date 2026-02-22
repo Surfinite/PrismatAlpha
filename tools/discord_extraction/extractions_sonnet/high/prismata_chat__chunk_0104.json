@@ -1,0 +1,284 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Q defense (auto-defense assignment) does not recognize Forcefield as a valid back-of-stack defender, treating the back of stack as empty and soaking damage in a suboptimal way instead of absorbing on Forcefield.",
+    "units": [
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "Discussion about known Q defense bugs and edge cases involving fragile units and special defenders.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Q defense has a known bug with fragile-only scenarios: for example, taking 9 damage into two Aegis and 4 Engineers, it incorrectly keeps a 5-health Aegis rather than the optimal 1-health Aegis plus 4 Engineers.",
+    "units": [],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "apooche enumerating specific Q defense edge-case bugs in a thread about auto-defense misbehavior.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Q defense does not know to lose two Engineers to absorb on Forcefield; it would never perform that optimal absorption choice.",
+    "units": [
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "Thread discussing why Q defense loses Forcefield instead of Engineers in certain damage scenarios.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "It is possible to control-click an enemy unit during the defense phase, which causes your own units to die as if absorbing on that enemy unit but assigns no damage to it — effectively a bug where you self-sacrifice with no benefit.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "amalloy described discovering this UI bug by accidentally control-clicking an enemy unit during defense assignment.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2019-02"
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A 5 HP Xaetron is strictly worse than Energy Matrix in the specific scenario where an opponent can freeze all blockers and breach to reduce Xaetron to snipeable HP for Apollo, since Xaetron's Fragile keyword makes it vulnerable to this freeze-then-Apollo sequence whereas Energy Matrix is not.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "Extended discussion on the edge cases where Xaetron is worse than Energy Matrix due to Fragile interacting with Apollo and freeze effects.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A 4 HP Xaetron is strictly worse than a 5 HP Xaetron, and can be worse than Energy Matrix against exactly 4 damage since it dies to that attack whereas Energy Matrix would survive or absorb differently.",
+    "units": [],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "mrguy888 identifying that 4 HP Xaetron is the threshold at which it can be worse than Energy Matrix, extending the Apollo/freeze edge case discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Fragile is Xaetron's only meaningful weakness compared to Energy Matrix, and the Apollo-plus-freeze combination is the primary scenario exploiting that weakness, since Xaetron's healing otherwise beats out the absorb advantage of Energy Matrix.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "mrguy888 summarizing after the group explored multiple potential edge cases where Xaetron could be worse than Energy Matrix.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "After the 2019 patch, Militia is much weaker as a first attacker but remains a decent way to taper off late game; it is stronger in breachproof scenarios specifically.",
+    "units": [
+      "Militia"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "Community discussing balance changes to several units including Militia, Odin, Wild Drone, and Phage after a recent patch.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "After the 2019 patch, Odin went from being an automatic win condition for whoever gets it first to being an advantage primarily for Player 1 in some sets; it is no longer sufficient justification on its own for triple Blue.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "Multiple players discussing Odin's power level post-patch, with deadhour citing Punf's assessment and mrguy888 disputing the framing.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Clicking Odin is usually worth it post-patch; the correct heuristic is to click it whenever doing so prevents a breach.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "deadhour and mrguy888 agreeing on when to click Odin after patch changed its cost/value balance.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Post-patch, Phage is best bought when you intend to use its click ability or when you are one resource short of buying Thorium Dynamo; without the click ability it is a weak unit, roughly equivalent to Tarsier plus Drone but with front-loaded economy.",
+    "units": [
+      "Tarsier",
+      "Thorium Dynamo"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "amalloy, mrguy888, and deadhour discussing Phage's post-patch role and when it justifies a purchase.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Thorium Dynamo is functionally like buying two Drones with a commitment to buy Conduit the following turn, borrowing 1 gold while gaining 1 Energy for free, with added breachproofness and the flexibility to convert GGG into 3 attack.",
+    "units": [
+      "Thorium Dynamo",
+      "Drone",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "masn6811 explaining Thorium Dynamo's economic value during a broader discussion of Phage and Blue-economy units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tarsier, despite being considered a weak unit, finds viable purchase slots in almost every game where you buy Animus because its low build cost (Build 2) lets it slot into turns where advanced set attackers would not fit.",
+    "units": [
+      "Tarsier",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "mrguy888 defending Tarsier's practical role against claims that it is near-universally outclassed by advanced set units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Chrono Filter is likely the most-purchased legendary unit overall due to its accessibility, but it functions as a noob trap: lower-rated players buy it often but are punished by its awkward tech requirements, while master-level players buy it less frequently but use it more effectively.",
+    "units": [
+      "Chrono Filter"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "apooche and masn6811 discussing which legendary unit has been purchased most often across all games.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Defense Grid is largely ignorable compared to Centurion; it is only worth considering if you plan to go triple Blue without Green or Red tech, or if Deadeye Operative is in the set.",
+    "units": [
+      "Centurion",
+      "Deadeye Operative"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "shadourow and masn6811 agreeing that Defense Grid is rarely worth buying in most sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Community members want an analysis-mode button that retrieves the Master Bot's recommended move for the current board state without leaving analysis mode.",
+    "units": [],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "apooche suggested the feature while discussing analysis tools, with deadhour agreeing it would be useful.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2019-02"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Player 1 Turn 1 Savior is a legitimate and sometimes correct opening in certain sets, not a troll or misplay; the correct evaluation is whether the set supports it rather than assuming it is always wrong.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "Discussion after a player was observed buying Savior on Turn 1 as Player 1 with no Drones, prompting debate about whether it could ever be correct.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "In the Trinket Collection event format (with free Barrier, Pixie, and Nitrocybe), Pixies are strong enough to enable Turn 1 Blastforge games when Militia or Tooth is in the set, which is considered too aggressive for a casual event format.",
+    "units": [
+      "Pixie",
+      "Militia"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-02",
+    "replay_code": null,
+    "context": "masn6811 complaining about Pixie power level in the Trinket Collection event and suggesting a nerf.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

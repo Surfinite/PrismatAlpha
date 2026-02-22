@@ -1,0 +1,153 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, the Prompt keyword only grants immediate blocking/defensive availability, not immediate use of click abilities. No units in the game have 'passive' or 'static' abilities; the closest equivalent is Start of Turn effects.",
+    "units": [],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of a custom unit design (Coveter) raised the question of whether Prompt grants access to on-turn abilities immediately upon purchase.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Strict Dominance Relationship (SDR) holds that if unit A has strictly better attributes than unit B, A should be preferable in every situation. A unit that punishes flexibility (e.g., a hypothetical 'Dry Eraser' that removes click abilities) can break SDR by making a unit with more options (like Steelsplitter, which can attack or block) worse than a strictly inferior unit that only attacks, in the presence of the erasing effect.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "supergreyman",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Community design discussion about a proposed 'Dry Eraser' unit that removes click abilities, which led to analysis of SDR implications for units with flexible attack/block options.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Antima Comet is a design-space-restricting unit: any new unit that generates large amounts of gold or energy in bursts risks being broken in combination with Antima Comet. Even Galvani Drone combined with Antima Comet is considered borderline degenerate, and Antima limits what new units can safely be added to the game.",
+    "units": [
+      "Antima Comet",
+      "Galvani Drone",
+      "Cauterizer"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of a custom 'Matter Creation' unit that produces large gold bursts revealed Antima Comet as a chronic design constraint due to its synergy with resource-generating units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Steelsplitter is widely regarded as an inefficient attacker in the base set, requiring two Steelsplitters to match the HP of a single Wall, making it a poor standalone defensive unit and generally weak value.",
+    "units": [
+      "Steelsplitter",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "supergreyman",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Evaluation of a custom unit ('B.F. Wall') that scaled off Steelsplitters led to discussion of Steelsplitter's inherent inefficiency as both attacker and blocker.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Several historical nerfs were motivated by units enabling player-favored rushes or excessive initiative swings: Frostbite (Time was reduced from 1), Shadowfang (cost increased from 6 Gold), Scorchilla (cost increased from 7 Gold with Time 1), Hannibull (made 1 Gold more expensive), and others including Tantalum Ray, Centrifuge, and Lucina.",
+    "units": [
+      "Shadowfang",
+      "Scorchilla",
+      "Tantalum Ray"
+    ],
+    "confidence": "high",
+    "author": "supergreyman",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of balance philosophy and why certain units were nerfed despite both players having access to them symmetrically.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Symmetry in Prismata helps normalize balance because both players have equal access to all units in a given set. A unit like Doomed Drone may be highly efficient but is acceptable because it is not player-favored (i.e., it does not disproportionately benefit the first or second player). This also makes value calculations easier due to the game's deterministic, low-variance nature.",
+    "units": [],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of balance philosophy and why symmetric access to units makes imbalanced-seeming units acceptable in practice.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Deadeye Operative shooting opponent Drones (or Wild Drone doing so if manually directed) already disrupts standard gold estimates mid-game, since losing Drones reduces gold production unpredictably. Any hypothetical unit that exhausts opponent Drones would compound this effect significantly.",
+    "units": [
+      "Deadeye Operative",
+      "Wild Drone"
+    ],
+    "confidence": "medium",
+    "author": "swapgo",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Community discussion about a hypothetical unit ('EMP') that gives Exhaust 2 to opponent Drones, which led to comparison with existing Deadeye Operative and Wild Drone mechanics that already affect opponent gold timing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Omega Splitter is intentionally limited to 4 supply because as an attacker you rarely want many of them; as a pure absorb unit however more copies could cause the game to stall out significantly, which is considered undesirable from a gameplay standpoint.",
+    "units": [
+      "Omega Splitter"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of a custom high-absorb unit ('Shield Package') compared to Omega Splitter's design, where masn6811 explained the supply-count rationale for Omega Splitter.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Apollo mirrors slow the game down through high Wall turnover as both players' heavy attack gets absorbed, but Walls still die quickly. A hypothetical unit that scales HP off Steelsplitters would create a qualitatively different kind of stall where both players' offense and defense completely cancel out for multiple turns with no progress, unlike Apollo which still deals damage.",
+    "units": [
+      "Apollo",
+      "Wall",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "swapgo",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of how a custom 'B.F. Wall' unit would affect game pacing differently from Apollo, distinguishing between high-absorb mirrors that still progress versus ones that create complete stalemates.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

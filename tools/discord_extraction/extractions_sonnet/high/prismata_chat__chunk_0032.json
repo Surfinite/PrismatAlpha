@@ -1,0 +1,145 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata's ranked tier system, tier progress rubber-bands players toward their hidden MMR rating. A hidden rating of 1550 or above trends a player toward Master (Tier X), making it a reliable threshold for eventual promotion regardless of short-term results.",
+    "units": [],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about what hidden MMR rating is needed to reach Master tier.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "A historical bug in Prismata's tier rubber-banding system caused players with very high hidden ratings to be penalized rather than rewarded: the system tried to rubber-band them toward Tier X at 0% progress, which was treated as lower than Tier IX at 100%, resulting in extremely unfavorable win/loss tier-point ratios (e.g., +2 for a win, -20 for a loss).",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community veterans recounting a broken rubber-banding bug that made Master tier nearly unreachable for high-rated players.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "There is strong community consensus that Thermite Core is the weakest random-set unit in the game. A proposed patch change (doubling its minimum activation cost, effectively requiring 2 attack instead of 1) was assessed by experts as an almost universal nerf, reducing flexibility without meaningful compensating upside except in the narrow case of 2 damage against a Wall.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "April Fools patch preview discussion where experts analyzed which listed balance changes were real; thermite change was debated as a nerf to an already weak unit.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Thermite Core's value comes primarily from flexibility in choosing how much attack to spend (e.g., 1 or 2 charges at a time), not from the raw 2-for-2 conversion rate. Removing the 1-charge option reduces flexibility in shaping attack totals, which is the core of its strategic use.",
+    "units": [],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Expert discussion on whether the proposed thermite change was a buff or nerf, concluding it was mostly a nerf due to reduced flexibility.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Giving Shadowfang the Blocker ability was assessed as unlikely to make Shadowfang rushes more oppressive, since the primary risk of Shadowfang is its offensive pressure rather than defensive utility. Experts were skeptical of this reasoning in the April Fools patch post.",
+    "units": [
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Community debate over which April Fools patch changes were real; Shadowfang blocker change was quoted and questioned.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Giving Savior the Fragile keyword (making it vulnerable to Apollo) was considered an implausible real patch change by multiple experts, since it would fundamentally and negatively alter the Savior-Apollo dynamic in a way Lunarch would almost certainly address explicitly in patch notes.",
+    "units": [
+      "Savior",
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Experts filtering real vs. fake changes in an April Fools patch preview; Savior change was ruled out due to Apollo interaction.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "New players commonly overestimate how often breaches are supposed to occur in normal Prismata games, treating mid-game breaches (e.g., breaching for 2 Cynestras) as routine rather than as game-winning events. As they gain experience they often overcorrect by never attempting aggressive gambits.",
+    "units": [
+      "Cynestra"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Namington observing a new player's game and reflecting on common beginner misconceptions about breach frequency.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "The term 'SDR' (Stateless Dominance Relation, or similar) is a design principle discussed in the Prismata community referring to whether units with improved statuses (e.g., lower exhaust) are strictly better than units with worse ones, all else equal. Iso Kronus was debated as a potential edge case because its attack and self-exhaust mechanics interact in ways that complicate a simple SDR analysis.",
+    "units": [
+      "Iso Kronus"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Expert discussion on whether Iso Kronus's design violates or is consistent with the SDR game design principle.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Iso Kronus attacking is strictly a positive outcome, while gaining additional exhaust counters is strictly negative; however, the interaction between these two outcomes means that in some board states a player may prefer Iso Kronus to have 2 exhaust rather than 1, because it defers a less favorable attack to a later turn when it is more valuable. This does not violate SDR because the preferences are consistent.",
+    "units": [
+      "Iso Kronus"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Technical debate among experts about whether Iso Kronus's conditional exhaust mechanic breaks the SDR design principle.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  }
+]

@@ -1,0 +1,229 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The colored panel next to the player name in Prismata's UI changes color depending on the current phase of a player's turn (defense, buying, breaching, confirmation), not just whether it is your turn. This panel is subtle and easy to miss.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of UI readability issues including how to tell whose turn it is and what phase is active.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Unit row placement in Prismata follows these rules: front row = non-clickable blockers OR any frontline unit; middle row = clickable non-frontline units; back row = non-clickable, non-blocking, non-frontline units. Steelsplitter is in the middle rather than front because it is clickable, while non-clickable attackers like Sentry go in front.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about UI layout logic for unit placement in rows, with multiple players clarifying the rules.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Militia's click behavior defaults to giving attack automatically with the click toggling to coin instead. Flipping this so coin is default and attack requires a click would be a nerf, because in low-time settings units requiring a click to gain their primary ability are meaningfully weaker.",
+    "units": [
+      "Militia"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about Militia UI behavior and whether its click interaction could be redesigned.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Electrovore is an aggressive unit best used in the early game when it is easier to keep Engineers alive to power it. As the game progresses and Engineers are at risk, it is acceptable to sacrifice Electrovores on defense rather than buy new Engineers solely to sustain them.",
+    "units": [
+      "Electrovore"
+    ],
+    "confidence": "high",
+    "author": "cogito3",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Extended discussion about how and when to use Electrovore, including when to buy Engineers to support it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When building Electrovores, the primary motivation to buy extra Engineers is to maintain granular defense, with Electrovore's presence making that Engineer purchase more valuable than it already is. Players should generally not buy more Electrovores than the number of Engineers they can sustainably keep alive.",
+    "units": [
+      "Electrovore"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about the correct framing for buying Engineers in Electrovore sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Rhino's value is almost entirely derived from its Prompt ability. Absorbing on Rhino in the early game is strong, and in the late game Rhino provides a way to hedge against opponent threat without committing to a gambit. A non-prompt Rhino would be unplayable.",
+    "units": [
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about Rhino's role in red sets and whether it is worth buying absent its prompt ability.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Immolite costs 3 gold which can make it more convenient to build than Tarsier in some situations, but it is generally unexciting and only useful for specific tactical plays rather than as a sustained attacking unit.",
+    "units": [
+      "Immolite",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "cogito3",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion comparing cheap red attackers including Immolite, Tarsier, and Electrovore.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Iso Kronus is preferred over Immolite as a red attacker primarily because it is cheaper (5G vs 6RR) and more breachproof, not because it is inherently powerful. Both are considered unexciting units.",
+    "units": [
+      "Iso Kronus",
+      "Immolite"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Comparison of green and red cheap attackers in sets lacking strong options.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In base-set-only red mirror games where Tarsier is the best attacker, P1 is considered to be at a significant disadvantage, with some experts suggesting P1 simply loses. In red sets with stronger units available, P1 can contest with builds like 'Elyot Animus' or 'Natural Animus'.",
+    "units": [
+      "Tarsier",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about P1 vs P2 balance in red sets, specifically base-set-only Tarsier mirrors.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "When P2 opens DA (Drone+Animus) on turn 2, P1 responding with DDA on turn 3 is viable in medium-to-higher-econ red sets. Going DDB instead is correct when the set has strong blue units. In low-econ aggressive sets (e.g., Grimbotch/Electrovore), P1 should consider buying an Animus on turn 2 rather than waiting until turn 3.",
+    "units": [
+      "Animus",
+      "Grimbotch",
+      "Electrovore"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of P1 opening responses to P2's DA build in red sets with varying unit compositions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Steelsplitter's presence forces the opponent to respect 1 attack per turn, which can dissuade them from relying on Engineer sacrifice for defense and push them toward buying defensive tech earlier than they otherwise would.",
+    "units": [
+      "Steelsplitter",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of early-game defensive and offensive implications of Steelsplitter after a DDB opening.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Infusion Grid, P1 should generally prefer buying a third Engineer over DDB, due to the high-econ nature of Infusion Grid sets making early drone production more valuable than rushing to Blastforge.",
+    "units": [],
+    "confidence": "medium",
+    "author": "cogito3",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about correct P1 opening responses in sets with Infusion Grid present.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tarsier is considered relatively breachproof compared to units like Shadowfang, making it a more resilient red attacker in sets where the opponent can develop strong breach pressure.",
+    "units": [
+      "Tarsier",
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Brief exchange comparing the breachproofness of various red attackers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Going early Flame Animus in a set that contains Infusion Grid is generally a mistake, because Infusion Grid incentivizes high-econ play with multiple Arms Races, and deviating into a low-Arms-Race Flame Animus build fails to exploit the set's economic potential.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "1m2o",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Post-game self-analysis where the player recognized that buying Flame Animus while ignoring Infusion Grid was a strategic error.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

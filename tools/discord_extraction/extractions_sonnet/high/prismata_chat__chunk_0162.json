@@ -1,0 +1,165 @@
+[
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Doomed Mech's actual cost is approximately 12.33 (not 10.3 as initially argued), which makes it less efficient than Shadowfang when compared mathematically using economic formulas accounting for its 5-soak on expiry. The community consensus after formula-sharing was that Doomed Mech is not more efficient than Shadowfang at any realistic inflation rate.",
+    "units": [
+      "Doomed Mech",
+      "Shadowfang"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Debate about whether Doomed Mech or Shadowfang is more cost-efficient, resolved by sharing economic formulas.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Shadowfang is considered 'almost unplayably bad' since its nerf, according to steel0229e, though silentslayers argues that mathematically (2 permanent attack vs 5 soak) Shadowfang is still better than Doomed Mech outside of extreme inflation scenarios.",
+    "units": [
+      "Shadowfang",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "steel0229e",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Discussion of Shadowfang's post-nerf viability sparked by commentary on a 307th game featuring Shadowfang.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Scorchilla is viable in base set (base + Scorchilla only), with both players staying on pure Scorchilla rather than switching to Tarsier. Its value in base set comes from absorb denial and damage synchronization, not from being cheaper than Tarsier.",
+    "units": [
+      "Scorchilla",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "silentslayers",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Extended discussion about when Scorchilla is good versus Tarsier, including base set analysis.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Scorchilla anti-synergizes with other red attackers because its cheap gold cost means you can keep buying it longer than most attackers, but you would often buy other red units (e.g., Bloodrager, Feral units) instead of or alongside Scorchilla depending on board state. The main scenario to skip Scorchilla is when something more important doesn't fit neatly with a Scorchilla build order.",
+    "units": [
+      "Scorchilla"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Discussion of when Scorchilla is and isn't worth buying, including its interaction with other red units and absorb denial.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Scorchilla's average damage arrives slightly later than Tarsier's, but absorb denial considerations dominate the comparison. If Scorchilla can deny any absorb at all (e.g., Wall absorb), it is better than Tarsier; it is also better when used to sink green resources.",
+    "units": [
+      "Scorchilla",
+      "Tarsier",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Multi-expert discussion on Scorchilla vs Tarsier efficiency including cost analysis and absorb denial value.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets where green is very strong (e.g., with Zemora Voidbringer), stockpiling green tech can make the Zemora line safe even if it looks threatening, as the player can defend while building up to the powerful green units.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2023-04",
+    "replay_code": "FH3DC-UwG4N",
+    "context": "silentslayers analyzing the Kolento vs 307th game, defending their set read involving Zemora Voidbringer.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Getting blue tech (e.g., Barrier) without ever buying a Blastforge, and transitioning to Barriers after selling Drones, can be a powerful late-game defensive build in sets where the economy supports it.",
+    "units": [
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Post-game analysis between silentslayers and sano discussing barrier spam after drone selling in a green-blue set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot was observed playing like Wacky Bot (e.g., buying Engineers turn 1 into Animus), suggesting a possible bot identity mixup or degraded AI behavior following server instability.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "ruinedshadows",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "ruinedshadows reported Master Bot behaving like Wacky Bot shortly after server hiccups in April 2023.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "ruinedshadows",
+    "report_date": "2023-04-12"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "A client bug caused a player clicking to play versus Master Bot to receive a 'game failed to load' error with Master Bot declared winner, while a live game was actually created and visible in the live games list. The player had to manually restart the client and rejoin the game.",
+    "units": [],
+    "confidence": "high",
+    "author": "steel0229e",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "steel0229e reported a reproducible client/server bug when launching a Master Bot game during the April 2023 server instability period.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "steel0229e",
+    "report_date": "2023-04-11"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Iso Kronus sets can have high skill expression in specific configurations: synched Iso Kronus timings, Iso Kronus + Nivo combinations, and correctly dodging absorb with a small number of Iso Kronus units all represent non-obvious decision points.",
+    "units": [
+      "Iso Kronus"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Discussion of unit performance statistics and which units correlate with high skill expression.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

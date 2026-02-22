@@ -1,0 +1,221 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding a Redeemer back for absorb when Gauss Cannon charges arrive is generally not correct if you have other defensive options (e.g., Wall + Forcefields). A held Redeemer that never attacks is equivalent to a very expensive Infusion Grid that generates Gauss charges for the opponent; Redeemer is meant to be clicked for damage.",
+    "units": [
+      "Redeemer",
+      "Gauss Cannon",
+      "Wall",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Sakuya asked whether to hold a Redeemer for absorb when Gauss charges come in; mqp explained why clicking and building more defense instead is correct.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "With Redeemer, players should expect a 'pause' in attack production when Gauss Cannon charges arrive \u2014 this is the trade-off for getting 3 damage cheaply early. Rather than holding Redeemers indefinitely, the correct response is to build sufficient defense (Walls, Forcefields) so Redeemers can always be clicked.",
+    "units": [
+      "Redeemer",
+      "Gauss Cannon",
+      "Wall",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Continued discussion of Redeemer strategy; mqp explained the inherent rhythm of Redeemer-based offense.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When Omega Splitter absorbs for 3, that is only 1 absorb better than a Wall, while costing 3 attack compared to clicking Omega Splitter offensively. Therefore, building a Wall is generally superior to holding Omega Splitter for absorb unless there is a specific reason to spend blue elsewhere.",
+    "units": [
+      "Omega Splitter",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Sakuya questioned whether holding Omega Splitters for absorb was correct versus building a Wall; awaclus quantified the trade-off.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot misdefends in positions involving a Xaetron as absorber alongside lifespan-1 units. When incoming damage exceeds the Doomed Wall's absorb, it prioritizes the Xaetron as the primary absorber and then sacrifices the lifespan-1 Doomed Wall as soak first, rather than absorbing on the Doomed Wall directly \u2014 resulting in unnecessary damage to the Xaetron.",
+    "units": [
+      "Doomed Wall"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "amalloy observed Master Bot making a specific misdefense with a Xaetron and lifespan-1 Doomed Wall, and proposed a theory for why the bot's logic goes wrong.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-06-18"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The Q (auto-defend) button is known to mishandle defense when a Xaetron is present, sometimes trying to sacrifice the Xaetron unnecessarily. Expert players recommend never using Q when Xaetron is on board, or always checking and correcting the auto-defense.",
+    "units": [],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "apooche warned that the auto-defend Q button is not designed to handle Xaetron correctly, and that Ctrl-click can also attempt to sacrifice Xaetron when unnecessary.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2018-06-18"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot nearly forced a draw in a Savior mirror game but threw the win by killing the opponent's last Savior instead of their last Drone, indicating it struggles with correct target prioritization in high-economy endgame positions.",
+    "units": [
+      "Savior",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": "65Qom-0yv6g",
+    "context": "amalloy reported being surprised that Master Bot nearly won a Savior mirror, but noted it threw the game by misidentifying the correct target to kill.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-06-18"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot's play level fluctuates significantly between games, with some games producing strong builds and others being much weaker. It is generally considered poor at high-economy situations such as Savior mirrors.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "amalloy and crash_overlord discussed Master Bot's inconsistency, with amalloy noting it surprised him in a Savior mirror and crash_overlord attributing variance to 'lucky builds'.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": "2018-06"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Master Bot appears to be deterministic: given the same set and the same player opening, it will produce the same sequence of moves. However, if the player deviates from their previous opening, the bot may react differently.",
+    "units": [],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "miuna6933 questioned whether Master Bot was deterministic; amalloy confirmed it appeared to be based on replaying the same set with the same opening.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'Steaknimus' (also 'steak sauce') refers to a Turn 1 Animus opening, derived from the keyboard shortcut sequence A1 (A1 Steak Sauce). It also applies to Galvani Drone sets where the T1 move is A1.",
+    "units": [
+      "Animus",
+      "Galvani Drone"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "jrkirby and shadourow discussed naming conventions for aggressive early Animus openings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'Evil Animus' (also 'fastimus') in Thorium Dynamo sets refers to the opening DD D1 A (P1) designed to punish the greedy P2 Dynamo opening DD 11 P2 Dynamo, which leaves P2 unable to build anything but a Drone on Turn 3.",
+    "units": [
+      "Animus",
+      "Thorium Dynamo",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "swapgo and miuna6933 explained the 'Evil Animus' / fastimus concept in Dynamo sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wall is highly effective at shutting down aggressive early-attack ('6-pool') strategies in Prismata. Because Wall provides immediate cheap defense, most early-rush strategies fail to generate enough pressure before the opponent stabilizes.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of whether rush/6-pool-style openings (e.g., Turn 1 Animus Turn 2 double Cauterizer, Fission Turret spam) are viable; community consensus was that Wall counters most of them.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In sets featuring Infusion Grid, Shredder, Polywall, and Matrix with Doomed Drone, a quad-Engineer opening is preferred. A recommended P1 line is DD/DDE/DD1E/DDDD followed by early Ebb (Infusion Grid click), Steelforge, and delayed Animus, prioritizing efficient blue spending over fast attack.",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Shredder",
+      "Forcefield",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "mqp",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "mqp and leary93 discussed optimal openings in a specific high-econ set featuring Infusion Grid, Shredder, Polywall, Matrix, and Doomed Drone.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying engineers to maintain granularity for defense (1-2 per turn) is valuable even when the primary plan does not require them, as it allows more precise defensive spending. Over-investing in engineers (3-4 per turn from floating gold) can leave fewer engineers available later and is often not the best use of excess gold.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "mqp",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Sakuya asked whether leftover gold after spending all resources is an indicator to tech up; mqp noted the value of buying 1-2 engineers per turn for defensive granularity.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

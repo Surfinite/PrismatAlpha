@@ -1,0 +1,271 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot misuses Mobile Animus by purchasing excessive quantities (up to 9) and converting them all into Rhinos while wasting the red mana, leaving itself with almost no permanent attack and losing the game.",
+    "units": [
+      "Mobile Animus",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "velizar_ observed MB buying 9 Mobile Animuses and converting them all to Rhinos while wasting red, prompting a broader discussion about correct Rhino usage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-02-11"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays poorly in sets with high-defense or many defensive units, as it struggles to handle very high economy situations where the correct response requires complex defensive buildup.",
+    "units": [],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "shadourow noted that adding all defense units to a set is a reliable way to rig Master Bot achievements because MB is very bad at very high econ games.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "shadourow",
+    "report_date": "2020-02-15"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Including Zemora Voidbringer and Mobile Animus in a set is a reliable way to exploit Master Bot, as MB cannot handle these units effectively and will likely lose. This was used to farm Master Bot achievements.",
+    "units": [
+      "Zemora Voidbringer",
+      "Mobile Animus"
+    ],
+    "confidence": "high",
+    "author": "nvlx",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "nvlx described rigging all Master Bot achievements by including Zemora and Mobile Animus in the set, with shadourow confirming that all-defense sets also work.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "nvlx",
+    "report_date": "2020-02-14"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot has never been observed successfully firing a Zemora Voidbringer; if MB buys Zemora, the player has likely already won. MB also does not appear to understand that Zemora requires Gaussite to fire, as it ignores opponent Conduits (the Gaussite source) and targets Venge Cannons instead.",
+    "units": [
+      "Zemora Voidbringer",
+      "Conduit",
+      "Venge Cannon"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "Discussion about the attack potential UI showing +8 for Zemora even without Gaussite sources led to observations about MB's inability to play Zemora correctly.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "jamberine",
+    "report_date": "2020-02-14"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot treats Wild Drone as a blocker rather than recognizing it as a snipe target, making it easy to exploit in sets containing Wild Drone. However, MB would still prefer to breach rather than snipe a Wild Drone.",
+    "units": [
+      "Wild Drone"
+    ],
+    "confidence": "medium",
+    "author": "cronos",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "cronos stated MB treats Wild Drone as a blocker, with velizar_ adding the nuance that MB would still prefer breach over Wild Drone snipe.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "cronos",
+    "report_date": "2020-02-15"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot exhibits poor resource management in endgame scenarios: in a set with Thorium Dynamo and Gauss Cannon it pursued a breach-proof strategy, then after Gauss Cannons ran out of supply it bought Engineers/Drones/Forcefields, and when Engineers ran out it floated all gold, ending the game with 51 unspent gold instead of buying Conduits to convert excess gold into more resources.",
+    "units": [
+      "Gauss Cannon",
+      "Thorium Dynamo",
+      "Engineer",
+      "Drone",
+      "Forcefield",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "velizar_ described a specific game where MB floated 51 gold at game end rather than buying Conduits to spend it productively.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-02-26"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not correctly evaluate the threat posed by Zemora Voidbringer in relation to the opponent's Gaussite supply: on turn 9 it ignored the opponent's Conduits (the Gaussite source enabling Zemora) and targeted Venge Cannons instead, missing a narrow winning line that required destroying the Conduits.",
+    "units": [
+      "Zemora Voidbringer",
+      "Conduit",
+      "Venge Cannon"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "velizar_ analyzed a specific game where MB's failure to prioritize Conduit destruction over Venge Cannons nearly cost it the game against a Zemora strategy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-02-26"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The optimal usage of Rhino is to buy it as late as possible while still getting both attacks before it soaks. In endgame, red resources become less useful for other purchases, so converting red into a Rhino attack rather than holding it is correct. However, exceptions exist: buying Rhino earlier can be correct if the one damage matters urgently, or if buying Rhino earlier frees up resources for a high-value purchase like Cynestra.",
+    "units": [
+      "Rhino",
+      "Cynestra"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "Discussion triggered by MB's poor Rhino usage led to expert clarification of correct Rhino timing by zera777, amalloy, masn6811, and shadourow.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The best use of Rhino is to leverage its prompt ability to defend against incoming threat, then attack, and either let it soak or leave it threatening at 1 stamina while also defending further threat — maximizing both its offensive and defensive value before it dies.",
+    "units": [
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "masn6811 described the optimal Rhino play pattern in response to the broader discussion about MB's misuse of Rhino.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a B+1 set containing Mobile Animus, the asymmetric line DD/DD D1/DDC was a draw before Mobile Animus was buffed and is now a win for P1. The line D1/DA is a win for P1 even before the buff, while D1/DD1 is a win for P2.",
+    "units": [
+      "Mobile Animus",
+      "Drone",
+      "Conduit",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "masn6811 confirmed shadourow's question about the B+1 Mobile Animus asymmetric line, referencing a 2018 analysis and noting the buff changed the result.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In sets where red can only be spent on attackers, buying attackers eventually has diminishing returns, so players will always eventually click Rhino's ability to convert red into an attack in those sets — meaning the red is never truly wasted.",
+    "units": [
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "f300xen",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "f300xen explained to shadourow why red resources always get spent on Rhino clicks in attacker-only red sets due to diminishing marginal utility of attackers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The attack potential display for Zemora Voidbringer always shows maximum potential damage (including the +8 Gaussite-powered shot) regardless of whether the current set or board state actually provides any Gaussite source, because the display is designed to show max possible damage for consistency rather than conditional accuracy.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "high",
+    "author": "cronos",
+    "date": "2020-02",
+    "replay_code": null,
+    "context": "cronos investigated and confirmed the attack potential UI intentionally shows max Zemora damage even without Gaussite sources, as the design choice prioritizes consistency.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When deciding between buying a Drone followed by a Doomed Drone versus Doomed Drone followed by a Drone (when you expect to get soak value from the Doomed Drone either way), buying the Drone first is correct because it effectively gives the Doomed Drone one extra turn of econ value before it soaks.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2020-03",
+    "replay_code": "XXnbq-aD6Z1",
+    "context": "amalloy and shadourow debated ordering of Drone vs Doomed Drone purchases in a high-econ game analysis, with amalloy explaining the sequencing logic.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Mathematical analysis using inflation modeling shows that buying Doomed Drones earlier (even without soaking) can be justified in a narrow inflation range (approximately 1.126 to 1.299), but this inflation range does not occur under the assumption that energy is free, meaning in practice Doomed Drones should generally only be bought when soak value is expected.",
+    "units": [],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "megasupp performed inflation calculations to analyze when buying soakless Doomed Drones is correct, concluding the favorable inflation range is unlikely to occur in typical games.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Rhino plus Forcefield is a valid defensive combination even in sets containing Feral Warden, because FFRR produces 4 HP immediately, then attacks, then produces 4 more HP — a tempo profile that double Feral Warden cannot replicate. Base+Feral mirror games typically degrade to Rhino+Forcefield defense after some Ferals are bought.",
+    "units": [
+      "Rhino",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "velizar_ questioned buying Rhino+Forcefield in a Feral set, and amalloy explained the tempo advantage of FFRR over double Feral for immediate defense.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Floating gold is occasionally correct even beyond obvious small floats: in high-econ sets with units like Asteri Cannon, floating up to 9 gold can be the right play to enable a large high-value purchase that would be impossible otherwise.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-03",
+    "replay_code": "XXnbq-aD6Z1",
+    "context": "amalloy cited a specific game (turn 9 of XXnbq-aD6Z1) where floating 9 gold was correct to set up an Asteri Cannon purchase in a quad-Engineer high-econ game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,150 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot concedes significantly later than optimal, often continuing play 2+ turns after the outcome is clear to experienced players. It has been observed attempting quintuple Blood Pact while behind by approximately 10 attack, only conceding after the first major breach or a turn after.",
+    "units": [
+      "Blood Pact"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "amalloy described consistent personal experience of MB refusing to concede in clearly lost positions, with a specific example of quintuple Blood Pact soaking.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-05-30"
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Community members have expressed a desire for Master Bot to concede earlier when in a clearly losing position, rather than prolonging games through excessive soaking with units like Blood Pact.",
+    "units": [
+      "Blood Pact"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Both amalloy and masn6811 discussed the bot's late concession behavior, with masn6811 explicitly wishing it conceded slightly earlier.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2018-05-30"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When Apollo shift-clicks a stack of fragile units with different health values, it targets the unit with the least health rather than the one closest to 3 health. This occurs because shift-clicking a stack processes right to left, and the lowest-health unit is positioned on the right.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "amalloy discovered this targeting behavior while playing and noted it as a surprising interaction, with liadahlia suggesting it should be fixed.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets containing both Apollo and Plasmafier, going for Apollo before establishing an Omega Splitter (OS) is risky because Plasmafier can punish the Apollo purchase hard. The recommended line is OS first, then Apollo, then sell forges into Grenade Mech.",
+    "units": [
+      "Apollo",
+      "Plasmafier",
+      "Omega Splitter",
+      "Grenade Mech"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "liadahlia and leary93 discussed optimal sequencing in an Apollo/Plasmafier/Grenade Mech set, with liadahlia asserting OS before Apollo is the safer line.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying Vivid Drone in an Apollo set is highly risky because Apollo can snipe Vivid Drones, creating an immediate and often decisive economic swing. Even a single Vivid Drone purchase can hand the opponent a winning advantage if they have or are racing to Apollo.",
+    "units": [
+      "Vivid Drone",
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "swapgo and leary93 discussed a game where the opponent went heavy Vivid Drone into Grenade Mech spam, and leary93 won partly because Apollo sniped a Vivid Drone. swapgo described this as 'absolute hubris' and gave a personal example of winning an Apollo mirror after the opponent bought a single Vivid Drone.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Player 2 holds a strategic advantage in sets with strong green (Conduit-based) options because P2 can naturally build a Conduit on turn 1 without any timing loss, while P1 has no equivalent fast Conduit line. This 'natural conduit' advantage is a key driver of P2 favoredness in green sets.",
+    "units": [
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "In a broader discussion about P1 vs P2 favoredness, liadahlia cited P2's access to natural Conduit as a major structural advantage, particularly in green sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Player 2's advantage is generally larger in sets with strong green (Conduit) options, and the P1/P2 skill gap diminishes as the number of random units in the set increases (e.g., base+8 has a smaller P1/P2 skew than base+5).",
+    "units": [
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Multiple players including liadahlia, totally_not_fbi, causalidad, and f300xen discussed how set composition and size affect P1/P2 win rates, with the consensus being P2 is favored 2-4% on average but the gap varies significantly by set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "P2 has the reactive advantage of being able to mirror P1's third Engineer purchase, meaning that in ambiguous sets where going third Engineer is unclear, P1 faces more risk by committing to it while P2 can safely copy the line after observing P1's choice.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "liadahlia enumerated P2 advantages in a discussion about player favoredness, specifically citing the ability to react to P1's third Engineer as a key structural benefit.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "P2 is generally favored in high-economy sets that are not Odin-based, due to the compounding advantage of natural Conduit access and P2's general tempo advantage with green units.",
+    "units": [
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "f300xen",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "f300xen stated P2 is favored in high econ sets that aren't Odin, as part of a broader P1/P2 discussion.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

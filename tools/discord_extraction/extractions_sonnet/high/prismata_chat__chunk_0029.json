@@ -1,0 +1,253 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is notably weaker with units requiring heavy tech costs (three or more of the same color in a unit's icon), and struggles to find optimal lines involving complex units like Lucina (not in unit list, treat as historical reference) or Odin-style strategies, while performing best with straightforward vanilla unit sets.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about Master Bot's strengths and weaknesses across different set compositions.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2018-03-25"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Master Bot frequently executes a 'fake breachproof' strategy using Thorium Dynamo: it converts drones into Dynamos and builds Gauss Cannons, allowing the opponent to breach and deal 4+ damage to a Dynamo while simultaneously constructing Blastforges, then transitions to defense after absorbing significant damage for free. The correct counter is to avoid putting damage on the Dynamo and instead target Gauss Cannons or other units when Blastforges are under construction.",
+    "units": [
+      "Thorium Dynamo",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "bky described losing 10+ gold value to Master Bot's Dynamo absorb trick, confirmed by mtanzer and masn6811 who also lost to it.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": ".bky_1556",
+    "report_date": "2018-03-25",
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is strongest in low-economy tactical mirrors (e.g., Grimbotch sets) where precise arithmetic matters, because it excels at calculation; however, it is weaker at high-level strategic decisions such as identifying powerful unit synergies or complex multi-color tech lines.",
+    "units": [
+      "Grimbotch"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "mtanzer noted MB is scariest in low-econ tactical mirrors; namington attributed this to MB being better at tactics than overall strategy.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "mtanzer",
+    "report_date": "2018-03-25"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot resigned a game it was winning because it failed to account for Cluster Bolt, suggesting the bot does not correctly evaluate or anticipate certain click-ability interactions that can swing the game state.",
+    "units": [
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "amalloy briefly reported this during the Dynamo absorb discussion thread.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-03-25"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Rush-focused casual bots (e.g., bots designed around aggressive red strategies) can outperform Master Bot in specific low-economy red rush scenarios because they execute strategies that play to bot strengths, whereas Master Bot's broader strategic approach is weaker in those specific matchups.",
+    "units": [],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "namington and masn6811 discussed how rush casual bots like HavoCRusheR can be better than MB in low-econ red sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "namington",
+    "report_date": "2018-03-25"
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Thorium Dynamo's high HP allows it to act as a damage absorber ('Dynamo absorb') even without breachproof status, letting a player absorb repeated attacks while simultaneously building offensive infrastructure. However, this strategy has real counterplay: the attacker can redirect damage to Forges or Conduits rather than the Dynamo, limiting the value the Dynamo player extracts.",
+    "units": [
+      "Thorium Dynamo"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Multi-expert discussion on whether Dynamo absorb is a strong strategy and what its counterplay looks like.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "masn6811 argued Thorium Dynamo should be nerfed to 7 HP (making it Fragile) because it is already a strong economy unit on its own and does not need to also be effective as a damage absorber, giving it too much versatility.",
+    "units": [
+      "Thorium Dynamo"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Balance discussion following the Dynamo absorb strategy conversation.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Pixies are often worth using just to kill Engineers, because each Engineer killed represents roughly 2 gold in value (the cost of an Engineer), and using Pixies to deal even 1 damage that breaks an Engineer ahead of a wall can be 100% efficient damage conversion.",
+    "units": [
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of whether to save Pixies for a bigger breach or use them immediately to kill Engineers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "'Saving up for a bigger breach' is generally incorrect because if you don't kill Engineers now, the opponent simply builds more defense equal to the attack you withheld, negating any advantage of waiting.",
+    "units": [],
+    "confidence": "high",
+    "author": "p0lari",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "p0lari corrected a newer player who was considering holding Pixies and a Steelsplitter to save up damage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "One point of damage is worth approximately 2 gold because that is the cost of an Engineer; therefore, converting 3 attack into gold via a unit like Militia (rather than breaking an Engineer) can be good value only when the inflation of gold relative to Engineers makes 2 gold worse than an Engineer, which happens late game.",
+    "units": [
+      "Militia"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about whether to use Militia click to convert attack to gold or break an Engineer in a high-economy set with Energy Matrix and Gauss Fabricator.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Wild Drone is almost always superior to buying two regular Drones when you would buy two Drones anyway, since it costs 1 gold less; the main exceptions are sets with Tesla (which can reach exactly 3 damage very fast), Redeemer (which interacts oddly with Wild Drone), and P2 Cynestra. Wild Drone is particularly strong against red rushes because of the tempo it provides.",
+    "units": [
+      "Wild Drone"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Extended discussion among crash_overlord, steel0229e, and awaclus about when Wild Drone is and is not correct to buy.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When Wild Drone dies in the midgame, it is generally correct to target it (rather than two Engineers in front of a Rhino) in mid-to-high economy situations because drones are more valuable than easily replaceable defense. In very low-economy red mirrors, killing two Engineers in front of a Rhino can be preferable to killing the Wild Drone.",
+    "units": [
+      "Wild Drone",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "crash_overlord and zugz discussed how opponents should assign damage when Wild Drone is on the board.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Forcing your opponent to replace Engineers instead of buying a Tarsier or equivalent attack unit generates tempo equal to a Tarsier's value, which is the same principle behind why Tia Threnody is strong.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "crash_overlord",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "crash_overlord explained the tempo value of threatening Wild Drone kills by analogy to Tia Threnody.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Alternating Xaetron (not in the named unit list—treat as unverified) with a large absorber like Energy Matrix is of questionable synergy: the larger the non-Xaetron absorb turn, the less beneficial it is to absorb with Xaetron on its turn, and players should simply attack with Xaetron instead. Matrix is closer to the borderline where alternating might sometimes be correct.",
+    "units": [],
+    "confidence": "medium",
+    "author": "crash_overlord",
+    "date": "2018-03",
+    "replay_code": "osP29-behwT",
+    "context": "VanitasCabal shared a replay claiming matrix/Xaetron synergy, and crash_overlord and steel0229e debated whether alternating absorb is correct.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Antima Comet is generally weak in sets where Redeemer is present, because Antima relies on red (Animus) tech and Redeemer punishes red strategies hard. Blue-green units in general can make Animus unplayable, with exceptions.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "steel0229e",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "steel0229e answered a question from VanitasCabal about Antima Comet compared to Redeemer.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Choosing a strategically superior line (better unit purchases/build order) provides such a large advantage in Prismata that it is very difficult to overcome even with superior tactical micro-management; an ill-executed better strategy typically beats a well-executed inferior one.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": "osP29-behwT",
+    "context": "VanitasCabal and steel0229e discussed how macro line selection dominates tactical optimization in Prismata, using a shared replay as evidence.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,155 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The Q defense algorithm (auto-defend) in Prismata has a known weakness with fragile units: it will absorb damage onto a Tia Threnody instead of an Infusion Grid, which is incorrect since losing Tia costs too much defense tempo compared to losing the Infusion Grid.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "Players discussing cases where the Q defense auto-assign makes suboptimal choices with fragile units like Tia Threnody.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "jamberine",
+    "report_date": "2018-10-06"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The Q defense algorithm will incorrectly absorb damage onto an Odin instead of a Xaetron when forced to choose between the two, whereas back-lining on Xaetron is almost always clearly correct since Odin has typically already been clicked if the player wanted to defend with it.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "amalloy responding to Terra Reveene about the Q defense algorithm's decision-making between Odin and Xaetron absorption.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-10-06"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The Q defense algorithm can sacrifice a Steelsplitter to keep a Wall alive, which is a clear misdefense — it should save the Steelsplitter over the Wall in most situations.",
+    "units": [
+      "Steelsplitter",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "amalloy recounting a personal experience where Q defense soaked with a Splitter to leave a Wall alive, which is the wrong priority.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-10-06"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The Q defense algorithm can incorrectly sacrifice Forcefields over Walls when multiple defenders are present — it may lose 3 Forcefields over 2 Walls, which is usually the wrong choice since Forcefields are more valuable defenders.",
+    "units": [
+      "Forcefield",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "apooche explaining specific failure modes of Q defense to sorawotobu, including losing Forcefields over Walls.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2018-10-07"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The Q defense algorithm can unnecessarily sacrifice granularity: when a player has a mix of Infusion units and Walls, it may lose an Infusion and 2 Engineers instead of the correct 2 Walls, needlessly giving up granular attack value.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "apooche detailing Q defense failure modes where it misallocates absorb between Infusions and Walls.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2018-10-07"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Expert players recommend using Q defense only when you already know the correct defense and are confident Q will match it — you should immediately verify the result. Q defense is only unambiguously correct when there is exactly one valid way to defend.",
+    "units": [],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "apooche and crash_overlord discussing when Q defense is and is not safe to rely on.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Community members considered Master Bot to be approximately Tier 6 in strength, strong enough that it takes new players many hours (sometimes 40+ hours of play) to beat it consistently, making it a meaningful skill benchmark before transitioning to ranked play.",
+    "units": [],
+    "confidence": "medium",
+    "author": "ruinedshadows",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "ruinedshadows and zheliu discussing how long it takes new players to beat Master Bot consistently, with zheliu noting a forum post of a player with 40 hours still unable to do so.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Prismata, losing Engineers, Walls, or any unit to absorb all constitutes 'taking damage' — a common new player mistake is treating only non-Wall unit losses as damage, leading to unnecessary overdefending with extra Walls.",
+    "units": [
+      "Wall",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "mrguy888 observing a new streamer who called losing Walls 'not taking damage' and only losing other units as 'taking damage', explaining why they over-built Walls.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "There are no true mirror matches in Prismata: because players have asymmetric starting positions (Player 1 vs Player 2), even games where both players buy the same units involve asymmetric decisions. Losing a 'mirror' is very likely due to incorrect timings rather than the strategy itself being wrong.",
+    "units": [],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "mrguy888 responding to discussion about mirror matches and whether copying opponents is valid strategy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Supply is a meaningful strategic resource in Prismata — experienced players can deliberately win positions that would be losing in an infinite-supply game by managing supply counts, meaning supply exhaustion is not just an accident but can be a planned win condition.",
+    "units": [],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-10",
+    "replay_code": null,
+    "context": "mrguy888 explaining that supply constraints are a real strategic axis, not just an incidental rule.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

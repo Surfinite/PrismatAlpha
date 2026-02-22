@@ -1,0 +1,207 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prismata's draw detection resets whenever a unit is bought or dies. The system auto-draws when no units are being built and no units are dying or losing HP for several turns. There are no reported false positives under normal (non-cooperative) play.",
+    "units": [],
+    "confidence": "medium",
+    "author": "supergreyman",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion about how a hypothetical regenerating unit with infinite effective supply could interact with or evade draw detection.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "A unit that returns to supply upon death (infinite effective supply via resurrection) can in principle evade draw detection, because the detection clock resets on unit purchase or death, and the game state may cycle indefinitely without triggering any fixed-state check. This is distinct from Ebb Turbine, which causes supply depletion and eventually triggers draw detection normally.",
+    "units": [
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community debate about a hypothetical 'Regenerator' unit with supply 1 that replenishes on death, and whether existing draw detection handles infinite-supply soak units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Shalev's Design Rule (SDR) is not violated by a unit that returns to supply on death, because having the unit alive is always at least as good as having it in supply. A unit causes an SDR violation only if an opponent's action (e.g., a Gauss Cannon charge killing it) puts the owning player in a state they prefer to the unit being alive, which requires careful case-by-case analysis.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Experts debating whether a hypothetical unit that re-enters supply upon death technically breaks Shalev's Design Rule (SDR).",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets where infinite absorb supply would lead to stalemates (e.g., base set plus Electrovore), perfect play from both sides can result in a draw if absorber supply is effectively infinite. A single unit with max supply of 1 that resets on death is usually insufficient to cause such stalemates alone, since 10+ attack can always end the game; stalemates require multiple such units or very constrained attacker supply.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "masn6811 noted that base+Electrovore with infinite supply results in a draw under perfect play, while discussing whether a 1-supply regenerating absorber could cause draws.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Cauterizer can serve as a tech sink for excess Blue: if Blue would otherwise be wasted, buying Cauterizer over Electrovore is justified. Advanced play includes buying Cauterizer specifically to use it as a blocker while its Engineers power Electrovores, combining defensive soak with sustained attack output.",
+    "units": [
+      "Cauterizer"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion comparing Cauterizer and Electrovore as Blue tech units, their respective roles as attackers and soak, and when each is preferable.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "An Electrovore-Engineer pair ('EvE') defines a 'par' attacker benchmark: 6R for a permanent 1-damage-per-turn attacker with no drawbacks when treated as a combined unit. The Engineer can be used to accelerate one point of soak, and can block independently, making the pair slightly above a raw cost comparison suggests.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": "https://www.reddit.com/r/Prismata/comments/6pxvgb/why_electrovore_is_strong/",
+    "context": "bky explained the Electrovore+Engineer 'EvE' pair as a baseline attacker efficiency benchmark and linked a Reddit analysis.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "invalid_replay_code"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Early Electrovore pairs are strong because the first two are effectively 'discounted' — you already have Engineers — giving immediate attack pressure for only 4R per Electrovore. However, committing to early Electrovores makes it harder to drone up, as you cannot simultaneously attack with Electrovores and buy additional Drones the way you can with Grimbotch.",
+    "units": [
+      "Grimbotch"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "liadahlia and bky compared Electrovore and Grimbotch openings, focusing on economy flexibility and transition to higher drone counts.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Grimbotch allows a player to attack while simultaneously buying Drones (blocking with Grimbotches), enabling a smoother transition to higher economies. Electrovores cannot do this — if you attack with them you cannot drone that turn — making Grimbotch more flexible for players wanting to scale economy while maintaining offensive pressure.",
+    "units": [
+      "Grimbotch"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Comparison of Electrovore vs. Grimbotch in terms of economy flexibility during mid-game transitions.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "During the attrition phase, an Electrovore battery should be wound down gradually: soak with an Engineer on turn X while attacking with the Electrovore, then soak with the Electrovore on turn X+1. This alternating pattern maximizes the value extracted from the EvE pair as the game transitions to defense.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "bky described optimal late-game usage of Electrovore-Engineer pairs when transitioning from offense to defense.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "A T Ev // EvEv E opening (Tarsier + Electrovore turn 1, double Electrovore + Engineer turn 2) can bait an opponent into buying a Wall and then consume all their granularity, often jamming any tech switch for a turn. Electrovore rushes are best capped around 11 Drones in the midgame for players on an Animus.",
+    "units": [
+      "Tarsier",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "bky described a specific Electrovore-based opening sequence and its strategic purpose in pressuring the opponent's defense.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Asymmetry in Prismata (beyond P1/P2 imbalance) arises from: rock-paper-scissors sets, units with forced divergent tech paths (e.g., Zemora Voidbringer requiring heavy green investment), and units like Arms Race that can make mirroring suboptimal when the first buyer's engineers tip efficiency toward a different line for the second player.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "http404error, liadahlia, and bky discussed what game elements encourage asymmetric strategies in Prismata beyond misreads.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'SDR' (Shalev's Design Rule) is a Prismata design principle with at least two forms: SDR[Units] — it is always at least as good to have a unit alive as in supply — and SDR[Gold] — sooner gold is better. Certain unit death effects and supply-refill mechanics sit on the boundary of these rules and require case-by-case analysis.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Experts debated SDR in the context of a hypothetical unit that returns to supply on death, clarifying the rule's scope.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tantalum Ray has a non-obvious click policy trap: the optimal number to buy and when to click them is unintuitive, making it a unit where even experienced players can make mistakes in click decisions.",
+    "units": [
+      "Tantalum Ray"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "bky noted Tantalum Ray's newbie trap stems specifically from click policy rather than purchase decisions.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

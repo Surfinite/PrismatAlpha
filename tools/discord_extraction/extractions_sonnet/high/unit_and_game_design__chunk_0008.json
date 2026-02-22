@@ -1,0 +1,110 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prismata's standard unit supply counts (1, 4, 10, 20) form a tetrahedral number sequence, which is intentional mathematical design by Lunarch Studios. These values communicate rarity tiers (legendary/rare/common/very common) and most units are expected to fall within this sequence.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community discussion during unit design contest about whether supply counts outside 1/4/10/20 are possible or desirable.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Gauss Cannon is considered balanced and fills a distinct role among base-set attackers; community experts rejected proposed buffs, noting it would make green too strong at defensive play in many games if given additional defensive utility.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a proposed Gauss Cannon redesign that would let it sacrifice HP to build Forcefields, which experts rejected.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Tantalum Ray is considered balanced at its existing cost; a proposed redesign giving it 9 HP and a click ability to lose 2 HP to build a Gauss Charge was dismissed as unplayable, since paying 2 gold for a Gauss Charge arriving 5 turns later is far too slow.",
+    "units": [
+      "Tantalum Ray",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "StrShPlyr proposed a reworked Tantalum Ray; multiple players including liadahlia and redzonex rejected it as worse than the current version.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Rushing early attack is generally weak if the opponent can wall up in time, making cheap early-attack units problematic to design even at low gold costs like 1G, because the tempo advantage rarely compensates for the economic loss.",
+    "units": [],
+    "confidence": "medium",
+    "author": "http404error",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a proposed unit that could produce early Gauss Charges cheaply; http404error argued the concept is trash to rush a Conduit for because early attack is punished if the opponent walls in time.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A unit that converts unspent tech resources (Green, Blue, Red) into attackers or tokens synergizes dangerously with Animus because Animus produces 2 Red per turn, making such a converter effectively give Animus the offensive output of a Shadowfang at a fraction of the cost.",
+    "units": [
+      "Animus",
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "xyotsuba",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community evaluation of a hypothetical 'Tech Engine' unit during the unit design contest; players noted the dangerous Animus synergy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Introducing a special attack type that targets units directly (rather than pooling into the shared attack resource) would require tracking two separate attack numbers and forcing discrete targeting decisions on every click, adding prohibitive UI and cognitive complexity.",
+    "units": [],
+    "confidence": "high",
+    "author": "wiwiweb",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a proposed 'Machine Gun' unit with a direct-damage attack type; wiwiweb explained why splitting attack into multiple types breaks the core resource-pooling mechanic.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Freeze/Chill is considered a cleaner and more powerful design space than direct damage for targeted unit removal; Chill already functions as a sniper-like tool when concentrated on a single blocker, making a new direct-damage mechanic largely redundant.",
+    "units": [
+      "Cryo Ray"
+    ],
+    "confidence": "medium",
+    "author": "http404error",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of the Machine Gun unit's direct-damage mechanic; http404error argued freeze is the better version of the same design concept.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

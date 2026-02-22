@@ -1,0 +1,418 @@
+[
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "In Prismata community analysis, a unit can be considered a 'drone analog' if it generates gold every turn without restrictions AND consumes at least one energy over its lifetime. This energy requirement is what distinguishes true drone analogs from other gold-generating units, since energy cost is what prevents unlimited early drone-buying (e.g., 'DD DD DDDD'). Candidates include Thorium Dynamo, Blood Phage, Auric Impulse, and Galvani Drone, while Manticore and Centrifuge are excluded by this definition.",
+    "units": [
+      "Thorium Dynamo",
+      "Galvani Drone",
+      "Manticore"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion about which units can be considered 'drone analogs' that generate gold every turn, prompted by jeacaveo's question about classifying non-Drone gold generators.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Absorbing on Lancetooth is roughly equivalent in abstract value to absorbing on Steelsplitter (-1 absorb, +1 damage vs Wall). However, the choice between blue absorbers is primarily driven by tempo: absorbing on Lancetooth instead of Wall can enable significantly better purchases that turn, which may outweigh the small abstract value difference, particularly when paired with Xaetron (where alternating Xae/Lancetooth absorbs lets Xaetron recharge properly).",
+    "units": [
+      "Steelsplitter",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Multi-thread discussion about the strategic value of absorbing on Lancetooth vs Wall vs Steelsplitter, including tempo considerations when paired with Xaetron.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding Omega Splitter to absorb instead of soaking on Wall is a significantly larger tempo sacrifice (+3 damage, -3 absorb, -6 tempo) compared to absorbing on Lancetooth vs Wall (+1 damage, -1 absorb, -1 tempo). The much larger magnitude means Omega Splitter absorb requires much stronger justification than Lancetooth absorb.",
+    "units": [
+      "Omega Splitter",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "p0lari",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "p0lari quantifying the tempo cost differences between various blue absorber choices compared to soaking on Wall.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Centurion is considered by some experts to make games less interesting by trivializing the tech base decision, one of the most important strategic choices in Prismata. However, awaclus argues the opposite: Centurion games are more balanced because neither player inherently has a clearly stronger position, whereas asymmetric games often result from one player accessing a dominant strategy while the other is forced into an inferior build.",
+    "units": [
+      "Centurion"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Debate between masn6811 and awaclus about whether Centurion needs a nerf and whether Centurion games are strategically interesting.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Centurion constrains rather than expands strategic options: buying double Wall and double Tarsier costs 18 gold and requires production from double Blastforge and Animus, meaning you need more than 18 Drones to have meaningful strategic choice beyond Centurion's forced tech commitments, unless cheap advanced set units are available.",
+    "units": [
+      "Centurion",
+      "Wall",
+      "Tarsier",
+      "Blastforge",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ countering zera777's claim that Centurion enables more strategies by pointing out it forces specific tech infrastructure commitments.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Shadowfang combined with Mobile Animus is a powerful enough strategy that it can render units like Zemora Voidbringer, Omega Splitter, Valkyrion, and Colossus non-viable in the same set, as demonstrated in practice games. The combination requires approximately 13 gold per turn to sustain Shadowfang sponsoring.",
+    "units": [
+      "Shadowfang",
+      "Zemora Voidbringer",
+      "Omega Splitter",
+      "Colossus"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": "+rdm1-E8C4a",
+    "context": "velizar_ and zera777 played test games to evaluate Shadowfang+Mobile Animus vs Zemora strategies, with Shadowfang winning.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Shadowfang is considered a high-inflation unit that loses value faster than other attackers as the game progresses, meaning its relative strength diminishes significantly in longer games.",
+    "units": [
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "masn6811 explaining why Shadowfang is categorized as a high-inflation unit in the context of unit classification discussions.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The damage indicator in Prismata overcounts potential attack because it does not account for units that require resources to attack (e.g., Zemora Voidbringer, Wincer, Cauterizer, Drake, Perforator, Smorcus) or units with limited ammo. Fixing this accurately is extremely complex because it requires calculating optimal resource allocation across all attackers, and undercounting would be worse than overcounting. The developers chose the simpler always-overcount approach intentionally.",
+    "units": [
+      "Zemora Voidbringer",
+      "Wincer",
+      "Cauterizer",
+      "Drake"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "flakmaniak requested more accurate damage indicators; awaclus and others explained why the current overcounting approach was deliberately chosen.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prismata deliberately avoids printing units that cost gold to attack, because gold-cost attackers create resource loops that are problematic for game design and the undo system. This is an explicit design principle, documented in a developer video.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "amalloy explaining to velizar_ why no unit costs gold to attack, referencing an official developer video about resource loops.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays poorly with Doomed Drone: it does not hold Doomed Drones on 1 lifespan for defensive purposes nearly enough, and will instead build Forcefields when holding a Doomed Drone would be more efficient. This was confirmed by multiple players.",
+    "units": [
+      "Doomed Mech",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "flakmaniak",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "flakmaniak observed the pattern across multiple games as P2 with Doomed Drone in the set; wilson0862 confirmed it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "flakmaniak",
+    "report_date": "2020-04-20"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot cannot effectively defend against Smorcus rushes, including both a 'crazimus' Smorcus rush and an 'Elyot animus' Smorcus rush. In Smorcus sets, the bot defaults to a fast Animus build even when a Drone Grid is available, which masn6811 identifies as a mistake.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "masn6811 describing specific MB weaknesses in a discussion about which units to ban when practicing against Master Bot.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot only uses 'Q defense' (blocking optimally to minimize damage taken) and never accepts non-obvious gambits. It assumes the human player will also Q-defend, making it exploitable by sacrificial attacks such as Rhino-onto-Wall or Wall-onto-Rhino gambits that a human would accept but MB will not, even if accepting would let it breach the opponent's Drone Grid.",
+    "units": [
+      "Rhino",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "masn6811 explaining the bot's defensive decision-making model and how it creates exploitable patterns with gambit attacks.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not understand the concept of denying absorb: it will not use attack-costing units, click Thermite Core, or activate Auric Impulse specifically to deny an opponent's absorb opportunity. It also does not deny granularity (e.g., it will not hold a Steelsplitter to prevent an opponent from buying a key unit at an awkward resource level).",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "masn6811 and velizar_ discussing the bot's inability to exploit absorb denial and granularity denial as offensive concepts.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot's exploit detection algorithm clicks all available attackers, then checks if it can unclick some while still achieving the same breach result. This means it can find simple exploits but misses complex ones requiring suboptimal immediate damage to set up future breaches, or exploits that require holding units strategically.",
+    "units": [],
+    "confidence": "high",
+    "author": "p0lari",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "p0lari describing the exact algorithmic approach Master Bot uses for exploit decisions during the bot weakness discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "p0lari",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays poorly with all freeze units: it wastes freeze abilities and misses opportunities to exploit opponent defenses using freeze. It is particularly poor with limited-use freeze units, slightly better with continuous freeze like Iceblade.",
+    "units": [],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ listing MB weaknesses by unit type in a discussion about which units to ban when using MB as a practice opponent.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not buy Infusion Grid even when it is the strategically correct purchase. velizar_ notes it is a good unit that the bot should buy but doesn't.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ commenting on specific units the bot fails to purchase correctly during a discussion of MB weaknesses and which units to ban for bot practice.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot snipes opponent Conduits with Kinetic Driver too early (before it is strategically correct), wasting the sniping ability on targets that do not justify the tempo loss at that point in the game.",
+    "units": [
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ listing specific MB misplays by unit type during a discussion about creating a ban list for bot practice.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot misplays Grimbotch by purchasing it too frequently, and misplays Rhino in unspecified ways. It also misplays Tia Threnody inconsistently: sometimes buying it against excessive defense (making it ineffective) and sometimes failing to defend against opponent Tia Threnody properly.",
+    "units": [
+      "Grimbotch",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ and masn6811 enumerating Master Bot misplays by specific unit during a bot practice ban-list discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not use Auric Impulse correctly; however, since Auric Impulse has low strategic impact, this weakness has minimal effect on game outcomes.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ and randomflyingtaco discussing which units to ban when practicing against MB, noting Auric's misplay has low impact.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not correctly use Resophore and does not appear to understand its strategic application.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ enumerating specific unit misplays by Master Bot during a ban-list discussion for bot practice.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot misplays Vivid Drone sets: it will sometimes run out of Drones to hold and then get breached through Vivid Drone interactions.",
+    "units": [
+      "Vivid Drone"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ and randomflyingtaco debating whether Vivid Drone should be on MB ban lists for practice, with velizar_ noting the specific failure mode.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot makes a specific poor opening with Doomed Drone: as P1, it plays DD turn 1, then turn 2 buys two Doomed Drones and nothing else, floating 4 gold. This has been directly observed by flakmaniak.",
+    "units": [
+      "Doomed Mech"
+    ],
+    "confidence": "high",
+    "author": "flakmaniak",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "flakmaniak directly observing and reporting a specific MB opening misplay with Doomed Drone.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "flakmaniak",
+    "report_date": "2020-04-23"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Master Bot is competent with small red units like Grimbotch and Vore, defaulting to a fast Animus build. However, it cannot defend against aggressive Smorcus rushes (including Elyot Animus Smorcus rush or Crazimus Smorcus rush), making Smorcus rush a reliable exploit strategy against it.",
+    "units": [
+      "Grimbotch"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "masn6811 identifying specific MB strengths and weaknesses with red units, confirming Smorcus rush as a viable exploit.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "Offering gambit attacks that require accepting a Rhino-onto-Wall or Wall-onto-Rhino sacrifice is a reliable exploit against Master Bot because it will always keep its defensive units rather than accept such gambits, even when accepting would enable a breach of the opponent's key infrastructure like Drone Grid.",
+    "units": [
+      "Rhino",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "masn6811 explaining how the bot's Q-defense-only model can be exploited by human gambit play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2020-04-21"
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Community members have requested that Master Bot be improved to: (1) correctly hold Doomed Drones on 1 lifespan for defense, (2) understand and execute absorb denial, (3) understand granularity denial, and (4) correctly handle freeze units. These are viewed as the most impactful gaps in MB's play.",
+    "units": [
+      "Doomed Mech"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Extended discussion across multiple threads about MB weaknesses and what improvements would most benefit the bot's play quality.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "flakmaniak",
+    "report_date": "2020-04"
+  }
+]

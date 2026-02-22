@@ -1,0 +1,162 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "The 'TotallyInsane' bot (internally named 'BL_Rush_Dumb') is programmed to not prioritize defending, making it exploitable by aggressive strategies that apply early pressure.",
+    "units": [],
+    "confidence": "medium",
+    "author": "kristian1103",
+    "date": "2018-05-24",
+    "replay_code": null,
+    "context": "Discussion about bot rankings and bot behavior in casual queue, where wiwiweb revealed the internal name of the TotallyInsane bot.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "kristian1103",
+    "report_date": "2018-05-24"
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Grimbotch is generally superior to Steelsplitter over a 4-turn window because it soaks for 2 on its last turn of life, providing significantly higher inflation at roughly 2 gold cheaper than Steelsplitter when accounting for blue vs red resource differences. The question is usually why you would buy Steelsplitter over Grimbotch, not the reverse.",
+    "units": [
+      "Grimbotch",
+      "Steelsplitter",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-05-25",
+    "replay_code": null,
+    "context": "Community discussion comparing Grimbotch vs Steelsplitter/Rhino for new players trying to assess doomed units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Grimbotch is better than Rhino if prompt is not needed, and costs 1 less gold. When absorbing, Grimbotch combined with Wall is preferable to Steelsplitter alone, though Steelsplitter becomes better if you expect to absorb on it beyond 4 turns.",
+    "units": [
+      "Grimbotch",
+      "Rhino",
+      "Steelsplitter",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-05-25",
+    "replay_code": null,
+    "context": "Extended discussion on Grimbotch vs Steelsplitter/Rhino comparisons, with multiple community members agreeing on Grimbotch's general superiority.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Grimbotch's 2B-R cost generates so much value in 4 turns that it is roughly equivalent to a Steelsplitter over that window, but the 2 soak on its last turn of life provides defensive tempo that can enable additional purchases, making it effectively higher inflation than Steelsplitter for the same timeframe.",
+    "units": [
+      "Grimbotch",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05-25",
+    "replay_code": null,
+    "context": "Multiple experienced players (namington, jiecut, and a deleted user) all converged on this evaluation of Grimbotch's value proposition.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot uses alpha-beta search with playouts evaluated by a simpler bot similar to Adept Bot, and its move quality can vary between the web and desktop clients because the desktop version runs native C++ code (much faster) while the web version runs ActionScript, potentially limiting how deeply the AI can search within its time limit.",
+    "units": [],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-06-11",
+    "replay_code": null,
+    "context": "Discussion about whether Master Bot is deterministic and why it sometimes makes different moves on the same position between web and desktop clients.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "mtanzer",
+    "report_date": "2018-06-11"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Master Bot is deterministic in principle: it uses the current board state alone to decide its move and is indifferent to the order in which the human player executed moves on their turn to reach that state. Observed non-determinism between platforms is attributable to variance in compute time available per turn, not true randomness.",
+    "units": [],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-06-11",
+    "replay_code": null,
+    "context": "mtanzer clarifying AI architecture after community members tested whether build order within a turn affects bot responses.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Going for a third Engineer and high economy without building attackers early is a common beginner mistake; even Tarsiers can be enough pressure to punish an over-economied opponent who neglects early aggression.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2018-06-04",
+    "replay_code": null,
+    "context": "shadourow commenting while sharing introductory strategy resources with a new player asking for beginner guidance.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Unit positioning on the board follows deterministic rules: click units occupy the middle row, unclickable blockers go in front, unclickable non-blockers go in the back, with Frontline units always being at the very front. Within each row, position is determined by the unit's designated 'part' of the row and then by purchase order left to right.",
+    "units": [],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-06-04",
+    "replay_code": null,
+    "context": "namington answering a player's question about unit positioning rules within rows on the board.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Drones, Engineers, and the Conduit/Blastforge/Animus trio (CBA) always position far left within their row. Other units have their own designated sub-sections of a row, with left-to-right ordering within that section determined by build order.",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Conduit",
+      "Blastforge",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "namington",
+    "date": "2018-06-04",
+    "replay_code": null,
+    "context": "namington elaborating on the specific positional rules for base-set units within board rows.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Multiple bots (BottyMcBotFace, HitQ2MakeItRain, CaptainTryhard, HavoCRusheR) all display as Tier IV 86% in Giselle replay info despite having wildly different internal ratings, suggesting the displayed tier is a default placeholder rather than a reflection of actual bot strength.",
+    "units": [],
+    "confidence": "medium",
+    "author": "jamesa7171",
+    "date": "2018-05-24",
+    "replay_code": null,
+    "context": "Community members noticing inconsistency between displayed tier ratings and known internal bot ratings when reviewing replays in Giselle.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "jamesa7171",
+    "report_date": "2018-05-24"
+  }
+]

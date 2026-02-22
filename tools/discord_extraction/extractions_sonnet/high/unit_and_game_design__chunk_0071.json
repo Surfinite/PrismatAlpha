@@ -1,0 +1,233 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Granted (constructed-for-opponent) units have the same properties they would have if bought, unless explicitly stated otherwise. For example, a unit that constructs a Tarsier for the opponent must explicitly specify buildtime 1 if that is intended, otherwise the Tarsier uses its default buildtime.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2023-02",
+    "replay_code": null,
+    "context": "Discussion of homebrew unit design where masn6811 clarifies default properties of constructed/granted units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Click-based 'for each' effects are not commutative with other game actions: if a unit grants gold equal to the number of unclicked drones, clicking the ability before drones yields more gold than clicking drones first. To avoid this exploit, such effects should be implemented as start-of-turn abilities rather than click abilities.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "randomflyingtaco",
+    "date": "2024-03",
+    "replay_code": null,
+    "context": "Discussion of a homebrew unit whose click ability scales with unclicked drones, revealing an ordering exploit.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Vigilant only applies to start-of-turn abilities, not click abilities. A unit with a click-based Chill effect cannot be made Vigilant to automate that effect.",
+    "units": [],
+    "confidence": "high",
+    "author": "randomflyingtaco",
+    "date": "2023-10",
+    "replay_code": null,
+    "context": "Discussion of a homebrew Iceberg unit with a click-based Chill ability, where Vigilant was proposed as a modification.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In big red (heavy red tech) strategies, giving the opponent Gauss Cannons via a 'when bought' effect is particularly damaging because: (a) the opponent attacks first, making their extra attack more valuable than your own, and (b) as big red you generally do not want to trade damage. This makes the drawback of opponent-gifting attack units worse for red than for other archetypes.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2023-02",
+    "replay_code": null,
+    "context": "masn6811 playtesting a homebrew unit that constructs a Gauss Cannon for the opponent when bought, analyzing why this is particularly bad for big red.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In high-inflation big red games, getting Conduit for Forcefield is more important than pursuing Wall absorb, because inflation makes the value of defense relatively higher and Wall absorb lines can be overtaken by the opponent's attack scaling.",
+    "units": [
+      "Conduit",
+      "Forcefield",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2023-02",
+    "replay_code": null,
+    "context": "masn6811 analyzing playtesting results for a homebrew unit that causes high inflation by gifting opponent Gauss Cannons.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Apollo is considered quite efficient for its cost by some experienced players; the main issue with Apollo sets is the requirement for a third Blastforge rather than Apollo itself being inefficient. If a third Blastforge is warranted for other reasons (e.g., Infusion Grid), Apollo becomes close to a must-buy.",
+    "units": [
+      "Apollo",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes.",
+    "date": "2023-03",
+    "replay_code": null,
+    "context": "Discussion of the cost-efficiency of a homebrew unit that protects backline units, leading to comparison with Apollo's value proposition.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Drake is not primarily a Blastforge sink in practice: unless you are actively breaching, you are incentivized to build more Drakes rather than click existing ones, because more Drakes threaten more damage. Treating Drake as a forge sink also limits the real threat it can generate.",
+    "units": [
+      "Drake",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Discussion of Drake's role in Apollo sets and whether it serves as a Blastforge sink.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Clicking Drake to destroy a Rhino is considered worth it by some players, even though accumulating more Drakes for threat is often preferred over clicking them.",
+    "units": [
+      "Drake",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes.",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Discussion of when it is correct to click Drake in an Apollo/Drake set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Hellhound and Pixie, buying Pixie is motivated by granularity exploits rather than as a Blue tech sink. Units should be evaluated in terms of their primary strategic role rather than as incidental resource sinks.",
+    "units": [
+      "Pixie"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2023-04",
+    "replay_code": null,
+    "context": "Discussion of how to evaluate units in context, using Hellhound+Pixie as an example to illustrate that sink reasoning can be misleading.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "A hypothetical 3R buildtime-2 Grimbotch variant is considered likely base-set viable by silentslayers and pikachumemes because it allows P1 to spend both red on the turn after a natural Animus without wasting resources, provides red-sink value analogous to a Rhino, and has comparable total attack output if it completes its full lifespan. However, awaclus and silentslayers note it is not a certainty, particularly questioning whether it beats Fastimus.",
+    "units": [
+      "Grimbotch",
+      "Animus",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2023-05",
+    "replay_code": null,
+    "context": "Community discussion evaluating whether a cheaper, higher-buildtime Grimbotch variant would see play in base set, focusing on red-sink utility and comparison to fastimus lines.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Immolite becomes more efficient than Tarsier at an inflation multiplier of approximately 1.38, making it a strong red sink specifically at high inflation. A hypothetical 3R buildtime-2 Grimbotch requires inflation of approximately 1.5 to exceed Tarsier efficiency (ignoring defensive soak value), though soaking for 2 on its final lifespan adds value not captured by this calculation.",
+    "units": [
+      "Tarsier",
+      "Grimbotch"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes.",
+    "date": "2023-05",
+    "replay_code": null,
+    "context": "Quantitative inflation breakeven analysis comparing red attack units during discussion of a Grimbotch variant.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "A buildtime-2 soak unit (in the context of homebrew unit discussion) likely needs to cost in the same ballpark as Aegis, because by the time opponents are attacking for enough to trigger absorb value (12+ damage), inflation is typically 1.41 or higher, meaning the adjusted cost of the soak doubles relative to its base cost.",
+    "units": [
+      "Aegis"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2023-10",
+    "replay_code": null,
+    "context": "Homebrew unit balance discussion about the appropriate cost for a buildtime-2 blocking/soak unit, using inflation-adjusted value reasoning.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "The Prismata AI source code (C++ engine) was released publicly by Lunarch Studios via GitHub (davechurchill/PrismataAI). It includes an offline GUI for playing against the AI and supports adding custom units via JSON, allowing homebrew unit playtesting against the bot. The released version is noted to be slightly older than the live server version.",
+    "units": [],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2023-02",
+    "replay_code": null,
+    "context": "Discussion of how to playtest homebrew units, with crash_overlord sharing the public GitHub link for the Prismata AI engine.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Semi-breachproof strategies are only as strong as their weakest link: protecting a single high-value unit (e.g., Cynestra) with a breachproof effect is largely ineffective if other vulnerable units remain, since the opponent can simply breach through those instead.",
+    "units": [
+      "Cynestra"
+    ],
+    "confidence": "high",
+    "author": "lyra1712",
+    "date": "2023-02",
+    "replay_code": null,
+    "context": "Discussion of a homebrew unit that grants 20 Fragile HP to a single non-defender, evaluating whether targeted breachproof protection is strategically useful.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

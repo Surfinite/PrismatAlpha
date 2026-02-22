@@ -1,0 +1,100 @@
+[
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "A bot (MoMoney) bought 9 Mobile Animuses, clicked them all, and spent only 2 red total across the entire game. Elyot investigated and found that a Mobile Animus buy limit added to the default limits was being overridden or ignored, likely due to details in Dave's code that Elyot did not fully understand.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-06",
+    "replay_code": "qJ0Jm-6@Sfb",
+    "context": "amalloy reported the bot massively over-buying Mobile Animuses and Elyot confirmed the buy limit was not working as intended.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-06-28"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "A bot (DrivenUpTheWall) passed its turn while floating 21 gold, which is a strict misplay since the most expensive unit costs 20 gold. The bot had built all available Drones, Engineers, and several Militias, then stopped purchasing anything after running out of Walls.",
+    "units": [
+      "Wall",
+      "Drone",
+      "Militia"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "awaclus observed a bot floating 21 gold and doing nothing, noting it as an obvious misplay given unit costs.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "awaclus",
+    "report_date": "2018-06-27"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tarsier and Bloodrager derive much of their value from denying opponent absorb; without absorb denial, both are relatively weak attackers, making absorb denial a key contextual factor when evaluating small red attackers.",
+    "units": [
+      "Tarsier",
+      "Bloodrager"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion comparing Bloodrager to Tarsier, with multiple players agreeing their strength is heavily tied to absorb denial.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a Drone+Savior-only set, the game likely resolves as a draw due to limited Engineer supply capping total drone counts; P1 must buy Savior by turn 2 or they lose, and P2's optimal T1 Savior is also not winning due to insufficient drones to overcome the opponent's Savior.",
+    "units": [
+      "Drone",
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Theoretical analysis of a hypothetical set containing only Drone and Savior as purchasable units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In wall-absorb sets, buying the first 'hippo' unit (contextually an unnamed unit with stamina) at 1 stamina is recommended by apooche, as it smooths the train tempo and provides earlier defensive tempo, with a Wall likely already in play before the train completes.",
+    "units": [],
+    "confidence": "medium",
+    "author": "totally_not_fbi",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion of a new unit with a stamina mechanic, with apooche's advice on leaving the first copy at 1 stamina being relayed and agreed upon.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Even with supply-1 restrictions, Bloodrager would still be worth purchasing as a singleton since players rarely build more than 5 in practice anyway, except in unusual synergy sets like with Thermite.",
+    "units": [
+      "Bloodrager"
+    ],
+    "confidence": "medium",
+    "author": "namington",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Discussion about how supply limits would affect Bloodrager's value, with namington noting typical quantities purchased.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

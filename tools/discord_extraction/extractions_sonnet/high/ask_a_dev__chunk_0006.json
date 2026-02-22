@@ -1,0 +1,129 @@
+[
+  {
+    "category": "MB_COMPARISON",
+    "insight": "BottyMcBotFace is over 100 rating points stronger than Master Bot in casual match play. It uses Master Bot's engine but augments it with a large opening book of strong rushes, and employs alpha-beta pruning to decide between rush and normal Master Bot builds.",
+    "units": [],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Developer elyot investigated casual match bot matchmaking quality after player complaints about being matched with weak bots.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Among casual match bots, the strongest tier includes BottyMcBotFace and variants of Master Bot with adjusted opening books. Bots like 'deep_drone' and 'Masterbot2016' were considered the best of the remaining casual bots, with Masterbot2016 being roughly comparable to modern ExpertBot.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Community discussion about which casual match bots were strongest, following elyot's investigation into matchmaking quality.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "According to Steel, casual match bot matchmaking was completely random rather than skill-based, and all casual bots were weaker than Master Bot. deep_drone and Masterbot2016 were considered the best of the casual bots, as they at least made semi-reasonable openings.",
+    "units": [],
+    "confidence": "medium",
+    "author": "steel0229e",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Steel disagreed with elyot's claim that matchmaking would prioritize stronger bots for stronger players, stating the system was fully random.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "steel0229e",
+    "report_date": "2018-04"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot (and other casual AI bots) can run out of time during their turn and then continue taking their turn indefinitely, causing the game to display a 'lost contact with the prismata AI thread' error. This was reported as occurring in both casual play and Master Bot games.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "masn6811 reported a recurring issue where the AI would run out of time and still keep taking its turn, with the error message persisting even after page refreshes.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "masn6811",
+    "report_date": "2018-04-25"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "In the campaign puzzle 'Cryo Tactics II', a solution involving getting 4 Cryo Rays and freezing the Xeno unit only works due to bot misbehavior: the bot soaks on a Borehole Patroller instead of both shield barriers, meaning this solution would fail if the bot played correctly. The game's ending tip implies this bot-dependent solution is the intended one.",
+    "units": [
+      "Cryo Ray",
+      "Borehole Patroller"
+    ],
+    "confidence": "high",
+    "author": "p0lari",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "apooche raised the issue that 'Cryo Tactics II' has two solutions, one of which only works due to bot misbehavior, and that the ending tip misleadingly implies the bot-dependent solution is intended.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "apooche",
+    "report_date": "2018-04-14"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Exhaust 2 on a unit with a Turn ability (such as Iso Kronus) results in only 1 lost turn of that Turn ability, because the unit receives its Turn ability on the same turn it is given Exhaust 2. A click-exhaust works identically to any other exhaust mechanically.",
+    "units": [
+      "Iso Kronus"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about how Exhaust 2 interacts with Turn abilities, prompted by a question about Iso Kronus.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When a Valkyrion (or similar unit) creates a unit for the opponent without a buildtime (golden clock), and the player has already assigned overkill damage to a frontline unit, clicking Valk causes the damage to remain on the overkilled unit but prevents re-assigning that overkill until the barriers are killed. This is a UI/interaction edge case distinct from Blood Pact or Arms Race, which create opponent units with a golden clock.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "masn6811 discovered and described a specific interaction where overkill assignment becomes locked after clicking a unit that creates an opponent unit without buildtime.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Units created by Mobile Animus (such as Rhino) that have prompt click abilities are visually indistinguishable from existing same-turn units in some cases, causing confusion about which unit can be clicked. The clickable one has a green highlight, but community members and developers agreed this was an unintuitive UI issue worth addressing. A similar issue exists for barriers created by Asteri and units from Blood Pact and Corpus.",
+    "units": [
+      "Rhino",
+      "Corpus",
+      "Blood Pact"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Multiple community members and developer elyot discussed the UI ambiguity of prompt-created units lacking a distinguishing visual indicator, with examples including Rhino from Mobile Animus and barriers from Asteri.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  }
+]

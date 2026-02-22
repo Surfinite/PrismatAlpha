@@ -1,0 +1,339 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When struggling to defend and holding Drones every turn while buying a Conduit for Forcefields, purchasing more Drones is a bad investment. There is a strategic mismatch between continuing to expand economy and needing to focus on defense.",
+    "units": [
+      "Drone",
+      "Conduit",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2021-12",
+    "replay_code": null,
+    "context": "spiritfryer reviewing a game where the player opened Splitter, floated energy, then kept droning despite being under heavy pressure.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against a Drake threat backed by 2 Blastforge clicks, gambiting for exact damage on Wall absorb is often correct. Fully defending that threat likely gives you the worse side of the trade. However, with Fission Turrets on the field, do not gambit beyond exact; with only Drones on field, gambiting for +1 may be acceptable.",
+    "units": [
+      "Drake",
+      "Blastforge",
+      "Wall",
+      "Fission Turret",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2021-12",
+    "replay_code": null,
+    "context": "spiritfryer analyzing a game with 3 Drakes and 2 Blastforges, advising on gambit sizing vs absorb.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying a Drake without an accompanying Blastforge can be strategically valid because it saves on the most underrated resource: the timer. Drakes do not need to be clicked each turn unlike Steelsplitters, freeing up action time. Additionally, if an opponent can kill two Drakes, they may subsequently drop below the 4 attack needed to kill further Drakes.",
+    "units": [
+      "Drake",
+      "Blastforge",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2021-12",
+    "replay_code": null,
+    "context": "Discussion about whether buying Drake without Blastforge is ever better than double Splitter, with velizar_ arguing the timer resource justifies it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "If an opponent has only 3 attack they cannot kill a Drake, and if you already have a Steelsplitter to hold the threat, an additional Drake may be worth more than another Splitter in that position.",
+    "units": [
+      "Drake",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2021-12",
+    "replay_code": null,
+    "context": "jamberine contributing to the Drake-without-Blastforge discussion, noting the attack threshold to kill a Drake.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In bullet (fast time control) games, manipulating the opponent's attack counter is significantly more valuable than accumulating additional Steelsplitters.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2021-12",
+    "replay_code": null,
+    "context": "awaclus commenting on the Drake vs Splitter discussion in the context of bullet game time controls.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "A Steelsplitter float on turn 1 (instead of Militia + Drone) can be used specifically to force Master Bot to build a Wall instead of a Militia, manipulating its defensive decision-making in the opening.",
+    "units": [
+      "Steelsplitter",
+      "Militia",
+      "Wall",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "stacko",
+    "date": "2021-12",
+    "replay_code": null,
+    "context": "stacko admitted the Splitter float opening was intentionally used to force Master Bot into building Wall instead of Militia.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "stacko",
+    "report_date": "2021-12-20"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Master Bot uses Plexo Cell instead of absorbing damage, representing a specific suboptimal decision in resource/defense management.",
+    "units": [
+      "Plexo Cell"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2021-12",
+    "replay_code": "WIXwx-YsqV+",
+    "context": "velizar_ shared a replay explicitly noting the bot uses Plexo Cell instead of absorb.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2021-12-25"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is not good at planning and makes awful plays frequently, including poor openings such as D1 DDB and buying tech for advanced-set units with no coherent plan. It should not be used as a learning resource for strategic decision-making.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2022-05",
+    "replay_code": null,
+    "context": "amalloy explaining Master Bot's generally poor play after someone asked why it made an inexplicable opening, with spiritfryer agreeing learners should use GM bots instead.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2022-05-30"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot occasionally resigns from drawn or even winning positions, representing a significant evaluation error.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "amalloy listing known Master Bot deficiencies when discussing whether the bot should be improved to avoid resigning early.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2022-01-08"
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Master Bot needs to learn to properly use Infusion Grid; the community notes it fails to utilize this unit correctly.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2022-04",
+    "replay_code": null,
+    "context": "velizar_ posted a brief complaint that Master Bot needs to use Infusion Grid.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2022-04-29"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wild Drone, Galvani Drone, and Vivid Drone can make the standard turn 1 double-Drone opening incorrect. Vivid Drone in particular can enable faster advanced-unit builds such as an early Zemora Voidbringer (e.g., Vivid + Conduit on turn 1 as P1).",
+    "units": [
+      "Wild Drone",
+      "Galvani Drone",
+      "Vivid Drone",
+      "Drone",
+      "Conduit",
+      "Zemora Voidbringer"
+    ],
+    "confidence": "high",
+    "author": "pikachumemes.",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "Discussion about whether turn 1 DD is always correct, with pikachumemes noting specific drone variants that change the calculus.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When deciding between buying Tarsier or two Engineers after an Antima Comet click, consider whether you are trying to push above absorb immediately or delay. Two Antima Engineers killing two Drones is preferred over Tarsier; killing one Drone may prefer Tarsier if rushing above absorb. If Engineers only force non-Forcefield prompt soak, Tarsier is generally better if you are going above absorb.",
+    "units": [
+      "Tarsier",
+      "Engineer",
+      "Antima Comet",
+      "Drone",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "spiritfryer giving nuanced guidance on Antima Comet click follow-up decisions regarding Tarsier vs Engineer purchases.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Absorb is vastly more efficient than Tarsier at soaking damage early game. In general, two Drones are roughly equal to a Tarsier early on, but a Tarsier becomes better than two Drones later. The key constraint is that absorb dominates Tarsier, so a Tarsier's value depends on how you plan to get past absorb.",
+    "units": [
+      "Tarsier",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "spiritfryer",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "spiritfryer providing a general valuation framework for Tarsier vs Drones in the context of a Rhino vs Tarsier discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Whether to click Xaetron depends on how much threat must be defended and what the turn looks like with and without the click. If Xaetron's damage is mostly going into absorb (e.g., opponent has Wall or better soak), do not click it unless you do not need the Xaetron's HP this turn and next turn.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "Discussion about when to click Xaetron in a thermite-heavy game state.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Chill target selection is NP-hard in the general case, equivalent to a knapsack-type problem, making exact computation of maximum chill damage infeasible without testing all possibilities. As a result, the game's chill estimate intentionally overestimates rather than risks underestimating, which is the safer design choice.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "Multi-person discussion about the chill estimate UI tool and why it overestimates in complex cases involving units like Vai Mauronax, Nivo, and Cryo Ray.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When an opponent has a Gauss Cannon charge generated by Cluster Bolt that breaches you, if they have a choice of targeting, assume they press Q and take the default action rather than optimizing the selection.",
+    "units": [
+      "Gauss Cannon",
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "xnor_gate",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "xnor_gate giving practical advice on how to model opponent decisions when they have reactive choices from Cluster Bolt-generated Gauss charges.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Firing Wincer solely to kill soak without threatening to fire it again next turn is generally incorrect; the value of Wincer comes from the ongoing threat it creates, not just the immediate damage.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "amalloy responding to a complaint about supply limits preventing Wincer from firing again, explaining that firing it just for soak without repeat threat is wrong.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Wacky Bot occasionally plays the optimal move by chance, meaning every player, including strong ones, can make plays worse than Wacky Bot at some point.",
+    "units": [],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "Lighthearted exchange between velizar_ and awaclus about Wacky Bot's random nature occasionally producing optimal moves.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A Gauss Cannon charge can force an opponent to hold a Drone rather than developing economy, giving it pressure value beyond direct damage, which makes the Gauss Cannon play non-trivially comparable to buying a Tarsier in some Antima Comet follow-up situations.",
+    "units": [
+      "Gauss Cannon",
+      "Drone",
+      "Antima Comet",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "shadourow noting that a Gauss charge's value includes forcing drone holds, contributing to the Antima follow-up discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Chill estimate overestimation problems in the UI are most severe in complex combinations such as Vai Mauronax + Nivo + Iceblade + Cryo Ray together, rather than simpler cases like Nivo + Cryo Ray alone.",
+    "units": [
+      "Vai Mauronax",
+      "Cryo Ray"
+    ],
+    "confidence": "medium",
+    "author": "awoodokehu",
+    "date": "2022-01",
+    "replay_code": null,
+    "context": "awoodokehu clarifying which combinations cause the worst chill overestimation issues in the game's estimate tool.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

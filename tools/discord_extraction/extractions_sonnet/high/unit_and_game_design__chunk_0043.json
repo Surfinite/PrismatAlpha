@@ -1,0 +1,152 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When using a red-clicking unit (contextually a unit that spends red mana via click for attack), clicking early can cause you to run out of clicks and float red in the late game when red is less useful. The recommended pattern is to buy multiple copies first to sustain clicking across turns, similar to the 'buy, buy, double click, double click' rhythm used with Cynestra.",
+    "units": [
+      "Cynestra"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about optimal timing and rhythm for clicking a red-resource-consuming unit in the context of an unnamed unit with a red click ability.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Scorchilla is considered unplayable in base-set-only games (BS1) primarily because CBA (Conduit-Blastforge-Animus) is already too much tech investment, and Scorchilla compounds this with a heavier gold cost, larger unit size that doesn't offset the clunkiness, and worse late-game tech value than Rectifier (which gains significant value from being a blocker).",
+    "units": [
+      "Scorchilla"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of why Scorchilla is not viable in base-set games, comparing it unfavorably to Rectifier.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Frontline combined with Fragile creates an unresolved rules ambiguity: under current engine behavior, a player can only assign attack to a Frontline unit if they can deal lethal damage to it. A Fragile unit with 20 health would require 20 attack to target with Frontline clicks, which is counterintuitive. The issue is described as a UI/engine problem rather than a pure gameplay one, and no Frontline+Fragile unit existed in the game at the time to force a resolution.",
+    "units": [],
+    "confidence": "high",
+    "author": "kaelii",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of a custom unit design featuring both Frontline and Fragile, which exposed an unresolved interaction in the game engine.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prompt as a keyword implies the unit can block immediately (Time 0), but it is mechanically tied to being a Blocker. A non-blocker unit cannot be given Prompt without also being made a Blocker. An alternative formulation for 'attackable while under construction' is to write 'Time: 0' explicitly on the card.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of a custom unit design (Auto-Supply Bot) where the designer wanted the unit to be targetable during construction, prompting clarification of how Prompt interacts with Blocker status.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Doomed Drone's power is partially constrained by its opportunity cost: it can only be purchased when you have spare gold and energy. The phrase 'he bought more Doomed Drones, so he's probably winning' reflects community understanding that Doomed Drone purchases signal economic surplus and a winning position.",
+    "units": [
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": ".jrkirby",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of a custom spell unit (Recrystalize) that allows sacrificing a Drone to gain a Gauss Charge and a Lifespan 3 Doomed Drone, raising questions about whether unrestricted Doomed Drone creation would be overpowered.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Versatile units that can serve multiple roles (e.g., soak, attack, absorb) tend not to be gamebreaking because they don't create runaway player advantages. It is the small, narrowly efficient units that tend to produce lopsided outcomes.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of a custom unit (Sparktron) designed to function as both a soak unit and attacker, with masn noting that versatility itself is a balancing property.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "GGB (Green-Green-Blue) tech on units tends to favor Player 2 in Prismata, because P2's extra gold on turn 1 makes it easier to reach multi-color tech requirements earlier. masn6811 notes this as a design concern when costing units.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of tech color combinations for a custom unit (Sparktron), where masn flags GGB as problematic for P1/P2 balance.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'bt3' is shorthand for 'build time 3' (Time: 3), referring to how many turns a unit takes to become active after purchase. This notation is commonly used in Prismata discussions.",
+    "units": [],
+    "confidence": "high",
+    "author": "valgrim_the_demon",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "A player asked what 'bt3' meant and received a direct clarification in chat.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Grimbotch provides 3 turns of 1 attack plus 2 soak at the end of its lifespan (on turn 4), making it a baseline for comparing Lifespan 3 Frontline attackers. A similar unit without the final-turn soak and with opponent choice over whether to absorb is considered strictly worse than Grimbotch for equivalent or higher cost.",
+    "units": [
+      "Grimbotch"
+    ],
+    "confidence": "medium",
+    "author": "f300xen",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion comparing a custom Lifespan 3 Frontline attacker (Boarserker) to Grimbotch to evaluate relative efficiency.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A unit that deals damage at a cost to itself (sacrificing an attacker to deal damage) is more analogous to a Frostbite/Tatsu Nullifier-style effect than a Thermite Core effect, because Thermite Core generates attack without an opportunity cost from sacrificing an attacker, whereas the former trades attacking power for immediate damage.",
+    "units": [
+      "Tatsu Nullifier"
+    ],
+    "confidence": "medium",
+    "author": "drevoed",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of a custom unit's mechanics comparing it to Thermite Core and Tatsu Nullifier to clarify whether it denies absorb in the same way.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

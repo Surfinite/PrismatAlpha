@@ -1,0 +1,100 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot mishandles Lifespan units such as Grimbotch: it recognizes that having attack is better than not having attack, so it buys Grimbotches, but then fails to click them against the opponent's defense grid because it cannot search deep enough ahead to see their value, causing it to simply hold them unused.",
+    "units": [
+      "Grimbotch"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-11",
+    "replay_code": null,
+    "context": "Discussion in #ask_a_dev about why Master Bot plays Grimbotch worse than even a weak human player.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-11-21"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not search very many turns ahead, causing it to treat Lifespan units as if they were persistent units (e.g., treating Grimbotch like a Tarsier). This shallow search is a systemic weakness affecting any unit whose value depends on future sequencing.",
+    "units": [
+      "Grimbotch",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-11",
+    "replay_code": null,
+    "context": "amalloy confirmed Zera's hypothesis that Master Bot treats Grimbotch like a Tarsier due to limited lookahead depth.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-11-21"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The framing of 'getting a unit first vs. second' is misleading because after a unit is purchased, the game state no longer tracks when it was bought — what matters is only whether you are winning or losing with that unit now. Buying turn 1 Savior and having the opponent also buy turn 1 Savior results in a losing position for you, showing that 'getting it first' is not inherently meaningful.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-11",
+    "replay_code": null,
+    "context": "Extended debate between spiritfryer and mrguy888 about whether getting a key unit before your opponent confers an inherent advantage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Prismata, the goal when timing a unit purchase is to find the first timing at which buying it wins, not the timing that wins by the largest margin. Overly late greedy timings (e.g., 22 Engineers into Antima Comet) are suboptimal because optimal opponent play forecloses them.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-11",
+    "replay_code": null,
+    "context": "apooche clarified the distinction between 'first winning timing' and 'timing that wins hardest' during the first/second unit timing debate.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In a Polywall + Vivid Drone set, combining Polywall with Vivid Drone yields 6 block per turn for 25 gold, compared to 40 gold for 6 block per turn using Walls alone — a significant cost efficiency advantage for the defensive build.",
+    "units": [
+      "Wall",
+      "Vivid Drone"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-11",
+    "replay_code": null,
+    "context": "mrguy888 was commenting on a Polywall + Vivid Drone + Galvani Drone set replay, highlighting the economy of that defensive combination.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When counting 'N-engineer games,' a Galvani Drone purchased on the same turn as an Engineer does not count toward the Engineer count, but a Galvani Drone purchased on a later turn after Engineers are already in play does count. The criterion is whether free energy is available at the start of your turn after clicking all Drones.",
+    "units": [
+      "Galvani Drone"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-11",
+    "replay_code": "EG6@Q-@bbjT",
+    "context": "Discussion of a Vivid Drone + Polywall + Galvani Drone replay where jamberine reached 7-energy turns, prompting clarification of how Galvani Drones interact with engineer-count conventions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

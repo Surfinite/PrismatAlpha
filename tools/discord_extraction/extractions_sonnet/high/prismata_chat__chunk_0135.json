@@ -1,0 +1,164 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, if a position exists where a player could force a draw by never buying or clicking anything, the game provides an explicit option to claim that draw without needing to spend multiple turns doing nothing.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Discussion of a specific board position where a forced draw was available and how the game handles it mechanically.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Shadourow believes P2 T1 Animus wins against all P1 T2 Blastforge openings, citing the flexibility of the 'smorcus' (Doomed Mech) strategy and how easy it is to transition into Wall-based defense from that line.",
+    "units": [
+      "Animus",
+      "Blastforge",
+      "Doomed Mech",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Post-game discussion between shadourow and jamberine analyzing a game where P2 opened T1 Animus with a Doomed Mech smorcus strategy.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Husk provides significant value by preventing the need to hold a Drone back to block an opponent's threat, avoiding both the gold loss of an idle Drone and the loss of an Engineer. Not having Husk available at the right turn can snowball into a loss for the player facing a Doomed Mech threat.",
+    "units": [
+      "Husk",
+      "Drone",
+      "Doomed Mech"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Analysis of whether Husk was necessary in a game featuring Doomed Mech pressure.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Frontline units like Shredder are too easy to defend on their own because the opponent simply kills them; they require a complementary breachproof plan (e.g., Venge Cannon) to be effective aggressors rather than serving as a standalone rush strategy.",
+    "units": [
+      "Venge Cannon"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "A newer player suggested 'Shredder aggro' as a viable strategy; amalloy corrected that frontline-only rushes lose to base set defense.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tarsier is not primarily an aggro unit but a 'value' unit. Its effective cost is higher than it appears because build speed must be counted as part of its cost, and the first two Tarsiers bought tend to be good since the opponent absorbs the attack anyway, but subsequent ones are often mediocre.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Discussion of Tarsier's role after a player mistakenly classified it as an aggro card and considered it cheap.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Among the available bots, Deep Drone is rated higher than BottyMcBotFace. Both are described as Master Bot with a larger opening book, with Deep Drone specifically noted as having a higher rating in bot comparison spreadsheet data.",
+    "units": [],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "A player asked if there was a better AI than Master Bot, leading to a discussion of bot ratings from a shared spreadsheet.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "Deleted User",
+    "report_date": "2020-07"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "BottyMcBotFace (and Deep Drone) are essentially Master Bot augmented with a larger opening book, making them stronger than raw Master Bot primarily in the opening phase of the game.",
+    "units": [],
+    "confidence": "medium",
+    "author": "jamesa7171",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Discussion about whether any bot is stronger than Master Bot; jamesa7171 and shadourow confirmed the opening-book distinction.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Engineer's 'barrier value' (BV) is calculated as 2 \u00d7 inflation (not simply 2) because Engineer is not prompt\u2014you pay for it one turn before it provides defense, and gold spent earlier is worth more in terms of future purchasing power as inflation rises throughout the game. Wall has a lower BV (approximately 2.22 at baseline inflation) compared to Engineer (approximately 2.67), making Wall more cost-efficient for pure defense.",
+    "units": [
+      "Engineer",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Detailed theoretical discussion about barrier value (BV) as a metric for defensive unit efficiency, comparing Engineer and Wall.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Engineer is effectively prompt if you have at least one Engineer and are consuming all your energy every turn (e.g., with units like Cauterizer, Fission Turret, or Tesla Coil present). Units like Tesla Coil don't consume energy but still require an Engineer to be present to build, which also makes the Engineer effectively prompt in that context.",
+    "units": [
+      "Engineer",
+      "Cauterizer"
+    ],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Follow-up to the BV discussion, clarifying conditions under which Engineer's non-prompt nature is moot in practice.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Antima Comet makes Engineers effectively prompt on the turn before it fires, because the imminent Antima firing means players can sacrifice Engineers for defense without losing their future energy value. However, this fundamentally changes Engineers' value in that context and may not be a practically useful observation in most game states.",
+    "units": [
+      "Antima Comet",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "awaclus",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Debate over which energy-consuming or energy-requiring units make Engineer effectively prompt, with megasupp and awaclus disagreeing on whether Antima Comet qualifies.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

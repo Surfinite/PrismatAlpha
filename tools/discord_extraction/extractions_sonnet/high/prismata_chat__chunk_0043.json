@@ -1,0 +1,32 @@
+[
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "In Arms Race sets, Master Bot predictably buys multiple Vivid Drones in consecutive turns, making its behavior in those sets highly readable and exploitable by opponents who can plan around this pattern.",
+    "units": [
+      "Vivid Drone"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "amalloy casually noted the bot's recognizable Arms Race behavior as a way to identify the set type from bot actions alone.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-04-30"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "In a casual match (replay VNw+z-CskPt), a bot purchased all 10 available Mobile Animuses by turn 9 while spending only 2 red resources total across those turns, indicating a severe unit-purchase limiting failure in the bot's configuration for that unit.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": "VNw+z-CskPt",
+    "context": "amalloy reported extreme bot misbehavior in a casual match, and elyot (developer) confirmed it could be fixed by adding a purchase limit config for that unit.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-05-01"
+  }
+]

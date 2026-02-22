@@ -1,0 +1,124 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Purchasable units in Prismata cannot automatically consume units with counters (like Rhino or Forcefield) because the game cannot determine which specific unit to consume. Units with click abilities can target such units explicitly, but auto-consume on purchase is not implementable cleanly.",
+    "units": [
+      "Rhino",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed unit that would consume a Rhino on purchase, prompting explanation of engine limitations around counter-bearing units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In a historical event, a unit that auto-consumed a Drone on purchase always consumed the best (highest-value) Drone rather than the worst, and would even click an unclicked Drone to consume it. Players worked around this by manually clicking their worst Drones before purchasing the unit.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a past Prismata event unit that consumed Drones on purchase, used as context for why auto-consume mechanics are problematic.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Frontline toggling via a click ability would create an ordering-dependency violation in Prismata, since clicking the toggle unit before or after clicking another unit would produce different results. This breaks the design principle that click order should not matter.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community design critique of a fan unit (Resting Dynamo) that would restore Rhino Stamina on click, which bky identified as ordering-dependent.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Prismata, balance is highly precarious: what seems like a minor cost or effect adjustment can swing a unit from underpowered to broken. Small nudges that would be minor in other games can have outsized impact due to the deterministic, resource-tight economy.",
+    "units": [],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed unit (Pyroclast/Magma Burner) that was considered severely overpowered, used to illustrate general balance sensitivity in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A unit costing 10RRR that produced 3 attack per click was assessed as equivalent to getting an attacker for a single extra R on top of three Perforators (9RRR), making it extremely efficient and likely broken even as a fan design concept.",
+    "units": [],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Expert players analyzing the fan-designed Magma Burner unit and comparing its efficiency to existing red attackers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Omega Splitter functions as a bulk purchase deal on Steelsplitters; the design concept of a similarly bulk-deal unit for Walls was explored, with the observation that at 4 supply such a unit could provide significantly more total soak than standard Walls, potentially creating unhealthy defensive games.",
+    "units": [
+      "Omega Splitter",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Fan unit design discussion where masn compared a proposed 'Repli-wall' to Omega Splitter as a design template, noting soak efficiency concerns.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Auric Impulse (referenced as a benchmark econ unit) operates on a -3 +4 gold flow, which community members use as a reference point for evaluating other economy-fixing or float-mitigation units.",
+    "units": [],
+    "confidence": "high",
+    "author": "randomflyingtaco",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Evaluating a fan-designed 'Banking Bubble' unit against existing econ units, with Auric Impulse cited as the standard comparison.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Pixie can appear on the back row and Amporilla lived on the mid row in some events, indicating that the interface does not strictly require all units to follow standard row placement conventions and can accommodate exceptions for units with unusual properties like toggled Frontline.",
+    "units": [
+      "Pixie"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of whether a Frontline-toggling fan unit would be implementable given interface row-placement conventions.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

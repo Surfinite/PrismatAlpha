@@ -1,0 +1,192 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot makes poor strategic decisions in certain unit sets, such as going 2 Engineers into a Defense Grid set, demonstrating it is weak at high-level gameplan selection even if competent at low-level tactics and execution.",
+    "units": [],
+    "confidence": "medium",
+    "author": "gadget246",
+    "date": "2018-03-14",
+    "replay_code": null,
+    "context": "Player quoted a common claim that Master Bot is a very difficult opponent, then gave a concrete counterexample of it making an obviously bad opening in a specific set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "gadget246_2018-03-14_01:08"
+    ],
+    "reporter": "gadget246",
+    "report_date": "2018-03-14"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Prismata AI (including casual bots) is described as good at low-level tactics and execution but poor at selecting the correct gameplan for a given random set. Beating casual bots becomes harder when the unit count is reduced (fewer units in the set), because the AI struggles more with gameplan selection in richer sets where it can default to familiar patterns.",
+    "units": [],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2018-03-13",
+    "replay_code": null,
+    "context": "p0lari shared personal experience of switching from maximum to minimum unit count in casual bot matches and starting to occasionally lose, attributing this to the AI being bad at picking the right gameplan.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "p0lari",
+    "report_date": "2018-03-13"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Steelsplitter is considered one of the least efficient attackers in the game. Its primary strategic use is defensive tempo: buying an SS early can act as a wall while also dealing attack, but spamming SS as a main attacker is suboptimal. If you need a main blue attacker, Tarsier (requiring Animus) is far more efficient, and running two Blastforges just to support both Wall and SS is worse than running one Blastforge and one Animus.",
+    "units": [
+      "Steelsplitter",
+      "Tarsier",
+      "Wall",
+      "Animus",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-03-14",
+    "replay_code": null,
+    "context": "Extended strategic debate between liadahlia and an unnamed player about the role of Steelsplitter in a specific set, with liadahlia systematically explaining why SS is inefficient as a primary attacker.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Gauss Cannon is described as the second least efficient attacker in the game after Steelsplitter, making the choice between them a close call in sets where both are available.",
+    "units": [
+      "Gauss Cannon",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "mqp",
+    "date": "2018-03-14",
+    "replay_code": null,
+    "context": "mqp commented on attacker efficiency rankings during a discussion about which units to use in a specific set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Rhino has better short-term tempo than Steelsplitter despite potentially worse long-term value. A blue is worth approximately 5/3 of a gold when comparing resource costs across unit purchases.",
+    "units": [
+      "Rhino",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-03-14",
+    "replay_code": null,
+    "context": "liadahlia explained relative unit tempo and resource conversion rates during a discussion about early attacker choices.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The Ferritin Sac into Odin plan is best used in sets where blue is weak (e.g., where Steelsplitter is the best blue attacker), providing red for Tarsiers instead. Buying Steelsplitters on top of this plan defeats its purpose, since the goal is precisely to avoid the inefficiency of Steelsplitter. Odin is generally better used as an absorber and threat than fired without breaching, though firing without breaching can sometimes apply useful pressure.",
+    "units": [
+      "Steelsplitter",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-03-14",
+    "replay_code": null,
+    "context": "mqp analyzed a submitted opening sequence involving Ferritin Sac and Odin, explaining the strategic rationale and common mistake of adding Steelsplitters to the plan.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "When using a Ferritin Sac line as Player 2, playing turn 3 as ADD and turn 4 as 11DDE is strictly better by one gold than buying an Engineer on turn 3 to enable three Drones on turn 4. This is because the Engineer purchase delays efficient gold use without a compensating benefit.",
+    "units": [
+      "Drone",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "mqp",
+    "date": "2018-03-14",
+    "replay_code": null,
+    "context": "mqp reviewed a submitted Player 2 opening sequence and identified an inefficiency in the Engineer-early line versus the pure Drone-first sequence.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Engineers are expendable once a player stops droning and their main value is defensive tempo (absorbing hits so Drones survive). A single Engineer dying is often not worth buying a Wall to prevent, as Drones are worth significantly more than one Engineer. Skipping wall purchases when only one Engineer is at risk is often correct.",
+    "units": [
+      "Engineer",
+      "Drone",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-03-14",
+    "replay_code": null,
+    "context": "liadahlia explained the relative value of Engineers versus Drones during a debate about early defensive spending.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Tarsiers and limited absorb options, going Breachproof (BP) is favored, especially in low-absorb sets. Tarsiers are more breach-vulnerable than Drones, making BP strategies particularly effective against Tarsier-based offense. Walls plus Tarsiers can lose to Breachproof strategies.",
+    "units": [
+      "Tarsier",
+      "Wall",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-03-14",
+    "replay_code": null,
+    "context": "liadahlia and another player debated the optimal strategy in a specific set featuring Tarsiers and limited defensive options, with liadahlia consistently arguing BP wins in low-absorb scenarios.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "An attacker can be roughly valued as equivalent to 2 Drones as a back-of-envelope heuristic, since attack forces the opponent to spend resources on defense, functioning similarly to economy. Attack, gold income, and absorb capacity all function as forms of 'income' in Prismata.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2018-03-13",
+    "replay_code": null,
+    "context": "A newer player was confused about evaluating board states, and p0lari offered this heuristic to help evaluate the value of attackers relative to economy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "Master Bot has an opening named after it within the Prismata community, indicating its influence on early opening theory despite its strategic weaknesses at higher levels of play.",
+    "units": [],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-03-14",
+    "replay_code": null,
+    "context": "liadahlia noted in passing that Master Bot is so well-known that a specific opening has been named after it.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

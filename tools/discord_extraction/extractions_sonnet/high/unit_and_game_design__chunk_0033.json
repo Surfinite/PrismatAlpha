@@ -1,0 +1,228 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, units that have both a purchase cost in one color and an activation (click) cost in a different color are an established design pattern. Examples include Infusion Grid (costs blue, activates with red/green), Plasmafier (costs gold, consumes drones to click), and Steelsplitter (costs blue, uses a click action to activate).",
+    "units": [
+      "Steelsplitter",
+      "Plasmafier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Community discussion about unit design patterns involving mismatched purchase and activation resource costs.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Steelsplitter is consumed as an activation cost by both Odin and Manticore, making it one of the most-consumed non-drone units in the game. Blastforge is similarly consumed by Drake, Grenade Mech, and Steelforge.",
+    "units": [
+      "Steelsplitter",
+      "Manticore",
+      "Drake",
+      "Grenade Mech"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Community enumeration of units that consume other units as part of their purchase or activation cost.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Apollo's strategic interest lies specifically in the decision of whether to buy it or not in a given set. A proposed buff that made Apollo always efficient as an attacker (e.g., giving it 3 attack for 2 attack paid to snipe) was rejected by crash_overlord on design grounds: it removes the interesting buy/no-buy decision and makes Apollo generically good in all sets.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about a proposed Apollo buff that would add a snipe-3 click ability, with crash_overlord arguing it damages the unit's design.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Apollo sets with weak attackers (e.g., only Gauss Cannon and Tarsier) tend to produce very long games with minimal interesting decisions for experienced players, making them tedious. Apollo vs Apollo mirrors are especially slow and uninteresting.",
+    "units": [
+      "Apollo",
+      "Gauss Cannon",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about Apollo's gameplay impact on set dynamics and game length.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "According to developer Elyot (as cited by bky), unlimited AoE effects are considered close enough to a Symmetric Determinism Rule (SDR) violation that the developers are not comfortable implementing them, as they can make it strictly better to have fewer units.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about a hypothetical Apollo rework that would snipe all units 3HP and under, which bky cited Elyot as having ruled out on SDR grounds.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Gauss Cannon is considered overpriced by approximately 1 gold relative to its stats, making it generally weak. However, its purchase becomes more justifiable if a unit in the set (like a hypothetical Gauss Panzer) consumes Gauss Cannons and provides additional value, effectively making the Gauss Cannons cheaper in context.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion evaluating a fan-designed unit (Gauss Panzer) that consumes 2 Gauss Cannons as a purchase cost.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, when a unit with Lifespan is also Exhausted, its Lifespan does not tick down until it is no longer Exhausted. This is a non-obvious interaction relevant to units like Iso Kronus and Scorchilla in set designs featuring Exhaust mechanics.",
+    "units": [
+      "Iso Kronus",
+      "Scorchilla"
+    ],
+    "confidence": "medium",
+    "author": "kaelii",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about a fan-designed Chronoforge unit with both Lifespan and a click ability that exhausts itself, where Lia asked whether exhausted lifespan units tick down.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Iso Kronus produces 2 attack every other turn due to its Exhaust mechanic. If multiple Iso Kronuses are built on consecutive turns, they naturally fire in alternating pairs (turns 1 and 3 in sync, turns 2 and 4 in sync), resulting in 4 attack per turn rather than 8 attack every other turn unless their exhaust cycles are synchronized.",
+    "units": [
+      "Iso Kronus"
+    ],
+    "confidence": "high",
+    "author": "kaelii",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Design discussion about a Chronoforge unit that produces Iso Kronuses, analyzing the attack output depending on whether the Isoes are synchronized.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Energy is described as a very underused resource in Prismata: it is typically only generated by Engineers, and units that consume it (like Electrovore and Cauterizer) are very powerful when additional energy generation is available, making energy-generating units potentially game-warping in sets containing those units.",
+    "units": [
+      "Cauterizer"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Evaluation of a fan-designed Charged Drone unit that generates energy each turn, with Lia noting the danger of extra energy generation in sets with Electrovore and Cauterizer.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The SDR (Symmetric Determinism Rule) is violated if a mechanic makes it strictly better for a player to not have resources. A unit that steals opponent resources (e.g., removing gold from the opponent's bank and giving it to you) violates SDR because it incentivizes the opponent to deliberately avoid banking resources, making having resources a liability.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Design discussion about a fan unit called Leech that removes resources from the opponent's bank, with mrguy888 and xyotsuba analyzing SDR implications.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Supply count is a significant design lever: the same unit with different supply limits can be a completely different unit strategically. Antima Comet with more than one supply was historically problematic, and Chrono Filter with 4 supply would play very differently from its current form.",
+    "units": [
+      "Antima Comet",
+      "Chrono Filter"
+    ],
+    "confidence": "medium",
+    "author": "iminabearsuit",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about Prismata design space, with iminabearsuit noting supply as an underappreciated tuning parameter.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "\"SDR\" (Symmetric Determinism Rule) refers to a design principle in Prismata ensuring that having more resources or units is never strictly worse than having fewer. Units or mechanics that make it better to have less of something (resources, units) violate SDR and are avoided in official design.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Recurring reference throughout unit design discussions to explain why certain mechanics (resource theft, unlimited AoE) are considered problematic.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When multiple units with the same HP are candidates for sacrifice (e.g., when consuming units as a cost and two have been damaged to 1 HP), Prismata's system (attributed to 'Shalev') automatically sacrifices the lowest HP units first.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about how Prismata resolves ambiguity when multiple damaged units are candidates for sacrifice as part of a click cost.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Wincer, a green unit, produces threat comparable to or greater than some red attackers, making it a notable example of green color pie flexibility in Prismata's design. This is considered a legitimate design choice rather than an anomaly.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "medium",
+    "author": "wilson0862",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion about whether a fan-designed green unit's click-based attack threat was off-color, with Wilson noting Wincer as a precedent for green threat generation.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

@@ -1,0 +1,126 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The 'Claim Draw' button appears for a player when their opponent is not making progress, based on a draw detection algorithm. The button can technically be available to both players simultaneously (e.g., if both players pass from the start), but it will appear at the start of a given player's turn rather than truly simultaneously.",
+    "units": [],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about when and how the draw button appears, prompted by amalloy seeing it despite having a forced win against a bot.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The draw detection algorithm has had at least one confirmed historical bug (documented on Reddit, ~3 years before this conversation) where a player was incorrectly allowed to claim a draw. The algorithm is considered reliable in its current state but the exact definition of 'not making progress' is not publicly documented.",
+    "units": [],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "amalloy linked a Reddit thread showing a historical draw detection bug and noted disagreement with the claim that no problems had ever been observed.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "There is a potential false positive risk in the draw detection algorithm when a player needs to accumulate large amounts of a resource (e.g., 40 green for a massive Cluster Bolt volley) before winning; the algorithm may incorrectly flag this as no progress being made after ten turns of storing resources.",
+    "units": [
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "amalloy raised a concern that the draw algorithm's rule about storing Green or Gold for ten turns could create false positives in legitimate win scenarios requiring large resource accumulation.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "It is possible to draw by mutual elimination: if both players end up with no units, the game is a draw rather than a loss for the active player. The game warns you before confirming a move that would result in such a draw (similar to a breach warning), and also warns if the outcome would be a loss rather than a draw.",
+    "units": [
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about edge cases in draw and loss conditions, specifically the scenario where a player uses their last attacking unit and both sides end up with nothing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Thunderhead is considered a strong unit if it absorbs at least once. Its optimal use is buying it late so that its 4 attack deals real damage and forces the opponent to achieve 11 attack to kill it, rather than buying it early when the opponent can simply absorb its attack and continue building economy. Buying Thunderhead when the opponent can already set up exactly 11 attack is a mistake.",
+    "units": [
+      "Thunderhead"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Multi-message discussion among p0lari, liadahlia, and awaclus about when Thunderhead is good or bad.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Thunderhead is weak against units that allow the opponent to 'cheat out' attacks cheaply, such as Bloodrager, because these enable absorb denial — preventing Thunderhead from absorbing damage and thus negating its value. If Thunderhead dies without absorbing at all, it is considered a poor investment.",
+    "units": [
+      "Thunderhead",
+      "Bloodrager"
+    ],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "liadahlia identified specific counter-strategies to Thunderhead during a thread evaluating its strengths and weaknesses.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not handle super fast rushes well, which partially compensates for its inherent advantage in the 'Totally Unfair' challenge scenario where it starts with a winning position on turn 1.",
+    "units": [],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about strategies for beating Master Bot in the Totally Unfair challenge, with p0lari noting fast rushes as an effective equalizer.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "p0lari",
+    "report_date": "2018-05"
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "In the 'Totally Unfair' challenge, multiple strategies have been reported to work against Master Bot: a high-economy build (buying 27 drones plus strong soak units to extend the game and let the bot make mistakes), Feral Wardens, and Blood Pact. Feral Wardens was confirmed as a successful approach by multiple players, while Blood Pact was harder to execute.",
+    "units": [
+      "Drone",
+      "Blood Pact"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Players discussed viable strategies for beating Master Bot in the Totally Unfair challenge, with sorawotobu and awaclus sharing their successful approaches.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "sorawotobu",
+    "report_date": "2018-05"
+  }
+]

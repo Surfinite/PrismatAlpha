@@ -1,0 +1,274 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding Arka (7 defense, 4 absorb) is generally much stronger than clicking it for 4 attack. The combination of 7 defense tempo plus 4 absorb now is far better than dealing 4 damage roughly half a turn later. Clicking Arka is described as 'possibly one of the worst things you can do' when holding provides sufficient absorb and does not overdefend.",
+    "units": [
+      "Arka"
+    ],
+    "confidence": "high",
+    "author": "cooledcannon",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Discussion about whether to click or hold Arka, sparked by a player questioning the value of holding vs. attacking.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Absorb wins games indirectly because when you hold Arka for defense, you free up resources to buy more attackers instead of walls. The opponent does not equivalently gain +4 absorb by you not clicking, because the tempo and absorb compound advantage of holding is greater than the raw attack value of clicking.",
+    "units": [
+      "Arka"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Responding to Zera's argument that not clicking Arka is equivalent to giving the opponent +4 absorb.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Arka functions as approximately a 4.5-absorb unit when held, which is better than Infusion Grid but worse than Matrix as an absorber, under standard game assumptions.",
+    "units": [
+      "Arka"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Community discussion quantifying the absorb value of holding Arka versus other soak units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When the 7th defense tempo from holding Arka does not matter (i.e., two walls would suffice to defend), two walls are better than Splitter plus double Engi. In that scenario, clicking Arka is equivalent to clicking an Odin that cannot defend.",
+    "units": [
+      "Arka",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "Follow-up analysis on when holding Arka's 7th defense point becomes irrelevant and how that changes the comparison.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Cauterizer is generally worse than Bullfrog plus Cyberscheme at the same combined cost, except in niche frontline abuse or Engineer-abuse situations. Cauterizer is particularly bad against Apollo because Apollo only targets it when it is dealing 2 damage; otherwise Apollo snipes Steelsplitters instead.",
+    "units": [
+      "Cauterizer",
+      "Apollo",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2021-02",
+    "replay_code": "xZ2st-bivnR",
+    "context": "Comparing Cauterizer vs. Bullfrog as purchases in a set with Apollo sniping Steelsplitters.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against Apollo, buying one snipeable attacker per turn (especially a lone Steelsplitter) is the worst possible approach since Apollo can cleanly snipe each one in sequence. Buying two or more snipeable attackers per turn is preferable because each subsequent snipe is further in the future, creating diminishing losses.",
+    "units": [
+      "Apollo",
+      "Steelsplitter",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2021-02",
+    "replay_code": null,
+    "context": "Discussion on how to build attackers efficiently in a set with Apollo present.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Thorium Dynamo, every blue you float costs you roughly one gold, and this cost scales linearly with the number of Steelsplitters you have. Buying Steelsplitters in a Dynamo set to avoid floating blue can therefore be justified, even if Steelsplitters are otherwise a suboptimal purchase.",
+    "units": [
+      "Thorium Dynamo",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2021-02",
+    "replay_code": null,
+    "context": "Discussion of Colossus for Steelsplitters (Clunk for Swords) strategy in Dynamo-heavy sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A drone's value depends on how it is used: ideally it provides granularity by filling exact gaps in Engineer purchasing (Case 1) or enables additional tech purchases when resources are tight (Case 3). Buying extra Engineers when you cannot justify more tech (Case 2) or extra Drones when you already have excess (Case 4) indicates a poorly planned build.",
+    "units": [
+      "Drone",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2021-02",
+    "replay_code": null,
+    "context": "Analysis of what a marginal Drone actually accomplishes in different game states during the TTD vs Tarsier/Rager comparison.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Bloodrager at 7R cost is roughly Tarsier-level in value, but at 7RR cost it is clearly worse than Tarsier. Bloodrager is most useful in low-inflation situations where denying 1-2 absorb makes it better than two Tarsiers, and cooledcannon reports using this Rager-over-Tarsiers line specifically against Master Bot in low-inflation games.",
+    "units": [
+      "Bloodrager",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "cooledcannon",
+    "date": "2021-02",
+    "replay_code": null,
+    "context": "Discussion of when Bloodrager substitutes for two Tarsiers, including explicit mention of Master Bot as a target for this strategy.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_EXPLOIT_STRATEGY",
+    "insight": "In low-inflation sets, buying Bloodrager instead of two Tarsiers is a semi-frequent exploit line used specifically against Master Bot, taking advantage of Bloodrager's absorb-denial in situations where the bot does not adequately account for the threat.",
+    "units": [
+      "Bloodrager",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "cooledcannon",
+    "date": "2021-02",
+    "replay_code": null,
+    "context": "cooledcannon explicitly mentions using the Rager-over-Tarsiers line semi-often in low inflation especially against Master Bot.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": "cooledcannon",
+    "report_date": "2021-02"
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Lancetooth compared to Steelsplitter when there is no absorb denial: Splitter deals cumulative damage of 2,3,4,5,6,7 while Lancetooth deals 0,0,2,4,6,8 over the same turns. Lancetooth only draws even at turn 6 and pulls ahead at turn 7, representing a very long break-even that requires the game to last many turns and the opponent to be overdefended.",
+    "units": [
+      "Lancetooth",
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2021-02",
+    "replay_code": null,
+    "context": "Quantitative comparison of Lancetooth versus Steelsplitter cumulative damage output when absorb denial is not a factor.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Redeemer plus Innervi costs 14BGGG and soaks 5 of the 6 Gauss Charges Redeemer would otherwise fire, while Plasmafier costs 12BGGG. In a vacuum Plasmafier is likely better because you do not need to buy Drones as fuel, and Redeemer's advantage of not sacrificing a Drone and not being fragile must overcome a 2-gold cost premium and giving the opponent a build-time-3 Gauss Charge.",
+    "units": [
+      "Plasmafier"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-12",
+    "replay_code": null,
+    "context": "velizar_ posed a vacuum comparison between Redeemer+Innervi and Plasmafier; shadourow and cooledcannon agreed Plasmafier is stronger.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Protoplasm where both players have committed to low-economy green-red tech, absorbing on Protoplasm rather than Rhino is preferable. Holding Protoplasm to attack for 2 on the off-turn denies 1 absorb, which is equivalent to Iso Kronus also attacking for 1 on the off-turn, making the combination especially strong.",
+    "units": [
+      "Tarsier",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2021-02",
+    "replay_code": null,
+    "context": "megasupp explaining why holding Protoplasm was strong in a specific low-econ green-red game, and that buying an extra Tarsier before transitioning into Protoplasm spam was correct.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Polywall implicitly encourages higher economy than it might appear because affording its 10-gold cost is difficult with only a single blue technology source, meaning players need more Drones before they can efficiently purchase it.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2021-01",
+    "replay_code": null,
+    "context": "velizar_ posted a standalone strategic observation about Polywall's economy requirements.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "According to Punf's mathematical analysis of Prismata, in a scenario where Wall is the available absorber and the attacker is slightly better than Geese but worse than Tarsier, whoever buys attack first loses — the other player can drone indefinitely and eventually buy attack to win. Additionally, if both players switch from drones to attackers half a turn apart, P2 wins when the switch happens on turns 1–6 and P1 wins from turn 7 onward.",
+    "units": [
+      "Tarsier",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2021-02",
+    "replay_code": null,
+    "context": "spiritfryer referenced Punf's Google Sheets mathematical analysis of Prismata and described its key conclusions about economy vs. attack timing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Shadowfang is a strong unit in a vacuum, but double Animus is a poor tech investment because it is both expensive to spend and hard to defend against. Tarsier and Wall together beat Shadowfang in practice, which is why Shadowfang rarely lives up to its vacuum value.",
+    "units": [
+      "Shadowfang",
+      "Animus",
+      "Tarsier",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2021-02",
+    "replay_code": null,
+    "context": "Discussion on whether Shadowfang is viable and why it underperforms despite good raw stats.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

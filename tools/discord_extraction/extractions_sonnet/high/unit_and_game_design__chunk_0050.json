@@ -1,0 +1,96 @@
+[
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Ampo (Flame Animus) can safely be 3 health because Tarsiers are doubly breach-vulnerable per Ampo: when choosing between killing 3 Tarsiers or killing an Ampo, killing the Tarsiers is usually correct since 3 health in Tarsiers represents 9 damage versus a typical Ampo maximum of 10. With 2 Ampos the Tarsiers are triply breach-vulnerable and killing an Ampo is almost never correct. The exception is Apollo, whose snipe can still efficiently target the Ampo.",
+    "units": [
+      "Tarsier",
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "kaelii",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion about whether 3 health on a red non-blocker unit is appropriate, using Ampo as an existing example.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Exhausted units cannot be consumed: you cannot use a consume-based click ability (e.g. Steelforge or Odin-style clicks) on a unit that is currently exhausted. Deadeye is a noted exception in that it can snipe exhausted drones, but that is a targeted attack rather than a consume.",
+    "units": [
+      "Deadeye Operative"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of whether Steelforge click could chain into Odin click on the same turn, referencing Dgrid+Plasma as a testable analogue.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Golden Armor breaks Strict Dominance Relation (SDR) in principle, and Prompt is effectively an extension of that same break. SDR holds that a strictly superior version of a unit should always be preferred, but traits like Golden Armor and Prompt can create niche situations where the 'better' trait is locally worse (e.g. being forced to block when you don't want to).",
+    "units": [],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "Thread debating whether a proposed 'Bind' mechanic would violate SDR, with mrguy888 noting existing SDR-adjacent issues with Golden Armor and Prompt.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Deadeye targeting an opponent's drones is not an SDR violation: SDR requires that having a unit be strictly better than not having it, not that every opponent unit is equally punished. Just as Deadeye punishes opponents for having drones without violating SDR, a Bind mechanic that penalizes clickable enemy units would similarly not violate SDR because the bound unit is still strictly better than no unit.",
+    "units": [
+      "Deadeye Operative"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Debate about whether a proposed Bind mechanic or Nano-virus unit would violate SDR by making Steelsplitter's Blocker trait a liability.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A rough heuristic for evaluating long-build-time units is to multiply the unit's gold cost by approximately 1.33 per additional build time beyond 1, compounding. For example, a unit costing 9 gold at build time 3 is equivalent to roughly 16 gold of immediate value, comparable to buying a Blastforge plus two attackers at ~5.5 gold each.",
+    "units": [],
+    "confidence": "medium",
+    "author": "supergreyman",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Greyman explaining his efficiency evaluation method while analyzing a hypothetical red unit that generates Blue and Attack each turn.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'DDE' (two Drones then Engineer opening) is colloquially equated to gaining '1 soak per turn', used as a baseline reference when evaluating units or strategies that provide incremental absorb value.",
+    "units": [
+      "Drone",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "f300xen",
+    "date": "2018-06",
+    "replay_code": null,
+    "context": "f0x comparing the value of a hypothetical unit giving +1 absorb per turn to the DDE opening as a familiar benchmark.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

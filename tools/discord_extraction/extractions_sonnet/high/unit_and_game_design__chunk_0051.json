@@ -1,0 +1,150 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Consuming prompt units is not supported by Prismata's engine design; you cannot consume fragile units like Gauss Cannons or put frontline on them due to fundamental engine constraints, not just a design choice.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "supergreyman",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of a custom unit design (Unstable Reactor) that could consume units, raising the question of whether prompt or fragile units could be consumed.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Clicking a blocker exhausts it and prevents it from blocking that turn, which means any unit ability phrased as 'always blocks' or 'always able to block' must account for the interaction where clicking would otherwise remove blocking capability.",
+    "units": [],
+    "confidence": "high",
+    "author": "randomflyingtaco",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of a custom unit design that attempted to give a unit permanent blocking capability, which conflicts with the core mechanic that clicking a blocker exhausts it.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Fission Turret's value is difficult to gauge even for experienced players because it depends on multiple interacting variables: the number of Forcefields available, your highest absorber, Engineer availability, and green resource sinks in the set.",
+    "units": [
+      "Fission Turret",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Community discussion about the cognitive complexity of evaluating Fission Turret in a given set, with both leary93 and rezyk agreeing it is hard to gauge.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Wild Drone is considered a balance reference point for alternative drone designs: any drone-like unit costing around 5G for 2 drones is considered fair and 'not Wild Drone levels', but units with supply above 4 that generate economic burst risk being overpowered in a similar way to Wild Drone.",
+    "units": [
+      "Wild Drone"
+    ],
+    "confidence": "medium",
+    "author": "leary93",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of custom unit designs (Unstable Reactor, Volatile Drone) with leary93 and others using Wild Drone as a benchmark for broken economic units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Vivid Drone has among the worst health-to-cost ratios in the game at -2 net health for 2 Energy and 2 Energy cost, while Venge Cannon offers roughly +1 net health for its cost making it comparatively efficient as a high-health unit.",
+    "units": [
+      "Vivid Drone",
+      "Venge Cannon"
+    ],
+    "confidence": "medium",
+    "author": "leary93",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Community discussion comparing health-to-cost ratios across various units, including Tia Threnody, Vivid Drone, and Venge Cannon.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tia Threnody has a negative net health contribution when accounting for the Drone consumed on purchase (losing the Drone's health), making her effective health-to-cost ratio potentially worse than other expensive units like Lucina.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "kristian1103",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion comparing health-to-cost efficiency across high-cost units, with kristian1103 pointing out Tia consumes a Drone and thus has a net negative health contribution.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Trinity Drone is notably strong for emergency breachproofing compared to other non-standard drones, to the point where other drone-like units are evaluated partly on whether they can compete with Trinity Drone in that role.",
+    "units": [
+      "Trinity Drone"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of custom unit design (Unstable Reactor) and its potential breachproof applications, with shadourow citing Trinity Drone as the standard for that role.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Blood Pact, Sentinel, Thermite Core, Grenade Mech, Corpus, Arms Race, Redeemer, and Gaussite Symbiote are among the highest supply-count units in the game, with a theoretical maximum of around 511 units on one side of the board when optimally combined.",
+    "units": [
+      "Blood Pact",
+      "Corpus",
+      "Arms Race",
+      "Gaussite Symbiote",
+      "Grenade Mech"
+    ],
+    "confidence": "medium",
+    "author": "kristian1103",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Community puzzle discussion about the maximum number of units that can be on the board at once, with kristian1103 calculating an approximate maximum of 511 units on one side.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Carrying units (consuming a tech building and internalizing its effect into the purchasing unit) has a design tradeoff: it makes tech breachproof and reduces board clutter, but makes unit text more complex and reduces interaction with other tech buildings such as Flame Animus.",
+    "units": [
+      "Vivid Drone"
+    ],
+    "confidence": "medium",
+    "author": "supergreyman",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of a custom unit (Nitrokeeper) that carried an Animus, prompting a broader analysis of the pros and cons of the 'carrying' design pattern used on units like Vivid Drone.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

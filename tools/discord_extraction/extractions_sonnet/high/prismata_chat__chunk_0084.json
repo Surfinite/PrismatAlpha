@@ -1,0 +1,95 @@
+[
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "After a localization/patch update in September 2018, Master Bot began behaving like Wacky Bot in many games, reportedly due to an issue with localized text in card data. Players observed this happening in roughly half their games, with the bot making nonsensical decisions such as buying Barriers and Plexo Cells before any attack pressure existed.",
+    "units": [
+      "Barrier",
+      "Plexo Cell"
+    ],
+    "confidence": "high",
+    "author": "elyot",
+    "date": "2018-09",
+    "replay_code": null,
+    "context": "After a patch that introduced localization, multiple players reported Master Bot playing randomly; developer elyot confirmed the bot was likely having an issue with localized card text.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2018-09-10"
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "In the same September 2018 localization patch period, Guardian Rube (a bot opponent) was observed buying only 2 Gauss Cannons per turn even when it had resources to buy significantly more, indicating broken decision-making rather than standard Wacky Bot behavior.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2018-09",
+    "replay_code": null,
+    "context": "shadourow reported unusual bot behavior during a Guardian Rube game following the patch, describing it as 'definitely drunk rube' rather than normal Wacky Bot play.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "shadourow",
+    "report_date": "2018-09-10"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Master Bot received an explicit override rule to stop buying too many Mobas (a unit type), but other bots such as Wacky Bot did not receive this correction, meaning lower-tier bots lack some of the hand-tuned decision guardrails that Master Bot has.",
+    "units": [],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2018-09",
+    "replay_code": null,
+    "context": "amalloy noted that Lunarch had to add explicit rules to override normal bot decision-making for Master Bot specifically, distinguishing it from other bots.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When going for a mass Animus / Firespinner strategy, all Animuses should be purchased on the same turn rather than spread across multiple turns, so that none are individually exposed to breach or snipe before they can produce.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "kristian1103",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "Discussion of the Firespinner strategy and why kinetic (breach/snipe) counters are less effective when all Animuses are bought simultaneously.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a Firespinner-focused strategy, buying early cheap attackers like Tarsiers is undesirable because you want to conserve gold for the Firespinner itself; the Firespinner's effective cost-per-damage makes the gold investment worthwhile over conventional cheap attackers.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "kristian1103",
+    "date": "2018-08",
+    "replay_code": null,
+    "context": "kristian1103 and shadourow discussed why skipping Tarsiers is correct in a Firespinner build, noting Firespinner offers far better gold efficiency on attack.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "Clicking 'Claim Victory' during a bot game caused an automatic disconnect, occurring reproducibly at least twice in a row for one player following the September 2018 patch.",
+    "units": [],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2018-09",
+    "replay_code": null,
+    "context": "shadourow reported being disconnected twice in a row when clicking 'claim victory' against a bot, suggesting a post-patch bug with bot game endings.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": "shadourow",
+    "report_date": "2018-09-08"
+  }
+]

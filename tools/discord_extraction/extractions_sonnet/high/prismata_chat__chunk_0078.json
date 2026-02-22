@@ -1,0 +1,83 @@
+[
+  {
+    "category": "MB_BUG_REPORT",
+    "insight": "In a game with Steelsplitters and Apollo, the intended sequence of clicking two Steelsplitters to attack a Gauss Cannon, having Apollo snipe the damaged Gauss Cannon, then clicking remaining Steelsplitters to attack the second Gauss Cannon does not work \u2014 clicking the remaining Steelsplitter cancels the Apollo action. This was replicated by community members and confirmed as a consistent behavior, though whether it is a bug or intended design is disputed.",
+    "units": [
+      "Steelsplitter",
+      "Apollo",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "itsotter",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "itsotter encountered this in a bot game and raised it; extratricky stated it has always worked this way, while Greyman planned to ask elyot for clarification.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "itsotter",
+    "report_date": "2018-07-24"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When using Apollo alongside Steelsplitters, the game enforces a strict ordering: all attack actions must be committed either entirely before or entirely after the Apollo snipe. You cannot interleave partial Steelsplitter attacks with an Apollo activation to redirect remaining attack to a second target.",
+    "units": [
+      "Steelsplitter",
+      "Apollo"
+    ],
+    "confidence": "medium",
+    "author": "extratricky",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Follow-up thread clarifying the mechanics of interleaving Apollo snipes with Steelsplitter attacks against multiple Gauss Cannons.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Antima Comet's optimal timing depends on supply and opponent's ability to rush it down: get it later if the opponent cannot rush it quickly, and sooner if you can rush the opponent after acquiring it. The goal is to maximize Antima size.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "Deleted User",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion of how to play Antima Comet/Sentinel sets and when to time the Comet purchase.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Thorium Dynamo is considered by community members to be one of the strongest units in the game: it is extremely gold-efficient, counters most broken combos, and can itself contribute to broken combos, making it a near-mandatory first pick in any exclusive-access draft format.",
+    "units": [
+      "Thorium Dynamo"
+    ],
+    "confidence": "medium",
+    "author": "xyotsuba",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Discussion about a proposed draft format where players exclusively pick units, highlighting Dynamo as a unit that warps any draft.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Expert Bot is recommended as a meaningful stepping stone between the campaign/advanced exercises and Master Bot, as many players who beat Expert Bot consistently still lose regularly to Master Bot. Master Bot difficulty is significantly higher than Expert Bot.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-07",
+    "replay_code": null,
+    "context": "Community discussion around a new player onboarding guide, with amalloy, supergreyman, and willflame all agreeing Expert Bot should precede Master Bot in the progression.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

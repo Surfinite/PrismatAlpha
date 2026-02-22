@@ -1,0 +1,161 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Sacrificed units in Prismata get clicked automatically, which creates ordering complexity when a unit effect requires sacrificing a unit with a specific stamina state. With Rhinos having 5 possible states (varying stamina and clicked/unclicked combinations), designing sacrifice effects around them is significantly more complex than for single-state units.",
+    "units": [
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed 'Reconstitution Plant' unit that sacrifices Rhinos, revealing engine behavior around sacrifice and clicked status.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The Strict Dominance Rule (SDR) in Prismata requires that having more of a resource or unit is always strictly better than having less. Units or effects that make banking resources worse than not banking them (e.g., an opponent effect that punishes held gold or green) violate SDR, making balancing significantly harder and creating undesirable design complexity.",
+    "units": [],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of fan-designed units with resource-removal effects prompted an explanation of SDR and why such effects are problematic in Prismata's design framework.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Apollo-style unit sniping is not considered an SDR violation because the targeted player still prefers having the sniped unit to not having it; the sniping mechanic operates on the opponent's board state rather than creating a situation where the owner would prefer fewer units.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "supergreyman",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of whether resource-removal fan units violate SDR, leading to a comparison with Apollo's snipe mechanic.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In midgame, attackers are generally preferred over Drones because they are more resource-efficient at generating value at that stage; however, sufficiently efficient drone-generating units (like Doomed Drone) can still be worth buying in the midgame if their effective cost is low enough.",
+    "units": [
+      "Drone",
+      "Doomed Mech"
+    ],
+    "confidence": "high",
+    "author": "darkeisbein",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed spell that constructs 4 Drones, prompting analysis of when late drone purchases are strategically justified.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Burst drone-generation effects are best evaluated not just on raw efficiency but on their interaction with absorb denial: paying for 4 Drones while forcing the opponent to build absorb can be strong, but once the absorb barrier is crossed the drones provide less incremental value than attackers.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Community evaluated a fan-designed 'Manufacturing Surge' spell costing 3B+4 attack to construct 4 Drones, debating its strategic viability.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "A previously playtested 'Omega' variant at 14BBB was axed by developers for being too strong; a hypothetical 11BBB blocker with 4HP producing 3 attack per turn was assessed by the community as even more broken than that removed version, primarily because 11 gold is reachable far earlier than 20 gold (the cost of Odin).",
+    "units": [
+      "Colossus"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "liadahlia posted a fan unit 'Omega Vigil' and the community compared it to existing high-cost attackers and a previously cut Omega variant.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "A 'Welding Kit' unit (an Auric that converted 2 Energy into GR) was internally developed but cut because it was too powerful in combination with Cynestra, which at the time had a GRRR tech cost; the interaction may also have been influenced by the old Cynestra tech cost rather than the effect alone.",
+    "units": [
+      "Cynestra"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "masn6811 shared internal development trivia while discussing a fan unit that converts resources, noting the Welding Kit as a historical example of a cut unit.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Units that globally raise purchase costs (e.g., +1 Gold to all purchases) disproportionately harm cheap low-tier units like Engineer and Barrier, effectively removing them as viable purchases, while barely affecting expensive units\u2014reducing overall decision space and making the game worse.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "darkeisbein",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Fan unit 'Reeve' proposed a global +1 Gold purchase tax; darkeisbein identified that it selectively nullifies cheap units, reducing strategic options.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When a fan unit ('Workshop') gives a Blastforge to both players, the opponent receives theirs first (on the same turn resolution), which is a relevant sequencing consideration for tempo and tech advantage.",
+    "units": [
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "mqp",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "mqp posted a fan spell 'Workshop' that constructs a Blastforge for both players and noted the opponent gets theirs first as a key design caveat.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "The term 'Sword economy' refers to a strategy of prioritizing attack-generating units over gold-generating Drones as the primary economic engine; the term is distinct from standard drone-based gold economy and was coined or popularized within the Prismata community (attributed by some to 'aetherlamma' though uncertain).",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "1000mh referenced 'sword economy' as a strategic term during discussion of a drone-generating fan unit; masn6811 clarified he did not coin the term.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

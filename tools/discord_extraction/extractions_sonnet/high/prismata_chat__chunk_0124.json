@@ -1,0 +1,246 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot plays Gauss Charge poorly, as observed by multiple players. Velizar confirmed it is one of several units the bot mishandles, and p0lari noted it buying double Gauss Charges into a Wall as nonsensical behavior.",
+    "units": [
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "p0lari complained about Master Bot buying double Gauss Charges into their Wall, and velizar_ confirmed Gauss Charge is one of the units Master Bot is known to be bad with.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "p0lari",
+    "report_date": "2020-03-24"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is bad with Kinetic, specifically using it the very next turn after buying it to snipe a Conduit rather than saving it for more impactful use. This was observed with replay code 1o0XS-SbPpw.",
+    "units": [],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-04-03",
+    "replay_code": "1o0XS-SbPpw",
+    "context": "Velizar_ shared a replay where Master Bot immediately used Kinetic the turn after purchasing it to snipe a Conduit, identifying this as a known bot weakness.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-03"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot is limited to evaluating positions roughly 2 turns ahead; it occasionally buys units that would have been more useful earlier, effectively thinking '-1 turns ahead'. It also tends to stop defending entirely once it determines it cannot defend everything.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "Multiple players including zera777 and amalloy discussed Master Bot's shallow lookahead and its tendency to abandon defense entirely when overwhelmed, in the context of a game velizar_ shared where the bot threw a winning position.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "zera777",
+    "report_date": "2020-03-24"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot has a known tendency to make suboptimal blocking decisions late-game, such as clicking Rhino in a way that allows a Corpus breach, and appears to assume Zemora Voidbringer always fires, which can cause premature resignation in otherwise defensible positions.",
+    "units": [
+      "Rhino",
+      "Corpus",
+      "Zemora Voidbringer"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "During analysis of a bot game replay, velizar_ and jeacaveo observed Master Bot clicking Rhino to allow a Corpus breach and suspected the bot always assumes Zemora fires when evaluating the position.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-03-24"
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Master Bot's resignation logic checks two conditions: first, whether the opponent could win even if they never bought anything again; and second, whether the bot has at least a certain fraction of its opponent's total 'stuff'. The exact threshold fraction differs from what was stated in comments in the source code.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "Following the Prismata AI engine being open-sourced, amalloy read the source code and clarified how Master Bot decides to resign, noting the comment in the code was misleading about the exact fraction used.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_FEATURE_REQUEST",
+    "insight": "Players want the ability to pause or resume an in-progress bot game when a ranked match becomes available, rather than being forced to abandon the bot game. This feature is considered non-trivial to implement.",
+    "units": [],
+    "confidence": "medium",
+    "author": "jeacaveo",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "jeacaveo raised the request when experiencing the conflict between queuing for ranked and playing a bot game, noting they intended to submit the suggestion in-game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "jeacaveo",
+    "report_date": "2020-03-18"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot playing as 'Fastimus' always buys an early Animus regardless of the set, making it a weaker and predictable opponent compared to Master Bot proper.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "jeacaveo asked whether Fastimus was a Master Bot variant; amalloy clarified it is a weaker bot that always buys an early Animus.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot over-buys tech structures in complex multi-tech sets without coordinating them effectively; for example it was observed buying double Blastforge for Doomed Mech, double Animus for Lucina, Flame Animus for attack and red generation, and Conduit for Tantalum Ray and Forcefields all at once, suggesting it does not prune redundant tech well.",
+    "units": [
+      "Doomed Mech",
+      "Blastforge",
+      "Animus",
+      "Tantalum Ray",
+      "Forcefield",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "velizar_ described a game where Master Bot was buying an overloaded tech base including double Blastforge, double Animus, Flame Animus, and Conduit, characterising it as normal but suboptimal bot behavior.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "velizar_",
+    "report_date": "2020-04-01"
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Infusion Grid costs the same as Wall but Wall has 25% less health; the prompt ability on Infusion Grid is worth a significant amount, making Infusion Grid generally preferable to Wall when the blue resource cost is not an issue.",
+    "units": [
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "amalloy responded to a discussion about Wall vs Infusion Grid efficiency, noting that prompt makes Infusion Grid worth more despite the identical cost.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying a Blastforge should be avoided if the player is almost certain to buy a Steelsplitter next turn; the blue tech cost is wasted if it only enables a Steelsplitter rather than a Wall or better blue unit.",
+    "units": [
+      "Blastforge",
+      "Steelsplitter",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "shadourow gave a rule of thumb during a discussion about early Blastforge purchases and when Steelsplitter is a poor default use of blue.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Steelsplitter is considered a worse absorb option than an Infusion Grid that will defend the next turn; holding more than one Steelsplitter as a blocker is essentially giving the opponent a free breach due to how inefficient the soak is.",
+    "units": [
+      "Steelsplitter"
+    ],
+    "confidence": "high",
+    "author": "shadourow",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "shadourow and f300xen discussed the inefficiency of Steelsplitter as an absorber in the context of Infusion Grid vs Wall vs Steelsplitter comparisons.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wincer deals at most 75 total damage over a game. In sets with strong vigilant soakers such as Xeno Guardian, Hannibull, or Aegis, the correct counter can be to simply absorb all Wincer clicks on Drones rather than build dedicated defense.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-03",
+    "replay_code": "FWXTE-gcq5g",
+    "context": "amalloy described a game where he absorbed all Wincer clicks on ~12 Drones and won, then discussed with shadourow which vigilant units make that strategy viable.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Low-economy sets are considered more likely to be won by the weaker player than high-economy sets, because sharp opening advantages (e.g. Fastimus or Elyot Animus lines being clearly dominant) reduce the impact of skill, and the asymmetry of opening positions matters more.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-03",
+    "replay_code": null,
+    "context": "sano712 and awaclus discussed why low-econ sets favor the weaker player more, with sano712 citing beating stronger players in low-econ sets due to obvious dominant lines.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets without good random-set green units, Conduit is the correct purchase when a player does not yet want an Animus and has no profitable blue unit to buy, rather than forcing a Blastforge into Steelsplitter.",
+    "units": [
+      "Conduit",
+      "Animus",
+      "Blastforge",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "shadourow summarized tech-buying heuristics at the end of a discussion about when Blastforge is a trap purchase.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In an all-units available game, the degenerate combo most commonly discussed is Galvani Drone + Antima Comet + Chrono Filter, enabling roughly 15 damage from Antima Comet as early as turn 5 with a strong economy backing it.",
+    "units": [
+      "Galvani Drone",
+      "Antima Comet",
+      "Chrono Filter"
+    ],
+    "confidence": "medium",
+    "author": "iminabearsuit",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion of what degenerate strategies would emerge in an all-units game; amalloy named Galvani-Antima-Chrono and iminabearsuit provided a rough opening line achieving ~15 damage Antima on turn 5.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

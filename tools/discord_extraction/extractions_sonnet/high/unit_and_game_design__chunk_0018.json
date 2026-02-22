@@ -1,0 +1,140 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Shalev's Design Rule (SDR) requires that having the Blocker keyword must never be a net negative for a unit. AoE damage that targets only blockers violates SDR, but unconditional AoE damage (hitting all units) does not, because a unit with Blocker that is hit by unconditional AoE is merely situationally worthless rather than actively worse for having the keyword.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of AoE damage mechanics in the context of a fan unit design challenge, with reference to Elyot's stated design philosophy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Units currently under construction (golden/constructing state) cannot be targeted by click abilities such as Apollo's snipe. This is a fundamental game rule: golden units are uninteractable unless no other valid targets remain on the board, and even then only damage effects can 'overdamage' into them.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed unit that could transform enemy units, raising the question of whether it could target units under construction such as Centrifuge.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When evaluating pseudo-absorb on a unit with a click ability that grants health (like a hypothetical Bubble Screen), the absorb value is determined by what health remains on the unit after clicking, not by how much total HP was absorbed. A once-clicked Bubble Screen (4 HP with click granting 1 HP) effectively provides 3 absorb because only 3 HP remains when sacrificed.",
+    "units": [],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Community discussion of a fan-designed unit called Bubble Screen in a unit design challenge, analyzing its absorb value at different click states.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Deadeye Operative is SDR-compliant because it targets non-blocking drones, meaning blocking is always preferable to not blocking against it. A hypothetical sniper that targets only blocking units with 1 HP would violate SDR because it would make having the Blocker keyword actively detrimental.",
+    "units": [
+      "Deadeye Operative"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of a fan-designed unit (H.U.N.T.E.R.) that destroys blocking units with 1 HP, evaluated against Shalev's Design Rule.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Apollo cannot snipe Centrifuge while it is under construction, because golden (constructing) units are immune to targeted interactions. However, if Centrifuge is the only unit left on the board, it can be targeted by damage that overflows.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "medium",
+    "author": "supergreyman",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Conversation about whether a fan-designed transform unit could target units under construction, leading to clarification of Apollo's targeting rules.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Old Frostbite was considered problematic not because it was too powerful in absolute terms, but because there was no way to simultaneously play around it and use it yourself — buying it and then defending with blockers meant your opponent could destroy Frostbite before it fired, making the defense-plus-frostbite strategy internally inconsistent. This led to its redesign.",
+    "units": [],
+    "confidence": "high",
+    "author": "redrame",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of balance philosophy around chill/freeze units and why old Frostbite was changed, in the context of evaluating a fan-designed AoE chill unit.",
+    "temporal_validity": "historical",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tarsiers beat an Apollo-Wall defensive setup, making fast Tarsier strategies viable as a counter to the Apollo blocker package even without large attackers.",
+    "units": [
+      "Tarsier",
+      "Apollo",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "crash_overlord",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of how a fan-designed anti-big-unit card would affect the meta, with crash_overlord asserting Tarsiers beat Apollo-Wall regardless.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When a unit with Stamina is not needed for blocking, clicking it for its attack ability and then rebuying it is sometimes correct but usually costs too much: you lose the unit's health as prompt absorb and typically 1 absorb value, which is generally not worth the tempo damage unless the attack kills high-value units such as Rhinos.",
+    "units": [
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "crash_overlord",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Discussion of when it is correct to sacrifice and rebuy Stamina attackers (in the context of a fan-designed unit similar to Odin) for extra attack versus keeping them as blockers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "AOE effects that scale directly with the number of enemy units (e.g., deal 1 damage for each enemy unit) violate SDR because at some point the N+1th unit is strictly worse than the Nth unit — you pay for an additional unit that dies at the same rate as previous ones without providing incremental survivability value.",
+    "units": [],
+    "confidence": "high",
+    "author": "kaelii",
+    "date": "2018-03",
+    "replay_code": null,
+    "context": "Theoretical discussion of AoE damage mechanics and when they violate Shalev's Design Rule, triggered by evaluation of fan-designed units with AoE chill or damage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

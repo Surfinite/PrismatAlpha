@@ -1,0 +1,146 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prismata's design philosophy (the 'Shalev Rule') ensures that atomic actions are always unambiguously good or bad: killing opponent units is always good, and having more resources/units is always good. This prevents awkward situations where a player might prefer to leave opponent units alive or avoid having their own units.",
+    "units": [],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion comparing Prismata's design philosophy to MTG mechanics like Eternalize and deathtouch, explaining why death/damage triggers are not Shalevian.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Tarsiers historically required manual clicking but were automated because, due to the Shalev design rule (SDR), there is never a reason not to click them. The automation of such actions is a direct consequence of the design philosophy that attacking is never bad.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of the Shalev Rule and why certain units like Tarsiers auto-attack rather than requiring manual clicks.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The Shalev design principle also simplifies damage assignment: because having more of your own units is always better and killing opponent units is always better, quick damage assignment (shift-click) can be implemented accurately without needing to account for edge cases where a player might want to preserve a weaker unit.",
+    "units": [],
+    "confidence": "high",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "liadahlia noted that Shalev principles allow quick damage assignment (q damage assign) to work with good accuracy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "The Shalev design rule means that when choosing which of two units to lose on defense (e.g., a 2-lifespan Doomed Mech vs. a 5-lifespan Doomed Mech), the player can always automatically sacrifice the shorter-lifespan one without needing to consider potential negative consequences of keeping the longer-lifespan unit, since no non-Shalevian effects can make the longer-lifespan unit's survival unwanted.",
+    "units": [
+      "Doomed Mech"
+    ],
+    "confidence": "high",
+    "author": "jamesa7171",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "jamesa7171 cited mquander's articulation of the Shalev Rule's practical benefit: it eliminates certain defensive decision complexity.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tantalum Ray has an 'even HP issue': you may be able to click it down to 0 HP but would not want to do so in all circumstances, meaning shift-click (auto-assign) cannot always be used reliably with it.",
+    "units": [
+      "Tantalum Ray"
+    ],
+    "confidence": "medium",
+    "author": "randomflyingtaco",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about a custom unit design described as a 'big Feral', which shares a click-to-zero-HP awkwardness with Tantalum Ray.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When comparing Immolite to Tarsier, Immolite is arguably better in many situations specifically because it does not have a build time of 2 (bt2), making it available to attack or be used sooner after purchase.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion about a custom Conduit-consuming unit, with liadahlia drawing a parallel to how Immolite's lack of bt2 gives it an edge over Tarsier in many situations.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "For Blood Pact rush strategies, green tech (e.g., Goose) is often practically better than Shredder despite Shredder being theoretically superior on paper (cost efficiency matters more than HP for BP rushes). This is because green is better tech support for Blood Pact lines.",
+    "units": [
+      "Blood Pact"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "masn6811 and liadahlia discussed whether Shredder or Goose is better for Blood Pact rush strategies, with http404error agreeing with the assessment.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "A custom 'Trollium Matrix' unit (prompt blocker, 5 HP, constructs 2 Fission Turrets for the opponent on purchase, cost xBG) was evaluated: giving the opponent 2 Fission Turrets as a downside is relatively minor unless good green units are present in the set, since the turrets mainly enable green clicks. The nominal value difference between Energy Matrix and 2 Fission Turrets is very small, making a low gold cost potentially fair.",
+    "units": [
+      "Fission Turret"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Community discussion evaluating a custom unit design that constructs Fission Turrets for the opponent, debating its cost and balance relative to Wall and Energy Matrix.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null,
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "COMMUNITY_JARGON",
+    "insight": "'Shalevian' (or 'the Shalev Rule') refers to Prismata's core design principle that all atomic game actions should be unambiguously positive or negative, preventing situations where killing opponent units or gaining resources could ever be bad. It is named after Shalev, one of Prismata's designers.",
+    "units": [],
+    "confidence": "high",
+    "author": "http404error",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "curlyalpaca asked what 'Shalevian' meant, prompting http404error and supergreyman to explain the design principle.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]

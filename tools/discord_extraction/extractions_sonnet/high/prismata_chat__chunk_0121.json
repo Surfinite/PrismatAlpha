@@ -1,0 +1,132 @@
+[
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot does not understand stamina as a resource, leading it to make incorrect absorb decisions. Specifically, it values a 0-stamina Bombarder over an Energy Matrix, and will absorb on a 0-stamina Corpus over a Wall, implying it also absorbs on 1- or 2-stamina Corpus over Wall, which is almost always incorrect.",
+    "units": [
+      "Corpus",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "chlobes",
+    "date": "2019-12",
+    "replay_code": null,
+    "context": "Discussion of Master Bot's strategic weaknesses related to stamina-based units and absorb decisions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "chlobes",
+    "report_date": "2019-12-26"
+  },
+  {
+    "category": "MB_WEAKNESS",
+    "insight": "Master Bot has very bad strategic ideas in many games, though it can still defend accurately and take a normal amount of time to plan turns. Its weaknesses are well-known to experienced players and do not require developer intervention to identify.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-12",
+    "replay_code": null,
+    "context": "Response to a player asking a dev about Master Bot behavior, with amalloy noting MB's strategic weakness is a known pattern, not a bug.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": "amalloy",
+    "report_date": "2019-12-10"
+  },
+  {
+    "category": "MB_COMPARISON",
+    "insight": "Casual Match bots are strictly worse than Master Bot strategically. Awaclus dismisses them as inferior, implying Master Bot is the strongest available AI option in the game.",
+    "units": [],
+    "confidence": "high",
+    "author": "awaclus",
+    "date": "2019-12",
+    "replay_code": null,
+    "context": "Discussion of playing bots while queuing for ranked, with awaclus noting Casual Match bots are weaker than Master Bot.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "With Savior in the set, holding a drone only costs one gold rather than the full drone cost, because Savior grants 1 gold per drone at the start of your turn, effectively refunding the held drone's contribution next turn.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2019-12",
+    "replay_code": null,
+    "context": "velizar_ sharing a non-obvious interaction between the Savior unit and the decision to hold a drone.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In an infinite-supply scenario, aegis soak with drones loses to Steelsplitters; ExtraTricky analyzed the optimal attacker line as DD DB then buy a Splitter when possible, then Drones and Blastforges, with natural Blast being surprisingly suboptimal. The best defender line with Aegis and no absorb (no Blastforge or Wall available) gets breached around turn 24.",
+    "units": [
+      "Steelsplitter",
+      "Drone",
+      "Blastforge",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2019-12",
+    "replay_code": null,
+    "context": "Thread analyzing infinite-supply theoretical matchups; extratricky confirmed the result of a prior written analysis.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Saviors do not beat Tarsiers in infinite supply unless the defending player also attacks with Plasmafiers; however, straight Plasmafiers alone beat Tarsiers more convincingly than Saviors combined with Plasmafiers.",
+    "units": [
+      "Savior",
+      "Tarsier",
+      "Plasmafier"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-12",
+    "replay_code": null,
+    "context": "Discussion of which defenses can beat Tarsiers in an infinite-supply theoretical scenario.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In competitive theory (base+N with unlimited supply), Chrono Filter + Galvani Drone + Antima Comet is considered among the strongest combinations, having beaten even BSO (base set only) with a one-turn handicap and normal supply limits when combined with Ebb and Electrovore. Unlimited Antima Comets in particular are considered extremely powerful.",
+    "units": [
+      "Chrono Filter",
+      "Galvani Drone",
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-12",
+    "replay_code": null,
+    "context": "Hypothetical discussion about optimal unit combinations to beat an opponent with unlimited Gauss Fabricators.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata's unit sort order for random set display, units are ordered by: no tech cost first, then energy cost, then single-color tech cost, then double-color, then triple-color. Within the same cost tier, cheaper units appear before more expensive ones, and ties are broken alphabetically.",
+    "units": [],
+    "confidence": "high",
+    "author": "chlobes",
+    "date": "2019-12",
+    "replay_code": null,
+    "context": "Discussion of which unit the '@' hotkey buys (the second unit in the set), leading to an explanation of the unit sort order.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [],
+    "reporter": null,
+    "report_date": null
+  }
+]
