@@ -1740,6 +1740,156 @@ def resume_batch(batch_id, work_dir, client):
         return {"submitted": 0, "succeeded": 0, "failed": 0, "total_insights": 0}
 
 
+def _submit_batch_from_chunks(all_chunks, work_dir, extract_base, client):
+    """Submit a batch extraction job from a unified chunk list (multi-channel aware).
+
+    Args:
+        all_chunks: list of (chunks_dir_path, manifest_entry) tuples.
+        work_dir: Base work directory path.
+        extract_base: Extraction subdirectory label (e.g., "extractions_sonnet").
+        client: An Anthropic client instance.
+    """
+    import time as _time
+
+    work_path = Path(work_dir)
+    high_dir = work_path / extract_base / "high"
+    low_dir = work_path / extract_base / "low"
+
+    checkpoint = _load_processed_chunks(work_dir, extract_label=extract_base)
+    processed_set = set(checkpoint["processed"])
+
+    # Build batch requests
+    requests = []
+    chunk_map = {}  # custom_id -> (chunks_dir, entry, qualified_name)
+    for ch_dir, entry in all_chunks:
+        ch_name = entry.get("channel", "unknown")
+        qualified_name = f"{ch_name}/{entry['filename']}"
+        if qualified_name in processed_set:
+            continue
+
+        chunk_path = ch_dir / entry["filename"]
+        if not chunk_path.exists():
+            print(f"  WARNING: chunk file missing: {qualified_name}", flush=True)
+            continue
+
+        with open(chunk_path, encoding="utf-8") as f:
+            chunk = json.load(f)
+
+        prompt = build_extraction_prompt(chunk)
+        # Use channel_filename as custom_id (no slashes — use double underscore)
+        custom_id = qualified_name.replace("/", "__").replace(".json", "")
+
+        requests.append({
+            "custom_id": custom_id,
+            "params": {
+                "model": _active_model,
+                "max_tokens": EXTRACTION_MAX_TOKENS,
+                "messages": [{"role": "user", "content": prompt}],
+            },
+        })
+        chunk_map[custom_id] = (ch_dir, entry, qualified_name)
+
+    if not requests:
+        print("All chunks already processed. Nothing to submit.", flush=True)
+        return
+
+    print(f"\nSubmitting batch with {len(requests)} requests...", flush=True)
+
+    batch = client.messages.batches.create(requests=requests)
+    batch_id = batch.id
+    print(f"Batch submitted: {batch_id}", flush=True)
+
+    _save_batch_status(work_dir, batch_id, "submitted", {
+        "total_requests": len(requests),
+        "model": _active_model,
+        "extract_base": extract_base,
+    })
+
+    if batch_id not in checkpoint["batch_ids"]:
+        checkpoint["batch_ids"].append(batch_id)
+        _save_processed_chunks(work_dir, checkpoint, extract_label=extract_base)
+
+    # Poll for completion
+    print("Polling for completion...", flush=True)
+    while batch.processing_status == "in_progress":
+        _time.sleep(BATCH_POLL_INTERVAL)
+        batch = client.messages.batches.retrieve(batch_id)
+        counts = batch.request_counts
+        print(f"  Status: {batch.processing_status} "
+              f"(succeeded={counts.succeeded}, errored={counts.errored}, "
+              f"processing={counts.processing})", flush=True)
+
+    print(f"\nBatch completed: {batch.processing_status}", flush=True)
+    _save_batch_status(work_dir, batch_id, batch.processing_status, {})
+
+    # Process results
+    total_insights = 0
+    total_high = 0
+    total_low = 0
+    succeeded = 0
+    failed = 0
+
+    for entry in client.messages.batches.results(batch_id):
+        custom_id = entry.custom_id
+        if custom_id not in chunk_map:
+            print(f"  WARNING: unknown custom_id in batch result: {custom_id}", flush=True)
+            continue
+
+        _, chunk_entry, qualified_name = chunk_map[custom_id]
+        chunk_filename = chunk_entry["filename"]
+
+        if entry.result.type == "succeeded":
+            # Parse response content
+            text_block = entry.result.message.content[0].text
+            try:
+                raw_insights = json.loads(text_block)
+            except json.JSONDecodeError:
+                print(f"  FAILED JSON: {qualified_name}", flush=True)
+                failed += 1
+                continue
+
+            insights = []
+            for ins in raw_insights:
+                _, flagged = validate_insight(ins)
+                insights.append(flagged)
+            # Use channel-qualified filename to avoid collisions
+            ch_name = chunk_entry.get("channel", "unknown")
+            output_filename = f"{ch_name}__{chunk_filename}"
+            if insights:
+                high_count, low_count = _route_insights(
+                    insights, output_filename, high_dir, low_dir
+                )
+                total_high += high_count
+                total_low += low_count
+                total_insights += len(insights)
+                succeeded += 1
+                print(f"  {qualified_name}: {len(insights)} insights "
+                      f"({high_count} high/med, {low_count} low)", flush=True)
+            else:
+                succeeded += 1
+                print(f"  {qualified_name}: 0 insights", flush=True)
+        else:
+            print(f"  SKIPPED: {qualified_name} - result type: {entry.result.type}", flush=True)
+            failed += 1
+
+        # Mark as processed
+        if qualified_name not in checkpoint["processed"]:
+            checkpoint["processed"].append(qualified_name)
+            _save_processed_chunks(work_dir, checkpoint, extract_label=extract_base)
+
+    _save_batch_status(work_dir, batch_id, "results_processed", {
+        "succeeded": succeeded, "failed": failed,
+        "total_insights": total_insights,
+    })
+
+    print(f"\n{'=' * 60}", flush=True)
+    print(f"Batch extraction complete:", flush=True)
+    print(f"  Requests:     {len(requests)} submitted", flush=True)
+    print(f"  Succeeded:    {succeeded}", flush=True)
+    print(f"  Failed:       {failed}", flush=True)
+    print(f"  Insights:     {total_insights} ({total_high} high/med, {total_low} low)", flush=True)
+
+
 def run_extraction(args):
     """Main entry point for Phase 2 extraction.
 
@@ -1764,36 +1914,60 @@ def run_extraction(args):
 
     work_path = Path(work_dir)
 
-    # Resolve chunks directory: per-channel dir (chunks_{channel}/) or legacy (chunks/)
-    channel_name = args.channel or (args.channels if args.channels and "," not in (args.channels or "") else None)
-    if channel_name and channel_name != "all":
-        chunks_dir = work_path / f"chunks_{channel_name}"
-        if not chunks_dir.is_dir():
-            chunks_dir = work_path / "chunks"  # fallback to legacy
+    # Determine which channels to process
+    channels_arg = args.channels or ""
+    if channels_arg == "all":
+        target_channels = sorted(HIGH_MED_CHANNELS)
+    elif "," in channels_arg:
+        target_channels = [c.strip() for c in channels_arg.split(",")]
+    elif args.channel:
+        target_channels = [args.channel]
+    elif channels_arg:
+        target_channels = [channels_arg]
     else:
+        target_channels = []
+
+    # Build unified chunk list from per-channel dirs (or legacy single dir)
+    all_chunks = []  # list of (chunks_dir_path, manifest_entry) tuples
+    total_tokens = 0
+    if target_channels:
+        for ch in target_channels:
+            ch_chunks_dir = work_path / f"chunks_{ch}"
+            ch_manifest_path = ch_chunks_dir / "chunk_manifest.json"
+            if not ch_chunks_dir.is_dir() or not ch_manifest_path.exists():
+                print(f"  WARNING: no chunks for channel {ch}, skipping", flush=True)
+                continue
+            with open(ch_manifest_path, encoding="utf-8") as f:
+                ch_manifest = json.load(f)
+            for entry in ch_manifest["chunks"]:
+                all_chunks.append((ch_chunks_dir, entry))
+            total_tokens += ch_manifest.get("total_tokens", 0)
+            print(f"  Channel {ch}: {ch_manifest['total_chunks']} chunks, "
+                  f"{ch_manifest.get('total_tokens', 0):,} tokens", flush=True)
+        chunks_dir = None  # multi-channel mode — no single dir
+    else:
+        # Legacy single-dir mode
         chunks_dir = work_path / "chunks"
+        if not chunks_dir.is_dir():
+            print(f"ERROR: chunks directory not found: {chunks_dir}", file=sys.stderr)
+            print("Run Phase 1 first (without --extract) to generate chunks.", file=sys.stderr)
+            sys.exit(1)
+        manifest_path = chunks_dir / "chunk_manifest.json"
+        if not manifest_path.exists():
+            manifest_path = work_path / "chunk_manifest.json"
+        if not manifest_path.exists():
+            print("ERROR: chunk_manifest.json not found. Run Phase 1 first.", file=sys.stderr)
+            sys.exit(1)
+        with open(manifest_path, encoding="utf-8") as f:
+            manifest = json.load(f)
+        for entry in manifest["chunks"]:
+            all_chunks.append((chunks_dir, entry))
+        total_tokens = manifest.get("total_tokens", 0)
 
-    # Verify chunks exist
-    if not chunks_dir.is_dir():
-        print(f"ERROR: chunks directory not found: {chunks_dir}", file=sys.stderr)
-        print("Run Phase 1 first (without --extract) to generate chunks.", file=sys.stderr)
-        sys.exit(1)
-
-    # Manifest lives inside the chunks directory for per-channel dirs
-    manifest_path = chunks_dir / "chunk_manifest.json"
-    if not manifest_path.exists():
-        manifest_path = work_path / "chunk_manifest.json"  # fallback to legacy
-    if not manifest_path.exists():
-        print("ERROR: chunk_manifest.json not found. Run Phase 1 first.", file=sys.stderr)
-        sys.exit(1)
-
-    with open(manifest_path, encoding="utf-8") as f:
-        manifest = json.load(f)
-
-    print(f"Work directory: {work_dir}", flush=True)
+    print(f"\nWork directory: {work_dir}", flush=True)
     print(f"Model:          {_active_model}", flush=True)
-    print(f"Total chunks:   {manifest['total_chunks']}", flush=True)
-    print(f"Total tokens:   {manifest['total_tokens']:,}", flush=True)
+    print(f"Total chunks:   {len(all_chunks)}", flush=True)
+    print(f"Total tokens:   {total_tokens:,}", flush=True)
 
     # Initialize Anthropic client
     client = Anthropic()
@@ -1814,16 +1988,16 @@ def run_extraction(args):
         high_dir = work_path / extract_base / "high"
         low_dir = work_path / extract_base / "low"
 
-        # Determine which chunks to process
+        # Determine which chunks to process (using unified all_chunks list)
+        # Each item is (chunks_dir_path, manifest_entry)
         chunks_to_process = []
-        for entry in manifest["chunks"]:
-            filename = entry["filename"]
-            if filename in processed_set:
+        for ch_dir, entry in all_chunks:
+            # Use channel-qualified filename for checkpoint uniqueness
+            ch_name = entry.get("channel", "unknown")
+            qualified_name = f"{ch_name}/{entry['filename']}"
+            if qualified_name in processed_set:
                 continue
-            # Filter by channel if specified
-            if args.channel and entry.get("channel") != args.channel:
-                continue
-            chunks_to_process.append(entry)
+            chunks_to_process.append((ch_dir, entry, qualified_name))
 
         if not chunks_to_process:
             print("All matching chunks already processed.", flush=True)
@@ -1837,12 +2011,12 @@ def run_extraction(args):
         succeeded = 0
         failed = 0
 
-        for i, entry in enumerate(chunks_to_process, 1):
+        for i, (ch_dir, entry, qualified_name) in enumerate(chunks_to_process, 1):
             filename = entry["filename"]
-            chunk_path = chunks_dir / filename
+            chunk_path = ch_dir / filename
 
-            print(f"\n[{i}/{len(chunks_to_process)}] {filename} "
-                  f"({entry.get('channel', '?')}, {entry.get('token_count', 0)} tokens)...",
+            print(f"\n[{i}/{len(chunks_to_process)}] {qualified_name} "
+                  f"({entry.get('token_count', 0)} tokens)...",
                   flush=True)
 
             if not chunk_path.exists():
@@ -1855,9 +2029,12 @@ def run_extraction(args):
 
             insights = extract_sync(chunk, client)
 
+            # Use channel-qualified filename to avoid collisions across channels
+            ch_name = entry.get("channel", "unknown")
+            output_filename = f"{ch_name}__{filename}"
             if insights:
                 high_count, low_count = _route_insights(
-                    insights, filename, high_dir, low_dir
+                    insights, output_filename, high_dir, low_dir
                 )
                 total_high += high_count
                 total_low += low_count
@@ -1870,9 +2047,9 @@ def run_extraction(args):
                 succeeded += 1
                 print(f"  0 insights", flush=True)
 
-            # Mark as processed
-            if filename not in checkpoint["processed"]:
-                checkpoint["processed"].append(filename)
+            # Mark as processed (use qualified name for multi-channel uniqueness)
+            if qualified_name not in checkpoint["processed"]:
+                checkpoint["processed"].append(qualified_name)
                 _save_processed_chunks(work_dir, checkpoint, extract_label=extract_base)
 
         print(f"\n{'=' * 60}", flush=True)
@@ -1884,11 +2061,15 @@ def run_extraction(args):
 
     else:
         # Default: submit new batch
-        extract_batch(str(chunks_dir), work_dir, client)
+        model_label = args.model if hasattr(args, "model") else "haiku"
+        extract_base = f"extractions_{model_label}" if model_label != "haiku" else "extractions"
+        _submit_batch_from_chunks(all_chunks, work_dir, extract_base, client)
 
     # Print output locations
-    high_dir = work_path / "extractions" / "high"
-    low_dir = work_path / "extractions" / "low"
+    model_label = args.model if hasattr(args, "model") else "haiku"
+    extract_base = f"extractions_{model_label}" if model_label != "haiku" else "extractions"
+    high_dir = work_path / extract_base / "high"
+    low_dir = work_path / extract_base / "low"
     if high_dir.exists():
         high_files = list(high_dir.glob("*.json"))
         print(f"\nHigh/medium confidence: {len(high_files)} files in {high_dir}", flush=True)
