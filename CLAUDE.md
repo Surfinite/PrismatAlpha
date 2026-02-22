@@ -3,9 +3,9 @@
 > **Full project history** (sections 1-29, completed milestones, tournament results): see `docs/PROJECT_HISTORY.md`
 > **Execution plan** for self-play training: see `docs/plans/2026-02-15-selfplay-training-master-plan.md`
 
-## Current Status (Feb 21, 2026)
+## Current Status (Feb 20, 2026)
 
-**Run B 722K-game 256h/3L model: 51.9% WR vs OriginalHardestAI** (2,016 games, CI [49.7%, 54.1%], 12 spot c5.2xlarge). First model to cross 50% WR. Trained on 722K games (27M records), 256h/3L (R12_smooth90), lr=2e-5, dropout=0.20, label_smooth=0.90, tanh+MSE, 85.6% val accuracy, 10 epochs (step 415K). Weights: `bin/asset/config/neural_weights_run_B_256h3L.bin`. Previous champion: 305K model (45.3% WR, 256h/2L) at `neural_weights_305k.bin`. Other models: `neural_weights_run_A_256h2L.bin` (256h/2L, step 20K), `neural_weights_selfplay_v1.bin` (iter 1, 77% val acc, 10K games), `neural_weights_expert_backup.bin` (expert-trained).
+**305K-game 256h model: 45.3% WR vs OriginalHardestAI** (4,032 games, CI [43.8%, 46.8%], 24 EC2 c5.2xlarge). Massive improvement from 26.7% with 63K games. Trained on 330K games (12.2M records), 256h, LR=1e-5, tanh+MSE, 86.1% val accuracy. Weights: `bin/asset/config/neural_weights_305k.bin` (deployed as `neural_weights.bin`). Previous models: `neural_weights_selfplay_v1.bin` (iter 1, 77% val acc, 10K games), `neural_weights_expert_backup.bin` (expert-trained).
 
 **T4 hyperparameter plan COMPLETE (Feb 19).** 12 experiments on GCP L4 in 41 min. Winner: R12_smooth90 (256h/3L, lr=2e-5, dropout=0.20, label_smooth=0.90, val_loss=0.4875). But **tournament showed data > hyperparameters**: R12 trained on 500K records got 19.3% WR (11,060 games), while E2b trained on 2.3M records got 28.9% WR (3,400 games). The 16GB RAM limit on g2-standard-4 forced `--max-records 500000`, nullifying architecture gains. Results: `s3://prismata-selfplay-data/training-runs/plan_2026-02-19_02-27-22/`. Weights: `bin/asset/config/neural_weights_R12_smooth90.bin` (256h/3L, 871K params). Plan: `docs/plans/2026-02-18-t4-training-plan.md`.
 
@@ -31,10 +31,8 @@
 
 **Intel Arc B580 XPU acceleration ENABLED (Feb 17).** PyTorch 2.10.0+xpu installed globally, IPEX removed, native `torch.xpu` backend. New CLI flags: `--device` (force cpu/xpu/cuda), `--amp` (BF16), `--compile` (torch.compile, needs MSVC). Benchmark (100K records, bs=512, seed 42): **XPU+nw4: 13s/epoch vs CPU: 42s/epoch (3.2x per-epoch, 4.5x total)**. BF16 (`--amp`) adds overhead at this model size — skip it. Multi-worker data loading confirmed working (`num_workers=4` is optimal). Earlier "pickle bug" failures were transient Windows handle exhaustion from memory pressure, not a real incompatibility. Plan: `~/.claude/plans/intel-arc-b580-xpu-acceleration-v2.md`. **Production command: `--device xpu --num-workers 4`.**
 
-**Heuristic buy/breach fixes IMPLEMENTED (Feb 21).** EffectiveBuyCost subtracts created sub-unit value from parent card cost (fixes Borehole→Pixie, Corpus→Husk overvaluation). `BuyAttackValue_Improved`/`BuyBlockValue_Improved` use effective cost. Breach targeting gives proportional partial-value density for non-lethal hits (fixes ignoring Drone over cheap Galvani). All gated behind `_legacy` flag — OriginalHardestAI unchanged. **Eval in progress**: 12 spot c5.2xlarge running 3 tournaments (Neural+improved vs Original, Playout+improved vs Original, Neural improved vs legacy). Results: `eval-results/heuristic_eval_*/`. Files: `Heuristics.cpp` (EffectiveBuyCost, improved buy functions), `PartialPlayer_Breach_GreedyKnapsack.cpp` (partial-value density), `AIParameters.cpp` (wiring). Config: `BreachGreedyKnapsack_Legacy` added for legacy iterators.
-
 **Next actions:**
-1. ~~**Retrain R12 with full dataset**~~ — DONE (Feb 21). Run B: 256h/3L, 722K games, 10 epochs on GCP L4, 51.9% WR (2,016 games). New champion. Deploy as `neural_weights.bin` for advisor/autopilot use.
+1. **Retrain R12 architecture with full dataset** — R12_smooth90 (256h/3L, d=0.20, s=0.90) has best val_loss but was limited to 500K records by GCP RAM. Use AWS T4 spot (g4dn.xlarge, $0.20/hr, **G/VT spot quota = 8 vCPUs, 2 instances**) with `--streaming` for full 15M+ record dataset.
 2. **Continue data generation** toward 1M games. **AWS selfplay DISABLED (Feb 19)** (`selfplay.enabled: false` in watcher_config.json). **GCP selfplay ACTIVE** (6x n2-standard-8, 48 vCPUs, `gcp.enabled: true`). Azure paused and cleaned. **~722K games generated (Feb 20 audit: 7,804 shards, 26.7M records, 178 GB in S3).** Local selfplay via `run_selfplay.bat` is free.
 4. ~~**256h 305K-game eval**~~ — DONE (Feb 18). 45.3% WR (4,032 games). Major milestone — up from 26.7% with 63K games.
 5. ~~**Fix streaming DataLoader multi-worker support**~~ — DONE (Feb 17). Lazy init pattern in `MemmapSelfPlayDataset` enables `num_workers>0`. Use `--num-workers 2` for streaming to avoid RAM thrashing (4 causes 94% RAM on 32GB).
@@ -42,12 +40,11 @@
 7. ~~**Build overlay advisor**~~ — DONE (Feb 18). C++ `--suggest` mode + Python overlay (`tools/prismata_advisor.py`) + launcher (`run_advisor.bat`). Run: double-click `run_advisor.bat`, press F6 in Prismata. Plan: `docs/plans/2026-02-18-prismata-overlay-advisor.md`.
 8. ~~**Live game state tracking in sniffer**~~ — DONE (Feb 20). Auto-F6 at turn boundaries via Win32 SendInput, clipboard capture, mid-turn click tracking, JSON + console output. See sniffer gotchas below. **Not yet live-tested.**
 9. ~~**Build live AI commentator — Phase 1 (text + chat)**~~ — DONE (Feb 20). Claude Haiku generates per-turn strategic commentary, injected as in-game PM via sniffer proxy. Adaptive token budget: short/punchy for fast turns (40 tokens), expanded colour for long thinks (120 tokens, >=15s threshold). Chat target defaults to Surfinite (self-PM); set `CHAT_TARGET=<id>` env var to redirect. Tested live on spectated games. Plan: `docs/plans/2026-02-20-live-commentator-plan.md`. Knowledge base: `docs/commentary-knowledge/`. **Phase 2 (TTS + OBS)** still planned — needs `edge-tts`, `sounddevice`, `obsws-python`, VB-Cable.
-10. **Post-game commentary from replay data** — WORKFLOW ESTABLISHED (Feb 21). Full instructions: `docs/plans/commentary-generation-instructions.md`. Tool: `python tools/generate_commentary_data.py "CODE" --think-time 50` (C++ analysis), `--validate` (resource-validated buys), `--eval-only` (neural eval only). Commentary files: `bin/commentary/commentary_{CODE}.txt` (plain text, no Discord delimiters). **Preserve previous versions on regen**: rename existing file to `commentary_{CODE}_{TIMESTAMP}.txt` before overwriting. Community reception positive (3 games commentated). **Known limitation**: click-based buy counting can't distinguish successful purchases from failed clicks (sold-out OR insufficient resources) — `--validate` flag handles this with resource simulation.
+10. **Post-game commentary from sniffer/replay data** — WORKING (Feb 20). Manual workflow: sniffer captures live game → parse commandInfo + live clicks → Claude generates full-game analysis → format for Discord. Community reception positive (2 games commentated, Wonderboat: "super cool dude!"). **Known limitation**: click-based buy counting can't distinguish successful purchases from failed clicks on sold-out cards — must enforce supply limits (see gotcha above). Replay API (`deckInfo.mergedDeck`) provides same data as sniffer. Commentary files: `bin/commentary_*.txt`.
 11. ~~**Build autopilot — AI move injection via TCP proxy**~~ — DONE (Feb 20). `--suggest` now outputs `clicks` array with wire-protocol-ready `{_type, _id}` pairs. Python autopilot engine captures state (Shift+F6), runs AI, injects Click/EndTurn messages through sniffer proxy. Semi-auto (file trigger) and full-auto (StartTurn callback) modes. Dry-run mode for testing. Launch: `run_prismata_tools.bat --autopilot`. **Proxy integration verified (Feb 20): game traffic flows, StartTurn detected, bot-game check works. Not yet tested with actual bot game click injection.** Plan: `~/.claude/plans/sequential-launching-mountain.md`.
-12. ~~**C++ replay ingestion mode**~~ — ALL 3 PHASES DONE (Feb 21). `ReplayStepper` class converts replay click sequences into GameState transitions, outputs binary shards (same format as self-play). CLI modes: `--replay`/`--replay-dir` (training shards), `--eval` (per-turn neural evaluation JSON), `--analyze` (AI vs expert buy comparison JSON with agreement rate). **96.6% extraction rate** (12,852/13,299 turns from 500 expert replays, 291/500 error-free). Branch: `feature/cpp-replay-stepper`. Plan: `docs/plans/2026-02-20-cpp-replay-mode.md`.
-13. ~~**GUI analysis enhancements**~~ — ALL 7 PHASES DONE (Feb 21). Policy fix, gold prediction, eval bars (Shift+E/W), parallel async eval (`std::async`), human turn advice (F7), eval history graph + CSV export, card value overlay (V: labels). PrismatAlpha → PrismatAI naming consolidation (7 files). Branch: `feature/cpp-replay-stepper`. Plan: `docs/plans/2026-02-21-gui-enhancement-plan-v2.md`.
+12. **Frontline penalty isolation test** — INFRASTRUCTURE COMPLETE (Feb 22). Branch `test/frontline-penalty` (2 commits from master). Compares `frontlinePenalty=5.0` (modern) vs `100000` (legacy/ban) in paired tournament design. Local 50-round sanity check: AB 66.7% WR, FLLegacy 63.9% WR vs OriginalHardestAI (72 games, difference not significant p=0.80). All C1-C7 enhancements done. Ready for EC2 deploy. Plan: `docs/plans/2026-02-21-frontline-penalty-test-v2.md` (on `feature/cpp-replay-stepper`).
 
-**Current neural net strength:** **Run B 256h/3L 722K model = 51.9% WR** vs OriginalHardestAI (2,016 games, CI [49.7%, 54.1%], AB search + NeuralNet eval, Feb 21). First model to cross 50%. Up from 45.3% with 305K model (330K games, 256h/2L). **512h confirmed worse** — Run C (512h/2L) peaked at step 15K (val_loss=0.5127, val_acc=77.5%), overfitting after. Terminated Feb 20. Previous: E2b (63K) = 26.7%, E1b (512h, 63K) = 19.6%, unfixed model = 3.6%. Historical: ~42% WR vs MediumAI (expert UCT). Churchill got 58.8% WR vs playout with 500K games — we're at 51.9% with 722K games, closing the gap.
+**Current neural net strength:** **256h 305K model = 45.3% WR** vs OriginalHardestAI (4,032 games, AB search + NeuralNet eval, Feb 18). Up from 26.7% with 63K games — 5x more data gave ~70% relative WR improvement. 512h comparison in progress. Previous: E2b (63K) = 26.7%, E1b (512h, 63K) = 19.6%, unfixed model = 3.6%. Historical: ~42% WR vs MediumAI (expert UCT). Churchill got 58.8% WR vs playout with 500K games — our 45.3% with 330K games and continued data generation toward 500K suggests we're on track to match or exceed that.
 
 ## What This Project Is
 
@@ -143,24 +140,17 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 
 - **Internal name system**: The engine uses codenames (e.g., "Tesla Tower" = Tarsier, "Brooder" = Blastforge). Full 105-unit mapping in `cardLibrary.jso`.
 - **Two git remotes**: `origin` = davechurchill upstream, `PrismatAlpha` = user's fork (Surfinite/PrismatAlpha). Push to `PrismatAlpha`.
-- **PrismatAlpha → PrismatAI rename (Feb 21)**: All AI player names in config.txt and C++ code renamed (`PrismatAlpha_AB` → `PrismatAI_AB`, etc.). The **git remote** is still called `PrismatAlpha` — only the in-game AI identity changed.
+- **Branch can switch unexpectedly**: When working across multiple branches, always `git branch --show-current` before operations that depend on branch-specific files. Background task completion or context recovery can leave you on a different branch than expected.
 - **Config tournament toggles**: Always check which tournaments have `"run":true` in `config.txt` before launching.
-- **Legacy mode**: `"legacy": true` preserves original AI behavior. `OriginalHardestAI` is the stable baseline. Never modify legacy behavior. **Config gotcha**: When adding `_legacy` parameters with defaults to partial players, ALL users of the shared config entry silently get the new default behavior. Must create separate `_Legacy` config entries (e.g., `BreachGreedyKnapsack_Legacy`) and update legacy iterators to reference them. **`legacy=true` bundles 3 changes on `ActionBuy_GreedyKnapsack` entries**: reverts to `BuyAttackValue` (not Improved), reverts to `BuyBlockValue` (not Improved), AND sets `frontlinePenalty=100000` (not 5.0). These cannot be isolated without adding explicit config keys (e.g., `"FrontlinePenalty": 100000`). The `5.0` value in the modern path was set in bc962f8 (Feb 13) without tournament validation — isolation test plan: `docs/plans/2026-02-21-frontline-penalty-test.md`.
-- **`BuyComboGreedy*`/`BCG*` are `ActionBuy_Combination` wrappers**: they reference `BuyGK_*` leaf entries by name, not `ActionBuy_GreedyKnapsack` directly. Only the 3 leaf entries (`BuyGK_AttackValue`, `BuyGK_BlockValue`, `BuyGK_WillScore`) carry `frontlinePenalty`. When building iterator chain variants, create 3 new leaf entries + cascading combination/iterator wrappers — do NOT try to add `frontlinePenalty` at the combination level.
+- **Legacy mode**: `"legacy": true` preserves original AI behavior. `OriginalHardestAI` is the stable baseline. Never modify legacy behavior.
 - **Feature schema contract**: `training/schema.json` + `training/FEATURES.md`. State dim = 1785 (161 units × 11 + 14 global). Changes must sync across `vectorize.py`, `NeuralNet.cpp`, and `schema.json`.
 - **NeuralNet.cpp diagnostics**: Gated behind `#ifdef NEURAL_NET_DEBUG`.
-- **`neural_weights.bin` deploy = file copy**: Path `asset/config/neural_weights.bin` is hardcoded in 4 C++ files (`testing/main.cpp:57`, `gui/main.cpp:26`, `ai/AITools.cpp:42`, `testing/test_features.cpp:419`) — no config option. Deploy a new model by copying: `cp neural_weights_run_X.bin neural_weights.bin`. Verify with MD5 hash to confirm identity.
 - **PRISMATA_ASSERT**: Soft assert — prints to **stdout** (`std::cout` in `PrismataAssert.cpp:30`), does NOT abort. Use `std::ifstream` instead of `FileUtils::ReadFile` when stdout must stay clean (e.g., `--suggest` mode).
-- **`isLegal()` doesn't fully validate USE_ABILITY side effects**: `isLegal(USE_ABILITY)` can return true but `doAction()` triggers PRISMATA_ASSERT (e.g., "not enough cards to destroy"). When trying speculative/fallback actions, only ASSIGN_BLOCKER and ASSIGN_BREACH are safe — they're simple state changes with no scripts or card destruction.
 - **x86 OOM — 4 threads max per process**: `/LARGEADDRESSAWARE` gives 4GB. Use `"Threads": 4` + multiple bat instances. Process dies silently at ~1400 games — config uses 1000 rounds/batch, `run_selfplay.bat` loops automatically.
 - **x86 OOM with large vectors**: Don't pre-allocate large `std::vector<GameState>` upfront. Allocate per-batch. Symptom: silent exit with no `[SelfPlay] COMPLETE` message.
 - **Console output routing**: `[SelfPlay]` and `[Progress]` use `fprintf(stderr, ...)`. Per-turn logging only when `SaveReplays: true`. New messages in Tournament.cpp should use stderr.
 - **Tournament `tests/` directory required**: `HTMLTable::appendHTMLTableToFile()` crashes (NULL `fprintf`) if `tests/` doesn't exist in the working directory. Always `mkdir tests` when setting up a new tournament directory. The cloud launcher script already handles this (line 85 of `launch_tournament.sh`).
-- **GUI Watch Training / Watch Eval modes**: Menu items in Prismata_GUI. Watch Training = self-play (1s think). Watch Eval = PrismatAI_AB_Legacy vs OriginalHardestAI (7s think). 4 threads each. Source: `source/gui/GUIState_WatchTraining.cpp/.h`.
-- **GUI human vs AI play**: Run `Prismata_GUI.exe`. Press **Space** to open AI select menu, Up/Down arrows to pick AI (e.g., `PrismatAI_AB`), Enter to confirm. Leave your side unassigned to play it manually. Hotkeys: Shift+E (eval bars), Shift+W (WillScore), F7 (AI buy advice for your turn).
-- **GUI analysis overlay (Feb 21)**: 7-phase enhancement. (1) **Policy fix**: detects value-only models, shows "(value-only)" instead of bogus N: percentages. (2) **Gold prediction**: `(+N)` label from Drone count. (3) **Eval bars**: Shift+E toggles neural eval bar (vertical, right edge), Shift+W toggles WillScore bar. (4) **Parallel eval**: `std::async`/`std::future` background AI evaluation (max 2 concurrent for x86 4GB limit), non-blocking polling in `onFrame()`. (5) **Human advice**: F7 runs PrismatAI_AB + OriginalHardestAI on human's position, shows recommended buys. Auto-triggers when debug on. (6) **Eval history graph**: 300x200px at bottom-right, Neural (amber) + WillScore (blue). CSV export on game end. (7) **Card value overlay**: V: labels on buyable cards showing neural eval delta from simulated purchase (green=good, red=bad, grey=neutral). Plan: `docs/plans/2026-02-21-gui-enhancement-plan-v2.md`. Source: `GUIState_Play.cpp/.h`.
-- **GUI debug panel color convention**: `willScoreColor=(100,180,255)` blue, `neuralColor=(255,200,50)` amber — consistent across debug text and graph. These are `static const` locals inside `drawDebugInfo()`; `drawEvalGraph()` has its own hardcoded copies — must update **both functions** when changing colors.
-- **GUI key conflicts**: E = buy Engineer, W = buy Wall. Analysis toggles use Shift+E (eval bars), Shift+W (WillScore bar). Any new hotkeys must check for conflicts with buy keys (A-Z map to card names via `buyCardByName`).
+- **GUI Watch Training / Watch Eval modes**: Menu items in Prismata_GUI. Watch Training = self-play (1s think). Watch Eval = PrismatAlpha_AB_Legacy vs OriginalHardestAI (7s think). 4 threads each. Source: `source/gui/GUIState_WatchTraining.cpp/.h`.
 - **GUI/engine decoupling**: Engine has zero SFML imports — compiles independently. GUI is ~4,100 LOC. SFML doesn't support WASM — web needs SDL2 abstraction or JS rewrite.
 - **Prismata client architecture**: Adobe AIR/Flash app. C++ engine compiled to AVM2 bytecode via CrossBridge. Memory reading infeasible — use clipboard or network proxy for live state access. **Adobe AIR ignores PostMessage/SendMessage** for keystrokes — must use `SetForegroundWindow` + `SendInput` (brief focus steal ~100ms). This is a platform limitation of AIR's input handling.
 - **Clipboard game state export (WORKING)**: F6 copies game state JSON to clipboard. F6 = full (with TurnStartInfo), Shift+F6 = compact. Requires SWF dev mode patch (see below). JSON wrapper key is `"CurrentInfo"` containing `mergedDeck`, `gameState`, `aiParameters`. Card names are **display names** (e.g., "Tarsier" not "Tesla Tower"). Table entries are per-instance (with `instId`, `constructionTime`, `role`, `health`). Source: `prismata_decompiled/scripts/client/Game.as:1226-1249`, `UIKeyboard.as:122-135`.
@@ -170,20 +160,14 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Prismata server Moved redirect**: After initial handshake on port 11600, server sends `["Moved", "3.229.49.48", 11610, 11611]` redirecting client to new ports. The sniffer proxy intercepts this, rewrites IP to `127.0.0.1`, and dynamically proxies the new ports. Without interception, the client reconnects directly to the real server IP, bypassing the proxy. AMF3 re-encoding handles the string length change.
 - **Hosts file proxy/direct mode**: `tmp_proxy_hosts.ps1` (127.0.0.1, for sniffer) and `tmp_restore_hosts.ps1` (3.229.49.48, for normal play). Both use `[System.IO.File]::WriteAllText()` — NEVER use `Set-Content` or regex replacement (can wipe to 0 bytes). Both need UAC. **Current state: check hosts file** — if in proxy mode and sniffer isn't running, Prismata can't connect.
 - **Move representation**: `Player::getMove(state, move)` returns a `Move` (sequence of `Action`s). BUY actions resolve to display names via `CardType(action.getID()).getUIName()`. Pattern in `TournamentGame.cpp:57-60`.
-- **`--suggest` CLI mode** (DONE Feb 18): `Prismata_Testing.exe --suggest state.json [--player PrismatAI_AB] [--think-time 3000]` — reads F6 clipboard JSON, runs neural eval + AI search, outputs clean JSON to stdout. Init noise suppressed via `_dup2` fd redirect. Handles both F6 format (`CurrentInfo` wrapper) and bare state format.
+- **`--suggest` CLI mode** (DONE Feb 18): `Prismata_Testing.exe --suggest state.json [--player PrismatAlpha_AB] [--think-time 3000]` — reads F6 clipboard JSON, runs neural eval + AI search, outputs clean JSON to stdout. Init noise suppressed via `_dup2` fd redirect. Handles both F6 format (`CurrentInfo` wrapper) and bare state format.
 - **`--suggest` clicks array (Feb 20)**: Output now includes `"clicks":[{_type,_id},...]` — wire-protocol-ready sequence for protocol injection. BUY: `_type="card clicked"`, `_id=mergedDeck index` (CardType ID - 2). USE_ABILITY/ASSIGN_BLOCKER/BREACH: `_type="inst clicked"`, `_id=client instId`. SNIPE/CHILL: two clicks (source then target). END_PHASE: `_type="space clicked"`, `_id=-1`. Automatic END_PHASE insertion mirrors `Move::toClientString()` logic.
-- **`--eval` CLI mode** (DONE Feb 21): `Prismata_Testing_d.exe --eval replay.json` — steps through replay with ReplayStepper, runs `NeuralNet::evaluate()` at each turn, outputs JSON with per-turn eval curves (P1 perspective), eval swing, biggest mistake detection. ~2000 evals/sec.
-- **`--analyze` CLI mode** (DONE Feb 21): `Prismata_Testing_d.exe --analyze replay.json --player PrismatAI_AB --think-time 500` — extends `--eval` with full AI search at each position. Compares human buys (from commandList clicks) vs AI buys (from `Player::getMove()`). Outputs per-turn agreement, sorted buy lists, AI full move. ~300ms/turn at 200ms think. Output includes both `humanBuys` (click-based) and `validatedBuys` (engine-validated via ReplayStepper, handles reverts and failed clicks correctly).
-- **`displayRating` is a float, not int**: Replay JSON `ratingInfo.finalRatings[i].displayRating` is a float (e.g., 2173.802...). Calling `GetInt()` triggers RapidJSON assertion. Use `(int)GetDouble()`.
 - **Card.cpp now preserves instId (Feb 20)**: `m_clientInstId` field added to Card class. Previously `instId` from F6 JSON was explicitly ignored (Card.cpp:114). Now stored and accessible via `getClientInstId()`. Returns -1 if not set (non-F6 states).
 - **Clipboard F6 timing**: AIR may not write clipboard immediately after F6 keypress. The sniffer uses hash-and-wait polling (snapshot clipboard before F6, poll up to 1s for change) to reliably detect the new state. A single `time.sleep(0.1)` is insufficient.
-- **mergedDeck ordering is not stable**: Card indices in `mergedDeck` vary by game — do NOT use hardcoded index cutoffs (e.g. `i >= 16`) to separate base set from random units. Use a name-based lookup against the known 11 base set units: Drone, Engineer, Conduit, Blastforge, Animus, Tarsier, Rhino, Wall, Steelsplitter, Gauss Cannon, Forcefield. `generate_commentary_data.py` uses `BASE_SET_NAMES` for this.
 - **mergedDeck buyCost format**: Digits = gold, `G` = green, `B` = blue, `C` = red (attack resource), `H` = energy. E.g., `"6BGGG"` = 6 gold + 1 blue + 3 green. Card click `_id` in Click messages maps to mergedDeck array index.
 - **Replay commandList format**: Commands use `_type` (NOT `_action`) and `_id`. Types: `card clicked`/`card shift clicked` = BUY (\_id = mergedDeck index), `inst clicked`/`inst shift clicked` = CLICK ability (\_id = instance ID), `space clicked` = END\_PHASE, `revert clicked` = UNDO. `clicksPerTurn` array (2×N entries for N turns per player) slices commandList into per-turn segments. `playerInfo` has NO `playerNumber` key — use array index. Ratings in `ratingInfo.finalRatings[i].displayRating`.
 - **Click counting ≠ buy counting (CRITICAL)**: `card clicked` in commandList does NOT guarantee a successful purchase. Clicks on sold-out cards (legendary supply exhausted, etc.) are recorded but silently rejected by the game engine. `revert clicked` only undoes intentional undos, not failed clicks. **Any code parsing buys from clicks MUST enforce supply limits**: legendary = 1 per player, rare ≈ 4. Without this, buy counts are inflated — e.g., Mega Drone (legendary) showed 3x purchased from click data when only 1 is possible.
 - **Spectator commandInfo contains full game history**: When spectating a game already in progress, the BeginGame message includes `commandInfo.commandList` with ALL prior moves and `clicksPerTurn` with per-turn click counts. This allows complete game reconstruction from any spectator join point.
-- **Replay `shift clicked` = buy max for Drones**: In `commandList`, `card shift clicked` on Drones in the opening = "buy max affordable" (usually 2). For non-Drone units, shift-click likely buys 1 (shift key held as UI habit). Each shift-click is a single entry regardless of quantity purchased.
-- **Failed clicks from resource constraints**: The `commandList` gotcha about sold-out cards also applies to insufficient resources — clicks on unaffordable units are recorded but silently rejected by the server. When reconstructing games, track gold (persists), green (persists), blue (use-or-lose), red (use-or-lose), energy (use-or-lose) to determine which clicks actually succeeded.
 - **Replay JSON structure**: Fetched replays use `deckInfo.mergedDeck` for card data (NOT `initInfo.mergedDeck`). `initInfo` has `initCards` and `initResources`. Player ratings in `ratingInfo.finalRatings[i].displayRating`.
 - **Sniffer live state tracking (Feb 20)**: Auto-F6 on each StartTurn, clipboard capture with hash-and-wait, mid-turn Click buy tracking via mergedDeck lookup, EndTurn summary logging, GameOver cleanup. Output: `bin/live_game_state.json` + formatted console. Uses `_capture_seq` debounce to prevent overlapping F6 sends from rapid StartTurn messages. Thread-safe via Session._lock. Architecture: `Session` (thread-safe state), `MessageDispatcher` (registry), `@on_message` decorator, 12 handlers (7 core + 5 live state).
 - **Sniffer spectator mode works**: Proxy captures replay codes from spectated PvP games (not just your own). The GameOver handler fires for all games observed through the proxy, including spectated matches.
@@ -192,7 +176,6 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **`_sanitize_gamestate()` in sniffer, advisor, and autopilot**: Intentional duplication — the tools are independent (sniffer is a network proxy, advisor is a clipboard overlay). Both need to parse F6 clipboard JSON. Do not refactor into a shared module.
 - **Churchill paper URLs**: Use `davechurchill.ca/publications/` (old `cs.mun.ca/~dchurchill/` is dead).
 - **307th's Prismata Library blog** is at `prismatalibrary.blog` (NOT `blog.prismata.net/prismatalibrary/`). 27 articles, all live as of Feb 2026. Archive: `prismatalibrary.blog/archive/`.
-- **Discord bot vs DiscordChatExporter**: For a live service that reads replay codes posted in a Discord channel, use a proper bot (bot token + Message Content Intent enabled). `DiscordChatExporter` uses a user token — fine for one-off exports but violates Discord ToS for automated/continuous use. Bot app: client_id `1472507665124163687` (PrismatAI bot, created Feb 21). Needs a Prismata Discord admin to accept the OAuth2 invite link. **Gotcha**: cannot save Bot settings with "Public Bot" unchecked — Discord blocks saving with error "Private application cannot have a default authorization link". Leave Public Bot on; it only affects who can invite it to new servers.
 - **WebFetch blocked on web.archive.org**: Use the CDX API via curl instead: `curl -s "https://web.archive.org/cdx/search/cdx?url=DOMAIN/*&output=json&fl=timestamp,original,statuscode&limit=50"`. Then fetch archived pages: `curl -sL "https://web.archive.org/web/{timestamp}/{url}"`. Process HTML to text with Python.
 
 ### Self-Play & Data
@@ -276,6 +259,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **AWS launch_selfplay.sh temp file race**: Script writes `.userdata_tmp.ps1` then reads it — parallel launches cause file-not-found errors. Even sequential launches can collide with TheWatcher (which also uses this file). Launch serially and accept occasional failures; TheWatcher will fill gaps on the next cycle. Proper fix: use per-PID unique temp filenames.
 - **launch_selfplay.sh 5th arg is instance count**: Pass a number (e.g., `1`) or omit. Passing `N` (literal) breaks the `seq` command inside the script. Applies to both `gcp/launch_selfplay.sh` and `azure/launch_selfplay.sh`.
 - **launch_tournament.sh fleet verification**: Always verify actual fleet size with `aws ec2 describe-instances` after launch — sequential calls may launch more instances than expected if each call spawns multiple.
+- **`launch_tournament.sh` env vars (Feb 22)**: `TOURNAMENT_NAME` (default: NeuralAB_vs_Original) selects which tournament to enable. `MAX_RUNTIME_HOURS` (default: 0 = continuous/no timeout) adds `shutdown.exe` safety timer. Both patched into PowerShell userdata at launch time.
 - **watcher_log.txt file lock**: TheWatcher (Task Scheduler instance) holds an exclusive lock on `aws/watcher_log.txt`. Standard file reads (`cat`, `Get-Content`, Python `open()`, `Copy-Item`) all fail. PowerShell `Add-Content` also fails with "Stream was not readable" when another process holds the file. Use `robocopy aws/ <dest>/ watcher_log.txt` to copy the locked file, then read the copy.
 - **Azure Public IP quota (increased to 40)**: Subscription-level limit, not per-region. Orphaned NICs and public IPs persist after VM deallocation/deletion, consuming quota even with no running VMs. Clean up: `az network nic delete` first, then `az network public-ip delete`. Check with `az network public-ip list -o table`.
 - **GCP GPU quotas**: Per-GPU-type regional quotas (e.g., `NVIDIA_L4_GPUS=1`, `NVIDIA_T4_GPUS=1`) AND a project-level `GPUS_ALL_REGIONS=1` global cap. The global cap limits total GPUs across all regions/types to 1. Check project-level: `gcloud compute project-info describe --format=json` filtering for `GPU`. Check regional: `gcloud compute regions describe us-central1 --format=json` filtering for `NVIDIA`.
@@ -304,22 +288,21 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Future feature plans in claude-mem**: GUI spectator mode (#1385), web-based remote advisor (#1524). Use MCP search to retrieve.
 - **Live commentator deps**: `anthropic` (Claude API, installed). Phase 2 deps (not yet installed): `edge-tts` (neural TTS, async), `sounddevice` + `pydub` (audio playback/decode), `obsws-python` (OBS WebSocket). External: VB-Cable (virtual audio for OBS routing). See `docs/plans/2026-02-20-live-commentator-plan.md`.
 - **Twitch VODs have no captions**: No subtitle tracks stored or served via API. Use `yt-dlp -x --audio-format mp3` to extract audio, then `openai-whisper` (local) or `faster-whisper` for speech-to-text transcription.
+- **sentence-transformers for dedup**: `all-MiniLM-L6-v2` (~80MB, lazy-loaded) used for semantic deduplication in Discord extraction pipeline. Install: `pip install sentence-transformers`. Cosine similarity threshold: 0.85.
+- **Claude Haiku `max_tokens` for structured extraction**: 4096 is too small for content-rich chunks (49+ threads). Use 8192. Truncated responses produce unparseable JSON (`stop_reason=max_tokens`). The `discord_knowledge_extractor.py` uses `EXTRACTION_MAX_TOKENS = 8192`.
 
 ## Claude Code Tooling
 
-**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/sync-memory` (update CLAUDE.md), `/preflight` (pre-training verification: S3 deploy diff, code review, fleet/quota/git checks), `/document-context` (generate reviewer context doc for most recent plan in `docs/plans/`), `/meta-review` (ingest external reviews + meta-review with tiered plan updates — must-do/should-do auto-applied, consider as pick list), `/start-work` (create clean branch from master for new work), `/audit` (repo health check — branches, uncommitted changes, stale files), `/health-check` (quick local sanity check — hosts mode, weights, config, watcher), `/history` (timeline of significant work), `/recap` (quick session re-orientation), `/commit` (create git commit), `/commit-push-pr` (commit + push + open PR), `/clean_gone` (remove branches deleted on remote). **Command name = filename**: commands in `.claude/commands/` are named by their `.md` filename — rename the file to rename the command, takes effect immediately.
+**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/revise` (update CLAUDE.md), `/preflight` (pre-training verification: S3 deploy diff, code review, fleet/quota/git checks).
 
 **Hooks** (in `.claude/settings.local.json`):
 - PreToolUse: Blocks Read/Edit/Write on `.aws_credentials`, `credentials.json`, `.env` files
 - PreToolUse: Blocks Bash commands that would unregister/stop TheWatcher Task Scheduler job
-- Stop: Reminds to run `/sync-memory` on session close
-- PostToolUse: Runs `python -m py_compile` on any edited `.py` file — output to stderr, non-blocking
+- Stop: Reminds to run `/revise` on session close
 
-**Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources. Has all provider-specific env var prefixes (MSYS_NO_PATHCONV, CLOUDSDK_PYTHON) already baked in.
+**Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources. **NOTE: agent file currently missing — needs recreation.**
 
-**MCP**: context7 + GitHub configured in `.mcp.json` (project-level). context7 = live docs for PyTorch, Express, Chart.js, cloud CLIs. GitHub MCP = PR/issue/Actions access (uses `GITHUB_PERSONAL_ACCESS_TOKEN` Windows user env var — never hardcode in `.mcp.json`). **`enabledMcpjsonServers` gotcha**: `settings.local.json` lists only `"context7"` but `enableAllProjectMcpServers: true` should enable all `.mcp.json` entries — if GitHub MCP isn't available, add `"github"` to that list manually.
-
-**Excalidraw diagrams**: MCP tools available (`read_me`, `create_view`, `export_to_excalidraw`, `read_checkpoint`, `save_checkpoint`). Call `read_me` first for format reference. **VS Code extension can't render Excalidraw** — `create_view` only renders inline on claude.ai web; in VS Code shows raw JSON. Always use `export_to_excalidraw` for a shareable excalidraw.com URL. **`label` property doesn't export** — the `label` shorthand on shapes only works in the MCP inline renderer. For exported diagrams, use native bound text elements: `boundElements` array on rectangles + separate text elements with `containerId`, `originalText`, `textAlign: "center"`, `verticalAlign: "middle"`. Architecture diagram checkpoint: `bae5ace4d2484e41b5` (4-layer diagram with DC/S attribution stamps). **MCP drops mid-session**: `export_to_excalidraw` may become unavailable after one use with no warning — always save diagram JSON to a `.excalidraw` file as fallback (user can open in VS Code Excalidraw extension or drag onto excalidraw.com).
+**MCP**: context7 configured in `.mcp.json` (project-level) — live docs for PyTorch, Express, Chart.js, cloud CLIs.
 
 **C++ style**: `.clang-format` at project root (Allman braces, 4-space indent, 120 col limit). Matches existing codebase conventions.
 
@@ -329,37 +312,17 @@ When the user says "wrapping up", "closing context", or "save everything":
 1. Check for undocumented results (experiments, tournaments, benchmarks) — if any exist only in conversation, write them to appropriate docs
 2. Update any stale plan/results docs with actual outcomes (e.g., mark plans COMPLETE, add results tables)
 3. Map any unnamed artifacts to human-readable names (e.g., run timestamps → experiment names)
-4. Run `/sync-memory` for CLAUDE.md status and gotcha updates
+4. Run `/revise-claude-md` for CLAUDE.md status and gotcha updates
 5. List anything still only in conversation context so the user knows what would be lost
 6. Save important conversation-only findings to claude-mem (audit results, stale deploy warnings, unfinished work items). Use judgement — no clutter, only items a future session would genuinely benefit from knowing.
-7. Commit all changes (unless a good reason exists not to). Group into logical commits if work spans multiple areas.
 
 ## User Preferences
 
 - **Cost-conscious** — AWS bill shock ($805 for 4 days of spot fleet). No cloud safety net. Prefer local compute, minimize cloud spend.
-- **Approves all `/sync-memory` CLAUDE.md updates** — when presenting proposed changes, apply them all without waiting for individual review. User will say "yes apply all" or equivalent.
 - Efficiency over speed — minimize API credits, maximize local PC computation
 - Comfortable with long-running unattended tasks (hours). Tell them when something can run overnight.
 - Git comfort level: self-described "noob" — explain git ops clearly, always confirm before push/force
 - The user is "Surfinite" everywhere — GitHub, Prismata, Discord, etc.
-
-## Git Workflow
-
-**Branch naming:** `{type}/{short-description}` where type is `fix/`, `feature/`, `docs/`, or `training/`.
-
-**When to branch:** Create a new branch from `master` when starting logically independent work. Use `/start-work fix/description` to automate this. Small related fixes (typos, one-liners) can go on the current branch.
-
-**Branch lifecycle:**
-1. `/start-work fix/description` (or manually: `git checkout PrismatAlpha/master -b fix/description`)
-2. Work, commit with `/commit` as you go
-3. When done: `/commit-push-pr` to push + open PR, or merge locally: `git checkout master && git merge fix/description && git push PrismatAlpha master`
-4. Delete branch after merge: `git branch -d fix/description`
-
-**Push target:** Always `PrismatAlpha` (never `origin`).
-**Commit style:** Imperative mood, focus on "why". One logical change per commit.
-**Before starting new work:** Check if current branch has unrelated uncommitted changes. If so, suggest `/start-work` for a clean branch.
-**`gh pr create` untracked files gotcha:** Fails with "aborted: you must first push the current branch" when repo has many untracked files. Fix: always pass `--head feature/branch-name` explicitly.
-**Untracked files + `/commit-push-pr`:** When many untracked files exist, ask the user which categories to stage — don't auto-stage everything. Data files, logs, temp scripts, and large binaries usually shouldn't be committed.
 
 ## Key Architecture
 
@@ -415,7 +378,7 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 - **Neural policy head weak** — 13.3% accuracy. Computed but unused for move ordering.
 - **PUCT move ordering implemented** — `"UsePUCT": true` in Player_UCT config. Uses policy head as priors in UCT search (AlphaZero-style). Disabled by default — don't enable until policy accuracy improves past ~30%. Files: `UCTSearch.cpp` (computeRootPriors, PUCT formula in UCTNodeSelect), `UCTNode.h` (_policyPrior), `UCTSearchParameters.hpp` (_usePUCT), `AIParameters.cpp` (UsePUCT parsing).
 - **Blocking feature mismatch** — C++ uses `CardStatus::Assigned`, Python uses `blocking AND abilityUsed`. Low priority.
-- **Heuristic eval in progress (Feb 21)** — 3 tournaments on 12 AWS spot instances: Neural+improved vs Original (~2,016 games), Playout+improved vs Original (~768), Neural improved vs legacy (~768). Baseline: 45.3% WR. Results: `eval-results/heuristic_eval_*/`.
+- **Track A regression inconclusive** — HardestAI (improved) vs OriginalHardestAI: 50/50 over 60 games. Fixes are neutral, not harmful.
 - **TS tooling bugs (FIXED, validation improved)** — RC#5 (snipe target), RC#6 (frontline→breach), RC#7 (two-step targeting: USE_ABILITY before SNIPE/CHILL), RC#8 (action ordering: abilities→snipe→frontline→buy), RC#9 (SNIPE overcounting: CancelUseAbility routing fix in TS parser + converter cap), selfsac/lifespan tolerance all fixed. Pass rate 27.2%→55.7% (1,185/2,127, action legality metric). Remaining failures are genuine TS↔C++ semantic differences. Not blocking self-play.
 
 ## Key Files
@@ -435,10 +398,9 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `source/engine/Constants.h` | Game constants, EvaluationMethods enum |
 | `source/testing/Tournament.cpp` | Multi-threaded tournament runner |
 | `source/testing/TournamentGame.cpp` | Single game runner with self-play data export |
-| `source/testing/ReplayStepper.h/cpp` | Replay click→action stepper with instId tracking and error recovery (96.6% extraction) |
 | `source/testing/SelfPlayDataSink.h/cpp` | Binary shard writer for self-play features |
 | `source/testing/IDataSink.h` | Virtual interface for game event capture |
-| `source/gui/GUIState_Play.cpp` | Game play GUI, debug panel, replay viewer, eval bars, parallel AI eval, card value overlay |
+| `source/gui/GUIState_Play.cpp` | Game play GUI, debug panel, replay viewer |
 | `source/gui/GUIState_WatchTraining.cpp/.h` | Watch Training/Eval GUI — live display + training data generation |
 | `training/train.py` | PyTorch training (PrismataNet, supports `--selfplay-dir`) |
 | `training/load_selfplay.py` | Binary shard loader → numpy arrays |
@@ -450,7 +412,7 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `training/requirements.txt` | Python deps (torch, numpy, tqdm) with XPU install instructions |
 | `training/opening_book.py` | Opening book extraction from expert replays |
 | `tools/verify_selfplay.py` | Validates self-play binary output |
-| `tools/download_replays.py` | Download expert replay JSONs from S3 (gzipped, threaded, rating filter) |
+| `tools/analyze_tournament.py` | Parse tournament HTML results: Wilson CI, z-test, multi-file aggregation |
 | `training/retest_validation.py` | Re-test failed replays against fixed C++ engine with error categorization |
 | `training/analyze_mismatches.py` | Aggregate mismatch analysis across failed replay validations |
 | `training/convert_replay_for_cpp.py` | Convert TS replay states to C++ validation format (RC#9 cap for snipe_targets) |
@@ -461,7 +423,6 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `aws/launch_selfplay.sh` | EC2 self-play launcher (Windows instances, auto-terminate) |
 | `aws/launch_training.sh` | EC2 GPU training launcher (g6.2xlarge, Linux, env var config, trap EXIT auto-terminate) |
 | `aws/launch_tournament.sh` | EC2 tournament fleet launcher (supports NUM_INSTANCES, WEIGHTS_KEY, MODEL_LABEL env vars) |
-| `aws/launch_heuristic_eval.sh` | Multi-tournament heuristic eval launcher (3 tournaments, spot, auto-terminate) |
 | `aws/launch_audit.sh` | EC2 spot launcher for S3 data integrity audit (c5.xlarge, <$0.10, auto-terminate) |
 | `aws/deploy_for_eval.sh` | Upload exe/config/weights to S3 for EC2 tournament eval |
 | `aws/download_results.sh` | Download self-play results from S3 |
@@ -494,19 +455,18 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `bin/live_game_state.json` | Live game state output from sniffer (written each turn, deleted on GameOver) |
 | `tools/prismata_advisor.py` | Python overlay — clipboard monitor + F6 sanitization + C++ --suggest + tkinter always-on-top display |
 | `tools/audit_selfplay_s3.py` | S3 data integrity audit (11 checks: CRC, NaN, outcome consistency, duplicates, win rates) |
-| `tools/export_discord_full.sh` | Full Discord channel export (strategy channels, both servers, needs token arg) |
-| `tools/search_discord_ai_feedback.py` | Search Discord exports for AI/bot feedback (5 keyword categories) |
 | `run_advisor.bat` | One-click overlay launcher (pre-flight checks for exe + weights) |
 | `run_prismata_tools.bat` | Combined launcher — sniffer proxy + advisor overlay + autopilot (pass --autopilot to enable, --auto for full-auto, --dry-run for testing) |
 | `tools/prismata_autopilot.py` | AI move injection engine — captures F6 state, runs --suggest, injects clicks via sniffer proxy. Semi-auto (file trigger) and full-auto modes |
 | `bin/prismata_capture_codes.txt` | Sniffer-captured replay codes (TSV: timestamp, code, source). Append-only. |
-| `bin/commentary/commentary_{CODE}.txt` | AI-generated game commentary (plain text, no delimiters). Previous versions preserved as `commentary_{CODE}_{TIMESTAMP}.txt`. |
 | `tools/prismata_commentator.py` | Live AI commentator — sniffer events → Claude Haiku → chat injection (Phase 1 working) |
 | `tools/prismata_game_state.py` | Shared game state model — TurnRecord, GameContext, GameNarrative with callback registration |
-| `tools/discord_post_helper.py` | Clipboard-based Discord message poster — reads `== MESSAGE N ==` delimited files, copies each to clipboard sequentially (legacy, commentary no longer uses this format) |
-| `tools/generate_commentary_data.py` | Fetches replay from S3, runs C++ `--analyze`, outputs per-turn eval/buys/agreement. Flags: `--validate` (resource-validated buys), `--eval-only` (neural eval only), `--verbose` |
 | `tools/commentary_prompt.md` | Condensed Prismata knowledge base for commentary system prompt (~2,400 tokens) |
-| `docs/plans/commentary-generation-instructions.md` | Full commentary writing workflow: data extraction commands, game knowledge reference, Discord format requirements, tone guidelines |
+| `tools/discord_knowledge_extractor.py` | Discord knowledge extraction pipeline — pre-filter, chunk, Claude Haiku extraction, semantic dedup, KB integration. 5 phases: `--dry-run`, `--extract`, `--consolidate`, `--preview`, `--integrate` |
+| `tools/discord_extraction/` | Working directory for extraction pipeline (chunks, extractions, consolidated JSON, manifest) |
+| `docs/commentary-knowledge/discord/` | Discord-sourced strategy insights (7 category files, 1,426 insights). Isolated from canonical KB. |
+| `docs/discord-knowledge-extraction-preview.md` | Human-reviewable preview of extracted Discord insights |
+| `docs/discord-replay-codes.json` | 93 replay codes extracted from Discord strategy discussions |
 | `tmp_proxy_hosts.ps1` | Set hosts to PROXY mode (127.0.0.1) for sniffer — needs UAC |
 | `tmp_restore_hosts.ps1` | Set hosts to DIRECT mode (3.229.49.48) for normal play — needs UAC |
 | `prismata_decompiled/` | Decompiled Prismata client ActionScript source (Game.as, State.as, UIKeyboard.as) |
@@ -547,25 +507,24 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `docs/claude-app-instructions.md` | Updated project instructions for Claude Windows app |
 | `docs/plans/2026-02-20-live-commentator-plan.md` | Live AI commentator plan (sniffer → Haiku → edge-tts → OBS/Twitch) |
 | `docs/plans/2026-02-20-commentary-knowledge-extraction.md` | Instructions for new context to extract game knowledge from guides |
-| `docs/commentary-knowledge/` | Extracted Prismata strategy knowledge for commentator (7 KB files + README + sources, ~5,090 lines). 280+ sources: 148 YouTube transcripts, 24 Twitch VODs (36.5h), 45 blog articles, 629 Reddit posts, 27 prismatalibrary.blog articles, 12 wiki guides, 24 Wayback recoveries. See README.md for index. |
+| `docs/commentary-knowledge/` | Extracted Prismata strategy knowledge for commentator (8 canonical files + discord/ subdir + README + sources). 400+ sources incl. Discord (1,426 insights). See README.md for index. |
 | `docs/commentary-knowledge/RESEARCH-HANDOFF.md` | Instructions for delegating further Prismata research to external AI — lists all processed sources to avoid duplication |
 | `docs/prismata-strategy-guide.md` | Comprehensive human-readable strategy guide (17 chapters, synthesized from all sources) |
 | `docs/recovered-sources/` | Full-text archive of recovered wiki guides + Wayback Machine content (21 files) |
-| `docs/plans/2026-02-21-gui-enhancement-plan-v2.md` | GUI enhancement plan v2 (7 phases: policy fix, eval bars, parallel eval, history graph, card overlay, naming) |
-| `docs/plans/2026-02-21-frontline-penalty-test.md` | Frontline penalty isolation test plan — C++ + config + AWS setup to compare frontlinePenalty=5.0 vs 100000 in isolation |
+| `docs/plans/2026-02-21-discord-knowledge-extraction-v2.md` | Discord knowledge extraction plan v2 (7 reviews, meta-review incorporated) |
+| `docs/plans/META-REVIEW-2026-02-21-discord-knowledge-extraction.md` | Meta-review of 7 external reviews of Discord extraction plan |
 
 ## Tournament Results Summary
 
 | Matchup | Games | Win Rate | Notes |
 |---|---|---|---|
-| PrismatAI_UCT vs MediumAI | 60 | 41.7% | Neural eval has real signal |
-| PrismatAI_UCT vs OriginalHardestAI | 64 | 10.9% | Weak but not random |
-| PrismatAI_AB vs MediumAI | 128 | 43.8% | Search type doesn't matter |
+| PrismatAlpha_UCT vs MediumAI | 60 | 41.7% | Neural eval has real signal |
+| PrismatAlpha_UCT vs OriginalHardestAI | 64 | 10.9% | Weak but not random |
+| PrismatAlpha_AB vs MediumAI | 128 | 43.8% | Search type doesn't matter |
 | HardestAI vs OriginalHardestAI | 60 | 50.0% | Track A fixes are neutral |
 | RandomAI vs MediumAI | 100 | 0% | Baseline floor |
 | EasyAI vs MediumAI | 100 | 6% | Baseline |
-| **Run B (256h/3L, 722K) AB vs OriginalHardestAI** | **2,016** | **51.9%** | **722K games, 85.6% val acc, CI [49.7%, 54.1%]. NEW CHAMPION** |
-| 256h (305K games) AB vs OriginalHardestAI | 4,032 | 45.3% | 330K games, 86.1% val acc, CI [43.8%, 46.8%] |
+| 256h (305K games) AB vs OriginalHardestAI | 4,032 | **45.3%** | 330K games, 86.1% val acc, CI [43.8%, 46.8%] |
 | E2b (256h) AB vs OriginalHardestAI | 1,008 | 26.7% | V2 winner, 63K games, tanh+MSE, LR=1e-5 |
 | E1b (512h) AB vs OriginalHardestAI | 1,008 | 19.6% | V2, tanh+MSE, LR=1e-5 |
 | Unfixed model AB vs OriginalHardestAI | 1,120 | 3.6% | Pre-v2 (tanh mismatch, high LR) |
