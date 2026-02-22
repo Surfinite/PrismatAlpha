@@ -1,0 +1,3178 @@
+{
+  "channel": "prismata_chat",
+  "date_range": "2018-05-09 to 2018-05-10",
+  "thread_count": 22,
+  "token_count": 14107,
+  "threads": [
+    {
+      "start_ts": "2018-05-09T05:24:18.614+01:00",
+      "end_ts": "2018-05-09T05:48:26.879+01:00",
+      "participants": [
+        "amalloy",
+        "apooche",
+        "liadahlia",
+        "miuna6933",
+        "mrguy888"
+      ],
+      "replay_codes": [
+        "asual-match"
+      ],
+      "score": 152,
+      "formatted_text": "--- Thread (50 messages, 2018-05-09) ---\n[2018-05-09 05:24] amalloy: is the \"claim draw\" button always present for both players, or can it appear for just one? i was surprised to see it appear for me when i had a forced win, but i was against a casual-match bot so i can't find out if a real opponent could have claimed a draw\n[2018-05-09 05:26] apooche: It doesn’t appear for both at the same time\n[2018-05-09 05:26] apooche: It appears for you if your opponent isn’t making progress\n[2018-05-09 05:26] amalloy: what counts as progress?\n[2018-05-09 05:26] mrguy888: it can appear for both at the same time\n[2018-05-09 05:27] mrguy888: if both players space space from the start they both get a button\n[2018-05-09 05:27] apooche: Don’t think that is true mrguy, doesn’t it always appear at the start of your turn?\n[2018-05-09 05:27] mrguy888: well you can choose not to press it\n[2018-05-09 05:28] apooche: But it will always appear for one player before the other\n[2018-05-09 05:28] mrguy888: oh i see what you mean\n[2018-05-09 05:28] apooche: I guess the definition of ‘appear’\n[2018-05-09 05:28] liadahlia (Lia): What is the condition for the draw button to pop up anyways?\n[2018-05-09 05:29] apooche: Opponent not making progress\n[2018-05-09 05:29] apooche: It isn’t a simple condition\n[2018-05-09 05:29] mrguy888: No false positives and pretty quick to appear.\n[2018-05-09 05:30] liadahlia (Lia): So the game draws immediately as soon as one player press it?\n[2018-05-09 05:30] liadahlia (Lia): How does it guard against false positives?\n[2018-05-09 05:31] liadahlia (Lia): I don't really know if there is one\n[2018-05-09 05:31] apooche: I mean I don’t have the draw detect code\n[2018-05-09 05:32] apooche: The only “false positives” you will see are positions where you have the win (and the button only appears for you), or positions where opponent is griefing\n[2018-05-09 05:34] apooche: Will wrote the draw detect algorithm a long time ago though and nobody has observed any problems with it in all this time.\n[2018-05-09 05:34] amalloy: well, there's certainly at least one exception to that, as noted at  https://www.reddit.com/r/Prismata/comments/2pzhz8/i_won_a_game_but_for_some_reason_my_opponent_was/cn220on/\ni won a game but for some reason my opponent was able to claim a d...\nHey guys, I investigated this and in the game originally posted here, \"Claim Draw\" was allowed due to a bug in my code. I did not intend for a...\n[2018-05-09 05:35] apooche: That thread is 3 years old\n[2018-05-09 05:36] amalloy: i'm not saying the bug is still present, i'm disagreeing with \"no problems observed with it ever\"\n[2018-05-09 05:37] amalloy: anyway, it sounds like we don't have an explicit definition for \"not making progress\" but we think the engine is always right about it. good to know\n[2018-05-09 05:38] apooche: I mean really I’m just too lazy to type up my understanding of it on my phone right now\n[2018-05-09 05:38] liadahlia (Lia): I think the potential for false positive makes it scary\n[2018-05-09 05:39] apooche: And I guess 3 years ago is when Will explained how it works, so that was what I was thinking of when I said he wrote it a long time ago\n[2018-05-09 05:39] liadahlia (Lia): In the future, a new unit cause a new type of draw condition to occur, and with it new false positives\n[2018-05-09 05:39] apooche: But I could have worded it clearer\n[2018-05-09 05:39] liadahlia (Lia): There's a potential for that\n[2018-05-09 05:40] amalloy: i also remember reading that thread three years ago and not loving the response \"the game only offers a draw after TEN turns if you are storing up Green or Gold\" because it seems like there must be positions where you need to save up 40 green for a massive cluster volley to win\n[2018-05-09 05:40] amalloy: like, i have 1 conduit and my opponent has...i dunno, 25 husks?\n[2018-05-09 05:41] liadahlia (Lia): Yeah a new unit like cluster might add new false positives\n[2018-05-09 05:41] apooche: Yeah the classic puzzle is to demonstrate that there are positions where you need to store 40 green to win\n[2018-05-09 05:41] liadahlia (Lia): Is it possible to draw by elimination?\n[2018-05-09 05:42] amalloy: well. i'm not sure actually\n[2018-05-09 05:42] miuna6933 (Aka): if you have only gauss charges, and you kill your opponent's last thing\n[2018-05-09 05:42] amalloy: i think if you end your turn with no units on your side you lose\n[2018-05-09 05:42] miuna6933 (Aka): you both have nothing left\n[2018-05-09 05:42] liadahlia (Lia): You have 1 pixie left and opponent has an engi\n[2018-05-09 05:43] liadahlia (Lia): @Apooche you have any ideas on that one?\n[2018-05-09 05:44] apooche: Is that what you are asking?\n[2018-05-09 05:44] apooche: The game warns you that it will happen\n[2018-05-09 05:44] liadahlia (Lia): You have 1 pixie opp have 1 engi\n[2018-05-09 05:45] liadahlia (Lia): Game warns you if you click last pixie?\n[2018-05-09 05:45] apooche: Yeah that is a draw. When you go to confirm phase it warns, like a breach warning\n[2018-05-09 05:45] apooche: If they had 2 engis, it warns you that you’ll lose\n[2018-05-09 05:47] miuna6933 (Aka): oh yeah i got the \"loss imminent\" once, in a puzzle i think\n[2018-05-09 05:48] amalloy: i only ever saw the loss warning when i was busy losing to pacifist bot",
+      "messages": [
+        {
+          "id": "443629263342796821",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:24:18.614+01:00",
+          "content": "is the \"claim draw\" button always present for both players, or can it appear for just one? i was surprised to see it appear for me when i had a forced win, but i was against a casual-match bot so i can't find out if a real opponent could have claimed a draw"
+        },
+        {
+          "id": "443629711357247490",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:26:05.429+01:00",
+          "content": "It doesn’t appear for both at the same time"
+        },
+        {
+          "id": "443629788532441098",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:26:23.829+01:00",
+          "content": "It appears for you if your opponent isn’t making progress"
+        },
+        {
+          "id": "443629872535830528",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:26:43.857+01:00",
+          "content": "what counts as progress?"
+        },
+        {
+          "id": "443629912260083722",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T05:26:53.328+01:00",
+          "content": "it can appear for both at the same time"
+        },
+        {
+          "id": "443630003112902657",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T05:27:14.989+01:00",
+          "content": "if both players space space from the start they both get a button"
+        },
+        {
+          "id": "443630120247361536",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:27:42.916+01:00",
+          "content": "Don’t think that is true mrguy, doesn’t it always appear at the start of your turn?"
+        },
+        {
+          "id": "443630170251984896",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T05:27:54.838+01:00",
+          "content": "well you can choose not to press it"
+        },
+        {
+          "id": "443630250526507009",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:28:13.977+01:00",
+          "content": "But it will always appear for one player before the other"
+        },
+        {
+          "id": "443630339299082250",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T05:28:35.142+01:00",
+          "content": "oh i see what you mean"
+        },
+        {
+          "id": "443630387659538432",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:28:46.672+01:00",
+          "content": "I guess the definition of ‘appear’"
+        },
+        {
+          "id": "443630405451776012",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:28:50.914+01:00",
+          "content": "What is the condition for the draw button to pop up anyways?"
+        },
+        {
+          "id": "443630455217061889",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:29:02.779+01:00",
+          "content": "Opponent not making progress"
+        },
+        {
+          "id": "443630502520553473",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:29:14.057+01:00",
+          "content": "It isn’t a simple condition"
+        },
+        {
+          "id": "443630562704359434",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T05:29:28.406+01:00",
+          "content": "No false positives and pretty quick to appear."
+        },
+        {
+          "id": "443630816128532491",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:30:28.827+01:00",
+          "content": "So the game draws immediately as soon as one player press it?"
+        },
+        {
+          "id": "443630925797130240",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:30:54.974+01:00",
+          "content": "How does it guard against false positives?"
+        },
+        {
+          "id": "443631004360507414",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:31:13.705+01:00",
+          "content": "I don't really know if there is one"
+        },
+        {
+          "id": "443631134413160460",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:31:44.712+01:00",
+          "content": "I mean I don’t have the draw detect code"
+        },
+        {
+          "id": "443631428459167744",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:32:54.818+01:00",
+          "content": "The only “false positives” you will see are positions where you have the win (and the button only appears for you), or positions where opponent is griefing"
+        },
+        {
+          "id": "443631735247208448",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:34:07.962+01:00",
+          "content": "Will wrote the draw detect algorithm a long time ago though and nobody has observed any problems with it in all this time."
+        },
+        {
+          "id": "443631914880991255",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:34:50.79+01:00",
+          "content": "well, there's certainly at least one exception to that, as noted at  https://www.reddit.com/r/Prismata/comments/2pzhz8/i_won_a_game_but_for_some_reason_my_opponent_was/cn220on/\ni won a game but for some reason my opponent was able to claim a d...\nHey guys, I investigated this and in the game originally posted here, \"Claim Draw\" was allowed due to a bug in my code. I did not intend for a..."
+        },
+        {
+          "id": "443632161179041803",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:35:49.512+01:00",
+          "content": "That thread is 3 years old"
+        },
+        {
+          "id": "443632300111036416",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:36:22.636+01:00",
+          "content": "i'm not saying the bug is still present, i'm disagreeing with \"no problems observed with it ever\""
+        },
+        {
+          "id": "443632532681129994",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:37:18.085+01:00",
+          "content": "anyway, it sounds like we don't have an explicit definition for \"not making progress\" but we think the engine is always right about it. good to know"
+        },
+        {
+          "id": "443632739187687424",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:38:07.32+01:00",
+          "content": "I mean really I’m just too lazy to type up my understanding of it on my phone right now"
+        },
+        {
+          "id": "443632811363139605",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:38:24.528+01:00",
+          "content": "I think the potential for false positive makes it scary"
+        },
+        {
+          "id": "443632995492954122",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:39:08.428+01:00",
+          "content": "And I guess 3 years ago is when Will explained how it works, so that was what I was thinking of when I said he wrote it a long time ago"
+        },
+        {
+          "id": "443633075218546689",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:39:27.436+01:00",
+          "content": "In the future, a new unit cause a new type of draw condition to occur, and with it new false positives"
+        },
+        {
+          "id": "443633135415197706",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:39:41.788+01:00",
+          "content": "But I could have worded it clearer"
+        },
+        {
+          "id": "443633176582291466",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:39:51.603+01:00",
+          "content": "There's a potential for that"
+        },
+        {
+          "id": "443633232437575680",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:40:04.92+01:00",
+          "content": "i also remember reading that thread three years ago and not loving the response \"the game only offers a draw after TEN turns if you are storing up Green or Gold\" because it seems like there must be positions where you need to save up 40 green for a massive cluster volley to win"
+        },
+        {
+          "id": "443633441666498560",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:40:54.804+01:00",
+          "content": "like, i have 1 conduit and my opponent has...i dunno, 25 husks?"
+        },
+        {
+          "id": "443633507185721344",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:41:10.425+01:00",
+          "content": "Yeah a new unit like cluster might add new false positives"
+        },
+        {
+          "id": "443633514252992512",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:41:12.11+01:00",
+          "content": "Yeah the classic puzzle is to demonstrate that there are positions where you need to store 40 green to win"
+        },
+        {
+          "id": "443633679395454976",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:41:51.483+01:00",
+          "content": "Is it possible to draw by elimination?"
+        },
+        {
+          "id": "443633799822049300",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:42:20.195+01:00",
+          "content": "well. i'm not sure actually"
+        },
+        {
+          "id": "443633849331613696",
+          "author": "miuna6933",
+          "nickname": "Aka",
+          "timestamp": "2018-05-09T05:42:31.999+01:00",
+          "content": "if you have only gauss charges, and you kill your opponent's last thing"
+        },
+        {
+          "id": "443633875437092864",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:42:38.223+01:00",
+          "content": "i think if you end your turn with no units on your side you lose"
+        },
+        {
+          "id": "443633882655490048",
+          "author": "miuna6933",
+          "nickname": "Aka",
+          "timestamp": "2018-05-09T05:42:39.944+01:00",
+          "content": "you both have nothing left"
+        },
+        {
+          "id": "443633918663589888",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:42:48.529+01:00",
+          "content": "You have 1 pixie left and opponent has an engi"
+        },
+        {
+          "id": "443634051023372288",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:43:20.086+01:00",
+          "content": "@Apooche you have any ideas on that one?"
+        },
+        {
+          "id": "443634315624972288",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:44:23.172+01:00",
+          "content": "Is that what you are asking?"
+        },
+        {
+          "id": "443634379193843723",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:44:38.328+01:00",
+          "content": "The game warns you that it will happen"
+        },
+        {
+          "id": "443634396692742144",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:44:42.5+01:00",
+          "content": "You have 1 pixie opp have 1 engi"
+        },
+        {
+          "id": "443634496382828564",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T05:45:06.268+01:00",
+          "content": "Game warns you if you click last pixie?"
+        },
+        {
+          "id": "443634604495208455",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:45:32.044+01:00",
+          "content": "Yeah that is a draw. When you go to confirm phase it warns, like a breach warning"
+        },
+        {
+          "id": "443634667199922186",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T05:45:46.994+01:00",
+          "content": "If they had 2 engis, it warns you that you’ll lose"
+        },
+        {
+          "id": "443635182235287574",
+          "author": "miuna6933",
+          "nickname": "Aka",
+          "timestamp": "2018-05-09T05:47:49.788+01:00",
+          "content": "oh yeah i got the \"loss imminent\" once, in a puzzle i think"
+        },
+        {
+          "id": "443635337806348298",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-09T05:48:26.879+01:00",
+          "content": "i only ever saw the loss warning when i was busy losing to pacifist bot"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T09:21:38.392+01:00",
+      "end_ts": "2018-05-09T09:24:51.352+01:00",
+      "participants": [
+        "Deleted User",
+        "liadahlia",
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (7 messages, 2018-05-09) ---\n[2018-05-09 09:21] Deleted User (Deleted User): Is Thunderhead any good\n[2018-05-09 09:21] Deleted User (Deleted User): It's such a high cost and it only lasts for 3 turns\n[2018-05-09 09:22] p0lari (Polari): it is absurdly good if you get anywhere near full value from it\n[2018-05-09 09:23] liadahlia (Lia): thunderhead is v good\n[2018-05-09 09:24] liadahlia (Lia): the 4 attack it gives you is nasty\n[2018-05-09 09:24] liadahlia (Lia): basically your opponent is trying to get 11 attack while being under 4 damage of pressure every turn\n[2018-05-09 09:24] liadahlia (Lia): and it gives you time to get more attack and pressure of your own",
+      "messages": [
+        {
+          "id": "443688989300359170",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T09:21:38.392+01:00",
+          "content": "Is Thunderhead any good"
+        },
+        {
+          "id": "443689035265867776",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T09:21:49.351+01:00",
+          "content": "It's such a high cost and it only lasts for 3 turns"
+        },
+        {
+          "id": "443689217415970827",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T09:22:32.779+01:00",
+          "content": "it is absurdly good if you get anywhere near full value from it"
+        },
+        {
+          "id": "443689521704337415",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:23:45.327+01:00",
+          "content": "thunderhead is v good"
+        },
+        {
+          "id": "443689584920887306",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:24:00.399+01:00",
+          "content": "the 4 attack it gives you is nasty"
+        },
+        {
+          "id": "443689757831200768",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:24:41.624+01:00",
+          "content": "basically your opponent is trying to get 11 attack while being under 4 damage of pressure every turn"
+        },
+        {
+          "id": "443689798633390080",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:24:51.352+01:00",
+          "content": "and it gives you time to get more attack and pressure of your own"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T09:41:53.068+01:00",
+      "end_ts": "2018-05-09T09:48:26.476+01:00",
+      "participants": [
+        "Deleted User",
+        "awaclus",
+        "darkeisbein",
+        "liadahlia",
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 66,
+      "formatted_text": "--- Thread (23 messages, 2018-05-09) ---\n[2018-05-09 09:41] awaclus: if it absorbs even once, it's good\n[2018-05-09 09:42] liadahlia (Lia): well, it depends on how much you absorb\n[2018-05-09 09:43] liadahlia (Lia): but yeah, par is thunderhead dying on lifespan 2\n[2018-05-09 09:43] Deleted User (Deleted User): I'm stuck on the Unfair Challenge\n[2018-05-09 09:43] awaclus: but like if it absorbs once and then soaks the next turn, it probably absorbs enough\n[2018-05-09 09:43] liadahlia (Lia): that's what your opponent usually hopes for\n[2018-05-09 09:44] liadahlia (Lia): thunderhead is nasty because it forces your opponent to go out of his way to race for 11 attack\n[2018-05-09 09:44] liadahlia (Lia): even if it's not optimal\n[2018-05-09 09:44] awaclus: even if it just ends up being soak, it's not terrible if it fits your build\n[2018-05-09 09:45] liadahlia (Lia): thunderhead is pretty bad against units that lets you cheat out attacks though\n[2018-05-09 09:45] liadahlia (Lia): like thermite or cluster\n[2018-05-09 09:45] liadahlia (Lia): bloodrager is good yeah, but more because it is absorb denial against thunderhead\n[2018-05-09 09:45] liadahlia (Lia): but yeah thead also suffers from absorb denial\n[2018-05-09 09:46] liadahlia (Lia): i *think* if thead dies without absorbing at all it's pretty bad\n[2018-05-09 09:46] p0lari (Polari): if you manage to buy a thunderhead late so that it's 4 real damage and 11 soak without getting exploited it's good\n[2018-05-09 09:46] liadahlia (Lia): if you can manage that somehow\n[2018-05-09 09:46] p0lari (Polari): the bad thunderheads are the early ones where their attack gets absorbed and the opponent can just keep building econ\n[2018-05-09 09:46] liadahlia (Lia): you're in a pretty commanding lead if you're able to do that already, so kinda win-more\n[2018-05-09 09:47] p0lari (Polari): or worse, sell off their attack as mentioned\n[2018-05-09 09:47] darkeisbein: well depends if your opponent just econs up to avoid thead absorb, far more then is reasonable thead might still be good\n[2018-05-09 09:47] p0lari (Polari): ones that immediately get hit for precisely 11 aren't too hot either\n[2018-05-09 09:47] liadahlia (Lia): if a unit forces opponent to go for an inoptimal build, then it's probably pretty good\n[2018-05-09 09:48] liadahlia (Lia): but yeah you never buy thead if opponent can setup exactly 11 when he's built",
+      "messages": [
+        {
+          "id": "443694084021026817",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-05-09T09:41:53.068+01:00",
+          "content": "if it absorbs even once, it's good"
+        },
+        {
+          "id": "443694230527803393",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:42:27.998+01:00",
+          "content": "well, it depends on how much you absorb"
+        },
+        {
+          "id": "443694398455414784",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:43:08.035+01:00",
+          "content": "but yeah, par is thunderhead dying on lifespan 2"
+        },
+        {
+          "id": "443694402943188993",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T09:43:09.105+01:00",
+          "content": "I'm stuck on the Unfair Challenge"
+        },
+        {
+          "id": "443694404767842316",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-05-09T09:43:09.54+01:00",
+          "content": "but like if it absorbs once and then soaks the next turn, it probably absorbs enough"
+        },
+        {
+          "id": "443694421515436042",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:43:13.533+01:00",
+          "content": "that's what your opponent usually hopes for"
+        },
+        {
+          "id": "443694649442435083",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:44:07.875+01:00",
+          "content": "thunderhead is nasty because it forces your opponent to go out of his way to race for 11 attack"
+        },
+        {
+          "id": "443694658703458314",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:44:10.083+01:00",
+          "content": "even if it's not optimal"
+        },
+        {
+          "id": "443694792061353984",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-05-09T09:44:41.878+01:00",
+          "content": "even if it just ends up being soak, it's not terrible if it fits your build"
+        },
+        {
+          "id": "443694872231280650",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:45:00.992+01:00",
+          "content": "thunderhead is pretty bad against units that lets you cheat out attacks though"
+        },
+        {
+          "id": "443694884067606529",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:45:03.814+01:00",
+          "content": "like thermite or cluster"
+        },
+        {
+          "id": "443694988812091392",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:45:28.787+01:00",
+          "content": "bloodrager is good yeah, but more because it is absorb denial against thunderhead"
+        },
+        {
+          "id": "443695022391689228",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:45:36.793+01:00",
+          "content": "but yeah thead also suffers from absorb denial"
+        },
+        {
+          "id": "443695149885816842",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:46:07.19+01:00",
+          "content": "i *think* if thead dies without absorbing at all it's pretty bad"
+        },
+        {
+          "id": "443695214822031363",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T09:46:22.672+01:00",
+          "content": "if you manage to buy a thunderhead late so that it's 4 real damage and 11 soak without getting exploited it's good"
+        },
+        {
+          "id": "443695308820447252",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:46:45.083+01:00",
+          "content": "if you can manage that somehow"
+        },
+        {
+          "id": "443695348821655562",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T09:46:54.62+01:00",
+          "content": "the bad thunderheads are the early ones where their attack gets absorbed and the opponent can just keep building econ"
+        },
+        {
+          "id": "443695361337327617",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:46:57.604+01:00",
+          "content": "you're in a pretty commanding lead if you're able to do that already, so kinda win-more"
+        },
+        {
+          "id": "443695404425674753",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T09:47:07.877+01:00",
+          "content": "or worse, sell off their attack as mentioned"
+        },
+        {
+          "id": "443695466186801152",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-05-09T09:47:22.602+01:00",
+          "content": "well depends if your opponent just econs up to avoid thead absorb, far more then is reasonable thead might still be good"
+        },
+        {
+          "id": "443695479147069444",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T09:47:25.692+01:00",
+          "content": "ones that immediately get hit for precisely 11 aren't too hot either"
+        },
+        {
+          "id": "443695601146920960",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:47:54.779+01:00",
+          "content": "if a unit forces opponent to go for an inoptimal build, then it's probably pretty good"
+        },
+        {
+          "id": "443695734093774848",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T09:48:26.476+01:00",
+          "content": "but yeah you never buy thead if opponent can setup exactly 11 when he's built"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T10:26:57.518+01:00",
+      "end_ts": "2018-05-09T10:34:28.224+01:00",
+      "participants": [
+        "awaclus",
+        "liadahlia",
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 21,
+      "formatted_text": "--- Thread (7 messages, 2018-05-09) ---\n[2018-05-09 10:26] p0lari (Polari): Your leaderboard rank is displayed next to the rating if you're top 200\n[2018-05-09 10:29] awaclus: it isn't displayed if you're not top 200?\n[2018-05-09 10:31] liadahlia (Lia): yeah because you're not ranked\n[2018-05-09 10:31] liadahlia (Lia): like you would see your elo and then rank #\n[2018-05-09 10:32] liadahlia (Lia): if you're not on the leaderboard the latter part doesn't show\n[2018-05-09 10:32] p0lari (Polari): Just look at the screenshot above\n[2018-05-09 10:34] awaclus: I thought everyone has a rank and the lederboard just displays the top 200",
+      "messages": [
+        {
+          "id": "443705427306217472",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T10:26:57.518+01:00",
+          "content": "Your leaderboard rank is displayed next to the rating if you're top 200"
+        },
+        {
+          "id": "443706099607273472",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-05-09T10:29:37.807+01:00",
+          "content": "it isn't displayed if you're not top 200?"
+        },
+        {
+          "id": "443706616974540812",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T10:31:41.157+01:00",
+          "content": "yeah because you're not ranked"
+        },
+        {
+          "id": "443706678462906378",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T10:31:55.817+01:00",
+          "content": "like you would see your elo and then rank #"
+        },
+        {
+          "id": "443706756632412171",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T10:32:14.454+01:00",
+          "content": "if you're not on the leaderboard the latter part doesn't show"
+        },
+        {
+          "id": "443706771589038090",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T10:32:18.02+01:00",
+          "content": "Just look at the screenshot above"
+        },
+        {
+          "id": "443707317704327168",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-05-09T10:34:28.224+01:00",
+          "content": "I thought everyone has a rank and the lederboard just displays the top 200"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T10:55:06.208+01:00",
+      "end_ts": "2018-05-09T10:55:18.581+01:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-05-09) ---\n[2018-05-09 10:55] liadahlia (Lia): just git gud i guess\n[2018-05-09 10:55] liadahlia (Lia): also mmr inflation is a thing",
+      "messages": [
+        {
+          "id": "443712510185439232",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T10:55:06.208+01:00",
+          "content": "just git gud i guess"
+        },
+        {
+          "id": "443712562081824774",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T10:55:18.581+01:00",
+          "content": "also mmr inflation is a thing"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T15:10:38.735+01:00",
+      "end_ts": "2018-05-09T15:14:09.207+01:00",
+      "participants": [
+        "awaclus",
+        "sorawotobu"
+      ],
+      "replay_codes": [],
+      "score": 13,
+      "formatted_text": "--- Thread (5 messages, 2018-05-09) ---\n[2018-05-09 15:10] sorawotobu: do you mean totally unfair challenge? i beat it by buying 27 drones and all the good soak units, longer games give the bot more time to make mistakes. others have suggested that either feral wardens or BP are easier wins though.\n[2018-05-09 15:11] awaclus: I did it with feral wardens\n[2018-05-09 15:11] awaclus: I don't remember the details though\n[2018-05-09 15:11] sorawotobu: oh shit i just realized there were a bunch of later messages and discord just hadn't scrolled down\n[2018-05-09 15:14] sorawotobu: all the unfair challenge sets are designed to have multiple viable strategies and i think in any of them you can win with any of the obvious strategies so it's just about sticking to a plan",
+      "messages": [
+        {
+          "id": "443776819465027613",
+          "author": "sorawotobu",
+          "nickname": "sorawotobu",
+          "timestamp": "2018-05-09T15:10:38.735+01:00",
+          "content": "do you mean totally unfair challenge? i beat it by buying 27 drones and all the good soak units, longer games give the bot more time to make mistakes. others have suggested that either feral wardens or BP are easier wins though."
+        },
+        {
+          "id": "443776930735456257",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-05-09T15:11:05.264+01:00",
+          "content": "I did it with feral wardens"
+        },
+        {
+          "id": "443776979725189120",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-05-09T15:11:16.944+01:00",
+          "content": "I don't remember the details though"
+        },
+        {
+          "id": "443777107705856000",
+          "author": "sorawotobu",
+          "nickname": "sorawotobu",
+          "timestamp": "2018-05-09T15:11:47.457+01:00",
+          "content": "oh shit i just realized there were a bunch of later messages and discord just hadn't scrolled down"
+        },
+        {
+          "id": "443777702248448000",
+          "author": "sorawotobu",
+          "nickname": "sorawotobu",
+          "timestamp": "2018-05-09T15:14:09.207+01:00",
+          "content": "all the unfair challenge sets are designed to have multiple viable strategies and i think in any of them you can win with any of the obvious strategies so it's just about sticking to a plan"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T15:18:10.944+01:00",
+      "end_ts": "2018-05-09T15:22:24.502+01:00",
+      "participants": [
+        "p0lari",
+        "sorawotobu"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (5 messages, 2018-05-09) ---\n[2018-05-09 15:18] p0lari (Polari): longer games also put more pressure on yourself to not make mistakes\n[2018-05-09 15:18] p0lari (Polari): I tried a few different things in totally unfair the last we talked about it, won with high econ but thought it felt more demanding than ferals, didn't get bp to work iirc\n[2018-05-09 15:20] sorawotobu: but if you make more mistakes than masterbot on average you won't win. bot has a winning position on T1 so you need them to mess up.\n[2018-05-09 15:22] p0lari (Polari): yeah, but the bot doesn't handle super fast rushes all that well\n[2018-05-09 15:22] p0lari (Polari): so that immediately evens it up quite a bit",
+      "messages": [
+        {
+          "id": "443778716167045130",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T15:18:10.944+01:00",
+          "content": "longer games also put more pressure on yourself to not make mistakes"
+        },
+        {
+          "id": "443778915782230027",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T15:18:58.536+01:00",
+          "content": "I tried a few different things in totally unfair the last we talked about it, won with high econ but thought it felt more demanding than ferals, didn't get bp to work iirc"
+        },
+        {
+          "id": "443779412140228611",
+          "author": "sorawotobu",
+          "nickname": "sorawotobu",
+          "timestamp": "2018-05-09T15:20:56.877+01:00",
+          "content": "but if you make more mistakes than masterbot on average you won't win. bot has a winning position on T1 so you need them to mess up."
+        },
+        {
+          "id": "443779744438288394",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T15:22:16.103+01:00",
+          "content": "yeah, but the bot doesn't handle super fast rushes all that well"
+        },
+        {
+          "id": "443779779666116618",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-09T15:22:24.502+01:00",
+          "content": "so that immediately evens it up quite a bit"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T19:37:46.425+01:00",
+      "end_ts": "2018-05-09T19:50:51.681+01:00",
+      "participants": [
+        "apooche",
+        "crash_overlord",
+        "darkeisbein",
+        "totally_not_fbi",
+        "towernumbernine"
+      ],
+      "replay_codes": [],
+      "score": 44,
+      "formatted_text": "--- Thread (50 messages, 2018-05-09) ---\n[2018-05-09 19:37] totally_not_fbi (Totally Not FBI): Maybe thats why theres a guy that wrote this review :LongNoseLiar:\n[2018-05-09 19:37] totally_not_fbi (Totally Not FBI): https://steamcommunity.com/profiles/76561198110570529/recommended/490220/\nSteam Community :: superraybud :: Review for Prismata\n[2018-05-09 19:38] towernumbernine: the loot box situation is not good here\n[2018-05-09 19:39] towernumbernine: i consider them so unhype that i have >100 unopened\n[2018-05-09 19:39] towernumbernine: most of the skins looks really bad\n[2018-05-09 19:39] towernumbernine: and much of the time you don't get anything\n[2018-05-09 19:39] towernumbernine: except for emotes, of which there are too many\n[2018-05-09 19:39] totally_not_fbi (Totally Not FBI): If you dont open any of them youre getting absolutely nothing\n[2018-05-09 19:39] towernumbernine: i would prefer to delete many of my emotes\n[2018-05-09 19:39] totally_not_fbi (Totally Not FBI): If you decide to open some of your 100+ orbs however\n[2018-05-09 19:40] darkeisbein: well you kinda just open them to get black lab cards for the most part tbh\n[2018-05-09 19:40] totally_not_fbi (Totally Not FBI): You are bound to gain smth out of it\n[2018-05-09 19:40] towernumbernine: if i open them i'm getting almost nothing and it spends my time\n[2018-05-09 19:40] darkeisbein: yeah but you can open them while in queue\n[2018-05-09 19:40] darkeisbein: and you can auto flip by pressing Q\n[2018-05-09 19:40] towernumbernine: oh cool, didn't realize that\n[2018-05-09 19:40] towernumbernine: i'll do that then maybe\n[2018-05-09 19:41] towernumbernine: the plus side is there's a feeling of control\n[2018-05-09 19:42] towernumbernine: but the minus side is often, at least for me, every option is unappealvng\n[2018-05-09 19:42] apooche: Also once you have some cosmetics you can trade them in in the black lab for red cores and black cards, which are similar but get rewards much faster\n[2018-05-09 19:42] apooche: I think the reward system is too big of a time sink overall though\n[2018-05-09 19:43] towernumbernine: i HATE this game's graphics\n[2018-05-09 19:43] towernumbernine: like huge negative aspect for me\n[2018-05-09 19:43] towernumbernine: so maybe i'm sour on cosmetics to begin with\n[2018-05-09 19:43] towernumbernine: though many i think make matters worse\n[2018-05-09 19:44] apooche: You prefer more minimalism or more pretty?\n[2018-05-09 19:44] towernumbernine: every game in this category looks better\n[2018-05-09 19:45] towernumbernine: gwent, duelyst, hearthstone, popular traditional CCGs/LCGs\n[2018-05-09 19:45] totally_not_fbi (Totally Not FBI): what game is in this category\n[2018-05-09 19:45] darkeisbein: what other games are there in this category?\n[2018-05-09 19:45] totally_not_fbi (Totally Not FBI): cuz prismata is one-of-a-kind for me\n[2018-05-09 19:45] darkeisbein: does Fisher Random Chess look better?\n[2018-05-09 19:45] totally_not_fbi (Totally Not FBI): its really hard to put it in any preexisting basket\n[2018-05-09 19:45] apooche: Art wise any game with pictures in rectangles\n[2018-05-09 19:46] apooche: Would be in this category\n[2018-05-09 19:46] darkeisbein: still more descriptive Art then Shogi 😄\n[2018-05-09 19:46] crash_overlord: I don't mind the card art personally. But the main menu ui stuff looks like a flash game from 2006\n[2018-05-09 19:46] crash_overlord: :GWfroggyMonkaChrist:\n[2018-05-09 19:47] apooche: Well it’s a flash game from like 2012 or something\n[2018-05-09 19:47] totally_not_fbi (Totally Not FBI): but hey it works smoothly\n[2018-05-09 19:47] totally_not_fbi (Totally Not FBI): you can have gwent-tier UI but then you'll also suffer the gwent-tier loading/buffer times if you dont have a good pc\n[2018-05-09 19:47] towernumbernine: yes, fischer random chess looks better, lol?\n[2018-05-09 19:48] crash_overlord: Ui is the biggest \"failure\"  point imo. And not the ingame one, though that one is obviously usability First, everything else second\n[2018-05-09 19:48] towernumbernine: this game has a better UI than many others actually\n[2018-05-09 19:48] crash_overlord: Gwent ui is also pretty garbo\n[2018-05-09 19:48] crash_overlord: Gwent only has card art\n[2018-05-09 19:48] crash_overlord: Hs is the exact opposite\n[2018-05-09 19:49] darkeisbein: tbh I rather have 0 animation times then HS animations that take for ages\n[2018-05-09 19:50] apooche: Prismata UX is pretty good right. Like gwent and HS have much simpler turns but imagine trying to play with 6 second time controls\n[2018-05-09 19:50] towernumbernine: gwent/duelyst are in a great spot",
+      "messages": [
+        {
+          "id": "443844044469305346",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:37:46.425+01:00",
+          "content": "Maybe thats why theres a guy that wrote this review :LongNoseLiar:"
+        },
+        {
+          "id": "443844079122513930",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:37:54.687+01:00",
+          "content": "https://steamcommunity.com/profiles/76561198110570529/recommended/490220/\nSteam Community :: superraybud :: Review for Prismata"
+        },
+        {
+          "id": "443844322396340247",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:38:52.688+01:00",
+          "content": "the loot box situation is not good here"
+        },
+        {
+          "id": "443844398959296512",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:39:10.942+01:00",
+          "content": "i consider them so unhype that i have >100 unopened"
+        },
+        {
+          "id": "443844420635328512",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:39:16.11+01:00",
+          "content": "most of the skins looks really bad"
+        },
+        {
+          "id": "443844453124538368",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:39:23.856+01:00",
+          "content": "and much of the time you don't get anything"
+        },
+        {
+          "id": "443844514550120458",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:39:38.501+01:00",
+          "content": "except for emotes, of which there are too many"
+        },
+        {
+          "id": "443844553548759071",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:39:47.799+01:00",
+          "content": "If you dont open any of them youre getting absolutely nothing"
+        },
+        {
+          "id": "443844554551066635",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:39:48.038+01:00",
+          "content": "i would prefer to delete many of my emotes"
+        },
+        {
+          "id": "443844601434996737",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:39:59.216+01:00",
+          "content": "If you decide to open some of your 100+ orbs however"
+        },
+        {
+          "id": "443844612780458002",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-05-09T19:40:01.921+01:00",
+          "content": "well you kinda just open them to get black lab cards for the most part tbh"
+        },
+        {
+          "id": "443844628832321557",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:40:05.748+01:00",
+          "content": "You are bound to gain smth out of it"
+        },
+        {
+          "id": "443844651536089088",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:40:11.161+01:00",
+          "content": "if i open them i'm getting almost nothing and it spends my time"
+        },
+        {
+          "id": "443844703872483386",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-05-09T19:40:23.639+01:00",
+          "content": "yeah but you can open them while in queue"
+        },
+        {
+          "id": "443844735397003266",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-05-09T19:40:31.155+01:00",
+          "content": "and you can auto flip by pressing Q"
+        },
+        {
+          "id": "443844791931764757",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:40:44.634+01:00",
+          "content": "oh cool, didn't realize that"
+        },
+        {
+          "id": "443844825649905699",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:40:52.673+01:00",
+          "content": "i'll do that then maybe"
+        },
+        {
+          "id": "443845092747378688",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:41:56.354+01:00",
+          "content": "the plus side is there's a feeling of control"
+        },
+        {
+          "id": "443845137261658152",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:42:06.967+01:00",
+          "content": "but the minus side is often, at least for me, every option is unappealvng"
+        },
+        {
+          "id": "443845193939157002",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:42:20.48+01:00",
+          "content": "Also once you have some cosmetics you can trade them in in the black lab for red cores and black cards, which are similar but get rewards much faster"
+        },
+        {
+          "id": "443845333412216854",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:42:53.733+01:00",
+          "content": "I think the reward system is too big of a time sink overall though"
+        },
+        {
+          "id": "443845468410216450",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:43:25.919+01:00",
+          "content": "i HATE this game's graphics"
+        },
+        {
+          "id": "443845490912657408",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:43:31.284+01:00",
+          "content": "like huge negative aspect for me"
+        },
+        {
+          "id": "443845533698752532",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:43:41.485+01:00",
+          "content": "so maybe i'm sour on cosmetics to begin with"
+        },
+        {
+          "id": "443845557514010644",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:43:47.163+01:00",
+          "content": "though many i think make matters worse"
+        },
+        {
+          "id": "443845613944045588",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:44:00.617+01:00",
+          "content": "You prefer more minimalism or more pretty?"
+        },
+        {
+          "id": "443845765006229504",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:44:36.633+01:00",
+          "content": "every game in this category looks better"
+        },
+        {
+          "id": "443845878046916609",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:45:03.584+01:00",
+          "content": "gwent, duelyst, hearthstone, popular traditional CCGs/LCGs"
+        },
+        {
+          "id": "443845881943293973",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:45:04.513+01:00",
+          "content": "what game is in this category"
+        },
+        {
+          "id": "443845910280142870",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-05-09T19:45:11.269+01:00",
+          "content": "what other games are there in this category?"
+        },
+        {
+          "id": "443845923609772042",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:45:14.447+01:00",
+          "content": "cuz prismata is one-of-a-kind for me"
+        },
+        {
+          "id": "443845948620144642",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-05-09T19:45:20.41+01:00",
+          "content": "does Fisher Random Chess look better?"
+        },
+        {
+          "id": "443845957319131137",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:45:22.484+01:00",
+          "content": "its really hard to put it in any preexisting basket"
+        },
+        {
+          "id": "443846092962922497",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:45:54.824+01:00",
+          "content": "Art wise any game with pictures in rectangles"
+        },
+        {
+          "id": "443846125418708993",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:46:02.562+01:00",
+          "content": "Would be in this category"
+        },
+        {
+          "id": "443846268553396244",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-05-09T19:46:36.688+01:00",
+          "content": "still more descriptive Art then Shogi 😄"
+        },
+        {
+          "id": "443846290304925696",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-05-09T19:46:41.874+01:00",
+          "content": "I don't mind the card art personally. But the main menu ui stuff looks like a flash game from 2006"
+        },
+        {
+          "id": "443846313659072513",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-05-09T19:46:47.442+01:00",
+          "content": ":GWfroggyMonkaChrist:"
+        },
+        {
+          "id": "443846423692181505",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:47:13.676+01:00",
+          "content": "Well it’s a flash game from like 2012 or something"
+        },
+        {
+          "id": "443846435629301760",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:47:16.522+01:00",
+          "content": "but hey it works smoothly"
+        },
+        {
+          "id": "443846533625020426",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:47:39.886+01:00",
+          "content": "you can have gwent-tier UI but then you'll also suffer the gwent-tier loading/buffer times if you dont have a good pc"
+        },
+        {
+          "id": "443846608518381569",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:47:57.742+01:00",
+          "content": "yes, fischer random chess looks better, lol?"
+        },
+        {
+          "id": "443846649710641162",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-05-09T19:48:07.563+01:00",
+          "content": "Ui is the biggest \"failure\"  point imo. And not the ingame one, though that one is obviously usability First, everything else second"
+        },
+        {
+          "id": "443846721269792778",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:48:24.624+01:00",
+          "content": "this game has a better UI than many others actually"
+        },
+        {
+          "id": "443846781617438731",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-05-09T19:48:39.012+01:00",
+          "content": "Gwent ui is also pretty garbo"
+        },
+        {
+          "id": "443846827301797898",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-05-09T19:48:49.904+01:00",
+          "content": "Gwent only has card art"
+        },
+        {
+          "id": "443846863750168606",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-05-09T19:48:58.594+01:00",
+          "content": "Hs is the exact opposite"
+        },
+        {
+          "id": "443847116159451146",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-05-09T19:49:58.773+01:00",
+          "content": "tbh I rather have 0 animation times then HS animations that take for ages"
+        },
+        {
+          "id": "443847154797379606",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:50:07.985+01:00",
+          "content": "Prismata UX is pretty good right. Like gwent and HS have much simpler turns but imagine trying to play with 6 second time controls"
+        },
+        {
+          "id": "443847338071425024",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:50:51.681+01:00",
+          "content": "gwent/duelyst are in a great spot"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T19:51:01.209+01:00",
+      "end_ts": "2018-05-09T20:06:32.068+01:00",
+      "participants": [
+        "apooche",
+        "gryfn",
+        "supergreyman",
+        "totally_not_fbi",
+        "towernumbernine"
+      ],
+      "replay_codes": [
+        "arily-scant"
+      ],
+      "score": 31,
+      "formatted_text": "--- Thread (20 messages, 2018-05-09) ---\n[2018-05-09 19:51] towernumbernine: though obv. gwent has way more resources going into this\n[2018-05-09 19:51] totally_not_fbi (Totally Not FBI): unfortunately the games themselves are not\n[2018-05-09 19:51] totally_not_fbi (Totally Not FBI): well at least duelyst is doing okay , kinda...\n[2018-05-09 19:51] towernumbernine: i haven't played duelyst in months (maybe more than a year even?)\n[2018-05-09 19:52] towernumbernine: they really damaged the game moving off of 2 draw\n[2018-05-09 19:53] totally_not_fbi (Totally Not FBI): not to say that bearing great resemblance to Hearthstone is necessarily a bad thing. it just caters a different group of customers\n[2018-05-09 19:53] apooche: I think prismata graphics are a decent compromise between people who want it more pretty and people who want it more minimalist. Falls a bit on the minimal side.\n[2018-05-09 19:54] apooche: I think the expectation is just that rectangle games should be pretty due to some of the recent big titles\n[2018-05-09 19:56] apooche: The overall coldness of the colors is a different issue that has its own reasoning.\n[2018-05-09 19:56] supergreyman (Greyman): I wonder if the players who like anime are the ones who are ok with Prismata's art.\n[2018-05-09 19:56] apooche: That I’m just used to but I’m curious how warm-colors prismata would do.\n[2018-05-09 19:57] totally_not_fbi (Totally Not FBI): probably not related? i'd say that prismata art is kinda cartoony but not really anime-ish\n[2018-05-09 19:58] apooche: Elyot said a long time ago that if prismata made a lot of money they would hire an anime artist to make kawaii everything skinset\n[2018-05-09 20:01] gryfn: was there a reason for the colors that were chosen for Prismata ?\n[2018-05-09 20:01] totally_not_fbi (Totally Not FBI): better shill pris more so i get more unneccesarily-scantily-clad female characters with a questionable age or exaggerated body figures :LongNoseLiar:\n[2018-05-09 20:02] apooche: Yeah, Elyot explained it once. Cool colors are seen as more sci-fi and convey are more elite feeling, which he thought would resonate well with the target audience\n[2018-05-09 20:02] apooche: So basically prismata players = elitists :LongNoseLiar:\n[2018-05-09 20:03] apooche: A lot of the campaign scenery so far breaks that though so far.\n[2018-05-09 20:05] gryfn: some of those units look quite colorful to me. The red units anyway\n[2018-05-09 20:06] gryfn: they also have a fairly disntinct look to them which I guess was the intention",
+      "messages": [
+        {
+          "id": "443847378034884610",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:51:01.209+01:00",
+          "content": "though obv. gwent has way more resources going into this"
+        },
+        {
+          "id": "443847396737286144",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:51:05.668+01:00",
+          "content": "unfortunately the games themselves are not"
+        },
+        {
+          "id": "443847458347417600",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:51:20.357+01:00",
+          "content": "well at least duelyst is doing okay , kinda..."
+        },
+        {
+          "id": "443847572595933184",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:51:47.596+01:00",
+          "content": "i haven't played duelyst in months (maybe more than a year even?)"
+        },
+        {
+          "id": "443847650769502228",
+          "author": "towernumbernine",
+          "nickname": "TowerNumberNine",
+          "timestamp": "2018-05-09T19:52:06.234+01:00",
+          "content": "they really damaged the game moving off of 2 draw"
+        },
+        {
+          "id": "443847947688607744",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:53:17.025+01:00",
+          "content": "not to say that bearing great resemblance to Hearthstone is necessarily a bad thing. it just caters a different group of customers"
+        },
+        {
+          "id": "443848006215794688",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:53:30.979+01:00",
+          "content": "I think prismata graphics are a decent compromise between people who want it more pretty and people who want it more minimalist. Falls a bit on the minimal side."
+        },
+        {
+          "id": "443848194556952609",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:54:15.883+01:00",
+          "content": "I think the expectation is just that rectangle games should be pretty due to some of the recent big titles"
+        },
+        {
+          "id": "443848659025657859",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:56:06.621+01:00",
+          "content": "The overall coldness of the colors is a different issue that has its own reasoning."
+        },
+        {
+          "id": "443848786759122946",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-05-09T19:56:37.075+01:00",
+          "content": "I wonder if the players who like anime are the ones who are ok with Prismata's art."
+        },
+        {
+          "id": "443848824385961985",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:56:46.046+01:00",
+          "content": "That I’m just used to but I’m curious how warm-colors prismata would do."
+        },
+        {
+          "id": "443848982033072138",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T19:57:23.632+01:00",
+          "content": "probably not related? i'd say that prismata art is kinda cartoony but not really anime-ish"
+        },
+        {
+          "id": "443849293195902976",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T19:58:37.819+01:00",
+          "content": "Elyot said a long time ago that if prismata made a lot of money they would hire an anime artist to make kawaii everything skinset"
+        },
+        {
+          "id": "443849901936476162",
+          "author": "gryfn",
+          "nickname": "Gryfn",
+          "timestamp": "2018-05-09T20:01:02.954+01:00",
+          "content": "was there a reason for the colors that were chosen for Prismata ?"
+        },
+        {
+          "id": "443850101178368011",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T20:01:50.457+01:00",
+          "content": "better shill pris more so i get more unneccesarily-scantily-clad female characters with a questionable age or exaggerated body figures :LongNoseLiar:"
+        },
+        {
+          "id": "443850272788185089",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T20:02:31.372+01:00",
+          "content": "Yeah, Elyot explained it once. Cool colors are seen as more sci-fi and convey are more elite feeling, which he thought would resonate well with the target audience"
+        },
+        {
+          "id": "443850354019270666",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T20:02:50.739+01:00",
+          "content": "So basically prismata players = elitists :LongNoseLiar:"
+        },
+        {
+          "id": "443850594466267136",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T20:03:48.066+01:00",
+          "content": "A lot of the campaign scenery so far breaks that though so far."
+        },
+        {
+          "id": "443850920321744906",
+          "author": "gryfn",
+          "nickname": "Gryfn",
+          "timestamp": "2018-05-09T20:05:05.756+01:00",
+          "content": "some of those units look quite colorful to me. The red units anyway"
+        },
+        {
+          "id": "443851282340380713",
+          "author": "gryfn",
+          "nickname": "Gryfn",
+          "timestamp": "2018-05-09T20:06:32.068+01:00",
+          "content": "they also have a fairly disntinct look to them which I guess was the intention"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T20:15:55.672+01:00",
+      "end_ts": "2018-05-09T20:18:29.761+01:00",
+      "participants": [
+        "gryfn",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2018-05-09) ---\n[2018-05-09 20:15] gryfn: Just saw the dev response to the review claiming it was p2w. \"Absolutely zero pay-to-win—no card packs to open; all units are free for all players\" --- this is already on the store page but it's buried deep in the Features section. Maybe move this up (either that quote or the Features section) so it's more prominent to ppl just browsing the game and not ready to commit to a download yet.\n[2018-05-09 20:18] wiwiweb: valkyrion confirmed for colourful and not sci-fi and elite",
+      "messages": [
+        {
+          "id": "443853646267023360",
+          "author": "gryfn",
+          "nickname": "Gryfn",
+          "timestamp": "2018-05-09T20:15:55.672+01:00",
+          "content": "Just saw the dev response to the review claiming it was p2w. \"Absolutely zero pay-to-win—no card packs to open; all units are free for all players\" --- this is already on the store page but it's buried deep in the Features section. Maybe move this up (either that quote or the Features section) so it's more prominent to ppl just browsing the game and not ready to commit to a download yet."
+        },
+        {
+          "id": "443854292563132426",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-05-09T20:18:29.761+01:00",
+          "content": "valkyrion confirmed for colourful and not sci-fi and elite"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T21:02:24.732+01:00",
+      "end_ts": "2018-05-09T21:02:24.732+01:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-05-09) ---\n[2018-05-09 21:02] liadahlia (Lia): weeb skin pack when :POGGERS:",
+      "messages": [
+        {
+          "id": "443865344432406549",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:02:24.732+01:00",
+          "content": "weeb skin pack when :POGGERS:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T21:08:49.945+01:00",
+      "end_ts": "2018-05-09T21:08:49.945+01:00",
+      "participants": [
+        "crash_overlord"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-05-09) ---\n[2018-05-09 21:08] crash_overlord: What I was talking regarding UI apooche is the out of game design. It being minimalist isn't really a problem, it looking bad is. The sharp edges, windows 98 boxes and non-cohesive design just makes it look horrible imo. In-game UI is pretty good though. Extremely extremely intuitive and \"usable\" (can't think of the right term), but again has a very non-cohesive look with the rest of the game.",
+      "messages": [
+        {
+          "id": "443866960133095424",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-05-09T21:08:49.945+01:00",
+          "content": "What I was talking regarding UI apooche is the out of game design. It being minimalist isn't really a problem, it looking bad is. The sharp edges, windows 98 boxes and non-cohesive design just makes it look horrible imo. In-game UI is pretty good though. Extremely extremely intuitive and \"usable\" (can't think of the right term), but again has a very non-cohesive look with the rest of the game."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T21:14:03.811+01:00",
+      "end_ts": "2018-05-09T21:18:57.34+01:00",
+      "participants": [
+        "apooche",
+        "ledinax",
+        "liadahlia",
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 27,
+      "formatted_text": "--- Thread (11 messages, 2018-05-09) ---\n[2018-05-09 21:14] apooche: Oh yeah, I totally agree with that. In game UX - phenomenal. Out of game and menus UI/UX - lots of issues.\n[2018-05-09 21:14] mrguy888: out of game ux was better with the old 2014 client look\n[2018-05-09 21:15] apooche: Like I feel I’m on the verge of making shortcuts to quickly navigate the ui\n[2018-05-09 21:15] mrguy888: Everything is so many clicks away.\n[2018-05-09 21:16] ledinax (Fenris): hey, I just received my steam key! 😄\n[2018-05-09 21:16] apooche: 2014 client didn’t have a lot of current features though\n[2018-05-09 21:16] apooche: Like many of the problems are in the customization section\n[2018-05-09 21:16] liadahlia (Lia): and some of the unit art can use an update\n[2018-05-09 21:16] mrguy888: Like all skins being the default tab in the skins section\n[2018-05-09 21:17] mrguy888: Apparently rarity sorts are a massive issue to code with the way it is now\n[2018-05-09 21:18] apooche: Is it not just another variable in the data?",
+      "messages": [
+        {
+          "id": "443868276582514708",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T21:14:03.811+01:00",
+          "content": "Oh yeah, I totally agree with that. In game UX - phenomenal. Out of game and menus UI/UX - lots of issues."
+        },
+        {
+          "id": "443868395113545739",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:14:32.071+01:00",
+          "content": "out of game ux was better with the old 2014 client look"
+        },
+        {
+          "id": "443868553452716032",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T21:15:09.822+01:00",
+          "content": "Like I feel I’m on the verge of making shortcuts to quickly navigate the ui"
+        },
+        {
+          "id": "443868648264695809",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:15:32.427+01:00",
+          "content": "Everything is so many clicks away."
+        },
+        {
+          "id": "443868771267117056",
+          "author": "ledinax",
+          "nickname": "Fenris",
+          "timestamp": "2018-05-09T21:16:01.753+01:00",
+          "content": "hey, I just received my steam key! 😄"
+        },
+        {
+          "id": "443868772319625216",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T21:16:02.004+01:00",
+          "content": "2014 client didn’t have a lot of current features though"
+        },
+        {
+          "id": "443868879765110787",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T21:16:27.621+01:00",
+          "content": "Like many of the problems are in the customization section"
+        },
+        {
+          "id": "443868917140815893",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:16:36.532+01:00",
+          "content": "and some of the unit art can use an update"
+        },
+        {
+          "id": "443868966742523904",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:16:48.358+01:00",
+          "content": "Like all skins being the default tab in the skins section"
+        },
+        {
+          "id": "443869165816905728",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:17:35.821+01:00",
+          "content": "Apparently rarity sorts are a massive issue to code with the way it is now"
+        },
+        {
+          "id": "443869507732111360",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-09T21:18:57.34+01:00",
+          "content": "Is it not just another variable in the data?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T21:27:09.565+01:00",
+      "end_ts": "2018-05-09T21:28:53.528+01:00",
+      "participants": [
+        "Deleted User",
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (3 messages, 2018-05-09) ---\n[2018-05-09 21:27] Deleted User (Deleted User): how can they realisticalyl improve outofgame UI\n[2018-05-09 21:28] liadahlia (Lia): my biggest complaint is how big the shop button is\n[2018-05-09 21:28] liadahlia (Lia): i wish the shop button wasn't there",
+      "messages": [
+        {
+          "id": "443871572273659904",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:27:09.565+01:00",
+          "content": "how can they realisticalyl improve outofgame UI"
+        },
+        {
+          "id": "443871897906577408",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:28:27.202+01:00",
+          "content": "my biggest complaint is how big the shop button is"
+        },
+        {
+          "id": "443872008325955587",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:28:53.528+01:00",
+          "content": "i wish the shop button wasn't there"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T21:42:29.844+01:00",
+      "end_ts": "2018-05-09T21:42:29.844+01:00",
+      "participants": [
+        "mtanzer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-05-09) ---\n[2018-05-09 21:42] mtanzer: sometimes I feel like I'm the only person who has nothing against any of the graphics/UI.  Like it doesn't wow me or anything but it never felt ugly either",
+      "messages": [
+        {
+          "id": "443875432203288605",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-05-09T21:42:29.844+01:00",
+          "content": "sometimes I feel like I'm the only person who has nothing against any of the graphics/UI.  Like it doesn't wow me or anything but it never felt ugly either"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T21:46:26.199+01:00",
+      "end_ts": "2018-05-09T22:01:30.267+01:00",
+      "participants": [
+        "Deleted User",
+        "liadahlia",
+        "mrguy888",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 55,
+      "formatted_text": "--- Thread (50 messages, 2018-05-09) ---\n[2018-05-09 21:46] mrguy888: The look is whatever to me but the functionality of the design has obnoxious issues.\n[2018-05-09 21:48] mrguy888: After all this time my mouse still doesn't automatically get me to my replays, ranking game screen, event leaderboard, regular leaderboard, ect. I have to put mental effort into getting to these places.\n[2018-05-09 21:49] Deleted User (Deleted User): isn't it just like 2-3 clicks\n[2018-05-09 21:49] Deleted User (Deleted User): I assume most games have it 1 click?\n[2018-05-09 21:49] mrguy888: Yeah it is multiple clicks in somewhat confusing locations.\n[2018-05-09 21:50] Deleted User (Deleted User): i guess it can be confusing eh but once you memorise it it works for me\n[2018-05-09 21:50] mrguy888: I have not passively memorized it yet.\n[2018-05-09 21:51] Deleted User (Deleted User): what is gulf of execution\n[2018-05-09 21:53] liadahlia (Lia): whenever i try to go anywhere without think i just click around until i hit the right place\n[2018-05-09 21:53] Deleted User (Deleted User): Yeah mrguy nails it. Too many clicks that aren't intuitive. I know what I have to do, but it's still not second nature to find where I need to go to do it\n[2018-05-09 21:53] liadahlia (Lia): in other games it's really easy to get to places without thinking because they're in intuitive places\n[2018-05-09 21:53] liadahlia (Lia): also i didn't know you can buy emotes\n[2018-05-09 21:53] liadahlia (Lia): that's how unintuitive that is\n[2018-05-09 21:54] liadahlia (Lia): and then once i know how you can buy it, after a few weeks of not thinking about it, i completely forgot how to buy it again\n[2018-05-09 21:54] Deleted User (Deleted User): hmmm yes pris seems relatively unintuitive\n[2018-05-09 21:54] Deleted User (Deleted User): does this mean i've been undervaluing intuition? cause i've never found that to be a problem\n[2018-05-09 21:54] Deleted User (Deleted User): I just memorise how to do things then move on\n[2018-05-09 21:54] liadahlia (Lia): its' important for game design\n[2018-05-09 21:55] liadahlia (Lia): it's the reason why D is for drone and not C\n[2018-05-09 21:55] Deleted User (Deleted User): ah yes the hotkeys are suuper legit\n[2018-05-09 21:55] liadahlia (Lia): yeah, the hotkeys all make sense\n[2018-05-09 21:55] Deleted User (Deleted User): that being said it would be a pain to begin with, but i probs would deal with hotkeys being random-ish letters\n[2018-05-09 21:55] liadahlia (Lia): and they're all on the left side\n[2018-05-09 21:55] liadahlia (Lia): it's exactly how sc2's hotkey is designed\n[2018-05-09 21:55] liadahlia (Lia): everything on the left hand and makes sense\n[2018-05-09 21:56] Deleted User (Deleted User): hotkeys and Q are qol features I didn't know I needed\n[2018-05-09 21:56] liadahlia (Lia): you wouldn't like it if buying drone is \"k\" or something\n[2018-05-09 21:56] Deleted User (Deleted User): eh being on the right hand side is badkid\n[2018-05-09 21:56] Deleted User (Deleted User): but once I learned it, i wouldn't mind it being S or X or C or F really\n[2018-05-09 21:56] mrguy888: a good menu is also a qol of life feature you dont know that you need\n[2018-05-09 21:57] Deleted User (Deleted User): I don't know what a good menu is that's the thing L\n[2018-05-09 21:57] liadahlia (Lia): a good menu has as little buttons as it can possibly muster\n[2018-05-09 21:58] Deleted User (Deleted User): it functions like a good menu to me cause i've memorised all the options and just follow procedure to get to where i want to go\n[2018-05-09 21:58] liadahlia (Lia): another example of terrible UI is gwent's\n[2018-05-09 21:58] supergreyman (Greyman): A good quality menu doesn't make you think. That's why you don't notice it. 😛\n[2018-05-09 21:58] liadahlia (Lia): god that game's UI is godawful\n[2018-05-09 21:58] Deleted User (Deleted User): i guess i was thinking hmmm pris is better than gwent\n[2018-05-09 21:58] Deleted User (Deleted User): so surely pris' Ui is good L\n[2018-05-09 21:59] liadahlia (Lia): i bet armory and black lab can be combined, skins and emotes can be combined, badges and avatars can be combined\n[2018-05-09 21:59] supergreyman (Greyman): Yeah, that's a lot of stuff there.\n[2018-05-09 21:59] liadahlia (Lia): the shop button can be placed in there and merged with redeem reward code\n[2018-05-09 21:59] mrguy888: it would also be better if those buttons were a second row along the top\n[2018-05-09 22:00] mrguy888: it is so strange to press along the top and then have to move to along the side\n[2018-05-09 22:00] liadahlia (Lia): it'd also solve the issue with the shop button looking like they do in mobile games\n[2018-05-09 22:00] mrguy888: with the buttons being arrayed in a different way\n[2018-05-09 22:00] liadahlia (Lia): events could be merged into battle\n[2018-05-09 22:00] liadahlia (Lia): there's way too many buttons here\n[2018-05-09 22:01] liadahlia (Lia): vs computer and quickplay do almost the same thing\n[2018-05-09 22:01] liadahlia (Lia): worse is that thye're 4 buttons apart\n[2018-05-09 22:01] Deleted User (Deleted User): it took me a long while to learn but once I did it seems functional to me L",
+      "messages": [
+        {
+          "id": "443876423548272651",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:46:26.199+01:00",
+          "content": "The look is whatever to me but the functionality of the design has obnoxious issues."
+        },
+        {
+          "id": "443877002009640971",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:48:44.115+01:00",
+          "content": "After all this time my mouse still doesn't automatically get me to my replays, ranking game screen, event leaderboard, regular leaderboard, ect. I have to put mental effort into getting to these places."
+        },
+        {
+          "id": "443877208331911174",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:49:33.306+01:00",
+          "content": "isn't it just like 2-3 clicks"
+        },
+        {
+          "id": "443877247468699648",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:49:42.637+01:00",
+          "content": "I assume most games have it 1 click?"
+        },
+        {
+          "id": "443877273607864325",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:49:48.869+01:00",
+          "content": "Yeah it is multiple clicks in somewhat confusing locations."
+        },
+        {
+          "id": "443877362715721728",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:50:10.114+01:00",
+          "content": "i guess it can be confusing eh but once you memorise it it works for me"
+        },
+        {
+          "id": "443877435042168852",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:50:27.358+01:00",
+          "content": "I have not passively memorized it yet."
+        },
+        {
+          "id": "443877587844988938",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:51:03.789+01:00",
+          "content": "what is gulf of execution"
+        },
+        {
+          "id": "443878158526185473",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:53:19.85+01:00",
+          "content": "whenever i try to go anywhere without think i just click around until i hit the right place"
+        },
+        {
+          "id": "443878171092451339",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:53:22.846+01:00",
+          "content": "Yeah mrguy nails it. Too many clicks that aren't intuitive. I know what I have to do, but it's still not second nature to find where I need to go to do it"
+        },
+        {
+          "id": "443878222904688680",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:53:35.199+01:00",
+          "content": "in other games it's really easy to get to places without thinking because they're in intuitive places"
+        },
+        {
+          "id": "443878292831993866",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:53:51.871+01:00",
+          "content": "also i didn't know you can buy emotes"
+        },
+        {
+          "id": "443878303309496352",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:53:54.369+01:00",
+          "content": "that's how unintuitive that is"
+        },
+        {
+          "id": "443878383919824917",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:54:13.588+01:00",
+          "content": "and then once i know how you can buy it, after a few weeks of not thinking about it, i completely forgot how to buy it again"
+        },
+        {
+          "id": "443878406422134784",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:54:18.953+01:00",
+          "content": "hmmm yes pris seems relatively unintuitive"
+        },
+        {
+          "id": "443878475242143744",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:54:35.361+01:00",
+          "content": "does this mean i've been undervaluing intuition? cause i've never found that to be a problem"
+        },
+        {
+          "id": "443878500232069131",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:54:41.319+01:00",
+          "content": "I just memorise how to do things then move on"
+        },
+        {
+          "id": "443878524277882880",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:54:47.052+01:00",
+          "content": "its' important for game design"
+        },
+        {
+          "id": "443878586298925077",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:55:01.839+01:00",
+          "content": "it's the reason why D is for drone and not C"
+        },
+        {
+          "id": "443878626413379604",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:55:11.403+01:00",
+          "content": "ah yes the hotkeys are suuper legit"
+        },
+        {
+          "id": "443878691374628864",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:55:26.891+01:00",
+          "content": "yeah, the hotkeys all make sense"
+        },
+        {
+          "id": "443878725327519747",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:55:34.986+01:00",
+          "content": "that being said it would be a pain to begin with, but i probs would deal with hotkeys being random-ish letters"
+        },
+        {
+          "id": "443878725705138186",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:55:35.076+01:00",
+          "content": "and they're all on the left side"
+        },
+        {
+          "id": "443878769049075724",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:55:45.41+01:00",
+          "content": "it's exactly how sc2's hotkey is designed"
+        },
+        {
+          "id": "443878789487919135",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:55:50.283+01:00",
+          "content": "everything on the left hand and makes sense"
+        },
+        {
+          "id": "443878865178198019",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:56:08.329+01:00",
+          "content": "hotkeys and Q are qol features I didn't know I needed"
+        },
+        {
+          "id": "443878880852312114",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:56:12.066+01:00",
+          "content": "you wouldn't like it if buying drone is \"k\" or something"
+        },
+        {
+          "id": "443878944542949396",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:56:27.251+01:00",
+          "content": "eh being on the right hand side is badkid"
+        },
+        {
+          "id": "443879040143851540",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:56:50.044+01:00",
+          "content": "but once I learned it, i wouldn't mind it being S or X or C or F really"
+        },
+        {
+          "id": "443879067805024276",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:56:56.639+01:00",
+          "content": "a good menu is also a qol of life feature you dont know that you need"
+        },
+        {
+          "id": "443879163737276436",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:57:19.511+01:00",
+          "content": "I don't know what a good menu is that's the thing L"
+        },
+        {
+          "id": "443879331316629507",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:57:59.465+01:00",
+          "content": "a good menu has as little buttons as it can possibly muster"
+        },
+        {
+          "id": "443879349830025219",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:58:03.879+01:00",
+          "content": "it functions like a good menu to me cause i've memorised all the options and just follow procedure to get to where i want to go"
+        },
+        {
+          "id": "443879443987955714",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:58:26.328+01:00",
+          "content": "another example of terrible UI is gwent's"
+        },
+        {
+          "id": "443879445741174785",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-05-09T21:58:26.746+01:00",
+          "content": "A good quality menu doesn't make you think. That's why you don't notice it. 😛"
+        },
+        {
+          "id": "443879458928066561",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:58:29.89+01:00",
+          "content": "god that game's UI is godawful"
+        },
+        {
+          "id": "443879555342663690",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:58:52.877+01:00",
+          "content": "i guess i was thinking hmmm pris is better than gwent"
+        },
+        {
+          "id": "443879577308364813",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T21:58:58.114+01:00",
+          "content": "so surely pris' Ui is good L"
+        },
+        {
+          "id": "443879666676137984",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:59:19.421+01:00",
+          "content": "i bet armory and black lab can be combined, skins and emotes can be combined, badges and avatars can be combined"
+        },
+        {
+          "id": "443879696883646475",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-05-09T21:59:26.623+01:00",
+          "content": "Yeah, that's a lot of stuff there."
+        },
+        {
+          "id": "443879741766762497",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T21:59:37.324+01:00",
+          "content": "the shop button can be placed in there and merged with redeem reward code"
+        },
+        {
+          "id": "443879783844151296",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T21:59:47.356+01:00",
+          "content": "it would also be better if those buttons were a second row along the top"
+        },
+        {
+          "id": "443879843948527616",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:00:01.686+01:00",
+          "content": "it is so strange to press along the top and then have to move to along the side"
+        },
+        {
+          "id": "443879864135712808",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:00:06.499+01:00",
+          "content": "it'd also solve the issue with the shop button looking like they do in mobile games"
+        },
+        {
+          "id": "443879885061226507",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:00:11.488+01:00",
+          "content": "with the buttons being arrayed in a different way"
+        },
+        {
+          "id": "443880013163528193",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:00:42.03+01:00",
+          "content": "events could be merged into battle"
+        },
+        {
+          "id": "443880070810173440",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:00:55.774+01:00",
+          "content": "there's way too many buttons here"
+        },
+        {
+          "id": "443880126422188032",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:01:09.033+01:00",
+          "content": "vs computer and quickplay do almost the same thing"
+        },
+        {
+          "id": "443880168008974336",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:01:18.948+01:00",
+          "content": "worse is that thye're 4 buttons apart"
+        },
+        {
+          "id": "443880215484170240",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:01:30.267+01:00",
+          "content": "it took me a long while to learn but once I did it seems functional to me L"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T22:01:35.061+01:00",
+      "end_ts": "2018-05-09T22:09:43.816+01:00",
+      "participants": [
+        "Deleted User",
+        "itsotter",
+        "liadahlia",
+        "mrguy888",
+        "supergreyman",
+        "totally_not_fbi"
+      ],
+      "replay_codes": [],
+      "score": 42,
+      "formatted_text": "--- Thread (50 messages, 2018-05-09) ---\n[2018-05-09 22:01] liadahlia (Lia): the event leaderboard could be thrown under the leaderboard button somehow\n[2018-05-09 22:01] Deleted User (Deleted User): but yes that does seem awful\n[2018-05-09 22:01] liadahlia (Lia): learn should probably be put else where\n[2018-05-09 22:01] liadahlia (Lia): maybe under the campaign tab or in the main menu\n[2018-05-09 22:02] Deleted User (Deleted User): I think when loonark designed it they were OK with complexity\n[2018-05-09 22:02] mrguy888: also why is the main menu a secret button?\n[2018-05-09 22:02] Deleted User (Deleted User): and the kids who played are also ok with complexity\n[2018-05-09 22:02] Deleted User (Deleted User): so that's why the status quo is what it is\n[2018-05-09 22:02] mrguy888: no cooled loonark like simplicity\n[2018-05-09 22:02] Deleted User (Deleted User): and we just don't rly think abt it\n[2018-05-09 22:02] liadahlia (Lia): they might be 'ok' with it, just like how you'd be 'ok' without hotkeys\n[2018-05-09 22:02] liadahlia (Lia): but wouldn't you like this game to have hotkeys?\n[2018-05-09 22:03] mrguy888: have you seen how they designed the game mechanics and unit cards?\n[2018-05-09 22:03] Deleted User (Deleted User): well no hotkeys make me lose like minutes every week\n[2018-05-09 22:03] liadahlia (Lia): and bad UI really detracts from new player experience\n[2018-05-09 22:03] Deleted User (Deleted User): complex UI doesn't rly make me lose anything once I learned it\n[2018-05-09 22:03] liadahlia (Lia): but new players have to learn it\n[2018-05-09 22:03] liadahlia (Lia): and they have to learn the game\n[2018-05-09 22:03] liadahlia (Lia): better to just fix it\n[2018-05-09 22:03] Deleted User (Deleted User): hmmm interesting. Why is the UI so complext but mechanics so simple?\n[2018-05-09 22:04] liadahlia (Lia): because loonark puts more work into making gameplay simple\n[2018-05-09 22:04] liadahlia (Lia): and less work into UI because it's not gameplay\n[2018-05-09 22:04] liadahlia (Lia): it makes sense really\n[2018-05-09 22:04] liadahlia (Lia): but still, now that we're here, UI deserves some attention\n[2018-05-09 22:04] Deleted User (Deleted User): can they put less work into making gameplay simple? i'd like a more complex game L\n[2018-05-09 22:05] Deleted User (Deleted User): that being said i could probs play starcraft or civ or some shit if i like complexity\n[2018-05-09 22:05] Deleted User (Deleted User): but i alr learned this so eh\n[2018-05-09 22:05] liadahlia (Lia): how can i pull out my elitism card on other normies if prismata was an easy game :monkaS:\n[2018-05-09 22:05] supergreyman (Greyman): This game is exactly like chess. So simple. :LongNoseLiar:\n[2018-05-09 22:06] Deleted User (Deleted User): the weird thing is i got into pris precisely cause of how simple it is, but now i don't want it to be L\n[2018-05-09 22:06] liadahlia (Lia): chess is a very simple game :LongNoseLiar:\n[2018-05-09 22:06] mrguy888: chess is simpler than prismata from a design perspective\n[2018-05-09 22:06] liadahlia (Lia): prismata might be simple gameplay wise\n[2018-05-09 22:06] totally_not_fbi (Totally Not FBI): This game is too simple for cooled who solves a 12th degree 36 variable PDE everyday\n[2018-05-09 22:07] liadahlia (Lia): but its strategy is possibly more complex that starcraft\n[2018-05-09 22:07] mrguy888: Prismata is simple in the good ways and complex in the good ways.\n[2018-05-09 22:07] mrguy888: making it complex in the bad ways doesnt make it more complex in the good ways.\n[2018-05-09 22:07] liadahlia (Lia): you want your game to be complex, not complicated\n[2018-05-09 22:07] Deleted User (Deleted User): i want more complex and more mechanics and more units\n[2018-05-09 22:08] mrguy888: the game is already too complex for you though so why?\n[2018-05-09 22:08] totally_not_fbi (Totally Not FBI): I guess the game appears \"simple\" to you only because youve been playing for years\n[2018-05-09 22:08] mrguy888: git gud before you call it too simple\n[2018-05-09 22:08] Deleted User (Deleted User): idk it feels better to be bad at new units than good at units i've played for years\n[2018-05-09 22:09] liadahlia (Lia): you're not #1 ranked yet\n[2018-05-09 22:09] itsotter: i should have to punch the random set into the quadratic equation at the start of every game\n[2018-05-09 22:09] totally_not_fbi (Totally Not FBI): By the same logic you would love gwent in its current iteration\n[2018-05-09 22:09] totally_not_fbi (Totally Not FBI): Which you most probably dont\n[2018-05-09 22:09] Deleted User (Deleted User): i would play a new game but i'm too complacent to learn a new system/framework all over agin\n[2018-05-09 22:09] Deleted User (Deleted User): i would love gwent if they kept pumping out cards tbh\n[2018-05-09 22:09] itsotter: if every game isn't literally a math exam it's baby stuff",
+      "messages": [
+        {
+          "id": "443880235591794688",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:01:35.061+01:00",
+          "content": "the event leaderboard could be thrown under the leaderboard button somehow"
+        },
+        {
+          "id": "443880250263207946",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:01:38.559+01:00",
+          "content": "but yes that does seem awful"
+        },
+        {
+          "id": "443880300523552769",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:01:50.542+01:00",
+          "content": "learn should probably be put else where"
+        },
+        {
+          "id": "443880330261299200",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:01:57.632+01:00",
+          "content": "maybe under the campaign tab or in the main menu"
+        },
+        {
+          "id": "443880406794764309",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:02:15.879+01:00",
+          "content": "I think when loonark designed it they were OK with complexity"
+        },
+        {
+          "id": "443880417372798977",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:02:18.401+01:00",
+          "content": "also why is the main menu a secret button?"
+        },
+        {
+          "id": "443880445843603456",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:02:25.189+01:00",
+          "content": "and the kids who played are also ok with complexity"
+        },
+        {
+          "id": "443880487182794753",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:02:35.045+01:00",
+          "content": "so that's why the status quo is what it is"
+        },
+        {
+          "id": "443880527557296129",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:02:44.671+01:00",
+          "content": "no cooled loonark like simplicity"
+        },
+        {
+          "id": "443880528026927114",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:02:44.783+01:00",
+          "content": "and we just don't rly think abt it"
+        },
+        {
+          "id": "443880537359384586",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:02:47.008+01:00",
+          "content": "they might be 'ok' with it, just like how you'd be 'ok' without hotkeys"
+        },
+        {
+          "id": "443880570381139979",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:02:54.881+01:00",
+          "content": "but wouldn't you like this game to have hotkeys?"
+        },
+        {
+          "id": "443880676756946944",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:03:20.243+01:00",
+          "content": "have you seen how they designed the game mechanics and unit cards?"
+        },
+        {
+          "id": "443880685455933442",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:03:22.317+01:00",
+          "content": "well no hotkeys make me lose like minutes every week"
+        },
+        {
+          "id": "443880691298730005",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:03:23.71+01:00",
+          "content": "and bad UI really detracts from new player experience"
+        },
+        {
+          "id": "443880728405737482",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:03:32.557+01:00",
+          "content": "complex UI doesn't rly make me lose anything once I learned it"
+        },
+        {
+          "id": "443880761381355520",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:03:40.419+01:00",
+          "content": "but new players have to learn it"
+        },
+        {
+          "id": "443880770210365440",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:03:42.524+01:00",
+          "content": "and they have to learn the game"
+        },
+        {
+          "id": "443880790116532225",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:03:47.27+01:00",
+          "content": "better to just fix it"
+        },
+        {
+          "id": "443880811817861120",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:03:52.444+01:00",
+          "content": "hmmm interesting. Why is the UI so complext but mechanics so simple?"
+        },
+        {
+          "id": "443880880335880193",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:04:08.78+01:00",
+          "content": "because loonark puts more work into making gameplay simple"
+        },
+        {
+          "id": "443880918638133259",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:04:17.912+01:00",
+          "content": "and less work into UI because it's not gameplay"
+        },
+        {
+          "id": "443880928293683222",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:04:20.214+01:00",
+          "content": "it makes sense really"
+        },
+        {
+          "id": "443880966860177408",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:04:29.409+01:00",
+          "content": "but still, now that we're here, UI deserves some attention"
+        },
+        {
+          "id": "443881040856219658",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:04:47.051+01:00",
+          "content": "can they put less work into making gameplay simple? i'd like a more complex game L"
+        },
+        {
+          "id": "443881136758849536",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:05:09.916+01:00",
+          "content": "that being said i could probs play starcraft or civ or some shit if i like complexity"
+        },
+        {
+          "id": "443881151321341973",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:05:13.388+01:00",
+          "content": "but i alr learned this so eh"
+        },
+        {
+          "id": "443881183810551849",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:05:21.134+01:00",
+          "content": "how can i pull out my elitism card on other normies if prismata was an easy game :monkaS:"
+        },
+        {
+          "id": "443881341545742349",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-05-09T22:05:58.741+01:00",
+          "content": "This game is exactly like chess. So simple. :LongNoseLiar:"
+        },
+        {
+          "id": "443881373271326720",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:06:06.305+01:00",
+          "content": "the weird thing is i got into pris precisely cause of how simple it is, but now i don't want it to be L"
+        },
+        {
+          "id": "443881390195343390",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:06:10.34+01:00",
+          "content": "chess is a very simple game :LongNoseLiar:"
+        },
+        {
+          "id": "443881499809415181",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:06:36.474+01:00",
+          "content": "chess is simpler than prismata from a design perspective"
+        },
+        {
+          "id": "443881543098826753",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:06:46.795+01:00",
+          "content": "prismata might be simple gameplay wise"
+        },
+        {
+          "id": "443881555337674772",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T22:06:49.713+01:00",
+          "content": "This game is too simple for cooled who solves a 12th degree 36 variable PDE everyday"
+        },
+        {
+          "id": "443881626422870028",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:07:06.661+01:00",
+          "content": "but its strategy is possibly more complex that starcraft"
+        },
+        {
+          "id": "443881653002305550",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:07:12.998+01:00",
+          "content": "Prismata is simple in the good ways and complex in the good ways."
+        },
+        {
+          "id": "443881715140657152",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:07:27.813+01:00",
+          "content": "making it complex in the bad ways doesnt make it more complex in the good ways."
+        },
+        {
+          "id": "443881768936800256",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:07:40.639+01:00",
+          "content": "you want your game to be complex, not complicated"
+        },
+        {
+          "id": "443881788624994335",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:07:45.333+01:00",
+          "content": "i want more complex and more mechanics and more units"
+        },
+        {
+          "id": "443881866358030346",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:08:03.866+01:00",
+          "content": "the game is already too complex for you though so why?"
+        },
+        {
+          "id": "443881925157847053",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T22:08:17.885+01:00",
+          "content": "I guess the game appears \"simple\" to you only because youve been playing for years"
+        },
+        {
+          "id": "443881947911946251",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:08:23.31+01:00",
+          "content": "git gud before you call it too simple"
+        },
+        {
+          "id": "443882060336070677",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:08:50.114+01:00",
+          "content": "idk it feels better to be bad at new units than good at units i've played for years"
+        },
+        {
+          "id": "443882146751578122",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:09:10.717+01:00",
+          "content": "you're not #1 ranked yet"
+        },
+        {
+          "id": "443882155240849408",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-05-09T22:09:12.741+01:00",
+          "content": "i should have to punch the random set into the quadratic equation at the start of every game"
+        },
+        {
+          "id": "443882156578570251",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T22:09:13.06+01:00",
+          "content": "By the same logic you would love gwent in its current iteration"
+        },
+        {
+          "id": "443882210060271616",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T22:09:25.811+01:00",
+          "content": "Which you most probably dont"
+        },
+        {
+          "id": "443882210626633729",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:09:25.946+01:00",
+          "content": "i would play a new game but i'm too complacent to learn a new system/framework all over agin"
+        },
+        {
+          "id": "443882267304001557",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:09:39.459+01:00",
+          "content": "i would love gwent if they kept pumping out cards tbh"
+        },
+        {
+          "id": "443882285578715136",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-05-09T22:09:43.816+01:00",
+          "content": "if every game isn't literally a math exam it's baby stuff"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T22:09:46.48+01:00",
+      "end_ts": "2018-05-09T22:22:43.155+01:00",
+      "participants": [
+        "Deleted User",
+        "camzace",
+        "itsotter",
+        "liadahlia",
+        "masn6811",
+        "mrguy888",
+        "ruperte",
+        "serchiot",
+        "supergreyman",
+        "totally_not_fbi"
+      ],
+      "replay_codes": [],
+      "score": 57,
+      "formatted_text": "--- Thread (50 messages, 2018-05-09) ---\n[2018-05-09 22:09] liadahlia (Lia): play MTG arena :LongNoseLiar:\n[2018-05-09 22:10] liadahlia (Lia): hearthstone is a math exam\n[2018-05-09 22:10] liadahlia (Lia): in probability :LongNoseLiar:\n[2018-05-09 22:10] totally_not_fbi (Totally Not FBI): Everyone needs to present his phd in mathematics when he registers for a prismada acct\n[2018-05-09 22:10] serchiot: that was Elyot's plan all along\n[2018-05-09 22:10] supergreyman (Greyman): Prismata is an arithmetic exam.\n[2018-05-09 22:10] mrguy888: if you can count to 30 your math is enough to get top 10\n[2018-05-09 22:10] liadahlia (Lia): but with ampo you gotta multiple :POGGERS:\n[2018-05-09 22:11] mrguy888: you dont have to tinlun\n[2018-05-09 22:11] serchiot: capture mathematicians with a game, then do some mad scientist stuff\n[2018-05-09 22:11] mrguy888: the game does it for you\n[2018-05-09 22:11] liadahlia (Lia): cooledcannon would like the game to not multiply for him so he can enjoy a more complex game :Lul:\n[2018-05-09 22:11] Deleted User (Deleted User): like pris only literally has 5 mechanics\n[2018-05-09 22:11] Deleted User (Deleted User): idk the exact number\n[2018-05-09 22:11] Deleted User (Deleted User): but something like that\n[2018-05-09 22:11] liadahlia (Lia): yet it's deeper than any card games out there already\n[2018-05-09 22:12] mrguy888: prismata has only 5 mechanics and after years cooledcannon doesn't know how to play with them perfectly\n[2018-05-09 22:12] mrguy888: not even play with them well\n[2018-05-09 22:12] Deleted User (Deleted User): it's not that i've mastered them it's that i've got semi-bored of em\n[2018-05-09 22:12] liadahlia (Lia): bored after 2 years :monkaS:\n[2018-05-09 22:12] Deleted User (Deleted User): chess is even more g...\n[2018-05-09 22:13] Deleted User (Deleted User): yeah let's go with that\n[2018-05-09 22:13] liadahlia (Lia): chess isn't garbage 💢\n[2018-05-09 22:14] Deleted User (Deleted User): i want more mechanics so it's even more likely there's one that I am way better at than the other kid to max my abuse potential\n[2018-05-09 22:14] mrguy888: why not play an action game if turn based games are boring to you?\n[2018-05-09 22:14] Deleted User (Deleted User): I just might tbh but idk any\n[2018-05-09 22:14] liadahlia (Lia): go play EVE if you want a complex game\n[2018-05-09 22:15] mrguy888: now eve that is a boring game\n[2018-05-09 22:15] serchiot: somebody help, subjective opinions are clashing :NotLikeThis:\n[2018-05-09 22:15] mrguy888: i mean you look at spreadsheets but the actual game mechanics are a lot of sitting and waiting\n[2018-05-09 22:16] liadahlia (Lia): i heard that game is impossible to get into\n[2018-05-09 22:16] mrguy888: the spreadsheets are complex but there is people who have already deciphered them for you\n[2018-05-09 22:16] mrguy888: you just read about what is optimal and then sit and wait\n[2018-05-09 22:17] Deleted User (Deleted User): can't u program a bot to\n[2018-05-09 22:17] mrguy888: its like the best cookie clicker game ever invented\n[2018-05-09 22:17] mrguy888: but still a cookie clicker\n[2018-05-09 22:18] mrguy888: ``can\" u program a bot to`` cooledcannon learning about the nature of mmos\n[2018-05-09 22:19] serchiot: the answer is almost always yes\n[2018-05-09 22:19] masn6811 (Masne98888): `Every day, hundreds of cooledcannons suffer from carpal tunnel syndrome.  Their cruel and unusual lord pulls on their hair from across the room and forces them into submission.  The lord of New Zealand cannot afford to utilize his hands while playing Prismata, lest his 37 wives (many of whom are also cooledcannons) remain unfingerbanged.  Thus, he has concocted new beings in order to practice his craft,  know to the common man as the cooledcannon, a beast with most of man's significant qualities, yet cursed with the hands of a ring-tailed lemur.  Despite their lack of opposable thumbs, the great one forces his servants to seek new victims, instructing them to continuously type \"any kid rated.\"  Most of the time, the cooledcannons fail to hit the buttons in the correct order, but in a miraculous feat of engineering, the lord has designed computers that will ignore the enter key unless the buttons to type \"any kid rated\" are pressed in the correct order.  Hundreds of cooledcannons are enslaved and their hands worked to death for the mere sliver of a possibility that the lord will be able to message his comrades and hasten his Prismata queueing experience.  Only you can help.  Petition today for an any kid rated button that automatically types any kid rated when you click it in chat, and you can save the appendages of cooledcannons around the world.`\n[2018-05-09 22:19] mrguy888: cooled how have you never heard of any action games?\n[2018-05-09 22:19] camzace: cooledcannons is a kiwi?\n[2018-05-09 22:20] serchiot: one that hates every single other one\n[2018-05-09 22:20] mrguy888: sorry? if you are from NZ you should read what he has to say about it\n[2018-05-09 22:21] mrguy888: im sure that would be a hoot and a half for you\n[2018-05-09 22:21] camzace: where can i find this juice\n[2018-05-09 22:22] itsotter: being racist against kiwis DansGame\n[2018-05-09 22:22] mrguy888: there's a bunch in off topic general\n[2018-05-09 22:22] liadahlia (Lia): god i love that copy pasta\n[2018-05-09 22:22] itsotter: being racist against australians Kreygasm\n[2018-05-09 22:22] ruperte (Villain): man I've played for 4 years and still not even tier X",
+      "messages": [
+        {
+          "id": "443882296752472075",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:09:46.48+01:00",
+          "content": "play MTG arena :LongNoseLiar:"
+        },
+        {
+          "id": "443882385394630678",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:10:07.614+01:00",
+          "content": "hearthstone is a math exam"
+        },
+        {
+          "id": "443882407943471137",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:10:12.99+01:00",
+          "content": "in probability :LongNoseLiar:"
+        },
+        {
+          "id": "443882427174092810",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-05-09T22:10:17.575+01:00",
+          "content": "Everyone needs to present his phd in mathematics when he registers for a prismada acct"
+        },
+        {
+          "id": "443882485990817820",
+          "author": "serchiot",
+          "nickname": "Serchiot",
+          "timestamp": "2018-05-09T22:10:31.598+01:00",
+          "content": "that was Elyot's plan all along"
+        },
+        {
+          "id": "443882489568690176",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-05-09T22:10:32.451+01:00",
+          "content": "Prismata is an arithmetic exam."
+        },
+        {
+          "id": "443882570204053525",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:10:51.676+01:00",
+          "content": "if you can count to 30 your math is enough to get top 10"
+        },
+        {
+          "id": "443882576072146966",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:10:53.075+01:00",
+          "content": "but with ampo you gotta multiple :POGGERS:"
+        },
+        {
+          "id": "443882623824166912",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:11:04.46+01:00",
+          "content": "you dont have to tinlun"
+        },
+        {
+          "id": "443882635689984010",
+          "author": "serchiot",
+          "nickname": "Serchiot",
+          "timestamp": "2018-05-09T22:11:07.289+01:00",
+          "content": "capture mathematicians with a game, then do some mad scientist stuff"
+        },
+        {
+          "id": "443882636864389130",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:11:07.569+01:00",
+          "content": "the game does it for you"
+        },
+        {
+          "id": "443882750655856649",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:11:34.699+01:00",
+          "content": "cooledcannon would like the game to not multiply for him so he can enjoy a more complex game :Lul:"
+        },
+        {
+          "id": "443882757811208192",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:11:36.405+01:00",
+          "content": "like pris only literally has 5 mechanics"
+        },
+        {
+          "id": "443882797439123477",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:11:45.853+01:00",
+          "content": "idk the exact number"
+        },
+        {
+          "id": "443882807916232735",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:11:48.351+01:00",
+          "content": "but something like that"
+        },
+        {
+          "id": "443882850161262612",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:11:58.423+01:00",
+          "content": "yet it's deeper than any card games out there already"
+        },
+        {
+          "id": "443882857841295363",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:12:00.254+01:00",
+          "content": "prismata has only 5 mechanics and after years cooledcannon doesn't know how to play with them perfectly"
+        },
+        {
+          "id": "443882902472622101",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:12:10.895+01:00",
+          "content": "not even play with them well"
+        },
+        {
+          "id": "443882978800697360",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:12:29.093+01:00",
+          "content": "it's not that i've mastered them it's that i've got semi-bored of em"
+        },
+        {
+          "id": "443883082127507457",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:12:53.728+01:00",
+          "content": "bored after 2 years :monkaS:"
+        },
+        {
+          "id": "443883089333190676",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:12:55.446+01:00",
+          "content": "chess is even more g..."
+        },
+        {
+          "id": "443883221114028032",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:13:26.865+01:00",
+          "content": "yeah let's go with that"
+        },
+        {
+          "id": "443883283130875904",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:13:41.651+01:00",
+          "content": "chess isn't garbage 💢"
+        },
+        {
+          "id": "443883477235007489",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:14:27.929+01:00",
+          "content": "i want more mechanics so it's even more likely there's one that I am way better at than the other kid to max my abuse potential"
+        },
+        {
+          "id": "443883524039114752",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:14:39.088+01:00",
+          "content": "why not play an action game if turn based games are boring to you?"
+        },
+        {
+          "id": "443883583573327914",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:14:53.282+01:00",
+          "content": "I just might tbh but idk any"
+        },
+        {
+          "id": "443883593002123285",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:14:55.53+01:00",
+          "content": "go play EVE if you want a complex game"
+        },
+        {
+          "id": "443883628011716619",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:15:03.877+01:00",
+          "content": "now eve that is a boring game"
+        },
+        {
+          "id": "443883718248103956",
+          "author": "serchiot",
+          "nickname": "Serchiot",
+          "timestamp": "2018-05-09T22:15:25.391+01:00",
+          "content": "somebody help, subjective opinions are clashing :NotLikeThis:"
+        },
+        {
+          "id": "443883738397540352",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:15:30.195+01:00",
+          "content": "i mean you look at spreadsheets but the actual game mechanics are a lot of sitting and waiting"
+        },
+        {
+          "id": "443883879598784522",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:16:03.86+01:00",
+          "content": "i heard that game is impossible to get into"
+        },
+        {
+          "id": "443883992836603904",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:16:30.858+01:00",
+          "content": "the spreadsheets are complex but there is people who have already deciphered them for you"
+        },
+        {
+          "id": "443884047316418572",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:16:43.847+01:00",
+          "content": "you just read about what is optimal and then sit and wait"
+        },
+        {
+          "id": "443884132867768366",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-05-09T22:17:04.244+01:00",
+          "content": "can't u program a bot to"
+        },
+        {
+          "id": "443884163062431756",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:17:11.443+01:00",
+          "content": "its like the best cookie clicker game ever invented"
+        },
+        {
+          "id": "443884235468832768",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:17:28.706+01:00",
+          "content": "but still a cookie clicker"
+        },
+        {
+          "id": "443884449667481601",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:18:19.775+01:00",
+          "content": "``can\" u program a bot to`` cooledcannon learning about the nature of mmos"
+        },
+        {
+          "id": "443884669684023296",
+          "author": "serchiot",
+          "nickname": "Serchiot",
+          "timestamp": "2018-05-09T22:19:12.231+01:00",
+          "content": "the answer is almost always yes"
+        },
+        {
+          "id": "443884691116785684",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-09T22:19:17.341+01:00",
+          "content": "`Every day, hundreds of cooledcannons suffer from carpal tunnel syndrome.  Their cruel and unusual lord pulls on their hair from across the room and forces them into submission.  The lord of New Zealand cannot afford to utilize his hands while playing Prismata, lest his 37 wives (many of whom are also cooledcannons) remain unfingerbanged.  Thus, he has concocted new beings in order to practice his craft,  know to the common man as the cooledcannon, a beast with most of man's significant qualities, yet cursed with the hands of a ring-tailed lemur.  Despite their lack of opposable thumbs, the great one forces his servants to seek new victims, instructing them to continuously type \"any kid rated.\"  Most of the time, the cooledcannons fail to hit the buttons in the correct order, but in a miraculous feat of engineering, the lord has designed computers that will ignore the enter key unless the buttons to type \"any kid rated\" are pressed in the correct order.  Hundreds of cooledcannons are enslaved and their hands worked to death for the mere sliver of a possibility that the lord will be able to message his comrades and hasten his Prismata queueing experience.  Only you can help.  Petition today for an any kid rated button that automatically types any kid rated when you click it in chat, and you can save the appendages of cooledcannons around the world.`"
+        },
+        {
+          "id": "443884700063236099",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:19:19.474+01:00",
+          "content": "cooled how have you never heard of any action games?"
+        },
+        {
+          "id": "443884766677434398",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-05-09T22:19:35.356+01:00",
+          "content": "cooledcannons is a kiwi?"
+        },
+        {
+          "id": "443884984210817027",
+          "author": "serchiot",
+          "nickname": "Serchiot",
+          "timestamp": "2018-05-09T22:20:27.22+01:00",
+          "content": "one that hates every single other one"
+        },
+        {
+          "id": "443885024949829633",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:20:36.933+01:00",
+          "content": "sorry? if you are from NZ you should read what he has to say about it"
+        },
+        {
+          "id": "443885140566081536",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:21:04.498+01:00",
+          "content": "im sure that would be a hoot and a half for you"
+        },
+        {
+          "id": "443885303602610176",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-05-09T22:21:43.369+01:00",
+          "content": "where can i find this juice"
+        },
+        {
+          "id": "443885422070988830",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-05-09T22:22:11.614+01:00",
+          "content": "being racist against kiwis DansGame"
+        },
+        {
+          "id": "443885429549301760",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:22:13.397+01:00",
+          "content": "there's a bunch in off topic general"
+        },
+        {
+          "id": "443885432556617738",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-09T22:22:14.114+01:00",
+          "content": "god i love that copy pasta"
+        },
+        {
+          "id": "443885445894635530",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-05-09T22:22:17.294+01:00",
+          "content": "being racist against australians Kreygasm"
+        },
+        {
+          "id": "443885554363269130",
+          "author": "ruperte",
+          "nickname": "Villain",
+          "timestamp": "2018-05-09T22:22:43.155+01:00",
+          "content": "man I've played for 4 years and still not even tier X"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-09T22:23:37.641+01:00",
+      "end_ts": "2018-05-09T22:29:26.941+01:00",
+      "participants": [
+        "camzace",
+        "itsotter",
+        "mrguy888",
+        "serchiot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (7 messages, 2018-05-09) ---\n[2018-05-09 22:23] mrguy888: have you tried getting all your numbers to 0 every turn?\n[2018-05-09 22:24] serchiot: that requires math though :NotLikeThis:\n[2018-05-09 22:24] mrguy888: no, just trial and error\n[2018-05-09 22:25] itsotter: https://www.youtube.com/watch?v=i3HokGUffcU#t=1m30s  learn the difference\nFlight of the Conchords - Apple, Banana, Racism\nFlight of the Conchords. Like the scenes & the subtext. So I spliced the two scenes together in my first attempt to do even something reasonably like it.\n[2018-05-09 22:27] camzace: ah okay its a little incelly but honestly i expected worse\n[2018-05-09 22:27] camzace: he does touch on some legit problems in nz\n[2018-05-09 22:29] camzace: and some glorifications of other western countries of course",
+      "messages": [
+        {
+          "id": "443885782894379008",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:23:37.641+01:00",
+          "content": "have you tried getting all your numbers to 0 every turn?"
+        },
+        {
+          "id": "443885987546923028",
+          "author": "serchiot",
+          "nickname": "Serchiot",
+          "timestamp": "2018-05-09T22:24:26.434+01:00",
+          "content": "that requires math though :NotLikeThis:"
+        },
+        {
+          "id": "443886037303820288",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-05-09T22:24:38.297+01:00",
+          "content": "no, just trial and error"
+        },
+        {
+          "id": "443886296562401290",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-05-09T22:25:40.109+01:00",
+          "content": "https://www.youtube.com/watch?v=i3HokGUffcU#t=1m30s  learn the difference\nFlight of the Conchords - Apple, Banana, Racism\nFlight of the Conchords. Like the scenes & the subtext. So I spliced the two scenes together in my first attempt to do even something reasonably like it."
+        },
+        {
+          "id": "443886858183770122",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-05-09T22:27:54.01+01:00",
+          "content": "ah okay its a little incelly but honestly i expected worse"
+        },
+        {
+          "id": "443886878983323648",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-05-09T22:27:58.969+01:00",
+          "content": "he does touch on some legit problems in nz"
+        },
+        {
+          "id": "443887247964504065",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-05-09T22:29:26.941+01:00",
+          "content": "and some glorifications of other western countries of course"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-10T02:58:26.555+01:00",
+      "end_ts": "2018-05-10T03:05:41.859+01:00",
+      "participants": [
+        "arioch_chaos_lord",
+        "liadahlia",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (10 messages, 2018-05-10) ---\n[2018-05-10 02:58] arioch_chaos_lord (Arioch (Chaos Lord)): Hello cool Prismata people. I was told to come here and ask for a key. I follow directions, I am smart.\n[2018-05-10 02:58] wilson0862 (Wilson): Step 1: PM me your SSN (if you are in the US)\n[2018-05-10 02:59] liadahlia (Lia): he'll need your steam password in order to transfer the key\n[2018-05-10 02:59] wilson0862 (Wilson): Step 2: Send $50 to my venmo.\n[2018-05-10 02:59] wilson0862 (Wilson): To verify your bank account for in game purchases.\n[2018-05-10 03:00] arioch_chaos_lord (Arioch (Chaos Lord)): This is not my first rodeo.\n[2018-05-10 03:00] wilson0862 (Wilson): So you *don't* following directions?\n[2018-05-10 03:02] wilson0862 (Wilson): Well anyway, somebody will eventually see this probably and give you a key. :p\n[2018-05-10 03:04] liadahlia (Lia): am i supposed to know who that is\n[2018-05-10 03:05] arioch_chaos_lord (Arioch (Chaos Lord)): He's a content creator. Plays Eternal among other things. Very smart guy.",
+      "messages": [
+        {
+          "id": "443954942412324875",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T02:58:26.555+01:00",
+          "content": "Hello cool Prismata people. I was told to come here and ask for a key. I follow directions, I am smart."
+        },
+        {
+          "id": "443955052428656652",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-10T02:58:52.785+01:00",
+          "content": "Step 1: PM me your SSN (if you are in the US)"
+        },
+        {
+          "id": "443955187908870147",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-10T02:59:25.086+01:00",
+          "content": "he'll need your steam password in order to transfer the key"
+        },
+        {
+          "id": "443955219445973002",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-10T02:59:32.605+01:00",
+          "content": "Step 2: Send $50 to my venmo."
+        },
+        {
+          "id": "443955299229892618",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-10T02:59:51.627+01:00",
+          "content": "To verify your bank account for in game purchases."
+        },
+        {
+          "id": "443955463277510676",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:00:30.739+01:00",
+          "content": "This is not my first rodeo."
+        },
+        {
+          "id": "443955512095145985",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-10T03:00:42.378+01:00",
+          "content": "So you *don't* following directions?"
+        },
+        {
+          "id": "443956048626450442",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-10T03:02:50.297+01:00",
+          "content": "Well anyway, somebody will eventually see this probably and give you a key. :p"
+        },
+        {
+          "id": "443956509966073856",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-10T03:04:40.289+01:00",
+          "content": "am i supposed to know who that is"
+        },
+        {
+          "id": "443956768209502208",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:05:41.859+01:00",
+          "content": "He's a content creator. Plays Eternal among other things. Very smart guy."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-10T03:40:54.645+01:00",
+      "end_ts": "2018-05-10T03:40:54.645+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-05-10) ---\n[2018-05-10 03:40] apooche: I thought Neon was an anime where Jesus fights in a gundam suit.",
+      "messages": [
+        {
+          "id": "443965629876404246",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-10T03:40:54.645+01:00",
+          "content": "I thought Neon was an anime where Jesus fights in a gundam suit."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-10T03:45:15.87+01:00",
+      "end_ts": "2018-05-10T04:03:01.287+01:00",
+      "participants": [
+        "arioch_chaos_lord",
+        "batteriez",
+        "camat0",
+        "camzace",
+        "changelingrain",
+        "f300xen",
+        "jesseh3989",
+        "mjiggy",
+        "soapbawks",
+        "wilson0862"
+      ],
+      "replay_codes": [
+        "FEVYF-KF559"
+      ],
+      "score": 3,
+      "formatted_text": "--- Thread (50 messages, 2018-05-10) ---\n[2018-05-10 03:45] arioch_chaos_lord (Arioch (Chaos Lord)): He is a bit eccentric...\n[2018-05-10 03:46] jesseh3989: I am all of those things\n[2018-05-10 03:47] jesseh3989: Yeah, you Prismata folk wouldn't exactly know me. I started like a week ago\n[2018-05-10 03:47] jesseh3989: But I got something coming out tomorrow that you will like 😛\n[2018-05-10 03:50] wilson0862 (Wilson): I refuse to like it on principle now.\n[2018-05-10 03:51] arioch_chaos_lord (Arioch (Chaos Lord)): Yes, you seem to be salt laden...\n[2018-05-10 03:51] arioch_chaos_lord (Arioch (Chaos Lord)): from the little I know...\n[2018-05-10 03:51] jesseh3989: i was going to be giving out free trips to las vegas, but I guess you dont get one now\n[2018-05-10 03:52] jesseh3989: @Arioch (Chaos Lord) im guessing you have started playing the game? Any thoughts so far?\n[2018-05-10 03:52] wilson0862 (Wilson): From the little you know is correct.\n[2018-05-10 03:52] wilson0862 (Wilson): Nobody with a key has shown up yet. :D\n[2018-05-10 03:52] camzace: gift doesn't exist in this game, must be better\n[2018-05-10 03:53] arioch_chaos_lord (Arioch (Chaos Lord)): @jesseh3989 No, I have only just asked for a key in this channel, then got promptly trolled... heh...\n[2018-05-10 03:53] jesseh3989: ok, ill see if I can help\n[2018-05-10 03:54] camat0: hey can i get a key? i want to play to 😦\n[2018-05-10 03:54] f300xen (f0x): oh i have a key that i forgot about\n[2018-05-10 03:54] changelingrain: this looks interesting can I also get a key\n[2018-05-10 03:54] arioch_chaos_lord (Arioch (Chaos Lord)): Oh man, that's funny\n[2018-05-10 03:54] f300xen (f0x): you two can fight for it\n[2018-05-10 03:55] jesseh3989: Wet t-shirt constest.....TO THE DEATH\n[2018-05-10 03:55] f300xen (f0x): ~~FEVYF-KF559-B8ZJ5~~\n[2018-05-10 03:55] arioch_chaos_lord (Arioch (Chaos Lord)): I have inverted nipples...\n[2018-05-10 03:55] camzace: thanks f0x i'll get 12 cents for that\n[2018-05-10 03:57] batteriez: Something something key?\n[2018-05-10 03:57] jesseh3989: Eternal people are rapidly invading Prismata discord\n[2018-05-10 03:57] batteriez: Meh, just waiting for set 4\n[2018-05-10 03:57] batteriez: Want to dabble my fingers in other games while I wait\n[2018-05-10 03:57] jesseh3989: The game needs rotation pretty badly\n[2018-05-10 03:58] jesseh3989: Game is still doing fine\n[2018-05-10 03:58] jesseh3989: it is just a slow period\n[2018-05-10 03:58] changelingrain: you're correct but we're also memeing\n[2018-05-10 03:58] batteriez: I do think they need to do something to generate hype and large interest again though\n[2018-05-10 03:59] arioch_chaos_lord (Arioch (Chaos Lord)): sorry neon, you did mention it...\n[2018-05-10 03:59] batteriez: Or it does risk becoming quite... quiet\n[2018-05-10 03:59] jesseh3989: @Batteriez they say there is something big coming down the pipe\n[2018-05-10 03:59] jesseh3989: we will see what that is\n[2018-05-10 03:59] changelingrain: shoo shoo this is prismata chat\n[2018-05-10 03:59] arioch_chaos_lord (Arioch (Chaos Lord)): I have lots to do, just no time. However, Prismata looks fascinating and I became intrigued...\n[2018-05-10 03:59] jesseh3989: I am working on an article on the state of eternal in my head\n[2018-05-10 04:00] jesseh3989: @Arioch (Chaos Lord) ill let you know if I get a key\n[2018-05-10 04:00] arioch_chaos_lord (Arioch (Chaos Lord)): Thanks, also let me know how to enter one, I can't find a portal...\n[2018-05-10 04:00] batteriez: Ya, I hope this competitive support they have spoiled and the interaction I've had with Scarlatch are hints at large amount of competitive support\n[2018-05-10 04:00] camat0: how i download the game?\n[2018-05-10 04:00] f300xen (f0x): oh i have another key\n[2018-05-10 04:01] changelingrain: you enter the steam key into steam via 'add a game' then 'activate a product on steam'\n[2018-05-10 04:01] changelingrain: it's in the bottom left corner\n[2018-05-10 04:01] soapbawks: I have an extra key, let me know if anyone wants it\n[2018-05-10 04:02] camat0: so anything i need to know\n[2018-05-10 04:02] mjiggy: I’d be interested in a key as well\n[2018-05-10 04:03] jesseh3989: @camat0 play the campaign",
+      "messages": [
+        {
+          "id": "443966725533466629",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:45:15.87+01:00",
+          "content": "He is a bit eccentric..."
+        },
+        {
+          "id": "443967039606882306",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:46:30.751+01:00",
+          "content": "I am all of those things"
+        },
+        {
+          "id": "443967250848940043",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:47:21.115+01:00",
+          "content": "Yeah, you Prismata folk wouldn't exactly know me. I started like a week ago"
+        },
+        {
+          "id": "443967297736933377",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:47:32.294+01:00",
+          "content": "But I got something coming out tomorrow that you will like 😛"
+        },
+        {
+          "id": "443968017731420180",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-10T03:50:23.954+01:00",
+          "content": "I refuse to like it on principle now."
+        },
+        {
+          "id": "443968216725979146",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:51:11.398+01:00",
+          "content": "Yes, you seem to be salt laden..."
+        },
+        {
+          "id": "443968291443310614",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:51:29.212+01:00",
+          "content": "from the little I know..."
+        },
+        {
+          "id": "443968320308379659",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:51:36.094+01:00",
+          "content": "i was going to be giving out free trips to las vegas, but I guess you dont get one now"
+        },
+        {
+          "id": "443968520091598848",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:52:23.726+01:00",
+          "content": "@Arioch (Chaos Lord) im guessing you have started playing the game? Any thoughts so far?"
+        },
+        {
+          "id": "443968577519747083",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-10T03:52:37.418+01:00",
+          "content": "From the little you know is correct."
+        },
+        {
+          "id": "443968618254827521",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-10T03:52:47.13+01:00",
+          "content": "Nobody with a key has shown up yet. :D"
+        },
+        {
+          "id": "443968629474852865",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-05-10T03:52:49.805+01:00",
+          "content": "gift doesn't exist in this game, must be better"
+        },
+        {
+          "id": "443968705185972237",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:53:07.856+01:00",
+          "content": "@jesseh3989 No, I have only just asked for a key in this channel, then got promptly trolled... heh..."
+        },
+        {
+          "id": "443968762132168735",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:53:21.433+01:00",
+          "content": "ok, ill see if I can help"
+        },
+        {
+          "id": "443968968835727383",
+          "author": "camat0",
+          "nickname": "camat0",
+          "timestamp": "2018-05-10T03:54:10.715+01:00",
+          "content": "hey can i get a key? i want to play to 😦"
+        },
+        {
+          "id": "443969002461462528",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-05-10T03:54:18.732+01:00",
+          "content": "oh i have a key that i forgot about"
+        },
+        {
+          "id": "443969013240823809",
+          "author": "changelingrain",
+          "nickname": "ChangelingRain",
+          "timestamp": "2018-05-10T03:54:21.302+01:00",
+          "content": "this looks interesting can I also get a key"
+        },
+        {
+          "id": "443969044912013312",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:54:28.853+01:00",
+          "content": "Oh man, that's funny"
+        },
+        {
+          "id": "443969045927297034",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-05-10T03:54:29.095+01:00",
+          "content": "you two can fight for it"
+        },
+        {
+          "id": "443969262223360000",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:55:20.664+01:00",
+          "content": "Wet t-shirt constest.....TO THE DEATH"
+        },
+        {
+          "id": "443969289029025803",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-05-10T03:55:27.055+01:00",
+          "content": "~~FEVYF-KF559-B8ZJ5~~"
+        },
+        {
+          "id": "443969300781334528",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:55:29.857+01:00",
+          "content": "I have inverted nipples..."
+        },
+        {
+          "id": "443969359875145728",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-05-10T03:55:43.946+01:00",
+          "content": "thanks f0x i'll get 12 cents for that"
+        },
+        {
+          "id": "443969679376252937",
+          "author": "batteriez",
+          "nickname": "Batteriez",
+          "timestamp": "2018-05-10T03:57:00.121+01:00",
+          "content": "Something something key?"
+        },
+        {
+          "id": "443969759365693442",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:57:19.192+01:00",
+          "content": "Eternal people are rapidly invading Prismata discord"
+        },
+        {
+          "id": "443969824704692225",
+          "author": "batteriez",
+          "nickname": "Batteriez",
+          "timestamp": "2018-05-10T03:57:34.77+01:00",
+          "content": "Meh, just waiting for set 4"
+        },
+        {
+          "id": "443969886339858443",
+          "author": "batteriez",
+          "nickname": "Batteriez",
+          "timestamp": "2018-05-10T03:57:49.465+01:00",
+          "content": "Want to dabble my fingers in other games while I wait"
+        },
+        {
+          "id": "443969918288003104",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:57:57.082+01:00",
+          "content": "The game needs rotation pretty badly"
+        },
+        {
+          "id": "443970042611236865",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:58:26.723+01:00",
+          "content": "Game is still doing fine"
+        },
+        {
+          "id": "443970064304177154",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:58:31.895+01:00",
+          "content": "it is just a slow period"
+        },
+        {
+          "id": "443970131425624065",
+          "author": "changelingrain",
+          "nickname": "ChangelingRain",
+          "timestamp": "2018-05-10T03:58:47.898+01:00",
+          "content": "you're correct but we're also memeing"
+        },
+        {
+          "id": "443970165097627648",
+          "author": "batteriez",
+          "nickname": "Batteriez",
+          "timestamp": "2018-05-10T03:58:55.926+01:00",
+          "content": "I do think they need to do something to generate hype and large interest again though"
+        },
+        {
+          "id": "443970196701577228",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:59:03.461+01:00",
+          "content": "sorry neon, you did mention it..."
+        },
+        {
+          "id": "443970255132426250",
+          "author": "batteriez",
+          "nickname": "Batteriez",
+          "timestamp": "2018-05-10T03:59:17.392+01:00",
+          "content": "Or it does risk becoming quite... quiet"
+        },
+        {
+          "id": "443970340431855627",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:59:37.729+01:00",
+          "content": "@Batteriez they say there is something big coming down the pipe"
+        },
+        {
+          "id": "443970362498220032",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:59:42.99+01:00",
+          "content": "we will see what that is"
+        },
+        {
+          "id": "443970400666517504",
+          "author": "changelingrain",
+          "nickname": "ChangelingRain",
+          "timestamp": "2018-05-10T03:59:52.09+01:00",
+          "content": "shoo shoo this is prismata chat"
+        },
+        {
+          "id": "443970402071347210",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T03:59:52.425+01:00",
+          "content": "I have lots to do, just no time. However, Prismata looks fascinating and I became intrigued..."
+        },
+        {
+          "id": "443970409965027339",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T03:59:54.307+01:00",
+          "content": "I am working on an article on the state of eternal in my head"
+        },
+        {
+          "id": "443970476042092544",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T04:00:10.061+01:00",
+          "content": "@Arioch (Chaos Lord) ill let you know if I get a key"
+        },
+        {
+          "id": "443970559261540353",
+          "author": "arioch_chaos_lord",
+          "nickname": "Arioch (Chaos Lord)",
+          "timestamp": "2018-05-10T04:00:29.902+01:00",
+          "content": "Thanks, also let me know how to enter one, I can't find a portal..."
+        },
+        {
+          "id": "443970564952948736",
+          "author": "batteriez",
+          "nickname": "Batteriez",
+          "timestamp": "2018-05-10T04:00:31.259+01:00",
+          "content": "Ya, I hope this competitive support they have spoiled and the interaction I've had with Scarlatch are hints at large amount of competitive support"
+        },
+        {
+          "id": "443970580283129866",
+          "author": "camat0",
+          "nickname": "camat0",
+          "timestamp": "2018-05-10T04:00:34.914+01:00",
+          "content": "how i download the game?"
+        },
+        {
+          "id": "443970643860652042",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-05-10T04:00:50.072+01:00",
+          "content": "oh i have another key"
+        },
+        {
+          "id": "443970711607050241",
+          "author": "changelingrain",
+          "nickname": "ChangelingRain",
+          "timestamp": "2018-05-10T04:01:06.224+01:00",
+          "content": "you enter the steam key into steam via 'add a game' then 'activate a product on steam'"
+        },
+        {
+          "id": "443970747652767745",
+          "author": "changelingrain",
+          "nickname": "ChangelingRain",
+          "timestamp": "2018-05-10T04:01:14.818+01:00",
+          "content": "it's in the bottom left corner"
+        },
+        {
+          "id": "443970765667434496",
+          "author": "soapbawks",
+          "nickname": "SoapBawks",
+          "timestamp": "2018-05-10T04:01:19.113+01:00",
+          "content": "I have an extra key, let me know if anyone wants it"
+        },
+        {
+          "id": "443971030227091457",
+          "author": "camat0",
+          "nickname": "camat0",
+          "timestamp": "2018-05-10T04:02:22.189+01:00",
+          "content": "so anything i need to know"
+        },
+        {
+          "id": "443971146820354059",
+          "author": "mjiggy",
+          "nickname": "Mjiggy",
+          "timestamp": "2018-05-10T04:02:49.987+01:00",
+          "content": "I’d be interested in a key as well"
+        },
+        {
+          "id": "443971194216251412",
+          "author": "jesseh3989",
+          "nickname": "jesseh3989",
+          "timestamp": "2018-05-10T04:03:01.287+01:00",
+          "content": "@camat0 play the campaign"
+        }
+      ]
+    }
+  ]
+}

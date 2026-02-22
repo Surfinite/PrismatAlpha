@@ -1,0 +1,2943 @@
+{
+  "channel": "unit_and_game_design",
+  "date_range": "2018-06-07 to 2018-06-16",
+  "thread_count": 31,
+  "token_count": 14912,
+  "threads": [
+    {
+      "start_ts": "2018-06-07T20:35:04.406+01:00",
+      "end_ts": "2018-06-07T21:00:57.194+01:00",
+      "participants": [
+        "camzace",
+        "http404error",
+        "kaelii",
+        "namington",
+        "shadourow",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 36,
+      "formatted_text": "--- Thread (31 messages, 2018-06-07) ---\n[2018-06-07 20:35] kaelii: Kiln: ( 5 :Gold: :Blastforge: :Conduit: , supply 4 ) :Health: 4\nStart of turn: Gain :Green: :Blue:\n:Click: pay :Green: :Blue: :Gold: : Construct a Gauss Charge, and a Pixie with :Lifespan: 3?\n[2018-06-07 20:37] shadourow (Rando): Gauss charge with :Lifespan: 3 :LongNoseLiar:\n[2018-06-07 20:38] kaelii: To be clear, [a gauss charge] and [a pixie with :Lifespan: something]\n[2018-06-07 20:38] shadourow (Rando): That's over costed imo, and create unit from renewable resources, which is forbidden\n[2018-06-07 20:39] shadourow (Rando): without supply, I mean\n[2018-06-07 20:39] namington: im pretty sure that unit is \"allowed\"\n[2018-06-07 20:39] namington: cause the pixies have lifespan\n[2018-06-07 20:39] kaelii: It definitely doesn't create an unbounded stack of units but it CAN keep producing units for however long the game goes.\n[2018-06-07 20:42] kaelii: So it being allowed or not depends on particularly which brand of infinite units isn't allowed: an unlimited number of units on the board or an unlimited number of possible units over the course of the game.\n[2018-06-07 20:43] kaelii: I'd argue that valk is an example of unlimited number of possible units over the course of the game.\n[2018-06-07 20:43] shadourow (Rando): Mmmh... Right, I guess that infinite Lifespan pixies is ok\n[2018-06-07 20:44] shadourow (Rando): Also, valk doesn't create unit that you want to get\n[2018-06-07 20:45] wilson0862 (Wilson): Uh I am confused on the valk = unlimited thing.\n[2018-06-07 20:45] kaelii: Arbitrarily large stacks of units runs into computing problems though.\n[2018-06-07 20:45] wilson0862 (Wilson): Oh not on the board.\n[2018-06-07 20:46] kaelii: Valk Centurion vs Arka is a state where neither player can win but valk's existence means that the number of units that existed in the course of the game is only bounded by the number of turns.\n[2018-06-07 20:46] kaelii: As turn -> infinity, units that have existed at some point -> infinity\n[2018-06-07 20:46] wilson0862 (Wilson): Yes, I thought we were talking about on the board at once. Oops.\n[2018-06-07 20:47] namington: if you have infinite valks, it makes infinite barriers\n[2018-06-07 20:47] kaelii: I mean, we sorta are. But more to the technical difference between 'creates arbitrarily many units on the board' and 'creates arbitrarily many units over time'.\n[2018-06-07 20:48] wilson0862 (Wilson): But we aren't. Those are two different things.\n[2018-06-07 20:48] wilson0862 (Wilson): I don't see how they're even similar.\n[2018-06-07 20:49] kaelii: \"create unit from renewable resources (without supply), which is forbidden\"\n[2018-06-07 20:49] wilson0862 (Wilson): That statement is just ambiguous and incorrect.\n[2018-06-07 20:49] shadourow (Rando): I was probably wrong to say this like that\n[2018-06-07 20:49] http404error: they just need lifespan if they're sourced renewably/indefinitely\n[2018-06-07 20:51] camzace: functionally creating gauss charge is just another way of creating 1 sword\n[2018-06-07 20:51] wilson0862 (Wilson): Yeah, both from a technical/practicality POV and a game design philosophy POV.\n[2018-06-07 20:52] wilson0862 (Wilson): @ limiting number of units on the board at once\n[2018-06-07 20:55] kaelii: Anywho, kiln should maybe be a bit cheaper? Right now it is about 17 gold for each additional kiln you want attacking each turn, which is probably a bit much -- depends on how valuable pixie fiddling is I guess?\n[2018-06-07 21:00] kaelii: Largely I figure it gets bought as a follow up to triple blastforge setups as conduit->kiln and a devoted drone is 12 for roughly 2 attack per turn.",
+      "messages": [
+        {
+          "id": "454367712509034497",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:35:04.406+01:00",
+          "content": "Kiln: ( 5 :Gold: :Blastforge: :Conduit: , supply 4 ) :Health: 4\nStart of turn: Gain :Green: :Blue:\n:Click: pay :Green: :Blue: :Gold: : Construct a Gauss Charge, and a Pixie with :Lifespan: 3?"
+        },
+        {
+          "id": "454368440858181642",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-07T20:37:58.058+01:00",
+          "content": "Gauss charge with :Lifespan: 3 :LongNoseLiar:"
+        },
+        {
+          "id": "454368596102217739",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:38:35.071+01:00",
+          "content": "To be clear, [a gauss charge] and [a pixie with :Lifespan: something]"
+        },
+        {
+          "id": "454368686011318292",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-07T20:38:56.507+01:00",
+          "content": "That's over costed imo, and create unit from renewable resources, which is forbidden"
+        },
+        {
+          "id": "454368757947826179",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-07T20:39:13.658+01:00",
+          "content": "without supply, I mean"
+        },
+        {
+          "id": "454368800419086337",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-07T20:39:23.784+01:00",
+          "content": "im pretty sure that unit is \"allowed\""
+        },
+        {
+          "id": "454368836603609099",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-07T20:39:32.411+01:00",
+          "content": "cause the pixies have lifespan"
+        },
+        {
+          "id": "454368912998531105",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:39:50.625+01:00",
+          "content": "It definitely doesn't create an unbounded stack of units but it CAN keep producing units for however long the game goes."
+        },
+        {
+          "id": "454369483528732675",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:42:06.65+01:00",
+          "content": "So it being allowed or not depends on particularly which brand of infinite units isn't allowed: an unlimited number of units on the board or an unlimited number of possible units over the course of the game."
+        },
+        {
+          "id": "454369798978273281",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:43:21.859+01:00",
+          "content": "I'd argue that valk is an example of unlimited number of possible units over the course of the game."
+        },
+        {
+          "id": "454369890418294785",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-07T20:43:43.66+01:00",
+          "content": "Mmmh... Right, I guess that infinite Lifespan pixies is ok"
+        },
+        {
+          "id": "454369987553918997",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-07T20:44:06.819+01:00",
+          "content": "Also, valk doesn't create unit that you want to get"
+        },
+        {
+          "id": "454370282270883841",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-07T20:45:17.085+01:00",
+          "content": "Uh I am confused on the valk = unlimited thing."
+        },
+        {
+          "id": "454370300792930316",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:45:21.501+01:00",
+          "content": "Arbitrarily large stacks of units runs into computing problems though."
+        },
+        {
+          "id": "454370425582125077",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-07T20:45:51.253+01:00",
+          "content": "Oh not on the board."
+        },
+        {
+          "id": "454370563972923393",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:46:24.248+01:00",
+          "content": "Valk Centurion vs Arka is a state where neither player can win but valk's existence means that the number of units that existed in the course of the game is only bounded by the number of turns."
+        },
+        {
+          "id": "454370682285981717",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:46:52.456+01:00",
+          "content": "As turn -> infinity, units that have existed at some point -> infinity"
+        },
+        {
+          "id": "454370687398969358",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-07T20:46:53.675+01:00",
+          "content": "Yes, I thought we were talking about on the board at once. Oops."
+        },
+        {
+          "id": "454370857272344599",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-07T20:47:34.176+01:00",
+          "content": "if you have infinite valks, it makes infinite barriers"
+        },
+        {
+          "id": "454370895490973718",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:47:43.288+01:00",
+          "content": "I mean, we sorta are. But more to the technical difference between 'creates arbitrarily many units on the board' and 'creates arbitrarily many units over time'."
+        },
+        {
+          "id": "454370990722646016",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-07T20:48:05.993+01:00",
+          "content": "But we aren't. Those are two different things."
+        },
+        {
+          "id": "454371069671899147",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-07T20:48:24.816+01:00",
+          "content": "I don't see how they're even similar."
+        },
+        {
+          "id": "454371292880044054",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:49:18.033+01:00",
+          "content": "\"create unit from renewable resources (without supply), which is forbidden\""
+        },
+        {
+          "id": "454371373951746052",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-07T20:49:37.362+01:00",
+          "content": "That statement is just ambiguous and incorrect."
+        },
+        {
+          "id": "454371375394586646",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-07T20:49:37.706+01:00",
+          "content": "I was probably wrong to say this like that"
+        },
+        {
+          "id": "454371426556706818",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-07T20:49:49.904+01:00",
+          "content": "they just need lifespan if they're sourced renewably/indefinitely"
+        },
+        {
+          "id": "454371846218055680",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-07T20:51:29.959+01:00",
+          "content": "functionally creating gauss charge is just another way of creating 1 sword"
+        },
+        {
+          "id": "454371883169742870",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-07T20:51:38.769+01:00",
+          "content": "Yeah, both from a technical/practicality POV and a game design philosophy POV."
+        },
+        {
+          "id": "454372031664881702",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-07T20:52:14.173+01:00",
+          "content": "@ limiting number of units on the board at once"
+        },
+        {
+          "id": "454372828054159373",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T20:55:24.047+01:00",
+          "content": "Anywho, kiln should maybe be a bit cheaper? Right now it is about 17 gold for each additional kiln you want attacking each turn, which is probably a bit much -- depends on how valuable pixie fiddling is I guess?"
+        },
+        {
+          "id": "454374225374085122",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-07T21:00:57.194+01:00",
+          "content": "Largely I figure it gets bought as a follow up to triple blastforge setups as conduit->kiln and a devoted drone is 12 for roughly 2 attack per turn."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-07T22:41:25.728+01:00",
+      "end_ts": "2018-06-07T22:43:42.952+01:00",
+      "participants": [
+        ".jrkirby",
+        "http404error"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-06-07) ---\n[2018-06-07 22:41] .jrkirby (jrkirby): Here's an idea: a super high value soak unit, but it's downside is twofold: It's exploitable (lifespan or frontline, or both) and it gives you opponent an auride core or thermite core to help them exploit it even further.\n[2018-06-07 22:43] http404error: That's a good-sounding idea",
+      "messages": [
+        {
+          "id": "454399510878224406",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-07T22:41:25.728+01:00",
+          "content": "Here's an idea: a super high value soak unit, but it's downside is twofold: It's exploitable (lifespan or frontline, or both) and it gives you opponent an auride core or thermite core to help them exploit it even further."
+        },
+        {
+          "id": "454400086437527552",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-07T22:43:42.952+01:00",
+          "content": "That's a good-sounding idea"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-07T23:26:50.327+01:00",
+      "end_ts": "2018-06-07T23:26:50.327+01:00",
+      "participants": [
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-07) ---\n[2018-06-07 23:26] supergreyman (Greyman): It can be interesting, though it might have a strong late-game impact. I'm thinking in terms of cheap Polywall that constructs a Thermite Core for your opponent.",
+      "messages": [
+        {
+          "id": "454410938674577438",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-07T23:26:50.327+01:00",
+          "content": "It can be interesting, though it might have a strong late-game impact. I'm thinking in terms of cheap Polywall that constructs a Thermite Core for your opponent."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-09T17:40:16.785+01:00",
+      "end_ts": "2018-06-09T17:51:39.373+01:00",
+      "participants": [
+        "darkeisbein",
+        "swapgo"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (9 messages, 2018-06-09) ---\n[2018-06-09 17:40] swapgo: Death triggers are a bit iffy because they kind of go against SDR\n[2018-06-09 17:40] swapgo: Staring down 3 sudden attack because your opponent decided to block on this sounds awful\n[2018-06-09 17:41] swapgo: Of course it's not like the numbers are amazing, 12GG for a Wall + 3 Gauss Charges if used as Soak, but the idea can be troublesome\n[2018-06-09 17:47] darkeisbein: So here is an SDR compliant version:\n\nDeflector Shield (12:Gold: :Green:  :Green: , supply 10) :Fragile:  3 :Prompt:  :Blocker: \n:Lifespan:  1\nWhen this is bought, construct 3 Gausscharges\n\n3 :Attack: , :Click: : Construct a Deflector Shield and 3 Gausscharges\n[2018-06-09 17:47] darkeisbein: this version always gives the owner the option to go for the attack\n[2018-06-09 17:48] darkeisbein: it also makes this an absorber potentially which feels weird\n[2018-06-09 17:48] darkeisbein: and kinda gives you green offensive finesse\n[2018-06-09 17:48] darkeisbein: so I'm not sure if I like this design either\n[2018-06-09 17:51] darkeisbein: I guess this would fit into blue-greens color pie though",
+      "messages": [
+        {
+          "id": "455048499969654800",
+          "author": "swapgo",
+          "nickname": "SwapGo",
+          "timestamp": "2018-06-09T17:40:16.785+01:00",
+          "content": "Death triggers are a bit iffy because they kind of go against SDR"
+        },
+        {
+          "id": "455048568726880296",
+          "author": "swapgo",
+          "nickname": "SwapGo",
+          "timestamp": "2018-06-09T17:40:33.178+01:00",
+          "content": "Staring down 3 sudden attack because your opponent decided to block on this sounds awful"
+        },
+        {
+          "id": "455048899464265774",
+          "author": "swapgo",
+          "nickname": "SwapGo",
+          "timestamp": "2018-06-09T17:41:52.032+01:00",
+          "content": "Of course it's not like the numbers are amazing, 12GG for a Wall + 3 Gauss Charges if used as Soak, but the idea can be troublesome"
+        },
+        {
+          "id": "455050364131999744",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-09T17:47:41.236+01:00",
+          "content": "So here is an SDR compliant version:\n\nDeflector Shield (12:Gold: :Green:  :Green: , supply 10) :Fragile:  3 :Prompt:  :Blocker: \n:Lifespan:  1\nWhen this is bought, construct 3 Gausscharges\n\n3 :Attack: , :Click: : Construct a Deflector Shield and 3 Gausscharges"
+        },
+        {
+          "id": "455050421288042506",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-09T17:47:54.863+01:00",
+          "content": "this version always gives the owner the option to go for the attack"
+        },
+        {
+          "id": "455050475176460289",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-09T17:48:07.711+01:00",
+          "content": "it also makes this an absorber potentially which feels weird"
+        },
+        {
+          "id": "455050638787608598",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-09T17:48:46.719+01:00",
+          "content": "and kinda gives you green offensive finesse"
+        },
+        {
+          "id": "455050639685189632",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-09T17:48:46.933+01:00",
+          "content": "so I'm not sure if I like this design either"
+        },
+        {
+          "id": "455051362950971423",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-09T17:51:39.373+01:00",
+          "content": "I guess this would fit into blue-greens color pie though"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-10T03:25:46.922+01:00",
+      "end_ts": "2018-06-10T03:37:35.026+01:00",
+      "participants": [
+        "f300xen",
+        "kaelii",
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (5 messages, 2018-06-10) ---\n[2018-06-10 03:25] kaelii: Condenstaion Station: ( 3 :Gold: :Conduit: , supply 4 ) :Fragile: 3\nStart of turn: Gain :Green: . Heal 2 :Fragile: , to a maximum of 9\n:Click: :Green: lose 4 :Fragile: : Construct a barrier\n[2018-06-10 03:29] randomflyingtaco (RiFT (#RIPBrowserers)): Huh, it doesn't seem that good currently.   Pay 4 and half a Conduit to get a Barrier every 2 turns?\n[2018-06-10 03:34] kaelii: Yeah not entirely sure how much +.5 absorb is worth.\n[2018-06-10 03:35] kaelii: I'd probably buy it if I suspect the game is going to go through a lot of supply because random granularity and defense for a green I might not use for a bunch of turns is probably pretty good.\n[2018-06-10 03:37] f300xen (f0x): +.5 absorb is about a drone",
+      "messages": [
+        {
+          "id": "455195846443663360",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-10T03:25:46.922+01:00",
+          "content": "Condenstaion Station: ( 3 :Gold: :Conduit: , supply 4 ) :Fragile: 3\nStart of turn: Gain :Green: . Heal 2 :Fragile: , to a maximum of 9\n:Click: :Green: lose 4 :Fragile: : Construct a barrier"
+        },
+        {
+          "id": "455196702262034462",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-06-10T03:29:10.965+01:00",
+          "content": "Huh, it doesn't seem that good currently.   Pay 4 and half a Conduit to get a Barrier every 2 turns?"
+        },
+        {
+          "id": "455197949983457280",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-10T03:34:08.445+01:00",
+          "content": "Yeah not entirely sure how much +.5 absorb is worth."
+        },
+        {
+          "id": "455198284898893824",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-10T03:35:28.295+01:00",
+          "content": "I'd probably buy it if I suspect the game is going to go through a lot of supply because random granularity and defense for a green I might not use for a bunch of turns is probably pretty good."
+        },
+        {
+          "id": "455198816447102987",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-10T03:37:35.026+01:00",
+          "content": "+.5 absorb is about a drone"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-10T03:48:45.176+01:00",
+      "end_ts": "2018-06-10T03:48:45.176+01:00",
+      "participants": [
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-10) ---\n[2018-06-10 03:48] randomflyingtaco (RiFT (#RIPBrowserers)): In situations where you have too much green to ever use it (so your best case where conduit is free), it's still a bad unit at 4, but strong at 3.",
+      "messages": [
+        {
+          "id": "455201627260059669",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-06-10T03:48:45.176+01:00",
+          "content": "In situations where you have too much green to ever use it (so your best case where conduit is free), it's still a bad unit at 4, but strong at 3."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-10T05:06:18.144+01:00",
+      "end_ts": "2018-06-10T05:17:00.697+01:00",
+      "participants": [
+        "kaelii",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (4 messages, 2018-06-10) ---\n[2018-06-10 05:06] kaelii: Hmm if 3 gold price and the ability to store up barrier clicks is too strong but 4 gold price is too weak maybe the sweet spot would be 3 HP per barrier or something.\n[2018-06-10 05:07] kaelii: Max HP 9 is 3 turns of barrier stored but if you're clicking three turns in a row you might be better off spending the green as forcefield or something.\n[2018-06-10 05:12] kaelii: Or maybe I am just over valuing the barrier generation.\n[2018-06-10 05:17] supergreyman (Greyman): Barrier cost 1G which requires a Drone and a Conduit to build every turn (value of 7 gold). Half of Barrier per turn is like 3.5 gold per turn. You would want less than 3.5 for your unit.",
+      "messages": [
+        {
+          "id": "455221143222091777",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-10T05:06:18.144+01:00",
+          "content": "Hmm if 3 gold price and the ability to store up barrier clicks is too strong but 4 gold price is too weak maybe the sweet spot would be 3 HP per barrier or something."
+        },
+        {
+          "id": "455221379445424128",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-10T05:07:14.464+01:00",
+          "content": "Max HP 9 is 3 turns of barrier stored but if you're clicking three turns in a row you might be better off spending the green as forcefield or something."
+        },
+        {
+          "id": "455222721526366208",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-10T05:12:34.441+01:00",
+          "content": "Or maybe I am just over valuing the barrier generation."
+        },
+        {
+          "id": "455223838284972032",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-10T05:17:00.697+01:00",
+          "content": "Barrier cost 1G which requires a Drone and a Conduit to build every turn (value of 7 gold). Half of Barrier per turn is like 3.5 gold per turn. You would want less than 3.5 for your unit."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-10T05:30:46.905+01:00",
+      "end_ts": "2018-06-10T05:32:16.217+01:00",
+      "participants": [
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-06-10) ---\n[2018-06-10 05:30] supergreyman (Greyman): **Animus Maker** 4 :Gold: :Red: :Animus: (1 supply)\n:Lifespan: 4, :Health: 2\nAdditional Cost: Consume an Animus.\nStart of turn: Gain 1 :Attack: and construct a Mobile Animus.\n[2018-06-10 05:32] supergreyman (Greyman): Simplest unit I've ever made. 😄",
+      "messages": [
+        {
+          "id": "455227303652491265",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-10T05:30:46.905+01:00",
+          "content": "**Animus Maker** 4 :Gold: :Red: :Animus: (1 supply)\n:Lifespan: 4, :Health: 2\nAdditional Cost: Consume an Animus.\nStart of turn: Gain 1 :Attack: and construct a Mobile Animus."
+        },
+        {
+          "id": "455227678254039060",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-10T05:32:16.217+01:00",
+          "content": "Simplest unit I've ever made. 😄"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-11T02:17:46.653+01:00",
+      "end_ts": "2018-06-11T02:25:10.674+01:00",
+      "participants": [
+        "randomflyingtaco",
+        "undefeatedorca"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (4 messages, 2018-06-11) ---\n[2018-06-11 02:17] undefeatedorca: Stainless Steelforge v2 10:Gold: 2 :Blue:  :Blastforge: (2 supply) :Blocker: :Health: 5\nStart of turn produce :Blue: :Blue: \n:Click: Pay  1:Gold: gain :Blue: \n:Stamina: 5\n[2018-06-11 02:18] undefeatedorca: Sorry if I butchered the format\n[2018-06-11 02:21] randomflyingtaco (RiFT (#RIPBrowserers)): https://docs.google.com/document/d/1f_oztC_JRdGSkwPByauFQR9dtyWCLs1lxmsVOo-aJ9I/pub here is the standard formatting\n[2018-06-11 02:25] randomflyingtaco (RiFT (#RIPBrowserers)): Issues with your unit: supply is non-standard, power level is low, pretty awkward to buy since you need to already have 2 Blastforges and are then buying a pretty overpriced 3rd or a non-prompt Energy Matrix.  Could have had some use if the are triple blue units in the set, but having to click and pay 2 makes it painful for that as well.",
+      "messages": [
+        {
+          "id": "455541120420544532",
+          "author": "undefeatedorca",
+          "nickname": "UndefeatedOrca",
+          "timestamp": "2018-06-11T02:17:46.653+01:00",
+          "content": "Stainless Steelforge v2 10:Gold: 2 :Blue:  :Blastforge: (2 supply) :Blocker: :Health: 5\nStart of turn produce :Blue: :Blue: \n:Click: Pay  1:Gold: gain :Blue: \n:Stamina: 5"
+        },
+        {
+          "id": "455541191447150603",
+          "author": "undefeatedorca",
+          "nickname": "UndefeatedOrca",
+          "timestamp": "2018-06-11T02:18:03.587+01:00",
+          "content": "Sorry if I butchered the format"
+        },
+        {
+          "id": "455541947898265621",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-06-11T02:21:03.939+01:00",
+          "content": "https://docs.google.com/document/d/1f_oztC_JRdGSkwPByauFQR9dtyWCLs1lxmsVOo-aJ9I/pub here is the standard formatting"
+        },
+        {
+          "id": "455542982779600898",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-06-11T02:25:10.674+01:00",
+          "content": "Issues with your unit: supply is non-standard, power level is low, pretty awkward to buy since you need to already have 2 Blastforges and are then buying a pretty overpriced 3rd or a non-prompt Energy Matrix.  Could have had some use if the are triple blue units in the set, but having to click and pay 2 makes it painful for that as well."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-11T16:21:34.895+01:00",
+      "end_ts": "2018-06-11T16:57:08.411+01:00",
+      "participants": [
+        "leary93",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (25 messages, 2018-06-11) ---\n[2018-06-11 16:21] supergreyman (Greyman): I like the casual conversation here, whereas Reddit is too slow for feedback. 😛\n[2018-06-11 16:23] supergreyman (Greyman): And maybe too formal. 👔\n[2018-06-11 16:25] leary93: Nothing against him btw, just wish he could make arguments\n[2018-06-11 16:25] leary93: Could secrets work in prismata btw?\n[2018-06-11 16:26] supergreyman (Greyman): What do you mean by that?\n[2018-06-11 16:28] leary93: Like, just assume theres 3 units in the set, all cost the same, and have the secret keyword (never appears alone between bonus units but always with other secret units with same cost, secret units have an effect that is hidden until triggered)\n[2018-06-11 16:31] supergreyman (Greyman): Well, there will be hidden information, so it probably won't work in ranked games, but maybe in event.\n[2018-06-11 16:32] supergreyman (Greyman): I guess you're saying it's a unit that only shows its secret effect unless you own two of them?\n[2018-06-11 16:35] leary93: For example, in the 3RE category we could have: \n\nAssasin drone (3RE, 4 supply) 1 :Health: \nSecret - after 2 turns, sacrifice and construct 2 gauss charges\nStart of turn: Gain :Gold: \n\nInfested drone (3RE, 4 supply) 1 :Health: \nSecret - When one of your drones is destroyed, sacrifice this and construct 2 husks\nStart of turn - Gain :Gold: \n\nAnd last but not least \nGreedy drone (3RE, 4 supply) 1 :Health: \nSecret - after 4 turns, sacrifice and construct 2 auric impulses\nStart of turn: gain :Gold:\n[2018-06-11 16:36] leary93: Idea is not necessarily to punish your opponent for doing something but more to make your opponent not know everything I guess\n[2018-06-11 16:37] leary93: Plus, now we can have\nWho am I drone (9RRREEE, 1 supply) :Health:\nWhen bought, construct an assasin drone, infested drone and greedy drone\nStart of turn: gain :Gold:\n[2018-06-11 16:43] supergreyman (Greyman): For one thing, things that give attack or money will complicate threat or gold estimate indicator, at the very least, it should create a separate unit so that the effect will occur on next turn (e.g. Gauss Charges, Auric Impulse).\n[2018-06-11 16:44] leary93: Sure, I can agree on that, good point\n[2018-06-11 16:45] supergreyman (Greyman): But overall, I personally want to keep hidden information off the game. 😛\n[2018-06-11 16:46] leary93: Im not necessarily vouching for hidden information\n[2018-06-11 16:46] leary93: I just like exploring boundaries\n[2018-06-11 16:47] supergreyman (Greyman): Maybe I just don't like playing poker games. 😄\n[2018-06-11 16:48] supergreyman (Greyman): Isn't this one of HS features?\n[2018-06-11 16:50] leary93: Its one of the few things I did like about hearthstone, back before it became this shitfest of a seasonly paywall\n[2018-06-11 16:50] leary93: And all the card value inflation\n[2018-06-11 16:53] supergreyman (Greyman): One of the things secrets work HS is that there's actual deck construction involved (and there's hands). In Prismata, there's no deck, and all units are the same for both sides. So secrets probably won't work well here unless you make something like a spell that randomizes what you gain, or have a unit that is exclusive to each player (and each player doesn't know which one the other one gets).\n[2018-06-11 16:54] leary93: I think I ment it more that they always come with 2 brothers and sisters that cost and look the same.\n[2018-06-11 16:54] leary93: Prob does need to be some kind of event for that to work\n[2018-06-11 16:55] leary93: So that you cant know which they bought, but you could guess depending on the set type. Ofc you could get fooled\n[2018-06-11 16:57] supergreyman (Greyman): Oh, so you're saying that all 3 must always be on the same set?",
+      "messages": [
+        {
+          "id": "455753470658478121",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:21:34.895+01:00",
+          "content": "I like the casual conversation here, whereas Reddit is too slow for feedback. 😛"
+        },
+        {
+          "id": "455754066018959370",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:23:56.84+01:00",
+          "content": "And maybe too formal. 👔"
+        },
+        {
+          "id": "455754334941216790",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:25:00.956+01:00",
+          "content": "Nothing against him btw, just wish he could make arguments"
+        },
+        {
+          "id": "455754579141853204",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:25:59.178+01:00",
+          "content": "Could secrets work in prismata btw?"
+        },
+        {
+          "id": "455754747547484181",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:26:39.329+01:00",
+          "content": "What do you mean by that?"
+        },
+        {
+          "id": "455755123373768727",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:28:08.933+01:00",
+          "content": "Like, just assume theres 3 units in the set, all cost the same, and have the secret keyword (never appears alone between bonus units but always with other secret units with same cost, secret units have an effect that is hidden until triggered)"
+        },
+        {
+          "id": "455755843909058561",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:31:00.722+01:00",
+          "content": "Well, there will be hidden information, so it probably won't work in ranked games, but maybe in event."
+        },
+        {
+          "id": "455756302036107264",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:32:49.948+01:00",
+          "content": "I guess you're saying it's a unit that only shows its secret effect unless you own two of them?"
+        },
+        {
+          "id": "455757008415621140",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:35:38.362+01:00",
+          "content": "For example, in the 3RE category we could have: \n\nAssasin drone (3RE, 4 supply) 1 :Health: \nSecret - after 2 turns, sacrifice and construct 2 gauss charges\nStart of turn: Gain :Gold: \n\nInfested drone (3RE, 4 supply) 1 :Health: \nSecret - When one of your drones is destroyed, sacrifice this and construct 2 husks\nStart of turn - Gain :Gold: \n\nAnd last but not least \nGreedy drone (3RE, 4 supply) 1 :Health: \nSecret - after 4 turns, sacrifice and construct 2 auric impulses\nStart of turn: gain :Gold:"
+        },
+        {
+          "id": "455757149650419722",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:36:12.035+01:00",
+          "content": "Idea is not necessarily to punish your opponent for doing something but more to make your opponent not know everything I guess"
+        },
+        {
+          "id": "455757512600322048",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:37:38.569+01:00",
+          "content": "Plus, now we can have\nWho am I drone (9RRREEE, 1 supply) :Health:\nWhen bought, construct an assasin drone, infested drone and greedy drone\nStart of turn: gain :Gold:"
+        },
+        {
+          "id": "455759043328213019",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:43:43.523+01:00",
+          "content": "For one thing, things that give attack or money will complicate threat or gold estimate indicator, at the very least, it should create a separate unit so that the effect will occur on next turn (e.g. Gauss Charges, Auric Impulse)."
+        },
+        {
+          "id": "455759349437169676",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:44:56.505+01:00",
+          "content": "Sure, I can agree on that, good point"
+        },
+        {
+          "id": "455759580639789057",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:45:51.628+01:00",
+          "content": "But overall, I personally want to keep hidden information off the game. 😛"
+        },
+        {
+          "id": "455759787653595157",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:46:40.984+01:00",
+          "content": "Im not necessarily vouching for hidden information"
+        },
+        {
+          "id": "455759829152169995",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:46:50.878+01:00",
+          "content": "I just like exploring boundaries"
+        },
+        {
+          "id": "455759924752941067",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:47:13.671+01:00",
+          "content": "Maybe I just don't like playing poker games. 😄"
+        },
+        {
+          "id": "455760236259835916",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:48:27.94+01:00",
+          "content": "Isn't this one of HS features?"
+        },
+        {
+          "id": "455760628569866250",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:50:01.474+01:00",
+          "content": "Its one of the few things I did like about hearthstone, back before it became this shitfest of a seasonly paywall"
+        },
+        {
+          "id": "455760669090906134",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:50:11.135+01:00",
+          "content": "And all the card value inflation"
+        },
+        {
+          "id": "455761418004725771",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:53:09.69+01:00",
+          "content": "One of the things secrets work HS is that there's actual deck construction involved (and there's hands). In Prismata, there's no deck, and all units are the same for both sides. So secrets probably won't work well here unless you make something like a spell that randomizes what you gain, or have a unit that is exclusive to each player (and each player doesn't know which one the other one gets)."
+        },
+        {
+          "id": "455761778907807764",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:54:35.736+01:00",
+          "content": "I think I ment it more that they always come with 2 brothers and sisters that cost and look the same."
+        },
+        {
+          "id": "455761831475150849",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:54:48.269+01:00",
+          "content": "Prob does need to be some kind of event for that to work"
+        },
+        {
+          "id": "455762004968210452",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T16:55:29.633+01:00",
+          "content": "So that you cant know which they bought, but you could guess depending on the set type. Ofc you could get fooled"
+        },
+        {
+          "id": "455762419273170965",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T16:57:08.411+01:00",
+          "content": "Oh, so you're saying that all 3 must always be on the same set?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-11T17:08:06.896+01:00",
+      "end_ts": "2018-06-11T17:17:15.294+01:00",
+      "participants": [
+        "supergreyman",
+        "wilson0862"
+      ],
+      "replay_codes": [
+        "paper-sciss"
+      ],
+      "score": 3,
+      "formatted_text": "--- Thread (4 messages, 2018-06-11) ---\n[2018-06-11 17:08] supergreyman (Greyman): The idea might be interesting, it just might be very difficult to get it right. If the effect is too mild or non-impactful, players won't care much about the outcome. But if the effects have too much shocking effects, the games would become like rock-paper-scissor and might become a guessing game.\n[2018-06-11 17:09] supergreyman (Greyman): I don't think I like games that depend on whether you guess it right or not.\n[2018-06-11 17:17] wilson0862 (Wilson): Violates prismata principles so that's a non starter.\n[2018-06-11 17:17] wilson0862 (Wilson): Prismata is a perfect information game.",
+      "messages": [
+        {
+          "id": "455765181159571466",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T17:08:06.896+01:00",
+          "content": "The idea might be interesting, it just might be very difficult to get it right. If the effect is too mild or non-impactful, players won't care much about the outcome. But if the effects have too much shocking effects, the games would become like rock-paper-scissor and might become a guessing game."
+        },
+        {
+          "id": "455765453151666176",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-11T17:09:11.744+01:00",
+          "content": "I don't think I like games that depend on whether you guess it right or not."
+        },
+        {
+          "id": "455767427758948368",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-11T17:17:02.527+01:00",
+          "content": "Violates prismata principles so that's a non starter."
+        },
+        {
+          "id": "455767481307627522",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-11T17:17:15.294+01:00",
+          "content": "Prismata is a perfect information game."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-11T17:31:38.539+01:00",
+      "end_ts": "2018-06-11T17:36:22.687+01:00",
+      "participants": [
+        "leary93",
+        "namington"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (3 messages, 2018-06-11) ---\n[2018-06-11 17:31] namington: Also would have weird interactions with undo\n[2018-06-11 17:32] namington: That means it either violates design principles or forces us to remove undo when secrets are involved\n[2018-06-11 17:36] leary93: Unless you literally do triggers like when you use red or something, you can easily avoid undo situations I think. Anony is right that it goes against perfect information much",
+      "messages": [
+        {
+          "id": "455771102019452938",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-11T17:31:38.539+01:00",
+          "content": "Also would have weird interactions with undo"
+        },
+        {
+          "id": "455771193841025035",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-11T17:32:00.431+01:00",
+          "content": "That means it either violates design principles or forces us to remove undo when secrets are involved"
+        },
+        {
+          "id": "455772293822414864",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T17:36:22.687+01:00",
+          "content": "Unless you literally do triggers like when you use red or something, you can easily avoid undo situations I think. Anony is right that it goes against perfect information much"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-12T20:16:01.539+01:00",
+      "end_ts": "2018-06-12T20:27:34.695+01:00",
+      "participants": [
+        "f300xen",
+        "kaelii",
+        "shadourow",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (22 messages, 2018-06-12) ---\n[2018-06-12 20:16] kaelii: Shocktopus: ( 14? :Gold: :Red: :Red: :Blue: :Blue: :Animus: :Blastforge: :Attack: :Attack: , supply 4 ) :Health: 2\n:Click: pay 2 :Gold: :Energy: :Energy: : :Attack: :Attack: :Attack: :Attack: :Attack: :Attack: :Attack: :Attack:\n[2018-06-12 20:16] kaelii: I mean, probably in at least one way. There's a lot of symbols.\n[2018-06-12 20:17] kaelii: Any single unit that makes 8 attack in a turn is probably game winning.\n[2018-06-12 20:17] f300xen (f0x): assuming you buy a blastforge and another animus for it, then you're paying 23 and 2 drones for 8 attack per turn\n[2018-06-12 20:18] shadourow (Rando): It's funny that this unit have 4 supply while the first one win the game 😐\n[2018-06-12 20:18] kaelii: Look if the first doesn't break the camel's back then the second will.\n[2018-06-12 20:19] f300xen (f0x): nobody can buy a second because you're spending all your money defending after the first\n[2018-06-12 20:19] f300xen (f0x): except in savior mirrors\n[2018-06-12 20:19] kaelii: Its probably just awkward enough that there aren't terribly many great lines for rushing one out.\n[2018-06-12 20:20] kaelii: Outside of maybe oxide mixer or pixie or something.\n[2018-06-12 20:21] supergreyman (Greyman): It's not gg without a conduit. :LongNoseLiar:\n[2018-06-12 20:22] kaelii: Well I've probably overestimated its clunkiness then if there is a route to it that reliably and fast... That's a P2 line right?\n[2018-06-12 20:22] f300xen (f0x): player 1 can do dd a tt bb gg\n[2018-06-12 20:23] kaelii: Ah but does the golden octo beat the octo?\n[2018-06-12 20:23] f300xen (f0x): no, you kill engineers\n[2018-06-12 20:24] kaelii: Yeah kill engineers and probably the drones/tech buildings.\n[2018-06-12 20:24] supergreyman (Greyman): You need golden Engineers as well.\n[2018-06-12 20:24] kaelii: I guess it probably needs to cost more gold to buy one. Shock strong.\n[2018-06-12 20:26] supergreyman (Greyman): You need enough gold so that it won't become the centered strategy at every game.\n[2018-06-12 20:26] supergreyman (Greyman): It's like something you would go for every time.\n[2018-06-12 20:26] kaelii: I mean its really more of a meme suggestion than even close to remotely attempted at balancing.\n[2018-06-12 20:27] supergreyman (Greyman): Why am I always too serious? 🤔",
+      "messages": [
+        {
+          "id": "456174858305404928",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:16:01.539+01:00",
+          "content": "Shocktopus: ( 14? :Gold: :Red: :Red: :Blue: :Blue: :Animus: :Blastforge: :Attack: :Attack: , supply 4 ) :Health: 2\n:Click: pay 2 :Gold: :Energy: :Energy: : :Attack: :Attack: :Attack: :Attack: :Attack: :Attack: :Attack: :Attack:"
+        },
+        {
+          "id": "456175018775150603",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:16:39.798+01:00",
+          "content": "I mean, probably in at least one way. There's a lot of symbols."
+        },
+        {
+          "id": "456175273281585172",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:17:40.477+01:00",
+          "content": "Any single unit that makes 8 attack in a turn is probably game winning."
+        },
+        {
+          "id": "456175275995168778",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-12T20:17:41.124+01:00",
+          "content": "assuming you buy a blastforge and another animus for it, then you're paying 23 and 2 drones for 8 attack per turn"
+        },
+        {
+          "id": "456175478890430474",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-12T20:18:29.498+01:00",
+          "content": "It's funny that this unit have 4 supply while the first one win the game 😐"
+        },
+        {
+          "id": "456175575367680000",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:18:52.5+01:00",
+          "content": "Look if the first doesn't break the camel's back then the second will."
+        },
+        {
+          "id": "456175636378157067",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-12T20:19:07.046+01:00",
+          "content": "nobody can buy a second because you're spending all your money defending after the first"
+        },
+        {
+          "id": "456175651989487616",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-12T20:19:10.768+01:00",
+          "content": "except in savior mirrors"
+        },
+        {
+          "id": "456175849113255939",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:19:57.766+01:00",
+          "content": "Its probably just awkward enough that there aren't terribly many great lines for rushing one out."
+        },
+        {
+          "id": "456175910924845057",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:20:12.503+01:00",
+          "content": "Outside of maybe oxide mixer or pixie or something."
+        },
+        {
+          "id": "456176279280943104",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-12T20:21:40.326+01:00",
+          "content": "It's not gg without a conduit. :LongNoseLiar:"
+        },
+        {
+          "id": "456176550916653067",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:22:45.089+01:00",
+          "content": "Well I've probably overestimated its clunkiness then if there is a route to it that reliably and fast... That's a P2 line right?"
+        },
+        {
+          "id": "456176598039789580",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-12T20:22:56.324+01:00",
+          "content": "player 1 can do dd a tt bb gg"
+        },
+        {
+          "id": "456176754105647124",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:23:33.533+01:00",
+          "content": "Ah but does the golden octo beat the octo?"
+        },
+        {
+          "id": "456176797994975243",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-12T20:23:43.997+01:00",
+          "content": "no, you kill engineers"
+        },
+        {
+          "id": "456176924671344640",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:24:14.199+01:00",
+          "content": "Yeah kill engineers and probably the drones/tech buildings."
+        },
+        {
+          "id": "456176948079493130",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-12T20:24:19.78+01:00",
+          "content": "You need golden Engineers as well."
+        },
+        {
+          "id": "456177052236906497",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:24:44.613+01:00",
+          "content": "I guess it probably needs to cost more gold to buy one. Shock strong."
+        },
+        {
+          "id": "456177374984142858",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-12T20:26:01.562+01:00",
+          "content": "You need enough gold so that it won't become the centered strategy at every game."
+        },
+        {
+          "id": "456177519025192970",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-12T20:26:35.904+01:00",
+          "content": "It's like something you would go for every time."
+        },
+        {
+          "id": "456177546682171414",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:26:42.498+01:00",
+          "content": "I mean its really more of a meme suggestion than even close to remotely attempted at balancing."
+        },
+        {
+          "id": "456177765612257280",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-12T20:27:34.695+01:00",
+          "content": "Why am I always too serious? 🤔"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-12T20:51:10.266+01:00",
+      "end_ts": "2018-06-12T20:51:10.266+01:00",
+      "participants": [
+        "kaelii"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-06-12) ---\n[2018-06-12 20:51] kaelii: As a more serious attempt at making a unit that could be interesting, though it still need a bunch of fiddling:\n \nAnima Phoenix: ( ? :Gold: [? :Red: ? :Green: ] :Animus: , supply 1 ) :Health: 1\nStart of turn: :Attack: :Attack:\n:Click: pay :Red:, Sacrifice Anima Phoenix: Construct # gauss charges for opponent, Gain :Attack: x #?, construct an Anima Egg [with :Exhaust: something?]\n\nAnima Egg :Fragile: 8?\n:Frontline: \n[Revival mechanic]\nMethods of revival\n1: start of turn if stamina is 0, sacrifice and construct anima phoenix? Click costs red?\n2: Is Exhausted when made, sacs at start of turn to construct anima phoenix?",
+      "messages": [
+        {
+          "id": "456183702947627019",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T20:51:10.266+01:00",
+          "content": "As a more serious attempt at making a unit that could be interesting, though it still need a bunch of fiddling:\n \nAnima Phoenix: ( ? :Gold: [? :Red: ? :Green: ] :Animus: , supply 1 ) :Health: 1\nStart of turn: :Attack: :Attack:\n:Click: pay :Red:, Sacrifice Anima Phoenix: Construct # gauss charges for opponent, Gain :Attack: x #?, construct an Anima Egg [with :Exhaust: something?]\n\nAnima Egg :Fragile: 8?\n:Frontline: \n[Revival mechanic]\nMethods of revival\n1: start of turn if stamina is 0, sacrifice and construct anima phoenix? Click costs red?\n2: Is Exhausted when made, sacs at start of turn to construct anima phoenix?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-12T21:07:27.452+01:00",
+      "end_ts": "2018-06-12T21:21:25.296+01:00",
+      "participants": [
+        "supergreyman",
+        "swapgo"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (5 messages, 2018-06-12) ---\n[2018-06-12 21:07] swapgo: so baseline this is a Shadowfang\n[2018-06-12 21:07] swapgo: So this should be costing a ton\n[2018-06-12 21:15] supergreyman (Greyman): I tried making a unit with a similar egg mechanic too, and here's what I found: it's very easy to make it complicated. 😄\n[2018-06-12 21:19] supergreyman (Greyman): I would suggest to have a simple design goal in mind at first and run through that idea alone. It's a nice idea to have a unit that can be turned into an egg and then hatched into Phoenix again, so try to use that idea and remove any unnecessary details (like giving Gauss Charges to opponent). That way, you'll have a better idea of what number to put in.\n[2018-06-12 21:21] supergreyman (Greyman): As for method of revival, I would go for #2 for simplicity.",
+      "messages": [
+        {
+          "id": "456187801562513428",
+          "author": "swapgo",
+          "nickname": "SwapGo",
+          "timestamp": "2018-06-12T21:07:27.452+01:00",
+          "content": "so baseline this is a Shadowfang"
+        },
+        {
+          "id": "456187833250611200",
+          "author": "swapgo",
+          "nickname": "SwapGo",
+          "timestamp": "2018-06-12T21:07:35.007+01:00",
+          "content": "So this should be costing a ton"
+        },
+        {
+          "id": "456189897179529256",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-12T21:15:47.086+01:00",
+          "content": "I tried making a unit with a similar egg mechanic too, and here's what I found: it's very easy to make it complicated. 😄"
+        },
+        {
+          "id": "456190892336873477",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-12T21:19:44.35+01:00",
+          "content": "I would suggest to have a simple design goal in mind at first and run through that idea alone. It's a nice idea to have a unit that can be turned into an egg and then hatched into Phoenix again, so try to use that idea and remove any unnecessary details (like giving Gauss Charges to opponent). That way, you'll have a better idea of what number to put in."
+        },
+        {
+          "id": "456191315735085056",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-12T21:21:25.296+01:00",
+          "content": "As for method of revival, I would go for #2 for simplicity."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-12T23:06:42.473+01:00",
+      "end_ts": "2018-06-12T23:35:47.946+01:00",
+      "participants": [
+        "f300xen",
+        "kaelii",
+        "namington",
+        "xujhan",
+        "xyotsuba",
+        "zezetel"
+      ],
+      "replay_codes": [],
+      "score": 74,
+      "formatted_text": "--- Thread (32 messages, 2018-06-12) ---\n[2018-06-12 23:06] kaelii: I find it really odd that people call sentinel too expensive, compare with chieftain -- 7GR for 3 damage and 7 health vs 8GGB for 4-6 damage and 0-7 health.\n[2018-06-12 23:07] zezetel: chieftain is way faster\n[2018-06-12 23:07] namington: Calling sentinel 3 damage and 7 health is a bit misleading as you a) have less control over the health and b) it is even slower to get value than chieftain\n[2018-06-12 23:07] namington: Mind so is calling chieftain 4 damage and 7 health\n[2018-06-12 23:08] zezetel: he forgets the 6 and 6 - absorb tho\n[2018-06-12 23:08] namington: Eh I phrased that weirdly, sorry on mobile\n[2018-06-12 23:08] namington: But my point is, inflation is a big deal\n[2018-06-12 23:09] namington: And sentinel is sooooo slow\n[2018-06-12 23:09] namington: Its still a good unit tho\n[2018-06-12 23:09] namington: Well \"good\" might be pushing it\n[2018-06-12 23:09] namington: Its below average but not as bad as people make it out to be imo\n[2018-06-12 23:09] namington: Its definitely no militia\n[2018-06-12 23:10] xujhan: I treat it like a bigger, slower Rhino. If you're in need to attack now and soak later, it's quite good.\n[2018-06-12 23:10] kaelii: It is 'slow' but it is so much soak for 7GR.\n[2018-06-12 23:11] xujhan: Being non-blue might be the most important thing about it, since green-red can struggle hard for soak if Plexo/Aegis aren't in the set.\n[2018-06-12 23:11] f300xen (f0x): there's this thing called \"inflation\"\n[2018-06-12 23:12] namington: Defense now >>> defense later\n[2018-06-12 23:12] namington: Mind, chieftain isn't exactly \"now\" but it's still a lot faster than sentinel\n[2018-06-12 23:17] xujhan: \"Defense now >>> defense later\" is trivially true, but doesn't mean that sentinel is bad. If not buying sentinel now means that you're soaking on fresh rhinos later, you should probably buy sentinel.\n[2018-06-12 23:23] xyotsuba: Not only is cheiftan a turn faster, but you can hold it early more easily\n[2018-06-12 23:23] xyotsuba: 2 lifespan cheiftan gold isn’t terrible and u can even absorb on it right away\n[2018-06-12 23:24] xyotsuba: Sentinel u need to attack at least twice\n[2018-06-12 23:25] xyotsuba: The thing with sentinel is that it sucks as an attacker. And attack now is better than attack later\n[2018-06-12 23:25] xyotsuba: U need to buy it during attack phase when u could be buying better attackers\n[2018-06-12 23:26] xyotsuba: This is why grimbotch works at 4 lifespan. It is efficient as an attacker\n[2018-06-12 23:26] namington: yeah the thing with sentinel is it isnt THAT inefficient but\n[2018-06-12 23:26] namington: its hard to get out when youre super pressed for defense\n[2018-06-12 23:26] namington: but buy it too early and its just wasteful\n[2018-06-12 23:27] namington: like sentinel is a perfectly fine unit, its just its use cases arent super common\n[2018-06-12 23:27] namington: and in general, its not a huge consideration when set reading - it makes red/green slightl y better, but even if you go red/green sents shouldnt define your gameplan or anything\n[2018-06-12 23:28] namington: like I'd say smthn like barrier makes me more likely to go green than sent\n[2018-06-12 23:35] xyotsuba: The reason that sentinel is too expensive and cheiftan isn’t is because sentinel is red green and usually the absorber is blue.",
+      "messages": [
+        {
+          "id": "456217811895975947",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T23:06:42.473+01:00",
+          "content": "I find it really odd that people call sentinel too expensive, compare with chieftain -- 7GR for 3 damage and 7 health vs 8GGB for 4-6 damage and 0-7 health."
+        },
+        {
+          "id": "456218010957512712",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-06-12T23:07:29.933+01:00",
+          "content": "chieftain is way faster"
+        },
+        {
+          "id": "456218078787928085",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:07:46.105+01:00",
+          "content": "Calling sentinel 3 damage and 7 health is a bit misleading as you a) have less control over the health and b) it is even slower to get value than chieftain"
+        },
+        {
+          "id": "456218132412104715",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:07:58.89+01:00",
+          "content": "Mind so is calling chieftain 4 damage and 7 health"
+        },
+        {
+          "id": "456218241145110534",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-06-12T23:08:24.814+01:00",
+          "content": "he forgets the 6 and 6 - absorb tho"
+        },
+        {
+          "id": "456218349018284033",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:08:50.533+01:00",
+          "content": "Eh I phrased that weirdly, sorry on mobile"
+        },
+        {
+          "id": "456218377703129089",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:08:57.372+01:00",
+          "content": "But my point is, inflation is a big deal"
+        },
+        {
+          "id": "456218396443410462",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:09:01.84+01:00",
+          "content": "And sentinel is sooooo slow"
+        },
+        {
+          "id": "456218449694425089",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:09:14.536+01:00",
+          "content": "Its still a good unit tho"
+        },
+        {
+          "id": "456218484372930570",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:09:22.804+01:00",
+          "content": "Well \"good\" might be pushing it"
+        },
+        {
+          "id": "456218526932402187",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:09:32.951+01:00",
+          "content": "Its below average but not as bad as people make it out to be imo"
+        },
+        {
+          "id": "456218553587204160",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:09:39.306+01:00",
+          "content": "Its definitely no militia"
+        },
+        {
+          "id": "456218816691699722",
+          "author": "xujhan",
+          "nickname": "Xujhan",
+          "timestamp": "2018-06-12T23:10:42.035+01:00",
+          "content": "I treat it like a bigger, slower Rhino. If you're in need to attack now and soak later, it's quite good."
+        },
+        {
+          "id": "456218860467781632",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-12T23:10:52.472+01:00",
+          "content": "It is 'slow' but it is so much soak for 7GR."
+        },
+        {
+          "id": "456218990277165057",
+          "author": "xujhan",
+          "nickname": "Xujhan",
+          "timestamp": "2018-06-12T23:11:23.421+01:00",
+          "content": "Being non-blue might be the most important thing about it, since green-red can struggle hard for soak if Plexo/Aegis aren't in the set."
+        },
+        {
+          "id": "456219010661351425",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-12T23:11:28.281+01:00",
+          "content": "there's this thing called \"inflation\""
+        },
+        {
+          "id": "456219224952799255",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:12:19.372+01:00",
+          "content": "Defense now >>> defense later"
+        },
+        {
+          "id": "456219305756065793",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:12:38.637+01:00",
+          "content": "Mind, chieftain isn't exactly \"now\" but it's still a lot faster than sentinel"
+        },
+        {
+          "id": "456220590135836683",
+          "author": "xujhan",
+          "nickname": "Xujhan",
+          "timestamp": "2018-06-12T23:17:44.857+01:00",
+          "content": "\"Defense now >>> defense later\" is trivially true, but doesn't mean that sentinel is bad. If not buying sentinel now means that you're soaking on fresh rhinos later, you should probably buy sentinel."
+        },
+        {
+          "id": "456222046351785996",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-12T23:23:32.046+01:00",
+          "content": "Not only is cheiftan a turn faster, but you can hold it early more easily"
+        },
+        {
+          "id": "456222145572372511",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-12T23:23:55.702+01:00",
+          "content": "2 lifespan cheiftan gold isn’t terrible and u can even absorb on it right away"
+        },
+        {
+          "id": "456222275318972426",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-12T23:24:26.636+01:00",
+          "content": "Sentinel u need to attack at least twice"
+        },
+        {
+          "id": "456222501568118794",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-12T23:25:20.578+01:00",
+          "content": "The thing with sentinel is that it sucks as an attacker. And attack now is better than attack later"
+        },
+        {
+          "id": "456222655197216768",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-12T23:25:57.206+01:00",
+          "content": "U need to buy it during attack phase when u could be buying better attackers"
+        },
+        {
+          "id": "456222757080924162",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-12T23:26:21.497+01:00",
+          "content": "This is why grimbotch works at 4 lifespan. It is efficient as an attacker"
+        },
+        {
+          "id": "456222793088892928",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:26:30.082+01:00",
+          "content": "yeah the thing with sentinel is it isnt THAT inefficient but"
+        },
+        {
+          "id": "456222845908025354",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:26:42.675+01:00",
+          "content": "its hard to get out when youre super pressed for defense"
+        },
+        {
+          "id": "456222870549561355",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:26:48.55+01:00",
+          "content": "but buy it too early and its just wasteful"
+        },
+        {
+          "id": "456222985351856149",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:27:15.921+01:00",
+          "content": "like sentinel is a perfectly fine unit, its just its use cases arent super common"
+        },
+        {
+          "id": "456223149676167200",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:27:55.099+01:00",
+          "content": "and in general, its not a huge consideration when set reading - it makes red/green slightl y better, but even if you go red/green sents shouldnt define your gameplan or anything"
+        },
+        {
+          "id": "456223234569011201",
+          "author": "namington",
+          "nickname": "Namington",
+          "timestamp": "2018-06-12T23:28:15.339+01:00",
+          "content": "like I'd say smthn like barrier makes me more likely to go green than sent"
+        },
+        {
+          "id": "456225132940361739",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-12T23:35:47.946+01:00",
+          "content": "The reason that sentinel is too expensive and cheiftan isn’t is because sentinel is red green and usually the absorber is blue."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-13T07:50:44.953+01:00",
+      "end_ts": "2018-06-13T07:51:21.934+01:00",
+      "participants": [
+        "leary93"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-06-13) ---\n[2018-06-13 07:50] leary93: I see sentinel more of a setup unit, if I anticipate I still want that bigger unit out but i'd otherwise be too constantly pressed for defense if I keep buying prompt stuff\n[2018-06-13 07:51] leary93: Chieftain \"can\" also do that, but a lot less so unless the enemy has more than 7 guaranteed attack",
+      "messages": [
+        {
+          "id": "456349691215347713",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-13T07:50:44.953+01:00",
+          "content": "I see sentinel more of a setup unit, if I anticipate I still want that bigger unit out but i'd otherwise be too constantly pressed for defense if I keep buying prompt stuff"
+        },
+        {
+          "id": "456349846325166080",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-13T07:51:21.934+01:00",
+          "content": "Chieftain \"can\" also do that, but a lot less so unless the enemy has more than 7 guaranteed attack"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-13T08:29:25.47+01:00",
+      "end_ts": "2018-06-13T08:29:25.47+01:00",
+      "participants": [
+        "leary93"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-06-13) ---\n[2018-06-13 08:29] leary93: Plus, chieftain is arguably a lower econ unit that sentinel, assuming xae isnt in the set youd prob want a blue too and need to spend the red, which means you're looking at about ~ 16 drones minimum to spend your tech.",
+      "messages": [
+        {
+          "id": "456359424169213963",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-13T08:29:25.47+01:00",
+          "content": "Plus, chieftain is arguably a lower econ unit that sentinel, assuming xae isnt in the set youd prob want a blue too and need to spend the red, which means you're looking at about ~ 16 drones minimum to spend your tech."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-13T20:11:38.726+01:00",
+      "end_ts": "2018-06-13T20:19:56.067+01:00",
+      "participants": [
+        "camzace",
+        "kaelii",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (10 messages, 2018-06-13) ---\n[2018-06-13 20:11] kaelii: Plated Shell-ling: ( 5 :Gold: :Blue: :Green: , supply 10 ) :Health: 2\n:Blocker: , \"Plated 1\"\nPlated - While blocking, this unit is assigned 1 damage and loses 1 plating instead of being assigned lethal damage when first assigned damage.\nStart of turn: :Attack:\n[2018-06-13 20:17] camzace: that's confusing wording\n[2018-06-13 20:18] wilson0862 (Wilson): Damn that's OP if I'm understanding correctly.\n[2018-06-13 20:18] camzace: actually no matter how this unit turns out\n[2018-06-13 20:19] camzace: its either strictly worse, strictly better or strictly equivalent to urban sentry\n[2018-06-13 20:19] wilson0862 (Wilson): You just buy it late game and absorb for 20 and buy them out.\n[2018-06-13 20:19] wilson0862 (Wilson): Oh. I think I'm misunderstanding.\n[2018-06-13 20:19] camzace: oh so how you see this is\n[2018-06-13 20:19] camzace: it takes 2 damage, but actually just 'absorbs' for 1 and loses its plating?\n[2018-06-13 20:19] camzace: and survives even if its first defense click",
+      "messages": [
+        {
+          "id": "456536143853518859",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:11:38.726+01:00",
+          "content": "Plated Shell-ling: ( 5 :Gold: :Blue: :Green: , supply 10 ) :Health: 2\n:Blocker: , \"Plated 1\"\nPlated - While blocking, this unit is assigned 1 damage and loses 1 plating instead of being assigned lethal damage when first assigned damage.\nStart of turn: :Attack:"
+        },
+        {
+          "id": "456537659590967317",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:17:40.106+01:00",
+          "content": "that's confusing wording"
+        },
+        {
+          "id": "456537773567115274",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-13T20:18:07.28+01:00",
+          "content": "Damn that's OP if I'm understanding correctly."
+        },
+        {
+          "id": "456537975581573127",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:18:55.444+01:00",
+          "content": "actually no matter how this unit turns out"
+        },
+        {
+          "id": "456538004761346058",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:19:02.401+01:00",
+          "content": "its either strictly worse, strictly better or strictly equivalent to urban sentry"
+        },
+        {
+          "id": "456538011157397521",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-13T20:19:03.926+01:00",
+          "content": "You just buy it late game and absorb for 20 and buy them out."
+        },
+        {
+          "id": "456538114010120204",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-13T20:19:28.448+01:00",
+          "content": "Oh. I think I'm misunderstanding."
+        },
+        {
+          "id": "456538143034966037",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:19:35.368+01:00",
+          "content": "oh so how you see this is"
+        },
+        {
+          "id": "456538194561990666",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:19:47.653+01:00",
+          "content": "it takes 2 damage, but actually just 'absorbs' for 1 and loses its plating?"
+        },
+        {
+          "id": "456538229852733463",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:19:56.067+01:00",
+          "content": "and survives even if its first defense click"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-13T20:41:21.91+01:00",
+      "end_ts": "2018-06-13T20:52:16.585+01:00",
+      "participants": [
+        "camzace",
+        "kaelii",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (17 messages, 2018-06-13) ---\n[2018-06-13 20:41] kaelii: So the idea is basically for plating to be very close to an engineer -- as long as you don't need the health all at once. In this case, if I have two urban sentries and two engineers, I can handle 1-4 without losing an urban sentry, 5-7 losing 1 urban sentry, and 8 kills all my blockers.\nIf I had the plated unit instead of an urban sentry, I can handle 2-4 much the same, but I can also handle 5 without losing an attacker -- plated takes 1, engineers for 2, and urban sentry absorbs the rest. However I have 7 health of stuff total in my blockers instead of 8, so at 6 I would be forced to lose an attacker and at 7 I am forced to lose all my defenders.\n\nAs currently intended plated is sort of like fragile health in that it does not naturally recover.\n[2018-06-13 20:42] kaelii: On the other hand if I had a fragile unit with plated, it would still lose 1 health as it is still assigned damage, making plating a fair bit worse for fragile units, but still allows for extra granularity among your defenders.\n[2018-06-13 20:46] supergreyman (Greyman): I feel very confused when I read this... Why not just make an extra Engineer when bought?\n[2018-06-13 20:46] kaelii: If it makes an extra engineer then you actually have an extra health for freeze and beaches.\n[2018-06-13 20:47] camzace: it only takes 1 damage if it blocks?\n[2018-06-13 20:47] camzace: wouldn't it take 1 and the plated take 1\n[2018-06-13 20:47] camzace: so it 'absorbs' for 2 extra\n[2018-06-13 20:48] supergreyman (Greyman): So it's like an Engineer that cannot defend against freeze/breach?\n[2018-06-13 20:48] kaelii: It takes 1 damage and loses 1 plating -- If it has plating 1, it can do it once. If it has plating 5 it could do it 5 times.\n[2018-06-13 20:48] camzace: okay so then it's a ridiculous unit\n[2018-06-13 20:48] camzace: honestly at 1 health its probably too good\n[2018-06-13 20:48] camzace: its basically hellhound\n[2018-06-13 20:49] kaelii: Hmm, point. It might need to be 6 gold to be an inverted borehole.\n[2018-06-13 20:49] kaelii: Although I could also argue that hellhound is sorta better techwise because you get to two hounds for 16 tech instead of 18 tech.\n[2018-06-13 20:51] kaelii: It wouldn't work at 1 health because it would die when it takes 1.\n[2018-06-13 20:51] kaelii: And fragile's interaction with plated is worse than an engineer because you still lose the fragile health on your plated unit.\n[2018-06-13 20:52] kaelii: There's probably some way you could establish a good interaction with frontline to make some interesting units there using a plated mechanic.",
+      "messages": [
+        {
+          "id": "456543623069302794",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:41:21.91+01:00",
+          "content": "So the idea is basically for plating to be very close to an engineer -- as long as you don't need the health all at once. In this case, if I have two urban sentries and two engineers, I can handle 1-4 without losing an urban sentry, 5-7 losing 1 urban sentry, and 8 kills all my blockers.\nIf I had the plated unit instead of an urban sentry, I can handle 2-4 much the same, but I can also handle 5 without losing an attacker -- plated takes 1, engineers for 2, and urban sentry absorbs the rest. However I have 7 health of stuff total in my blockers instead of 8, so at 6 I would be forced to lose an attacker and at 7 I am forced to lose all my defenders.\n\nAs currently intended plated is sort of like fragile health in that it does not naturally recover."
+        },
+        {
+          "id": "456543929471598592",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:42:34.962+01:00",
+          "content": "On the other hand if I had a fragile unit with plated, it would still lose 1 health as it is still assigned damage, making plating a fair bit worse for fragile units, but still allows for extra granularity among your defenders."
+        },
+        {
+          "id": "456544799286362112",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-13T20:46:02.342+01:00",
+          "content": "I feel very confused when I read this... Why not just make an extra Engineer when bought?"
+        },
+        {
+          "id": "456544965825134652",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:46:42.048+01:00",
+          "content": "If it makes an extra engineer then you actually have an extra health for freeze and beaches."
+        },
+        {
+          "id": "456545095488110592",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:47:12.962+01:00",
+          "content": "it only takes 1 damage if it blocks?"
+        },
+        {
+          "id": "456545129596059658",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:47:21.094+01:00",
+          "content": "wouldn't it take 1 and the plated take 1"
+        },
+        {
+          "id": "456545291290542081",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:47:59.645+01:00",
+          "content": "so it 'absorbs' for 2 extra"
+        },
+        {
+          "id": "456545303068278797",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-13T20:48:02.453+01:00",
+          "content": "So it's like an Engineer that cannot defend against freeze/breach?"
+        },
+        {
+          "id": "456545312723697664",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:48:04.755+01:00",
+          "content": "It takes 1 damage and loses 1 plating -- If it has plating 1, it can do it once. If it has plating 5 it could do it 5 times."
+        },
+        {
+          "id": "456545362593710111",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:48:16.645+01:00",
+          "content": "okay so then it's a ridiculous unit"
+        },
+        {
+          "id": "456545380860035073",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:48:21+01:00",
+          "content": "honestly at 1 health its probably too good"
+        },
+        {
+          "id": "456545448224751616",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T20:48:37.061+01:00",
+          "content": "its basically hellhound"
+        },
+        {
+          "id": "456545580685197333",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:49:08.642+01:00",
+          "content": "Hmm, point. It might need to be 6 gold to be an inverted borehole."
+        },
+        {
+          "id": "456545783685185565",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:49:57.041+01:00",
+          "content": "Although I could also argue that hellhound is sorta better techwise because you get to two hounds for 16 tech instead of 18 tech."
+        },
+        {
+          "id": "456546051709730816",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:51:00.943+01:00",
+          "content": "It wouldn't work at 1 health because it would die when it takes 1."
+        },
+        {
+          "id": "456546207125209088",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:51:37.997+01:00",
+          "content": "And fragile's interaction with plated is worse than an engineer because you still lose the fragile health on your plated unit."
+        },
+        {
+          "id": "456546368975011880",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T20:52:16.585+01:00",
+          "content": "There's probably some way you could establish a good interaction with frontline to make some interesting units there using a plated mechanic."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-13T22:25:56.888+01:00",
+      "end_ts": "2018-06-13T22:31:58.976+01:00",
+      "participants": [
+        "kaelii"
+      ],
+      "replay_codes": [
+        "ating-front"
+      ],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2018-06-13) ---\n[2018-06-13 22:25] kaelii: Well if we go exactly how I described in the example with urban sentry x2 + engineer x2 vs urban sentry, plated shell-ling and engineer x2:\nClicking once will put 1 damage on the shell. Clicking a second time would assign the remaining 1 to kill plated shell-ling this turn.\n\nIt is significantly different if a unit with some plating left can ONLY be assigned 1 damage each defense//turn until it is out of plating charges -- which is possibly good for a plating-frontline interaction, but makes \"Centurion but with 12 plating\" an awfully worse unit.\n\nI'm not entirely sure if it should be \"assign only 1 damage (unless opponent is choosing to assign damage as a beach)\" or \"assigns 1 damage, then you can choose to assign the rest\" or \"May spend plating to assign 1 damage at a time\"\n\nCenturion with 12 plating under interpretation 1 is very sad.\nCenturion with 12 plating under interpretation 2 is pretty much centurion unless another equally good or better absorber is in the set.\nInterpretation 3 is a very happy centurion as you basically have a pile of engineers for your other absorber for a short bit and get centurion absorb anyway later.\n[2018-06-13 22:29] kaelii: And to be extremely clear: 'absorbing' a second damage for the unit I proposed is a definite misnomer. Plating is not intended to be a separate health pool, only that a very specific limited amount of damage is assigned to a unit initially, regardless of additional attack remaining to assign.\n[2018-06-13 22:31] kaelii: Initially I would go with interpretation 1 or 2 as I don't think the third interpretation would be worth a keyword.",
+      "messages": [
+        {
+          "id": "456569942234497024",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T22:25:56.888+01:00",
+          "content": "Well if we go exactly how I described in the example with urban sentry x2 + engineer x2 vs urban sentry, plated shell-ling and engineer x2:\nClicking once will put 1 damage on the shell. Clicking a second time would assign the remaining 1 to kill plated shell-ling this turn.\n\nIt is significantly different if a unit with some plating left can ONLY be assigned 1 damage each defense//turn until it is out of plating charges -- which is possibly good for a plating-frontline interaction, but makes \"Centurion but with 12 plating\" an awfully worse unit.\n\nI'm not entirely sure if it should be \"assign only 1 damage (unless opponent is choosing to assign damage as a beach)\" or \"assigns 1 damage, then you can choose to assign the rest\" or \"May spend plating to assign 1 damage at a time\"\n\nCenturion with 12 plating under interpretation 1 is very sad.\nCenturion with 12 plating under interpretation 2 is pretty much centurion unless another equally good or better absorber is in the set.\nInterpretation 3 is a very happy centurion as you basically have a pile of engineers for your other absorber for a short bit and get centurion absorb anyway later."
+        },
+        {
+          "id": "456570960749920266",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T22:29:59.721+01:00",
+          "content": "And to be extremely clear: 'absorbing' a second damage for the unit I proposed is a definite misnomer. Plating is not intended to be a separate health pool, only that a very specific limited amount of damage is assigned to a unit initially, regardless of additional attack remaining to assign."
+        },
+        {
+          "id": "456571460941512704",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-13T22:31:58.976+01:00",
+          "content": "Initially I would go with interpretation 1 or 2 as I don't think the third interpretation would be worth a keyword."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-13T22:50:06.552+01:00",
+      "end_ts": "2018-06-13T22:56:16.143+01:00",
+      "participants": [
+        "camzace",
+        "leary93",
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (9 messages, 2018-06-13) ---\n[2018-06-13 22:50] xyotsuba: Hey guys. So I was thinking we have alternate drones, alternate absorbers, alternate soak, alternate attackers, alternate tech. Etc.\n[2018-06-13 22:50] xyotsuba: But the one thing we don’t have is alternate engineers (colorless defense/energy production)\n[2018-06-13 22:50] xyotsuba: Anybody got any ideas?\n[2018-06-13 22:53] leary93: Big Daddy (5 :Gold: , supply 10), 2 :Health: :Blocker: \nStart of turn: Gain :Energy: :Energy: \n:Click: : Gain :Energy: \n\nSomething like this?\n[2018-06-13 22:55] leary93: Nano-tech (1 :Gold: , supply 20), 1 :Health: :Blocker: \n:Time: 3\nStart of turn: Gain :Energy:\n[2018-06-13 22:55] leary93: thats just strictly better engineer\n[2018-06-13 22:56] camzace: engineer is granularity\n[2018-06-13 22:56] camzace: you also can't buy half a big daddy\n[2018-06-13 22:56] leary93: 4 is still prob too close to double engineer",
+      "messages": [
+        {
+          "id": "456576022566010881",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-13T22:50:06.552+01:00",
+          "content": "Hey guys. So I was thinking we have alternate drones, alternate absorbers, alternate soak, alternate attackers, alternate tech. Etc."
+        },
+        {
+          "id": "456576192976257045",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-13T22:50:47.181+01:00",
+          "content": "But the one thing we don’t have is alternate engineers (colorless defense/energy production)"
+        },
+        {
+          "id": "456576222470733825",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-13T22:50:54.213+01:00",
+          "content": "Anybody got any ideas?"
+        },
+        {
+          "id": "456576954905133056",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-13T22:53:48.839+01:00",
+          "content": "Big Daddy (5 :Gold: , supply 10), 2 :Health: :Blocker: \nStart of turn: Gain :Energy: :Energy: \n:Click: : Gain :Energy: \n\nSomething like this?"
+        },
+        {
+          "id": "456577471261966356",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-13T22:55:51.948+01:00",
+          "content": "Nano-tech (1 :Gold: , supply 20), 1 :Health: :Blocker: \n:Time: 3\nStart of turn: Gain :Energy:"
+        },
+        {
+          "id": "456577503809765379",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-13T22:55:59.708+01:00",
+          "content": "thats just strictly better engineer"
+        },
+        {
+          "id": "456577529696747521",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T22:56:05.88+01:00",
+          "content": "engineer is granularity"
+        },
+        {
+          "id": "456577558520266758",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-13T22:56:12.752+01:00",
+          "content": "you also can't buy half a big daddy"
+        },
+        {
+          "id": "456577572743020575",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-13T22:56:16.143+01:00",
+          "content": "4 is still prob too close to double engineer"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T08:48:42.553+01:00",
+      "end_ts": "2018-06-14T08:53:34.517+01:00",
+      "participants": [
+        "kaelii"
+      ],
+      "replay_codes": [
+        "seudo-color"
+      ],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-06-14) ---\n[2018-06-14 08:48] kaelii: Gibbie votes pls I report u hue hue hue?\n[2018-06-14 08:53] kaelii: Its hard to justify non-tech production from a costs tech to buy as otherwise you just sorta make a more expensive pseudo-colored attacker/blocker.\nIf it mostly makes tech, it is hard to have it produce different colors without upending base tech units>\nIf it mostly makes tech, it is hard to have it produce MORE and not be steelforge reskin // almost strictly superior to basic tech.\nIf it mostly makes tech, it is hard to have it produce LESS of the same color and not almost immediately be a downgrade.\n\nIf it doesn't do these things it is... A drone or a tech sink, which are kinda hard to justify/balance against existing things?",
+      "messages": [
+        {
+          "id": "456726665192800268",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T08:48:42.553+01:00",
+          "content": "Gibbie votes pls I report u hue hue hue?"
+        },
+        {
+          "id": "456727889778442242",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T08:53:34.517+01:00",
+          "content": "Its hard to justify non-tech production from a costs tech to buy as otherwise you just sorta make a more expensive pseudo-colored attacker/blocker.\nIf it mostly makes tech, it is hard to have it produce different colors without upending base tech units>\nIf it mostly makes tech, it is hard to have it produce MORE and not be steelforge reskin // almost strictly superior to basic tech.\nIf it mostly makes tech, it is hard to have it produce LESS of the same color and not almost immediately be a downgrade.\n\nIf it doesn't do these things it is... A drone or a tech sink, which are kinda hard to justify/balance against existing things?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T16:36:15.59+01:00",
+      "end_ts": "2018-06-14T16:45:15.981+01:00",
+      "participants": [
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-06-14) ---\n[2018-06-14 16:36] supergreyman (Greyman): **Stealth Fighter** 11 :Gold: :Green: :Blue: :Blue: (4 supply)\n:Health: 3\nWhen bought: Construct an Energy Missile for your opponent.\nStart of turn: Gain 3 :Attack: \n\n**Energy Missile**\n:Health: 1\nClick: Consume 4 Engineers and sacrifice Energy Missile to destroy an enemy Stealth Fighter.\n[2018-06-14 16:45] supergreyman (Greyman): I've been thinking of an alternative to Frontline. In this case, you have to spend on defense instead of attack points to destroy it.",
+      "messages": [
+        {
+          "id": "456844328157970432",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-14T16:36:15.59+01:00",
+          "content": "**Stealth Fighter** 11 :Gold: :Green: :Blue: :Blue: (4 supply)\n:Health: 3\nWhen bought: Construct an Energy Missile for your opponent.\nStart of turn: Gain 3 :Attack: \n\n**Energy Missile**\n:Health: 1\nClick: Consume 4 Engineers and sacrifice Energy Missile to destroy an enemy Stealth Fighter."
+        },
+        {
+          "id": "456846594721972236",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-14T16:45:15.981+01:00",
+          "content": "I've been thinking of an alternative to Frontline. In this case, you have to spend on defense instead of attack points to destroy it."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T20:07:39.429+01:00",
+      "end_ts": "2018-06-14T20:12:34.21+01:00",
+      "participants": [
+        "f300xen",
+        "kaelii",
+        "leary93",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (8 messages, 2018-06-14) ---\n[2018-06-14 20:07] leary93: Heres a crazy af idea: \nNanoswarm (6 :Gold: :Green: :Blue: , 10 supply) 1 :Health: \nStart of turn: Sacrifice nanoswarm, gain :Attack: and construct a new nanoswarm with :Time: 1 \n\nA swarm that assembles itself momentarily to attack and then dissipates to reassemble the turn after again while staying golden. Concept is about being an even more breachproofy attacker but at the downside of costing more. Not sure if it could work in the design space, but we could try?\n[2018-06-14 20:09] leary93: Now your conduits can become walls kappa\n[2018-06-14 20:10] supergreyman (Greyman): That is so weird, for having a unit specifically designed to take advantage of golden armor. 😄\n[2018-06-14 20:10] kaelii: Wouldn't it be easier to just say, \"Start of turn: Gain :Attack: , this unit gains Golden Armor :Time: 1?\"\n[2018-06-14 20:11] f300xen (f0x): voider has the wording of constructing invulnerable gauss charges\n[2018-06-14 20:12] supergreyman (Greyman): I think it's generally worse than Gauss Cannon since it has massive HP and still cost less.\n[2018-06-14 20:12] f300xen (f0x): also that functionally doesn't work since only buying things give buildtime\n[2018-06-14 20:12] f300xen (f0x): everything else gives exhaust",
+      "messages": [
+        {
+          "id": "456897528034492436",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T20:07:39.429+01:00",
+          "content": "Heres a crazy af idea: \nNanoswarm (6 :Gold: :Green: :Blue: , 10 supply) 1 :Health: \nStart of turn: Sacrifice nanoswarm, gain :Attack: and construct a new nanoswarm with :Time: 1 \n\nA swarm that assembles itself momentarily to attack and then dissipates to reassemble the turn after again while staying golden. Concept is about being an even more breachproofy attacker but at the downside of costing more. Not sure if it could work in the design space, but we could try?"
+        },
+        {
+          "id": "456897947204976661",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T20:09:19.367+01:00",
+          "content": "Now your conduits can become walls kappa"
+        },
+        {
+          "id": "456898205364518934",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-14T20:10:20.917+01:00",
+          "content": "That is so weird, for having a unit specifically designed to take advantage of golden armor. 😄"
+        },
+        {
+          "id": "456898232618844187",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T20:10:27.415+01:00",
+          "content": "Wouldn't it be easier to just say, \"Start of turn: Gain :Attack: , this unit gains Golden Armor :Time: 1?\""
+        },
+        {
+          "id": "456898588723773440",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-14T20:11:52.317+01:00",
+          "content": "voider has the wording of constructing invulnerable gauss charges"
+        },
+        {
+          "id": "456898691358523403",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-14T20:12:16.787+01:00",
+          "content": "I think it's generally worse than Gauss Cannon since it has massive HP and still cost less."
+        },
+        {
+          "id": "456898743455842324",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-14T20:12:29.208+01:00",
+          "content": "also that functionally doesn't work since only buying things give buildtime"
+        },
+        {
+          "id": "456898764435750942",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-14T20:12:34.21+01:00",
+          "content": "everything else gives exhaust"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T20:22:39.842+01:00",
+      "end_ts": "2018-06-14T20:30:04.107+01:00",
+      "participants": [
+        "kaelii",
+        "leary93",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (10 messages, 2018-06-14) ---\n[2018-06-14 20:22] leary93: gauss cannon cant be walled by conduits\n[2018-06-14 20:22] leary93: guass cannons can wall for nanoswarm\n[2018-06-14 20:24] kaelii: Quetzalcoatl: ( 11 :Gold: :Blue: :Blue: :Conduit: , supply 4 ) :Health: 4\nStart of turn: Gain :Energy: :Energy: \n:Click: , pay  :Blue: :Blue: :Conduit: : Construct a Cauterizer, Gain :Attack: :Attack: :Attack: [:Attack: ?]\n[2018-06-14 20:24] leary93: that's a really cheap cauterizer to get\n[2018-06-14 20:25] leary93: ofc it doesnt automatically give engis\n[2018-06-14 20:27] supergreyman (Greyman): That's.....a lot of Conduits. :Conduit:\n[2018-06-14 20:28] supergreyman (Greyman): It kinda reminds me of that Advocate unit from the campaign.\n[2018-06-14 20:28] kaelii: You probably don't ever buy more than one so maybe it should just be supply 1?\n[2018-06-14 20:28] kaelii: With the click costing BB anyway. Maybe if click was just B you would buy 2 or possibly 3?\n[2018-06-14 20:30] kaelii: Unless the set has steelforge or synth in it maybe you could run 2 but it'd still be hard.",
+      "messages": [
+        {
+          "id": "456901304640471068",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T20:22:39.842+01:00",
+          "content": "gauss cannon cant be walled by conduits"
+        },
+        {
+          "id": "456901341038510090",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T20:22:48.52+01:00",
+          "content": "guass cannons can wall for nanoswarm"
+        },
+        {
+          "id": "456901661332602890",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T20:24:04.884+01:00",
+          "content": "Quetzalcoatl: ( 11 :Gold: :Blue: :Blue: :Conduit: , supply 4 ) :Health: 4\nStart of turn: Gain :Energy: :Energy: \n:Click: , pay  :Blue: :Blue: :Conduit: : Construct a Cauterizer, Gain :Attack: :Attack: :Attack: [:Attack: ?]"
+        },
+        {
+          "id": "456901827871375384",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T20:24:44.59+01:00",
+          "content": "that's a really cheap cauterizer to get"
+        },
+        {
+          "id": "456901940345831425",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T20:25:11.406+01:00",
+          "content": "ofc it doesnt automatically give engis"
+        },
+        {
+          "id": "456902411391336501",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-14T20:27:03.712+01:00",
+          "content": "That's.....a lot of Conduits. :Conduit:"
+        },
+        {
+          "id": "456902685711663105",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-14T20:28:09.115+01:00",
+          "content": "It kinda reminds me of that Advocate unit from the campaign."
+        },
+        {
+          "id": "456902778040746012",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T20:28:31.128+01:00",
+          "content": "You probably don't ever buy more than one so maybe it should just be supply 1?"
+        },
+        {
+          "id": "456902870952968216",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T20:28:53.28+01:00",
+          "content": "With the click costing BB anyway. Maybe if click was just B you would buy 2 or possibly 3?"
+        },
+        {
+          "id": "456903168022937610",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T20:30:04.107+01:00",
+          "content": "Unless the set has steelforge or synth in it maybe you could run 2 but it'd still be hard."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T22:21:45.368+01:00",
+      "end_ts": "2018-06-14T23:30:31.11+01:00",
+      "participants": [
+        "camzace",
+        "darkeisbein",
+        "http404error",
+        "kaelii",
+        "leary93"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (50 messages, 2018-06-14) ---\n[2018-06-14 22:21] leary93: and goosse cannons wall for nanoswarm 😄\n[2018-06-14 22:22] leary93: I think I dont mind it being worse in other situations tbf\n[2018-06-14 22:24] darkeisbein: if you get into the situation where goose cannons wall for your nanoswarm they are just worse goose cannons\n[2018-06-14 22:33] kaelii: But what about when you want MORE goose cannons and you've already bought them all? You could get MORE wit nano-swarms\n[2018-06-14 22:34] kaelii: Like, having to slough through 50 HP of gauss cannons, and presumably at least 9-12 HP of tech buildings before you can kill the final tarsier line isn't a terrible addition to a breachproof build.\n[2018-06-14 22:37] darkeisbein: I mean worse goose cannons are still extra supply I guess\n[2018-06-14 22:38] camzace: worse goose cannons don't belong in random set imo\n[2018-06-14 22:39] leary93: but goose cannons still cant be walled by conduits XD\n[2018-06-14 22:40] camzace: they're like hard breachproof units that are useless in every other circumstance\n[2018-06-14 22:40] camzace: like double the cost of immolites for the same thing in non breachproof strategies\n[2018-06-14 22:43] darkeisbein: even in a bp scenario they are just worse then gooses\n[2018-06-14 22:43] darkeisbein: like sure you can't wall gooses with conduits\n[2018-06-14 22:43] darkeisbein: but you can wall gooses with gooses\n[2018-06-14 22:44] camzace: yes but when you run out of gooses to wall gooses\n[2018-06-14 22:45] camzace: you wish you had these breachproof immolites\n[2018-06-14 22:45] leary93: they're not immolites?\n[2018-06-14 22:46] darkeisbein: but they cost more then gooses for essentially just being slightly less bp\n[2018-06-14 22:46] darkeisbein: so they are just expensive extra goose supply\n[2018-06-14 22:46] leary93: Alright, so let's look at another point right: Say it's not very powerful right now, what cost would you give it so it can be balanced?\n[2018-06-14 22:47] camzace: oh so they replenish every turn\n[2018-06-14 22:47] camzace: for some reason i was thinking they had 1 build time between volleys\n[2018-06-14 22:49] leary93: tbh, that could work but I would price them at 2GB if so\n[2018-06-14 22:49] leary93: honestly, doesnt sound like a bad idea\n[2018-06-14 22:49] camzace: then they're also less obnoxious in pure breachproof too\n[2018-06-14 22:50] darkeisbein: I fail to see how the current version would be obnoxious in pure bp\n[2018-06-14 22:51] camzace: well not obnoxious, just annoying\n[2018-06-14 22:51] camzace: they're an interesting counter to apollo too i guess\n[2018-06-14 22:51] camzace: but again no more than goose cannons\n[2018-06-14 22:52] darkeisbein: I mean good bp attackers in general are apollo counters\n[2018-06-14 22:52] darkeisbein: but other bp units are actually good before goose supply runs out\n[2018-06-14 22:59] leary93: Alright, ye I think I like the 2GB version more, just because it has more of a niche: \nNanoswarm (2 :Gold: :Green: :Blue: , 20 supply) 1 :Health: \nStart of turn: Sacrifice Nanoswarm, gain :Attack: and construct a nanoswarm with :Time: 2\n[2018-06-14 22:59] leary93: let's sink loads of tech\n[2018-06-14 22:59] darkeisbein: I fear this might just be to weak\n[2018-06-14 23:00] darkeisbein: like it is inefficent I think\n[2018-06-14 23:00] darkeisbein: and it isn't exactly the kinda of unit you just fit in the in the build\n[2018-06-14 23:00] darkeisbein: it is kinda a way to sell of green and blue I guess\n[2018-06-14 23:00] darkeisbein: but how often do you want that?\n[2018-06-14 23:02] leary93: whenever drones starting to fall?\n[2018-06-14 23:07] leary93: I mean, tech-sinks dont need to be that efficient\n[2018-06-14 23:14] darkeisbein: this + iso seems fun\n[2018-06-14 23:19] kaelii: This seems like a really awkward blue techsink -- mostly because you get blue every turn but you kinda want to synch your nanoswarms\n[2018-06-14 23:20] kaelii: Chrono perfection though\n[2018-06-14 23:27] http404error: @Leary93 Why not just exhaust 2? It's the same net effect in all situations, to my knowledge.\n[2018-06-14 23:29] http404error: units that construct other units *don't* give invuln by default\n[2018-06-14 23:29] http404error: you have to call it out specifically like the campaign unit at the end of chapter 2 that does that\n[2018-06-14 23:29] darkeisbein: well this does call it out specifically\n[2018-06-14 23:30] http404error: by saying buildtime 2? I don't think that's good enough\n[2018-06-14 23:30] http404error: but I'd prefer to hear from the unit designer whether that was the intention and why the decision was made\n[2018-06-14 23:30] darkeisbein: I mean everything with buildtime has golden armor\n[2018-06-14 23:30] darkeisbein: and nothing without buildtime has golden armor",
+      "messages": [
+        {
+          "id": "456931275148623874",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T22:21:45.368+01:00",
+          "content": "and goosse cannons wall for nanoswarm 😄"
+        },
+        {
+          "id": "456931344157638679",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T22:22:01.821+01:00",
+          "content": "I think I dont mind it being worse in other situations tbf"
+        },
+        {
+          "id": "456932086893248523",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:24:58.903+01:00",
+          "content": "if you get into the situation where goose cannons wall for your nanoswarm they are just worse goose cannons"
+        },
+        {
+          "id": "456934133164277760",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T22:33:06.772+01:00",
+          "content": "But what about when you want MORE goose cannons and you've already bought them all? You could get MORE wit nano-swarms"
+        },
+        {
+          "id": "456934464036274196",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T22:34:25.658+01:00",
+          "content": "Like, having to slough through 50 HP of gauss cannons, and presumably at least 9-12 HP of tech buildings before you can kill the final tarsier line isn't a terrible addition to a breachproof build."
+        },
+        {
+          "id": "456935146814439443",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:37:08.445+01:00",
+          "content": "I mean worse goose cannons are still extra supply I guess"
+        },
+        {
+          "id": "456935414427680769",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:38:12.249+01:00",
+          "content": "worse goose cannons don't belong in random set imo"
+        },
+        {
+          "id": "456935666366939136",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T22:39:12.316+01:00",
+          "content": "but goose cannons still cant be walled by conduits XD"
+        },
+        {
+          "id": "456935921099472897",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:40:13.049+01:00",
+          "content": "they're like hard breachproof units that are useless in every other circumstance"
+        },
+        {
+          "id": "456936014028603392",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:40:35.205+01:00",
+          "content": "like double the cost of immolites for the same thing in non breachproof strategies"
+        },
+        {
+          "id": "456936760354537474",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:43:33.143+01:00",
+          "content": "even in a bp scenario they are just worse then gooses"
+        },
+        {
+          "id": "456936809255927812",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:43:44.802+01:00",
+          "content": "like sure you can't wall gooses with conduits"
+        },
+        {
+          "id": "456936868802723881",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:43:58.999+01:00",
+          "content": "but you can wall gooses with gooses"
+        },
+        {
+          "id": "456937103289483286",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:44:54.905+01:00",
+          "content": "yes but when you run out of gooses to wall gooses"
+        },
+        {
+          "id": "456937135187165194",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:45:02.51+01:00",
+          "content": "you wish you had these breachproof immolites"
+        },
+        {
+          "id": "456937268679278615",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T22:45:34.337+01:00",
+          "content": "they're not immolites?"
+        },
+        {
+          "id": "456937469988962304",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:46:22.333+01:00",
+          "content": "but they cost more then gooses for essentially just being slightly less bp"
+        },
+        {
+          "id": "456937474216951822",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:46:23.341+01:00",
+          "content": "so they are just expensive extra goose supply"
+        },
+        {
+          "id": "456937505401470976",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T22:46:30.776+01:00",
+          "content": "Alright, so let's look at another point right: Say it's not very powerful right now, what cost would you give it so it can be balanced?"
+        },
+        {
+          "id": "456937771320213504",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:47:34.176+01:00",
+          "content": "oh so they replenish every turn"
+        },
+        {
+          "id": "456937820104294411",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:47:45.807+01:00",
+          "content": "for some reason i was thinking they had 1 build time between volleys"
+        },
+        {
+          "id": "456938159997976576",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T22:49:06.844+01:00",
+          "content": "tbh, that could work but I would price them at 2GB if so"
+        },
+        {
+          "id": "456938184862072833",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T22:49:12.772+01:00",
+          "content": "honestly, doesnt sound like a bad idea"
+        },
+        {
+          "id": "456938280861171712",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:49:35.66+01:00",
+          "content": "then they're also less obnoxious in pure breachproof too"
+        },
+        {
+          "id": "456938491142602765",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:50:25.795+01:00",
+          "content": "I fail to see how the current version would be obnoxious in pure bp"
+        },
+        {
+          "id": "456938700777979934",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:51:15.776+01:00",
+          "content": "well not obnoxious, just annoying"
+        },
+        {
+          "id": "456938748932784129",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:51:27.257+01:00",
+          "content": "they're an interesting counter to apollo too i guess"
+        },
+        {
+          "id": "456938777147867147",
+          "author": "camzace",
+          "nickname": "Camzace",
+          "timestamp": "2018-06-14T22:51:33.984+01:00",
+          "content": "but again no more than goose cannons"
+        },
+        {
+          "id": "456939033235292171",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:52:35.04+01:00",
+          "content": "I mean good bp attackers in general are apollo counters"
+        },
+        {
+          "id": "456939119403073537",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:52:55.584+01:00",
+          "content": "but other bp units are actually good before goose supply runs out"
+        },
+        {
+          "id": "456940692510605332",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T22:59:10.642+01:00",
+          "content": "Alright, ye I think I like the 2GB version more, just because it has more of a niche: \nNanoswarm (2 :Gold: :Green: :Blue: , 20 supply) 1 :Health: \nStart of turn: Sacrifice Nanoswarm, gain :Attack: and construct a nanoswarm with :Time: 2"
+        },
+        {
+          "id": "456940763083833344",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T22:59:27.468+01:00",
+          "content": "let's sink loads of tech"
+        },
+        {
+          "id": "456940833443151875",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T22:59:44.243+01:00",
+          "content": "I fear this might just be to weak"
+        },
+        {
+          "id": "456940922907918336",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:00:05.573+01:00",
+          "content": "like it is inefficent I think"
+        },
+        {
+          "id": "456941030877691915",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:00:31.315+01:00",
+          "content": "and it isn't exactly the kinda of unit you just fit in the in the build"
+        },
+        {
+          "id": "456941071352594472",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:00:40.965+01:00",
+          "content": "it is kinda a way to sell of green and blue I guess"
+        },
+        {
+          "id": "456941093184077824",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:00:46.17+01:00",
+          "content": "but how often do you want that?"
+        },
+        {
+          "id": "456941414190940161",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:02:02.704+01:00",
+          "content": "whenever drones starting to fall?"
+        },
+        {
+          "id": "456942852081975318",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:07:45.524+01:00",
+          "content": "I mean, tech-sinks dont need to be that efficient"
+        },
+        {
+          "id": "456944463764520970",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:14:09.779+01:00",
+          "content": "this + iso seems fun"
+        },
+        {
+          "id": "456945856415924224",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T23:19:41.813+01:00",
+          "content": "This seems like a really awkward blue techsink -- mostly because you get blue every turn but you kinda want to synch your nanoswarms"
+        },
+        {
+          "id": "456945951710642189",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-14T23:20:04.533+01:00",
+          "content": "Chrono perfection though"
+        },
+        {
+          "id": "456947720137998357",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:27:06.159+01:00",
+          "content": "@Leary93 Why not just exhaust 2? It's the same net effect in all situations, to my knowledge."
+        },
+        {
+          "id": "456948226092826624",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:29:06.788+01:00",
+          "content": "units that construct other units *don't* give invuln by default"
+        },
+        {
+          "id": "456948296204943369",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:29:23.504+01:00",
+          "content": "you have to call it out specifically like the campaign unit at the end of chapter 2 that does that"
+        },
+        {
+          "id": "456948381063839747",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:29:43.736+01:00",
+          "content": "well this does call it out specifically"
+        },
+        {
+          "id": "456948478946574336",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:30:07.073+01:00",
+          "content": "by saying buildtime 2? I don't think that's good enough"
+        },
+        {
+          "id": "456948532968947744",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:30:19.953+01:00",
+          "content": "but I'd prefer to hear from the unit designer whether that was the intention and why the decision was made"
+        },
+        {
+          "id": "456948544973176843",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:30:22.815+01:00",
+          "content": "I mean everything with buildtime has golden armor"
+        },
+        {
+          "id": "456948579765059605",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:30:31.11+01:00",
+          "content": "and nothing without buildtime has golden armor"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T23:30:50.655+01:00",
+      "end_ts": "2018-06-14T23:49:02.63+01:00",
+      "participants": [
+        "darkeisbein",
+        "http404error",
+        "leary93"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (31 messages, 2018-06-14) ---\n[2018-06-14 23:30] http404error: that are constructed from click or turn abilities?\n[2018-06-14 23:30] http404error: I don't think there is any such ability in the game\n[2018-06-14 23:31] leary93: it is intention to have golden armor\n[2018-06-14 23:31] http404error: not off the top of my head anyways\n[2018-06-14 23:31] leary93: that's why I want it to be :Time: and not :Exhaust:\n[2018-06-14 23:31] leary93: Ive not seen a unit with :Time: that is non-golden\n[2018-06-14 23:31] http404error: Oh those do exhaust, you're right\n[2018-06-14 23:31] leary93: ye but they appear with :Exhaust: 1\n[2018-06-14 23:32] leary93: I mean, if it's ambigous golden armor mention is also fine, but I assume every player, evne newer ones associate :Time: with golden armor and :Exhaust: with non-golden\n[2018-06-14 23:32] darkeisbein: hm I guess it's not clearly worded as :Time: never appears on non-spell units\n[2018-06-14 23:32] darkeisbein: so there is no precedent\n[2018-06-14 23:32] http404error: I really don't expect most players to be able to infer the difference\n[2018-06-14 23:33] http404error: See: how many players were surprised to learn the prompt changes how you evaluate lifespan\n[2018-06-14 23:33] http404error: we don't count, we just feel 😛\n[2018-06-14 23:33] leary93: that's weird though, because we all know how barrier works\n[2018-06-14 23:34] leary93: I mean, to me that's intuitive,but maybe im not a good example\n[2018-06-14 23:34] http404error: You could hash out the exact mechanic if you wanted to but it just doesn't come up in your head as a question naturally playing the game\n[2018-06-14 23:34] leary93: having been a mtg judge >.<\n[2018-06-14 23:35] http404error: Did you know how barrier worked when you read Valkyrion the first time without playing with the unit though?\n[2018-06-14 23:36] http404error: I sure couldn't have told you\n[2018-06-14 23:36] http404error: Not confidently anyways\n[2018-06-14 23:38] leary93: To me it was obvious :/ maybe I am overestimating intuitiveness\n[2018-06-14 23:44] http404error: Despite being a rulesy person in other games I play Prismata by intuitive feel more than by knowing all the steps and phases\n[2018-06-14 23:44] http404error: I mean, I can recite the continuous effect layers for ya!\n[2018-06-14 23:45] darkeisbein: there are continuous effects in prismata?\n[2018-06-14 23:45] http404error: No, I'm referring to mtg\n[2018-06-14 23:45] http404error: hence the callout to judging\n[2018-06-14 23:47] leary93: That might very well be because prismata is a pc-game and everything goes automatic, I can totally see how players really dont consider how exactly mechanics work\n[2018-06-14 23:47] leary93: as long as they work xD\n[2018-06-14 23:48] darkeisbein: also because prismata rules are better designed then the mess that is mtg 😛\n[2018-06-14 23:49] http404error: yep, that's exactly how I play, I just go along with it, mash space and q a few times, and call it a day",
+      "messages": [
+        {
+          "id": "456948661742469162",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:30:50.655+01:00",
+          "content": "that are constructed from click or turn abilities?"
+        },
+        {
+          "id": "456948699671691284",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:30:59.698+01:00",
+          "content": "I don't think there is any such ability in the game"
+        },
+        {
+          "id": "456948723663241217",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:31:05.418+01:00",
+          "content": "it is intention to have golden armor"
+        },
+        {
+          "id": "456948758467313664",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:31:13.716+01:00",
+          "content": "not off the top of my head anyways"
+        },
+        {
+          "id": "456948766004477952",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:31:15.513+01:00",
+          "content": "that's why I want it to be :Time: and not :Exhaust:"
+        },
+        {
+          "id": "456948819758940170",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:31:28.329+01:00",
+          "content": "Ive not seen a unit with :Time: that is non-golden"
+        },
+        {
+          "id": "456948902273482752",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:31:48.002+01:00",
+          "content": "Oh those do exhaust, you're right"
+        },
+        {
+          "id": "456948905259827201",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:31:48.714+01:00",
+          "content": "ye but they appear with :Exhaust: 1"
+        },
+        {
+          "id": "456949107429343233",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:32:36.915+01:00",
+          "content": "I mean, if it's ambigous golden armor mention is also fine, but I assume every player, evne newer ones associate :Time: with golden armor and :Exhaust: with non-golden"
+        },
+        {
+          "id": "456949140224475167",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:32:44.734+01:00",
+          "content": "hm I guess it's not clearly worded as :Time: never appears on non-spell units"
+        },
+        {
+          "id": "456949163691737099",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:32:50.329+01:00",
+          "content": "so there is no precedent"
+        },
+        {
+          "id": "456949200983425034",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:32:59.22+01:00",
+          "content": "I really don't expect most players to be able to infer the difference"
+        },
+        {
+          "id": "456949288057176065",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:33:19.98+01:00",
+          "content": "See: how many players were surprised to learn the prompt changes how you evaluate lifespan"
+        },
+        {
+          "id": "456949318390120449",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:33:27.212+01:00",
+          "content": "we don't count, we just feel 😛"
+        },
+        {
+          "id": "456949374547918848",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:33:40.601+01:00",
+          "content": "that's weird though, because we all know how barrier works"
+        },
+        {
+          "id": "456949515422007308",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:34:14.188+01:00",
+          "content": "I mean, to me that's intuitive,but maybe im not a good example"
+        },
+        {
+          "id": "456949519087697931",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:34:15.062+01:00",
+          "content": "You could hash out the exact mechanic if you wanted to but it just doesn't come up in your head as a question naturally playing the game"
+        },
+        {
+          "id": "456949535537627157",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:34:18.984+01:00",
+          "content": "having been a mtg judge >.<"
+        },
+        {
+          "id": "456949929328508928",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:35:52.871+01:00",
+          "content": "Did you know how barrier worked when you read Valkyrion the first time without playing with the unit though?"
+        },
+        {
+          "id": "456950019698982922",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:36:14.417+01:00",
+          "content": "I sure couldn't have told you"
+        },
+        {
+          "id": "456950048899596289",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:36:21.379+01:00",
+          "content": "Not confidently anyways"
+        },
+        {
+          "id": "456950549955346452",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:38:20.84+01:00",
+          "content": "To me it was obvious :/ maybe I am overestimating intuitiveness"
+        },
+        {
+          "id": "456952019861635098",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:44:11.293+01:00",
+          "content": "Despite being a rulesy person in other games I play Prismata by intuitive feel more than by knowing all the steps and phases"
+        },
+        {
+          "id": "456952137994207263",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:44:39.458+01:00",
+          "content": "I mean, I can recite the continuous effect layers for ya!"
+        },
+        {
+          "id": "456952254704910337",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:45:07.284+01:00",
+          "content": "there are continuous effects in prismata?"
+        },
+        {
+          "id": "456952369113071627",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:45:34.561+01:00",
+          "content": "No, I'm referring to mtg"
+        },
+        {
+          "id": "456952406601760788",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:45:43.499+01:00",
+          "content": "hence the callout to judging"
+        },
+        {
+          "id": "456952838556483614",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:47:26.485+01:00",
+          "content": "That might very well be because prismata is a pc-game and everything goes automatic, I can totally see how players really dont consider how exactly mechanics work"
+        },
+        {
+          "id": "456952856050925571",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-14T23:47:30.656+01:00",
+          "content": "as long as they work xD"
+        },
+        {
+          "id": "456953023801982976",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-06-14T23:48:10.651+01:00",
+          "content": "also because prismata rules are better designed then the mess that is mtg 😛"
+        },
+        {
+          "id": "456953241817841665",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-14T23:49:02.63+01:00",
+          "content": "yep, that's exactly how I play, I just go along with it, mash space and q a few times, and call it a day"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-15T09:04:50.352+01:00",
+      "end_ts": "2018-06-15T09:22:37.312+01:00",
+      "participants": [
+        ".jrkirby",
+        "f300xen",
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 23,
+      "formatted_text": "--- Thread (26 messages, 2018-06-15) ---\n[2018-06-15 09:04] .jrkirby (jrkirby): p2 can use their own taxman to stop p1's DD/DDE/DDDtax/DDDC then\n[2018-06-15 09:05] f300xen (f0x): what if p1 does natural forge instead\n[2018-06-15 09:06] .jrkirby (jrkirby): then they're far behind on drones and lose sets where that matters?\n[2018-06-15 09:06] .jrkirby (jrkirby): not every set is a third engi set\n[2018-06-15 09:06] f300xen (f0x): my example is definitely horrible but there is probably a better one\n[2018-06-15 09:07] .jrkirby (jrkirby): I mean it is a good unit, but it seems pretty player-fair to me\n[2018-06-15 09:07] .jrkirby (jrkirby): Also, the lines where you think it's really strong seem to be the kind of lines that cause p2's small advantage to exist.\n[2018-06-15 09:08] .jrkirby (jrkirby): The one thing I would change is I would cause it to exhaust an opponent's drone instead\n[2018-06-15 09:08] xyotsuba: What about p2 fastimus...\n[2018-06-15 09:08] xyotsuba: P1 can’t even natural animus\n[2018-06-15 09:09] xyotsuba: Doesn’t that make red rush sets p2 autowin?\n[2018-06-15 09:09] .jrkirby (jrkirby): idk, it'd have to be playtested a bunch\n[2018-06-15 09:09] .jrkirby (jrkirby): I'm not confident that it works, but I like the idea\n[2018-06-15 09:10] f300xen (f0x): does the unit make elyot animus bso win\n[2018-06-15 09:10] xyotsuba: Nah because fastimus still beats it\n[2018-06-15 09:11] f300xen (f0x): i feel like this could be playtested\n[2018-06-15 09:12] .jrkirby (jrkirby): It might make sense to have both inverse taxman and taxman. Inverse taxman: both players gain 1, destroy opponent's taxman. Taxman: Both players lose 1, destroy opponent's inverse taxman.\n[2018-06-15 09:13] xyotsuba: Both players gaining 1 is way less annoying\n[2018-06-15 09:14] xyotsuba: It would have to be disabled on t1 tho\n[2018-06-15 09:16] .jrkirby (jrkirby): I guess gaining 1 is maybe bad, because you get it before your opponent\n[2018-06-15 09:16] .jrkirby (jrkirby): so the first player who can spend it efficiently gets an advantage\n[2018-06-15 09:16] xyotsuba: But losing gold feels bad\n[2018-06-15 09:16] f300xen (f0x): gaining 1 just makes p2 better in blue, green, and red sets\n[2018-06-15 09:18] f300xen (f0x): p1 gets to do elyot animus with gain1 taxman i guess\n[2018-06-15 09:20] xyotsuba: Lose 1 taxman is -enjoyment click :NotLikeThis:\n[2018-06-15 09:22] f300xen (f0x): i think it's interesting, but only in theory",
+      "messages": [
+        {
+          "id": "457093112301486090",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:04:50.352+01:00",
+          "content": "p2 can use their own taxman to stop p1's DD/DDE/DDDtax/DDDC then"
+        },
+        {
+          "id": "457093301645082660",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-15T09:05:35.495+01:00",
+          "content": "what if p1 does natural forge instead"
+        },
+        {
+          "id": "457093444389699584",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:06:09.528+01:00",
+          "content": "then they're far behind on drones and lose sets where that matters?"
+        },
+        {
+          "id": "457093526539337728",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:06:29.114+01:00",
+          "content": "not every set is a third engi set"
+        },
+        {
+          "id": "457093545719758848",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-15T09:06:33.687+01:00",
+          "content": "my example is definitely horrible but there is probably a better one"
+        },
+        {
+          "id": "457093682185764866",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:07:06.223+01:00",
+          "content": "I mean it is a good unit, but it seems pretty player-fair to me"
+        },
+        {
+          "id": "457093896116109313",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:07:57.228+01:00",
+          "content": "Also, the lines where you think it's really strong seem to be the kind of lines that cause p2's small advantage to exist."
+        },
+        {
+          "id": "457094003729498112",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:08:22.885+01:00",
+          "content": "The one thing I would change is I would cause it to exhaust an opponent's drone instead"
+        },
+        {
+          "id": "457094056384921600",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-15T09:08:35.439+01:00",
+          "content": "What about p2 fastimus..."
+        },
+        {
+          "id": "457094120310046720",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-15T09:08:50.68+01:00",
+          "content": "P1 can’t even natural animus"
+        },
+        {
+          "id": "457094225767432223",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-15T09:09:15.823+01:00",
+          "content": "Doesn’t that make red rush sets p2 autowin?"
+        },
+        {
+          "id": "457094304003915793",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:09:34.476+01:00",
+          "content": "idk, it'd have to be playtested a bunch"
+        },
+        {
+          "id": "457094392185094145",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:09:55.5+01:00",
+          "content": "I'm not confident that it works, but I like the idea"
+        },
+        {
+          "id": "457094442558685195",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-15T09:10:07.51+01:00",
+          "content": "does the unit make elyot animus bso win"
+        },
+        {
+          "id": "457094519670964224",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-15T09:10:25.895+01:00",
+          "content": "Nah because fastimus still beats it"
+        },
+        {
+          "id": "457094675757793290",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-15T09:11:03.109+01:00",
+          "content": "i feel like this could be playtested"
+        },
+        {
+          "id": "457095092524679178",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:12:42.474+01:00",
+          "content": "It might make sense to have both inverse taxman and taxman. Inverse taxman: both players gain 1, destroy opponent's taxman. Taxman: Both players lose 1, destroy opponent's inverse taxman."
+        },
+        {
+          "id": "457095341339181076",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-15T09:13:41.796+01:00",
+          "content": "Both players gaining 1 is way less annoying"
+        },
+        {
+          "id": "457095530091118592",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-15T09:14:26.798+01:00",
+          "content": "It would have to be disabled on t1 tho"
+        },
+        {
+          "id": "457095977904373782",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:16:13.565+01:00",
+          "content": "I guess gaining 1 is maybe bad, because you get it before your opponent"
+        },
+        {
+          "id": "457096096762822666",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-06-15T09:16:41.903+01:00",
+          "content": "so the first player who can spend it efficiently gets an advantage"
+        },
+        {
+          "id": "457096125384622100",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-15T09:16:48.727+01:00",
+          "content": "But losing gold feels bad"
+        },
+        {
+          "id": "457096162051096576",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-15T09:16:57.469+01:00",
+          "content": "gaining 1 just makes p2 better in blue, green, and red sets"
+        },
+        {
+          "id": "457096436014907413",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-15T09:18:02.787+01:00",
+          "content": "p1 gets to do elyot animus with gain1 taxman i guess"
+        },
+        {
+          "id": "457096980015874059",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-15T09:20:12.487+01:00",
+          "content": "Lose 1 taxman is -enjoyment click :NotLikeThis:"
+        },
+        {
+          "id": "457097587455950849",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-15T09:22:37.312+01:00",
+          "content": "i think it's interesting, but only in theory"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-15T20:40:54.849+01:00",
+      "end_ts": "2018-06-15T21:08:47.596+01:00",
+      "participants": [
+        "f300xen",
+        "http404error",
+        "leary93",
+        "miuna6933",
+        "supergreyman",
+        "valgrim_the_demon"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (35 messages, 2018-06-15) ---\n[2018-06-15 20:40] valgrim_the_demon (Rorvul): Stealth Fighter: (13:Gold: :Red: :Blue:, supply 4) :Health:4 :Frontline: :Blocker: \nStart of turn: Gain :Attack: :Attack: :Attack: :Attack: \nClick: Pay :Attack: :Attack: to :Time:2 this unit (unit becomes inactive and invulnerable until 2 turns later)\n\nFrontline unit capable of hiding under golden armor\n[2018-06-15 20:41] valgrim_the_demon (Rorvul): taxman isn't a bad idea tho\n[2018-06-15 20:42] miuna6933 (Aka): so if you click that every turn it attacks for 1 and can never die?\n[2018-06-15 20:42] valgrim_the_demon (Rorvul): 1 every other turn actually, but even that sounds broken, needs stamina\n[2018-06-15 20:43] miuna6933 (Aka): buildtime wears off at the start of your next turn doesn't it? before start of turn abilities\n[2018-06-15 20:43] leary93: Its superexpensive still\n[2018-06-15 20:43] leary93: And its not can never die, it can still die at overkill\n[2018-06-15 20:44] leary93: Id honestly even advocate reducing click cost to 1 attack >.<\n[2018-06-15 20:45] leary93: Because it can only serve as a 3 attack unit while your opp has no 4 attack, 2 attack for 13BR is quite weak even if its BP\n[2018-06-15 20:45] leary93: Iceblade wincer hannibul\n[2018-06-15 20:45] leary93: Chrono filter isnt a reason for a unit to be horrendously bad\n[2018-06-15 20:46] leary93: Keep in mind opp can counter this\n[2018-06-15 20:46] leary93: And then borh have to hide\n[2018-06-15 20:46] http404error: I feel like that doesn't matter in 95% of the games it's played in, which is bad\n[2018-06-15 20:46] valgrim_the_demon (Rorvul): it's too weak as a glass cannon frontliner\n[2018-06-15 20:46] http404error: sacrificing the attack to hide is just a bad move a significant amount of the time even if it would die\n[2018-06-15 20:47] valgrim_the_demon (Rorvul): maybe it needs gain XXXX instead of XXX to make it a better frontliner\n[2018-06-15 20:47] leary93: 4 shock isnt very reasonable for 13BR\n[2018-06-15 20:47] supergreyman (Greyman): It will be clicked and killed. No one would want their opponent to leave it like that.\n[2018-06-15 20:48] supergreyman (Greyman): In that case, it's like a one-time 4 attack and 4 defense unit, similar to Protoplasm.\n[2018-06-15 20:48] leary93: Which is a really powerful unit\n[2018-06-15 20:49] leary93: And in appropriate colors\n[2018-06-15 20:49] valgrim_the_demon (Rorvul): then maybe reducing click cost to X might help, which makes a **invulnerable** iso kronus\n[2018-06-15 20:50] leary93: I dont know tbf, the design feels like an even more swingy hannibul\n[2018-06-15 20:51] supergreyman (Greyman): I personally think the idea of having an invulnerable attacker behind conduit/Blastforge is a bit too niche.\n[2018-06-15 20:52] f300xen (f0x): it's a really crappy hannibull because it is stupid easy to get to 4\n[2018-06-15 20:52] f300xen (f0x): it might be op with mobile animus but probably not\n[2018-06-15 20:55] valgrim_the_demon (Rorvul): yeah, it's either a dogcrap hannibull or an invulnerable immolite, I probably screwed up the BT because I intended for stealth fighter to attack once every other turn when it is hiding under golden armor\n[2018-06-15 20:56] supergreyman (Greyman): If you should look at [[Iso Kronus]] then.\n[2018-06-15 20:56] valgrim_the_demon (Rorvul): yeah, I did screw up the BT\n[2018-06-15 20:58] supergreyman (Greyman): And I guess you need to up its attack too?\n[2018-06-15 20:59] supergreyman (Greyman): Now it feels like Valkyrion. 😄\n[2018-06-15 21:00] supergreyman (Greyman): I mean, an expensive Iso Kronus.\n[2018-06-15 21:01] valgrim_the_demon (Rorvul): I mean it's kind of both, you can use it as 4 burst and 4 frontline absorb when you're done with the stealth fighter\n[2018-06-15 21:08] valgrim_the_demon (Rorvul): added reminder text: `(unit becomes inactive and invulnerable until 2 turns later)`",
+      "messages": [
+        {
+          "id": "457268285298442240",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T20:40:54.849+01:00",
+          "content": "Stealth Fighter: (13:Gold: :Red: :Blue:, supply 4) :Health:4 :Frontline: :Blocker: \nStart of turn: Gain :Attack: :Attack: :Attack: :Attack: \nClick: Pay :Attack: :Attack: to :Time:2 this unit (unit becomes inactive and invulnerable until 2 turns later)\n\nFrontline unit capable of hiding under golden armor"
+        },
+        {
+          "id": "457268486566051857",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T20:41:42.835+01:00",
+          "content": "taxman isn't a bad idea tho"
+        },
+        {
+          "id": "457268601406095370",
+          "author": "miuna6933",
+          "nickname": "Aka",
+          "timestamp": "2018-06-15T20:42:10.215+01:00",
+          "content": "so if you click that every turn it attacks for 1 and can never die?"
+        },
+        {
+          "id": "457268738648178718",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T20:42:42.936+01:00",
+          "content": "1 every other turn actually, but even that sounds broken, needs stamina"
+        },
+        {
+          "id": "457268842159276033",
+          "author": "miuna6933",
+          "nickname": "Aka",
+          "timestamp": "2018-06-15T20:43:07.615+01:00",
+          "content": "buildtime wears off at the start of your next turn doesn't it? before start of turn abilities"
+        },
+        {
+          "id": "457268899189227542",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:43:21.212+01:00",
+          "content": "Its superexpensive still"
+        },
+        {
+          "id": "457268997331615748",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:43:44.611+01:00",
+          "content": "And its not can never die, it can still die at overkill"
+        },
+        {
+          "id": "457269144975310879",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:44:19.812+01:00",
+          "content": "Id honestly even advocate reducing click cost to 1 attack >.<"
+        },
+        {
+          "id": "457269321752903700",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:45:01.959+01:00",
+          "content": "Because it can only serve as a 3 attack unit while your opp has no 4 attack, 2 attack for 13BR is quite weak even if its BP"
+        },
+        {
+          "id": "457269405873733662",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:45:22.015+01:00",
+          "content": "Iceblade wincer hannibul"
+        },
+        {
+          "id": "457269510630539274",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:45:46.991+01:00",
+          "content": "Chrono filter isnt a reason for a unit to be horrendously bad"
+        },
+        {
+          "id": "457269567635456020",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:46:00.582+01:00",
+          "content": "Keep in mind opp can counter this"
+        },
+        {
+          "id": "457269632345047040",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:46:16.01+01:00",
+          "content": "And then borh have to hide"
+        },
+        {
+          "id": "457269657804734464",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-15T20:46:22.08+01:00",
+          "content": "I feel like that doesn't matter in 95% of the games it's played in, which is bad"
+        },
+        {
+          "id": "457269667442982922",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T20:46:24.378+01:00",
+          "content": "it's too weak as a glass cannon frontliner"
+        },
+        {
+          "id": "457269755095810048",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-06-15T20:46:45.276+01:00",
+          "content": "sacrificing the attack to hide is just a bad move a significant amount of the time even if it would die"
+        },
+        {
+          "id": "457269833550004236",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T20:47:03.981+01:00",
+          "content": "maybe it needs gain XXXX instead of XXX to make it a better frontliner"
+        },
+        {
+          "id": "457269944883871764",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:47:30.525+01:00",
+          "content": "4 shock isnt very reasonable for 13BR"
+        },
+        {
+          "id": "457269990609911808",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-15T20:47:41.427+01:00",
+          "content": "It will be clicked and killed. No one would want their opponent to leave it like that."
+        },
+        {
+          "id": "457270188044451855",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-15T20:48:28.499+01:00",
+          "content": "In that case, it's like a one-time 4 attack and 4 defense unit, similar to Protoplasm."
+        },
+        {
+          "id": "457270299323400194",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:48:55.03+01:00",
+          "content": "Which is a really powerful unit"
+        },
+        {
+          "id": "457270324401012758",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:49:01.009+01:00",
+          "content": "And in appropriate colors"
+        },
+        {
+          "id": "457270416692609024",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T20:49:23.013+01:00",
+          "content": "then maybe reducing click cost to X might help, which makes a **invulnerable** iso kronus"
+        },
+        {
+          "id": "457270643688472581",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-15T20:50:17.133+01:00",
+          "content": "I dont know tbf, the design feels like an even more swingy hannibul"
+        },
+        {
+          "id": "457270952250834946",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-15T20:51:30.7+01:00",
+          "content": "I personally think the idea of having an invulnerable attacker behind conduit/Blastforge is a bit too niche."
+        },
+        {
+          "id": "457271175148732426",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-15T20:52:23.843+01:00",
+          "content": "it's a really crappy hannibull because it is stupid easy to get to 4"
+        },
+        {
+          "id": "457271282736824320",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-15T20:52:49.494+01:00",
+          "content": "it might be op with mobile animus but probably not"
+        },
+        {
+          "id": "457271956434190346",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T20:55:30.116+01:00",
+          "content": "yeah, it's either a dogcrap hannibull or an invulnerable immolite, I probably screwed up the BT because I intended for stealth fighter to attack once every other turn when it is hiding under golden armor"
+        },
+        {
+          "id": "457272157236494365",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-15T20:56:17.991+01:00",
+          "content": "If you should look at [[Iso Kronus]] then."
+        },
+        {
+          "id": "457272229554814976",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T20:56:35.233+01:00",
+          "content": "yeah, I did screw up the BT"
+        },
+        {
+          "id": "457272696653479936",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-15T20:58:26.598+01:00",
+          "content": "And I guess you need to up its attack too?"
+        },
+        {
+          "id": "457272917496168448",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-15T20:59:19.251+01:00",
+          "content": "Now it feels like Valkyrion. 😄"
+        },
+        {
+          "id": "457273205137342474",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-15T21:00:27.83+01:00",
+          "content": "I mean, an expensive Iso Kronus."
+        },
+        {
+          "id": "457273425594023937",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T21:01:20.391+01:00",
+          "content": "I mean it's kind of both, you can use it as 4 burst and 4 frontline absorb when you're done with the stealth fighter"
+        },
+        {
+          "id": "457275301307875330",
+          "author": "valgrim_the_demon",
+          "nickname": "Rorvul",
+          "timestamp": "2018-06-15T21:08:47.596+01:00",
+          "content": "added reminder text: `(unit becomes inactive and invulnerable until 2 turns later)`"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-16T00:47:39.436+01:00",
+      "end_ts": "2018-06-16T00:47:39.436+01:00",
+      "participants": [
+        "kaelii"
+      ],
+      "replay_codes": [
+        "tline-plate",
+        "agile-plate",
+        "ealth-plate"
+      ],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-06-16) ---\n[2018-06-16 00:47] kaelii: Having spent a bit more time thinking about a new mechanic, I feel like a solid implementation with multiple immediate unit designs is:\n\nPlated [#]:  This unit is assigned only 1 damage while plated - it loses 1 plated and gains golden armor until start of next turn each time it is assigned 1 damage.\n\nFrontline-plated units can only be assigned exactly 1 damage and only require 1 damage to be clicked as a frontline targeting while they have any Plated.\nFragile-plated units still lose the 1 health for the damage assigned.\n1 health-plated units die when assigned damage, regardless of how much plated they have remaining, as a 1 health unit would die when assigned 1 damage.\n\nPlated is not considered to be always positive (mostly for high health blockers), but is generally positive as it is granularity/partial breach protection.",
+      "messages": [
+        {
+          "id": "457330380236914689",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-06-16T00:47:39.436+01:00",
+          "content": "Having spent a bit more time thinking about a new mechanic, I feel like a solid implementation with multiple immediate unit designs is:\n\nPlated [#]:  This unit is assigned only 1 damage while plated - it loses 1 plated and gains golden armor until start of next turn each time it is assigned 1 damage.\n\nFrontline-plated units can only be assigned exactly 1 damage and only require 1 damage to be clicked as a frontline targeting while they have any Plated.\nFragile-plated units still lose the 1 health for the damage assigned.\n1 health-plated units die when assigned damage, regardless of how much plated they have remaining, as a 1 health unit would die when assigned 1 damage.\n\nPlated is not considered to be always positive (mostly for high health blockers), but is generally positive as it is granularity/partial breach protection."
+        }
+      ]
+    }
+  ]
+}

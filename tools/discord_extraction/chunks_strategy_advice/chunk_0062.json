@@ -1,0 +1,2866 @@
+{
+  "channel": "strategy_advice",
+  "date_range": "2020-09-16 to 2020-12-26",
+  "thread_count": 45,
+  "token_count": 13529,
+  "threads": [
+    {
+      "start_ts": "2020-09-16T08:46:45.623+01:00",
+      "end_ts": "2020-09-16T08:46:45.623+01:00",
+      "participants": [
+        "mtanzer"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2020-09-16) ---\n[2020-09-16 08:46] mtanzer: to put it more simply, on the turn you hold colossus (row 3) you have 8 more soak than you did before.  but the next turn (row 4) you rebuy wall so you have to pay 3 soak.  so in the long run you only gained 5 soak by absorbing on colossus instead of wall, but for that one turn you temporarily had 8 soak of value",
+      "messages": [
+        {
+          "id": "755696163872833647",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2020-09-16T08:46:45.623+01:00",
+          "content": "to put it more simply, on the turn you hold colossus (row 3) you have 8 more soak than you did before.  but the next turn (row 4) you rebuy wall so you have to pay 3 soak.  so in the long run you only gained 5 soak by absorbing on colossus instead of wall, but for that one turn you temporarily had 8 soak of value"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-09-16T10:59:50.258+01:00",
+      "end_ts": "2020-09-16T10:59:50.258+01:00",
+      "participants": [
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-09-16) ---\n[2020-09-16 10:59] megasupp (mega-supp): someone mentioned that we don't calculate inflation of savior because it's hard and not really useful. My objection would be that it would allow to compare savior to other very slow strategies like zemora, reso (also maybe ampo??)",
+      "messages": [
+        {
+          "id": "755729653859221525",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-09-16T10:59:50.258+01:00",
+          "content": "someone mentioned that we don't calculate inflation of savior because it's hard and not really useful. My objection would be that it would allow to compare savior to other very slow strategies like zemora, reso (also maybe ampo??)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-09-16T16:56:46.357+01:00",
+      "end_ts": "2020-09-16T16:56:46.357+01:00",
+      "participants": [
+        "mtanzer"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2020-09-16) ---\n[2020-09-16 16:56] mtanzer: the real issue with savior is the assumptions of the model just don't really apply to it.  for regular units it's fair to say the cost of the unit is pretty much only the buy price.  But if you want to compare buying savior to not buying savior, often buying it loses so much tempo for so many turns that you end up paying a much higher rate on soak to survive until it comes online.  also the model assumes units like plasmafier will attack every turn for a long time (or you could make some other specific assumption like they're all used as soak if you wanted) which just isn't true with savior.\n\nalso even if we tried to do a calculation for savior, the values would vary so much depending on the number of drones bought and on which turns, the number of plasmafiers made, on which turns the plasmafiers were clicked, and how many plasmafiers were used for soak.  you'd basically have to do a calculation for each game separately since the numbers would be different each time, and at that point you'd be much better off just playing around in analysis mode to compare lines buying savior to lines that don't.",
+      "messages": [
+        {
+          "id": "755819479488921650",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2020-09-16T16:56:46.357+01:00",
+          "content": "the real issue with savior is the assumptions of the model just don't really apply to it.  for regular units it's fair to say the cost of the unit is pretty much only the buy price.  But if you want to compare buying savior to not buying savior, often buying it loses so much tempo for so many turns that you end up paying a much higher rate on soak to survive until it comes online.  also the model assumes units like plasmafier will attack every turn for a long time (or you could make some other specific assumption like they're all used as soak if you wanted) which just isn't true with savior.\n\nalso even if we tried to do a calculation for savior, the values would vary so much depending on the number of drones bought and on which turns, the number of plasmafiers made, on which turns the plasmafiers were clicked, and how many plasmafiers were used for soak.  you'd basically have to do a calculation for each game separately since the numbers would be different each time, and at that point you'd be much better off just playing around in analysis mode to compare lines buying savior to lines that don't."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-09-16T17:36:16.087+01:00",
+      "end_ts": "2020-09-16T17:36:16.087+01:00",
+      "participants": [
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-09-16) ---\n[2020-09-16 17:36] megasupp (mega-supp): well I agree that it's hard to get a meaningful value for savior. (probably the best chance to get it is to come up with a new model) I'm arguing that it could be useful to know saviors inflation or some other metric that can be used to compare it's efficiency to other units.",
+      "messages": [
+        {
+          "id": "755829418856939582",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-09-16T17:36:16.087+01:00",
+          "content": "well I agree that it's hard to get a meaningful value for savior. (probably the best chance to get it is to come up with a new model) I'm arguing that it could be useful to know saviors inflation or some other metric that can be used to compare it's efficiency to other units."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-09-16T18:26:45.102+01:00",
+      "end_ts": "2020-09-16T18:26:45.102+01:00",
+      "participants": [
+        "mtanzer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2020-09-16) ---\n[2020-09-16 18:26] mtanzer: I think savior just has too many different aspects to it for any model to give it a single value that would be meaningful in a large percentage of sets.  If you forced me to do that though, I would have to think about the most common way that savior is played to make assumptions on which turns you buy the drones, click the plasmas, etc.",
+      "messages": [
+        {
+          "id": "755842123466539189",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2020-09-16T18:26:45.102+01:00",
+          "content": "I think savior just has too many different aspects to it for any model to give it a single value that would be meaningful in a large percentage of sets.  If you forced me to do that though, I would have to think about the most common way that savior is played to make assumptions on which turns you buy the drones, click the plasmas, etc."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-09-17T10:39:54.709+01:00",
+      "end_ts": "2020-09-17T10:41:33.736+01:00",
+      "participants": [
+        "jamberine"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2020-09-17) ---\n[2020-09-17 10:39] jamberine: if I were to go ddc/ddb I think I'd prefer flanimus + tant first\n[2020-09-17 10:40] jamberine: I don't want to give my opponent 2 absorb immediately\n[2020-09-17 10:41] jamberine: maybe kinetic is better actually to snipe conduits later",
+      "messages": [
+        {
+          "id": "756087027228737568",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-09-17T10:39:54.709+01:00",
+          "content": "if I were to go ddc/ddb I think I'd prefer flanimus + tant first"
+        },
+        {
+          "id": "756087099354251314",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-09-17T10:40:11.905+01:00",
+          "content": "I don't want to give my opponent 2 absorb immediately"
+        },
+        {
+          "id": "756087442578079795",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-09-17T10:41:33.736+01:00",
+          "content": "maybe kinetic is better actually to snipe conduits later"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-09-18T01:37:20.231+01:00",
+      "end_ts": "2020-09-18T01:37:20.231+01:00",
+      "participants": [
+        "mtanzer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-09-18) ---\n[2020-09-18 01:37] mtanzer: if anything I would think chieftain would help the zemo player",
+      "messages": [
+        {
+          "id": "756312871717044364",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2020-09-18T01:37:20.231+01:00",
+          "content": "if anything I would think chieftain would help the zemo player"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-09-18T01:56:43.292+01:00",
+      "end_ts": "2020-09-18T01:56:43.292+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-09-18) ---\n[2020-09-18 01:56] masn6811 (Masne98888): i heard its good against zemo",
+      "messages": [
+        {
+          "id": "756317749948711014",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-09-18T01:56:43.292+01:00",
+          "content": "i heard its good against zemo"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-09-18T08:46:00.411+01:00",
+      "end_ts": "2020-09-18T08:46:00.411+01:00",
+      "participants": [
+        "xnor_gate"
+      ],
+      "replay_codes": [
+        "89eQx-Zuocb",
+        "89eQx-Zuocb"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-09-18) ---\n[2020-09-18 08:46] xnor_gate (xnor): https://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit?usp=sharing\nPrismata unit efficiency\nInfo\n\nhttps://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit?usp=sharing\nClick the tabs at the bottom to view each sheet.\nThe goal is to give a roug...",
+      "messages": [
+        {
+          "id": "756420749971161098",
+          "author": "xnor_gate",
+          "nickname": "xnor",
+          "timestamp": "2020-09-18T08:46:00.411+01:00",
+          "content": "https://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit?usp=sharing\nPrismata unit efficiency\nInfo\n\nhttps://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit?usp=sharing\nClick the tabs at the bottom to view each sheet.\nThe goal is to give a roug..."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-09-26T15:43:26.393+01:00",
+      "end_ts": "2020-09-26T15:51:08.328+01:00",
+      "participants": [
+        "Deleted User",
+        "mtanzer",
+        "mwortel",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (11 messages, 2020-09-26) ---\n[2020-09-26 15:43] mwortel (Wortel): P2 wins since redeemer is terrible so it reverts to base set\n[2020-09-26 15:45] Deleted User (Deleted User): when is redeemer's good?\n[2020-09-26 15:45] Deleted User (Deleted User): also I remember MasN marking Redeemer as viable b+1 although it had an \"unsure\" next to it\n[2020-09-26 15:46] silentslayers: Me and mtanzer were testing redeemer viability just now. It is viable\n[2020-09-26 15:46] silentslayers: So p2 has to do DDC in the base set, which I dunno if you were aware of that wortel\n[2020-09-26 15:47] silentslayers: I don't wanna test B+1, but I could see them being bought since it turns into GB mirror\n[2020-09-26 15:48] mtanzer: I'm also lazy and don't feel like testing the b+1, but yeah it seems clear that p1 can win with asymmetric access to redeemer\n[2020-09-26 15:48] Deleted User (Deleted User): what's the p1 line for asymmetric redeemer?\n[2020-09-26 15:50] mtanzer: DD DD DDB SDC.  then t5 if p2 tries TTD again you redeemer and their defense sucks.  honestly that line probably beats p2's TTE as well but against TTE I tested WGE and got an easy win\n[2020-09-26 15:50] silentslayers: I also think even DCB wins, but I did a bit less testing on that line. Did more testing on mtanzer's line, which I got the same results\n[2020-09-26 15:51] silentslayers: And it feels more clean to do the DDB SDC line",
+      "messages": [
+        {
+          "id": "759424903358971916",
+          "author": "mwortel",
+          "nickname": "Wortel",
+          "timestamp": "2020-09-26T15:43:26.393+01:00",
+          "content": "P2 wins since redeemer is terrible so it reverts to base set"
+        },
+        {
+          "id": "759425299498270771",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-09-26T15:45:00.84+01:00",
+          "content": "when is redeemer's good?"
+        },
+        {
+          "id": "759425520382509148",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-09-26T15:45:53.503+01:00",
+          "content": "also I remember MasN marking Redeemer as viable b+1 although it had an \"unsure\" next to it"
+        },
+        {
+          "id": "759425674146218005",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-09-26T15:46:30.163+01:00",
+          "content": "Me and mtanzer were testing redeemer viability just now. It is viable"
+        },
+        {
+          "id": "759425744463331420",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-09-26T15:46:46.928+01:00",
+          "content": "So p2 has to do DDC in the base set, which I dunno if you were aware of that wortel"
+        },
+        {
+          "id": "759425897446244393",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-09-26T15:47:23.402+01:00",
+          "content": "I don't wanna test B+1, but I could see them being bought since it turns into GB mirror"
+        },
+        {
+          "id": "759426165588492288",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2020-09-26T15:48:27.332+01:00",
+          "content": "I'm also lazy and don't feel like testing the b+1, but yeah it seems clear that p1 can win with asymmetric access to redeemer"
+        },
+        {
+          "id": "759426290729877534",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-09-26T15:48:57.168+01:00",
+          "content": "what's the p1 line for asymmetric redeemer?"
+        },
+        {
+          "id": "759426600952528918",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2020-09-26T15:50:11.131+01:00",
+          "content": "DD DD DDB SDC.  then t5 if p2 tries TTD again you redeemer and their defense sucks.  honestly that line probably beats p2's TTE as well but against TTE I tested WGE and got an easy win"
+        },
+        {
+          "id": "759426741868822539",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-09-26T15:50:44.728+01:00",
+          "content": "I also think even DCB wins, but I did a bit less testing on that line. Did more testing on mtanzer's line, which I got the same results"
+        },
+        {
+          "id": "759426840854790164",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-09-26T15:51:08.328+01:00",
+          "content": "And it feels more clean to do the DDB SDC line"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-10-01T20:06:12.997+01:00",
+      "end_ts": "2020-10-01T20:14:53.834+01:00",
+      "participants": [
+        "shadourow",
+        "zera777"
+      ],
+      "replay_codes": [
+        "btChn-lsowS"
+      ],
+      "score": 8,
+      "formatted_text": "--- Thread (5 messages, 2020-10-01) ---\n[2020-10-01 20:06] zera777 (Zera): How do I beat Venge Cannon all-in?\nbtChn-lsowS\n[2020-10-01 20:06] shadourow (Rando): By not queuing against Punf\n[2020-10-01 20:10] zera777 (Zera): For better or worse, I cannot remove Punf from the queue.\n[2020-10-01 20:14] shadourow (Rando): In fact, you can ! Find some nerdy math puzzle or something and throw it into the chat\n[2020-10-01 20:14] shadourow (Rando): It should keep him busy for a while",
+      "messages": [
+        {
+          "id": "761302972617326624",
+          "author": "zera777",
+          "nickname": "Zera",
+          "timestamp": "2020-10-01T20:06:12.997+01:00",
+          "content": "How do I beat Venge Cannon all-in?\nbtChn-lsowS"
+        },
+        {
+          "id": "761303119774351371",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-10-01T20:06:48.082+01:00",
+          "content": "By not queuing against Punf"
+        },
+        {
+          "id": "761304093670506536",
+          "author": "zera777",
+          "nickname": "Zera",
+          "timestamp": "2020-10-01T20:10:40.277+01:00",
+          "content": "For better or worse, I cannot remove Punf from the queue."
+        },
+        {
+          "id": "761305123477389312",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-10-01T20:14:45.802+01:00",
+          "content": "In fact, you can ! Find some nerdy math puzzle or something and throw it into the chat"
+        },
+        {
+          "id": "761305157166039090",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-10-01T20:14:53.834+01:00",
+          "content": "It should keep him busy for a while"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-10-01T23:48:27.065+01:00",
+      "end_ts": "2020-10-01T23:49:48.499+01:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (2 messages, 2020-10-01) ---\n[2020-10-01 23:48] amalloy: i don't think anything beats mono green in that set. tesla isn't much of a try though - you need to focus on sustainability so you can gradually grind him down. tesla's quick expensive damage is the wrong idea\n[2020-10-01 23:49] amalloy: well, i dunno. the tesla forced him to actually build his venges, rather than keep droning. so maybe something slower would have lost even more",
+      "messages": [
+        {
+          "id": "761358899751944222",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-10-01T23:48:27.065+01:00",
+          "content": "i don't think anything beats mono green in that set. tesla isn't much of a try though - you need to focus on sustainability so you can gradually grind him down. tesla's quick expensive damage is the wrong idea"
+        },
+        {
+          "id": "761359241310240798",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-10-01T23:49:48.499+01:00",
+          "content": "well, i dunno. the tesla forced him to actually build his venges, rather than keep droning. so maybe something slower would have lost even more"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-10-02T04:51:27.274+01:00",
+      "end_ts": "2020-10-02T04:54:43.974+01:00",
+      "participants": [
+        "amalloy",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2020-10-02) ---\n[2020-10-02 04:51] wilson0862 (Wilson): A general answer: In sets where venge all-in is a counterable strategy.\n[2020-10-02 04:54] amalloy: good soak helps a lot\n[2020-10-02 04:54] amalloy: also a good absorber, obviously",
+      "messages": [
+        {
+          "id": "761435153074749492",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2020-10-02T04:51:27.274+01:00",
+          "content": "A general answer: In sets where venge all-in is a counterable strategy."
+        },
+        {
+          "id": "761435860054835241",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-10-02T04:54:15.831+01:00",
+          "content": "good soak helps a lot"
+        },
+        {
+          "id": "761435978094870530",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-10-02T04:54:43.974+01:00",
+          "content": "also a good absorber, obviously"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-10-02T10:55:21.52+01:00",
+      "end_ts": "2020-10-02T11:03:28.838+01:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [
+        "reach-proof",
+        "reach-vulne",
+        "reach-proof",
+        "reach-proof",
+        "reach-proof"
+      ],
+      "score": 16,
+      "formatted_text": "--- Thread (3 messages, 2020-10-02) ---\n[2020-10-02 10:55] velizar_ (Name): by going breach-proof, you lose the right to an absorber, so if the set has a good absorber then you're losing more (e.g. Energy matrix)\n[2020-10-02 10:58] velizar_ (Name): same applies for:\n- good soak (e.g. Plexo)\n- good breach-vulnerable attackers (e.g. Cynestra)\n[2020-10-02 11:03] velizar_ (Name): breach-proof becomes stronger if there is freeze (especially Nivo), breach-proof drones, and maybe more breach-proof attackers, especially cluster bolts",
+      "messages": [
+        {
+          "id": "761526732539953172",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-10-02T10:55:21.52+01:00",
+          "content": "by going breach-proof, you lose the right to an absorber, so if the set has a good absorber then you're losing more (e.g. Energy matrix)"
+        },
+        {
+          "id": "761527469257261076",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-10-02T10:58:17.167+01:00",
+          "content": "same applies for:\n- good soak (e.g. Plexo)\n- good breach-vulnerable attackers (e.g. Cynestra)"
+        },
+        {
+          "id": "761528776500707340",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-10-02T11:03:28.838+01:00",
+          "content": "breach-proof becomes stronger if there is freeze (especially Nivo), breach-proof drones, and maybe more breach-proof attackers, especially cluster bolts"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-10-27T10:09:48.121+00:00",
+      "end_ts": "2020-10-27T10:16:25.245+00:00",
+      "participants": [
+        "mtanzer",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2020-10-27) ---\n[2020-10-27 10:09] silentslayers: Hi where did my opponent go wrong\n[2020-10-27 10:16] mtanzer: I'd say his mistake was at the very end when he resigned.  He was showing 16 attack compared to your 8, I think he had you",
+      "messages": [
+        {
+          "id": "770590063968387112",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-10-27T10:09:48.121+00:00",
+          "content": "Hi where did my opponent go wrong"
+        },
+        {
+          "id": "770591729627561985",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2020-10-27T10:16:25.245+00:00",
+          "content": "I'd say his mistake was at the very end when he resigned.  He was showing 16 attack compared to your 8, I think he had you"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-09T03:11:31.296+00:00",
+      "end_ts": "2020-11-09T03:43:25.548+00:00",
+      "participants": [
+        "jamberine",
+        "masn6811",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 74,
+      "formatted_text": "--- Thread (28 messages, 2020-11-09) ---\n[2020-11-09 03:11] masn6811 (Masne98888): hey @jamberine @SilentSlayers @any other high rated player that still plays mata\n[2020-11-09 03:11] masn6811 (Masne98888): punf claims this is an autowin for p2. i claim that it is not\n[2020-11-09 03:17] silentslayers: Haven't gotten around to analyzing flame + bull, or even base + bull yet. Seems like there's a lot of options though so I'm gonna guess no. What'd you come up with MasN?\n[2020-11-09 03:18] silentslayers: The process would just be trying a bunch of lines that stabalizes at getting 7 ofc, I'm not feeling up to analyzing right now\n[2020-11-09 03:22] silentslayers: Ah I see you posted solutions on your server\n[2020-11-09 03:22] silentslayers: It's either a drake or a coil beats it apparently\n[2020-11-09 03:23] jamberine: the idea for 7 I found (haven't looked) is splitter conduit on kolento's turn 4\n[2020-11-09 03:23] jamberine: then bull, then tesla\n[2020-11-09 03:27] silentslayers: yeah makes sense. Is it a known thing that the t1 blast for p2 wins in bs+2?\n[2020-11-09 03:29] jamberine: punf claims that in 2 unit combos\n[2020-11-09 03:29] jamberine: and it's hard for me to imagine how you would beat it\n[2020-11-09 03:32] masn6811 (Masne98888): feels like an autowin tbh\n[2020-11-09 03:32] masn6811 (Masne98888): i cant think of any nonbull line that beats it, and ofc bull cant outrace it\n[2020-11-09 03:33] masn6811 (Masne98888): but basically the thing is i demonstated a single drake being added to the set changes that math\n[2020-11-09 03:33] masn6811 (Masne98888): he was p2 in this hannibull flanimus set\n[2020-11-09 03:34] masn6811 (Masne98888): i made a call\n[22:19] MasN: \"ill play hannibull flanimus. that's sure to beat MasN!\" punf t. ard\n[2020-11-09 03:34] masn6811 (Masne98888): of course, he went for it\n[2020-11-09 03:34] masn6811 (Masne98888): if flanimus hannibull cant even beat drake, what chance does it stand against valk\n[2020-11-09 03:34] silentslayers: typical bullet player goes for a brainless strat omegaLUL\n[2020-11-09 03:35] masn6811 (Masne98888): the set in general with valk pixie sentry goose charge is like super hostile to bull\n[2020-11-09 03:35] masn6811 (Masne98888): what was he thinking - oh wait, he wasn't\n[2020-11-09 03:35] masn6811 (Masne98888): @Punf why didn't you concede the moment you realized i was going for valk\n[2020-11-09 03:38] masn6811 (Masne98888): ill bet he'll go for it again next game\n[2020-11-09 03:39] masn6811 (Masne98888): i bet he goes for the t1a smorcus rush just because most people dont know the counterplay line\n[2020-11-09 03:39] masn6811 (Masne98888): i guess flanimus bull is safer because since it beats bso, there is no set line for people to learn to beat it\n[2020-11-09 03:39] masn6811 (Masne98888): and a surprisingly large number of mata players lack the intuition to make one on the spot\n[2020-11-09 03:43] jamberine: I remember he went for it against me once\n[2020-11-09 03:43] jamberine: I think I beat it with doomed mech",
+      "messages": [
+        {
+          "id": "775195842507440158",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:11:31.296+00:00",
+          "content": "hey @jamberine @SilentSlayers @any other high rated player that still plays mata"
+        },
+        {
+          "id": "775195955313901620",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:11:58.191+00:00",
+          "content": "punf claims this is an autowin for p2. i claim that it is not"
+        },
+        {
+          "id": "775197225789423616",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T03:17:01.096+00:00",
+          "content": "Haven't gotten around to analyzing flame + bull, or even base + bull yet. Seems like there's a lot of options though so I'm gonna guess no. What'd you come up with MasN?"
+        },
+        {
+          "id": "775197518006845461",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T03:18:10.766+00:00",
+          "content": "The process would just be trying a bunch of lines that stabalizes at getting 7 ofc, I'm not feeling up to analyzing right now"
+        },
+        {
+          "id": "775198483657261076",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T03:22:00.995+00:00",
+          "content": "Ah I see you posted solutions on your server"
+        },
+        {
+          "id": "775198593605697536",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T03:22:27.209+00:00",
+          "content": "It's either a drake or a coil beats it apparently"
+        },
+        {
+          "id": "775198852675665952",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-11-09T03:23:28.976+00:00",
+          "content": "the idea for 7 I found (haven't looked) is splitter conduit on kolento's turn 4"
+        },
+        {
+          "id": "775198874263617547",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-11-09T03:23:34.123+00:00",
+          "content": "then bull, then tesla"
+        },
+        {
+          "id": "775199925252128779",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T03:27:44.698+00:00",
+          "content": "yeah makes sense. Is it a known thing that the t1 blast for p2 wins in bs+2?"
+        },
+        {
+          "id": "775200324637032510",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-11-09T03:29:19.919+00:00",
+          "content": "punf claims that in 2 unit combos"
+        },
+        {
+          "id": "775200424793210880",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-11-09T03:29:43.798+00:00",
+          "content": "and it's hard for me to imagine how you would beat it"
+        },
+        {
+          "id": "775201167713239050",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:32:40.924+00:00",
+          "content": "feels like an autowin tbh"
+        },
+        {
+          "id": "775201228903677972",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:32:55.513+00:00",
+          "content": "i cant think of any nonbull line that beats it, and ofc bull cant outrace it"
+        },
+        {
+          "id": "775201360211738625",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:33:26.819+00:00",
+          "content": "but basically the thing is i demonstated a single drake being added to the set changes that math"
+        },
+        {
+          "id": "775201483183882292",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:33:56.138+00:00",
+          "content": "he was p2 in this hannibull flanimus set"
+        },
+        {
+          "id": "775201556231880775",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:34:13.554+00:00",
+          "content": "i made a call\n[22:19] MasN: \"ill play hannibull flanimus. that's sure to beat MasN!\" punf t. ard"
+        },
+        {
+          "id": "775201574418644993",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:34:17.89+00:00",
+          "content": "of course, he went for it"
+        },
+        {
+          "id": "775201667191799828",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:34:40.009+00:00",
+          "content": "if flanimus hannibull cant even beat drake, what chance does it stand against valk"
+        },
+        {
+          "id": "775201682371772456",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T03:34:43.628+00:00",
+          "content": "typical bullet player goes for a brainless strat omegaLUL"
+        },
+        {
+          "id": "775201790625841153",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:35:09.438+00:00",
+          "content": "the set in general with valk pixie sentry goose charge is like super hostile to bull"
+        },
+        {
+          "id": "775201836684017705",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:35:20.419+00:00",
+          "content": "what was he thinking - oh wait, he wasn't"
+        },
+        {
+          "id": "775201908930510918",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:35:37.644+00:00",
+          "content": "@Punf why didn't you concede the moment you realized i was going for valk"
+        },
+        {
+          "id": "775202697996533771",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:38:45.772+00:00",
+          "content": "ill bet he'll go for it again next game"
+        },
+        {
+          "id": "775202764464193556",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:39:01.619+00:00",
+          "content": "i bet he goes for the t1a smorcus rush just because most people dont know the counterplay line"
+        },
+        {
+          "id": "775202879496650793",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:39:29.045+00:00",
+          "content": "i guess flanimus bull is safer because since it beats bso, there is no set line for people to learn to beat it"
+        },
+        {
+          "id": "775202946777743400",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T03:39:45.086+00:00",
+          "content": "and a surprisingly large number of mata players lack the intuition to make one on the spot"
+        },
+        {
+          "id": "775203850004594738",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-11-09T03:43:20.432+00:00",
+          "content": "I remember he went for it against me once"
+        },
+        {
+          "id": "775203871463047168",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-11-09T03:43:25.548+00:00",
+          "content": "I think I beat it with doomed mech"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-09T04:09:01.175+00:00",
+      "end_ts": "2020-11-09T04:28:55.026+00:00",
+      "participants": [
+        "jamberine",
+        "masn6811",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 71,
+      "formatted_text": "--- Thread (25 messages, 2020-11-09) ---\n[2020-11-09 04:09] masn6811 (Masne98888): help on queuing strategy pls\n[2020-11-09 04:09] masn6811 (Masne98888): @jamberine i think we'd both be better off if we tried to queue into lower rated players instead of each other\n[2020-11-09 04:09] masn6811 (Masne98888): it should be possible to do 10+ streaks fairly consistently that way\n[2020-11-09 04:09] silentslayers: everyone is prey in jamberine's eyes\n[2020-11-09 04:10] jamberine: I intentionally hit you because I saw you complaining about easy games\n[2020-11-09 04:10] jamberine: wanted to try to give you a good one\n[2020-11-09 04:12] masn6811 (Masne98888): how are your skins and stuff\n[2020-11-09 04:12] masn6811 (Masne98888): i only have all up to t5\n[2020-11-09 04:12] masn6811 (Masne98888): some other guy said they had up to t6 and could buy all prismatics, thus basically they had all of them\n[2020-11-09 04:12] jamberine: no where close to prismatics though\n[2020-11-09 04:16] masn6811 (Masne98888): i know a ton of people have been playing way more actively than i do\n[2020-11-09 04:17] masn6811 (Masne98888): maybe i should be proud of it, since it means i have a ton of skill for someone playing so little ranked\n[2020-11-09 04:17] masn6811 (Masne98888): im in a small red game\n[2020-11-09 04:18] masn6811 (Masne98888): i know weiseguy loved them\n[2020-11-09 04:18] masn6811 (Masne98888): i personally dont really enjoy them\n[2020-11-09 04:18] silentslayers: enjoying them is strictly wrong\n[2020-11-09 04:18] masn6811 (Masne98888): they feel like such non-games\n[2020-11-09 04:19] masn6811 (Masne98888): like you made one or two actual decisions that change the game by like 0.5 gold, and that 0.5 gold decides the game\n[2020-11-09 04:19] silentslayers: and theyre typically player favored\n[2020-11-09 04:20] masn6811 (Masne98888): i mean, the thing is, what makes a game SUPER player favored isn't so much the absolute advantage\n[2020-11-09 04:20] masn6811 (Masne98888): as much as what the unfavored player can do about it\n[2020-11-09 04:20] masn6811 (Masne98888): and in small red games, the answer is usually 'nothing'\n[2020-11-09 04:20] silentslayers: yeah i know what you mean\n[2020-11-09 04:25] masn6811 (Masne98888): just a random question, is it better to have the deep strategy talk here or in my server?\ni suppose it doesn't make that much of a difference\nlike MasN hub has less people, but all the good people who actually would have this kind of talk are there anyways\nalso, not sure how much i have to self-censor here\nlike my message above i was about to type \"punf why the fuck punf didn't you resign\", but i remembered cooled got timed out by 4non for swearing, so i decided to play it safe\nthe atmosphere is a lot more loose, idk if thats a good thing\non the plus side, if someone unqualified says something stupid, we can Make Fun of them on my server\non the minus side, if someone actually says something insightful, we can Make Fun of them on my server\n[2020-11-09 04:28] silentslayers: Just depends on the mood I guess, I tend to default here for inclusivity. Good to give the game some attention and more people are here",
+      "messages": [
+        {
+          "id": "775210312349515777",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:09:01.175+00:00",
+          "content": "help on queuing strategy pls"
+        },
+        {
+          "id": "775210380849971230",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:09:17.507+00:00",
+          "content": "@jamberine i think we'd both be better off if we tried to queue into lower rated players instead of each other"
+        },
+        {
+          "id": "775210453289795634",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:09:34.778+00:00",
+          "content": "it should be possible to do 10+ streaks fairly consistently that way"
+        },
+        {
+          "id": "775210557694672916",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T04:09:59.67+00:00",
+          "content": "everyone is prey in jamberine's eyes"
+        },
+        {
+          "id": "775210625327562762",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-11-09T04:10:15.795+00:00",
+          "content": "I intentionally hit you because I saw you complaining about easy games"
+        },
+        {
+          "id": "775210648899813406",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-11-09T04:10:21.415+00:00",
+          "content": "wanted to try to give you a good one"
+        },
+        {
+          "id": "775211076261380116",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:12:03.306+00:00",
+          "content": "how are your skins and stuff"
+        },
+        {
+          "id": "775211093684518922",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:12:07.46+00:00",
+          "content": "i only have all up to t5"
+        },
+        {
+          "id": "775211198601887794",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:12:32.474+00:00",
+          "content": "some other guy said they had up to t6 and could buy all prismatics, thus basically they had all of them"
+        },
+        {
+          "id": "775211236303699978",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-11-09T04:12:41.463+00:00",
+          "content": "no where close to prismatics though"
+        },
+        {
+          "id": "775212102914539549",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:16:08.079+00:00",
+          "content": "i know a ton of people have been playing way more actively than i do"
+        },
+        {
+          "id": "775212348302426143",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:17:06.584+00:00",
+          "content": "maybe i should be proud of it, since it means i have a ton of skill for someone playing so little ranked"
+        },
+        {
+          "id": "775212565185036298",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:17:58.293+00:00",
+          "content": "im in a small red game"
+        },
+        {
+          "id": "775212583728709634",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:18:02.714+00:00",
+          "content": "i know weiseguy loved them"
+        },
+        {
+          "id": "775212656570793984",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:18:20.081+00:00",
+          "content": "i personally dont really enjoy them"
+        },
+        {
+          "id": "775212745352151051",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T04:18:41.248+00:00",
+          "content": "enjoying them is strictly wrong"
+        },
+        {
+          "id": "775212771092463619",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:18:47.385+00:00",
+          "content": "they feel like such non-games"
+        },
+        {
+          "id": "775212911299395594",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:19:20.813+00:00",
+          "content": "like you made one or two actual decisions that change the game by like 0.5 gold, and that 0.5 gold decides the game"
+        },
+        {
+          "id": "775213026340372511",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T04:19:48.241+00:00",
+          "content": "and theyre typically player favored"
+        },
+        {
+          "id": "775213128145305602",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:20:12.513+00:00",
+          "content": "i mean, the thing is, what makes a game SUPER player favored isn't so much the absolute advantage"
+        },
+        {
+          "id": "775213166677983262",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:20:21.7+00:00",
+          "content": "as much as what the unfavored player can do about it"
+        },
+        {
+          "id": "775213198650638366",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:20:29.323+00:00",
+          "content": "and in small red games, the answer is usually 'nothing'"
+        },
+        {
+          "id": "775213231991160843",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T04:20:37.272+00:00",
+          "content": "yeah i know what you mean"
+        },
+        {
+          "id": "775214396514369586",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-09T04:25:14.916+00:00",
+          "content": "just a random question, is it better to have the deep strategy talk here or in my server?\ni suppose it doesn't make that much of a difference\nlike MasN hub has less people, but all the good people who actually would have this kind of talk are there anyways\nalso, not sure how much i have to self-censor here\nlike my message above i was about to type \"punf why the fuck punf didn't you resign\", but i remembered cooled got timed out by 4non for swearing, so i decided to play it safe\nthe atmosphere is a lot more loose, idk if thats a good thing\non the plus side, if someone unqualified says something stupid, we can Make Fun of them on my server\non the minus side, if someone actually says something insightful, we can Make Fun of them on my server"
+        },
+        {
+          "id": "775215319723147305",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-09T04:28:55.026+00:00",
+          "content": "Just depends on the mood I guess, I tend to default here for inclusivity. Good to give the game some attention and more people are here"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-09T13:11:36.898+00:00",
+      "end_ts": "2020-11-09T13:20:57.19+00:00",
+      "participants": [
+        "Deleted User",
+        "shadourow",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (5 messages, 2020-11-09) ---\n[2020-11-09 13:11] wilson0862 (Wilson): Sick false equivalence. Only comment you're going to get Mason.\n[2020-11-09 13:14] shadourow (Rando): Don't be dumb, MasN, you should know that the moderation is actually pretty lax around Prismata, and you can only be punished if you're either really dumb (Cooled, SSp), of deliberately try to provoke the mods (you)\n[2020-11-09 13:14] wilson0862 (Wilson): I guess you can have a second, Mason. Searching \"fuck\" returns 1,433 (now 1,434) hits. And you're not a moron so we both know you're being intentionally obtuse.\n[2020-11-09 13:15] shadourow (Rando): Did Punf ever get any kind of punishment ? I don't think so, despite Punf being Punf\n[2020-11-09 13:20] Deleted User (Deleted User): punf calls him MoroN all the time",
+      "messages": [
+        {
+          "id": "775346860947931156",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2020-11-09T13:11:36.898+00:00",
+          "content": "Sick false equivalence. Only comment you're going to get Mason."
+        },
+        {
+          "id": "775347691206737960",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-11-09T13:14:54.847+00:00",
+          "content": "Don't be dumb, MasN, you should know that the moderation is actually pretty lax around Prismata, and you can only be punished if you're either really dumb (Cooled, SSp), of deliberately try to provoke the mods (you)"
+        },
+        {
+          "id": "775347709014966272",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2020-11-09T13:14:59.093+00:00",
+          "content": "I guess you can have a second, Mason. Searching \"fuck\" returns 1,433 (now 1,434) hits. And you're not a moron so we both know you're being intentionally obtuse."
+        },
+        {
+          "id": "775347887126478888",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-11-09T13:15:41.558+00:00",
+          "content": "Did Punf ever get any kind of punishment ? I don't think so, despite Punf being Punf"
+        },
+        {
+          "id": "775349210983825408",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-11-09T13:20:57.19+00:00",
+          "content": "punf calls him MoroN all the time"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-17T09:02:31.94+00:00",
+      "end_ts": "2020-11-17T09:03:16.049+00:00",
+      "participants": [
+        "Deleted User",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2020-11-17) ---\n[2020-11-17 09:02] masn6811 (Masne98888): hey everyone, going to make short note here\ni want to bring a small revival of campaign while we wait for chapter 4\nso let's do chapter 1 overkill challenges\na reminder of the rules: the goal is to win in as few turns as possible. in the case of a tie, the tie is broken by most overkill damage on the winning turn. try to get the best score\nthere are six challenges for this chapter, and with each i list my best score. can you beat any of them?\nomega factor expert: 18+3\nsolar fields expert: 18+14\ncomm-net normal: 13+11\ncomm-net expert: 17+0\nincendiary biorobotics normal: 18+2\nincendiary biorobotics expert: 27+3\n[2020-11-17 09:03] Deleted User (Deleted User): yes with all of those my best score is 1 lower than all of those :Jappa:",
+      "messages": [
+        {
+          "id": "778183280176136194",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-17T09:02:31.94+00:00",
+          "content": "hey everyone, going to make short note here\ni want to bring a small revival of campaign while we wait for chapter 4\nso let's do chapter 1 overkill challenges\na reminder of the rules: the goal is to win in as few turns as possible. in the case of a tie, the tie is broken by most overkill damage on the winning turn. try to get the best score\nthere are six challenges for this chapter, and with each i list my best score. can you beat any of them?\nomega factor expert: 18+3\nsolar fields expert: 18+14\ncomm-net normal: 13+11\ncomm-net expert: 17+0\nincendiary biorobotics normal: 18+2\nincendiary biorobotics expert: 27+3"
+        },
+        {
+          "id": "778183465181904906",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-11-17T09:03:16.049+00:00",
+          "content": "yes with all of those my best score is 1 lower than all of those :Jappa:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-17T10:45:57.714+00:00",
+      "end_ts": "2020-11-17T10:46:12.965+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2020-11-17) ---\n[2020-11-17 10:45] masn6811 (Masne98888): @sonoja a few of them are tight, but a lot of the others have more leeway than you might expect. try to beat my scores!\n[2020-11-17 10:46] masn6811 (Masne98888): (these are all of the chapter 1 missions that aren't tight/ai/rigged)",
+      "messages": [
+        {
+          "id": "778209309079240764",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-17T10:45:57.714+00:00",
+          "content": "@sonoja a few of them are tight, but a lot of the others have more leeway than you might expect. try to beat my scores!"
+        },
+        {
+          "id": "778209373046571028",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-17T10:46:12.965+00:00",
+          "content": "(these are all of the chapter 1 missions that aren't tight/ai/rigged)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-17T13:54:45.168+00:00",
+      "end_ts": "2020-11-17T14:02:36.818+00:00",
+      "participants": [
+        "Deleted User",
+        "mtanzer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2020-11-17) ---\n[2020-11-17 13:54] mtanzer: @Masne98888 \nidk if any of the campaign has changed since I did these before, but my records were:\nomega factor expert 17+11\nsolar fields expert 16+15\ncomm-net normal 11+8\ncomm-net expert 14+19\nincendiary biorobotics expert 24+5\n\nI don't have anything written down for incendiary biorobotics normal so I may not have done that one\n[2020-11-17 14:02] Deleted User (Deleted User): wow u totally wrecked this masn kid",
+      "messages": [
+        {
+          "id": "778256819864076349",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2020-11-17T13:54:45.168+00:00",
+          "content": "@Masne98888 \nidk if any of the campaign has changed since I did these before, but my records were:\nomega factor expert 17+11\nsolar fields expert 16+15\ncomm-net normal 11+8\ncomm-net expert 14+19\nincendiary biorobotics expert 24+5\n\nI don't have anything written down for incendiary biorobotics normal so I may not have done that one"
+        },
+        {
+          "id": "778258798107951104",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-11-17T14:02:36.818+00:00",
+          "content": "wow u totally wrecked this masn kid"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-17T14:47:01.335+00:00",
+      "end_ts": "2020-11-17T14:47:37.738+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2020-11-17) ---\n[2020-11-17 14:47] silentslayers: I got comm-net expert 14+1 on my first try 😂\n[2020-11-17 14:47] silentslayers: It seems complicated cause you have to keep track of the cycle these things different bots make, I just kinda randomly did stuff",
+      "messages": [
+        {
+          "id": "778269973901737995",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-17T14:47:01.335+00:00",
+          "content": "I got comm-net expert 14+1 on my first try 😂"
+        },
+        {
+          "id": "778270126587117579",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-17T14:47:37.738+00:00",
+          "content": "It seems complicated cause you have to keep track of the cycle these things different bots make, I just kinda randomly did stuff"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-23T02:41:22.603+00:00",
+      "end_ts": "2020-11-23T02:41:22.603+00:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-11-23) ---\n[2020-11-23 02:41] amalloy: it's the one labeled Comm-Net in game",
+      "messages": [
+        {
+          "id": "780261686417948703",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-11-23T02:41:22.603+00:00",
+          "content": "it's the one labeled Comm-Net in game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-24T11:59:30.317+00:00",
+      "end_ts": "2020-11-24T11:59:30.317+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [
+        "Fgs9K-o2DJ0"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-11-24) ---\n[2020-11-24 11:59] masn6811 (Masne98888): hey, saw this intersting game on ladder today, any thought? Fgs9K-o2DJ0",
+      "messages": [
+        {
+          "id": "780764531936198656",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-24T11:59:30.317+00:00",
+          "content": "hey, saw this intersting game on ladder today, any thought? Fgs9K-o2DJ0"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-24T12:52:46.411+00:00",
+      "end_ts": "2020-11-24T13:06:25.101+00:00",
+      "participants": [
+        "masn6811",
+        "megasupp",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (5 messages, 2020-11-24) ---\n[2020-11-24 12:52] velizar_ (Name): I wouldn't buy Zemora in that set\n[2020-11-24 13:01] velizar_ (Name): I don't understand how that player won.\n[2020-11-24 13:05] megasupp (mega-supp): In hindsight it makes some sense: because zemora is bought earlier than wincer only 1 wincer shot gets in before zemora is online, combine that with doomed wall (above average soak) and doomed drone (pretty good soak) and zemora player can safely survive 1-st shot and will have to worry about second after first zemo shot. and if in assymetric game zemora player isn't dead after first 2 shots zemora player is prob gonna win\n[2020-11-24 13:06] masn6811 (Masne98888): are you sure its not kolento just played bad?\n[2020-11-24 13:06] masn6811 (Masne98888): chrono wincer is hard to beat, and theres support too",
+      "messages": [
+        {
+          "id": "780777937326047282",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-24T12:52:46.411+00:00",
+          "content": "I wouldn't buy Zemora in that set"
+        },
+        {
+          "id": "780780179751436289",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-24T13:01:41.047+00:00",
+          "content": "I don't understand how that player won."
+        },
+        {
+          "id": "780781159197966396",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-24T13:05:34.565+00:00",
+          "content": "In hindsight it makes some sense: because zemora is bought earlier than wincer only 1 wincer shot gets in before zemora is online, combine that with doomed wall (above average soak) and doomed drone (pretty good soak) and zemora player can safely survive 1-st shot and will have to worry about second after first zemo shot. and if in assymetric game zemora player isn't dead after first 2 shots zemora player is prob gonna win"
+        },
+        {
+          "id": "780781334943105034",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-24T13:06:16.466+00:00",
+          "content": "are you sure its not kolento just played bad?"
+        },
+        {
+          "id": "780781371161313321",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-24T13:06:25.101+00:00",
+          "content": "chrono wincer is hard to beat, and theres support too"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-24T13:18:06.948+00:00",
+      "end_ts": "2020-11-24T13:18:06.948+00:00",
+      "participants": [
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-11-24) ---\n[2020-11-24 13:18] megasupp (mega-supp): eh sure I don't get why kolento went omega turn 7 instead of mahar turn 6 drake turn 7 he also wasted some doomed walls",
+      "messages": [
+        {
+          "id": "780784314920599572",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-24T13:18:06.948+00:00",
+          "content": "eh sure I don't get why kolento went omega turn 7 instead of mahar turn 6 drake turn 7 he also wasted some doomed walls"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-24T13:29:28.712+00:00",
+      "end_ts": "2020-11-24T13:29:28.712+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-11-24) ---\n[2020-11-24 13:29] masn6811 (Masne98888): want to analyze the set?",
+      "messages": [
+        {
+          "id": "780787174446071818",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-24T13:29:28.712+00:00",
+          "content": "want to analyze the set?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-24T14:00:46.024+00:00",
+      "end_ts": "2020-11-24T14:04:54.34+00:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2020-11-24) ---\n[2020-11-24 14:00] velizar_ (Name): kolento wastes some blue too\n[2020-11-24 14:03] velizar_ (Name): omega isn't that good if you're already getting mahar, since you can hold mahar instead;\nin fact, in a set with doomed wall you don't need neither omega nor mahar\n[2020-11-24 14:04] velizar_ (Name): did kolento need more econ? so that the green and red can be both spent",
+      "messages": [
+        {
+          "id": "780795048463040522",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-24T14:00:46.024+00:00",
+          "content": "kolento wastes some blue too"
+        },
+        {
+          "id": "780795696324411412",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-24T14:03:20.486+00:00",
+          "content": "omega isn't that good if you're already getting mahar, since you can hold mahar instead;\nin fact, in a set with doomed wall you don't need neither omega nor mahar"
+        },
+        {
+          "id": "780796089976356864",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-24T14:04:54.34+00:00",
+          "content": "did kolento need more econ? so that the green and red can be both spent"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-24T14:18:36.427+00:00",
+      "end_ts": "2020-11-24T14:18:43.265+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2020-11-24) ---\n[2020-11-24 14:18] masn6811 (Masne98888): first instincts are dd/ddc/1b+chrono\n[2020-11-24 14:18] masn6811 (Masne98888): usually unbeatable when chrono wincer drake is a thing",
+      "messages": [
+        {
+          "id": "780799538058231848",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-24T14:18:36.427+00:00",
+          "content": "first instincts are dd/ddc/1b+chrono"
+        },
+        {
+          "id": "780799566739144754",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-24T14:18:43.265+00:00",
+          "content": "usually unbeatable when chrono wincer drake is a thing"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-28T10:42:42.399+00:00",
+      "end_ts": "2020-11-28T10:43:27.434+00:00",
+      "participants": [
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2020-11-28) ---\n[2020-11-28 10:42] shadourow (Rando): It's probably just you, can you remind me where the puzzle is please ? @Plato\n[2020-11-28 10:43] shadourow (Rando): Challenge pack 1, ok",
+      "messages": [
+        {
+          "id": "782194756389568532",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-11-28T10:42:42.399+00:00",
+          "content": "It's probably just you, can you remind me where the puzzle is please ? @Plato"
+        },
+        {
+          "id": "782194945280835596",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-11-28T10:43:27.434+00:00",
+          "content": "Challenge pack 1, ok"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-28T10:59:08.866+00:00",
+      "end_ts": "2020-11-28T11:13:23.458+00:00",
+      "participants": [
+        "masn6811",
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (4 messages, 2020-11-28) ---\n[2020-11-28 10:59] shadourow (Rando): Here is the message at the end of the puzzle, which is a pretty big hint :\n[2020-11-28 11:08] shadourow (Rando): The dry humor of those end screens really is great btw\n[2020-11-28 11:13] masn6811 (Masne98888): hey, i just posted a new guide (with images!)\n[2020-11-28 11:13] masn6811 (Masne98888): its on my own server, so the guide can get its own channeled and not get buried",
+      "messages": [
+        {
+          "id": "782198893932183603",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-11-28T10:59:08.866+00:00",
+          "content": "Here is the message at the end of the puzzle, which is a pretty big hint :"
+        },
+        {
+          "id": "782201218755199016",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-11-28T11:08:23.147+00:00",
+          "content": "The dry humor of those end screens really is great btw"
+        },
+        {
+          "id": "782202435677454356",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T11:13:13.284+00:00",
+          "content": "hey, i just posted a new guide (with images!)"
+        },
+        {
+          "id": "782202478350303232",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T11:13:23.458+00:00",
+          "content": "its on my own server, so the guide can get its own channeled and not get buried"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-01T14:35:55.293+00:00",
+      "end_ts": "2020-12-01T14:57:37.603+00:00",
+      "participants": [
+        "masn6811",
+        "megasupp",
+        "silentslayers"
+      ],
+      "replay_codes": [
+        "onent-depen"
+      ],
+      "score": 23,
+      "formatted_text": "--- Thread (14 messages, 2020-12-01) ---\n[2020-12-01 14:35] megasupp (mega-supp): @Masne98888  how would you play as p1 in this set\n[2020-12-01 14:36] megasupp (mega-supp): try not to look at what I did. I'm just curious if our ideas align\n[2020-12-01 14:39] silentslayers: inb4 he just says p2 cynestra\n[2020-12-01 14:39] silentslayers: I'm not convinced your strat is optimal, considering opponent went 4 brooders which wasn't good\n[2020-12-01 14:40] megasupp (mega-supp): sure brooders are bad but I think this is the most optimal strat for p1\n[2020-12-01 14:48] masn6811 (Masne98888): @mega-supp hard to say because its opponent-dependent\n[2020-12-01 14:48] masn6811 (Masne98888): endo is pretty good against cyn\n[2020-12-01 14:48] masn6811 (Masne98888): its not very good if your opponent just goes BG thermite\n[2020-12-01 14:49] masn6811 (Masne98888): i think you played correctly\n[2020-12-01 14:49] masn6811 (Masne98888): but you would have played more correctly if you waited on queuing until the pivot was in ranked\n[2020-12-01 14:50] megasupp (mega-supp): damn I remembered that you like pivot so much that I wanted to write \"in4 he says he won't play this set without pivot\"\n[2020-12-01 14:51] megasupp (mega-supp): that's kinda of an rps set\n[2020-12-01 14:56] megasupp (mega-supp): so I figured I start BG and if opponent buys ani with cynestra setup I set up endo, if he goes GB well a GB mirror it is\n[2020-12-01 14:57] megasupp (mega-supp): while looking for opportunities to buy cynestra and not die",
+      "messages": [
+        {
+          "id": "783340610438299689",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-12-01T14:35:55.293+00:00",
+          "content": "@Masne98888  how would you play as p1 in this set"
+        },
+        {
+          "id": "783340812050104330",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-12-01T14:36:43.361+00:00",
+          "content": "try not to look at what I did. I'm just curious if our ideas align"
+        },
+        {
+          "id": "783341474502803458",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-01T14:39:21.302+00:00",
+          "content": "inb4 he just says p2 cynestra"
+        },
+        {
+          "id": "783341564775628840",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-01T14:39:42.825+00:00",
+          "content": "I'm not convinced your strat is optimal, considering opponent went 4 brooders which wasn't good"
+        },
+        {
+          "id": "783341740261900299",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-12-01T14:40:24.664+00:00",
+          "content": "sure brooders are bad but I think this is the most optimal strat for p1"
+        },
+        {
+          "id": "783343839103680544",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-01T14:48:45.067+00:00",
+          "content": "@mega-supp hard to say because its opponent-dependent"
+        },
+        {
+          "id": "783343857534369802",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-01T14:48:49.461+00:00",
+          "content": "endo is pretty good against cyn"
+        },
+        {
+          "id": "783343891961085972",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-01T14:48:57.669+00:00",
+          "content": "its not very good if your opponent just goes BG thermite"
+        },
+        {
+          "id": "783343947224711218",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-01T14:49:10.845+00:00",
+          "content": "i think you played correctly"
+        },
+        {
+          "id": "783344032876855335",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-01T14:49:31.266+00:00",
+          "content": "but you would have played more correctly if you waited on queuing until the pivot was in ranked"
+        },
+        {
+          "id": "783344277870084098",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-12-01T14:50:29.677+00:00",
+          "content": "damn I remembered that you like pivot so much that I wanted to write \"in4 he says he won't play this set without pivot\""
+        },
+        {
+          "id": "783344415712346133",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-12-01T14:51:02.541+00:00",
+          "content": "that's kinda of an rps set"
+        },
+        {
+          "id": "783345767258783764",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-12-01T14:56:24.775+00:00",
+          "content": "so I figured I start BG and if opponent buys ani with cynestra setup I set up endo, if he goes GB well a GB mirror it is"
+        },
+        {
+          "id": "783346072722210838",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-12-01T14:57:37.603+00:00",
+          "content": "while looking for opportunities to buy cynestra and not die"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-04T20:42:27.245+00:00",
+      "end_ts": "2020-12-04T20:42:27.245+00:00",
+      "participants": [
+        "shadourow"
+      ],
+      "replay_codes": [
+        "sRfCc-N4PDA"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-12-04) ---\n[2020-12-04 20:42] shadourow (Rando): You know what, at first, the amount of HP on Magna Chronus looked crazy to me, but actually...\nsRfCc-N4PDA",
+      "messages": [
+        {
+          "id": "784520014966947960",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-04T20:42:27.245+00:00",
+          "content": "You know what, at first, the amount of HP on Magna Chronus looked crazy to me, but actually...\nsRfCc-N4PDA"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-08T00:33:52.152+00:00",
+      "end_ts": "2020-12-08T01:08:09.106+00:00",
+      "participants": [
+        "masn6811",
+        "shadourow",
+        "velizar_"
+      ],
+      "replay_codes": [
+        "eUfkH-nBFhd"
+      ],
+      "score": 86,
+      "formatted_text": "--- Thread (30 messages, 2020-12-08) ---\n[2020-12-08 00:33] masn6811 (Masne98888): i feel like master bot could have played this endgame a bit better eUfkH-nBFhd\n[2020-12-08 00:39] velizar_ (Name): master bot is bad at holding drones sometimes\n[2020-12-08 00:43] velizar_ (Name): I'm able to win the game if I play in Master Bot's place, I'd say it's not even close\n[2020-12-08 00:45] masn6811 (Masne98888): yeah.. its not even paticularly close\n[2020-12-08 00:45] masn6811 (Masne98888): the sac wall to save corpus and click it is obviously bad, but the game is alreayd lost by then\n[2020-12-08 00:45] masn6811 (Masne98888): but lets talk about how tragic turn 11 is\n[2020-12-08 00:45] masn6811 (Masne98888): any line that spends the blue easily wins\n[2020-12-08 00:45] velizar_ (Name): is it lost by then? I get Rhino on the turn before to avoid attacking for 4 and leaving 1hp gauss cannons\n[2020-12-08 00:46] masn6811 (Masne98888): wall corpus wins. splitter husk drone also works\n[2020-12-08 00:46] masn6811 (Masne98888): new velizar\nTL note: i said the game is lost by then, not \"the game is lost the turn before\"\n[2020-12-08 00:46] masn6811 (Masne98888): and you have to fix the line two turns before actually for it to work\n[2020-12-08 00:46] masn6811 (Masne98888): in which case splitter husk is way preferable anyways\n[2020-12-08 00:47] velizar_ (Name): I know, I presented the second statement even though it partly contradicts the first statement\n[2020-12-08 00:47] velizar_ (Name): just because I make a statement doesn't believe that I fully believe it\n[2020-12-08 00:48] masn6811 (Masne98888): TL note:\nsomeone: X is true (they'd checked)\ncooledcannon: is it? (cabbage checking)\n[2020-12-08 00:48] velizar_ (Name): turn 11 - it buys a drone...\n[2020-12-08 00:48] masn6811 (Masne98888): DS+husk is the strongest line, you know\n[2020-12-08 00:48] velizar_ (Name): master bot often buys drones well into the game where it shouldn't\n[2020-12-08 00:49] velizar_ (Name): yeah fine it's better than floating gold\n[2020-12-08 00:49] velizar_ (Name): but master bot does it instead of buying attackers or something else\n[2020-12-08 00:49] masn6811 (Masne98888): drone is stronger than tarsier there, you know\n[2020-12-08 00:50] masn6811 (Masne98888): eg. WD+husk is stronger than WT+husk there, and not even by a small margin\n[2020-12-08 00:50] masn6811 (Masne98888): but both are ofc weaker than W+corpus or SD+husk\n[2020-12-08 00:51] velizar_ (Name): there's the general heuristic that buying economy isn't very good once you have attackers, yes it has exceptions, my point is that master bot seems to be unaware of it, based on many games where it did that\n[2020-12-08 00:52] velizar_ (Name): I should probably look at its source code some day in mid-2021 or so\n[2020-12-08 00:54] shadourow (Rando): Is MasN becoming an anime girl ? But instead of ending his sentences by *desu*, it's *you know* ?\n[2020-12-08 01:00] masn6811 (Masne98888): i kinda copied the mannerisms of those i look up to 😦\n[2020-12-08 01:02] shadourow (Rando): I know that feeling desu\n[2020-12-08 01:06] velizar_ (Name): You are #1 on the leaderboard, who do you look up to?\n[2020-12-08 01:08] velizar_ (Name): There is only nothingness above",
+      "messages": [
+        {
+          "id": "785665416084324362",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:33:52.152+00:00",
+          "content": "i feel like master bot could have played this endgame a bit better eUfkH-nBFhd"
+        },
+        {
+          "id": "785666930387714089",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:39:53.19+00:00",
+          "content": "master bot is bad at holding drones sometimes"
+        },
+        {
+          "id": "785667901331996692",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:43:44.681+00:00",
+          "content": "I'm able to win the game if I play in Master Bot's place, I'd say it's not even close"
+        },
+        {
+          "id": "785668225634402335",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:45:02.001+00:00",
+          "content": "yeah.. its not even paticularly close"
+        },
+        {
+          "id": "785668310858989650",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:45:22.32+00:00",
+          "content": "the sac wall to save corpus and click it is obviously bad, but the game is alreayd lost by then"
+        },
+        {
+          "id": "785668374595764275",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:45:37.516+00:00",
+          "content": "but lets talk about how tragic turn 11 is"
+        },
+        {
+          "id": "785668412973383711",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:45:46.666+00:00",
+          "content": "any line that spends the blue easily wins"
+        },
+        {
+          "id": "785668413866901523",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:45:46.879+00:00",
+          "content": "is it lost by then? I get Rhino on the turn before to avoid attacking for 4 and leaving 1hp gauss cannons"
+        },
+        {
+          "id": "785668528497885255",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:46:14.209+00:00",
+          "content": "wall corpus wins. splitter husk drone also works"
+        },
+        {
+          "id": "785668612002283531",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:46:34.118+00:00",
+          "content": "new velizar\nTL note: i said the game is lost by then, not \"the game is lost the turn before\""
+        },
+        {
+          "id": "785668655722528788",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:46:44.542+00:00",
+          "content": "and you have to fix the line two turns before actually for it to work"
+        },
+        {
+          "id": "785668712258338847",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:46:58.021+00:00",
+          "content": "in which case splitter husk is way preferable anyways"
+        },
+        {
+          "id": "785668733359358002",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:47:03.052+00:00",
+          "content": "I know, I presented the second statement even though it partly contradicts the first statement"
+        },
+        {
+          "id": "785668787034783754",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:47:15.849+00:00",
+          "content": "just because I make a statement doesn't believe that I fully believe it"
+        },
+        {
+          "id": "785669086457364541",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:48:27.237+00:00",
+          "content": "TL note:\nsomeone: X is true (they'd checked)\ncooledcannon: is it? (cabbage checking)"
+        },
+        {
+          "id": "785669108846428190",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:48:32.575+00:00",
+          "content": "turn 11 - it buys a drone..."
+        },
+        {
+          "id": "785669171819970570",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:48:47.589+00:00",
+          "content": "DS+husk is the strongest line, you know"
+        },
+        {
+          "id": "785669211014955009",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:48:56.934+00:00",
+          "content": "master bot often buys drones well into the game where it shouldn't"
+        },
+        {
+          "id": "785669260571443210",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:49:08.749+00:00",
+          "content": "yeah fine it's better than floating gold"
+        },
+        {
+          "id": "785669328640802856",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:49:24.978+00:00",
+          "content": "but master bot does it instead of buying attackers or something else"
+        },
+        {
+          "id": "785669415332872212",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:49:45.647+00:00",
+          "content": "drone is stronger than tarsier there, you know"
+        },
+        {
+          "id": "785669611496538134",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:50:32.416+00:00",
+          "content": "eg. WD+husk is stronger than WT+husk there, and not even by a small margin"
+        },
+        {
+          "id": "785669656736301086",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T00:50:43.202+00:00",
+          "content": "but both are ofc weaker than W+corpus or SD+husk"
+        },
+        {
+          "id": "785669911656660992",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:51:43.98+00:00",
+          "content": "there's the general heuristic that buying economy isn't very good once you have attackers, yes it has exceptions, my point is that master bot seems to be unaware of it, based on many games where it did that"
+        },
+        {
+          "id": "785670011045543957",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T00:52:07.676+00:00",
+          "content": "I should probably look at its source code some day in mid-2021 or so"
+        },
+        {
+          "id": "785670571795021906",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-08T00:54:21.369+00:00",
+          "content": "Is MasN becoming an anime girl ? But instead of ending his sentences by *desu*, it's *you know* ?"
+        },
+        {
+          "id": "785672130490662994",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-08T01:00:32.991+00:00",
+          "content": "i kinda copied the mannerisms of those i look up to 😦"
+        },
+        {
+          "id": "785672676488380476",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-08T01:02:43.167+00:00",
+          "content": "I know that feeling desu"
+        },
+        {
+          "id": "785673662928781352",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T01:06:38.353+00:00",
+          "content": "You are #1 on the leaderboard, who do you look up to?"
+        },
+        {
+          "id": "785674043575107636",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-08T01:08:09.106+00:00",
+          "content": "There is only nothingness above"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-09T01:36:30.726+00:00",
+      "end_ts": "2020-12-09T01:46:37.744+00:00",
+      "participants": [
+        "silentslayers",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (4 messages, 2020-12-09) ---\n[2020-12-09 01:36] velizar_ (Name): Two separate questions:\n1. Do I want 3rd engi in a set with a lot of soak but wall absorb?\n2. Do I want 3rd engi in a set with a good absorber, which is like Arka or Omega Splitter (with blue sink), but no soak? Note that those units can be clicked instead of absorbed on and you don't lose much\n[2020-12-09 01:41] silentslayers: Someone will probably give a more precise answer, but *very* broadly speaking:\n\n1. No\n2. Yes\n[2020-12-09 01:45] velizar_ (Name): I get that the standard advice is \"get more economy if there's a good absorber\"\n[2020-12-09 01:46] velizar_ (Name): I'm interested in why cases 1 and 2 aren't exceptions to that rule.\n1: If soak is cheap, then... inflation is low? inflation is strongest attacker vs best soak so actually it's more like \"good soak, bad attacker\"?",
+      "messages": [
+        {
+          "id": "786043568551624714",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-09T01:36:30.726+00:00",
+          "content": "Two separate questions:\n1. Do I want 3rd engi in a set with a lot of soak but wall absorb?\n2. Do I want 3rd engi in a set with a good absorber, which is like Arka or Omega Splitter (with blue sink), but no soak? Note that those units can be clicked instead of absorbed on and you don't lose much"
+        },
+        {
+          "id": "786044876382797834",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-09T01:41:42.537+00:00",
+          "content": "Someone will probably give a more precise answer, but *very* broadly speaking:\n\n1. No\n2. Yes"
+        },
+        {
+          "id": "786045892548624404",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-09T01:45:44.81+00:00",
+          "content": "I get that the standard advice is \"get more economy if there's a good absorber\""
+        },
+        {
+          "id": "786046114570698763",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-09T01:46:37.744+00:00",
+          "content": "I'm interested in why cases 1 and 2 aren't exceptions to that rule.\n1: If soak is cheap, then... inflation is low? inflation is strongest attacker vs best soak so actually it's more like \"good soak, bad attacker\"?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-09T01:56:41.057+00:00",
+      "end_ts": "2020-12-09T01:56:41.057+00:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [
+        "orber-attac"
+      ],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2020-12-09) ---\n[2020-12-09 01:56] velizar_ (Name): 2: Normally the first few attackers for you get no value while you're below absorb; however in case of e.g. doomed mech or mahar, when you build your 4 attackers and your opponent builds that absorber, then the existence of your last 2 attackers encourages your opponent to attack you for 2 less, so they are giving value for you; \nThey are giving you less than full value, because they are allowing your opponent to threaten without attacking (thus making your opponent's absorber-attacker more valuable than if simply attacking).",
+      "messages": [
+        {
+          "id": "786048645048434759",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-09T01:56:41.057+00:00",
+          "content": "2: Normally the first few attackers for you get no value while you're below absorb; however in case of e.g. doomed mech or mahar, when you build your 4 attackers and your opponent builds that absorber, then the existence of your last 2 attackers encourages your opponent to attack you for 2 less, so they are giving value for you; \nThey are giving you less than full value, because they are allowing your opponent to threaten without attacking (thus making your opponent's absorber-attacker more valuable than if simply attacking)."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-09T03:07:54.985+00:00",
+      "end_ts": "2020-12-09T03:31:45.462+00:00",
+      "participants": [
+        "jamberine"
+      ],
+      "replay_codes": [],
+      "score": 30,
+      "formatted_text": "--- Thread (23 messages, 2020-12-09) ---\n[2020-12-09 03:07] jamberine: for 1 I think strong soak does slightly encourage high econ\n[2020-12-09 03:08] jamberine: but the effect isn't that big\n[2020-12-09 03:10] jamberine: a reason that comes to mind is that high quality soak tends to come in big chunks\n[2020-12-09 03:10] jamberine: which makes it take a while to be relevant\n[2020-12-09 03:11] jamberine: like your opponent needs 7 attack before you can aegis\n[2020-12-09 03:12] jamberine: and also means you often can't benefit from more than one once you're over\n[2020-12-09 03:13] jamberine: so from 3-6 attack you can't use aegis, and then if your opponent has say 10 attack you're not using aegis for all your soak\n[2020-12-09 03:15] jamberine: but I guess the bigger reason for the difference is that absorb is just op\n[2020-12-09 03:17] jamberine: for 2 I don't know what you mean by less than full value\n[2020-12-09 03:17] jamberine: my doomed mech gets more value holding than by clicking\n[2020-12-09 03:24] jamberine: you say you \"don't lose much\" for clicking omega splitter\n[2020-12-09 03:24] jamberine: I think you lose more than you would think\n[2020-12-09 03:24] jamberine: let's say you click omega splitter\n[2020-12-09 03:24] jamberine: now your opponent needs to buy 3 more defense next turn\n[2020-12-09 03:25] jamberine: but you're down 6 defensive tempo\n[2020-12-09 03:25] jamberine: so you buy two walls to defend\n[2020-12-09 03:25] jamberine: compare that to if you held it\n[2020-12-09 03:26] jamberine: instead of walls you buy infusion grids, since you're defended with the hold\n[2020-12-09 03:28] jamberine: now on your next turn, you got 3 more absorb, and two extra hp from buying infusions over walls\n[2020-12-09 03:28] jamberine: so you have to buy 5 less defense\n[2020-12-09 03:29] jamberine: this is much better than making your opponent buy 3 more defense half a turn earlier\n[2020-12-09 03:31] jamberine: infusion grid isn't always in the set of course, but infusion grid is \"only\" 4/3x better than wall for coming a turn later\n[2020-12-09 03:31] jamberine: attackers can do better than that",
+      "messages": [
+        {
+          "id": "786066571202134027",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:07:54.985+00:00",
+          "content": "for 1 I think strong soak does slightly encourage high econ"
+        },
+        {
+          "id": "786066624263356477",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:08:07.636+00:00",
+          "content": "but the effect isn't that big"
+        },
+        {
+          "id": "786067140347822110",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:10:10.68+00:00",
+          "content": "a reason that comes to mind is that high quality soak tends to come in big chunks"
+        },
+        {
+          "id": "786067285093515285",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:10:45.19+00:00",
+          "content": "which makes it take a while to be relevant"
+        },
+        {
+          "id": "786067380626915379",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:11:07.967+00:00",
+          "content": "like your opponent needs 7 attack before you can aegis"
+        },
+        {
+          "id": "786067732046020638",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:12:31.752+00:00",
+          "content": "and also means you often can't benefit from more than one once you're over"
+        },
+        {
+          "id": "786067987613745193",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:13:32.684+00:00",
+          "content": "so from 3-6 attack you can't use aegis, and then if your opponent has say 10 attack you're not using aegis for all your soak"
+        },
+        {
+          "id": "786068571511062549",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:15:51.896+00:00",
+          "content": "but I guess the bigger reason for the difference is that absorb is just op"
+        },
+        {
+          "id": "786069015918805052",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:17:37.851+00:00",
+          "content": "for 2 I don't know what you mean by less than full value"
+        },
+        {
+          "id": "786069104678797353",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:17:59.013+00:00",
+          "content": "my doomed mech gets more value holding than by clicking"
+        },
+        {
+          "id": "786070673067737108",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:24:12.946+00:00",
+          "content": "you say you \"don't lose much\" for clicking omega splitter"
+        },
+        {
+          "id": "786070711865049110",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:24:22.196+00:00",
+          "content": "I think you lose more than you would think"
+        },
+        {
+          "id": "786070742805643275",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:24:29.573+00:00",
+          "content": "let's say you click omega splitter"
+        },
+        {
+          "id": "786070836829224971",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:24:51.99+00:00",
+          "content": "now your opponent needs to buy 3 more defense next turn"
+        },
+        {
+          "id": "786070964424146946",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:25:22.411+00:00",
+          "content": "but you're down 6 defensive tempo"
+        },
+        {
+          "id": "786071000470126603",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:25:31.005+00:00",
+          "content": "so you buy two walls to defend"
+        },
+        {
+          "id": "786071103939936287",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:25:55.674+00:00",
+          "content": "compare that to if you held it"
+        },
+        {
+          "id": "786071205689950229",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:26:19.933+00:00",
+          "content": "instead of walls you buy infusion grids, since you're defended with the hold"
+        },
+        {
+          "id": "786071629386088469",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:28:00.95+00:00",
+          "content": "now on your next turn, you got 3 more absorb, and two extra hp from buying infusions over walls"
+        },
+        {
+          "id": "786071796028932127",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:28:40.681+00:00",
+          "content": "so you have to buy 5 less defense"
+        },
+        {
+          "id": "786072072479965184",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:29:46.592+00:00",
+          "content": "this is much better than making your opponent buy 3 more defense half a turn earlier"
+        },
+        {
+          "id": "786072534666969088",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:31:36.786+00:00",
+          "content": "infusion grid isn't always in the set of course, but infusion grid is \"only\" 4/3x better than wall for coming a turn later"
+        },
+        {
+          "id": "786072571057012746",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-09T03:31:45.462+00:00",
+          "content": "attackers can do better than that"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-09T09:23:48.616+00:00",
+      "end_ts": "2020-12-09T09:28:00.936+00:00",
+      "participants": [
+        "Deleted User",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2020-12-09) ---\n[2020-12-09 09:23] velizar_ (Name): Sure a blocking doomed mech gives significantly more value than an attacking one, but the difference is not as big as energy matrix, right? you go higher econ with energy matrix than with doomed mech IMO\n[2020-12-09 09:28] Deleted User (Deleted User): What's your favorite low econ unit? Mine is Energy Matrix.",
+      "messages": [
+        {
+          "id": "786161167986851850",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-09T09:23:48.616+00:00",
+          "content": "Sure a blocking doomed mech gives significantly more value than an attacking one, but the difference is not as big as energy matrix, right? you go higher econ with energy matrix than with doomed mech IMO"
+        },
+        {
+          "id": "786162226292719616",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-12-09T09:28:00.936+00:00",
+          "content": "What's your favorite low econ unit? Mine is Energy Matrix."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-11T15:48:25.872+00:00",
+      "end_ts": "2020-12-11T16:10:06.997+00:00",
+      "participants": [
+        "Deleted User",
+        "jamberine",
+        "lyra1712",
+        "silentslayers",
+        "velizar_"
+      ],
+      "replay_codes": [
+        "wPNO1-1r7+t"
+      ],
+      "score": 76,
+      "formatted_text": "--- Thread (37 messages, 2020-12-11) ---\n[2020-12-11 15:48] velizar_ (Name): does that lose to a rush? 🤔\n[2020-12-11 15:48] jamberine: https://discordapp.com/channels/112616041175089152/400825103367012357/521736836490461207\n[2020-12-11 15:52] velizar_ (Name): Master Bot was able to defeat your line, @Deleted User wPNO1-1r7+t\n[2020-12-11 15:54] velizar_ (Name): A gauss cannon rush defeats it much better.\n[2020-12-11 15:55] velizar_ (Name): dc / g / gd / gd .. etc\n[2020-12-11 15:56] silentslayers: thats not really how you analyze lines. Prismata is a reactive game\n[2020-12-11 15:56] velizar_ (Name): alternatively: dd / ddc / gauss cannon spam\n[2020-12-11 15:57] velizar_ (Name): is there a tutorial on how to analyze lines\n[2020-12-11 15:58] silentslayers: Something more useful would be like:\n\nDD | DD\nDD | DDC\nDDC | DDB\n\nNow if P1 does the CA line, P2 wins via splitter gauss per turn\n\nTherefore p1 doesn't do that, they do something like DDB threatening to set up wincer\n\np2 responds with BA to buy wincer (waste blue and float 2) and that's probably a p2 win if I were to guess\n[2020-12-11 15:59] velizar_ (Name): why would P2 buy DDB\n[2020-12-11 15:59] silentslayers: Because thats the standard p2 wincer line if the game is 2 engis\n[2020-12-11 15:59] velizar_ (Name): you're saying that gauss cannon spam would lose to a base set play\n[2020-12-11 16:00] velizar_ (Name): and would change the game to a base set only game probably\n[2020-12-11 16:00] silentslayers: Yes, but more accurately green blue or splitter gauss\n[2020-12-11 16:00] silentslayers: calling it \"gauss rush\" just sounds nooby and innacurate\n[2020-12-11 16:00] silentslayers: you're buying splitters too.\n[2020-12-11 16:00] velizar_ (Name): though I probably should\n[2020-12-11 16:00] lyra1712 (Lyra): i wonder how much of a rating gap analysis can overcome. let's say a 1900 player analyses a set for some amount of time, can he beat a 2100 player ? i believe when we start talking about the top players, the rating gap with analysis wouldnt be very big\n[2020-12-11 16:00] silentslayers: Yeah you go DDB after DDC like I said\n[2020-12-11 16:01] silentslayers: I mean you could stay on the conduit and start cannons there but GDD doesn't fit and its very low econ so its typically better to DDB to get to 13 econ and then you have blue tech for walls as needed, and enough econ for 2 attackers per turn\n[2020-12-11 16:02] silentslayers: idk Lyra, but from my experience you don't become very good at analysis until you're near the top\n[2020-12-11 16:02] silentslayers: depends on the complexity of analysis. Also you become way quicker at analysis\n[2020-12-11 16:02] silentslayers: Something like BS+lance or BS+hellhound is pretty easy to analyze compared to zemora\n[2020-12-11 16:03] velizar_ (Name): also if we think Wincer is OP, now would be a good time to propose nerfs for it.\n[2020-12-11 16:03] silentslayers: That said, I can still see some of the higher rated players missing the right analysis on all 3\n[2020-12-11 16:03] Deleted User (Deleted User): kk ur right veli kid i guess wincer endo was losing hmmm\n[2020-12-11 16:03] velizar_ (Name): no I was wrong, see Wonderboat\n[2020-12-11 16:04] Deleted User (Deleted User): in my game vs peter i did the line where i didn't cut a drone, i did endo, then wincered a turn later than that\n[2020-12-11 16:04] velizar_ (Name): though your exact specific line isn't good yes\n[2020-12-11 16:04] Deleted User (Deleted User): i guess cutting drones is highly badkid whoknew\n[2020-12-11 16:05] silentslayers: shout outs to punf thinking BS+iceblade is p2 floating 9 gold\n[2020-12-11 16:08] velizar_ (Name): that seems highly wrong\n[2020-12-11 16:08] velizar_ (Name): it's better to buy blastforge and float 4 gold, and on the next turn waste 1 blue, then to float 9 gold\n[2020-12-11 16:08] velizar_ (Name): ... or at least it's equally bad\n[2020-12-11 16:09] velizar_ (Name): it's slightly better because you could spend the blue\n[2020-12-11 16:09] silentslayers: you basically trade option value of spending blue but lose the option value of buying something else entirely\n[2020-12-11 16:10] silentslayers: So neither is strictly right but most likely the blast is alright if the flexibility of spending that blue has any value",
+      "messages": [
+        {
+          "id": "786982736744284200",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T15:48:25.872+00:00",
+          "content": "does that lose to a rush? 🤔"
+        },
+        {
+          "id": "786982790683820062",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-11T15:48:38.732+00:00",
+          "content": "https://discordapp.com/channels/112616041175089152/400825103367012357/521736836490461207"
+        },
+        {
+          "id": "786983830322020373",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T15:52:46.601+00:00",
+          "content": "Master Bot was able to defeat your line, @Deleted User wPNO1-1r7+t"
+        },
+        {
+          "id": "786984315544010802",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T15:54:42.287+00:00",
+          "content": "A gauss cannon rush defeats it much better."
+        },
+        {
+          "id": "786984437727363072",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T15:55:11.418+00:00",
+          "content": "dc / g / gd / gd .. etc"
+        },
+        {
+          "id": "786984793685753866",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T15:56:36.285+00:00",
+          "content": "thats not really how you analyze lines. Prismata is a reactive game"
+        },
+        {
+          "id": "786984878536785936",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T15:56:56.515+00:00",
+          "content": "alternatively: dd / ddc / gauss cannon spam"
+        },
+        {
+          "id": "786984965007081523",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T15:57:17.131+00:00",
+          "content": "is there a tutorial on how to analyze lines"
+        },
+        {
+          "id": "786985376987611156",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T15:58:55.355+00:00",
+          "content": "Something more useful would be like:\n\nDD | DD\nDD | DDC\nDDC | DDB\n\nNow if P1 does the CA line, P2 wins via splitter gauss per turn\n\nTherefore p1 doesn't do that, they do something like DDB threatening to set up wincer\n\np2 responds with BA to buy wincer (waste blue and float 2) and that's probably a p2 win if I were to guess"
+        },
+        {
+          "id": "786985494075801641",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T15:59:23.271+00:00",
+          "content": "why would P2 buy DDB"
+        },
+        {
+          "id": "786985547608096810",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T15:59:36.034+00:00",
+          "content": "Because thats the standard p2 wincer line if the game is 2 engis"
+        },
+        {
+          "id": "786985609994043392",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T15:59:50.908+00:00",
+          "content": "you're saying that gauss cannon spam would lose to a base set play"
+        },
+        {
+          "id": "786985660413378570",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T16:00:02.929+00:00",
+          "content": "and would change the game to a base set only game probably"
+        },
+        {
+          "id": "786985702596280330",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:00:12.986+00:00",
+          "content": "Yes, but more accurately green blue or splitter gauss"
+        },
+        {
+          "id": "786985755179876363",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:00:25.523+00:00",
+          "content": "calling it \"gauss rush\" just sounds nooby and innacurate"
+        },
+        {
+          "id": "786985774775926844",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:00:30.195+00:00",
+          "content": "you're buying splitters too."
+        },
+        {
+          "id": "786985824276709427",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T16:00:41.997+00:00",
+          "content": "though I probably should"
+        },
+        {
+          "id": "786985845563457577",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-12-11T16:00:47.072+00:00",
+          "content": "i wonder how much of a rating gap analysis can overcome. let's say a 1900 player analyses a set for some amount of time, can he beat a 2100 player ? i believe when we start talking about the top players, the rating gap with analysis wouldnt be very big"
+        },
+        {
+          "id": "786985853871587378",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:00:49.053+00:00",
+          "content": "Yeah you go DDB after DDC like I said"
+        },
+        {
+          "id": "786986009644105739",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:01:26.192+00:00",
+          "content": "I mean you could stay on the conduit and start cannons there but GDD doesn't fit and its very low econ so its typically better to DDB to get to 13 econ and then you have blue tech for walls as needed, and enough econ for 2 attackers per turn"
+        },
+        {
+          "id": "786986176438337606",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:02:05.959+00:00",
+          "content": "idk Lyra, but from my experience you don't become very good at analysis until you're near the top"
+        },
+        {
+          "id": "786986231250026586",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:02:19.027+00:00",
+          "content": "depends on the complexity of analysis. Also you become way quicker at analysis"
+        },
+        {
+          "id": "786986400452706386",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:02:59.368+00:00",
+          "content": "Something like BS+lance or BS+hellhound is pretty easy to analyze compared to zemora"
+        },
+        {
+          "id": "786986519063822366",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T16:03:27.647+00:00",
+          "content": "also if we think Wincer is OP, now would be a good time to propose nerfs for it."
+        },
+        {
+          "id": "786986529045217312",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:03:30.027+00:00",
+          "content": "That said, I can still see some of the higher rated players missing the right analysis on all 3"
+        },
+        {
+          "id": "786986555592015943",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-12-11T16:03:36.356+00:00",
+          "content": "kk ur right veli kid i guess wincer endo was losing hmmm"
+        },
+        {
+          "id": "786986609680973825",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T16:03:49.252+00:00",
+          "content": "no I was wrong, see Wonderboat"
+        },
+        {
+          "id": "786986691889201222",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-12-11T16:04:08.852+00:00",
+          "content": "in my game vs peter i did the line where i didn't cut a drone, i did endo, then wincered a turn later than that"
+        },
+        {
+          "id": "786986722398306304",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T16:04:16.126+00:00",
+          "content": "though your exact specific line isn't good yes"
+        },
+        {
+          "id": "786986808432394331",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-12-11T16:04:36.638+00:00",
+          "content": "i guess cutting drones is highly badkid whoknew"
+        },
+        {
+          "id": "786987048728133682",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:05:33.929+00:00",
+          "content": "shout outs to punf thinking BS+iceblade is p2 floating 9 gold"
+        },
+        {
+          "id": "786987744001916939",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T16:08:19.695+00:00",
+          "content": "that seems highly wrong"
+        },
+        {
+          "id": "786987811639001138",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T16:08:35.821+00:00",
+          "content": "it's better to buy blastforge and float 4 gold, and on the next turn waste 1 blue, then to float 9 gold"
+        },
+        {
+          "id": "786987908686544941",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T16:08:58.959+00:00",
+          "content": "... or at least it's equally bad"
+        },
+        {
+          "id": "786987961089785909",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T16:09:11.453+00:00",
+          "content": "it's slightly better because you could spend the blue"
+        },
+        {
+          "id": "786988083509854239",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:09:40.64+00:00",
+          "content": "you basically trade option value of spending blue but lose the option value of buying something else entirely"
+        },
+        {
+          "id": "786988194058076200",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-11T16:10:06.997+00:00",
+          "content": "So neither is strictly right but most likely the blast is alright if the flexibility of spending that blue has any value"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-11T21:38:06.731+00:00",
+      "end_ts": "2020-12-11T21:42:11.943+00:00",
+      "participants": [
+        "Deleted User",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (4 messages, 2020-12-11) ---\n[2020-12-11 21:38] Deleted User (Deleted User): halp how do u play evis and felid\n[2020-12-11 21:40] velizar_ (Name): felid is very strong, it works out fairly well even as your first attacker @Deleted User though I follow the Bombarder rule of \"buy at least some permanent attack before buying Bombarder\".\nI guess you want to buy all felid supply if you have an animus.\n[2020-12-11 21:40] velizar_ (Name): I don't know about evis, but don't forget that it costs :Red: to click, it's too easy to forget.\n[2020-12-11 21:42] Deleted User (Deleted User): i guess roughly speaking what are their power levels",
+      "messages": [
+        {
+          "id": "787070736845504553",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-12-11T21:38:06.731+00:00",
+          "content": "halp how do u play evis and felid"
+        },
+        {
+          "id": "787071315697467442",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T21:40:24.74+00:00",
+          "content": "felid is very strong, it works out fairly well even as your first attacker @Deleted User though I follow the Bombarder rule of \"buy at least some permanent attack before buying Bombarder\".\nI guess you want to buy all felid supply if you have an animus."
+        },
+        {
+          "id": "787071417312346112",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-11T21:40:48.967+00:00",
+          "content": "I don't know about evis, but don't forget that it costs :Red: to click, it's too easy to forget."
+        },
+        {
+          "id": "787071765338652742",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-12-11T21:42:11.943+00:00",
+          "content": "i guess roughly speaking what are their power levels"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-15T19:50:11.875+00:00",
+      "end_ts": "2020-12-15T20:02:22.458+00:00",
+      "participants": [
+        "masn6811",
+        "shadourow"
+      ],
+      "replay_codes": [
+        "short-sight"
+      ],
+      "score": 34,
+      "formatted_text": "--- Thread (11 messages, 2020-12-15) ---\n[2020-12-15 19:50] shadourow (Rando): I heard that back then, gmech click cost was 0 and it was correct to spam click it.\n\nHow true is this ?\n\nIf we had the old gmech click back, would we be back to auto click land ? Or is it just another case of \"Iso Kronus OP\" ?\n[2020-12-15 19:56] masn6811 (Masne98888): you actually needed to build up a bit of an economy so you could sustain the forge cycling\n[2020-12-15 19:58] shadourow (Rando): That's surprising to me\n\nAs Gmech into mass free click is \"just\" Drake into mass clicks for 2 less golds\n[2020-12-15 19:59] shadourow (Rando): And Drake into spam clicks/rebuy feels pretty bad\n[2020-12-15 19:59] masn6811 (Masne98888): 5 gold for 2 damage is bad. 5 gold for 3 damage is good\n[2020-12-15 20:00] shadourow (Rando): True, but short-sighted \n\n10BB for 1 attacker is bad, 12BB for 2 attckers is meh-ok\n[2020-12-15 20:01] shadourow (Rando): Both Drake and Gmech  spams attack for 4.\n\nI wonder how costing 2 less initial golds makes a bad strategy suddenly OP\n[2020-12-15 20:01] shadourow (Rando): I'm not denying that it's true, 2 golds is a lot, i guess\n[2020-12-15 20:01] masn6811 (Masne98888): its better than that. not only is 2 golds a lot\n[2020-12-15 20:02] masn6811 (Masne98888): but it actually costs 2 less golds and gives you 1 more damage\n[2020-12-15 20:02] masn6811 (Masne98888): you realize you can hold the pixies to deny absorb, no?",
+      "messages": [
+        {
+          "id": "788493130793353297",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-15T19:50:11.875+00:00",
+          "content": "I heard that back then, gmech click cost was 0 and it was correct to spam click it.\n\nHow true is this ?\n\nIf we had the old gmech click back, would we be back to auto click land ? Or is it just another case of \"Iso Kronus OP\" ?"
+        },
+        {
+          "id": "788494677158133791",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-15T19:56:20.557+00:00",
+          "content": "you actually needed to build up a bit of an economy so you could sustain the forge cycling"
+        },
+        {
+          "id": "788495340961398794",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-15T19:58:58.82+00:00",
+          "content": "That's surprising to me\n\nAs Gmech into mass free click is \"just\" Drake into mass clicks for 2 less golds"
+        },
+        {
+          "id": "788495401388998687",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-15T19:59:13.227+00:00",
+          "content": "And Drake into spam clicks/rebuy feels pretty bad"
+        },
+        {
+          "id": "788495473353687070",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-15T19:59:30.385+00:00",
+          "content": "5 gold for 2 damage is bad. 5 gold for 3 damage is good"
+        },
+        {
+          "id": "788495646105010226",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-15T20:00:11.572+00:00",
+          "content": "True, but short-sighted \n\n10BB for 1 attacker is bad, 12BB for 2 attckers is meh-ok"
+        },
+        {
+          "id": "788495952293789706",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-15T20:01:24.573+00:00",
+          "content": "Both Drake and Gmech  spams attack for 4.\n\nI wonder how costing 2 less initial golds makes a bad strategy suddenly OP"
+        },
+        {
+          "id": "788496043867111426",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-15T20:01:46.406+00:00",
+          "content": "I'm not denying that it's true, 2 golds is a lot, i guess"
+        },
+        {
+          "id": "788496074700357673",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-15T20:01:53.757+00:00",
+          "content": "its better than that. not only is 2 golds a lot"
+        },
+        {
+          "id": "788496114957156374",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-15T20:02:03.355+00:00",
+          "content": "but it actually costs 2 less golds and gives you 1 more damage"
+        },
+        {
+          "id": "788496195080683553",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-15T20:02:22.458+00:00",
+          "content": "you realize you can hold the pixies to deny absorb, no?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-17T11:10:26.008+00:00",
+      "end_ts": "2020-12-17T11:10:26.008+00:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-12-17) ---\n[2020-12-17 11:10] velizar_ (Name): How bad is Perforator if you used it as an attacker? Suppose that you wanted to buy 2 Perforators early-ish and then never spend red again, is that acceptable?",
+      "messages": [
+        {
+          "id": "789087103518375948",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-17T11:10:26.008+00:00",
+          "content": "How bad is Perforator if you used it as an attacker? Suppose that you wanted to buy 2 Perforators early-ish and then never spend red again, is that acceptable?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-17T11:26:26.201+00:00",
+      "end_ts": "2020-12-17T11:50:30.635+00:00",
+      "participants": [
+        "shadourow",
+        "silentslayers",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 32,
+      "formatted_text": "--- Thread (12 messages, 2020-12-17) ---\n[2020-12-17 11:26] shadourow (Rando): It's more or less as good as immolite and tarsiers that way, right ?\n[2020-12-17 11:34] velizar_ (Name): That's really cool, I've neglected that.\n[2020-12-17 11:34] velizar_ (Name): Being able to sell your red really changes the game.\n[2020-12-17 11:37] shadourow (Rando): I love to buy a perforator on the first turn of a small red match to efficiently defend the kinda mandatory rhino\n[2020-12-17 11:37] shadourow (Rando): If they don't buy one, it allows you to buy a Blastforge\n[2020-12-17 11:37] shadourow (Rando): Really OP when going Elyot Animus\n[2020-12-17 11:44] velizar_ (Name): it's just that red is so strong, but later on you want to instead spend your gold on defense or other stuff\n[2020-12-17 11:45] velizar_ (Name): and perf is one of the units which lets you have both\n[2020-12-17 11:45] velizar_ (Name): I think that if a non-blocking perforator existed, it would still be pretty interesting and worthwhile\n[2020-12-17 11:46] velizar_ (Name): I mean even if you're not going to click it sometimes\n[2020-12-17 11:49] silentslayers: oh you mean smorcus?\n[2020-12-17 11:50] velizar_ (Name): no, Smorcus is RR for X, I'm talking R for X might still be worth sometimes spending the R",
+      "messages": [
+        {
+          "id": "789091130858799105",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-17T11:26:26.201+00:00",
+          "content": "It's more or less as good as immolite and tarsiers that way, right ?"
+        },
+        {
+          "id": "789093066581606422",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-17T11:34:07.713+00:00",
+          "content": "That's really cool, I've neglected that."
+        },
+        {
+          "id": "789093159316619285",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-17T11:34:29.823+00:00",
+          "content": "Being able to sell your red really changes the game."
+        },
+        {
+          "id": "789093836126814239",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-17T11:37:11.187+00:00",
+          "content": "I love to buy a perforator on the first turn of a small red match to efficiently defend the kinda mandatory rhino"
+        },
+        {
+          "id": "789093896793489418",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-17T11:37:25.651+00:00",
+          "content": "If they don't buy one, it allows you to buy a Blastforge"
+        },
+        {
+          "id": "789093946872823820",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-17T11:37:37.591+00:00",
+          "content": "Really OP when going Elyot Animus"
+        },
+        {
+          "id": "789095781792874516",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-17T11:44:55.07+00:00",
+          "content": "it's just that red is so strong, but later on you want to instead spend your gold on defense or other stuff"
+        },
+        {
+          "id": "789095838076895242",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-17T11:45:08.489+00:00",
+          "content": "and perf is one of the units which lets you have both"
+        },
+        {
+          "id": "789095962806714369",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-17T11:45:38.227+00:00",
+          "content": "I think that if a non-blocking perforator existed, it would still be pretty interesting and worthwhile"
+        },
+        {
+          "id": "789096157863084042",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-17T11:46:24.732+00:00",
+          "content": "I mean even if you're not going to click it sometimes"
+        },
+        {
+          "id": "789096864821674034",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-17T11:49:13.284+00:00",
+          "content": "oh you mean smorcus?"
+        },
+        {
+          "id": "789097189254365234",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-17T11:50:30.635+00:00",
+          "content": "no, Smorcus is RR for X, I'm talking R for X might still be worth sometimes spending the R"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-21T11:00:44.856+00:00",
+      "end_ts": "2020-12-21T11:16:24.985+00:00",
+      "participants": [
+        "masn6811",
+        "megasupp",
+        "velizar_"
+      ],
+      "replay_codes": [
+        "fO2h8-bO@NA"
+      ],
+      "score": 22,
+      "formatted_text": "--- Thread (9 messages, 2020-12-21) ---\n[2020-12-21 11:00] megasupp (mega-supp): check out this crazy game fO2h8-bO@NA\n[2020-12-21 11:00] megasupp (mega-supp): how would you try to refute this rush\n[2020-12-21 11:03] velizar_ (Name): That drake could've been more infusion grids instead\n[2020-12-21 11:03] velizar_ (Name): Also the animus could've been even more infusion grids, or something else defensive\n[2020-12-21 11:05] velizar_ (Name): at least buy a conduit to have G for at least one Plexo, more Plexos can be exploited but one can't\n[2020-12-21 11:05] velizar_ (Name): infusion grid is a bit of a soft counter for Wincer\n[2020-12-21 11:07] velizar_ (Name): I haven't actually gone into analysis mode so idk whether any of that could work\n[2020-12-21 11:13] masn6811 (Masne98888): @mega-supp very easy\n[2020-12-21 11:16] masn6811 (Masne98888): just odin/drake him ez :LoganHaa:",
+      "messages": [
+        {
+          "id": "790534217452224552",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-12-21T11:00:44.856+00:00",
+          "content": "check out this crazy game fO2h8-bO@NA"
+        },
+        {
+          "id": "790534258213126154",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-12-21T11:00:54.574+00:00",
+          "content": "how would you try to refute this rush"
+        },
+        {
+          "id": "790534898447417344",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-21T11:03:27.218+00:00",
+          "content": "That drake could've been more infusion grids instead"
+        },
+        {
+          "id": "790534977103724575",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-21T11:03:45.971+00:00",
+          "content": "Also the animus could've been even more infusion grids, or something else defensive"
+        },
+        {
+          "id": "790535315667943424",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-21T11:05:06.691+00:00",
+          "content": "at least buy a conduit to have G for at least one Plexo, more Plexos can be exploited but one can't"
+        },
+        {
+          "id": "790535365667586048",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-21T11:05:18.612+00:00",
+          "content": "infusion grid is a bit of a soft counter for Wincer"
+        },
+        {
+          "id": "790535824252469248",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-21T11:07:07.947+00:00",
+          "content": "I haven't actually gone into analysis mode so idk whether any of that could work"
+        },
+        {
+          "id": "790537330855378978",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-21T11:13:07.149+00:00",
+          "content": "@mega-supp very easy"
+        },
+        {
+          "id": "790538160639574017",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-12-21T11:16:24.985+00:00",
+          "content": "just odin/drake him ez :LoganHaa:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-26T19:26:02.69+00:00",
+      "end_ts": "2020-12-26T19:59:53.754+00:00",
+      "participants": [
+        "cooledcannon",
+        "f300xen",
+        "jamberine",
+        "shadourow",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 40,
+      "formatted_text": "--- Thread (50 messages, 2020-12-26) ---\n[2020-12-26 19:26] cooledcannon: nerds? which is better to reroll\n[2020-12-26 19:27] cooledcannon: assume idgaf about infus, care decently about 6 drops but rly wanna max 7 drops\n[2020-12-26 19:29] jamberine: if you value infusions at absolutely 0 you should never reroll and just buy 7s\n[2020-12-26 19:34] cooledcannon: isn't that ludicruously expensive\n[2020-12-26 19:36] jamberine: the chance of flipping white is low\n[2020-12-26 19:36] jamberine: https://www.reddit.com/r/Prismata/comments/3zx0i2/all_the_new_black_lab_probabilities/\nr/Prismata - All the new Black Lab probabilities\n10 votes and 13 comments so far on Reddit\n[2020-12-26 19:37] jamberine: this doesn't actually have blue unlocked only\n[2020-12-26 19:37] jamberine: but the probability of getting a white is less than that for green unlocked\n[2020-12-26 19:38] jamberine: so it's something like 1 in 30\n[2020-12-26 19:38] jamberine: so you would spend an expected 9000 shards to get a white\n[2020-12-26 19:38] jamberine: but reds don't matter in the long run\n[2020-12-26 19:38] cooledcannon: and i guess out of the armory or black lab, armory is even worse\n[2020-12-26 19:39] jamberine: armory converts your shards into black lab tickets\n[2020-12-26 19:39] jamberine: but shards are more efficient than extra tickets\n[2020-12-26 19:39] jamberine: assuming you don't want infusions\n[2020-12-26 19:40] cooledcannon: ok so lab flips are only good if i want infu\n[2020-12-26 19:41] cooledcannon: why's coscott say it's only good to flip if i have a green? isn't it even better to flip if i have a blue?\n[2020-12-26 19:42] cooledcannon: no wonder, i thought i had been getting real unlucky with lab tickets\n[2020-12-26 19:42] jamberine: fun fact: masn told you this two years ago\n[2020-12-26 19:42] jamberine: https://discord.com/channels/444961777856544771/444961778380701720/521427983857221644\n[2020-12-26 19:43] cooledcannon: hmmm so i guess a lab ticket is worth like 5k/45\n[2020-12-26 19:46] cooledcannon: I wonder if i would actuallly pay for this game ever in the future\n[2020-12-26 19:47] cooledcannon: i think i counted and i have around 45 unowned skins and 12 emotes\n[2020-12-26 19:47] cooledcannon: i should l2 be satisfied with the ones i have\n[2020-12-26 19:49] cooledcannon: hmmm thinking abt it i'm quite happy with it, looking through\n[2020-12-26 19:50] cooledcannon: i have the banking af comet, banking af auric, which comboes, banking af vore, eh i guess kids like e, banking af f, banking af gm, luci, proto, yeti, xeno\n[2020-12-26 19:51] cooledcannon: tbh i probs have close to 100k shards ~~with ~~ worth of cosmetics\n[2020-12-26 19:52] cooledcannon: does this mean i can sell my pris acc for, what's the equivalent eh, like $600?\n[2020-12-26 19:53] f300xen (f0x): your username sucks, so no\n[2020-12-26 19:53] cooledcannon: it has a free name change\n[2020-12-26 19:53] velizar_ (Name): You use emojis often, why don't you pimp them up with infus\n[2020-12-26 19:53] velizar_ (Name): Look at your recent replay and see which emotes you used\n[2020-12-26 19:54] cooledcannon: what infus should i use and which emotes should i use it on omg so much analysis paralysis\n[2020-12-26 19:54] cooledcannon: sano my problem is memory i guess\n[2020-12-26 19:54] shadourow (Rando): How ? Most of the emotes I use are customised\n[2020-12-26 19:54] cooledcannon: what's your emote loadout 1d\n[2020-12-26 19:56] cooledcannon: huh you don't have not you again pinned\n[2020-12-26 19:57] shadourow (Rando): No, because I only use it against you\n[2020-12-26 19:57] shadourow (Rando): I wish it was only a joke 👀\n[2020-12-26 19:57] cooledcannon: here's my loadout but i feel some of the thingies i don't use and some of my non favs i abuse\n[2020-12-26 19:57] shadourow (Rando): I use Morituri te salutant against other I don't want to match with\n[2020-12-26 19:58] shadourow (Rando): Because I lose 90-93% of the time against them\n[2020-12-26 19:58] shadourow (Rando): So.... why don't you customise them ?\n[2020-12-26 19:58] cooledcannon: tbh i think it's a mistake to use i seek re*venge* if venge is not bought in the game\n[2020-12-26 19:58] shadourow (Rando): You have enough infusion to get them all to 100 if you want\n[2020-12-26 19:59] cooledcannon: what do i customise them to\n[2020-12-26 19:59] shadourow (Rando): I use it both in venge games and after a loss\n[2020-12-26 19:59] shadourow (Rando): It's obviously green\n[2020-12-26 19:59] cooledcannon: i wish there was another emote on that style cause revenge should be a venge exclusive\n[2020-12-26 19:59] shadourow (Rando): And imo, just choose colors and animations that goes with the mesage",
+      "messages": [
+        {
+          "id": "792473318993166376",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:26:02.69+00:00",
+          "content": "nerds? which is better to reroll"
+        },
+        {
+          "id": "792473589055750204",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:27:07.078+00:00",
+          "content": "assume idgaf about infus, care decently about 6 drops but rly wanna max 7 drops"
+        },
+        {
+          "id": "792474308126965761",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:29:58.518+00:00",
+          "content": "if you value infusions at absolutely 0 you should never reroll and just buy 7s"
+        },
+        {
+          "id": "792475333017993217",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:34:02.871+00:00",
+          "content": "isn't that ludicruously expensive"
+        },
+        {
+          "id": "792475856676585472",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:36:07.721+00:00",
+          "content": "the chance of flipping white is low"
+        },
+        {
+          "id": "792475862154739743",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:36:09.027+00:00",
+          "content": "https://www.reddit.com/r/Prismata/comments/3zx0i2/all_the_new_black_lab_probabilities/\nr/Prismata - All the new Black Lab probabilities\n10 votes and 13 comments so far on Reddit"
+        },
+        {
+          "id": "792476122322567209",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:37:11.056+00:00",
+          "content": "this doesn't actually have blue unlocked only"
+        },
+        {
+          "id": "792476303986524160",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:37:54.368+00:00",
+          "content": "but the probability of getting a white is less than that for green unlocked"
+        },
+        {
+          "id": "792476344591187968",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:38:04.049+00:00",
+          "content": "so it's something like 1 in 30"
+        },
+        {
+          "id": "792476421175771206",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:38:22.308+00:00",
+          "content": "so you would spend an expected 9000 shards to get a white"
+        },
+        {
+          "id": "792476475885748264",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:38:35.352+00:00",
+          "content": "but reds don't matter in the long run"
+        },
+        {
+          "id": "792476522996957236",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:38:46.584+00:00",
+          "content": "and i guess out of the armory or black lab, armory is even worse"
+        },
+        {
+          "id": "792476670196056074",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:39:21.679+00:00",
+          "content": "armory converts your shards into black lab tickets"
+        },
+        {
+          "id": "792476701418061844",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:39:29.123+00:00",
+          "content": "but shards are more efficient than extra tickets"
+        },
+        {
+          "id": "792476738252177408",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:39:37.905+00:00",
+          "content": "assuming you don't want infusions"
+        },
+        {
+          "id": "792477000353972244",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:40:40.395+00:00",
+          "content": "ok so lab flips are only good if i want infu"
+        },
+        {
+          "id": "792477193933422622",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:41:26.548+00:00",
+          "content": "why's coscott say it's only good to flip if i have a green? isn't it even better to flip if i have a blue?"
+        },
+        {
+          "id": "792477446695157770",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:42:26.811+00:00",
+          "content": "no wonder, i thought i had been getting real unlucky with lab tickets"
+        },
+        {
+          "id": "792477492173733889",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:42:37.654+00:00",
+          "content": "fun fact: masn told you this two years ago"
+        },
+        {
+          "id": "792477496481677352",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-12-26T19:42:38.681+00:00",
+          "content": "https://discord.com/channels/444961777856544771/444961778380701720/521427983857221644"
+        },
+        {
+          "id": "792477723229421578",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:43:32.742+00:00",
+          "content": "hmmm so i guess a lab ticket is worth like 5k/45"
+        },
+        {
+          "id": "792478523075854417",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:46:43.44+00:00",
+          "content": "I wonder if i would actuallly pay for this game ever in the future"
+        },
+        {
+          "id": "792478669829701663",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:47:18.429+00:00",
+          "content": "i think i counted and i have around 45 unowned skins and 12 emotes"
+        },
+        {
+          "id": "792478840596725801",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:47:59.143+00:00",
+          "content": "i should l2 be satisfied with the ones i have"
+        },
+        {
+          "id": "792479178015506432",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:49:19.59+00:00",
+          "content": "hmmm thinking abt it i'm quite happy with it, looking through"
+        },
+        {
+          "id": "792479520737329192",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:50:41.301+00:00",
+          "content": "i have the banking af comet, banking af auric, which comboes, banking af vore, eh i guess kids like e, banking af f, banking af gm, luci, proto, yeti, xeno"
+        },
+        {
+          "id": "792479713448427551",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:51:27.247+00:00",
+          "content": "tbh i probs have close to 100k shards ~~with ~~ worth of cosmetics"
+        },
+        {
+          "id": "792479857232969729",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:52:01.528+00:00",
+          "content": "does this mean i can sell my pris acc for, what's the equivalent eh, like $600?"
+        },
+        {
+          "id": "792480169033072670",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2020-12-26T19:53:15.867+00:00",
+          "content": "your username sucks, so no"
+        },
+        {
+          "id": "792480208305127444",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:53:25.23+00:00",
+          "content": "it has a free name change"
+        },
+        {
+          "id": "792480284511043584",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-26T19:53:43.399+00:00",
+          "content": "You use emojis often, why don't you pimp them up with infus"
+        },
+        {
+          "id": "792480353368932362",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-26T19:53:59.816+00:00",
+          "content": "Look at your recent replay and see which emotes you used"
+        },
+        {
+          "id": "792480404090519582",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:54:11.909+00:00",
+          "content": "what infus should i use and which emotes should i use it on omg so much analysis paralysis"
+        },
+        {
+          "id": "792480495946301480",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:54:33.809+00:00",
+          "content": "sano my problem is memory i guess"
+        },
+        {
+          "id": "792480510483759114",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:54:37.275+00:00",
+          "content": "How ? Most of the emotes I use are customised"
+        },
+        {
+          "id": "792480579446636586",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:54:53.717+00:00",
+          "content": "what's your emote loadout 1d"
+        },
+        {
+          "id": "792481075267108895",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:56:51.93+00:00",
+          "content": "huh you don't have not you again pinned"
+        },
+        {
+          "id": "792481143857217567",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:57:08.283+00:00",
+          "content": "No, because I only use it against you"
+        },
+        {
+          "id": "792481237981462539",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:57:30.724+00:00",
+          "content": "I wish it was only a joke 👀"
+        },
+        {
+          "id": "792481320491155486",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:57:50.396+00:00",
+          "content": "here's my loadout but i feel some of the thingies i don't use and some of my non favs i abuse"
+        },
+        {
+          "id": "792481331099467806",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:57:52.925+00:00",
+          "content": "I use Morituri te salutant against other I don't want to match with"
+        },
+        {
+          "id": "792481392340107315",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:58:07.526+00:00",
+          "content": "Because I lose 90-93% of the time against them"
+        },
+        {
+          "id": "792481524716404786",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:58:39.087+00:00",
+          "content": "So.... why don't you customise them ?"
+        },
+        {
+          "id": "792481577422159885",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:58:51.653+00:00",
+          "content": "tbh i think it's a mistake to use i seek re*venge* if venge is not bought in the game"
+        },
+        {
+          "id": "792481584115613697",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:58:53.249+00:00",
+          "content": "You have enough infusion to get them all to 100 if you want"
+        },
+        {
+          "id": "792481619889618984",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:59:01.778+00:00",
+          "content": "what do i customise them to"
+        },
+        {
+          "id": "792481653330411560",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:59:09.751+00:00",
+          "content": "I use it both in venge games and after a loss"
+        },
+        {
+          "id": "792481732666064926",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:59:28.666+00:00",
+          "content": "It's obviously green"
+        },
+        {
+          "id": "792481806053933067",
+          "author": "cooledcannon",
+          "nickname": "cooledcannon",
+          "timestamp": "2020-12-26T19:59:46.163+00:00",
+          "content": "i wish there was another emote on that style cause revenge should be a venge exclusive"
+        },
+        {
+          "id": "792481837892894731",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-12-26T19:59:53.754+00:00",
+          "content": "And imo, just choose colors and animations that goes with the mesage"
+        }
+      ]
+    }
+  ]
+}

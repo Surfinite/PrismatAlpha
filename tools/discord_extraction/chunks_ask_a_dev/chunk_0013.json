@@ -1,0 +1,3001 @@
+{
+  "channel": "ask_a_dev",
+  "date_range": "2020-04-20 to 2020-07-24",
+  "thread_count": 61,
+  "token_count": 14972,
+  "threads": [
+    {
+      "start_ts": "2020-04-20T15:51:47.6+01:00",
+      "end_ts": "2020-04-20T16:15:39.528+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot",
+        "flakmaniak",
+        "iminabearsuit",
+        "sano712",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 38,
+      "formatted_text": "--- Thread (19 messages, 2020-04-20) ---\n[2020-04-20 15:51] sano712 (sano): @Elyot given that the new units (klystron merc etc) are already implemented in game, what is stopping them from being added to normal games? Lack of balance testing?\n[2020-04-20 15:52] elyot: klyston is sooo buggy\n[2020-04-20 15:52] Deleted User (Deleted User): as in AI? or any other way\n[2020-04-20 15:52] elyot: no like, it literally doesn't work, interactions with chill and snipe and wipeout and undo are really not well implemented\n[2020-04-20 15:53] Deleted User (Deleted User): how about the other ones\n[2020-04-20 15:54] elyot: mostly less scared of those since they're based on existing functionality, but AI/animation/sound work is not done\n[2020-04-20 15:58] flakmaniak: How does the AI work, anyway? Does it have to have a bunch of special-case stuff for each unit? Or could you throw random new basic units at it, like some random 2/4 blue guy or whatever, and it'll know basically how to handle them? Do you just need special cases for the unique mechanics?\n[2020-04-20 15:58] sano712 (sano): it's actually open source, you can look at it yourself if you're familiar with C++ https://github.com/davechurchill/PrismataAI\ndavechurchill/PrismataAI\nThe C++ AI Engine for Prismata by Lunarch Studios. Contribute to davechurchill/PrismataAI development by creating an account on GitHub.\n[2020-04-20 16:00] Deleted User (Deleted User): what if we're not nerds sano\n[2020-04-20 16:01] elyot: read dave's paper on hierarchical portfolio search\n[2020-04-20 16:01] elyot: the introduction is not that hard to understand\n[2020-04-20 16:02] Deleted User (Deleted User): i guess here's the link http://www.cs.mun.ca/~dchurchill/pdf/aiide15_churchill_prismata.pdf\n[2020-04-20 16:08] Deleted User (Deleted User): > Our result show that this system achieves a skill\n> level in the top 25% of human players on the ranked ladder\ndoes this mean we are in the top 25% if we can beat master bot? why do anoon and mrguy still call me bad then\n[2020-04-20 16:09] iminabearsuit: Top 25% is not particularly high in any field.\n[2020-04-20 16:09] iminabearsuit: Well, I shouldnt say any field, but in most video game settings.\n[2020-04-20 16:12] velizar_ (Name): top 25% at the time this was written. maybe it has more newer players, I think right now it's only in the top 85% or so of current active players\n[2020-04-20 16:13] elyot: it takes new players a long time to get good enough to regularly beat master bot\n[2020-04-20 16:14] elyot: I don't think \"top x%\" is a very good way to communicate bot strength but it's hard to find ways of doing that which will make sense to referees who are reading the paper but don't know the game\n[2020-04-20 16:15] Deleted User (Deleted User): what *is* a good way to communicate bot strength",
+      "messages": [
+        {
+          "id": "701807334942310452",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-20T15:51:47.6+01:00",
+          "content": "@Elyot given that the new units (klystron merc etc) are already implemented in game, what is stopping them from being added to normal games? Lack of balance testing?"
+        },
+        {
+          "id": "701807396472750121",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T15:52:02.27+01:00",
+          "content": "klyston is sooo buggy"
+        },
+        {
+          "id": "701807463900381184",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T15:52:18.346+01:00",
+          "content": "as in AI? or any other way"
+        },
+        {
+          "id": "701807637422932036",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T15:52:59.717+01:00",
+          "content": "no like, it literally doesn't work, interactions with chill and snipe and wipeout and undo are really not well implemented"
+        },
+        {
+          "id": "701807718939492452",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T15:53:19.152+01:00",
+          "content": "how about the other ones"
+        },
+        {
+          "id": "701807980957532191",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T15:54:21.622+01:00",
+          "content": "mostly less scared of those since they're based on existing functionality, but AI/animation/sound work is not done"
+        },
+        {
+          "id": "701808908926320701",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T15:58:02.867+01:00",
+          "content": "How does the AI work, anyway? Does it have to have a bunch of special-case stuff for each unit? Or could you throw random new basic units at it, like some random 2/4 blue guy or whatever, and it'll know basically how to handle them? Do you just need special cases for the unique mechanics?"
+        },
+        {
+          "id": "701809143949951036",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-20T15:58:58.901+01:00",
+          "content": "it's actually open source, you can look at it yourself if you're familiar with C++ https://github.com/davechurchill/PrismataAI\ndavechurchill/PrismataAI\nThe C++ AI Engine for Prismata by Lunarch Studios. Contribute to davechurchill/PrismataAI development by creating an account on GitHub."
+        },
+        {
+          "id": "701809553792041031",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T16:00:36.615+01:00",
+          "content": "what if we're not nerds sano"
+        },
+        {
+          "id": "701809759703269487",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:01:25.708+01:00",
+          "content": "read dave's paper on hierarchical portfolio search"
+        },
+        {
+          "id": "701809819744600084",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:01:40.023+01:00",
+          "content": "the introduction is not that hard to understand"
+        },
+        {
+          "id": "701809910966386719",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T16:02:01.772+01:00",
+          "content": "i guess here's the link http://www.cs.mun.ca/~dchurchill/pdf/aiide15_churchill_prismata.pdf"
+        },
+        {
+          "id": "701811597571522640",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T16:08:43.89+01:00",
+          "content": "> Our result show that this system achieves a skill\n> level in the top 25% of human players on the ranked ladder\ndoes this mean we are in the top 25% if we can beat master bot? why do anoon and mrguy still call me bad then"
+        },
+        {
+          "id": "701811783538835486",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2020-04-20T16:09:28.228+01:00",
+          "content": "Top 25% is not particularly high in any field."
+        },
+        {
+          "id": "701811853268877382",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2020-04-20T16:09:44.853+01:00",
+          "content": "Well, I shouldnt say any field, but in most video game settings."
+        },
+        {
+          "id": "701812640166707323",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-20T16:12:52.464+01:00",
+          "content": "top 25% at the time this was written. maybe it has more newer players, I think right now it's only in the top 85% or so of current active players"
+        },
+        {
+          "id": "701812808815214623",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:13:32.673+01:00",
+          "content": "it takes new players a long time to get good enough to regularly beat master bot"
+        },
+        {
+          "id": "701813006526316692",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:14:19.811+01:00",
+          "content": "I don't think \"top x%\" is a very good way to communicate bot strength but it's hard to find ways of doing that which will make sense to referees who are reading the paper but don't know the game"
+        },
+        {
+          "id": "701813340883648583",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T16:15:39.528+01:00",
+          "content": "what *is* a good way to communicate bot strength"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-20T16:31:17.032+01:00",
+      "end_ts": "2020-04-20T16:44:24.811+01:00",
+      "participants": [
+        "Deleted User",
+        "deadhour",
+        "elyot",
+        "sano712"
+      ],
+      "replay_codes": [
+        "earch-heavy"
+      ],
+      "score": 28,
+      "formatted_text": "--- Thread (14 messages, 2020-04-20) ---\n[2020-04-20 16:31] deadhour: There's also video of the presentation Dave gave at GDC 2017 covering the paper, for people who don't like to read.\n[2020-04-20 16:31] deadhour: https://www.youtube.com/watch?v=sQSL9j7W7uA\nPlaying Your Cards Right: The Hierarchical Portfolio Search AI of P...\nIn this 2017 GDC session, Lunarch Studios'  David Churchill describes the Hierarchical Portfolio Search AI system created for Prismata, and how it can be adapted to fit almost any genre of game, including search-heavy ones like strategy games.\n\nRegister for GDC: https://ubm.io...\n[2020-04-20 16:38] Deleted User (Deleted User): >  If an AI agent can be made that is able to\n> play at the level of expert players, the process of game balance and testing could then be automated instead of relying\n> solely on human players for feedback. For example, if a designer wants to test a new unit design before releasing it to\n> the public they could run millions of AI vs. AI games in\n> an attempt to see if the unit is purchased with the desired frequency or if it leads to an imbalance in win percentage for the\n> first or second player\nholy shit this is revolutionary why haven't i seen other games do/talk about this\n[2020-04-20 16:40] elyot: I think it's a good idea but I think it has very limited application in only a small subset of games\n[2020-04-20 16:41] sano712 (sano): also if the AI plays at a much higher level than players (e.g. chess) then the AI feedback is not that representative of the players\n[2020-04-20 16:41] Deleted User (Deleted User): how so? shouldn't it have a broad application in pretty much every multiplayer game\n[2020-04-20 16:42] elyot: most multiplayer games don't have AIs that play at the same level as human players, and don't have design goals revolving around balance or specific purchase frequencies or win percentages\n[2020-04-20 16:42] Deleted User (Deleted User): if gwent/artifact did that i think the balance would've been a lot better\n[2020-04-20 16:43] elyot: AIs in those games are terrible though\n[2020-04-20 16:43] elyot: (but could be improved)\n[2020-04-20 16:43] Deleted User (Deleted User): so it's only viable if the devs bother to make good AIs\n[2020-04-20 16:43] elyot: also piloting AI is way different than deckbuilding AI\n[2020-04-20 16:43] elyot: there is NO deckbuilding AI for those games\n[2020-04-20 16:44] Deleted User (Deleted User): they could at least balance it for draft",
+      "messages": [
+        {
+          "id": "701817273060687942",
+          "author": "deadhour",
+          "nickname": "DeadHour",
+          "timestamp": "2020-04-20T16:31:17.032+01:00",
+          "content": "There's also video of the presentation Dave gave at GDC 2017 covering the paper, for people who don't like to read."
+        },
+        {
+          "id": "701817278823530627",
+          "author": "deadhour",
+          "nickname": "DeadHour",
+          "timestamp": "2020-04-20T16:31:18.406+01:00",
+          "content": "https://www.youtube.com/watch?v=sQSL9j7W7uA\nPlaying Your Cards Right: The Hierarchical Portfolio Search AI of P...\nIn this 2017 GDC session, Lunarch Studios'  David Churchill describes the Hierarchical Portfolio Search AI system created for Prismata, and how it can be adapted to fit almost any genre of game, including search-heavy ones like strategy games.\n\nRegister for GDC: https://ubm.io..."
+        },
+        {
+          "id": "701819152742088834",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T16:38:45.183+01:00",
+          "content": ">  If an AI agent can be made that is able to\n> play at the level of expert players, the process of game balance and testing could then be automated instead of relying\n> solely on human players for feedback. For example, if a designer wants to test a new unit design before releasing it to\n> the public they could run millions of AI vs. AI games in\n> an attempt to see if the unit is purchased with the desired frequency or if it leads to an imbalance in win percentage for the\n> first or second player\nholy shit this is revolutionary why haven't i seen other games do/talk about this"
+        },
+        {
+          "id": "701819523346464809",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:40:13.542+01:00",
+          "content": "I think it's a good idea but I think it has very limited application in only a small subset of games"
+        },
+        {
+          "id": "701819724903743590",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-20T16:41:01.597+01:00",
+          "content": "also if the AI plays at a much higher level than players (e.g. chess) then the AI feedback is not that representative of the players"
+        },
+        {
+          "id": "701819903077777448",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T16:41:44.077+01:00",
+          "content": "how so? shouldn't it have a broad application in pretty much every multiplayer game"
+        },
+        {
+          "id": "701820091918057522",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:42:29.1+01:00",
+          "content": "most multiplayer games don't have AIs that play at the same level as human players, and don't have design goals revolving around balance or specific purchase frequencies or win percentages"
+        },
+        {
+          "id": "701820167595884694",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T16:42:47.143+01:00",
+          "content": "if gwent/artifact did that i think the balance would've been a lot better"
+        },
+        {
+          "id": "701820320310362132",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:43:23.553+01:00",
+          "content": "AIs in those games are terrible though"
+        },
+        {
+          "id": "701820332742279189",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:43:26.517+01:00",
+          "content": "(but could be improved)"
+        },
+        {
+          "id": "701820424132100206",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T16:43:48.306+01:00",
+          "content": "so it's only viable if the devs bother to make good AIs"
+        },
+        {
+          "id": "701820441823543407",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:43:52.524+01:00",
+          "content": "also piloting AI is way different than deckbuilding AI"
+        },
+        {
+          "id": "701820463260762735",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T16:43:57.635+01:00",
+          "content": "there is NO deckbuilding AI for those games"
+        },
+        {
+          "id": "701820577245298789",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-20T16:44:24.811+01:00",
+          "content": "they could at least balance it for draft"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-20T17:17:04.021+01:00",
+      "end_ts": "2020-04-20T17:19:37.786+01:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 13,
+      "formatted_text": "--- Thread (5 messages, 2020-04-20) ---\n[2020-04-20 17:17] velizar_ (Name): I don't think Starcraft can benefit from that, either with a theoretical extrapolation of its game AI to make it as good as top players, or with Google's AI, DeepMind.\n[2020-04-20 17:17] velizar_ (Name): Its game AI has no APM limits (but currently is much worse than most players)\n[2020-04-20 17:18] velizar_ (Name): DeepMind... has a lot of hacks to make it more human-like, that capture the obvious things like EPM (effective actions per minute), but not the nonobvious ones like click accuracy.\n[2020-04-20 17:18] velizar_ (Name): It plays the game differently, makes different mistakes ... etc\n[2020-04-20 17:19] velizar_ (Name): I've played chess vs AI and it alternated between being mega good (far beyond me at least) and putting its queen in front of my pawn for no reason.",
+      "messages": [
+        {
+          "id": "701828794767376535",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-20T17:17:04.021+01:00",
+          "content": "I don't think Starcraft can benefit from that, either with a theoretical extrapolation of its game AI to make it as good as top players, or with Google's AI, DeepMind."
+        },
+        {
+          "id": "701828928951812196",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-20T17:17:36.013+01:00",
+          "content": "Its game AI has no APM limits (but currently is much worse than most players)"
+        },
+        {
+          "id": "701829133000507513",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-20T17:18:24.662+01:00",
+          "content": "DeepMind... has a lot of hacks to make it more human-like, that capture the obvious things like EPM (effective actions per minute), but not the nonobvious ones like click accuracy."
+        },
+        {
+          "id": "701829210087358526",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-20T17:18:43.041+01:00",
+          "content": "It plays the game differently, makes different mistakes ... etc"
+        },
+        {
+          "id": "701829439704662049",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-20T17:19:37.786+01:00",
+          "content": "I've played chess vs AI and it alternated between being mega good (far beyond me at least) and putting its queen in front of my pawn for no reason."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-20T22:39:25.69+01:00",
+      "end_ts": "2020-04-20T23:06:15.21+01:00",
+      "participants": [
+        "elyot",
+        "flakmaniak",
+        "jeacaveo",
+        "sano712",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 34,
+      "formatted_text": "--- Thread (15 messages, 2020-04-20) ---\n[2020-04-20 22:39] flakmaniak: When you say \"regularly beat Master Bot\", what do you mean, Elyot? As in, beat it a significant percentage of the time? Or rarely drop a game to it?\n[2020-04-20 22:39] flakmaniak: Also, how much does Master Bot's quality vary based on the computer it's being run on?\n[2020-04-20 22:40] elyot: even getting 50% winrate against master bot takes most players many many hours of playing, could be 10-30 hours\n[2020-04-20 22:41] elyot: and not really, it needs exponentially more time to go even 1 ply deeper in search, which improves its performance only marginally\n[2020-04-20 22:41] flakmaniak: Hmm. I guess I don't really think of 10-30 hours as that long a time to learn a game.\n[2020-04-20 22:42] flakmaniak: If I've only played a competitive game 10h, I think I've barely even started.\n[2020-04-20 22:42] elyot: I know some players that spent several weeks trying to get good enough to beat master bot\n[2020-04-20 22:44] flakmaniak: I wish I had better perspective on this; I forget if I faced Master Bot much at all back when I played in 2015. Let alone whether I was any good against it. Also not sure whether I was any good against it when I started playing again several weeks ago. But now, at least, it doesn't feel particularly hard.\n[2020-04-20 22:45] jeacaveo (jeacaveo (#NeverBrowserer)): you might be able to gather some info from the replays?\n[2020-04-20 22:51] velizar_ (Name): I suspect it was > 50 hours for me\n[2020-04-20 22:54] elyot: I think it was ruinedshadows who told me that he beat master bot on one of his first tries and then it took him 100+ more tries to do it again\n[2020-04-20 22:57] sano712 (sano): it's possible, master bot goes full retard on some sets\n[2020-04-20 22:58] sano712 (sano): and plays decently on others\n[2020-04-20 23:05] velizar_ (Name): yes - it would be nice if we can get a set of units which the bot plays well with, so that we can create games with only those units.\n[2020-04-20 23:06] velizar_ (Name): its skill varies hugely between the units; in some cases it just throws the game",
+      "messages": [
+        {
+          "id": "701909919607029890",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T22:39:25.69+01:00",
+          "content": "When you say \"regularly beat Master Bot\", what do you mean, Elyot? As in, beat it a significant percentage of the time? Or rarely drop a game to it?"
+        },
+        {
+          "id": "701909978377748600",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T22:39:39.702+01:00",
+          "content": "Also, how much does Master Bot's quality vary based on the computer it's being run on?"
+        },
+        {
+          "id": "701910273967128607",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T22:40:50.176+01:00",
+          "content": "even getting 50% winrate against master bot takes most players many many hours of playing, could be 10-30 hours"
+        },
+        {
+          "id": "701910389910405160",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T22:41:17.819+01:00",
+          "content": "and not really, it needs exponentially more time to go even 1 ply deeper in search, which improves its performance only marginally"
+        },
+        {
+          "id": "701910441630236752",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T22:41:30.15+01:00",
+          "content": "Hmm. I guess I don't really think of 10-30 hours as that long a time to learn a game."
+        },
+        {
+          "id": "701910592646021130",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T22:42:06.155+01:00",
+          "content": "If I've only played a competitive game 10h, I think I've barely even started."
+        },
+        {
+          "id": "701910794090315827",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T22:42:54.183+01:00",
+          "content": "I know some players that spent several weeks trying to get good enough to beat master bot"
+        },
+        {
+          "id": "701911259641020497",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T22:44:45.179+01:00",
+          "content": "I wish I had better perspective on this; I forget if I faced Master Bot much at all back when I played in 2015. Let alone whether I was any good against it. Also not sure whether I was any good against it when I started playing again several weeks ago. But now, at least, it doesn't feel particularly hard."
+        },
+        {
+          "id": "701911451446804512",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-20T22:45:30.909+01:00",
+          "content": "you might be able to gather some info from the replays?"
+        },
+        {
+          "id": "701912967901347850",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-20T22:51:32.46+01:00",
+          "content": "I suspect it was > 50 hours for me"
+        },
+        {
+          "id": "701913691720777789",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-20T22:54:25.032+01:00",
+          "content": "I think it was ruinedshadows who told me that he beat master bot on one of his first tries and then it took him 100+ more tries to do it again"
+        },
+        {
+          "id": "701914577058791534",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-20T22:57:56.113+01:00",
+          "content": "it's possible, master bot goes full retard on some sets"
+        },
+        {
+          "id": "701914600303755337",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-20T22:58:01.655+01:00",
+          "content": "and plays decently on others"
+        },
+        {
+          "id": "701916517054414938",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-20T23:05:38.644+01:00",
+          "content": "yes - it would be nice if we can get a set of units which the bot plays well with, so that we can create games with only those units."
+        },
+        {
+          "id": "701916670423335013",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-20T23:06:15.21+01:00",
+          "content": "its skill varies hugely between the units; in some cases it just throws the game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T21:12:28.733+01:00",
+      "end_ts": "2020-04-22T21:12:28.733+01:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-04-22) ---\n[2020-04-22 21:12] velizar_ (Name): suggestion: amend /commands to include /getReplays. (I was trying to find that command because I already knew it existed but forgot it, and only Google helped me)",
+      "messages": [
+        {
+          "id": "702612813834879016",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T21:12:28.733+01:00",
+          "content": "suggestion: amend /commands to include /getReplays. (I was trying to find that command because I already knew it existed but forgot it, and only Google helped me)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-24T13:37:41.806+01:00",
+      "end_ts": "2020-04-24T13:37:41.806+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-04-24) ---\n[2020-04-24 13:37] masn6811 (Masne98888): how much of chapter 4 is complete?",
+      "messages": [
+        {
+          "id": "703223139898884187",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-04-24T13:37:41.806+01:00",
+          "content": "how much of chapter 4 is complete?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-30T12:29:53.667+01:00",
+      "end_ts": "2020-04-30T12:35:48.997+01:00",
+      "participants": [
+        "elyot",
+        "flakmaniak"
+      ],
+      "replay_codes": [],
+      "score": 37,
+      "formatted_text": "--- Thread (8 messages, 2020-04-30) ---\n[2020-04-30 12:29] flakmaniak: Skywing Apollo is intentionally Gundam Double X, right?\n[2020-04-30 12:31] elyot: I know nothing about Gundam but that whole set was drawn by an artist who was a fan of that stuff I think\n[2020-04-30 12:32] flakmaniak: The shape of its wings, I guess you'd call them, is just... Well it's Gundam X's reflectors, but six of them like Double X.\n[2020-04-30 12:34] elyot: For some of the custom unit sets, I wrote detailed descriptions of them, like bloodrager with a chef's hat splashing frosting all over the place, etc.\n[2020-04-30 12:34] elyot: for supermecha, I literally just said \"make these dudes look like epic mechas from anime\"\n[2020-04-30 12:34] elyot: and gave a list of units\n[2020-04-30 12:34] elyot: and very little other guidance\n[2020-04-30 12:35] elyot: Regarding LOR and randomness, it's just the same thing all the hearthstone devs said. The only thing I disagree with is that RNG is necessary to achieve those goals. Prismata is sorta a case-in-point that you can achieve the same goals via a deterministic game if you design it well. But RNG makes a lot of other game design easier",
+      "messages": [
+        {
+          "id": "705380404080803850",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-30T12:29:53.667+01:00",
+          "content": "Skywing Apollo is intentionally Gundam Double X, right?"
+        },
+        {
+          "id": "705380752363356182",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-30T12:31:16.704+01:00",
+          "content": "I know nothing about Gundam but that whole set was drawn by an artist who was a fan of that stuff I think"
+        },
+        {
+          "id": "705381061621973003",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-30T12:32:30.437+01:00",
+          "content": "The shape of its wings, I guess you'd call them, is just... Well it's Gundam X's reflectors, but six of them like Double X."
+        },
+        {
+          "id": "705381438328930335",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-30T12:34:00.251+01:00",
+          "content": "For some of the custom unit sets, I wrote detailed descriptions of them, like bloodrager with a chef's hat splashing frosting all over the place, etc."
+        },
+        {
+          "id": "705381588724351007",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-30T12:34:36.108+01:00",
+          "content": "for supermecha, I literally just said \"make these dudes look like epic mechas from anime\""
+        },
+        {
+          "id": "705381615093809172",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-30T12:34:42.395+01:00",
+          "content": "and gave a list of units"
+        },
+        {
+          "id": "705381636681760788",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-30T12:34:47.542+01:00",
+          "content": "and very little other guidance"
+        },
+        {
+          "id": "705381894442975263",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-04-30T12:35:48.997+01:00",
+          "content": "Regarding LOR and randomness, it's just the same thing all the hearthstone devs said. The only thing I disagree with is that RNG is necessary to achieve those goals. Prismata is sorta a case-in-point that you can achieve the same goals via a deterministic game if you design it well. But RNG makes a lot of other game design easier"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-01T09:56:42.579+01:00",
+      "end_ts": "2020-05-01T10:03:29.214+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot",
+        "flakmaniak"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (7 messages, 2020-05-01) ---\n[2020-05-01 09:56] flakmaniak: I think the best case for randomness/hidden information is if you want lots of bluffing/tricking your opponent. You wouldn't try to make a game like Netrunner with perfect information; it goes against the concept. But most card games don't lean into the hidden information aspect in the way Netrunner does.\n[2020-05-01 09:59] Deleted User (Deleted User): i don't know what exactly the hearthstone devs said can a kid link/summarise?\n[2020-05-01 10:00] flakmaniak: Also, unrelated, but weeks ago I asked in Prismata chat about that shirt Apooche is wearing in that one showmatch video; the one with Animus/Blastforge/Conduit on it. And some people told me that it was some one-off thing, not widely available. Is there a chance we can get some Prismata merch at some point? I think I'd buy at least seven shirts, if they were available: Animus+Blastforge+Conduit, Animus, Blastforge, Conduit, Defense Grid, Arka Sodara(!), Lancetooth... Possibly others. Sooo many units would make great shirt designs.\n[2020-05-01 10:01] Deleted User (Deleted User): if i wasn;t poor i might buy pris merch tbh\n[2020-05-01 10:01] elyot: We only ordered 100 of them and gave most of them away, I have a few hidden away in a box in my closet though... 🙂\n[2020-05-01 10:02] elyot: The problem with those graphics is that we only have them at about 300x300 pixels so they don't look that great when you blow them up to t-shirt size\n[2020-05-01 10:03] Deleted User (Deleted User): are they gonna come out of the closet",
+      "messages": [
+        {
+          "id": "705704241729241089",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-05-01T09:56:42.579+01:00",
+          "content": "I think the best case for randomness/hidden information is if you want lots of bluffing/tricking your opponent. You wouldn't try to make a game like Netrunner with perfect information; it goes against the concept. But most card games don't lean into the hidden information aspect in the way Netrunner does."
+        },
+        {
+          "id": "705704907260559391",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-05-01T09:59:21.254+01:00",
+          "content": "i don't know what exactly the hearthstone devs said can a kid link/summarise?"
+        },
+        {
+          "id": "705705203604652072",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-05-01T10:00:31.908+01:00",
+          "content": "Also, unrelated, but weeks ago I asked in Prismata chat about that shirt Apooche is wearing in that one showmatch video; the one with Animus/Blastforge/Conduit on it. And some people told me that it was some one-off thing, not widely available. Is there a chance we can get some Prismata merch at some point? I think I'd buy at least seven shirts, if they were available: Animus+Blastforge+Conduit, Animus, Blastforge, Conduit, Defense Grid, Arka Sodara(!), Lancetooth... Possibly others. Sooo many units would make great shirt designs."
+        },
+        {
+          "id": "705705452935315496",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-05-01T10:01:31.353+01:00",
+          "content": "if i wasn;t poor i might buy pris merch tbh"
+        },
+        {
+          "id": "705705551362785321",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T10:01:54.82+01:00",
+          "content": "We only ordered 100 of them and gave most of them away, I have a few hidden away in a box in my closet though... 🙂"
+        },
+        {
+          "id": "705705711652307015",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T10:02:33.036+01:00",
+          "content": "The problem with those graphics is that we only have them at about 300x300 pixels so they don't look that great when you blow them up to t-shirt size"
+        },
+        {
+          "id": "705705947280179261",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-05-01T10:03:29.214+01:00",
+          "content": "are they gonna come out of the closet"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-01T10:19:10.515+01:00",
+      "end_ts": "2020-05-01T10:19:10.515+01:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-05-01) ---\n[2020-05-01 10:19] p0lari (Polari): just put them through waifu2x ez",
+      "messages": [
+        {
+          "id": "705709895382466641",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2020-05-01T10:19:10.515+01:00",
+          "content": "just put them through waifu2x ez"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-01T10:50:55.499+01:00",
+      "end_ts": "2020-05-01T10:51:15.791+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2020-05-01) ---\n[2020-05-01 10:50] elyot: waifu2x actually did a pretty good job\n[2020-05-01 10:51] elyot: this is a very good use case for convolutional neural nets actually",
+      "messages": [
+        {
+          "id": "705717885464739892",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T10:50:55.499+01:00",
+          "content": "waifu2x actually did a pretty good job"
+        },
+        {
+          "id": "705717970575556678",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T10:51:15.791+01:00",
+          "content": "this is a very good use case for convolutional neural nets actually"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-01T13:38:57.854+01:00",
+      "end_ts": "2020-05-01T13:46:05.747+01:00",
+      "participants": [
+        "elyot",
+        "flakmaniak",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 37,
+      "formatted_text": "--- Thread (14 messages, 2020-05-01) ---\n[2020-05-01 13:38] flakmaniak: Gonna use the in-game bug report, but, I figure this screenshot is worth a thousand words:\n[2020-05-01 13:39] flakmaniak: Mousing over where the units would be in the buying UI showed the big versions. So I could play.\n[2020-05-01 13:39] velizar_ (Name): I think I've had this happen to me as well\n[2020-05-01 13:39] velizar_ (Name): don't remember what caused it\n[2020-05-01 13:39] elyot: That happens when the game runs out of video memory, we don't really have any way to handle it elegantly, it's either that or hard crash\n[2020-05-01 13:39] flakmaniak: I was alt-tabbing and when I came back it was like this.\n[2020-05-01 13:39] velizar_ (Name): (maybe it was only the resources, not the units)\n[2020-05-01 13:40] flakmaniak: Ok, so I shouldn't bother filing a proper bug report about it, then, since it's already known?\n[2020-05-01 13:41] flakmaniak: (The sadist in me wants that to be an alternate game mode.)\n[2020-05-01 13:45] elyot: I think that alt-tabbing is specifically related because you might lose GPU context\n[2020-05-01 13:45] elyot: and then when you come back, it errors trying to reallocate the memory\n[2020-05-01 13:45] elyot: cuz the OS just says nope\n[2020-05-01 13:45] elyot: nothing really we can do within Adobe AIR without increasing requirements for everyone\n[2020-05-01 13:46] elyot: (at least as far as I know)",
+      "messages": [
+        {
+          "id": "705760173926514730",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-05-01T13:38:57.854+01:00",
+          "content": "Gonna use the in-game bug report, but, I figure this screenshot is worth a thousand words:"
+        },
+        {
+          "id": "705760289383252048",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-05-01T13:39:25.381+01:00",
+          "content": "Mousing over where the units would be in the buying UI showed the big versions. So I could play."
+        },
+        {
+          "id": "705760297624797194",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-05-01T13:39:27.346+01:00",
+          "content": "I think I've had this happen to me as well"
+        },
+        {
+          "id": "705760316423798834",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-05-01T13:39:31.828+01:00",
+          "content": "don't remember what caused it"
+        },
+        {
+          "id": "705760362615668827",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T13:39:42.841+01:00",
+          "content": "That happens when the game runs out of video memory, we don't really have any way to handle it elegantly, it's either that or hard crash"
+        },
+        {
+          "id": "705760368311533620",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-05-01T13:39:44.199+01:00",
+          "content": "I was alt-tabbing and when I came back it was like this."
+        },
+        {
+          "id": "705760368957325432",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-05-01T13:39:44.353+01:00",
+          "content": "(maybe it was only the resources, not the units)"
+        },
+        {
+          "id": "705760602949156906",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-05-01T13:40:40.141+01:00",
+          "content": "Ok, so I shouldn't bother filing a proper bug report about it, then, since it's already known?"
+        },
+        {
+          "id": "705760874169892874",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-05-01T13:41:44.805+01:00",
+          "content": "(The sadist in me wants that to be an alternate game mode.)"
+        },
+        {
+          "id": "705761706994958347",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T13:45:03.366+01:00",
+          "content": "I think that alt-tabbing is specifically related because you might lose GPU context"
+        },
+        {
+          "id": "705761742147551274",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T13:45:11.747+01:00",
+          "content": "and then when you come back, it errors trying to reallocate the memory"
+        },
+        {
+          "id": "705761777685889055",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T13:45:20.22+01:00",
+          "content": "cuz the OS just says nope"
+        },
+        {
+          "id": "705761938402967573",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T13:45:58.538+01:00",
+          "content": "nothing really we can do within Adobe AIR without increasing requirements for everyone"
+        },
+        {
+          "id": "705761968639836210",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-01T13:46:05.747+01:00",
+          "content": "(at least as far as I know)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-01T16:24:23.14+01:00",
+      "end_ts": "2020-05-01T16:24:23.14+01:00",
+      "participants": [
+        "flakmaniak"
+      ],
+      "replay_codes": [
+        "fully-drawn"
+      ],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-05-01) ---\n[2020-05-01 16:24] flakmaniak: So, another question related to shirts: A lot of the unit art is \"cut off\" when shown on the cards in-game. Like, it won't be a fully-drawn guy but ends at the edge of the card. Do \"full\" versions\" of those pieces of art exist, which would be more suitable for putting on merch?",
+      "messages": [
+        {
+          "id": "705801803593154560",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-05-01T16:24:23.14+01:00",
+          "content": "So, another question related to shirts: A lot of the unit art is \"cut off\" when shown on the cards in-game. Like, it won't be a fully-drawn guy but ends at the edge of the card. Do \"full\" versions\" of those pieces of art exist, which would be more suitable for putting on merch?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-06T21:42:12.692+01:00",
+      "end_ts": "2020-05-06T21:48:22.292+01:00",
+      "participants": [
+        "elyot",
+        "zera777"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (3 messages, 2020-05-06) ---\n[2020-05-06 21:42] zera777 (Zera): @Elyot How are Prismata units named?\n[2020-05-06 21:45] elyot: There's no one single process, I can't even remember who named half of them or what they were named after, sometimes it's just random\n[2020-05-06 21:48] elyot: often we look for morphemes that we like or feel right",
+      "messages": [
+        {
+          "id": "707693726419648635",
+          "author": "zera777",
+          "nickname": "Zera",
+          "timestamp": "2020-05-06T21:42:12.692+01:00",
+          "content": "@Elyot How are Prismata units named?"
+        },
+        {
+          "id": "707694532980113478",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-06T21:45:24.991+01:00",
+          "content": "There's no one single process, I can't even remember who named half of them or what they were named after, sometimes it's just random"
+        },
+        {
+          "id": "707695276634275900",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-06T21:48:22.292+01:00",
+          "content": "often we look for morphemes that we like or feel right"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-08T14:52:51.104+01:00",
+      "end_ts": "2020-05-08T14:54:34.516+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (4 messages, 2020-05-08) ---\n[2020-05-08 14:52] masn6811 (Masne98888): @Developers With regards to innervi field, didn't you guys say you didn't combine prompt and lifespan because of the counterintuitive interaction?\n[2020-05-08 14:53] Deleted User (Deleted User): what's the counterintuitive interaction\n[2020-05-08 14:53] elyot: No, we always had that interaction since doomed wall, which was there since the start\n[2020-05-08 14:54] elyot: Fragile + Frontline is the one interaction that we don't do, I can't really think of any others",
+      "messages": [
+        {
+          "id": "708315483384053830",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-05-08T14:52:51.104+01:00",
+          "content": "@Developers With regards to innervi field, didn't you guys say you didn't combine prompt and lifespan because of the counterintuitive interaction?"
+        },
+        {
+          "id": "708315602728779849",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-05-08T14:53:19.558+01:00",
+          "content": "what's the counterintuitive interaction"
+        },
+        {
+          "id": "708315761638113304",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-08T14:53:57.445+01:00",
+          "content": "No, we always had that interaction since doomed wall, which was there since the start"
+        },
+        {
+          "id": "708315917125156884",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-08T14:54:34.516+01:00",
+          "content": "Fragile + Frontline is the one interaction that we don't do, I can't really think of any others"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-18T14:31:19.744+01:00",
+      "end_ts": "2020-05-18T14:31:19.744+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2020-05-18) ---\n[2020-05-18 14:31] elyot: just woke up, looking at it",
+      "messages": [
+        {
+          "id": "711933945683378217",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-18T14:31:19.744+01:00",
+          "content": "just woke up, looking at it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-18T14:54:37.717+01:00",
+      "end_ts": "2020-05-18T14:59:39.496+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (3 messages, 2020-05-18) ---\n[2020-05-18 14:54] elyot: update: Amazon restarted our database this morning. Now the servers won't connect to it at all. It's just hanging up whenever they try to connect. I don't know why yet.\n[2020-05-18 14:59] elyot: I restarted the database. It magically works now. Fuck technology.\n[2020-05-18 14:59] elyot: Sorry for the downtime, folks",
+      "messages": [
+        {
+          "id": "711939809207123968",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-18T14:54:37.717+01:00",
+          "content": "update: Amazon restarted our database this morning. Now the servers won't connect to it at all. It's just hanging up whenever they try to connect. I don't know why yet."
+        },
+        {
+          "id": "711940938347446352",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-18T14:59:06.925+01:00",
+          "content": "I restarted the database. It magically works now. Fuck technology."
+        },
+        {
+          "id": "711941074960253001",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-18T14:59:39.496+01:00",
+          "content": "Sorry for the downtime, folks"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-25T16:40:12.883+01:00",
+      "end_ts": "2020-05-25T17:03:50.016+01:00",
+      "participants": [
+        "elyot",
+        "olafim",
+        "shadourow",
+        "sonoja",
+        "zera777"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (6 messages, 2020-05-25) ---\n[2020-05-25 16:40] sonoja: Hey @Elyot , so we're supposed to get a full version with all the campaign, with founder's edition (or steelsplitter tier i believe, for kickstarters) according to the steam page. Granted there is no date. I don't mind having paid that, considering all the time i spent on this game, but is it possible to get some sort of treat while we're waiting for chapters 4 and 5 ? Something like a bunch of black cards and/or omnicores for instance ? 😉\n[2020-05-25 16:49] shadourow (Rando): I'm not sure that it was a troll 👀 \nHonestly, you could make some kind of big event with an huge omnicore/black card reward proportional to the number of match played or something like that. It shouldn't be too much work.\nJust an announcement in game 1 week in advance. A strawpoll to choose the event/mix of events. And... that's it ? Or do I miss something ?\n\nThat would still be some kind of glorified cosmetic drop, but it could make players play a bit more. I guess something like an event like that each month/2 months ?\n[2020-05-25 16:50] olafim (olaf_im): or.. you know, we were promised chapter 4 by fall 2019? Any compensation? Like seriously?\n[2020-05-25 16:54] zera777 (Zera): I bought the $25 tier, so I don't feel cheated. Never pre-order games, I say.\n[2020-05-25 16:59] elyot: see this post here: <https://www.reddit.com/r/Prismata/comments/fxe90m/why_prismata_failed/fo68hde/>\n[2020-05-25 17:03] elyot: I do think a big event would be cool, but I'd rather do it close to when we're actually dropping something",
+      "messages": [
+        {
+          "id": "714503095878418462",
+          "author": "sonoja",
+          "nickname": "sonoja",
+          "timestamp": "2020-05-25T16:40:12.883+01:00",
+          "content": "Hey @Elyot , so we're supposed to get a full version with all the campaign, with founder's edition (or steelsplitter tier i believe, for kickstarters) according to the steam page. Granted there is no date. I don't mind having paid that, considering all the time i spent on this game, but is it possible to get some sort of treat while we're waiting for chapters 4 and 5 ? Something like a bunch of black cards and/or omnicores for instance ? 😉"
+        },
+        {
+          "id": "714505307463745586",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-05-25T16:49:00.166+01:00",
+          "content": "I'm not sure that it was a troll 👀 \nHonestly, you could make some kind of big event with an huge omnicore/black card reward proportional to the number of match played or something like that. It shouldn't be too much work.\nJust an announcement in game 1 week in advance. A strawpoll to choose the event/mix of events. And... that's it ? Or do I miss something ?\n\nThat would still be some kind of glorified cosmetic drop, but it could make players play a bit more. I guess something like an event like that each month/2 months ?"
+        },
+        {
+          "id": "714505724364980244",
+          "author": "olafim",
+          "nickname": "olaf_im",
+          "timestamp": "2020-05-25T16:50:39.563+01:00",
+          "content": "or.. you know, we were promised chapter 4 by fall 2019? Any compensation? Like seriously?"
+        },
+        {
+          "id": "714506601058271304",
+          "author": "zera777",
+          "nickname": "Zera",
+          "timestamp": "2020-05-25T16:54:08.583+01:00",
+          "content": "I bought the $25 tier, so I don't feel cheated. Never pre-order games, I say."
+        },
+        {
+          "id": "714507894543876146",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-25T16:59:16.974+01:00",
+          "content": "see this post here: <https://www.reddit.com/r/Prismata/comments/fxe90m/why_prismata_failed/fo68hde/>"
+        },
+        {
+          "id": "714509039765291018",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-25T17:03:50.016+01:00",
+          "content": "I do think a big event would be cool, but I'd rather do it close to when we're actually dropping something"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-25T17:55:15.183+01:00",
+      "end_ts": "2020-05-25T17:55:15.183+01:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-05-25) ---\n[2020-05-25 17:55] p0lari (Polari): when's event time rotation",
+      "messages": [
+        {
+          "id": "714521979893579807",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2020-05-25T17:55:15.183+01:00",
+          "content": "when's event time rotation"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-25T19:48:07.002+01:00",
+      "end_ts": "2020-05-25T19:49:11.407+01:00",
+      "participants": [
+        "elyot",
+        "zera777"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2020-05-25) ---\n[2020-05-25 19:48] zera777 (Zera): @Elyot Why is Lunarch Studios called that? Is there actually more than one studio?\n[2020-05-25 19:49] elyot: Originally there was a group of us in Boston and a group in Canada",
+      "messages": [
+        {
+          "id": "714550382960836739",
+          "author": "zera777",
+          "nickname": "Zera",
+          "timestamp": "2020-05-25T19:48:07.002+01:00",
+          "content": "@Elyot Why is Lunarch Studios called that? Is there actually more than one studio?"
+        },
+        {
+          "id": "714550653095116810",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-25T19:49:11.407+01:00",
+          "content": "Originally there was a group of us in Boston and a group in Canada"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-25T23:49:46.987+01:00",
+      "end_ts": "2020-05-25T23:49:56.469+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2020-05-25) ---\n[2020-05-25 23:49] spiritfryer (Spyrfyr): But I didn't notice it until after I force killed the game cos it was stuck connecting\n[2020-05-25 23:49] spiritfryer (Spyrfyr): Hence the not responding\n[2020-05-25 23:49] spiritfryer (Spyrfyr): And after relaunching game loaded fine",
+      "messages": [
+        {
+          "id": "714611200305922058",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2020-05-25T23:49:46.987+01:00",
+          "content": "But I didn't notice it until after I force killed the game cos it was stuck connecting"
+        },
+        {
+          "id": "714611223144169523",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2020-05-25T23:49:52.432+01:00",
+          "content": "Hence the not responding"
+        },
+        {
+          "id": "714611240076312627",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2020-05-25T23:49:56.469+01:00",
+          "content": "And after relaunching game loaded fine"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-26T22:35:42.645+01:00",
+      "end_ts": "2020-05-26T22:39:05.223+01:00",
+      "participants": [
+        "elyot",
+        "zera777"
+      ],
+      "replay_codes": [],
+      "score": 32,
+      "formatted_text": "--- Thread (7 messages, 2020-05-26) ---\n[2020-05-26 22:35] zera777 (Zera): Does the Gauss Cannon have any relation to the Gauss Cannon?\n<https://doom.fandom.com/wiki/Gauss_Cannon>\n[2020-05-26 22:36] elyot: not the doom one, ours was named first\n[2020-05-26 22:36] elyot: we just wanted a name that started with the letter G\n[2020-05-26 22:37] elyot: the starcraft marine had a weapon called \"gauss rifle\"\n[2020-05-26 22:37] elyot: I think descent had a gauss cannon in like 1993\n[2020-05-26 22:38] elyot: eh, turns out they didn't add it until descent 2\n[2020-05-26 22:39] elyot: gauss cannon was stupidly OP in that game",
+      "messages": [
+        {
+          "id": "714954947250094181",
+          "author": "zera777",
+          "nickname": "Zera",
+          "timestamp": "2020-05-26T22:35:42.645+01:00",
+          "content": "Does the Gauss Cannon have any relation to the Gauss Cannon?\n<https://doom.fandom.com/wiki/Gauss_Cannon>"
+        },
+        {
+          "id": "714955187432849482",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-26T22:36:39.909+01:00",
+          "content": "not the doom one, ours was named first"
+        },
+        {
+          "id": "714955242340614155",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-26T22:36:53+01:00",
+          "content": "we just wanted a name that started with the letter G"
+        },
+        {
+          "id": "714955383554441237",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-26T22:37:26.668+01:00",
+          "content": "the starcraft marine had a weapon called \"gauss rifle\""
+        },
+        {
+          "id": "714955414629777529",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-26T22:37:34.077+01:00",
+          "content": "I think descent had a gauss cannon in like 1993"
+        },
+        {
+          "id": "714955766439870565",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-26T22:38:57.955+01:00",
+          "content": "eh, turns out they didn't add it until descent 2"
+        },
+        {
+          "id": "714955796923940885",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-26T22:39:05.223+01:00",
+          "content": "gauss cannon was stupidly OP in that game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-05-31T21:43:22.682+01:00",
+      "end_ts": "2020-05-31T21:44:13.287+01:00",
+      "participants": [
+        "elyot",
+        "zera777"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2020-05-31) ---\n[2020-05-31 21:43] zera777 (Zera): @Elyot Why does Prismata have different animation speeds? Does it only affect the travel time of resource particles?\n[2020-05-31 21:44] elyot: It affects a ton of particle effects and other in-game animations. It's an option because we found that newer players needed it slower, but we preferred it faster.",
+      "messages": [
+        {
+          "id": "716753716618985643",
+          "author": "zera777",
+          "nickname": "Zera",
+          "timestamp": "2020-05-31T21:43:22.682+01:00",
+          "content": "@Elyot Why does Prismata have different animation speeds? Does it only affect the travel time of resource particles?"
+        },
+        {
+          "id": "716753928871739397",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-05-31T21:44:13.287+01:00",
+          "content": "It affects a ton of particle effects and other in-game animations. It's an option because we found that newer players needed it slower, but we preferred it faster."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-04T03:32:24.192+01:00",
+      "end_ts": "2020-06-04T03:32:24.192+01:00",
+      "participants": [
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-06-04) ---\n[2020-06-04 03:32] jeacaveo (jeacaveo (#NeverBrowserer)): @Elyot I haven't been able to find  the  exact requirements to take advantage of the offer from the Black Lab where you exchange 40 Power Cores for other stuff, can you please clarify?\n\nI already have the 40 cores, but still no offer.",
+      "messages": [
+        {
+          "id": "717928715274813441",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-04T03:32:24.192+01:00",
+          "content": "@Elyot I haven't been able to find  the  exact requirements to take advantage of the offer from the Black Lab where you exchange 40 Power Cores for other stuff, can you please clarify?\n\nI already have the 40 cores, but still no offer."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-07T22:36:04.594+01:00",
+      "end_ts": "2020-06-07T22:47:58.637+01:00",
+      "participants": [
+        "elyot",
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 21,
+      "formatted_text": "--- Thread (7 messages, 2020-06-07) ---\n[2020-06-07 22:36] jeacaveo (jeacaveo (#NeverBrowserer)): Why don't we have a \"next turn:Green:\" estimator (as as with gold)?\n[2020-06-07 22:36] jeacaveo (jeacaveo (#NeverBrowserer)): @Elyot Would appreciate if you could answer my last Q and this one from a few days back https://discordapp.com/channels/112616041175089152/391209800911814656/717928715274813441\n[2020-06-07 22:46] elyot: Next turn green was never really that necessary and it would take up UI space\n[2020-06-07 22:47] elyot: the power cores... I think you have to own a certain number of cosmetics and power cores before it will appear\n[2020-06-07 22:47] elyot: can't remember the details\n[2020-06-07 22:47] jeacaveo (jeacaveo (#NeverBrowserer)): Is being master or not a factor?\n[2020-06-07 22:47] jeacaveo (jeacaveo (#NeverBrowserer)): got it. thanks for your answers! 🙂",
+      "messages": [
+        {
+          "id": "719303693698334720",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-07T22:36:04.594+01:00",
+          "content": "Why don't we have a \"next turn:Green:\" estimator (as as with gold)?"
+        },
+        {
+          "id": "719303892609007726",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-07T22:36:52.018+01:00",
+          "content": "@Elyot Would appreciate if you could answer my last Q and this one from a few days back https://discordapp.com/channels/112616041175089152/391209800911814656/717928715274813441"
+        },
+        {
+          "id": "719306396944040048",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-07T22:46:49.098+01:00",
+          "content": "Next turn green was never really that necessary and it would take up UI space"
+        },
+        {
+          "id": "719306549368979557",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-07T22:47:25.439+01:00",
+          "content": "the power cores... I think you have to own a certain number of cosmetics and power cores before it will appear"
+        },
+        {
+          "id": "719306582373957734",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-07T22:47:33.308+01:00",
+          "content": "can't remember the details"
+        },
+        {
+          "id": "719306619308998688",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-07T22:47:42.114+01:00",
+          "content": "Is being master or not a factor?"
+        },
+        {
+          "id": "719306688611483670",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-07T22:47:58.637+01:00",
+          "content": "got it. thanks for your answers! 🙂"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-09T14:46:26.296+01:00",
+      "end_ts": "2020-06-09T14:55:22.158+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot",
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (5 messages, 2020-06-09) ---\n[2020-06-09 14:46] jeacaveo (jeacaveo (#NeverBrowserer)): @Elyot sorry to ping you again, but I really need the details for Giselle's offer, do you mind providing the specifics?\n[2020-06-09 14:47] Deleted User (Deleted User): as he said, do not hesitate to ping him\n[2020-06-09 14:48] elyot: looks like you need to own 200 emotes\n[2020-06-09 14:48] elyot: had to look at the source code!\n[2020-06-09 14:55] jeacaveo (jeacaveo (#NeverBrowserer)): perfect! I'm definetly not there, thanks!",
+      "messages": [
+        {
+          "id": "719910281081258045",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-09T14:46:26.296+01:00",
+          "content": "@Elyot sorry to ping you again, but I really need the details for Giselle's offer, do you mind providing the specifics?"
+        },
+        {
+          "id": "719910486463742073",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-09T14:47:15.263+01:00",
+          "content": "as he said, do not hesitate to ping him"
+        },
+        {
+          "id": "719910864118874192",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-09T14:48:45.303+01:00",
+          "content": "looks like you need to own 200 emotes"
+        },
+        {
+          "id": "719910907966259310",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-09T14:48:55.757+01:00",
+          "content": "had to look at the source code!"
+        },
+        {
+          "id": "719912528649519234",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-09T14:55:22.158+01:00",
+          "content": "perfect! I'm definetly not there, thanks!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-09T16:21:29.613+01:00",
+      "end_ts": "2020-06-09T16:21:29.613+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-06-09) ---\n[2020-06-09 16:21] masn6811 (Masne98888): i think you can use /exchange to get the offer even before you unlock it",
+      "messages": [
+        {
+          "id": "719934202526564452",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-06-09T16:21:29.613+01:00",
+          "content": "i think you can use /exchange to get the offer even before you unlock it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-12T20:31:39.741+01:00",
+      "end_ts": "2020-06-12T21:16:43.15+01:00",
+      "participants": [
+        ".bky_1556",
+        "Deleted User",
+        "anesotericman",
+        "deadhour",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 32,
+      "formatted_text": "--- Thread (29 messages, 2020-06-12) ---\n[2020-06-12 20:31] Deleted User (Deleted User): !! apparently in a game called Zenonzard there's this thing called asynch pvp where the AI builds \"profiles\" of players and uses machine learning to build decks and come up with moves etc and on ladder you don't play against someone but instead on an AI who plays like the person\n[2020-06-12 20:31] Deleted User (Deleted User): if u could do this in pris i think it would change everything\n[2020-06-12 20:32] Deleted User (Deleted User): and it helps new players as well since the AI gives tips on what moves to make\n[2020-06-12 20:42] anesotericman (Esoteric): The ai emulation of players would be worse than masterbot (without additional AI work), so it wouldn't be useful for masters players to play against\n[2020-06-12 20:42] anesotericman (Esoteric): and players below that wouldn't really notice the nuances of player personalities compared to the existing AI profiles in casual.\n[2020-06-12 20:44] Deleted User (Deleted User): hmmm i do wonder if then zeonztard would be shitty then\n[2020-06-12 20:45] anesotericman (Esoteric): probably would work a lot better if the strategy is less about thinking ahead multiple moves and more about evaluation of boardstates\n[2020-06-12 20:45] elyot: I kinda think you'd have to solve a problem that's almost as hard as just making a machine learning AI for Prismata\n[2020-06-12 20:46] elyot: it might help to emulate humans for deckbuilding, but for actual gameplay, it's really hard\n[2020-06-12 20:46] elyot: Prismata is a game that humans are so good at, they can really identify when the AI is not playing well (unlike in hidden information card games where AI misplays are way more concealed)\n[2020-06-12 20:47] Deleted User (Deleted User): well I guess another question is what abt using machine learning to build AI for pris\n[2020-06-12 20:47] Deleted User (Deleted User): I think zenon uses machine learning for gameplay for decks which players had built beforehand\n[2020-06-12 20:48] Deleted User (Deleted User): but likely the gameplay is simplistic enough\n[2020-06-12 20:48] anesotericman (Esoteric): I'm sure you could. My brother's knowledgeable in the field, and doesn't think there's many unique problems to it. It's just a matter of would developer and simulation costs to make a better AI be worth the cost. Probably not?\n[2020-06-12 20:48] elyot: we tried doing some learning (was a side project of an intern who was doing a CS degree)\n[2020-06-12 20:49] elyot: it worked in the case where the list of units was known\n[2020-06-12 20:49] elyot: didn't get good results for random unit sets, too hard to generalize, needs a lot of work and probably a million bucks in electricity to train the model 😛\n[2020-06-12 20:51] anesotericman (Esoteric): If you put up a $10k bounty for a 2000-rated bot, my brother would probably take you up on the challenge. He's worked on some machine learning Go AI stuff, so not a complete rando. We assumed the cost-benefit wasn't there for you.\n[2020-06-12 20:53] elyot: the problem is that people can just cram it full of heuristics, when what we really want is a bot that would work with any unit that we could ever make in the future\n[2020-06-12 20:57] Deleted User (Deleted User): so just do it for the grandmaster set or smth\n[2020-06-12 20:57] Deleted User (Deleted User): it might be useful to have a pausable afkable but strong opponent\n[2020-06-12 20:58] Deleted User (Deleted User): i do like a scalable generalised bot tho\n[2020-06-12 21:00] anesotericman (Esoteric): Prismata's tough in that a lot of the strategic decisions relate to supplies running out in 10 turns (at higher levels), or not having anything good to spend on red in 6 turns. Takes a decent amount of cycles to run through the possibilities but they don't need to be done live, necessarily? Could \"train\" bots to play in specific sets as needed. This is all assuming you don't add completely new mechanics (like freezing) but just have new variations within current (or otherwise set) limitations.\n[2020-06-12 21:01] anesotericman (Esoteric): There's an interesting AI competition here where you say you'll add 40 new units in various combinations for the final challenge and AI would have an hour of training time for self-play/training on each set before the actual game starts or something.\n[2020-06-12 21:02] anesotericman (Esoteric): but this is all just on the \"cost\" side of the cost/benefit analysis. Still not sure that there's much to gain from having a better bot.\n[2020-06-12 21:05] Deleted User (Deleted User): bot \"personalities\" which are varied/good seem p cool to me idk\n[2020-06-12 21:09] .bky_1556 (bky): Don't we already have that in Casual?\n[2020-06-12 21:11] deadhour: he's talking about ladder tho\n[2020-06-12 21:16] Deleted User (Deleted User): the idea is the bots are meant to be able to *replace* human opponnents, basically by learning what opponents do",
+      "messages": [
+        {
+          "id": "721084323163406376",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:31:39.741+01:00",
+          "content": "!! apparently in a game called Zenonzard there's this thing called asynch pvp where the AI builds \"profiles\" of players and uses machine learning to build decks and come up with moves etc and on ladder you don't play against someone but instead on an AI who plays like the person"
+        },
+        {
+          "id": "721084361918644324",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:31:48.981+01:00",
+          "content": "if u could do this in pris i think it would change everything"
+        },
+        {
+          "id": "721084513060388952",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:32:25.016+01:00",
+          "content": "and it helps new players as well since the AI gives tips on what moves to make"
+        },
+        {
+          "id": "721087019446566974",
+          "author": "anesotericman",
+          "nickname": "Esoteric",
+          "timestamp": "2020-06-12T20:42:22.585+01:00",
+          "content": "The ai emulation of players would be worse than masterbot (without additional AI work), so it wouldn't be useful for masters players to play against"
+        },
+        {
+          "id": "721087161125830797",
+          "author": "anesotericman",
+          "nickname": "Esoteric",
+          "timestamp": "2020-06-12T20:42:56.364+01:00",
+          "content": "and players below that wouldn't really notice the nuances of player personalities compared to the existing AI profiles in casual."
+        },
+        {
+          "id": "721087495328104548",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:44:16.044+01:00",
+          "content": "hmmm i do wonder if then zeonztard would be shitty then"
+        },
+        {
+          "id": "721087765894266891",
+          "author": "anesotericman",
+          "nickname": "Esoteric",
+          "timestamp": "2020-06-12T20:45:20.552+01:00",
+          "content": "probably would work a lot better if the strategy is less about thinking ahead multiple moves and more about evaluation of boardstates"
+        },
+        {
+          "id": "721087908152606760",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-12T20:45:54.469+01:00",
+          "content": "I kinda think you'd have to solve a problem that's almost as hard as just making a machine learning AI for Prismata"
+        },
+        {
+          "id": "721087978365255813",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-12T20:46:11.209+01:00",
+          "content": "it might help to emulate humans for deckbuilding, but for actual gameplay, it's really hard"
+        },
+        {
+          "id": "721088070992265288",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-12T20:46:33.293+01:00",
+          "content": "Prismata is a game that humans are so good at, they can really identify when the AI is not playing well (unlike in hidden information card games where AI misplays are way more concealed)"
+        },
+        {
+          "id": "721088287980257361",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:47:25.027+01:00",
+          "content": "well I guess another question is what abt using machine learning to build AI for pris"
+        },
+        {
+          "id": "721088411514961921",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:47:54.48+01:00",
+          "content": "I think zenon uses machine learning for gameplay for decks which players had built beforehand"
+        },
+        {
+          "id": "721088448810844270",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:48:03.372+01:00",
+          "content": "but likely the gameplay is simplistic enough"
+        },
+        {
+          "id": "721088667212316745",
+          "author": "anesotericman",
+          "nickname": "Esoteric",
+          "timestamp": "2020-06-12T20:48:55.443+01:00",
+          "content": "I'm sure you could. My brother's knowledgeable in the field, and doesn't think there's many unique problems to it. It's just a matter of would developer and simulation costs to make a better AI be worth the cost. Probably not?"
+        },
+        {
+          "id": "721088681984917584",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-12T20:48:58.965+01:00",
+          "content": "we tried doing some learning (was a side project of an intern who was doing a CS degree)"
+        },
+        {
+          "id": "721088743611564052",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-12T20:49:13.658+01:00",
+          "content": "it worked in the case where the list of units was known"
+        },
+        {
+          "id": "721088844631638146",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-12T20:49:37.743+01:00",
+          "content": "didn't get good results for random unit sets, too hard to generalize, needs a lot of work and probably a million bucks in electricity to train the model 😛"
+        },
+        {
+          "id": "721089211842953337",
+          "author": "anesotericman",
+          "nickname": "Esoteric",
+          "timestamp": "2020-06-12T20:51:05.293+01:00",
+          "content": "If you put up a $10k bounty for a 2000-rated bot, my brother would probably take you up on the challenge. He's worked on some machine learning Go AI stuff, so not a complete rando. We assumed the cost-benefit wasn't there for you."
+        },
+        {
+          "id": "721089700621844581",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-12T20:53:01.827+01:00",
+          "content": "the problem is that people can just cram it full of heuristics, when what we really want is a bot that would work with any unit that we could ever make in the future"
+        },
+        {
+          "id": "721090797918748682",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:57:23.443+01:00",
+          "content": "so just do it for the grandmaster set or smth"
+        },
+        {
+          "id": "721090873621741669",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:57:41.492+01:00",
+          "content": "it might be useful to have a pausable afkable but strong opponent"
+        },
+        {
+          "id": "721091000784912555",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T20:58:11.81+01:00",
+          "content": "i do like a scalable generalised bot tho"
+        },
+        {
+          "id": "721091531116773397",
+          "author": "anesotericman",
+          "nickname": "Esoteric",
+          "timestamp": "2020-06-12T21:00:18.251+01:00",
+          "content": "Prismata's tough in that a lot of the strategic decisions relate to supplies running out in 10 turns (at higher levels), or not having anything good to spend on red in 6 turns. Takes a decent amount of cycles to run through the possibilities but they don't need to be done live, necessarily? Could \"train\" bots to play in specific sets as needed. This is all assuming you don't add completely new mechanics (like freezing) but just have new variations within current (or otherwise set) limitations."
+        },
+        {
+          "id": "721091872491176046",
+          "author": "anesotericman",
+          "nickname": "Esoteric",
+          "timestamp": "2020-06-12T21:01:39.641+01:00",
+          "content": "There's an interesting AI competition here where you say you'll add 40 new units in various combinations for the final challenge and AI would have an hour of training time for self-play/training on each set before the actual game starts or something."
+        },
+        {
+          "id": "721092043069194290",
+          "author": "anesotericman",
+          "nickname": "Esoteric",
+          "timestamp": "2020-06-12T21:02:20.31+01:00",
+          "content": "but this is all just on the \"cost\" side of the cost/benefit analysis. Still not sure that there's much to gain from having a better bot."
+        },
+        {
+          "id": "721092822966468680",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T21:05:26.252+01:00",
+          "content": "bot \"personalities\" which are varied/good seem p cool to me idk"
+        },
+        {
+          "id": "721093894867124244",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2020-06-12T21:09:41.813+01:00",
+          "content": "Don't we already have that in Casual?"
+        },
+        {
+          "id": "721094386943000647",
+          "author": "deadhour",
+          "nickname": "DeadHour",
+          "timestamp": "2020-06-12T21:11:39.133+01:00",
+          "content": "he's talking about ladder tho"
+        },
+        {
+          "id": "721095662082457630",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-06-12T21:16:43.15+01:00",
+          "content": "the idea is the bots are meant to be able to *replace* human opponnents, basically by learning what opponents do"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-12T21:35:31.059+01:00",
+      "end_ts": "2020-06-12T21:36:41.058+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (4 messages, 2020-06-12) ---\n[2020-06-12 21:35] masn6811 (Masne98888): honestly, why not make a bot that's crammed full of heuristics given we haven't had units for a really long time\n[2020-06-12 21:35] masn6811 (Masne98888): and besides, the ai i play already seems really crammed full of heurestics\n[2020-06-12 21:36] masn6811 (Masne98888): you can exploit it by offering a gambit any human would accept, for example\n[2020-06-12 21:36] masn6811 (Masne98888): or set up a big purchase that only works if the AI buys a wall instead of a steelsplitter, which it always does, even though your splitter was going to block anyways",
+      "messages": [
+        {
+          "id": "721100392875819099",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-06-12T21:35:31.059+01:00",
+          "content": "honestly, why not make a bot that's crammed full of heuristics given we haven't had units for a really long time"
+        },
+        {
+          "id": "721100459544281090",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-06-12T21:35:46.954+01:00",
+          "content": "and besides, the ai i play already seems really crammed full of heurestics"
+        },
+        {
+          "id": "721100546378825728",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-06-12T21:36:07.657+01:00",
+          "content": "you can exploit it by offering a gambit any human would accept, for example"
+        },
+        {
+          "id": "721100686473035826",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-06-12T21:36:41.058+01:00",
+          "content": "or set up a big purchase that only works if the AI buys a wall instead of a steelsplitter, which it always does, even though your splitter was going to block anyways"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-12T22:51:50.594+01:00",
+      "end_ts": "2020-06-12T22:53:58.801+01:00",
+      "participants": [
+        "randomflyingtaco",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (3 messages, 2020-06-12) ---\n[2020-06-12 22:51] silentslayers: imagine knowing the quirks of the AI\n[2020-06-12 22:51] silentslayers: I play humans instead\n[2020-06-12 22:53] randomflyingtaco (RiFT (#RIPBrowserers)): imagine shitposting in #ask_a_dev",
+      "messages": [
+        {
+          "id": "721119600837656747",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-12T22:51:50.594+01:00",
+          "content": "imagine knowing the quirks of the AI"
+        },
+        {
+          "id": "721119625135259668",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-12T22:51:56.387+01:00",
+          "content": "I play humans instead"
+        },
+        {
+          "id": "721120138577051798",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2020-06-12T22:53:58.801+01:00",
+          "content": "imagine shitposting in #ask_a_dev"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-16T03:13:25.659+01:00",
+      "end_ts": "2020-06-16T03:15:25.323+01:00",
+      "participants": [
+        "elyot",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (3 messages, 2020-06-16) ---\n[2020-06-16 03:13] masn6811 (Masne98888): when did you add supply limits to comm-net?\n[2020-06-16 03:14] elyot: I feel like it was a long time ago but I have no idea when exactly, that was basically the first \"boss\" level we made\n[2020-06-16 03:15] elyot: I think we had always planned to introduce the supply limits in chapter 1 and it was more that we hadn't decided when they would be added until we did the campaign",
+      "messages": [
+        {
+          "id": "722272594308628501",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-06-16T03:13:25.659+01:00",
+          "content": "when did you add supply limits to comm-net?"
+        },
+        {
+          "id": "722272976669507716",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-16T03:14:56.821+01:00",
+          "content": "I feel like it was a long time ago but I have no idea when exactly, that was basically the first \"boss\" level we made"
+        },
+        {
+          "id": "722273096215691344",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-16T03:15:25.323+01:00",
+          "content": "I think we had always planned to introduce the supply limits in chapter 1 and it was more that we hadn't decided when they would be added until we did the campaign"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-16T05:55:18.597+01:00",
+      "end_ts": "2020-06-16T05:55:18.597+01:00",
+      "participants": [
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-06-16) ---\n[2020-06-16 05:55] jeacaveo (jeacaveo (#NeverBrowserer)): @Elyot is there a delay  before someone of a lower rank is matched with someone of a higher rank?\n\nSay I'm 1500 and only people over 2k are queueing, am I matched with them right away or is there an amount of time that has to pass before we're matched?",
+      "messages": [
+        {
+          "id": "722313333323071530",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-16T05:55:18.597+01:00",
+          "content": "@Elyot is there a delay  before someone of a lower rank is matched with someone of a higher rank?\n\nSay I'm 1500 and only people over 2k are queueing, am I matched with them right away or is there an amount of time that has to pass before we're matched?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-16T13:57:01.731+01:00",
+      "end_ts": "2020-06-16T13:57:13.344+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2020-06-16) ---\n[2020-06-16 13:57] elyot: there will be some delay, it will try to find a better opponent if possible\n[2020-06-16 13:57] elyot: if the 2k person has been in queue for a long time then it will be faster",
+      "messages": [
+        {
+          "id": "722434561853620294",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-16T13:57:01.731+01:00",
+          "content": "there will be some delay, it will try to find a better opponent if possible"
+        },
+        {
+          "id": "722434610562334723",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-16T13:57:13.344+01:00",
+          "content": "if the 2k person has been in queue for a long time then it will be faster"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-16T16:48:38.145+01:00",
+      "end_ts": "2020-06-16T16:53:23.616+01:00",
+      "participants": [
+        "elyot",
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (5 messages, 2020-06-16) ---\n[2020-06-16 16:48] jeacaveo (jeacaveo (#NeverBrowserer)): can that be turned off? or reduced? maybe it's a coincidence that everytime I play someone of a significant higher raiting, I have to wait a few minutes before I\"m matched again with the same person, even when we are the only ones nto in a game (it could be that they are not queueing right away, but it's unlikely it takes a similar amount of time to queue for that person 3 times in a row).\n[2020-06-16 16:49] elyot: it tries to avoid repeated matches against the same opponent\n[2020-06-16 16:51] jeacaveo (jeacaveo (#NeverBrowserer)): I can understand that, but given the low amount of people queueing, maybe it making it easier to get games? \n\nNot saying it could be right away, but maybe making it 30 seconds (again, assuming the delay is several minutes right now, I don't know).\n[2020-06-16 16:52] elyot: ok let's try it for a day, now it will match you right away\n[2020-06-16 16:53] jeacaveo (jeacaveo (#NeverBrowserer)): wow, that was quick! thanks! \n\nif any issues arise from this, I'll report back",
+      "messages": [
+        {
+          "id": "722477748144177162",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-16T16:48:38.145+01:00",
+          "content": "can that be turned off? or reduced? maybe it's a coincidence that everytime I play someone of a significant higher raiting, I have to wait a few minutes before I\"m matched again with the same person, even when we are the only ones nto in a game (it could be that they are not queueing right away, but it's unlikely it takes a similar amount of time to queue for that person 3 times in a row)."
+        },
+        {
+          "id": "722478077568876564",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-16T16:49:56.686+01:00",
+          "content": "it tries to avoid repeated matches against the same opponent"
+        },
+        {
+          "id": "722478516591001663",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-16T16:51:41.357+01:00",
+          "content": "I can understand that, but given the low amount of people queueing, maybe it making it easier to get games? \n\nNot saying it could be right away, but maybe making it 30 seconds (again, assuming the delay is several minutes right now, I don't know)."
+        },
+        {
+          "id": "722478735672082502",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-16T16:52:33.59+01:00",
+          "content": "ok let's try it for a day, now it will match you right away"
+        },
+        {
+          "id": "722478945496465439",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-06-16T16:53:23.616+01:00",
+          "content": "wow, that was quick! thanks! \n\nif any issues arise from this, I'll report back"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-16T17:03:57.425+01:00",
+      "end_ts": "2020-06-16T17:04:25.394+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2020-06-16) ---\n[2020-06-16 17:03] elyot: yeah but if queues are really that dead then you could do it anyway\n[2020-06-16 17:04] elyot: and we have a better solution to that anyway which is to ban people 🙂",
+      "messages": [
+        {
+          "id": "722481603883958373",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-16T17:03:57.425+01:00",
+          "content": "yeah but if queues are really that dead then you could do it anyway"
+        },
+        {
+          "id": "722481721194315789",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-16T17:04:25.394+01:00",
+          "content": "and we have a better solution to that anyway which is to ban people 🙂"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-17T02:28:23.189+01:00",
+      "end_ts": "2020-06-17T02:37:53.471+01:00",
+      "participants": [
+        "elyot",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 26,
+      "formatted_text": "--- Thread (8 messages, 2020-06-17) ---\n[2020-06-17 02:28] silentslayers: did you remove the 500 gap? Because I really dislike that if that's true\n[2020-06-17 02:28] silentslayers: I dont want to play people who are THAT inexperienced\n[2020-06-17 02:28] elyot: just trying it temporarily\n[2020-06-17 02:28] elyot: will put it back soon\n[2020-06-17 02:29] silentslayers: Suso also told me sometimes you dont get matched with the top 2 ppl playing if youre speccing but i dunno if thats true\n[2020-06-17 02:29] silentslayers: So take that with a grain of salt\n[2020-06-17 02:29] elyot: the automatcher does not know if you're speccing\n[2020-06-17 02:37] silentslayers: that was some great gaming!",
+      "messages": [
+        {
+          "id": "722623647193497600",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-17T02:28:23.189+01:00",
+          "content": "did you remove the 500 gap? Because I really dislike that if that's true"
+        },
+        {
+          "id": "722623686653247520",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-17T02:28:32.597+01:00",
+          "content": "I dont want to play people who are THAT inexperienced"
+        },
+        {
+          "id": "722623745428160612",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-17T02:28:46.61+01:00",
+          "content": "just trying it temporarily"
+        },
+        {
+          "id": "722623759567290388",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-17T02:28:49.981+01:00",
+          "content": "will put it back soon"
+        },
+        {
+          "id": "722623812109205505",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-17T02:29:02.508+01:00",
+          "content": "Suso also told me sometimes you dont get matched with the top 2 ppl playing if youre speccing but i dunno if thats true"
+        },
+        {
+          "id": "722623842656452619",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-17T02:29:09.791+01:00",
+          "content": "So take that with a grain of salt"
+        },
+        {
+          "id": "722623920263397427",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-17T02:29:28.294+01:00",
+          "content": "the automatcher does not know if you're speccing"
+        },
+        {
+          "id": "722626039129571409",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-17T02:37:53.471+01:00",
+          "content": "that was some great gaming!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-17T04:36:59.767+01:00",
+      "end_ts": "2020-06-17T04:38:06.802+01:00",
+      "participants": [
+        "jamberine"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2020-06-17) ---\n[2020-06-17 04:36] jamberine: I agree that you shouldn't be able to queue people 500 points away still\n[2020-06-17 04:38] jamberine: the same opponent thing should be at least long enough to let someone waiting in queue match with one of two people who jsut finished a game",
+      "messages": [
+        {
+          "id": "722656012867469312",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-06-17T04:36:59.767+01:00",
+          "content": "I agree that you shouldn't be able to queue people 500 points away still"
+        },
+        {
+          "id": "722656294032637974",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-06-17T04:38:06.802+01:00",
+          "content": "the same opponent thing should be at least long enough to let someone waiting in queue match with one of two people who jsut finished a game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-17T07:51:22.513+01:00",
+      "end_ts": "2020-06-17T07:51:22.513+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-06-17) ---\n[2020-06-17 07:51] silentslayers: can you make Q absorb not soak xae to absorb on chieftain please? @Elyot",
+      "messages": [
+        {
+          "id": "722704929969406022",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-17T07:51:22.513+01:00",
+          "content": "can you make Q absorb not soak xae to absorb on chieftain please? @Elyot"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-17T09:56:10.167+01:00",
+      "end_ts": "2020-06-17T09:57:39.854+01:00",
+      "participants": [
+        "sano712"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2020-06-17) ---\n[2020-06-17 09:56] sano712 (sano): I think 500 points is a reasonable limit. I understand the motivation of fast queue and I think I like it but such a big gap should still hold\n[2020-06-17 09:56] sano712 (sano): 500 points is enough that a 1600 can get matched with basically everyone but the top 5 players\n[2020-06-17 09:57] sano712 (sano): Also regarding the suso thing, yesterday he was already queueing, he asked me to get into queue, I did and I immediately got queued vs someone else. I don't know why the matchmaking gave priority to us if he was already queueing before.",
+      "messages": [
+        {
+          "id": "722736335466659880",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-06-17T09:56:10.167+01:00",
+          "content": "I think 500 points is a reasonable limit. I understand the motivation of fast queue and I think I like it but such a big gap should still hold"
+        },
+        {
+          "id": "722736450067759126",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-06-17T09:56:37.49+01:00",
+          "content": "500 points is enough that a 1600 can get matched with basically everyone but the top 5 players"
+        },
+        {
+          "id": "722736711641333770",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-06-17T09:57:39.854+01:00",
+          "content": "Also regarding the suso thing, yesterday he was already queueing, he asked me to get into queue, I did and I immediately got queued vs someone else. I don't know why the matchmaking gave priority to us if he was already queueing before."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-17T20:17:44.752+01:00",
+      "end_ts": "2020-06-17T20:18:17.282+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (2 messages, 2020-06-17) ---\n[2020-06-17 20:17] elyot: if there are 3 people in queue and all 3 are matchable with each other then it will prioritize close matches\n[2020-06-17 20:18] elyot: so maybe the third person just jumped in at the same time as you (the automatching bus leaves the bus stop every 5 seconds)",
+      "messages": [
+        {
+          "id": "722892760293703791",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-17T20:17:44.752+01:00",
+          "content": "if there are 3 people in queue and all 3 are matchable with each other then it will prioritize close matches"
+        },
+        {
+          "id": "722892896734281809",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-17T20:18:17.282+01:00",
+          "content": "so maybe the third person just jumped in at the same time as you (the automatching bus leaves the bus stop every 5 seconds)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-18T02:10:52.45+01:00",
+      "end_ts": "2020-06-18T02:10:52.45+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2020-06-18) ---\n[2020-06-18 02:10] elyot: got too many other games to play though, the backlog is strong",
+      "messages": [
+        {
+          "id": "722981627940175996",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-18T02:10:52.45+01:00",
+          "content": "got too many other games to play though, the backlog is strong"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-18T02:25:04.204+01:00",
+      "end_ts": "2020-06-18T02:27:27.139+01:00",
+      "participants": [
+        "elyot",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (3 messages, 2020-06-18) ---\n[2020-06-18 02:25] silentslayers: can you make Q absorb not soak xae to absorb on chieftain please? @Elyot\n[2020-06-18 02:27] elyot: I could hardcore stuff like that but it's not easy in general, it's a case where none the heuristics work because chieftain has more HP and isn't just soak\n[2020-06-18 02:27] elyot: I'll stick it on the list of bugs to look at but no promises",
+      "messages": [
+        {
+          "id": "722985200455516180",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-18T02:25:04.204+01:00",
+          "content": "can you make Q absorb not soak xae to absorb on chieftain please? @Elyot"
+        },
+        {
+          "id": "722985691264581681",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-18T02:27:01.222+01:00",
+          "content": "I could hardcore stuff like that but it's not easy in general, it's a case where none the heuristics work because chieftain has more HP and isn't just soak"
+        },
+        {
+          "id": "722985799968227339",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-18T02:27:27.139+01:00",
+          "content": "I'll stick it on the list of bugs to look at but no promises"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-18T09:02:48.218+01:00",
+      "end_ts": "2020-06-18T09:08:07.965+01:00",
+      "participants": [
+        "lyra1712",
+        "sano712"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (6 messages, 2020-06-18) ---\n[2020-06-18 09:02] lyra1712 (Lyra): what if doing nothing 2 turns in a row is the correct play\n[2020-06-18 09:04] sano712 (sano): okay let me rephrase it\n[2020-06-18 09:04] sano712 (sano): passing the turn counts as an action, so I'm talking about letting your time expire without doing anything\n[2020-06-18 09:04] sano712 (sano): and I think it's fine if it doesn't apply to bullet\n[2020-06-18 09:05] sano712 (sano): it's just that sometimes people go afk and you have to wait for 60 seconds in each turn for like 5+ turns until you destroy all their units\n[2020-06-18 09:08] lyra1712 (Lyra): seems fair, if passing the turn counts as an action it seems to solve the issue",
+      "messages": [
+        {
+          "id": "723085293384892466",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-06-18T09:02:48.218+01:00",
+          "content": "what if doing nothing 2 turns in a row is the correct play"
+        },
+        {
+          "id": "723085660583362631",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-06-18T09:04:15.765+01:00",
+          "content": "okay let me rephrase it"
+        },
+        {
+          "id": "723085737259696199",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-06-18T09:04:34.046+01:00",
+          "content": "passing the turn counts as an action, so I'm talking about letting your time expire without doing anything"
+        },
+        {
+          "id": "723085796713824296",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-06-18T09:04:48.221+01:00",
+          "content": "and I think it's fine if it doesn't apply to bullet"
+        },
+        {
+          "id": "723085970307547157",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-06-18T09:05:29.609+01:00",
+          "content": "it's just that sometimes people go afk and you have to wait for 60 seconds in each turn for like 5+ turns until you destroy all their units"
+        },
+        {
+          "id": "723086634500751402",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-06-18T09:08:07.965+01:00",
+          "content": "seems fair, if passing the turn counts as an action it seems to solve the issue"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-18T10:12:04.722+01:00",
+      "end_ts": "2020-06-18T10:12:25.521+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (3 messages, 2020-06-18) ---\n[2020-06-18 10:12] elyot: if it's the first turn then it ends faster\n[2020-06-18 10:12] elyot: if they AFK in the middle of the game then it might make you finish them off, but that's uncommon\n[2020-06-18 10:12] elyot: what's more common is that people are AFK when they're in queue",
+      "messages": [
+        {
+          "id": "723102727026245662",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-18T10:12:04.722+01:00",
+          "content": "if it's the first turn then it ends faster"
+        },
+        {
+          "id": "723102783376588890",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-18T10:12:18.157+01:00",
+          "content": "if they AFK in the middle of the game then it might make you finish them off, but that's uncommon"
+        },
+        {
+          "id": "723102814263574598",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-06-18T10:12:25.521+01:00",
+          "content": "what's more common is that people are AFK when they're in queue"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-18T18:40:22.099+01:00",
+      "end_ts": "2020-06-18T18:41:16.586+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (3 messages, 2020-06-18) ---\n[2020-06-18 18:40] silentslayers: Right, and there’s a problem with making you finish them off in the middle of the game, there can be situations where you only have like 10 attack and they have like 100+ health\n[2020-06-18 18:40] silentslayers: So I think sano has a good idea\n[2020-06-18 18:41] silentslayers: Even if it takes like 7 turns that can be over 7 minutes, how is that acceptable? Just because it’s rare?",
+      "messages": [
+        {
+          "id": "723230642296324097",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-18T18:40:22.099+01:00",
+          "content": "Right, and there’s a problem with making you finish them off in the middle of the game, there can be situations where you only have like 10 attack and they have like 100+ health"
+        },
+        {
+          "id": "723230703537356831",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-18T18:40:36.7+01:00",
+          "content": "So I think sano has a good idea"
+        },
+        {
+          "id": "723230870831366225",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-18T18:41:16.586+01:00",
+          "content": "Even if it takes like 7 turns that can be over 7 minutes, how is that acceptable? Just because it’s rare?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-22T01:53:45.313+01:00",
+      "end_ts": "2020-06-22T01:53:45.313+01:00",
+      "participants": [
+        "coffeeyay"
+      ],
+      "replay_codes": [
+        "HIp4d-MPQQg"
+      ],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-06-22) ---\n[2020-06-22 01:53] coffeeyay: 10 supply oxide mixer when? HIp4d-MPQQg",
+      "messages": [
+        {
+          "id": "724426871277879336",
+          "author": "coffeeyay",
+          "nickname": "coffeeyay",
+          "timestamp": "2020-06-22T01:53:45.313+01:00",
+          "content": "10 supply oxide mixer when? HIp4d-MPQQg"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-22T03:17:33.185+01:00",
+      "end_ts": "2020-06-22T03:19:35.868+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2020-06-22) ---\n[2020-06-22 03:17] spiritfryer (Spyrfyr): ||gj, you found a way to say fuck you to p2 rng||\n[2020-06-22 03:19] spiritfryer (Spyrfyr): ||I wonder what happens if he goes Plasma though, like on turn 8.5 or 9.5, surely that's too much to deal with?||\n\n_ᴶᵉˢᵘˢ, ᵗʰᶦˢ ᶦˢ #ᵃˢᵏ\\_ᵃ\\_ᵈᵉᵛ ᴵ ᵈᶦᵈⁿ'ᵗ ᵉᵛᵉⁿ ʳᵉᵃˡᶦᶻᵉ :LongNoseLiar: _",
+      "messages": [
+        {
+          "id": "724447959701258281",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2020-06-22T03:17:33.185+01:00",
+          "content": "||gj, you found a way to say fuck you to p2 rng||"
+        },
+        {
+          "id": "724448474271318138",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2020-06-22T03:19:35.868+01:00",
+          "content": "||I wonder what happens if he goes Plasma though, like on turn 8.5 or 9.5, surely that's too much to deal with?||\n\n_ᴶᵉˢᵘˢ, ᵗʰᶦˢ ᶦˢ #ᵃˢᵏ\\_ᵃ\\_ᵈᵉᵛ ᴵ ᵈᶦᵈⁿ'ᵗ ᵉᵛᵉⁿ ʳᵉᵃˡᶦᶻᵉ :LongNoseLiar: _"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-22T11:49:24.467+01:00",
+      "end_ts": "2020-06-22T11:49:24.467+01:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-06-22) ---\n[2020-06-22 11:49] velizar_ (Name): Oxide mixer must be deliberately low supply, because at that low price you ~~obviously~~ often want to buy many. Same as Thermite",
+      "messages": [
+        {
+          "id": "724576772154196071",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-06-22T11:49:24.467+01:00",
+          "content": "Oxide mixer must be deliberately low supply, because at that low price you ~~obviously~~ often want to buy many. Same as Thermite"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-06-26T13:58:50.549+01:00",
+      "end_ts": "2020-06-26T14:05:48.204+01:00",
+      "participants": [
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "hfMDd-NzBpp"
+      ],
+      "score": 8,
+      "formatted_text": "--- Thread (2 messages, 2020-06-26) ---\n[2020-06-26 13:58] silentslayers: hfMDd-NzBpp\n\nCan you please fix the AFK thing Elyot? Having to finish every unit they have can take a while, it's very unpleasant. This was over 5 minutes to kill the person who was AFK. @Elyot\n[2020-06-26 14:05] spiritfryer (Spyrfyr): In what mode does it auto-concede when one side runs out of time without taking any action on their turn? Cos I could swear I remember that being a thing. Or nvm it was just turn 1, wasn't it",
+      "messages": [
+        {
+          "id": "726058896925655160",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-06-26T13:58:50.549+01:00",
+          "content": "hfMDd-NzBpp\n\nCan you please fix the AFK thing Elyot? Having to finish every unit they have can take a while, it's very unpleasant. This was over 5 minutes to kill the person who was AFK. @Elyot"
+        },
+        {
+          "id": "726060648697561158",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2020-06-26T14:05:48.204+01:00",
+          "content": "In what mode does it auto-concede when one side runs out of time without taking any action on their turn? Cos I could swear I remember that being a thing. Or nvm it was just turn 1, wasn't it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-02T20:09:52.031+01:00",
+      "end_ts": "2020-07-02T20:16:25.328+01:00",
+      "participants": [
+        "jeacaveo",
+        "siepu"
+      ],
+      "replay_codes": [
+        "micro-trans"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (3 messages, 2020-07-02) ---\n[2020-07-02 20:09] jeacaveo (jeacaveo (#NeverBrowserer)): is it too late to change the monetization model to something similar to what Clash Royale/Brawl Stars do? (might be frindge games but those are the ones I know that use micro-transactions that people don't like, but i like them as long as they keep the game semi pupular and running)\n[2020-07-02 20:16] siepu: completely different targets\n[2020-07-02 20:16] siepu: prismata is no way in hell a casual game",
+      "messages": [
+        {
+          "id": "728326595542122516",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-07-02T20:09:52.031+01:00",
+          "content": "is it too late to change the monetization model to something similar to what Clash Royale/Brawl Stars do? (might be frindge games but those are the ones I know that use micro-transactions that people don't like, but i like them as long as they keep the game semi pupular and running)"
+        },
+        {
+          "id": "728328209254580314",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-07-02T20:16:16.77+01:00",
+          "content": "completely different targets"
+        },
+        {
+          "id": "728328245149302823",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-07-02T20:16:25.328+01:00",
+          "content": "prismata is no way in hell a casual game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-06T21:51:12.496+01:00",
+      "end_ts": "2020-07-06T22:01:27.063+01:00",
+      "participants": [
+        "awaclus",
+        "elyot",
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (5 messages, 2020-07-06) ---\n[2020-07-06 21:51] jeacaveo (jeacaveo (#NeverBrowserer)): @Elyot any chance the units that don't have any skin at all will get one in the near future (1 to 2 years)? even if it's just googlie eyes\n\nalso: https://discordapp.com/channels/112616041175089152/391209800911814656/728326595542122516\n[2020-07-06 21:54] awaclus: what do you mean just googly eyes, googly eyes are the best\n[2020-07-06 21:56] jeacaveo (jeacaveo (#NeverBrowserer)): i think Elyot said he does those himself? that's why I said it, nothing wrong with googlyie eyes\n[2020-07-06 22:00] elyot: @Name Oxide Mixer is low supply because in general we don't want high supply of units that produce other units because the piles can get too big.\n@SilentSlayers It never auto-concedes in turns after 1 unless there is a disconnect. If the player is connected and uses all their time every turn, it allows it by default. If you're disconnected then it will boot you after 1.5 turns. If there is a player doing that all the time then report them, but we don't wanna kick players just because they didn't act. In some cases (endgames etc.) it can be correct to take no action during a turn but also correct to spend time thinking. In blitz games, it's even more common.\n@jeacaveo (#NeverBrowserer) It's never too late to change the model but Clash Royale's model is based around actual pay-to-win upgrades of the in-game units and that would never work in Prismata. Current plan is probably to release a premium \"complete edition\" and just discount it a lot during Steam sales etc.. I don't know when/if we will commission more skins. There were plans to but it doesn't seem like a good use of budget. We might make some more ourselves, I kinda like doing it. 🙂\n[2020-07-06 22:01] jeacaveo (jeacaveo (#NeverBrowserer)): hehehe, knowing you like doing it gives me hope. thanks for the answers.",
+      "messages": [
+        {
+          "id": "729801650323325080",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-07-06T21:51:12.496+01:00",
+          "content": "@Elyot any chance the units that don't have any skin at all will get one in the near future (1 to 2 years)? even if it's just googlie eyes\n\nalso: https://discordapp.com/channels/112616041175089152/391209800911814656/728326595542122516"
+        },
+        {
+          "id": "729802479679701053",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2020-07-06T21:54:30.23+01:00",
+          "content": "what do you mean just googly eyes, googly eyes are the best"
+        },
+        {
+          "id": "729803098029293598",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-07-06T21:56:57.656+01:00",
+          "content": "i think Elyot said he does those himself? that's why I said it, nothing wrong with googlyie eyes"
+        },
+        {
+          "id": "729804015134572565",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-06T22:00:36.311+01:00",
+          "content": "@Name Oxide Mixer is low supply because in general we don't want high supply of units that produce other units because the piles can get too big.\n@SilentSlayers It never auto-concedes in turns after 1 unless there is a disconnect. If the player is connected and uses all their time every turn, it allows it by default. If you're disconnected then it will boot you after 1.5 turns. If there is a player doing that all the time then report them, but we don't wanna kick players just because they didn't act. In some cases (endgames etc.) it can be correct to take no action during a turn but also correct to spend time thinking. In blitz games, it's even more common.\n@jeacaveo (#NeverBrowserer) It's never too late to change the model but Clash Royale's model is based around actual pay-to-win upgrades of the in-game units and that would never work in Prismata. Current plan is probably to release a premium \"complete edition\" and just discount it a lot during Steam sales etc.. I don't know when/if we will commission more skins. There were plans to but it doesn't seem like a good use of budget. We might make some more ourselves, I kinda like doing it. 🙂"
+        },
+        {
+          "id": "729804228004151386",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-07-06T22:01:27.063+01:00",
+          "content": "hehehe, knowing you like doing it gives me hope. thanks for the answers."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-07T04:55:16.769+01:00",
+      "end_ts": "2020-07-07T04:55:16.769+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-07-07) ---\n[2020-07-07 04:55] silentslayers: @Elyot feels like there's gotta be a better solution because it's pretty unacceptable that when it happens your game is locked for 5-10 minutes",
+      "messages": [
+        {
+          "id": "729908371339083808",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-07-07T04:55:16.769+01:00",
+          "content": "@Elyot feels like there's gotta be a better solution because it's pretty unacceptable that when it happens your game is locked for 5-10 minutes"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-07T15:06:00.507+01:00",
+      "end_ts": "2020-07-07T15:07:03.538+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (3 messages, 2020-07-07) ---\n[2020-07-07 15:06] elyot: We modeled it after online chess\n[2020-07-07 15:06] elyot: Like if you're playing a 15m chess game and you afk after a few turns then your opponent just has to wait for your clock to flag\n[2020-07-07 15:07] elyot: They only cancel the game if it's the first turn, or if there's a disconnect (but you can report your opponent if you think they're intentionally wasting time)",
+      "messages": [
+        {
+          "id": "730062066315952218",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-07T15:06:00.507+01:00",
+          "content": "We modeled it after online chess"
+        },
+        {
+          "id": "730062195596984333",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-07T15:06:31.33+01:00",
+          "content": "Like if you're playing a 15m chess game and you afk after a few turns then your opponent just has to wait for your clock to flag"
+        },
+        {
+          "id": "730062330687127603",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-07T15:07:03.538+01:00",
+          "content": "They only cancel the game if it's the first turn, or if there's a disconnect (but you can report your opponent if you think they're intentionally wasting time)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-07T15:41:11.48+01:00",
+      "end_ts": "2020-07-07T15:44:40.415+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot",
+        "sano712",
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 19,
+      "formatted_text": "--- Thread (7 messages, 2020-07-07) ---\n[2020-07-07 15:41] shadourow (Rando): Or that Frost Brooder is in the game\n[2020-07-07 15:42] elyot: I think the most reasonable thing would be to add some kind of \"are you still there\" popup to non-blitz games when a person has done no action for a few turns, but I can't promise it will be a priority any time soon\n[2020-07-07 15:42] elyot: if there is a specific person who's causing grief by AFKing often in ladder games, we can warn and ban them\n[2020-07-07 15:43] Deleted User (Deleted User): what if it's a legitimate strategy\n[2020-07-07 15:44] elyot: then they can click \"yes, I'm still here\" and it won't be a problem\n[2020-07-07 15:44] sano712 (sano): It has happened before but I can't recall any repeated offender, this is just a \"this could be improved\" sort of feedback\n\n@Deleted User we have discussed this above, it would probably not apply to bullet and it would probably not apply if the person has deliberately chosen to skip their turn (rather than letting the time end)\n[2020-07-07 15:44] Deleted User (Deleted User): FeelsBadMan @ screwing up multitabling",
+      "messages": [
+        {
+          "id": "730070920378449921",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-07-07T15:41:11.48+01:00",
+          "content": "Or that Frost Brooder is in the game"
+        },
+        {
+          "id": "730071251955220531",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-07T15:42:30.534+01:00",
+          "content": "I think the most reasonable thing would be to add some kind of \"are you still there\" popup to non-blitz games when a person has done no action for a few turns, but I can't promise it will be a priority any time soon"
+        },
+        {
+          "id": "730071350483615815",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-07T15:42:54.025+01:00",
+          "content": "if there is a specific person who's causing grief by AFKing often in ladder games, we can warn and ban them"
+        },
+        {
+          "id": "730071578381123604",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-07-07T15:43:48.36+01:00",
+          "content": "what if it's a legitimate strategy"
+        },
+        {
+          "id": "730071691220484207",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-07T15:44:15.263+01:00",
+          "content": "then they can click \"yes, I'm still here\" and it won't be a problem"
+        },
+        {
+          "id": "730071781435506758",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-07-07T15:44:36.772+01:00",
+          "content": "It has happened before but I can't recall any repeated offender, this is just a \"this could be improved\" sort of feedback\n\n@Deleted User we have discussed this above, it would probably not apply to bullet and it would probably not apply if the person has deliberately chosen to skip their turn (rather than letting the time end)"
+        },
+        {
+          "id": "730071796715618445",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-07-07T15:44:40.415+01:00",
+          "content": "FeelsBadMan @ screwing up multitabling"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-07T15:58:05.418+01:00",
+      "end_ts": "2020-07-07T16:05:15.315+01:00",
+      "participants": [
+        "elyot",
+        "masterstormer"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (2 messages, 2020-07-07) ---\n[2020-07-07 15:58] masterstormer (guygeva2311): What's your opinion on Battle-pass monetization? I am not a huge fan of it, but it does fit the game, and having the game be paid-upfront runs the danger of having the community be even smaller (Although I am not sure what you mean by a `complete edition`; If the f2p players can experience enough of the game without paying then it may be alright)\n[2020-07-07 16:05] elyot: We investigated battle pass and gave up on it, the only titles that are really sustaining themselves on battle passes are huuuge games with tons of players, cosmetic-only battle passes are doing especially bad",
+      "messages": [
+        {
+          "id": "730075173142921248",
+          "author": "masterstormer",
+          "nickname": "guygeva2311",
+          "timestamp": "2020-07-07T15:58:05.418+01:00",
+          "content": "What's your opinion on Battle-pass monetization? I am not a huge fan of it, but it does fit the game, and having the game be paid-upfront runs the danger of having the community be even smaller (Although I am not sure what you mean by a `complete edition`; If the f2p players can experience enough of the game without paying then it may be alright)"
+        },
+        {
+          "id": "730076976261365780",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-07T16:05:15.315+01:00",
+          "content": "We investigated battle pass and gave up on it, the only titles that are really sustaining themselves on battle passes are huuuge games with tons of players, cosmetic-only battle passes are doing especially bad"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-07T20:21:14.649+01:00",
+      "end_ts": "2020-07-07T20:21:36.207+01:00",
+      "participants": [
+        "awoodokehu",
+        "siepu"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2020-07-07) ---\n[2020-07-07 20:21] awoodokehu (dokawehu): on battle passes, how effective is the particular model (which i think fortnite did and other games copied): \nwhere the pass costs like 1000 premium currency but if you grind the pass the whole way through you get 1050 premium currency (so you can buy it every season with enough grinding)\n[2020-07-07 20:21] siepu: the issue is 'premium currency' in prismata is useless",
+      "messages": [
+        {
+          "id": "730141397977661572",
+          "author": "awoodokehu",
+          "nickname": "dokawehu",
+          "timestamp": "2020-07-07T20:21:14.649+01:00",
+          "content": "on battle passes, how effective is the particular model (which i think fortnite did and other games copied): \nwhere the pass costs like 1000 premium currency but if you grind the pass the whole way through you get 1050 premium currency (so you can buy it every season with enough grinding)"
+        },
+        {
+          "id": "730141488398467104",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-07-07T20:21:36.207+01:00",
+          "content": "the issue is 'premium currency' in prismata is useless"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-11T18:08:32.36+01:00",
+      "end_ts": "2020-07-11T18:18:31.145+01:00",
+      "participants": [
+        "elyot",
+        "pflanzenesser"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (4 messages, 2020-07-11) ---\n[2020-07-11 18:08] elyot: @dokawehu Battle pass that's free if you play enough is fine, but the ARPU would not be high enough to allow us to dump a ton of money into ads/growth. We'd still likely lose money on every user we acquire because on average, not enough of them will buy it\n@Arseface We implemented correspondence games a long time ago, they're still in the code but they've been long disabled because we found that it wasn't a good experience. Basically you just end up spending hours searching lines and playing test games and sometimes it feels very hopeless very early on but you still wanna play more turns and it really drags. None of us liked it at all\n@The_Evasive_1 We created an android build but there were a lot of UI challenges. It's OK on tablet, not really very playable on phone. Even tablet would need a huge amount of work to be a proper good release\n@Julius I would put a patreon/tip jar if Lunarch would otherwise not have money for server fees, but I don't forsee that as being a problem.\n[2020-07-11 18:12] pflanzenesser (Julius): I mean server costs are cheap for a card game. We want new content 😛\n[2020-07-11 18:17] pflanzenesser (Julius): It would be great to get 2 or 3 Devs working on this game full time.\n[2020-07-11 18:18] elyot: I think we would not raise enough via patreon to pay for several full-time devs",
+      "messages": [
+        {
+          "id": "731557553179197471",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-11T18:08:32.36+01:00",
+          "content": "@dokawehu Battle pass that's free if you play enough is fine, but the ARPU would not be high enough to allow us to dump a ton of money into ads/growth. We'd still likely lose money on every user we acquire because on average, not enough of them will buy it\n@Arseface We implemented correspondence games a long time ago, they're still in the code but they've been long disabled because we found that it wasn't a good experience. Basically you just end up spending hours searching lines and playing test games and sometimes it feels very hopeless very early on but you still wanna play more turns and it really drags. None of us liked it at all\n@The_Evasive_1 We created an android build but there were a lot of UI challenges. It's OK on tablet, not really very playable on phone. Even tablet would need a huge amount of work to be a proper good release\n@Julius I would put a patreon/tip jar if Lunarch would otherwise not have money for server fees, but I don't forsee that as being a problem."
+        },
+        {
+          "id": "731558461262921759",
+          "author": "pflanzenesser",
+          "nickname": "Julius",
+          "timestamp": "2020-07-11T18:12:08.864+01:00",
+          "content": "I mean server costs are cheap for a card game. We want new content 😛"
+        },
+        {
+          "id": "731559864307810416",
+          "author": "pflanzenesser",
+          "nickname": "Julius",
+          "timestamp": "2020-07-11T18:17:43.376+01:00",
+          "content": "It would be great to get 2 or 3 Devs working on this game full time."
+        },
+        {
+          "id": "731560064665780235",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-11T18:18:31.145+01:00",
+          "content": "I think we would not raise enough via patreon to pay for several full-time devs"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-11T20:52:16.059+01:00",
+      "end_ts": "2020-07-11T20:59:00.22+01:00",
+      "participants": [
+        "Deleted User",
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (4 messages, 2020-07-11) ---\n[2020-07-11 20:52] amalloy: \"impossible\" is a big overreach. poker and chess, for example, haven't patched anything for a while, and they're doing fine because the game itself is plenty deep already. i personally am pretty cynical about the long-term quality of any game that only keeps people interested with updates\n[2020-07-11 20:53] amalloy: and keeping the game \"fresh\" isn't what prismata needs anyway. it needs new players, and they're not drawn in by updates\n[2020-07-11 20:55] Deleted User (Deleted User): is it true to say poker is doing fine?\n[2020-07-11 20:59] amalloy: hard to say for sure, i guess. https://www.casino.org/blog/can-the-new-poker-boom-last/ suggests it is, but it's not exactly an unbiased source",
+      "messages": [
+        {
+          "id": "731598756759470101",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-07-11T20:52:16.059+01:00",
+          "content": "\"impossible\" is a big overreach. poker and chess, for example, haven't patched anything for a while, and they're doing fine because the game itself is plenty deep already. i personally am pretty cynical about the long-term quality of any game that only keeps people interested with updates"
+        },
+        {
+          "id": "731598988096307291",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-07-11T20:53:11.214+01:00",
+          "content": "and keeping the game \"fresh\" isn't what prismata needs anyway. it needs new players, and they're not drawn in by updates"
+        },
+        {
+          "id": "731599482986299392",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-07-11T20:55:09.205+01:00",
+          "content": "is it true to say poker is doing fine?"
+        },
+        {
+          "id": "731600451933438023",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-07-11T20:59:00.22+01:00",
+          "content": "hard to say for sure, i guess. https://www.casino.org/blog/can-the-new-poker-boom-last/ suggests it is, but it's not exactly an unbiased source"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-23T11:43:30.698+01:00",
+      "end_ts": "2020-07-23T11:43:30.698+01:00",
+      "participants": [
+        "coffeeyay"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-07-23) ---\n[2020-07-23 11:43] coffeeyay: In my mind one issue with rating is B+5 vs B+8 or >8--B+5 games should have lower impact on rating because the variance in them is higher (so winning/losing a game of b+5 should not be as meaningful for rating since it says less about skill level than winning B+8)",
+      "messages": [
+        {
+          "id": "735809312173326376",
+          "author": "coffeeyay",
+          "nickname": "coffeeyay",
+          "timestamp": "2020-07-23T11:43:30.698+01:00",
+          "content": "In my mind one issue with rating is B+5 vs B+8 or >8--B+5 games should have lower impact on rating because the variance in them is higher (so winning/losing a game of b+5 should not be as meaningful for rating since it says less about skill level than winning B+8)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-23T18:15:32.615+01:00",
+      "end_ts": "2020-07-23T18:23:29.96+01:00",
+      "participants": [
+        "silentslayers",
+        "zera777"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2020-07-23) ---\n[2020-07-23 18:15] zera777 (Zera): How does it say less about skill level? A true Prismata master is master of small sets as well as big ones.\n[2020-07-23 18:23] silentslayers: its not the size of the set that matters its how you use it :LoganHaa:",
+      "messages": [
+        {
+          "id": "735907970243756073",
+          "author": "zera777",
+          "nickname": "Zera",
+          "timestamp": "2020-07-23T18:15:32.615+01:00",
+          "content": "How does it say less about skill level? A true Prismata master is master of small sets as well as big ones."
+        },
+        {
+          "id": "735909972373930040",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-07-23T18:23:29.96+01:00",
+          "content": "its not the size of the set that matters its how you use it :LoganHaa:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-23T22:44:01.173+01:00",
+      "end_ts": "2020-07-23T23:00:50.749+01:00",
+      "participants": [
+        "elyot",
+        "sano712",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 34,
+      "formatted_text": "--- Thread (8 messages, 2020-07-23) ---\n[2020-07-23 22:44] sano712 (sano): obviously they're talking on average\n[2020-07-23 22:46] elyot: We will not be changing ranked to have fewer time controls, if players want to match faster then they can just queue with more options checked\n[2020-07-23 22:46] elyot: For B+5/B+8/etc. I do think that more units = more opportunities to make slightly better plays, which would have an effect on k-factor but not rating\n[2020-07-23 22:49] elyot: We don't adjust for it though (in an ideal world you'd probably lose/gain fewer rating points for B+5 if we wanted the rating system to be optimal in how it reflects player skill)\n[2020-07-23 22:50] elyot: But the practical truth is that players actually prefer rating systems where the points gained/lost reflect some notion of how much effort they feel they put into playing, which is why short games are worth fewer points\n[2020-07-23 22:52] elyot: An interesting research question is \"how do you estimate what the difference in k-factor is\" and it would actually require going through a lot of data\n[2020-07-23 22:52] sano712 (sano): we can have separate ladders for different time controls once the game has enough players :LongNoseLiar:\n[2020-07-23 23:00] wilson0862 (Wilson): > Perhaps. But if the correct strategy is Cluster all-in or something like that, the number of units might not matter. I wouldn't be surprised if some B+5 sets were deeper than some B+11 sets.\nThe point is that games where cluster all-in is just the correct strategy intuitively should be less likely when there are more units. Strategies don't exist in a vacuum.",
+      "messages": [
+        {
+          "id": "735975534433140746",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-07-23T22:44:01.173+01:00",
+          "content": "obviously they're talking on average"
+        },
+        {
+          "id": "735976048004563048",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-23T22:46:03.618+01:00",
+          "content": "We will not be changing ranked to have fewer time controls, if players want to match faster then they can just queue with more options checked"
+        },
+        {
+          "id": "735976208478502925",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-23T22:46:41.878+01:00",
+          "content": "For B+5/B+8/etc. I do think that more units = more opportunities to make slightly better plays, which would have an effect on k-factor but not rating"
+        },
+        {
+          "id": "735976834453340261",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-23T22:49:11.122+01:00",
+          "content": "We don't adjust for it though (in an ideal world you'd probably lose/gain fewer rating points for B+5 if we wanted the rating system to be optimal in how it reflects player skill)"
+        },
+        {
+          "id": "735977182517657678",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-23T22:50:34.107+01:00",
+          "content": "But the practical truth is that players actually prefer rating systems where the points gained/lost reflect some notion of how much effort they feel they put into playing, which is why short games are worth fewer points"
+        },
+        {
+          "id": "735977757502341142",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-23T22:52:51.194+01:00",
+          "content": "An interesting research question is \"how do you estimate what the difference in k-factor is\" and it would actually require going through a lot of data"
+        },
+        {
+          "id": "735977781862858862",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-07-23T22:52:57.002+01:00",
+          "content": "we can have separate ladders for different time controls once the game has enough players :LongNoseLiar:"
+        },
+        {
+          "id": "735979768901664838",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2020-07-23T23:00:50.749+01:00",
+          "content": "> Perhaps. But if the correct strategy is Cluster all-in or something like that, the number of units might not matter. I wouldn't be surprised if some B+5 sets were deeper than some B+11 sets.\nThe point is that games where cluster all-in is just the correct strategy intuitively should be less likely when there are more units. Strategies don't exist in a vacuum."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-07-24T03:31:43.878+01:00",
+      "end_ts": "2020-07-24T03:52:04.065+01:00",
+      "participants": [
+        "cameron_real",
+        "elyot",
+        "jeacaveo",
+        "wilson0862"
+      ],
+      "replay_codes": [
+        "multi-messa",
+        "unter-cards"
+      ],
+      "score": 106,
+      "formatted_text": "--- Thread (50 messages, 2020-07-24) ---\n[2020-07-24 03:31] cameron_real (Real): Hi devs! I have been making my own no-luck tcg for the last 8 years. Today was the first time I've heard of Prismata and I'll be playing it after I'm done with work tomorrow. I'd absolutely love to get in contact with you guys so I can hear your thoughts on things.\n[2020-07-24 03:32] elyot: Nice to meet you, we have many thoughts, lots of stuff written on our blog\n[2020-07-24 03:32] cameron_real (Real): Oh yeah Elyot I sent you a dm on Reddit earlier but then found your discord server later. Sorry about the multi-message\n[2020-07-24 03:33] cameron_real (Real): Oh, can you link that to me? That sounds perfect.\n[2020-07-24 03:33] elyot: http://blog.prismata.net/\nPrismata Blog - Insights and Updates\nInsights and Updates\n[2020-07-24 03:35] cameron_real (Real): Thank you! I'll start reading from June 2014 I suppose lol\n[2020-07-24 03:35] cameron_real (Real): Would it help me to understand the posts better if I spend a bunch of time in Prismata?\n[2020-07-24 03:36] elyot: Prismata isn't really a tcg though, it's more like a deckbuilder where both players get access to a common set of units that changes from game to game\n[2020-07-24 03:36] elyot: we tried a constructed mode and it was sooooo broken\n[2020-07-24 03:36] elyot: like some decks were just an autowin against others\n[2020-07-24 03:37] cameron_real (Real): Yeah... that's a problem that I had too\n[2020-07-24 03:38] cameron_real (Real): My solution was \"reserves,\" similar to yugioh's side deck. Only in this one you get to know what type of deck the opponent is playing, but you have no idea what strategy they're going for.\n[2020-07-24 03:39] cameron_real (Real): Also a public beta is gonna help me find matchups that are unwinnable to help develop counter-cards or rebalance where needed\n[2020-07-24 03:39] elyot: Once players get good then the meta gets solved though and there needs to be something more there to keep it exciting to play\n[2020-07-24 03:40] elyot: Like I think you need one of:\n- Random stuff that changes every game (what we have)\n- Hidden information\n- Some kind of random outcomes like card draw\n[2020-07-24 03:40] elyot: If you have none of the above then I don't really think you'll get anywhere unless you're making a chess-like game\n[2020-07-24 03:42] cameron_real (Real): Mine has hidden info, in that you don't know what deck the opponent is playing. Think in terms of knowing what color the mtg player is using, but not knowing the deck type.\n[2020-07-24 03:42] cameron_real (Real): Its nice because in a best of three match you get to learn what cards the opponent has and then adapt\n[2020-07-24 03:42] elyot: Ah OK so then it's more like pokemon where the actual movelist and items are not shown until they are activated\n[2020-07-24 03:42] wilson0862 (Wilson): Sounds like it's just more like MTG lol\n[2020-07-24 03:43] cameron_real (Real): Ah well yeah same deal there. I don't personally follow mtg's competitive scene so I don't know too much about how their sideboard works\n[2020-07-24 03:44] cameron_real (Real): I just know its a similar concept to yugioh's\n[2020-07-24 03:45] cameron_real (Real): But yeah thanks for responding and stuff, I cant wait to play Prismata. Big excited!\n[2020-07-24 03:45] elyot: They have different sideboard rules for different formats and online etc.\n[2020-07-24 03:45] wilson0862 (Wilson): How do you eliminate luck in a TCG? Do you not draw cards?\n[2020-07-24 03:45] elyot: Input the draw order 🙂\n[2020-07-24 03:45] cameron_real (Real): Its actually just like \"DeckHand\" lol\n[2020-07-24 03:45] wilson0862 (Wilson): I know it's possible; I meant in this particular iteration.\n[2020-07-24 03:45] cameron_real (Real): That could work too, but this one has your whole deck in your hand\n[2020-07-24 03:45] cameron_real (Real): 10 monsters, 10 spells.\n[2020-07-24 03:46] elyot: Have you played Codex by David Sirlin?\n[2020-07-24 03:46] cameron_real (Real): Might as well give a synopsis for the game now lol\n[2020-07-24 03:46] cameron_real (Real): Oh no I haven't, is that another I should look at?\n[2020-07-24 03:46] wilson0862 (Wilson): What similar games in the genre *have* you looked at?\n[2020-07-24 03:46] cameron_real (Real): I'll give this a try tomorrow as well\n[2020-07-24 03:47] elyot: Codex adds RNG through card draw but you basically add stuff to your deck every turn and your deck starts out ridiculously small so you have a lot of control over it\n[2020-07-24 03:47] cameron_real (Real): I haven't been able to find any games that advertise specifically as no-luck other than Prismata. But the tcgs I know how to play are yugioh, mtg, pokemon, vanguard, and world of warcraft tcg lol\n[2020-07-24 03:47] cameron_real (Real): Only meta I follow is in yugioh though\n[2020-07-24 03:48] cameron_real (Real): If you know any more games I'd love to hear them because that's really my best resource\n[2020-07-24 03:49] wilson0862 (Wilson): Ah cool, just wondered since you're trying to enter the space. Never even heard of Vanguard personally.\n[2020-07-24 03:49] cameron_real (Real): If you don't count tcgs then I also play some chess, and I play a mean tic tac toe 😈\n[2020-07-24 03:49] cameron_real (Real): Vanguard is really fun actually, highly recommend\n[2020-07-24 03:49] cameron_real (Real): Oh, wait, I don't know if I'm allowed to do that uhhh\n[2020-07-24 03:49] cameron_real (Real): Dont play any games other than Prismata!\n[2020-07-24 03:49] cameron_real (Real): Prismata is the best!\n[2020-07-24 03:50] elyot: I honestly don't play TCGs much at all anymore, but when we were working on Prismata I tried all of them\n[2020-07-24 03:50] elyot: and there were a LOT\n[2020-07-24 03:50] elyot: Like probably I played about 30 of them\n[2020-07-24 03:51] jeacaveo (jeacaveo (#NeverBrowserer)): Prismata def needs to be in your radar. I would look into Crimson Company (which was inspired by Prismata). Players play with the same deck , but maybe you can get some ideas from it.\n[2020-07-24 03:52] elyot: yeah Crimson Company is another one to check out",
+      "messages": [
+        {
+          "id": "736047939465773156",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:31:43.878+01:00",
+          "content": "Hi devs! I have been making my own no-luck tcg for the last 8 years. Today was the first time I've heard of Prismata and I'll be playing it after I'm done with work tomorrow. I'd absolutely love to get in contact with you guys so I can hear your thoughts on things."
+        },
+        {
+          "id": "736048126884053083",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:32:28.562+01:00",
+          "content": "Nice to meet you, we have many thoughts, lots of stuff written on our blog"
+        },
+        {
+          "id": "736048193246330903",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:32:44.384+01:00",
+          "content": "Oh yeah Elyot I sent you a dm on Reddit earlier but then found your discord server later. Sorry about the multi-message"
+        },
+        {
+          "id": "736048359994818580",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:33:24.14+01:00",
+          "content": "Oh, can you link that to me? That sounds perfect."
+        },
+        {
+          "id": "736048444023767081",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:33:44.174+01:00",
+          "content": "http://blog.prismata.net/\nPrismata Blog - Insights and Updates\nInsights and Updates"
+        },
+        {
+          "id": "736048864586498098",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:35:24.444+01:00",
+          "content": "Thank you! I'll start reading from June 2014 I suppose lol"
+        },
+        {
+          "id": "736048949437267988",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:35:44.674+01:00",
+          "content": "Would it help me to understand the posts better if I spend a bunch of time in Prismata?"
+        },
+        {
+          "id": "736049140709982343",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:36:30.277+01:00",
+          "content": "Prismata isn't really a tcg though, it's more like a deckbuilder where both players get access to a common set of units that changes from game to game"
+        },
+        {
+          "id": "736049205763768340",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:36:45.787+01:00",
+          "content": "we tried a constructed mode and it was sooooo broken"
+        },
+        {
+          "id": "736049236306559028",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:36:53.069+01:00",
+          "content": "like some decks were just an autowin against others"
+        },
+        {
+          "id": "736049288462991372",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:37:05.504+01:00",
+          "content": "Yeah... that's a problem that I had too"
+        },
+        {
+          "id": "736049726595792976",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:38:49.963+01:00",
+          "content": "My solution was \"reserves,\" similar to yugioh's side deck. Only in this one you get to know what type of deck the opponent is playing, but you have no idea what strategy they're going for."
+        },
+        {
+          "id": "736049866534420590",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:39:23.327+01:00",
+          "content": "Also a public beta is gonna help me find matchups that are unwinnable to help develop counter-cards or rebalance where needed"
+        },
+        {
+          "id": "736050006263595120",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:39:56.641+01:00",
+          "content": "Once players get good then the meta gets solved though and there needs to be something more there to keep it exciting to play"
+        },
+        {
+          "id": "736050171607121921",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:40:36.062+01:00",
+          "content": "Like I think you need one of:\n- Random stuff that changes every game (what we have)\n- Hidden information\n- Some kind of random outcomes like card draw"
+        },
+        {
+          "id": "736050267652620288",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:40:58.961+01:00",
+          "content": "If you have none of the above then I don't really think you'll get anywhere unless you're making a chess-like game"
+        },
+        {
+          "id": "736050531197255740",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:42:01.795+01:00",
+          "content": "Mine has hidden info, in that you don't know what deck the opponent is playing. Think in terms of knowing what color the mtg player is using, but not knowing the deck type."
+        },
+        {
+          "id": "736050631827128421",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:42:25.787+01:00",
+          "content": "Its nice because in a best of three match you get to learn what cards the opponent has and then adapt"
+        },
+        {
+          "id": "736050664844558427",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:42:33.659+01:00",
+          "content": "Ah OK so then it's more like pokemon where the actual movelist and items are not shown until they are activated"
+        },
+        {
+          "id": "736050757626888262",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2020-07-24T03:42:55.78+01:00",
+          "content": "Sounds like it's just more like MTG lol"
+        },
+        {
+          "id": "736050993686380555",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:43:52.061+01:00",
+          "content": "Ah well yeah same deal there. I don't personally follow mtg's competitive scene so I don't know too much about how their sideboard works"
+        },
+        {
+          "id": "736051082433921075",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:44:13.22+01:00",
+          "content": "I just know its a similar concept to yugioh's"
+        },
+        {
+          "id": "736051298746630215",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:45:04.793+01:00",
+          "content": "But yeah thanks for responding and stuff, I cant wait to play Prismata. Big excited!"
+        },
+        {
+          "id": "736051333332861009",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:45:13.039+01:00",
+          "content": "They have different sideboard rules for different formats and online etc."
+        },
+        {
+          "id": "736051333748097064",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2020-07-24T03:45:13.138+01:00",
+          "content": "How do you eliminate luck in a TCG? Do you not draw cards?"
+        },
+        {
+          "id": "736051378958368783",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:45:23.917+01:00",
+          "content": "Input the draw order 🙂"
+        },
+        {
+          "id": "736051396427776040",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:45:28.082+01:00",
+          "content": "Its actually just like \"DeckHand\" lol"
+        },
+        {
+          "id": "736051444704215081",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2020-07-24T03:45:39.592+01:00",
+          "content": "I know it's possible; I meant in this particular iteration."
+        },
+        {
+          "id": "736051482234847242",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:45:48.54+01:00",
+          "content": "That could work too, but this one has your whole deck in your hand"
+        },
+        {
+          "id": "736051518154866700",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:45:57.104+01:00",
+          "content": "10 monsters, 10 spells."
+        },
+        {
+          "id": "736051546101383318",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:46:03.767+01:00",
+          "content": "Have you played Codex by David Sirlin?"
+        },
+        {
+          "id": "736051563885494373",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:46:08.007+01:00",
+          "content": "Might as well give a synopsis for the game now lol"
+        },
+        {
+          "id": "736051598262009966",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:46:16.203+01:00",
+          "content": "Oh no I haven't, is that another I should look at?"
+        },
+        {
+          "id": "736051727500836869",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2020-07-24T03:46:47.016+01:00",
+          "content": "What similar games in the genre *have* you looked at?"
+        },
+        {
+          "id": "736051737554845707",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:46:49.413+01:00",
+          "content": "I'll give this a try tomorrow as well"
+        },
+        {
+          "id": "736051852713394186",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:47:16.869+01:00",
+          "content": "Codex adds RNG through card draw but you basically add stuff to your deck every turn and your deck starts out ridiculously small so you have a lot of control over it"
+        },
+        {
+          "id": "736051989859008562",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:47:49.567+01:00",
+          "content": "I haven't been able to find any games that advertise specifically as no-luck other than Prismata. But the tcgs I know how to play are yugioh, mtg, pokemon, vanguard, and world of warcraft tcg lol"
+        },
+        {
+          "id": "736052025329975356",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:47:58.024+01:00",
+          "content": "Only meta I follow is in yugioh though"
+        },
+        {
+          "id": "736052263264714872",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:48:54.752+01:00",
+          "content": "If you know any more games I'd love to hear them because that's really my best resource"
+        },
+        {
+          "id": "736052340821590036",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2020-07-24T03:49:13.243+01:00",
+          "content": "Ah cool, just wondered since you're trying to enter the space. Never even heard of Vanguard personally."
+        },
+        {
+          "id": "736052349918904423",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:49:15.412+01:00",
+          "content": "If you don't count tcgs then I also play some chess, and I play a mean tic tac toe 😈"
+        },
+        {
+          "id": "736052434727862312",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:49:35.632+01:00",
+          "content": "Vanguard is really fun actually, highly recommend"
+        },
+        {
+          "id": "736052469913878538",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:49:44.021+01:00",
+          "content": "Oh, wait, I don't know if I'm allowed to do that uhhh"
+        },
+        {
+          "id": "736052500502806548",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:49:51.314+01:00",
+          "content": "Dont play any games other than Prismata!"
+        },
+        {
+          "id": "736052517825151026",
+          "author": "cameron_real",
+          "nickname": "Real",
+          "timestamp": "2020-07-24T03:49:55.444+01:00",
+          "content": "Prismata is the best!"
+        },
+        {
+          "id": "736052637723787287",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:50:24.03+01:00",
+          "content": "I honestly don't play TCGs much at all anymore, but when we were working on Prismata I tried all of them"
+        },
+        {
+          "id": "736052690043404428",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:50:36.504+01:00",
+          "content": "and there were a LOT"
+        },
+        {
+          "id": "736052781949124668",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:50:58.416+01:00",
+          "content": "Like probably I played about 30 of them"
+        },
+        {
+          "id": "736052983187636286",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-07-24T03:51:46.395+01:00",
+          "content": "Prismata def needs to be in your radar. I would look into Crimson Company (which was inspired by Prismata). Players play with the same deck , but maybe you can get some ideas from it."
+        },
+        {
+          "id": "736053057300725771",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-07-24T03:52:04.065+01:00",
+          "content": "yeah Crimson Company is another one to check out"
+        }
+      ]
+    }
+  ]
+}

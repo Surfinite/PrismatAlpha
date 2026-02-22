@@ -1,0 +1,3174 @@
+{
+  "channel": "ask_a_dev",
+  "date_range": "2018-03-04 to 2018-03-10",
+  "thread_count": 48,
+  "token_count": 14972,
+  "threads": [
+    {
+      "start_ts": "2018-03-04T23:46:28.146+00:00",
+      "end_ts": "2018-03-05T00:10:12.395+00:00",
+      "participants": [
+        "apooche",
+        "elyot",
+        "mrguy888",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 69,
+      "formatted_text": "--- Thread (17 messages, 2018-03-04 to 2018-03-05) ---\n[2018-03-04 23:46] elyot: @gex you can shift-tab to switch to the half-open view in-game, this is documented only in the post-game tips though...\n[2018-03-04 23:46] elyot: @Wiwiweb Plan is to open up play.prismata.net to everyone around the same time as we make Prismata fully F2P on steam\n[2018-03-04 23:49] elyot: @RiFT (#RIPBrowserers) Every time the server does a \"matching round\", it goes through all the queues in a random order and does as many matches as it can in that specific queue, and the randomness is weighted toward picking faster time controls earlier first, basically bullet has more \"raffle tickets\" in the draw. The reason is that we want players to spend \"an equal amount of time\" playing each time control, not \"an equal number of matches\" at each time control\n[2018-03-04 23:50] elyot: self.queueWeights = {\"NoTime\":2, \"Slow\":2, \"Medium Slow\":3, \"Normal\":4, \"Quick\":6, \"Rapid\":9, \"Blitz\":15, \"Bullet\":30}\n[2018-03-04 23:51] elyot: so basically imagine you put that many coloured balls into an urn and pull them out one at a time, and match the queues in order of \"when their colour was pulled first\"\n[2018-03-04 23:59] wiwiweb: Thanks Elyot, just to confirm, free players will have access to everything but the campaign, right?\n[2018-03-05 00:00] wiwiweb: You've said a few times the campaign is where new players are expected to start, and where we show them the bases\n[2018-03-05 00:02] elyot: chapter 1 will be for everyone\n[2018-03-05 00:02] elyot: chapter 2+ is paywall\n[2018-03-05 00:02] elyot: combat training is for everyone\n[2018-03-05 00:06] apooche: @Elyot would you consider changing these? in practice people spend much more of their allotted time in the faster modes\nself.queueWeights = {\"NoTime\":2, \"Slow\":2, \"Medium Slow\":3, \"Normal\":4, \"Quick\":6, \"Rapid\":9, \"Blitz\":15, \"Bullet\":30}\n[2018-03-05 00:06] elyot: yeah we can change them, right now it's just 180/t\n[2018-03-05 00:06] mrguy888: bullet games last 2-3 minutes on average and 60s games last 10-20 on average in my experince\n[2018-03-05 00:07] elyot: I'll change the last 3 to 8/12/20?\n[2018-03-05 00:09] wiwiweb: do you have stats on how long an average game of each setting actually lasts?\n[2018-03-05 00:09] wiwiweb: then you could set the weights exactly in proportion\n[2018-03-05 00:10] wiwiweb: SELECT length FROM replays WHERE time_setting=90s :Lul:",
+      "messages": [
+        {
+          "id": "420004131067920384",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-04T23:46:28.146+00:00",
+          "content": "@gex you can shift-tab to switch to the half-open view in-game, this is documented only in the post-game tips though..."
+        },
+        {
+          "id": "420004240694444045",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-04T23:46:54.283+00:00",
+          "content": "@Wiwiweb Plan is to open up play.prismata.net to everyone around the same time as we make Prismata fully F2P on steam"
+        },
+        {
+          "id": "420004963473817610",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-04T23:49:46.607+00:00",
+          "content": "@RiFT (#RIPBrowserers) Every time the server does a \"matching round\", it goes through all the queues in a random order and does as many matches as it can in that specific queue, and the randomness is weighted toward picking faster time controls earlier first, basically bullet has more \"raffle tickets\" in the draw. The reason is that we want players to spend \"an equal amount of time\" playing each time control, not \"an equal number of matches\" at each time control"
+        },
+        {
+          "id": "420005080771592195",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-04T23:50:14.573+00:00",
+          "content": "self.queueWeights = {\"NoTime\":2, \"Slow\":2, \"Medium Slow\":3, \"Normal\":4, \"Quick\":6, \"Rapid\":9, \"Blitz\":15, \"Bullet\":30}"
+        },
+        {
+          "id": "420005398758555674",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-04T23:51:30.387+00:00",
+          "content": "so basically imagine you put that many coloured balls into an urn and pull them out one at a time, and match the queues in order of \"when their colour was pulled first\""
+        },
+        {
+          "id": "420007462192676874",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-04T23:59:42.348+00:00",
+          "content": "Thanks Elyot, just to confirm, free players will have access to everything but the campaign, right?"
+        },
+        {
+          "id": "420007605491204127",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-05T00:00:16.513+00:00",
+          "content": "You've said a few times the campaign is where new players are expected to start, and where we show them the bases"
+        },
+        {
+          "id": "420008044739690496",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-05T00:02:01.238+00:00",
+          "content": "chapter 1 will be for everyone"
+        },
+        {
+          "id": "420008059801305088",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-05T00:02:04.829+00:00",
+          "content": "chapter 2+ is paywall"
+        },
+        {
+          "id": "420008098967846933",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-05T00:02:14.167+00:00",
+          "content": "combat training is for everyone"
+        },
+        {
+          "id": "420009052026699786",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-03-05T00:06:01.394+00:00",
+          "content": "@Elyot would you consider changing these? in practice people spend much more of their allotted time in the faster modes\nself.queueWeights = {\"NoTime\":2, \"Slow\":2, \"Medium Slow\":3, \"Normal\":4, \"Quick\":6, \"Rapid\":9, \"Blitz\":15, \"Bullet\":30}"
+        },
+        {
+          "id": "420009283762257921",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-05T00:06:56.644+00:00",
+          "content": "yeah we can change them, right now it's just 180/t"
+        },
+        {
+          "id": "420009292523896833",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-03-05T00:06:58.733+00:00",
+          "content": "bullet games last 2-3 minutes on average and 60s games last 10-20 on average in my experince"
+        },
+        {
+          "id": "420009498359627788",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-05T00:07:47.808+00:00",
+          "content": "I'll change the last 3 to 8/12/20?"
+        },
+        {
+          "id": "420009903646703647",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-05T00:09:24.436+00:00",
+          "content": "do you have stats on how long an average game of each setting actually lasts?"
+        },
+        {
+          "id": "420009946353238017",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-05T00:09:34.618+00:00",
+          "content": "then you could set the weights exactly in proportion"
+        },
+        {
+          "id": "420010104801329163",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-05T00:10:12.395+00:00",
+          "content": "SELECT length FROM replays WHERE time_setting=90s :Lul:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-05T00:49:16.145+00:00",
+      "end_ts": "2018-03-05T00:51:15.606+00:00",
+      "participants": [
+        "1000mh",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-03-05) ---\n[2018-03-05 00:49] elyot: ^^ yes I think, I need to check it on Steam to make sure though\n[2018-03-05 00:51] 1000mh (Henry): I submitted a bug report regarding the Bundles tab in the Shop, thought you should know since it has to do with the issue of purchasing content",
+      "messages": [
+        {
+          "id": "420019935201198082",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-05T00:49:16.145+00:00",
+          "content": "^^ yes I think, I need to check it on Steam to make sure though"
+        },
+        {
+          "id": "420020436257079298",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-03-05T00:51:15.606+00:00",
+          "content": "I submitted a bug report regarding the Bundles tab in the Shop, thought you should know since it has to do with the issue of purchasing content"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-05T04:25:42.93+00:00",
+      "end_ts": "2018-03-05T04:25:42.93+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-03-05) ---\n[2018-03-05 04:25] elyot: saw that, we'll look into it ASAP",
+      "messages": [
+        {
+          "id": "420074405725732885",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-05T04:25:42.93+00:00",
+          "content": "saw that, we'll look into it ASAP"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-06T03:55:05.179+00:00",
+      "end_ts": "2018-03-06T03:55:37.274+00:00",
+      "participants": [
+        "mrguy888",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-03-06) ---\n[2018-03-06 03:55] wiwiweb: are there gonna be Prismata Steam cards and badges?\n[2018-03-06 03:55] mrguy888: Yes. There was a stream where elyot was making them.",
+      "messages": [
+        {
+          "id": "420429085504700416",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-06T03:55:05.179+00:00",
+          "content": "are there gonna be Prismata Steam cards and badges?"
+        },
+        {
+          "id": "420429220121149449",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-03-06T03:55:37.274+00:00",
+          "content": "Yes. There was a stream where elyot was making them."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-06T05:49:23.993+00:00",
+      "end_ts": "2018-03-06T06:22:36.332+00:00",
+      "participants": [
+        "coscott",
+        "elyot",
+        "punf",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 85,
+      "formatted_text": "--- Thread (41 messages, 2018-03-06) ---\n[2018-03-06 05:49] elyot: @Wiwiweb Not sure yet. A lot of people think the current rewards are too generous but we'll see how much action the events get.\n[2018-03-06 05:52] elyot: @Punf Please don't be disdainful toward other people's questions. I want people to feel welcome to interact with me.\n[2018-03-06 05:52] punf: wow, so others can call people out for being offtopic and i cant?\n[2018-03-06 05:53] elyot: @Deleted User I don't know about 2v2, we have not decided and it depends greatly on how things go and what people like\n[2018-03-06 05:54] elyot: @Punf his question was fine\n[2018-03-06 05:54] punf: wow so i cant even *suggest* that things are offtopic\n[2018-03-06 05:55] punf: does it follow that i cant ever *suggest* that someone might be breaking any rule?\n[2018-03-06 05:56] elyot: @Punf the purpose of this channel is for you to interact with developers, not offer your offhand disdainful commentary on the questions that other people ask\n[2018-03-06 05:56] punf: ok so youre saying im not allowed to suggest people are breaking rules\n[2018-03-06 05:56] punf: does it follow that other people cant do that either\n[2018-03-06 05:56] punf: i am, obviously, strawmanning you quite hard\n[2018-03-06 05:56] elyot: @Punf please take this chat elsewhere, this is not the place to complain about other people or discuss the rules\n[2018-03-06 05:57] punf: what the actual fuck\n[2018-03-06 05:57] punf: how is this not the right chat\n[2018-03-06 05:57] punf: you literally just accused me of being offtopic\n[2018-03-06 05:57] punf: how is this remotely consistent\n[2018-03-06 05:59] punf: at the end of your stream you said you were tired and wanted to sleep soon. might i recommend doing that\n[2018-03-06 06:03] elyot: @Punf I want to create a positive environment where players can discuss the game with the developers. It's not okay for you to excoriate other people for their questions, nor is it okay for you to fill the chat with meta-discussion about me telling you that it's not okay. If you have a problem with the way this server is moderated, you should email community@lunarchstudios.com or you should leave. Nobody here owes any person an answer to their questions. It's provided entirely as a service to the community to help create a positive culture of feedback between players and the developer.\n[2018-03-06 06:03] elyot: If a developer doesn't want to discuss something or doesn't want to answer your question, you should not ask it again. Having a question answered is a privilege, not a right.\n[2018-03-06 06:03] punf: who manages community@lunarchstudios.com\n[2018-03-06 06:03] punf: if you, then its completely pointless for me to email it instead of talk to you\n[2018-03-06 06:04] elyot: Please stop now. I will not warn you again. Your participation in this community is a privilege, not a right.\n[2018-03-06 06:04] punf: i asked a question once!\n[2018-03-06 06:05] punf: if you dont want to answer 'who manages community@lunarchstudios.com', then thats fine, you have every right not to answer\n[2018-03-06 06:05] punf: but please dont use such a heavy tone in refusing to answer\n[2018-03-06 06:05] punf: it makes me sad and angry\n[2018-03-06 06:05] punf: i dont want to be sad and angry\n[2018-03-06 06:05] punf: please dont make me sad and angry\n[2018-03-06 06:08] elyot: The purpose of that email is to make it more convenient for our moderation team to collect feedback and take action when necessary without being burdened by requests for many sources. It is not \"managed\" by any one person, we have a network of forwards and mailboxes designed for our own convenience\n[2018-03-06 06:09] punf: is there anything in particular you dont want to discuss\n[2018-03-06 06:09] punf: you asked me not to discuss things you dont want discussed, but i find it unclear what you dont want discussed\n[2018-03-06 06:09] punf: since i do not, in fact, particularly enjoy pissing you off for the sake of pissing you off, i would like to know what i should not discuss\n[2018-03-06 06:10] elyot: Please stop this line of questioning. The purpose of this chat is not meta-discussion. This is your last warning before I permanently ban you from the discord server.\n[2018-03-06 06:11] punf: oh my god, you are warning me, but i dont know what rules im breaking\n[2018-03-06 06:11] punf: do you want me to just stop talking here\n[2018-03-06 06:11] punf: just say 'stop talking here' and ill stop talking here\n[2018-03-06 06:11] elyot: If you can't figure out what questions are appropriate then don't ask any at all. Yes, please stop talking.\n[2018-03-06 06:17] coscott: So, I have a question, which I promise I am genuinely curious about and is not just complaining: What is the motivation behind hidden achievements? Is the idea that people feel better about getting them knowing that they are hidden, or players being intimidated by all the things they have not unlocked yet? To me, they seem obviously really bad, but lots of (otherwise) good game designers have used them (e.g. the braid stars don't obviously exist), so I assume there is some justification\n[2018-03-06 06:21] coscott: (This is not the first time that I have had a very strong game design aesthetic that most people seemed to not care much about, but most of my other game aesthetic preferences seem to have been shared by prismata (like biasing very strongly towards low k-complexity, not having something that should be positive turn out negative in an edge case), so I especially curious about this.\n[2018-03-06 06:22] wiwiweb: There is some fun in finding the condition of a secret achievement just from the clue of the name\n[2018-03-06 06:22] wiwiweb: There is also some fun in finding obscure secrets (braid stars)",
+      "messages": [
+        {
+          "id": "420457853455826944",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T05:49:23.993+00:00",
+          "content": "@Wiwiweb Not sure yet. A lot of people think the current rewards are too generous but we'll see how much action the events get."
+        },
+        {
+          "id": "420458655817793567",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T05:52:35.291+00:00",
+          "content": "@Punf Please don't be disdainful toward other people's questions. I want people to feel welcome to interact with me."
+        },
+        {
+          "id": "420458746020626433",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:52:56.797+00:00",
+          "content": "wow, so others can call people out for being offtopic and i cant?"
+        },
+        {
+          "id": "420458895413346315",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T05:53:32.415+00:00",
+          "content": "@Deleted User I don't know about 2v2, we have not decided and it depends greatly on how things go and what people like"
+        },
+        {
+          "id": "420459099667300352",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T05:54:21.113+00:00",
+          "content": "@Punf his question was fine"
+        },
+        {
+          "id": "420459218072764418",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:54:49.343+00:00",
+          "content": "wow so i cant even *suggest* that things are offtopic"
+        },
+        {
+          "id": "420459295394496512",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:55:07.778+00:00",
+          "content": "does it follow that i cant ever *suggest* that someone might be breaking any rule?"
+        },
+        {
+          "id": "420459516178595840",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T05:56:00.417+00:00",
+          "content": "@Punf the purpose of this channel is for you to interact with developers, not offer your offhand disdainful commentary on the questions that other people ask"
+        },
+        {
+          "id": "420459562299162625",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:56:11.413+00:00",
+          "content": "ok so youre saying im not allowed to suggest people are breaking rules"
+        },
+        {
+          "id": "420459579755986966",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:56:15.575+00:00",
+          "content": "does it follow that other people cant do that either"
+        },
+        {
+          "id": "420459694893694978",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:56:43.026+00:00",
+          "content": "i am, obviously, strawmanning you quite hard"
+        },
+        {
+          "id": "420459721326067713",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T05:56:49.328+00:00",
+          "content": "@Punf please take this chat elsewhere, this is not the place to complain about other people or discuss the rules"
+        },
+        {
+          "id": "420459770684899338",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:57:01.096+00:00",
+          "content": "what the actual fuck"
+        },
+        {
+          "id": "420459782357385220",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:57:03.879+00:00",
+          "content": "how is this not the right chat"
+        },
+        {
+          "id": "420459910258753556",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:57:34.373+00:00",
+          "content": "you literally just accused me of being offtopic"
+        },
+        {
+          "id": "420459947185405952",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:57:43.177+00:00",
+          "content": "how is this remotely consistent"
+        },
+        {
+          "id": "420460498958548993",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T05:59:54.73+00:00",
+          "content": "at the end of your stream you said you were tired and wanted to sleep soon. might i recommend doing that"
+        },
+        {
+          "id": "420461289471606784",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T06:03:03.203+00:00",
+          "content": "@Punf I want to create a positive environment where players can discuss the game with the developers. It's not okay for you to excoriate other people for their questions, nor is it okay for you to fill the chat with meta-discussion about me telling you that it's not okay. If you have a problem with the way this server is moderated, you should email community@lunarchstudios.com or you should leave. Nobody here owes any person an answer to their questions. It's provided entirely as a service to the community to help create a positive culture of feedback between players and the developer."
+        },
+        {
+          "id": "420461395931299840",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T06:03:28.585+00:00",
+          "content": "If a developer doesn't want to discuss something or doesn't want to answer your question, you should not ask it again. Having a question answered is a privilege, not a right."
+        },
+        {
+          "id": "420461423613968405",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:03:35.185+00:00",
+          "content": "who manages community@lunarchstudios.com"
+        },
+        {
+          "id": "420461459739377684",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:03:43.798+00:00",
+          "content": "if you, then its completely pointless for me to email it instead of talk to you"
+        },
+        {
+          "id": "420461618124685313",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T06:04:21.56+00:00",
+          "content": "Please stop now. I will not warn you again. Your participation in this community is a privilege, not a right."
+        },
+        {
+          "id": "420461645232472075",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:04:28.023+00:00",
+          "content": "i asked a question once!"
+        },
+        {
+          "id": "420461795124445186",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:05:03.76+00:00",
+          "content": "if you dont want to answer 'who manages community@lunarchstudios.com', then thats fine, you have every right not to answer"
+        },
+        {
+          "id": "420461823502843905",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:05:10.526+00:00",
+          "content": "but please dont use such a heavy tone in refusing to answer"
+        },
+        {
+          "id": "420461858622013449",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:05:18.899+00:00",
+          "content": "it makes me sad and angry"
+        },
+        {
+          "id": "420461871032827915",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:05:21.858+00:00",
+          "content": "i dont want to be sad and angry"
+        },
+        {
+          "id": "420461883829518346",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:05:24.909+00:00",
+          "content": "please dont make me sad and angry"
+        },
+        {
+          "id": "420462700913623040",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T06:08:39.717+00:00",
+          "content": "The purpose of that email is to make it more convenient for our moderation team to collect feedback and take action when necessary without being burdened by requests for many sources. It is not \"managed\" by any one person, we have a network of forwards and mailboxes designed for our own convenience"
+        },
+        {
+          "id": "420462930123948033",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:09:34.365+00:00",
+          "content": "is there anything in particular you dont want to discuss"
+        },
+        {
+          "id": "420462969319718912",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:09:43.71+00:00",
+          "content": "you asked me not to discuss things you dont want discussed, but i find it unclear what you dont want discussed"
+        },
+        {
+          "id": "420463026764775425",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:09:57.406+00:00",
+          "content": "since i do not, in fact, particularly enjoy pissing you off for the sake of pissing you off, i would like to know what i should not discuss"
+        },
+        {
+          "id": "420463233061748736",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T06:10:46.591+00:00",
+          "content": "Please stop this line of questioning. The purpose of this chat is not meta-discussion. This is your last warning before I permanently ban you from the discord server."
+        },
+        {
+          "id": "420463289609355264",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:11:00.073+00:00",
+          "content": "oh my god, you are warning me, but i dont know what rules im breaking"
+        },
+        {
+          "id": "420463309297549332",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:11:04.767+00:00",
+          "content": "do you want me to just stop talking here"
+        },
+        {
+          "id": "420463343132868618",
+          "author": "punf",
+          "nickname": "Punf",
+          "timestamp": "2018-03-06T06:11:12.834+00:00",
+          "content": "just say 'stop talking here' and ill stop talking here"
+        },
+        {
+          "id": "420463462892961802",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T06:11:41.387+00:00",
+          "content": "If you can't figure out what questions are appropriate then don't ask any at all. Yes, please stop talking."
+        },
+        {
+          "id": "420464838850904064",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T06:17:09.441+00:00",
+          "content": "So, I have a question, which I promise I am genuinely curious about and is not just complaining: What is the motivation behind hidden achievements? Is the idea that people feel better about getting them knowing that they are hidden, or players being intimidated by all the things they have not unlocked yet? To me, they seem obviously really bad, but lots of (otherwise) good game designers have used them (e.g. the braid stars don't obviously exist), so I assume there is some justification"
+        },
+        {
+          "id": "420465919798673430",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T06:21:27.159+00:00",
+          "content": "(This is not the first time that I have had a very strong game design aesthetic that most people seemed to not care much about, but most of my other game aesthetic preferences seem to have been shared by prismata (like biasing very strongly towards low k-complexity, not having something that should be positive turn out negative in an edge case), so I especially curious about this."
+        },
+        {
+          "id": "420466075017281558",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-06T06:22:04.166+00:00",
+          "content": "There is some fun in finding the condition of a secret achievement just from the clue of the name"
+        },
+        {
+          "id": "420466209931395072",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-06T06:22:36.332+00:00",
+          "content": "There is also some fun in finding obscure secrets (braid stars)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-06T07:47:41.593+00:00",
+      "end_ts": "2018-03-06T07:53:56.832+00:00",
+      "participants": [
+        "coscott",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 22,
+      "formatted_text": "--- Thread (7 messages, 2018-03-06) ---\n[2018-03-06 07:47] elyot: @Coscott They're not actually hidden, they're there. It just has a name and a message that makes it not 100% obvious how to get it (but it's honestly not that hard).\n[2018-03-06 07:49] coscott: oh, that does not disagree with my aesthetic at all. When I asked on stream if there were achievements that dont show up in the badges section, you said maybe\n[2018-03-06 07:49] coscott: so that was miscommunication?\n[2018-03-06 07:50] elyot: there are currently badges on steam for \"beat chapter 4\" that are not in the game yet\n[2018-03-06 07:50] elyot: they have the hidden option checked\n[2018-03-06 07:50] coscott: yeah, that sounds like miscommunication. Yay!\n[2018-03-06 07:53] coscott: Prismata continues to be the one game that makes all the choices that I would expect mathematicians to make in designing a game!",
+      "messages": [
+        {
+          "id": "420487622947766273",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T07:47:41.593+00:00",
+          "content": "@Coscott They're not actually hidden, they're there. It just has a name and a message that makes it not 100% obvious how to get it (but it's honestly not that hard)."
+        },
+        {
+          "id": "420488032358105088",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T07:49:19.204+00:00",
+          "content": "oh, that does not disagree with my aesthetic at all. When I asked on stream if there were achievements that dont show up in the badges section, you said maybe"
+        },
+        {
+          "id": "420488084338114561",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T07:49:31.597+00:00",
+          "content": "so that was miscommunication?"
+        },
+        {
+          "id": "420488332699631617",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T07:50:30.811+00:00",
+          "content": "there are currently badges on steam for \"beat chapter 4\" that are not in the game yet"
+        },
+        {
+          "id": "420488382750261258",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T07:50:42.744+00:00",
+          "content": "they have the hidden option checked"
+        },
+        {
+          "id": "420488444096020481",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T07:50:57.37+00:00",
+          "content": "yeah, that sounds like miscommunication. Yay!"
+        },
+        {
+          "id": "420489196814467072",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T07:53:56.832+00:00",
+          "content": "Prismata continues to be the one game that makes all the choices that I would expect mathematicians to make in designing a game!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-06T08:44:35.259+00:00",
+      "end_ts": "2018-03-06T08:49:07.203+00:00",
+      "participants": [
+        "coscott",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (5 messages, 2018-03-06) ---\n[2018-03-06 08:44] coscott: Why did you decide to make apollo snipe a gauss cannon on the same turn? It seems like a simpler interpretation of the rules to have damage assigned at the end of turn, with the defender deciding blocker order and attacking player deciding breached damage order, but no other actions\n[2018-03-06 08:45] coscott: I guess the quality of life of being able to assign damage, then buy/click things is pretty nice\n[2018-03-06 08:46] coscott: yeah, I take it back it is not obvious to me which is simpler, but I am curious why you went that way\n[2018-03-06 08:47] elyot: felt disappointing not to be able to do it\n[2018-03-06 08:49] coscott: actually, thinking about it more, I could see it going either way, if fragile blockers didnt exist, but given that you cant snipe fragile blockers, it seems weird that you can snipe gauss cannon",
+      "messages": [
+        {
+          "id": "420501940900855808",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T08:44:35.259+00:00",
+          "content": "Why did you decide to make apollo snipe a gauss cannon on the same turn? It seems like a simpler interpretation of the rules to have damage assigned at the end of turn, with the defender deciding blocker order and attacking player deciding breached damage order, but no other actions"
+        },
+        {
+          "id": "420502134111338496",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T08:45:21.324+00:00",
+          "content": "I guess the quality of life of being able to assign damage, then buy/click things is pretty nice"
+        },
+        {
+          "id": "420502435627270144",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T08:46:33.211+00:00",
+          "content": "yeah, I take it back it is not obvious to me which is simpler, but I am curious why you went that way"
+        },
+        {
+          "id": "420502687621054504",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T08:47:33.291+00:00",
+          "content": "felt disappointing not to be able to do it"
+        },
+        {
+          "id": "420503081516793867",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-06T08:49:07.203+00:00",
+          "content": "actually, thinking about it more, I could see it going either way, if fragile blockers didnt exist, but given that you cant snipe fragile blockers, it seems weird that you can snipe gauss cannon"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-06T20:58:52.463+00:00",
+      "end_ts": "2018-03-06T20:59:01.315+00:00",
+      "participants": [
+        "gex__"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-03-06) ---\n[2018-03-06 20:58] gex__ (gex): Can there be a Credits page which includes stuff like all the artists? It should also include that GoFundMe link. Like I wanna help, but at work right now.\n[2018-03-06 20:59] gex__ (gex): Or, Does Prismata even have a credits page?",
+      "messages": [
+        {
+          "id": "420686730207690783",
+          "author": "gex__",
+          "nickname": "gex",
+          "timestamp": "2018-03-06T20:58:52.463+00:00",
+          "content": "Can there be a Credits page which includes stuff like all the artists? It should also include that GoFundMe link. Like I wanna help, but at work right now."
+        },
+        {
+          "id": "420686767335800835",
+          "author": "gex__",
+          "nickname": "gex",
+          "timestamp": "2018-03-06T20:59:01.315+00:00",
+          "content": "Or, Does Prismata even have a credits page?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-06T21:41:40.608+00:00",
+      "end_ts": "2018-03-06T22:40:21.067+00:00",
+      "participants": [
+        "1000mh",
+        "Deleted User",
+        "apooche",
+        "elyot",
+        "kristian1103",
+        "mtanzer",
+        "spiritfryer",
+        "strshplyr5046"
+      ],
+      "replay_codes": [],
+      "score": 68,
+      "formatted_text": "--- Thread (31 messages, 2018-03-06) ---\n[2018-03-06 21:41] kristian1103 (Arkanishu): will the campaign answer the question how lucina gives birth to the perforators?\n[2018-03-06 21:47] strshplyr5046 (StrShPlyr): Eats a Drone through her orifice, pops a Perforator back out.\n[2018-03-06 21:55] elyot: @Deleted User not really, we just do it ourselves\n[2018-03-06 21:55] elyot: @Arkanishu dunno yet\n[2018-03-06 22:03] strshplyr5046 (StrShPlyr): @Elyot, what if P1 starts with 1Gold?\n[2018-03-06 22:05] strshplyr5046 (StrShPlyr): Or an Auric Impulse.\n[2018-03-06 22:07] spiritfryer (Spyrfyr): Is that peeking on the edges intended, Elyot? This was taken in full-screen 1920x1080\n[2018-03-06 22:11] 1000mh (Henry): Its the same way at 1440p as well\n[2018-03-06 22:21] elyot: @Spyrfyr it's intended. Does it look ugly? We can fix\n[2018-03-06 22:23] elyot: @StrShPlyr We tried literally dozens of starting configurations including ones with custom units etc. and didn't find any that were significantly better than D^6 vs D^7\n[2018-03-06 22:23] elyot: In fact we found a lot that were a lot worse\n[2018-03-06 22:23] elyot: and people really like D^6 and D^7 because it's very elegant and simple and they get a little \"insight moment\" when they realize that it's the same thing as D^7 vs D^8\n[2018-03-06 22:24] strshplyr5046 (StrShPlyr): For the natural Player2 Redeemer, etc.\n[2018-03-06 22:24] spiritfryer (Spyrfyr): Was just asking because it came up on overboardgames' stream. I think it'd look better if it was more obviously a \"window\" that opens up on top of main menu. Right now it doesn't look very natural\n[2018-03-06 22:24] spiritfryer (Spyrfyr): Also idk how different resolutions affect this, if at all\n[2018-03-06 22:24] strshplyr5046 (StrShPlyr): Players joke about it being a P1 resign.\n[2018-03-06 22:25] elyot: @StrShPlyr Redeemer is pretty balanced according to our stats, but if it was a problem, we would change redeemer, not the starting configuration\n[2018-03-06 22:26] strshplyr5046 (StrShPlyr): Check #strategy_advice\n[2018-03-06 22:26] Deleted User (Deleted User): that's about the nature of natural conduit more than anything else tbh\n[2018-03-06 22:27] Deleted User (Deleted User): 1 gold barely affects it in those cases and really punishes p2 in all the others\n[2018-03-06 22:27] Deleted User (Deleted User): Elyot how can redeemer be balanced? Surely it would be 60%+ p2 win?\n[2018-03-06 22:27] strshplyr5046 (StrShPlyr): Flowing the extra leverage into Tempo.\n[2018-03-06 22:28] strshplyr5046 (StrShPlyr): But ussually not very one-sided, balance.\n[2018-03-06 22:30] elyot: Redeemer is off by about 2%, though we are still considering some adjustments, stay tuned\n[2018-03-06 22:30] elyot: There hasn't been a unit above 60% in many years\n[2018-03-06 22:32] Deleted User (Deleted User): It certainly feels like 60%- at the very least, being p1 in a redeemer set feels like a significant disadvantage\n[2018-03-06 22:32] Deleted User (Deleted User): Any idea as to why that's the perception when the stats show otherwise?\n[2018-03-06 22:32] apooche: Are there any player favored unit stats that are significant and not likely just \"green jelly beans\"?\n[2018-03-06 22:33] apooche: (I would guess not rly, but maybe some econ units?)\n[2018-03-06 22:34] mtanzer: I would guess wild drone creates some problems for both players depending on the set but that might not show up in player winrates alone\n[2018-03-06 22:40] strshplyr5046 (StrShPlyr): @Elyot Having 2 Units, each OP for either Player, the Winrates would be about equal, since each would be busted against the Opponent.",
+      "messages": [
+        {
+          "id": "420697501788667904",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-03-06T21:41:40.608+00:00",
+          "content": "will the campaign answer the question how lucina gives birth to the perforators?"
+        },
+        {
+          "id": "420698903420076066",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T21:47:14.783+00:00",
+          "content": "Eats a Drone through her orifice, pops a Perforator back out."
+        },
+        {
+          "id": "420700873719808000",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T21:55:04.539+00:00",
+          "content": "@Deleted User not really, we just do it ourselves"
+        },
+        {
+          "id": "420700980712046592",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T21:55:30.048+00:00",
+          "content": "@Arkanishu dunno yet"
+        },
+        {
+          "id": "420702868098646021",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T22:03:00.036+00:00",
+          "content": "@Elyot, what if P1 starts with 1Gold?"
+        },
+        {
+          "id": "420703456190529547",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T22:05:20.248+00:00",
+          "content": "Or an Auric Impulse."
+        },
+        {
+          "id": "420703971988996096",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-06T22:07:23.224+00:00",
+          "content": "Is that peeking on the edges intended, Elyot? This was taken in full-screen 1920x1080"
+        },
+        {
+          "id": "420705041205428234",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-03-06T22:11:38.145+00:00",
+          "content": "Its the same way at 1440p as well"
+        },
+        {
+          "id": "420707538829443082",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T22:21:33.625+00:00",
+          "content": "@Spyrfyr it's intended. Does it look ugly? We can fix"
+        },
+        {
+          "id": "420707929805553664",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T22:23:06.841+00:00",
+          "content": "@StrShPlyr We tried literally dozens of starting configurations including ones with custom units etc. and didn't find any that were significantly better than D^6 vs D^7"
+        },
+        {
+          "id": "420707973313200138",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T22:23:17.214+00:00",
+          "content": "In fact we found a lot that were a lot worse"
+        },
+        {
+          "id": "420708084919566347",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T22:23:43.823+00:00",
+          "content": "and people really like D^6 and D^7 because it's very elegant and simple and they get a little \"insight moment\" when they realize that it's the same thing as D^7 vs D^8"
+        },
+        {
+          "id": "420708165672501260",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T22:24:03.076+00:00",
+          "content": "For the natural Player2 Redeemer, etc."
+        },
+        {
+          "id": "420708179815694350",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-06T22:24:06.448+00:00",
+          "content": "Was just asking because it came up on overboardgames' stream. I think it'd look better if it was more obviously a \"window\" that opens up on top of main menu. Right now it doesn't look very natural"
+        },
+        {
+          "id": "420708275277791252",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-06T22:24:29.208+00:00",
+          "content": "Also idk how different resolutions affect this, if at all"
+        },
+        {
+          "id": "420708354101608449",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T22:24:48.001+00:00",
+          "content": "Players joke about it being a P1 resign."
+        },
+        {
+          "id": "420708518627115008",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T22:25:27.227+00:00",
+          "content": "@StrShPlyr Redeemer is pretty balanced according to our stats, but if it was a problem, we would change redeemer, not the starting configuration"
+        },
+        {
+          "id": "420708702673436682",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T22:26:11.107+00:00",
+          "content": "Check #strategy_advice"
+        },
+        {
+          "id": "420708906075947010",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-06T22:26:59.602+00:00",
+          "content": "that's about the nature of natural conduit more than anything else tbh"
+        },
+        {
+          "id": "420708999202209802",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-06T22:27:21.805+00:00",
+          "content": "1 gold barely affects it in those cases and really punishes p2 in all the others"
+        },
+        {
+          "id": "420709102893793300",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-06T22:27:46.527+00:00",
+          "content": "Elyot how can redeemer be balanced? Surely it would be 60%+ p2 win?"
+        },
+        {
+          "id": "420709107574767617",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T22:27:47.643+00:00",
+          "content": "Flowing the extra leverage into Tempo."
+        },
+        {
+          "id": "420709279109087232",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T22:28:28.54+00:00",
+          "content": "But ussually not very one-sided, balance."
+        },
+        {
+          "id": "420709810774999040",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T22:30:35.299+00:00",
+          "content": "Redeemer is off by about 2%, though we are still considering some adjustments, stay tuned"
+        },
+        {
+          "id": "420709896942649346",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T22:30:55.843+00:00",
+          "content": "There hasn't been a unit above 60% in many years"
+        },
+        {
+          "id": "420710241970421771",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-06T22:32:18.104+00:00",
+          "content": "It certainly feels like 60%- at the very least, being p1 in a redeemer set feels like a significant disadvantage"
+        },
+        {
+          "id": "420710323167690753",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-06T22:32:37.463+00:00",
+          "content": "Any idea as to why that's the perception when the stats show otherwise?"
+        },
+        {
+          "id": "420710356126531584",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-03-06T22:32:45.321+00:00",
+          "content": "Are there any player favored unit stats that are significant and not likely just \"green jelly beans\"?"
+        },
+        {
+          "id": "420710612541243403",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-03-06T22:33:46.455+00:00",
+          "content": "(I would guess not rly, but maybe some econ units?)"
+        },
+        {
+          "id": "420710810709655562",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-03-06T22:34:33.702+00:00",
+          "content": "I would guess wild drone creates some problems for both players depending on the set but that might not show up in player winrates alone"
+        },
+        {
+          "id": "420712267663802369",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T22:40:21.067+00:00",
+          "content": "@Elyot Having 2 Units, each OP for either Player, the Winrates would be about equal, since each would be busted against the Opponent."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-06T23:42:19.987+00:00",
+      "end_ts": "2018-03-07T00:19:41.772+00:00",
+      "participants": [
+        "Deleted User",
+        "aacarey",
+        "elyot",
+        "http404error",
+        "liadahlia",
+        "mqp",
+        "strshplyr5046",
+        "wilson0862",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 46,
+      "formatted_text": "--- Thread (28 messages, 2018-03-06 to 2018-03-07) ---\n[2018-03-06 23:42] strshplyr5046 (StrShPlyr): @Elyot You know 45s for a Turn is way too long for Standard play, and may make it too stalled.\n[2018-03-06 23:43] http404error: I have more reading for you.\n[2018-03-06 23:44] strshplyr5046 (StrShPlyr): Matches easily last 45''.\n[2018-03-06 23:47] wilson0862 (Wilson): @StrShPlyr Please take this discussion to #prismata_chat\n[2018-03-06 23:47] strshplyr5046 (StrShPlyr): Mrguy comment on #prismata_chat.\n[2018-03-06 23:48] elyot: @StrShPlyr If you have suggestions about unit balance or time controls, please use the in-game suggestion button\n[2018-03-06 23:49] strshplyr5046 (StrShPlyr): Thanks, that's useful.\n[2018-03-06 23:49] elyot: We actually are looking at *increasing* the default time in casual match mode because new players found 45s to be too short\n[2018-03-06 23:50] elyot: but we'll see, we get a lot of different feedback from different people so we kinda blend it all together and decide what will make the most people the most happy\n[2018-03-06 23:50] mqp: is there a reason you didn't like to make the casual match queue options identical to the ranked match queue options (i.e. including the ability to control which time control you're queueing for?)\n[2018-03-06 23:51] elyot: We've thought about it, some people want to grind blitz games against casual bots. We'll see. We might add a 3rd slider.\n[2018-03-06 23:51] strshplyr5046 (StrShPlyr): I come from ChEO, which as a Chess Variant, requires planning. Players complain of 30'' buffer to be too long.\n[2018-03-06 23:52] Deleted User (Deleted User): Back in my country...\n[2018-03-06 23:52] elyot: yeah but 1 ply in chess requires way fewer decisions than 1 ply in Prismata, it's really not the same game. It's kinda funny cuz we expected blitz to be very popular but the longer queues are actually more popular.\n[2018-03-06 23:53] elyot: A lot of games result in the fastest time control being the most popular but Prismata never went in that direction for some reason, possibly because blitz is *actually too fast* 😛\n[2018-03-06 23:54] Deleted User (Deleted User): Possibly because they want to dodge Punfie maybe\n[2018-03-06 23:55] strshplyr5046 (StrShPlyr): This ChEO btw is about Engineers with Immolite power, and Tias, so it makes sense.\n[2018-03-06 23:56] elyot: I know about ChEO, one of our devs played it quite a lot\n[2018-03-07 00:02] liadahlia (Lia): Will we be able to get some free keys to give out to our friends who really want to try the game?\n[2018-03-07 00:05] aacarey: (can't they just buy it?)\n[2018-03-07 00:07] wiwiweb: Well the game is supposed to be free\n[2018-03-07 00:14] Deleted User (Deleted User): The base game is free\n[2018-03-07 00:15] Deleted User (Deleted User): You just wont be able to get it right away (or at all?) from Steam for free.\n[2018-03-07 00:15] wilson0862 (Wilson): And first chapter of campaign.\n[2018-03-07 00:15] wilson0862 (Wilson): Right away. It will be free later on.\n[2018-03-07 00:16] Deleted User (Deleted User): I think he was saying his options when it came to being free (base+1chapter) later on I'm not sure if he said for sure.\n[2018-03-07 00:18] wiwiweb: Elyot said free non-Steam keys will be given away liberally when the campaign is out so I think there'll be no problem asking for a few for friends\n[2018-03-07 00:19] Deleted User (Deleted User): I think he was speaking about Steam keys but minus the full campaign, and possibly open registration for the browser edition",
+      "messages": [
+        {
+          "id": "420727865945096193",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T23:42:19.987+00:00",
+          "content": "@Elyot You know 45s for a Turn is way too long for Standard play, and may make it too stalled."
+        },
+        {
+          "id": "420728223736004608",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-03-06T23:43:45.291+00:00",
+          "content": "I have more reading for you."
+        },
+        {
+          "id": "420728426224418826",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T23:44:33.568+00:00",
+          "content": "Matches easily last 45''."
+        },
+        {
+          "id": "420729119983140866",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-03-06T23:47:18.973+00:00",
+          "content": "@StrShPlyr Please take this discussion to #prismata_chat"
+        },
+        {
+          "id": "420729182159372288",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T23:47:33.797+00:00",
+          "content": "Mrguy comment on #prismata_chat."
+        },
+        {
+          "id": "420729432311988225",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T23:48:33.438+00:00",
+          "content": "@StrShPlyr If you have suggestions about unit balance or time controls, please use the in-game suggestion button"
+        },
+        {
+          "id": "420729565938319360",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T23:49:05.297+00:00",
+          "content": "Thanks, that's useful."
+        },
+        {
+          "id": "420729722901626890",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T23:49:42.72+00:00",
+          "content": "We actually are looking at *increasing* the default time in casual match mode because new players found 45s to be too short"
+        },
+        {
+          "id": "420729860437311508",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T23:50:15.511+00:00",
+          "content": "but we'll see, we get a lot of different feedback from different people so we kinda blend it all together and decide what will make the most people the most happy"
+        },
+        {
+          "id": "420729995506352138",
+          "author": "mqp",
+          "nickname": "mqp",
+          "timestamp": "2018-03-06T23:50:47.714+00:00",
+          "content": "is there a reason you didn't like to make the casual match queue options identical to the ranked match queue options (i.e. including the ability to control which time control you're queueing for?)"
+        },
+        {
+          "id": "420730133415198720",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T23:51:20.594+00:00",
+          "content": "We've thought about it, some people want to grind blitz games against casual bots. We'll see. We might add a 3rd slider."
+        },
+        {
+          "id": "420730147709124608",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T23:51:24.002+00:00",
+          "content": "I come from ChEO, which as a Chess Variant, requires planning. Players complain of 30'' buffer to be too long."
+        },
+        {
+          "id": "420730373085986847",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-06T23:52:17.736+00:00",
+          "content": "Back in my country..."
+        },
+        {
+          "id": "420730482775425026",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T23:52:43.888+00:00",
+          "content": "yeah but 1 ply in chess requires way fewer decisions than 1 ply in Prismata, it's really not the same game. It's kinda funny cuz we expected blitz to be very popular but the longer queues are actually more popular."
+        },
+        {
+          "id": "420730577357111297",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T23:53:06.438+00:00",
+          "content": "A lot of games result in the fastest time control being the most popular but Prismata never went in that direction for some reason, possibly because blitz is *actually too fast* 😛"
+        },
+        {
+          "id": "420730835742883842",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-06T23:54:08.042+00:00",
+          "content": "Possibly because they want to dodge Punfie maybe"
+        },
+        {
+          "id": "420731058494111751",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-03-06T23:55:01.15+00:00",
+          "content": "This ChEO btw is about Engineers with Immolite power, and Tias, so it makes sense."
+        },
+        {
+          "id": "420731433150185473",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-06T23:56:30.475+00:00",
+          "content": "I know about ChEO, one of our devs played it quite a lot"
+        },
+        {
+          "id": "420732828154593295",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-03-07T00:02:03.07+00:00",
+          "content": "Will we be able to get some free keys to give out to our friends who really want to try the game?"
+        },
+        {
+          "id": "420733777438834689",
+          "author": "aacarey",
+          "nickname": "aacarey",
+          "timestamp": "2018-03-07T00:05:49.397+00:00",
+          "content": "(can't they just buy it?)"
+        },
+        {
+          "id": "420734207661309955",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-07T00:07:31.97+00:00",
+          "content": "Well the game is supposed to be free"
+        },
+        {
+          "id": "420735986062983168",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-07T00:14:35.974+00:00",
+          "content": "The base game is free"
+        },
+        {
+          "id": "420736156464971786",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-07T00:15:16.601+00:00",
+          "content": "You just wont be able to get it right away (or at all?) from Steam for free."
+        },
+        {
+          "id": "420736160386646017",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-03-07T00:15:17.536+00:00",
+          "content": "And first chapter of campaign."
+        },
+        {
+          "id": "420736213184413696",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-03-07T00:15:30.124+00:00",
+          "content": "Right away. It will be free later on."
+        },
+        {
+          "id": "420736527400828930",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-07T00:16:45.039+00:00",
+          "content": "I think he was saying his options when it came to being free (base+1chapter) later on I'm not sure if he said for sure."
+        },
+        {
+          "id": "420737022865702923",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-07T00:18:43.167+00:00",
+          "content": "Elyot said free non-Steam keys will be given away liberally when the campaign is out so I think there'll be no problem asking for a few for friends"
+        },
+        {
+          "id": "420737268672888842",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-07T00:19:41.772+00:00",
+          "content": "I think he was speaking about Steam keys but minus the full campaign, and possibly open registration for the browser edition"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-07T01:28:19.394+00:00",
+      "end_ts": "2018-03-07T01:31:03.868+00:00",
+      "participants": [
+        "elyot",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (4 messages, 2018-03-07) ---\n[2018-03-07 01:28] wiwiweb: @Elyot There's another question I had since I tried the Armory tutorial. The first time you get in the armory you get a couple free flips and you're scripted to get the quadruple red on the last flip. I also noticed there was the Canada drone in the rewards which is awfully convenient since my location is Canada. Was that a coincidence or is it guaranteed that you get your country's drone? Can you guys even tell the location of players?\n[2018-03-07 01:29] elyot: @Wiwiweb No we just put Canada Drone in cuz we're canadian\n[2018-03-07 01:30] wiwiweb: oh, so it is scripted, but nothing to do with location 😄 Does that mean every single player has the Canadian drone?\n[2018-03-07 01:31] elyot: if they choose it, but I think most people choose different rewards",
+      "messages": [
+        {
+          "id": "420754539231051787",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-07T01:28:19.394+00:00",
+          "content": "@Elyot There's another question I had since I tried the Armory tutorial. The first time you get in the armory you get a couple free flips and you're scripted to get the quadruple red on the last flip. I also noticed there was the Canada drone in the rewards which is awfully convenient since my location is Canada. Was that a coincidence or is it guaranteed that you get your country's drone? Can you guys even tell the location of players?"
+        },
+        {
+          "id": "420754921751707654",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T01:29:50.594+00:00",
+          "content": "@Wiwiweb No we just put Canada Drone in cuz we're canadian"
+        },
+        {
+          "id": "420755093525233675",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-03-07T01:30:31.548+00:00",
+          "content": "oh, so it is scripted, but nothing to do with location 😄 Does that mean every single player has the Canadian drone?"
+        },
+        {
+          "id": "420755229085007895",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T01:31:03.868+00:00",
+          "content": "if they choose it, but I think most people choose different rewards"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-07T05:35:51.064+00:00",
+      "end_ts": "2018-03-07T05:35:51.064+00:00",
+      "participants": [
+        "meisnewbie"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-03-07) ---\n[2018-03-07 05:35] meisnewbie: Hey @Elyot, if I have a suggestion for a streamer that I follow but don't really interact with too much, how do I introduce you two directly? I think it's potentially a long shot match since he's mostly single player strategy + multiplayer tactics fps, but he has expressed liking starcraft without execution requirements.",
+      "messages": [
+        {
+          "id": "420816831649939457",
+          "author": "meisnewbie",
+          "nickname": "meisnewbie",
+          "timestamp": "2018-03-07T05:35:51.064+00:00",
+          "content": "Hey @Elyot, if I have a suggestion for a streamer that I follow but don't really interact with too much, how do I introduce you two directly? I think it's potentially a long shot match since he's mostly single player strategy + multiplayer tactics fps, but he has expressed liking starcraft without execution requirements."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-07T06:06:01.224+00:00",
+      "end_ts": "2018-03-07T06:09:37.294+00:00",
+      "participants": [
+        "elyot",
+        "meisnewbie"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (3 messages, 2018-03-07) ---\n[2018-03-07 06:06] elyot: what's their name? I can just contact them\n[2018-03-07 06:07] elyot: if they would know who you are then you could pm them on discord or just msg them on twitch\n[2018-03-07 06:09] meisnewbie: Beaglerush (he streams on twitch.tv/beagsandjam but he's really into Into The Breach atm and I don't know if he's up for stuff right at this moment, although he does variety streams on Thursday (!))",
+      "messages": [
+        {
+          "id": "420824424011399171",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T06:06:01.224+00:00",
+          "content": "what's their name? I can just contact them"
+        },
+        {
+          "id": "420824670766497793",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T06:07:00.055+00:00",
+          "content": "if they would know who you are then you could pm them on discord or just msg them on twitch"
+        },
+        {
+          "id": "420825330274664459",
+          "author": "meisnewbie",
+          "nickname": "meisnewbie",
+          "timestamp": "2018-03-07T06:09:37.294+00:00",
+          "content": "Beaglerush (he streams on twitch.tv/beagsandjam but he's really into Into The Breach atm and I don't know if he's up for stuff right at this moment, although he does variety streams on Thursday (!))"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-07T06:20:34.248+00:00",
+      "end_ts": "2018-03-07T06:32:06.617+00:00",
+      "participants": [
+        "elyot",
+        "meisnewbie"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (5 messages, 2018-03-07) ---\n[2018-03-07 06:20] elyot: judging from his play history, he'll be on our list for sure\n[2018-03-07 06:24] meisnewbie: ok glad to be of help\n[2018-03-07 06:25] elyot: it's still better to get a personal introduction\n[2018-03-07 06:25] elyot: more likely that they actually play rather than just assume the game is trash or whatever\n[2018-03-07 06:32] meisnewbie: I'll see what I can do",
+      "messages": [
+        {
+          "id": "420828085739323413",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T06:20:34.248+00:00",
+          "content": "judging from his play history, he'll be on our list for sure"
+        },
+        {
+          "id": "420829157719539713",
+          "author": "meisnewbie",
+          "nickname": "meisnewbie",
+          "timestamp": "2018-03-07T06:24:49.828+00:00",
+          "content": "ok glad to be of help"
+        },
+        {
+          "id": "420829288443674624",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T06:25:20.995+00:00",
+          "content": "it's still better to get a personal introduction"
+        },
+        {
+          "id": "420829339374845962",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T06:25:33.138+00:00",
+          "content": "more likely that they actually play rather than just assume the game is trash or whatever"
+        },
+        {
+          "id": "420830989745651712",
+          "author": "meisnewbie",
+          "nickname": "meisnewbie",
+          "timestamp": "2018-03-07T06:32:06.617+00:00",
+          "content": "I'll see what I can do"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-07T16:48:59.836+00:00",
+      "end_ts": "2018-03-07T16:48:59.836+00:00",
+      "participants": [
+        "redrame"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-03-07) ---\n[2018-03-07 16:48] redrame: Yo what's the reasoning behind introducing a level 20 barrier for ranked in addition to the tier system?  The tier system already prevents players from getting punished for playing ranked, and blockading the ranked system decreases the number of new players on the ranked ladder and increases the odds of hitting a vet in the first few games.",
+      "messages": [
+        {
+          "id": "420986234437894174",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T16:48:59.836+00:00",
+          "content": "Yo what's the reasoning behind introducing a level 20 barrier for ranked in addition to the tier system?  The tier system already prevents players from getting punished for playing ranked, and blockading the ranked system decreases the number of new players on the ranked ladder and increases the odds of hitting a vet in the first few games."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-07T20:23:28.804+00:00",
+      "end_ts": "2018-03-07T20:23:28.804+00:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-03-07) ---\n[2018-03-07 20:23] p0lari (Polari): I just crashed in campaign; did that get reported and if not are there any log files I could send?",
+      "messages": [
+        {
+          "id": "421040210801983489",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-03-07T20:23:28.804+00:00",
+          "content": "I just crashed in campaign; did that get reported and if not are there any log files I could send?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-07T22:19:33.325+00:00",
+      "end_ts": "2018-03-07T22:49:52.36+00:00",
+      "participants": [
+        "1000mh",
+        "Deleted User",
+        "crash_overlord",
+        "elyot",
+        "kristian1103",
+        "mqp",
+        "p0lari",
+        "redrame"
+      ],
+      "replay_codes": [],
+      "score": 128,
+      "formatted_text": "--- Thread (50 messages, 2018-03-07) ---\n[2018-03-07 22:19] elyot: @Redrame Level 20 is really the basic minimum you need to be familiar enough I think. It's not that much.\n[2018-03-07 22:19] elyot: @SilentSlayers We're thinking about separate bullet ratings\n[2018-03-07 22:20] elyot: @Polari I'll take a look\n[2018-03-07 22:21] elyot: @Polari I don't see any crashes on your account since feb 27\n[2018-03-07 22:21] p0lari (Polari): hmm, maybe the server sees it as just me quitting\n[2018-03-07 22:21] mqp: elyot i promise i don't want to get on your case about this but i'm genuinely curious -- do you have a lot of user playtesting evidence that most people need to do about a level-20-ish amount of casual games/puzzles/missions (how many hours of thinking is that, half a dozen?) before they are minimally competent, or is it just your common sense?\n[2018-03-07 22:21] p0lari (Polari): the client froze and I forcibly closed it\n[2018-03-07 22:23] Deleted User (Deleted User): How many hours is level 20 or so?\n[2018-03-07 22:25] kristian1103 (Arkanishu): I made lvl 20 in like 1-2 hours\n[2018-03-07 22:25] kristian1103 (Arkanishu): that´s when you can easily rush through all the combat training missions though\n[2018-03-07 22:26] redrame: yeah, lv 20 for a new player is a long ass time\n[2018-03-07 22:26] Deleted User (Deleted User): levels seem pointless if u can grind them that fast imo\n[2018-03-07 22:26] redrame: long enough that people will drop a game if they arent interested\n[2018-03-07 22:27] redrame: like I think the gate for casual play should be about the gate for ranked play\n[2018-03-07 22:27] kristian1103 (Arkanishu): well do you really want people to get their ass handed over on ladder\n[2018-03-07 22:28] redrame: you could even just inform players of the risk\n[2018-03-07 22:28] elyot: tbh most of the dev team thinks it should be 40 but we have the ability to override it\n[2018-03-07 22:28] redrame: like you do with everything else challenging in the game\n[2018-03-07 22:28] elyot: right now it warns you if it's less than 40\n[2018-03-07 22:28] kristian1103 (Arkanishu): most people like unlocking things, so having cool things to unlock is good\n[2018-03-07 22:28] Deleted User (Deleted User): How much do new people dislike losing on ranked\n[2018-03-07 22:28] redrame: the classic \"appeal to an even more extreme opinion\"\n[2018-03-07 22:29] elyot: Like we have a lot of data that shows people who start playing ranked too early often quit\n[2018-03-07 22:29] redrame: alright, that I can buy\n[2018-03-07 22:29] redrame: I do think if people took the warning seriously they would just stop playing ranked...\n[2018-03-07 22:29] redrame: but maybe I overrate people's intelligence\n[2018-03-07 22:31] p0lari (Polari): is that data from around kickstarter when there were more people or during the time when ranked queue has been a horrible shark pool?\n[2018-03-07 22:31] Deleted User (Deleted User): I can't argue with the facts, but it's super surprising to me that happens\n[2018-03-07 22:31] p0lari (Polari): I'd think ideally noobs would hit ranked queue and merrily get matched vs other noobs\n[2018-03-07 22:31] crash_overlord: I mean pretty much every game except HS has a \"get to x level before you can play ranked\" thing\n[2018-03-07 22:32] mqp: come on crash you know that's not true for any reference class of games other than \"literally the games you are thinking of\"\n[2018-03-07 22:32] crash_overlord: I'm pretty sure theres a valid reason for that implementation everywhere, even if its as simple as \"people like unlocking things\"\n[2018-03-07 22:32] redrame: I mean HS also starts you in the bronzest of the bronze\n[2018-03-07 22:32] redrame: personally I think that was a very successful strategy compared to gating off content\n[2018-03-07 22:32] 1000mh (Henry): Isn't the casual queue the solution to this?\n[2018-03-07 22:33] redrame: yeah, this is all a continuation to my question... people are asking about the data\n[2018-03-07 22:42] elyot: It's similar to the SC2 bronze league problem\n[2018-03-07 22:43] elyot: there just isn't enough density of players at crap skill levels because they improve too fast\n[2018-03-07 22:43] elyot: like you can gain 600 Elo in a few hours\n[2018-03-07 22:43] elyot: so there's just a suuuuper low density of people who haven't gained that 600 Elo yet\n[2018-03-07 22:43] elyot: like if you don't even know how to absorb properly or buy things in the right order, you get crushed\n[2018-03-07 22:44] elyot: and it takes a bit for people to get used to everything to the point where they can have a reasonable game vs other people\n[2018-03-07 22:47] elyot: basically people have a much more positive ranked experience if they've already gained that 600 Elo\n[2018-03-07 22:47] elyot: if not then they come away with the impression that the game is too hard and everyone is too good and we want to avoid that\n[2018-03-07 22:47] elyot: first impression is important\n[2018-03-07 22:48] redrame: I guess that is a fair way of looking at it\n[2018-03-07 22:48] mqp: ok that was a surprisingly interesting defense of why you would want to gate \"high-something\" games behind a skill barrier (where \"something\" is some mix of pressure, anxiety, skill test, frustration)\n[2018-03-07 22:49] redrame: difference between something as easy as reading the 307th standard style once and not is prob hundereds of elo\n[2018-03-07 22:49] redrame: here's an interesting alternative if that's your justification: why not make expert bot your gatekeeper?\n[2018-03-07 22:49] redrame: guarantees the desired skill level for entry",
+      "messages": [
+        {
+          "id": "421069422120140811",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:19:33.325+00:00",
+          "content": "@Redrame Level 20 is really the basic minimum you need to be familiar enough I think. It's not that much."
+        },
+        {
+          "id": "421069483881398273",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:19:48.05+00:00",
+          "content": "@SilentSlayers We're thinking about separate bullet ratings"
+        },
+        {
+          "id": "421069546837901323",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:20:03.06+00:00",
+          "content": "@Polari I'll take a look"
+        },
+        {
+          "id": "421069836043550767",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:21:12.012+00:00",
+          "content": "@Polari I don't see any crashes on your account since feb 27"
+        },
+        {
+          "id": "421069911649943552",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-03-07T22:21:30.038+00:00",
+          "content": "hmm, maybe the server sees it as just me quitting"
+        },
+        {
+          "id": "421069928045477890",
+          "author": "mqp",
+          "nickname": "mqp",
+          "timestamp": "2018-03-07T22:21:33.947+00:00",
+          "content": "elyot i promise i don't want to get on your case about this but i'm genuinely curious -- do you have a lot of user playtesting evidence that most people need to do about a level-20-ish amount of casual games/puzzles/missions (how many hours of thinking is that, half a dozen?) before they are minimally competent, or is it just your common sense?"
+        },
+        {
+          "id": "421069981195829250",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-03-07T22:21:46.619+00:00",
+          "content": "the client froze and I forcibly closed it"
+        },
+        {
+          "id": "421070352878141443",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-07T22:23:15.235+00:00",
+          "content": "How many hours is level 20 or so?"
+        },
+        {
+          "id": "421070941485793310",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-03-07T22:25:35.57+00:00",
+          "content": "I made lvl 20 in like 1-2 hours"
+        },
+        {
+          "id": "421071003989442562",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-03-07T22:25:50.472+00:00",
+          "content": "that´s when you can easily rush through all the combat training missions though"
+        },
+        {
+          "id": "421071195882913792",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:26:36.223+00:00",
+          "content": "yeah, lv 20 for a new player is a long ass time"
+        },
+        {
+          "id": "421071202719891456",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-07T22:26:37.853+00:00",
+          "content": "levels seem pointless if u can grind them that fast imo"
+        },
+        {
+          "id": "421071239545880597",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:26:46.633+00:00",
+          "content": "long enough that people will drop a game if they arent interested"
+        },
+        {
+          "id": "421071344642424832",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:27:11.69+00:00",
+          "content": "like I think the gate for casual play should be about the gate for ranked play"
+        },
+        {
+          "id": "421071542001205250",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-03-07T22:27:58.744+00:00",
+          "content": "well do you really want people to get their ass handed over on ladder"
+        },
+        {
+          "id": "421071573475131392",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:28:06.248+00:00",
+          "content": "you could even just inform players of the risk"
+        },
+        {
+          "id": "421071587232710666",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:28:09.528+00:00",
+          "content": "tbh most of the dev team thinks it should be 40 but we have the ability to override it"
+        },
+        {
+          "id": "421071609529368596",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:28:14.844+00:00",
+          "content": "like you do with everything else challenging in the game"
+        },
+        {
+          "id": "421071660188172298",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:28:26.922+00:00",
+          "content": "right now it warns you if it's less than 40"
+        },
+        {
+          "id": "421071688365506560",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-03-07T22:28:33.64+00:00",
+          "content": "most people like unlocking things, so having cool things to unlock is good"
+        },
+        {
+          "id": "421071765939290113",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-07T22:28:52.135+00:00",
+          "content": "How much do new people dislike losing on ranked"
+        },
+        {
+          "id": "421071773488906280",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:28:53.935+00:00",
+          "content": "the classic \"appeal to an even more extreme opinion\""
+        },
+        {
+          "id": "421071802433929220",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:29:00.836+00:00",
+          "content": "Like we have a lot of data that shows people who start playing ranked too early often quit"
+        },
+        {
+          "id": "421071848042921984",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:29:11.71+00:00",
+          "content": "alright, that I can buy"
+        },
+        {
+          "id": "421071988707295232",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:29:45.247+00:00",
+          "content": "I do think if people took the warning seriously they would just stop playing ranked..."
+        },
+        {
+          "id": "421072036773756938",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:29:56.707+00:00",
+          "content": "but maybe I overrate people's intelligence"
+        },
+        {
+          "id": "421072308518649856",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-03-07T22:31:01.496+00:00",
+          "content": "is that data from around kickstarter when there were more people or during the time when ranked queue has been a horrible shark pool?"
+        },
+        {
+          "id": "421072376348803093",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-07T22:31:17.668+00:00",
+          "content": "I can't argue with the facts, but it's super surprising to me that happens"
+        },
+        {
+          "id": "421072380308488193",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-03-07T22:31:18.612+00:00",
+          "content": "I'd think ideally noobs would hit ranked queue and merrily get matched vs other noobs"
+        },
+        {
+          "id": "421072475409874955",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-07T22:31:41.286+00:00",
+          "content": "I mean pretty much every game except HS has a \"get to x level before you can play ranked\" thing"
+        },
+        {
+          "id": "421072562622038037",
+          "author": "mqp",
+          "nickname": "mqp",
+          "timestamp": "2018-03-07T22:32:02.079+00:00",
+          "content": "come on crash you know that's not true for any reference class of games other than \"literally the games you are thinking of\""
+        },
+        {
+          "id": "421072566363357184",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-07T22:32:02.971+00:00",
+          "content": "I'm pretty sure theres a valid reason for that implementation everywhere, even if its as simple as \"people like unlocking things\""
+        },
+        {
+          "id": "421072671221219328",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:32:27.971+00:00",
+          "content": "I mean HS also starts you in the bronzest of the bronze"
+        },
+        {
+          "id": "421072735515443201",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:32:43.3+00:00",
+          "content": "personally I think that was a very successful strategy compared to gating off content"
+        },
+        {
+          "id": "421072736169754625",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-03-07T22:32:43.456+00:00",
+          "content": "Isn't the casual queue the solution to this?"
+        },
+        {
+          "id": "421072812074074143",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:33:01.553+00:00",
+          "content": "yeah, this is all a continuation to my question... people are asking about the data"
+        },
+        {
+          "id": "421075310965030913",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:42:57.335+00:00",
+          "content": "It's similar to the SC2 bronze league problem"
+        },
+        {
+          "id": "421075363628711945",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:43:09.891+00:00",
+          "content": "there just isn't enough density of players at crap skill levels because they improve too fast"
+        },
+        {
+          "id": "421075394486337538",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:43:17.248+00:00",
+          "content": "like you can gain 600 Elo in a few hours"
+        },
+        {
+          "id": "421075462081609728",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:43:33.364+00:00",
+          "content": "so there's just a suuuuper low density of people who haven't gained that 600 Elo yet"
+        },
+        {
+          "id": "421075528385298432",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:43:49.172+00:00",
+          "content": "like if you don't even know how to absorb properly or buy things in the right order, you get crushed"
+        },
+        {
+          "id": "421075615362449409",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:44:09.909+00:00",
+          "content": "and it takes a bit for people to get used to everything to the point where they can have a reasonable game vs other people"
+        },
+        {
+          "id": "421076402029461507",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:47:17.465+00:00",
+          "content": "basically people have a much more positive ranked experience if they've already gained that 600 Elo"
+        },
+        {
+          "id": "421076523437785088",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:47:46.411+00:00",
+          "content": "if not then they come away with the impression that the game is too hard and everyone is too good and we want to avoid that"
+        },
+        {
+          "id": "421076563346456596",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-07T22:47:55.926+00:00",
+          "content": "first impression is important"
+        },
+        {
+          "id": "421076688097509396",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:48:25.669+00:00",
+          "content": "I guess that is a fair way of looking at it"
+        },
+        {
+          "id": "421076821174648842",
+          "author": "mqp",
+          "nickname": "mqp",
+          "timestamp": "2018-03-07T22:48:57.397+00:00",
+          "content": "ok that was a surprisingly interesting defense of why you would want to gate \"high-something\" games behind a skill barrier (where \"something\" is some mix of pressure, anxiety, skill test, frustration)"
+        },
+        {
+          "id": "421076835481419796",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:49:00.808+00:00",
+          "content": "difference between something as easy as reading the 307th standard style once and not is prob hundereds of elo"
+        },
+        {
+          "id": "421076968646377482",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:49:32.557+00:00",
+          "content": "here's an interesting alternative if that's your justification: why not make expert bot your gatekeeper?"
+        },
+        {
+          "id": "421077051706048512",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-03-07T22:49:52.36+00:00",
+          "content": "guarantees the desired skill level for entry"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-07T23:24:32.851+00:00",
+      "end_ts": "2018-03-07T23:25:54.208+00:00",
+      "participants": [
+        "brokenfocus",
+        "coscott"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (3 messages, 2018-03-07) ---\n[2018-03-07 23:24] brokenfocus: Will we need a code to play the story mode tomorrow?  I don't have one and I haven't played since the early days of the alpha, but I want to get back into the game and the story mode would be a great place to start.\n[2018-03-07 23:25] coscott: Is the level cap a permanent feature, or will it go away eventually?\n[2018-03-07 23:25] coscott: also I am curious why for either answer",
+      "messages": [
+        {
+          "id": "421085777917771786",
+          "author": "brokenfocus",
+          "nickname": "BrokenFocus",
+          "timestamp": "2018-03-07T23:24:32.851+00:00",
+          "content": "Will we need a code to play the story mode tomorrow?  I don't have one and I haven't played since the early days of the alpha, but I want to get back into the game and the story mode would be a great place to start."
+        },
+        {
+          "id": "421086049163542540",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-07T23:25:37.521+00:00",
+          "content": "Is the level cap a permanent feature, or will it go away eventually?"
+        },
+        {
+          "id": "421086119153762306",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-07T23:25:54.208+00:00",
+          "content": "also I am curious why for either answer"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-08T00:27:16.589+00:00",
+      "end_ts": "2018-03-08T00:50:33.729+00:00",
+      "participants": [
+        "Deleted User",
+        "coscott",
+        "crash_overlord",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 23,
+      "formatted_text": "--- Thread (9 messages, 2018-03-08) ---\n[2018-03-08 00:27] Deleted User (Deleted User): @Will Ma will will you be making more videos?\n[2018-03-08 00:35] elyot: @BrokenFocus no code needed\n[2018-03-08 00:35] elyot: @Coscott not sure yet, we had some ideas for \"prestige levels\" past 40 where it would mostly just grow with your collection size\n[2018-03-08 00:35] elyot: will implement later if people care\n[2018-03-08 00:43] coscott: I am not one of these people, but I think the people who just play masterbot over and over again would really like uncapped levels, so they can experience some kind of progress.\n[2018-03-08 00:43] coscott: I remember talking to someone who just played master bot most of the time, and they really liked when the level system came out.\n[2018-03-08 00:45] Deleted User (Deleted User): Elyot in case you missed our questions (I guess it's okay if you don't want to answer?)\n\n- If that's your justification[For requiring a level on unlocking ranked]: why not make expert bot your gatekeeper?\n- Is SC2 bronze league a problem though? Shouldn't there be dozens of new people daily in a game that big?\n[2018-03-08 00:47] coscott: I bet leveling is a lot easier with campaign. what level do you get to just for completing campaign without expert challenges?\n[2018-03-08 00:50] crash_overlord: Because some people don't like playing vs AI, but they don't mind \"puzzles\" or the campaign.",
+      "messages": [
+        {
+          "id": "421101564178989076",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-08T00:27:16.589+00:00",
+          "content": "@Will Ma will will you be making more videos?"
+        },
+        {
+          "id": "421103545010487307",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T00:35:08.856+00:00",
+          "content": "@BrokenFocus no code needed"
+        },
+        {
+          "id": "421103695309045762",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T00:35:44.69+00:00",
+          "content": "@Coscott not sure yet, we had some ideas for \"prestige levels\" past 40 where it would mostly just grow with your collection size"
+        },
+        {
+          "id": "421103727055863808",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T00:35:52.259+00:00",
+          "content": "will implement later if people care"
+        },
+        {
+          "id": "421105567495487489",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T00:43:11.054+00:00",
+          "content": "I am not one of these people, but I think the people who just play masterbot over and over again would really like uncapped levels, so they can experience some kind of progress."
+        },
+        {
+          "id": "421105757988323328",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T00:43:56.471+00:00",
+          "content": "I remember talking to someone who just played master bot most of the time, and they really liked when the level system came out."
+        },
+        {
+          "id": "421106103150051328",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-08T00:45:18.764+00:00",
+          "content": "Elyot in case you missed our questions (I guess it's okay if you don't want to answer?)\n\n- If that's your justification[For requiring a level on unlocking ranked]: why not make expert bot your gatekeeper?\n- Is SC2 bronze league a problem though? Shouldn't there be dozens of new people daily in a game that big?"
+        },
+        {
+          "id": "421106614884630530",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T00:47:20.771+00:00",
+          "content": "I bet leveling is a lot easier with campaign. what level do you get to just for completing campaign without expert challenges?"
+        },
+        {
+          "id": "421107424209141782",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-08T00:50:33.729+00:00",
+          "content": "Because some people don't like playing vs AI, but they don't mind \"puzzles\" or the campaign."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-08T04:39:28.76+00:00",
+      "end_ts": "2018-03-08T04:40:19.577+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (3 messages, 2018-03-08) ---\n[2018-03-08 04:39] elyot: @Deleted User believe it or not, bronze league in a game as big as SC2 is still a problem because there is a huuuge range of skill, like take the best bronze league player and you could find somebody they win 75% of the time against, and somebody 75/25 below than, and soooo many more layers until you hit complete newbs\n[2018-03-08 04:39] elyot: and there are very few people in the low sections because they quickly improve or quit\n[2018-03-08 04:40] elyot: total supply of opponents at a skill = number of players times duration they're at a skill, and here duration is low",
+      "messages": [
+        {
+          "id": "421165033104343052",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T04:39:28.76+00:00",
+          "content": "@Deleted User believe it or not, bronze league in a game as big as SC2 is still a problem because there is a huuuge range of skill, like take the best bronze league player and you could find somebody they win 75% of the time against, and somebody 75/25 below than, and soooo many more layers until you hit complete newbs"
+        },
+        {
+          "id": "421165113064554498",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T04:39:47.824+00:00",
+          "content": "and there are very few people in the low sections because they quickly improve or quit"
+        },
+        {
+          "id": "421165246246289423",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T04:40:19.577+00:00",
+          "content": "total supply of opponents at a skill = number of players times duration they're at a skill, and here duration is low"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-08T18:50:00.269+00:00",
+      "end_ts": "2018-03-08T18:59:47.727+00:00",
+      "participants": [
+        "1000mh",
+        "Deleted User",
+        "coscott",
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (10 messages, 2018-03-08) ---\n[2018-03-08 18:50] coscott: Window Resize broke with the last update. Was this intentional?\n[2018-03-08 18:57] p0lari (Polari): there's now an option in settings to prevent resizing, do you have it checked?\n[2018-03-08 18:57] Deleted User (Deleted User): https://i.imgur.com/IyAA5cu.png\n[2018-03-08 18:58] coscott: and it is actually broken\n[2018-03-08 18:58] coscott: when I click one of the window size buttons\n[2018-03-08 18:58] coscott: the window gets smaller\n[2018-03-08 18:58] coscott: but it cuts stuff not, doesnt resize\n[2018-03-08 18:59] coscott: @Elyot  This seems like a pretty big bug\n[2018-03-08 18:59] 1000mh (Henry): Could you report it using the in-game bug report?\n[2018-03-08 18:59] coscott: I did, I just thought it might be urgent too",
+      "messages": [
+        {
+          "id": "421379074766667776",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T18:50:00.269+00:00",
+          "content": "Window Resize broke with the last update. Was this intentional?"
+        },
+        {
+          "id": "421380898840117268",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-03-08T18:57:15.162+00:00",
+          "content": "there's now an option in settings to prevent resizing, do you have it checked?"
+        },
+        {
+          "id": "421381015731306496",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-08T18:57:43.031+00:00",
+          "content": "https://i.imgur.com/IyAA5cu.png"
+        },
+        {
+          "id": "421381158497157140",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T18:58:17.069+00:00",
+          "content": "and it is actually broken"
+        },
+        {
+          "id": "421381196501745696",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T18:58:26.13+00:00",
+          "content": "when I click one of the window size buttons"
+        },
+        {
+          "id": "421381215225118720",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T18:58:30.594+00:00",
+          "content": "the window gets smaller"
+        },
+        {
+          "id": "421381247609208854",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T18:58:38.315+00:00",
+          "content": "but it cuts stuff not, doesnt resize"
+        },
+        {
+          "id": "421381338587725824",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T18:59:00.006+00:00",
+          "content": "@Elyot  This seems like a pretty big bug"
+        },
+        {
+          "id": "421381403041857546",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-03-08T18:59:15.373+00:00",
+          "content": "Could you report it using the in-game bug report?"
+        },
+        {
+          "id": "421381538744107047",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-03-08T18:59:47.727+00:00",
+          "content": "I did, I just thought it might be urgent too"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-08T19:16:59.057+00:00",
+      "end_ts": "2018-03-08T19:17:14.405+00:00",
+      "participants": [
+        "elyot",
+        "willmasaur"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (2 messages, 2018-03-08) ---\n[2018-03-08 19:16] willmasaur (Will Ma): Should I ping elyot separately?\n[2018-03-08 19:17] elyot: @Coscott we're looking at it",
+      "messages": [
+        {
+          "id": "421385864455651330",
+          "author": "willmasaur",
+          "nickname": "Will Ma",
+          "timestamp": "2018-03-08T19:16:59.057+00:00",
+          "content": "Should I ping elyot separately?"
+        },
+        {
+          "id": "421385928829960193",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T19:17:14.405+00:00",
+          "content": "@Coscott we're looking at it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-08T19:38:39.712+00:00",
+      "end_ts": "2018-03-08T19:38:39.712+00:00",
+      "participants": [
+        "awoodokehu"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-03-08) ---\n[2018-03-08 19:38] awoodokehu (dokawehu): ```Elyot - Last Tuesday at 4:56 PM\nI know about ChEO, one of our devs played it quite a lot```\nIf you don't mind answering who is that dev? I wonder if it's someone we know in the community, or a \"grandmaster\" as that community puts it lol",
+      "messages": [
+        {
+          "id": "421391319798382602",
+          "author": "awoodokehu",
+          "nickname": "dokawehu",
+          "timestamp": "2018-03-08T19:38:39.712+00:00",
+          "content": "```Elyot - Last Tuesday at 4:56 PM\nI know about ChEO, one of our devs played it quite a lot```\nIf you don't mind answering who is that dev? I wonder if it's someone we know in the community, or a \"grandmaster\" as that community puts it lol"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-08T19:57:32.296+00:00",
+      "end_ts": "2018-03-08T20:00:07.775+00:00",
+      "participants": [
+        "307th",
+        "Deleted User"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (3 messages, 2018-03-08) ---\n[2018-03-08 19:57] 307th: someone's asking me for a key - could i have some steam keys to give out?\n[2018-03-08 19:59] Deleted User (Deleted User): I can give you a non-Steam key\n[2018-03-08 20:00] 307th: i have some non-steam keys, but i figure steam keys would be better",
+      "messages": [
+        {
+          "id": "421396070199853094",
+          "author": "307th",
+          "nickname": "307th",
+          "timestamp": "2018-03-08T19:57:32.296+00:00",
+          "content": "someone's asking me for a key - could i have some steam keys to give out?"
+        },
+        {
+          "id": "421396585444802560",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-08T19:59:35.14+00:00",
+          "content": "I can give you a non-Steam key"
+        },
+        {
+          "id": "421396722326175754",
+          "author": "307th",
+          "nickname": "307th",
+          "timestamp": "2018-03-08T20:00:07.775+00:00",
+          "content": "i have some non-steam keys, but i figure steam keys would be better"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-08T21:19:36.626+00:00",
+      "end_ts": "2018-03-08T21:37:56.817+00:00",
+      "participants": [
+        "1000mh",
+        "Deleted User",
+        "awaclus",
+        "giouvas",
+        "iminabearsuit",
+        "slambamtymaam",
+        "spiritfryer",
+        "zezetel"
+      ],
+      "replay_codes": [],
+      "score": 20,
+      "formatted_text": "--- Thread (18 messages, 2018-03-08) ---\n[2018-03-08 21:19] zezetel: @Elyot can I get some keys?\n[2018-03-08 21:26] slambamtymaam (Unknown): Is there a way to get a steam key even though I already own the game? I would like to get the achievements on steam\n[2018-03-08 21:28] 1000mh (Henry): There will be a free to play version on Steam in the near future\n[2018-03-08 21:29] iminabearsuit: If you've pledged $25 or more, you can get a steam key from https://www.humblebundle.com/resender\n[2018-03-08 21:29] spiritfryer (Spyrfyr): Is that Kickstarter only?\n[2018-03-08 21:29] 1000mh (Henry): Make sure to use the same email used when you purchased the package\n[2018-03-08 21:29] spiritfryer (Spyrfyr): I assume so, cos I did the resender and got nothing\n[2018-03-08 21:30] 1000mh (Henry): Anything not bought through Steam will be handled through Humble Bundle\n[2018-03-08 21:30] spiritfryer (Spyrfyr): I got a Grand Cent tier from in-game shop\n[2018-03-08 21:30] spiritfryer (Spyrfyr): Resender doesn't give me a Steam key\n[2018-03-08 21:31] awaclus: if I buy the game on Steam right now for the discounted price: 1) can I connect my existing Prismata account to Steam 2) does that mean I'll get access in the full campaign when it comes out 3) does it somehow help boost Prismata's visibility on Steam if it gets a lot of purchases early on?\n[2018-03-08 21:31] Deleted User (Deleted User): The ingame shop stuff i think is seperate\n[2018-03-08 21:31] Deleted User (Deleted User): @Awaclus Yes, yes, dont know\n[2018-03-08 21:32] iminabearsuit: Purchacing the game, can make it come into the trending games on steam, which will increase visability by a lot.\n[2018-03-08 21:32] slambamtymaam (Unknown): yeah i didn't pick mine up off of humble bundle\n[2018-03-08 21:33] iminabearsuit: Humble are the ones that are handling the keys, so the resender should be able to retrieve everything, as long as you give the same email address.\n[2018-03-08 21:36] giouvas: anyone here got a key to give for free to lifecoach's twitch chat ?\n[2018-03-08 21:37] giouvas: many people are asking right now , i figured if anyone here has one or two to give them",
+      "messages": [
+        {
+          "id": "421416724336738314",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-03-08T21:19:36.626+00:00",
+          "content": "@Elyot can I get some keys?"
+        },
+        {
+          "id": "421418416549789727",
+          "author": "slambamtymaam",
+          "nickname": "Unknown",
+          "timestamp": "2018-03-08T21:26:20.081+00:00",
+          "content": "Is there a way to get a steam key even though I already own the game? I would like to get the achievements on steam"
+        },
+        {
+          "id": "421418854678396941",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-03-08T21:28:04.539+00:00",
+          "content": "There will be a free to play version on Steam in the near future"
+        },
+        {
+          "id": "421419130948812811",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-03-08T21:29:10.407+00:00",
+          "content": "If you've pledged $25 or more, you can get a steam key from https://www.humblebundle.com/resender"
+        },
+        {
+          "id": "421419272779202580",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-08T21:29:44.222+00:00",
+          "content": "Is that Kickstarter only?"
+        },
+        {
+          "id": "421419281293508618",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-03-08T21:29:46.252+00:00",
+          "content": "Make sure to use the same email used when you purchased the package"
+        },
+        {
+          "id": "421419303015809024",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-08T21:29:51.431+00:00",
+          "content": "I assume so, cos I did the resender and got nothing"
+        },
+        {
+          "id": "421419408427057155",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-03-08T21:30:16.563+00:00",
+          "content": "Anything not bought through Steam will be handled through Humble Bundle"
+        },
+        {
+          "id": "421419506141757450",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-08T21:30:39.86+00:00",
+          "content": "I got a Grand Cent tier from in-game shop"
+        },
+        {
+          "id": "421419545073549323",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-08T21:30:49.142+00:00",
+          "content": "Resender doesn't give me a Steam key"
+        },
+        {
+          "id": "421419591227539466",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-03-08T21:31:00.146+00:00",
+          "content": "if I buy the game on Steam right now for the discounted price: 1) can I connect my existing Prismata account to Steam 2) does that mean I'll get access in the full campaign when it comes out 3) does it somehow help boost Prismata's visibility on Steam if it gets a lot of purchases early on?"
+        },
+        {
+          "id": "421419592833826826",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-08T21:31:00.529+00:00",
+          "content": "The ingame shop stuff i think is seperate"
+        },
+        {
+          "id": "421419683544039454",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-08T21:31:22.156+00:00",
+          "content": "@Awaclus Yes, yes, dont know"
+        },
+        {
+          "id": "421419976075902989",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-03-08T21:32:31.901+00:00",
+          "content": "Purchacing the game, can make it come into the trending games on steam, which will increase visability by a lot."
+        },
+        {
+          "id": "421420038663307265",
+          "author": "slambamtymaam",
+          "nickname": "Unknown",
+          "timestamp": "2018-03-08T21:32:46.823+00:00",
+          "content": "yeah i didn't pick mine up off of humble bundle"
+        },
+        {
+          "id": "421420320751222795",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-03-08T21:33:54.078+00:00",
+          "content": "Humble are the ones that are handling the keys, so the resender should be able to retrieve everything, as long as you give the same email address."
+        },
+        {
+          "id": "421420969303867413",
+          "author": "giouvas",
+          "nickname": "giouvas",
+          "timestamp": "2018-03-08T21:36:28.705+00:00",
+          "content": "anyone here got a key to give for free to lifecoach's twitch chat ?"
+        },
+        {
+          "id": "421421338872512523",
+          "author": "giouvas",
+          "nickname": "giouvas",
+          "timestamp": "2018-03-08T21:37:56.817+00:00",
+          "content": "many people are asking right now , i figured if anyone here has one or two to give them"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-08T22:24:23.808+00:00",
+      "end_ts": "2018-03-08T22:26:56.092+00:00",
+      "participants": [
+        "awoodokehu",
+        "elyot",
+        "nickleeb"
+      ],
+      "replay_codes": [],
+      "score": 22,
+      "formatted_text": "--- Thread (8 messages, 2018-03-08) ---\n[2018-03-08 22:24] elyot: @dokawehu it was Alex\n[2018-03-08 22:24] elyot: @Unknown PM me and I'll get you a steam key\n[2018-03-08 22:25] nickleeb: Can I have one aswell?\n[2018-03-08 22:25] nickleeb: A streamer said I can just ask for one.\n[2018-03-08 22:25] elyot: haha I love arkanishu\n[2018-03-08 22:25] elyot: We don't mind giving away keys but please support the game if you like it ^_^\n[2018-03-08 22:26] awoodokehu (dokawehu): Can you comment on if anything is supposed to happen for the Giselle achievement\n[2018-03-08 22:26] awoodokehu (dokawehu): I posted it in #mission_puzzle_solutions but it's somewhat secret/spoiler... maybe",
+      "messages": [
+        {
+          "id": "421433028359880725",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T22:24:23.808+00:00",
+          "content": "@dokawehu it was Alex"
+        },
+        {
+          "id": "421433159201062922",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T22:24:55.003+00:00",
+          "content": "@Unknown PM me and I'll get you a steam key"
+        },
+        {
+          "id": "421433213463035915",
+          "author": "nickleeb",
+          "nickname": "nickleeb",
+          "timestamp": "2018-03-08T22:25:07.94+00:00",
+          "content": "Can I have one aswell?"
+        },
+        {
+          "id": "421433237433483264",
+          "author": "nickleeb",
+          "nickname": "nickleeb",
+          "timestamp": "2018-03-08T22:25:13.655+00:00",
+          "content": "A streamer said I can just ask for one."
+        },
+        {
+          "id": "421433309793484812",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T22:25:30.907+00:00",
+          "content": "haha I love arkanishu"
+        },
+        {
+          "id": "421433395101302804",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-08T22:25:51.246+00:00",
+          "content": "We don't mind giving away keys but please support the game if you like it ^_^"
+        },
+        {
+          "id": "421433605953159168",
+          "author": "awoodokehu",
+          "nickname": "dokawehu",
+          "timestamp": "2018-03-08T22:26:41.517+00:00",
+          "content": "Can you comment on if anything is supposed to happen for the Giselle achievement"
+        },
+        {
+          "id": "421433667085139982",
+          "author": "awoodokehu",
+          "nickname": "dokawehu",
+          "timestamp": "2018-03-08T22:26:56.092+00:00",
+          "content": "I posted it in #mission_puzzle_solutions but it's somewhat secret/spoiler... maybe"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T04:21:30.364+00:00",
+      "end_ts": "2018-03-09T04:21:30.364+00:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-03-09) ---\n[2018-03-09 04:21] liadahlia (Lia): Wait why is the founder's bundle cheaper than the main game",
+      "messages": [
+        {
+          "id": "421522897849286666",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-03-09T04:21:30.364+00:00",
+          "content": "Wait why is the founder's bundle cheaper than the main game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T05:32:15.161+00:00",
+      "end_ts": "2018-03-09T05:41:01.1+00:00",
+      "participants": [
+        "david6553",
+        "http404error",
+        "imahoppy"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (6 messages, 2018-03-09) ---\n[2018-03-09 05:32] imahoppy: Hi I had a question for devs. I purchased the 25$ level many years ago and I no longer have access to the email that I used to create my account. If I were to provide the email for that account or paypal account I used to purchase it would it be possible to get a steam key?\n[2018-03-09 05:35] david6553 (Epicurus): @imahoppy (in case it's not clear from the link, try going here and entering the paypal email https://www.humblebundle.com/resender)\n[2018-03-09 05:36] david6553 (Epicurus): that might end up just sending it to that same email again though, which i guess doesn't help if you don't have access to it\n[2018-03-09 05:38] imahoppy: yeah that is what happened\n[2018-03-09 05:38] david6553 (Epicurus): hopefully a dev can help when they're around\n[2018-03-09 05:41] http404error: I'm pretty confident they can help in this case, it just might take some time. I don't know if there's a preferred method of filing a support request yet 😛",
+      "messages": [
+        {
+          "id": "421540701818322965",
+          "author": "imahoppy",
+          "nickname": "imahoppy",
+          "timestamp": "2018-03-09T05:32:15.161+00:00",
+          "content": "Hi I had a question for devs. I purchased the 25$ level many years ago and I no longer have access to the email that I used to create my account. If I were to provide the email for that account or paypal account I used to purchase it would it be possible to get a steam key?"
+        },
+        {
+          "id": "421541592520851457",
+          "author": "david6553",
+          "nickname": "Epicurus",
+          "timestamp": "2018-03-09T05:35:47.521+00:00",
+          "content": "@imahoppy (in case it's not clear from the link, try going here and entering the paypal email https://www.humblebundle.com/resender)"
+        },
+        {
+          "id": "421541670857736192",
+          "author": "david6553",
+          "nickname": "Epicurus",
+          "timestamp": "2018-03-09T05:36:06.198+00:00",
+          "content": "that might end up just sending it to that same email again though, which i guess doesn't help if you don't have access to it"
+        },
+        {
+          "id": "421542223302361091",
+          "author": "imahoppy",
+          "nickname": "imahoppy",
+          "timestamp": "2018-03-09T05:38:17.911+00:00",
+          "content": "yeah that is what happened"
+        },
+        {
+          "id": "421542282064297995",
+          "author": "david6553",
+          "nickname": "Epicurus",
+          "timestamp": "2018-03-09T05:38:31.921+00:00",
+          "content": "hopefully a dev can help when they're around"
+        },
+        {
+          "id": "421542907766374411",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-03-09T05:41:01.1+00:00",
+          "content": "I'm pretty confident they can help in this case, it just might take some time. I don't know if there's a preferred method of filing a support request yet 😛"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T11:21:20.931+00:00",
+      "end_ts": "2018-03-09T11:53:14.645+00:00",
+      "participants": [
+        "elyot",
+        "medar",
+        "mqp",
+        "p0lari",
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 105,
+      "formatted_text": "--- Thread (21 messages, 2018-03-09) ---\n[2018-03-09 11:21] steel0229e (Steel): instead of a GM badge why not make a GM section of the ladder?\n[2018-03-09 11:22] medar: cut off should be Elyot's rating :LongNoseLiar:\n[2018-03-09 11:29] elyot: @Arkanishu Where are those badges visible? They are supposed to be hidden...\n[2018-03-09 11:29] elyot: We're not sure if we're adding them\n[2018-03-09 11:29] p0lari (Polari): view all achievements -> global achievement stats\n[2018-03-09 11:32] elyot: @Plato It says so in the short description but I'll add it there to be more clear, thank you\n[2018-03-09 11:33] elyot: I thought I could add achievements in steamworks and just not have them in the game yet\n[2018-03-09 11:33] elyot: but instead they're just like... in the game but only shown in some places and not others because they're surprises\n[2018-03-09 11:34] elyot: I'll remove all those ones I guess\n[2018-03-09 11:34] elyot: none of them are achievable in game yet, most of them are not even final names or anything like that\n[2018-03-09 11:35] elyot: I'm not even sure if we want badges for the high ratings. I think they might exclude too many people. I was planning on bringing it up as a question for people...\n[2018-03-09 11:36] elyot: @imahoppy PM me and I'll take a look, or email support@lunarchstudios.com... I can give you a key no problem, but email is required to access the rewards, I would need some way to verify your identity\n[2018-03-09 11:38] elyot: @http404error Support requests are handled through support@lunarchstudios.com right now, or you can use the in-game bug reporting feature and include your email in the support email box and we'll respond\n[2018-03-09 11:42] elyot: @Coscott I gave the artist the angle and very explicit instructions and it was not accurate at all. Some artists aren't that good with math. He would have had to redraw a lot of the image to fix it though since the mirrors and circles are also kinda wrong. I even calculated where the circle of mirrors should be centered for optimal reflection onto the tower (hint: the center of the circle is NOT located at the exact center of the thermal target's shadow)\n[2018-03-09 11:43] mqp: wow you should just copy that to the clipboard and paste it into swade's dialogue in the campaign when the player first sees that scene\n[2018-03-09 11:46] elyot: One thing about thermal solar is that if land use is free, it doesn't matter whether the sun is directly overhead or not\n[2018-03-09 11:47] elyot: so the desert is the location with the fewest clouds, which is the best location\n[2018-03-09 11:47] elyot: the mirrors are just a bit more sparse\n[2018-03-09 11:47] elyot: https://i.imgur.com/xMJWKRm.jpg\n[2018-03-09 11:49] elyot: That's the diagram that I included with the description given to the artist, it's definitely not bad enough that I would ask for a do-over or fixes\n[2018-03-09 11:53] elyot: One thing is that if the sun isn't directly overhead, there are definitely some losses from atmospheric absorption, but the air over Zenith is very humid so centauri is kinda the closest dry, cloud-free place. Thermal solar needs direct sunlight and ambient light from the sky doesn't add much value like it does with photovoltaic so you just want a place where the sun is really bright and hot and the sky is never hazy",
+      "messages": [
+        {
+          "id": "421628554745217024",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-03-09T11:21:20.931+00:00",
+          "content": "instead of a GM badge why not make a GM section of the ladder?"
+        },
+        {
+          "id": "421628936783527937",
+          "author": "medar",
+          "nickname": "Medar",
+          "timestamp": "2018-03-09T11:22:52.016+00:00",
+          "content": "cut off should be Elyot's rating :LongNoseLiar:"
+        },
+        {
+          "id": "421630572595511306",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:29:22.024+00:00",
+          "content": "@Arkanishu Where are those badges visible? They are supposed to be hidden..."
+        },
+        {
+          "id": "421630625343209473",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:29:34.6+00:00",
+          "content": "We're not sure if we're adding them"
+        },
+        {
+          "id": "421630690040479745",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-03-09T11:29:50.025+00:00",
+          "content": "view all achievements -> global achievement stats"
+        },
+        {
+          "id": "421631430355976195",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:32:46.53+00:00",
+          "content": "@Plato It says so in the short description but I'll add it there to be more clear, thank you"
+        },
+        {
+          "id": "421631602637144065",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:33:27.605+00:00",
+          "content": "I thought I could add achievements in steamworks and just not have them in the game yet"
+        },
+        {
+          "id": "421631699361726473",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:33:50.666+00:00",
+          "content": "but instead they're just like... in the game but only shown in some places and not others because they're surprises"
+        },
+        {
+          "id": "421631750553468938",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:34:02.871+00:00",
+          "content": "I'll remove all those ones I guess"
+        },
+        {
+          "id": "421631804915580929",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:34:15.832+00:00",
+          "content": "none of them are achievable in game yet, most of them are not even final names or anything like that"
+        },
+        {
+          "id": "421632052505608192",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:35:14.862+00:00",
+          "content": "I'm not even sure if we want badges for the high ratings. I think they might exclude too many people. I was planning on bringing it up as a question for people..."
+        },
+        {
+          "id": "421632304390209536",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:36:14.916+00:00",
+          "content": "@imahoppy PM me and I'll take a look, or email support@lunarchstudios.com... I can give you a key no problem, but email is required to access the rewards, I would need some way to verify your identity"
+        },
+        {
+          "id": "421632751083716628",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:38:01.416+00:00",
+          "content": "@http404error Support requests are handled through support@lunarchstudios.com right now, or you can use the in-game bug reporting feature and include your email in the support email box and we'll respond"
+        },
+        {
+          "id": "421633856391741450",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:42:24.942+00:00",
+          "content": "@Coscott I gave the artist the angle and very explicit instructions and it was not accurate at all. Some artists aren't that good with math. He would have had to redraw a lot of the image to fix it though since the mirrors and circles are also kinda wrong. I even calculated where the circle of mirrors should be centered for optimal reflection onto the tower (hint: the center of the circle is NOT located at the exact center of the thermal target's shadow)"
+        },
+        {
+          "id": "421634216288321536",
+          "author": "mqp",
+          "nickname": "mqp",
+          "timestamp": "2018-03-09T11:43:50.748+00:00",
+          "content": "wow you should just copy that to the clipboard and paste it into swade's dialogue in the campaign when the player first sees that scene"
+        },
+        {
+          "id": "421634867579846656",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:46:26.028+00:00",
+          "content": "One thing about thermal solar is that if land use is free, it doesn't matter whether the sun is directly overhead or not"
+        },
+        {
+          "id": "421635023502835724",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:47:03.203+00:00",
+          "content": "so the desert is the location with the fewest clouds, which is the best location"
+        },
+        {
+          "id": "421635120555098112",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:47:26.342+00:00",
+          "content": "the mirrors are just a bit more sparse"
+        },
+        {
+          "id": "421635230911299587",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:47:52.653+00:00",
+          "content": "https://i.imgur.com/xMJWKRm.jpg"
+        },
+        {
+          "id": "421635630909358091",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:49:28.02+00:00",
+          "content": "That's the diagram that I included with the description given to the artist, it's definitely not bad enough that I would ask for a do-over or fixes"
+        },
+        {
+          "id": "421636581443502090",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T11:53:14.645+00:00",
+          "content": "One thing is that if the sun isn't directly overhead, there are definitely some losses from atmospheric absorption, but the air over Zenith is very humid so centauri is kinda the closest dry, cloud-free place. Thermal solar needs direct sunlight and ambient light from the sky doesn't add much value like it does with photovoltaic so you just want a place where the sun is really bright and hot and the sky is never hazy"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T12:20:24.441+00:00",
+      "end_ts": "2018-03-09T12:20:47.979+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (3 messages, 2018-03-09) ---\n[2018-03-09 12:20] elyot: I don't know, I did not make that video\n[2018-03-09 12:20] elyot: I wonder if it's some easter egg left in by our artist\n[2018-03-09 12:20] elyot: quick somebody identify what music it is lol",
+      "messages": [
+        {
+          "id": "421643417303646220",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T12:20:24.441+00:00",
+          "content": "I don't know, I did not make that video"
+        },
+        {
+          "id": "421643471124693003",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T12:20:37.273+00:00",
+          "content": "I wonder if it's some easter egg left in by our artist"
+        },
+        {
+          "id": "421643516029173760",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T12:20:47.979+00:00",
+          "content": "quick somebody identify what music it is lol"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T12:45:31.992+00:00",
+      "end_ts": "2018-03-09T12:51:44.349+00:00",
+      "participants": [
+        "awaclus",
+        "awoodokehu",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (4 messages, 2018-03-09) ---\n[2018-03-09 12:45] spiritfryer (Spyrfyr): Here it is cut and cropped from the source video for anyone who wanna try to find it\n[2018-03-09 12:46] awoodokehu (dokawehu): nice cameo from Mr Bowtie at the end\n[2018-03-09 12:51] awaclus: https://www.dropbox.com/s/8t85q53qcl2q571/untitled.wav?dl=0 here's my best guess based on the screenshot alone\nuntitled.wav\nShared with Dropbox\n[2018-03-09 12:51] awaclus: based on the animated version it looks like my guess is probably at least drastically in the wrong tempo",
+      "messages": [
+        {
+          "id": "421649740430704640",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-09T12:45:31.992+00:00",
+          "content": "Here it is cut and cropped from the source video for anyone who wanna try to find it"
+        },
+        {
+          "id": "421649925214961675",
+          "author": "awoodokehu",
+          "nickname": "dokawehu",
+          "timestamp": "2018-03-09T12:46:16.048+00:00",
+          "content": "nice cameo from Mr Bowtie at the end"
+        },
+        {
+          "id": "421651230977163265",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-03-09T12:51:27.366+00:00",
+          "content": "https://www.dropbox.com/s/8t85q53qcl2q571/untitled.wav?dl=0 here's my best guess based on the screenshot alone\nuntitled.wav\nShared with Dropbox"
+        },
+        {
+          "id": "421651302209159177",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-03-09T12:51:44.349+00:00",
+          "content": "based on the animated version it looks like my guess is probably at least drastically in the wrong tempo"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T14:44:00.74+00:00",
+      "end_ts": "2018-03-09T14:52:15.796+00:00",
+      "participants": [
+        "elyot",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 13,
+      "formatted_text": "--- Thread (3 messages, 2018-03-09) ---\n[2018-03-09 14:44] spiritfryer (Spyrfyr): Just now on Thijshs stream\n[2018-03-09 14:52] elyot: I sent him his key like 5m ago\n[2018-03-09 14:52] elyot: I also PMed him on twitch",
+      "messages": [
+        {
+          "id": "421679556680744971",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-09T14:44:00.74+00:00",
+          "content": "Just now on Thijshs stream"
+        },
+        {
+          "id": "421681596543008780",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T14:52:07.081+00:00",
+          "content": "I sent him his key like 5m ago"
+        },
+        {
+          "id": "421681633096105993",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T14:52:15.796+00:00",
+          "content": "I also PMed him on twitch"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T15:11:01.107+00:00",
+      "end_ts": "2018-03-09T15:11:01.107+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-03-09) ---\n[2018-03-09 15:11] elyot: Turns out arigaaa was using wrong email address",
+      "messages": [
+        {
+          "id": "421686352992665611",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T15:11:01.107+00:00",
+          "content": "Turns out arigaaa was using wrong email address"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T15:39:51.431+00:00",
+      "end_ts": "2018-03-09T15:39:51.431+00:00",
+      "participants": [
+        "gex__"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-03-09) ---\n[2018-03-09 15:39] gex__ (gex): I wonder if there is a way to integrate Twitch + Prismata so that streamers can basically do some in-game giveaways to viewers who are also in Prismata like free cores and maybe black cards to get more people interested. This probably only works when the game is free to play though. Buying is probably a big barrier already.",
+      "messages": [
+        {
+          "id": "421693610497540096",
+          "author": "gex__",
+          "nickname": "gex",
+          "timestamp": "2018-03-09T15:39:51.431+00:00",
+          "content": "I wonder if there is a way to integrate Twitch + Prismata so that streamers can basically do some in-game giveaways to viewers who are also in Prismata like free cores and maybe black cards to get more people interested. This probably only works when the game is free to play though. Buying is probably a big barrier already."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T17:18:50.419+00:00",
+      "end_ts": "2018-03-09T17:21:07.887+00:00",
+      "participants": [
+        "Deleted User",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 25,
+      "formatted_text": "--- Thread (6 messages, 2018-03-09) ---\n[2018-03-09 17:18] Deleted User (Deleted User): @Elyot so yesterday I've installed game from steam. During it first start it had problems loading (stuck at 8% of assets, probably because of servers overload), I killed it (alt+f4) and then it didn't even want to go to loading buttons. Then I reinstalled it and got stucked again. Finally I fixed it by unistalling + removing whole Prismata directory (there were some stuff left) - then reinstalled and it worked 😃  probably something worth looking at\n[2018-03-09 17:20] elyot: that sounds a bit like an old bug that I believe was fixed\n[2018-03-09 17:20] elyot: David was looking at the logs yesterday and I think he saw you\n[2018-03-09 17:20] elyot: he definitely knows about it\n[2018-03-09 17:20] elyot: might have already fixed it for all I know\n[2018-03-09 17:21] elyot: we'll make sure it gets taken care of",
+      "messages": [
+        {
+          "id": "421718520418795520",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-09T17:18:50.419+00:00",
+          "content": "@Elyot so yesterday I've installed game from steam. During it first start it had problems loading (stuck at 8% of assets, probably because of servers overload), I killed it (alt+f4) and then it didn't even want to go to loading buttons. Then I reinstalled it and got stucked again. Finally I fixed it by unistalling + removing whole Prismata directory (there were some stuff left) - then reinstalled and it worked 😃  probably something worth looking at"
+        },
+        {
+          "id": "421718855916716034",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T17:20:10.408+00:00",
+          "content": "that sounds a bit like an old bug that I believe was fixed"
+        },
+        {
+          "id": "421718965719662602",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T17:20:36.587+00:00",
+          "content": "David was looking at the logs yesterday and I think he saw you"
+        },
+        {
+          "id": "421718988418973708",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T17:20:41.999+00:00",
+          "content": "he definitely knows about it"
+        },
+        {
+          "id": "421719010149793805",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T17:20:47.18+00:00",
+          "content": "might have already fixed it for all I know"
+        },
+        {
+          "id": "421719097001377813",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T17:21:07.887+00:00",
+          "content": "we'll make sure it gets taken care of"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T17:53:24.901+00:00",
+      "end_ts": "2018-03-09T17:53:59.175+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2018-03-09) ---\n[2018-03-09 17:53] spiritfryer (Spyrfyr): Is it documented anywhere that only episode 1 of campaign is available atm? Or do ppl have to buy the game first to then find that out. Question from someone in Twitch chat\n[2018-03-09 17:53] spiritfryer (Spyrfyr): Oh nvm, they found a disclaimer that clarifies this",
+      "messages": [
+        {
+          "id": "421727221426814987",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-09T17:53:24.901+00:00",
+          "content": "Is it documented anywhere that only episode 1 of campaign is available atm? Or do ppl have to buy the game first to then find that out. Question from someone in Twitch chat"
+        },
+        {
+          "id": "421727365182390272",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-09T17:53:59.175+00:00",
+          "content": "Oh nvm, they found a disclaimer that clarifies this"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T18:06:19.239+00:00",
+      "end_ts": "2018-03-09T18:07:18.142+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (3 messages, 2018-03-09) ---\n[2018-03-09 18:06] elyot: it's listed in so many places lol\n[2018-03-09 18:06] elyot: idunno we have so much information and people still always miss stuff\n[2018-03-09 18:07] elyot: it's good to know what stuff people miss though because they we can make it more prominent",
+      "messages": [
+        {
+          "id": "421730469235654656",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T18:06:19.239+00:00",
+          "content": "it's listed in so many places lol"
+        },
+        {
+          "id": "421730615201890305",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T18:06:54.04+00:00",
+          "content": "idunno we have so much information and people still always miss stuff"
+        },
+        {
+          "id": "421730716293005312",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-09T18:07:18.142+00:00",
+          "content": "it's good to know what stuff people miss though because they we can make it more prominent"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-09T22:50:07.33+00:00",
+      "end_ts": "2018-03-09T22:50:07.33+00:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-03-09) ---\n[2018-03-09 22:50] liadahlia (Lia): buy the founder's bundle and not the main game",
+      "messages": [
+        {
+          "id": "421801890226110475",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-03-09T22:50:07.33+00:00",
+          "content": "buy the founder's bundle and not the main game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T04:12:33.291+00:00",
+      "end_ts": "2018-03-10T04:23:22.729+00:00",
+      "participants": [
+        ".jrkirby",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 37,
+      "formatted_text": "--- Thread (7 messages, 2018-03-10) ---\n[2018-03-10 04:12] elyot: @Deleted User I think it will give you the blue heart but not 100% sure, it might say duplicate reward and not give it to you\n[2018-03-10 04:13] elyot: @Overboard Games Yes, accounts are shared between different versions of the game\n[2018-03-10 04:13] elyot: @Deleted User Read this paper to learn why there is no rain in centauri: https://arxiv.org/abs/1001.5117\n[2018-03-10 04:14] elyot: @Phuf We're about the send out a blast regarding this tourney, I've been trying to confirm the last participants\n[2018-03-10 04:15] elyot: @jrkirby There's no limit to the budget, basically anyone who we think is +EV, we can sponsor, we just offer a certain rate and target certain niche streamers\n[2018-03-10 04:15] elyot: @kaia There are quite a lot of youtube videos, more news coming soon as we're doing another press blast\n[2018-03-10 04:23] .jrkirby (jrkirby): I meant to ask what your current spend in the week or so of launch has been. I'm also curious what your expected LTV is, but I'd totally understand if you considered these things business secrets.",
+      "messages": [
+        {
+          "id": "421883033067716608",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-10T04:12:33.291+00:00",
+          "content": "@Deleted User I think it will give you the blue heart but not 100% sure, it might say duplicate reward and not give it to you"
+        },
+        {
+          "id": "421883167943950357",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-10T04:13:05.448+00:00",
+          "content": "@Overboard Games Yes, accounts are shared between different versions of the game"
+        },
+        {
+          "id": "421883293517086720",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-10T04:13:35.387+00:00",
+          "content": "@Deleted User Read this paper to learn why there is no rain in centauri: https://arxiv.org/abs/1001.5117"
+        },
+        {
+          "id": "421883473905713172",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-10T04:14:18.395+00:00",
+          "content": "@Phuf We're about the send out a blast regarding this tourney, I've been trying to confirm the last participants"
+        },
+        {
+          "id": "421883672229314580",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-10T04:15:05.679+00:00",
+          "content": "@jrkirby There's no limit to the budget, basically anyone who we think is +EV, we can sponsor, we just offer a certain rate and target certain niche streamers"
+        },
+        {
+          "id": "421883765900443648",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-10T04:15:28.012+00:00",
+          "content": "@kaia There are quite a lot of youtube videos, more news coming soon as we're doing another press blast"
+        },
+        {
+          "id": "421885757008117773",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-03-10T04:23:22.729+00:00",
+          "content": "I meant to ask what your current spend in the week or so of launch has been. I'm also curious what your expected LTV is, but I'd totally understand if you considered these things business secrets."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T06:02:21.673+00:00",
+      "end_ts": "2018-03-10T06:02:21.673+00:00",
+      "participants": [
+        "mqp"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-03-10) ---\n[2018-03-10 06:02] mqp: Is there some amount of money we could pay that would make it worth your while to open-source the current AI, or is it closed for some not-just-because-that's-the-default reason?",
+      "messages": [
+        {
+          "id": "421910666744561674",
+          "author": "mqp",
+          "nickname": "mqp",
+          "timestamp": "2018-03-10T06:02:21.673+00:00",
+          "content": "Is there some amount of money we could pay that would make it worth your while to open-source the current AI, or is it closed for some not-just-because-that's-the-default reason?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T10:58:46.554+00:00",
+      "end_ts": "2018-03-10T11:07:21.999+00:00",
+      "participants": [
+        "crash_overlord",
+        "yiwang8671"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2018-03-10) ---\n[2018-03-10 10:58] crash_overlord: So the current situation is that the bundle should be the only thing available, but valve/steam kinda messed up and has both as options.\nhttps://docs.google.com/document/d/1h6gqD2ooPBajOoSHH0JGZqdJ2Ftlcm7VKud5sKzMDI0/edit#\nPrismata Key Guide\nI backed on Kickstarter and want a Steam Key. Kickstarter orders are handled by Humble Bundle. Log into Humble Bundle using the same email that you used for Kickstarter. Generally, purchases should show up under the Purchased tab (image above). I...\n[2018-03-10 10:58] crash_overlord: There's a section in here that explains better\n[2018-03-10 11:07] yiwang8671: My match vs kurasu buged.",
+      "messages": [
+        {
+          "id": "421985261942079488",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T10:58:46.554+00:00",
+          "content": "So the current situation is that the bundle should be the only thing available, but valve/steam kinda messed up and has both as options.\nhttps://docs.google.com/document/d/1h6gqD2ooPBajOoSHH0JGZqdJ2Ftlcm7VKud5sKzMDI0/edit#\nPrismata Key Guide\nI backed on Kickstarter and want a Steam Key. Kickstarter orders are handled by Humble Bundle. Log into Humble Bundle using the same email that you used for Kickstarter. Generally, purchases should show up under the Purchased tab (image above). I..."
+        },
+        {
+          "id": "421985306431193089",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T10:58:57.161+00:00",
+          "content": "There's a section in here that explains better"
+        },
+        {
+          "id": "421987423874973706",
+          "author": "yiwang8671",
+          "nickname": "yiwang8671",
+          "timestamp": "2018-03-10T11:07:21.999+00:00",
+          "content": "My match vs kurasu buged."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T11:20:35.541+00:00",
+      "end_ts": "2018-03-10T11:23:56.1+00:00",
+      "participants": [
+        "crash_overlord",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (2 messages, 2018-03-10) ---\n[2018-03-10 11:20] crash_overlord: Pleae look at the #bug_reports channel. Discord is not for submitting bugs ^^\n[2018-03-10 11:23] elyot: @Deleted User We will be giving free DLC to you, the bundle did not appear for some hours because of a mistake on launch day",
+      "messages": [
+        {
+          "id": "421990752231358465",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T11:20:35.541+00:00",
+          "content": "Pleae look at the #bug_reports channel. Discord is not for submitting bugs ^^"
+        },
+        {
+          "id": "421991593437036545",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-10T11:23:56.1+00:00",
+          "content": "@Deleted User We will be giving free DLC to you, the bundle did not appear for some hours because of a mistake on launch day"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T13:50:02.236+00:00",
+      "end_ts": "2018-03-10T13:53:24.901+00:00",
+      "participants": [
+        "kristian1103"
+      ],
+      "replay_codes": [
+        "inner-frien"
+      ],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-03-10) ---\n[2018-03-10 13:50] kristian1103 (Arkanishu): will you keep streaming after the tournament is done? Otherwise I was thinking to maybe do a beginner-friendly stream afterwards to explain the basics and answering all kind of questions\n[2018-03-10 13:53] kristian1103 (Arkanishu): when watching the new streamers it seemed to me they were struggling to actually explain what´s going on",
+      "messages": [
+        {
+          "id": "422028361276194819",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-03-10T13:50:02.236+00:00",
+          "content": "will you keep streaming after the tournament is done? Otherwise I was thinking to maybe do a beginner-friendly stream afterwards to explain the basics and answering all kind of questions"
+        },
+        {
+          "id": "422029211314683914",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-03-10T13:53:24.901+00:00",
+          "content": "when watching the new streamers it seemed to me they were struggling to actually explain what´s going on"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T14:54:06.171+00:00",
+      "end_ts": "2018-03-10T15:08:20.942+00:00",
+      "participants": [
+        "crash_overlord",
+        "elyot",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 28,
+      "formatted_text": "--- Thread (8 messages, 2018-03-10) ---\n[2018-03-10 14:54] crash_overlord: @Elyot Why did you make it so I can't alt+f4 and reconnect to a game if the game bugs out and it forces me to resign instead 🤔\n[2018-03-10 14:55] elyot: you can ctrl+shift+escape and end task\n[2018-03-10 14:56] crash_overlord: I tried ending task in task manager\n[2018-03-10 14:56] crash_overlord: it still asked me to resign\n[2018-03-10 15:03] spiritfryer (Spyrfyr): I always get this when I try to relaunch the game, regardless of how I exited (quit normally from in-game menu, or end task via Task Manager)\n[2018-03-10 15:03] spiritfryer (Spyrfyr): The fix for me is to end task Steam\n[2018-03-10 15:03] spiritfryer (Spyrfyr): If I try to exit Steam normally it gets stuck on this\n[2018-03-10 15:08] spiritfryer (Spyrfyr): (If I \"Exit Now\" and relaunch Prismata, it works)",
+      "messages": [
+        {
+          "id": "422044483908009985",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T14:54:06.171+00:00",
+          "content": "@Elyot Why did you make it so I can't alt+f4 and reconnect to a game if the game bugs out and it forces me to resign instead 🤔"
+        },
+        {
+          "id": "422044886053945354",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-03-10T14:55:42.05+00:00",
+          "content": "you can ctrl+shift+escape and end task"
+        },
+        {
+          "id": "422045059521708033",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T14:56:23.408+00:00",
+          "content": "I tried ending task in task manager"
+        },
+        {
+          "id": "422045076584136714",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T14:56:27.476+00:00",
+          "content": "it still asked me to resign"
+        },
+        {
+          "id": "422046755358769163",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-10T15:03:07.727+00:00",
+          "content": "I always get this when I try to relaunch the game, regardless of how I exited (quit normally from in-game menu, or end task via Task Manager)"
+        },
+        {
+          "id": "422046778750271510",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-10T15:03:13.304+00:00",
+          "content": "The fix for me is to end task Steam"
+        },
+        {
+          "id": "422046966747234316",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-10T15:03:58.126+00:00",
+          "content": "If I try to exit Steam normally it gets stuck on this"
+        },
+        {
+          "id": "422048069077696533",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-03-10T15:08:20.942+00:00",
+          "content": "(If I \"Exit Now\" and relaunch Prismata, it works)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T18:51:19.841+00:00",
+      "end_ts": "2018-03-10T18:56:58.138+00:00",
+      "participants": [
+        "Deleted User",
+        "crash_overlord",
+        "sunfallte",
+        "willmasaur"
+      ],
+      "replay_codes": [],
+      "score": 40,
+      "formatted_text": "--- Thread (14 messages, 2018-03-10) ---\n[2018-03-10 18:51] willmasaur (Will Ma): I think it's undecided, it depends on what the player base looks like in a few weeks\n[2018-03-10 18:51] willmasaur (Will Ma): I think most new players already think there's too many units to learn\n[2018-03-10 18:52] willmasaur (Will Ma): But obviously seasoned players (myself included) would enjoy the game more if new units got launched\n[2018-03-10 18:52] willmasaur (Will Ma): I think one difference from MtG/Hearthstone, where there are 1000 different cards, is that there's much fewer _relevant_ cards\n[2018-03-10 18:53] willmasaur (Will Ma): You only have to worry about the cards in your deck, other viable decks, and specifically, the cards your opponent draws in a game\n[2018-03-10 18:53] willmasaur (Will Ma): In Prismata all units are relevant and on the \"efficient frontier\", and also, since it's perfect information, you have to pre-plan for everything in advance\n[2018-03-10 18:53] willmasaur (Will Ma): So I would say learning 100 units in Prismata is already more cognitive load than learning 1000 cards in HS/MtG\n[2018-03-10 18:54] Deleted User (Deleted User): from a new player point of view - learning 100 units or 110 is similarly overwhealming 😃 (in a good way)\n[2018-03-10 18:55] crash_overlord: Considering that point, prismata seems really easy to realease 1 unit at a time while still giving a fresh feeling? As in, you don't need to design a big \"set\" of 50 new units to release but you can trickle them slowly without losing a lot of satisfaction\n[2018-03-10 18:55] crash_overlord: Maybe smaller 5 unit sets would be optimal :clordHmm:\n[2018-03-10 18:56] willmasaur (Will Ma): Yeah Crash I think that very much would be a viable option yah\n[2018-03-10 18:56] sunfallte (Sunfall): Yeah, I think that dropping new units 3-5 at a time is the right way, with higher chances of them showing up on launch week.\n[2018-03-10 18:56] sunfallte (Sunfall): The game has *huge* unit cognitive load, and like @Will Ma said there aren't any equivalents of a 2-drop Green 2/2\n[2018-03-10 18:56] sunfallte (Sunfall): so you've got to know them all.",
+      "messages": [
+        {
+          "id": "422104184247287808",
+          "author": "willmasaur",
+          "nickname": "Will Ma",
+          "timestamp": "2018-03-10T18:51:19.841+00:00",
+          "content": "I think it's undecided, it depends on what the player base looks like in a few weeks"
+        },
+        {
+          "id": "422104272419946526",
+          "author": "willmasaur",
+          "nickname": "Will Ma",
+          "timestamp": "2018-03-10T18:51:40.863+00:00",
+          "content": "I think most new players already think there's too many units to learn"
+        },
+        {
+          "id": "422104371988398080",
+          "author": "willmasaur",
+          "nickname": "Will Ma",
+          "timestamp": "2018-03-10T18:52:04.602+00:00",
+          "content": "But obviously seasoned players (myself included) would enjoy the game more if new units got launched"
+        },
+        {
+          "id": "422104501424619525",
+          "author": "willmasaur",
+          "nickname": "Will Ma",
+          "timestamp": "2018-03-10T18:52:35.462+00:00",
+          "content": "I think one difference from MtG/Hearthstone, where there are 1000 different cards, is that there's much fewer _relevant_ cards"
+        },
+        {
+          "id": "422104641216577566",
+          "author": "willmasaur",
+          "nickname": "Will Ma",
+          "timestamp": "2018-03-10T18:53:08.791+00:00",
+          "content": "You only have to worry about the cards in your deck, other viable decks, and specifically, the cards your opponent draws in a game"
+        },
+        {
+          "id": "422104718517469187",
+          "author": "willmasaur",
+          "nickname": "Will Ma",
+          "timestamp": "2018-03-10T18:53:27.221+00:00",
+          "content": "In Prismata all units are relevant and on the \"efficient frontier\", and also, since it's perfect information, you have to pre-plan for everything in advance"
+        },
+        {
+          "id": "422104819134758924",
+          "author": "willmasaur",
+          "nickname": "Will Ma",
+          "timestamp": "2018-03-10T18:53:51.21+00:00",
+          "content": "So I would say learning 100 units in Prismata is already more cognitive load than learning 1000 cards in HS/MtG"
+        },
+        {
+          "id": "422104998525272064",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-10T18:54:33.98+00:00",
+          "content": "from a new player point of view - learning 100 units or 110 is similarly overwhealming 😃 (in a good way)"
+        },
+        {
+          "id": "422105164389023744",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T18:55:13.525+00:00",
+          "content": "Considering that point, prismata seems really easy to realease 1 unit at a time while still giving a fresh feeling? As in, you don't need to design a big \"set\" of 50 new units to release but you can trickle them slowly without losing a lot of satisfaction"
+        },
+        {
+          "id": "422105219405709322",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T18:55:26.642+00:00",
+          "content": "Maybe smaller 5 unit sets would be optimal :clordHmm:"
+        },
+        {
+          "id": "422105380764516352",
+          "author": "willmasaur",
+          "nickname": "Will Ma",
+          "timestamp": "2018-03-10T18:56:05.113+00:00",
+          "content": "Yeah Crash I think that very much would be a viable option yah"
+        },
+        {
+          "id": "422105399228104736",
+          "author": "sunfallte",
+          "nickname": "Sunfall",
+          "timestamp": "2018-03-10T18:56:09.515+00:00",
+          "content": "Yeah, I think that dropping new units 3-5 at a time is the right way, with higher chances of them showing up on launch week."
+        },
+        {
+          "id": "422105572092149760",
+          "author": "sunfallte",
+          "nickname": "Sunfall",
+          "timestamp": "2018-03-10T18:56:50.729+00:00",
+          "content": "The game has *huge* unit cognitive load, and like @Will Ma said there aren't any equivalents of a 2-drop Green 2/2"
+        },
+        {
+          "id": "422105603167748116",
+          "author": "sunfallte",
+          "nickname": "Sunfall",
+          "timestamp": "2018-03-10T18:56:58.138+00:00",
+          "content": "so you've got to know them all."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T19:37:52.394+00:00",
+      "end_ts": "2018-03-10T19:38:41.6+00:00",
+      "participants": [
+        "crash_overlord"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-03-10) ---\n[2018-03-10 19:37] crash_overlord: It used to be W when we still used W/B\n[2018-03-10 19:38] crash_overlord: but we've since switched to P1/P2, bot/top or blue/red. So I guess the answer is neither",
+      "messages": [
+        {
+          "id": "422115897063505930",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T19:37:52.394+00:00",
+          "content": "It used to be W when we still used W/B"
+        },
+        {
+          "id": "422116103448166402",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-03-10T19:38:41.6+00:00",
+          "content": "but we've since switched to P1/P2, bot/top or blue/red. So I guess the answer is neither"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T19:54:52.517+00:00",
+      "end_ts": "2018-03-10T19:55:25.11+00:00",
+      "participants": [
+        "david4056"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2018-03-10) ---\n[2018-03-10 19:54] david4056 (David): We still often say white to refer to first player. You can see it in replay scroll bar.\n[2018-03-10 19:55] david4056 (David): I think it's because we have more chess players than go players in our team\n[2018-03-10 19:55] david4056 (David): Elyot plays both though",
+      "messages": [
+        {
+          "id": "422120175769223168",
+          "author": "david4056",
+          "nickname": "David",
+          "timestamp": "2018-03-10T19:54:52.517+00:00",
+          "content": "We still often say white to refer to first player. You can see it in replay scroll bar."
+        },
+        {
+          "id": "422120246850355209",
+          "author": "david4056",
+          "nickname": "David",
+          "timestamp": "2018-03-10T19:55:09.464+00:00",
+          "content": "I think it's because we have more chess players than go players in our team"
+        },
+        {
+          "id": "422120312474435596",
+          "author": "david4056",
+          "nickname": "David",
+          "timestamp": "2018-03-10T19:55:25.11+00:00",
+          "content": "Elyot plays both though"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-03-10T20:15:24.303+00:00",
+      "end_ts": "2018-03-10T20:41:25.527+00:00",
+      "participants": [
+        "1000mh",
+        "Deleted User",
+        "arielhorwitz",
+        "awaclus",
+        "medar"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (7 messages, 2018-03-10) ---\n[2018-03-10 20:15] Deleted User (Deleted User): Can you say p1 pris style or blue coin gwent style\n[2018-03-10 20:24] arielhorwitz (Nerd 🐧🦀🐍): is it possible to derank? i'm 'tier 7' from like 3 years ago but i suck and dont remember when i last won a game of prismata\n[2018-03-10 20:28] 1000mh (Henry): You can drop ranks when you are above Tier 3.\n[2018-03-10 20:29] awaclus: I don't think you can drop to a previous tier\n[2018-03-10 20:29] awaclus: but you can lose all of your %\n[2018-03-10 20:33] medar: I would imagine the ranking value used for match making would also go down, even if the tier stays the same\n[2018-03-10 20:41] arielhorwitz (Nerd 🐧🦀🐍): i wouldn't mind recalibrating tbh, i was hoping the devs have a \"nuke elo\" button for me 😛",
+      "messages": [
+        {
+          "id": "422125342254432286",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-03-10T20:15:24.303+00:00",
+          "content": "Can you say p1 pris style or blue coin gwent style"
+        },
+        {
+          "id": "422127681170046978",
+          "author": "arielhorwitz",
+          "nickname": "Nerd 🐧🦀🐍",
+          "timestamp": "2018-03-10T20:24:41.944+00:00",
+          "content": "is it possible to derank? i'm 'tier 7' from like 3 years ago but i suck and dont remember when i last won a game of prismata"
+        },
+        {
+          "id": "422128642722889739",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-03-10T20:28:31.196+00:00",
+          "content": "You can drop ranks when you are above Tier 3."
+        },
+        {
+          "id": "422128829721477123",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-03-10T20:29:15.78+00:00",
+          "content": "I don't think you can drop to a previous tier"
+        },
+        {
+          "id": "422128859375468555",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-03-10T20:29:22.85+00:00",
+          "content": "but you can lose all of your %"
+        },
+        {
+          "id": "422129900510511104",
+          "author": "medar",
+          "nickname": "Medar",
+          "timestamp": "2018-03-10T20:33:31.076+00:00",
+          "content": "I would imagine the ranking value used for match making would also go down, even if the tier stays the same"
+        },
+        {
+          "id": "422131890502500352",
+          "author": "arielhorwitz",
+          "nickname": "Nerd 🐧🦀🐍",
+          "timestamp": "2018-03-10T20:41:25.527+00:00",
+          "content": "i wouldn't mind recalibrating tbh, i was hoping the devs have a \"nuke elo\" button for me 😛"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2854 @@
+{
+  "channel": "unit_and_game_design",
+  "date_range": "2020-11-25 to 2020-12-03",
+  "thread_count": 33,
+  "token_count": 14976,
+  "threads": [
+    {
+      "start_ts": "2020-11-25T16:02:38.701+00:00",
+      "end_ts": "2020-11-25T16:23:04.495+00:00",
+      "participants": [
+        "elyot",
+        "masn6811",
+        "megasupp"
+      ],
+      "replay_codes": [
+        "seudo-gambi"
+      ],
+      "score": 210,
+      "formatted_text": "--- Thread (50 messages, 2020-11-25) ---\n[2020-11-25 16:02] masn6811 (Masne98888): @Elyot it seems weird that klyston merc destroys granularity and also is more efficient than S\nif anything, id be more inclined to try:\n7B\nStart of turn: Gain X\nClick, pay X: Destroy an engineer\n[2020-11-25 16:03] elyot: klystron is not shipping anytime soon, possibly never\n[2020-11-25 16:03] elyot: would need hours of work to fix\n[2020-11-25 16:03] elyot: it's doable but not anytime soon\n[2020-11-25 16:03] masn6811 (Masne98888): also, arent these units the ones that were leaked way back around 2018?\n[2020-11-25 16:03] elyot: yes I mentioned that\n[2020-11-25 16:04] masn6811 (Masne98888): well, there was others. i remember floating drone, for example\n[2020-11-25 16:04] masn6811 (Masne98888): colossus was another one of the leaks iirc\n[2020-11-25 16:05] masn6811 (Masne98888): and i think thunderhead was as well?\n[2020-11-25 16:05] elyot: tell me what you think of this one\n[2020-11-25 16:07] elyot: \"Magna Kronus\" : {\n    \"rarity\" : \"rare\",\n    \"toughness\" : 10,\n    \"fragile\" : 1,\n    \"defaultBlocking\" : 0,\n    \"buyCost\" : \"12BGG\",\n    \"buySac\" : [[\"Drone\", 2]],\n    \"buildTime\" : 2,\n    \"beginOwnTurnScript\" : {\"receive\" : \"AAA\"},\n    \"abilityScript\" : {\"receive\" : \"AAAAA\", \"delay\" : 3},\n    \"score\" : \"18BGG\"\n},\n[2020-11-25 16:08] elyot: it's too cheap right now\n[2020-11-25 16:08] masn6811 (Masne98888): 12BGGDD\n10 :Fragile: , :Time: 2\nstart of turn: gain XXX\nclick: gain XXXXX, exhaust 3\n(and score is just bot heurustics?)\n[2020-11-25 16:09] elyot: actually we had a BBGG version at one point\n[2020-11-25 16:09] elyot: so you can attack 3/3/3/3 like colossus and just have 5 extra threat all the time\n[2020-11-25 16:09] elyot: or attack 8/0/0/8/0/0/etc.\n[2020-11-25 16:09] masn6811 (Masne98888): also supply 4 is rare?\n[2020-11-25 16:09] masn6811 (Masne98888): i think in practice, it'll end up attacking 8/3/3/3/3/3\n[2020-11-25 16:09] masn6811 (Masne98888): just like how drake attacks 4/2/2/2/2/2\n[2020-11-25 16:10] masn6811 (Masne98888): the cost of spiking the attack is too low to gambit it, but pseudo-gambiting it is possible\n[2020-11-25 16:11] masn6811 (Masne98888): so if i consider 0/8/3/3/3/3/3 to be about equilvanet as 4/3/3/3/3/3 (but its a sick first attacker)\n[2020-11-25 16:12] masn6811 (Masne98888): and the price similar to an omega splitter plus a gauss charge\n[2020-11-25 16:12] elyot: yeah I think it looks OK on paper but in practice it's too good\n[2020-11-25 16:12] masn6811 (Masne98888): on a quantitative level, balance doesn't seem too off. the probablem is how good it is as a first attacker\n[2020-11-25 16:12] masn6811 (Masne98888): and p2 just has a really good rush\n[2020-11-25 16:13] masn6811 (Masne98888): the pivot doesn't exactly let p1 undercut\n[2020-11-25 16:14] masn6811 (Masne98888): i think the moral of the story is you just have to be really careful about giving efficient buildtime attackers to non-red\n[2020-11-25 16:14] masn6811 (Masne98888): because when a color other than red can ramp attack fast, the color is often unbeatable\n[2020-11-25 16:14] masn6811 (Masne98888): speaking of, lancetooth\n[2020-11-25 16:14] elyot: the BBGG version is safer against that\n[2020-11-25 16:15] elyot: BBGG I think is an underused cost that is less busted than BGG\n[2020-11-25 16:15] masn6811 (Masne98888): agreed, especially with the drone cost\n[2020-11-25 16:15] elyot: originally there was no drone cost and it was just expensive\n[2020-11-25 16:15] masn6811 (Masne98888): like p2 can natural conduit into bb, but then they have CBB and 8 drones\n[2020-11-25 16:16] masn6811 (Masne98888): being just expensive or costing 1 drone might be better. right now im just afraid you get in a situation where being half a turn later is just bad\n[2020-11-25 16:17] masn6811 (Masne98888): the BB cost would actually do a lot to help this too\n[2020-11-25 16:17] masn6811 (Masne98888): i mean, it would hurt if drake was in the set\n[2020-11-25 16:17] masn6811 (Masne98888): but otherwise, later player to get it can follow up with double wall\n[2020-11-25 16:18] elyot: yeah the problem is if the first player can get 2\n[2020-11-25 16:18] elyot: but that might require some really early conduit or massive drone cutting or something\n[2020-11-25 16:19] masn6811 (Masne98888): also, if anything, i think it might be interesting to have a design where the click ability gives 7X, so its actually more efficient to click.\nbut of course you might not want to click anyways because you're threatening less for next turn\n[2020-11-25 16:19] elyot: clicking is pretty good early because you can deny absorb\n[2020-11-25 16:19] elyot: if you can't then you don't click much and it turns into a gambit game\n[2020-11-25 16:20] megasupp (mega-supp): P1 auric auric CB auric almost gets there with pivot\n[2020-11-25 16:20] masn6811 (Masne98888): pivot is just a must for the game\n[2020-11-25 16:20] elyot: should I add that too for friday?\n[2020-11-25 16:21] masn6811 (Masne98888): just about any set with a green unit gets more balanced with pivot\n[2020-11-25 16:22] masn6811 (Masne98888): add it for friday for sure, i think there's a good chance people will be asking you to just add it to ladder after playing with it on friday\n[2020-11-25 16:22] elyot: you underestimate people's resistance to change 😛\n[2020-11-25 16:23] masn6811 (Masne98888): i think one way to curb degenerate magna kronus rushes is to add \"When bought: Construct a Gauss Cannon\"",
+      "messages": [
+        {
+          "id": "781188107919425587",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:02:38.701+00:00",
+          "content": "@Elyot it seems weird that klyston merc destroys granularity and also is more efficient than S\nif anything, id be more inclined to try:\n7B\nStart of turn: Gain X\nClick, pay X: Destroy an engineer"
+        },
+        {
+          "id": "781188227847553055",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:03:07.294+00:00",
+          "content": "klystron is not shipping anytime soon, possibly never"
+        },
+        {
+          "id": "781188397695107085",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:03:47.789+00:00",
+          "content": "would need hours of work to fix"
+        },
+        {
+          "id": "781188423683407872",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:03:53.985+00:00",
+          "content": "it's doable but not anytime soon"
+        },
+        {
+          "id": "781188425356148736",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:03:54.384+00:00",
+          "content": "also, arent these units the ones that were leaked way back around 2018?"
+        },
+        {
+          "id": "781188447460786216",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:03:59.654+00:00",
+          "content": "yes I mentioned that"
+        },
+        {
+          "id": "781188520433549373",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:04:17.052+00:00",
+          "content": "well, there was others. i remember floating drone, for example"
+        },
+        {
+          "id": "781188604637872138",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:04:37.128+00:00",
+          "content": "colossus was another one of the leaks iirc"
+        },
+        {
+          "id": "781188829317955606",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:05:30.696+00:00",
+          "content": "and i think thunderhead was as well?"
+        },
+        {
+          "id": "781188896691716156",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:05:46.759+00:00",
+          "content": "tell me what you think of this one"
+        },
+        {
+          "id": "781189363111034900",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:07:37.962+00:00",
+          "content": "\"Magna Kronus\" : {\n    \"rarity\" : \"rare\",\n    \"toughness\" : 10,\n    \"fragile\" : 1,\n    \"defaultBlocking\" : 0,\n    \"buyCost\" : \"12BGG\",\n    \"buySac\" : [[\"Drone\", 2]],\n    \"buildTime\" : 2,\n    \"beginOwnTurnScript\" : {\"receive\" : \"AAA\"},\n    \"abilityScript\" : {\"receive\" : \"AAAAA\", \"delay\" : 3},\n    \"score\" : \"18BGG\"\n},"
+        },
+        {
+          "id": "781189495026483240",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:08:09.413+00:00",
+          "content": "it's too cheap right now"
+        },
+        {
+          "id": "781189693663870997",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:08:56.772+00:00",
+          "content": "12BGGDD\n10 :Fragile: , :Time: 2\nstart of turn: gain XXX\nclick: gain XXXXX, exhaust 3\n(and score is just bot heurustics?)"
+        },
+        {
+          "id": "781189714597249024",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:09:01.763+00:00",
+          "content": "actually we had a BBGG version at one point"
+        },
+        {
+          "id": "781189831136903199",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:09:29.548+00:00",
+          "content": "so you can attack 3/3/3/3 like colossus and just have 5 extra threat all the time"
+        },
+        {
+          "id": "781189863638171708",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:09:37.297+00:00",
+          "content": "or attack 8/0/0/8/0/0/etc."
+        },
+        {
+          "id": "781189874521997353",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:09:39.892+00:00",
+          "content": "also supply 4 is rare?"
+        },
+        {
+          "id": "781189918327701545",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:09:50.336+00:00",
+          "content": "i think in practice, it'll end up attacking 8/3/3/3/3/3"
+        },
+        {
+          "id": "781189946479345664",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:09:57.048+00:00",
+          "content": "just like how drake attacks 4/2/2/2/2/2"
+        },
+        {
+          "id": "781190095482519623",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:10:32.573+00:00",
+          "content": "the cost of spiking the attack is too low to gambit it, but pseudo-gambiting it is possible"
+        },
+        {
+          "id": "781190456402903083",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:11:58.623+00:00",
+          "content": "so if i consider 0/8/3/3/3/3/3 to be about equilvanet as 4/3/3/3/3/3 (but its a sick first attacker)"
+        },
+        {
+          "id": "781190531690266636",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:12:16.573+00:00",
+          "content": "and the price similar to an omega splitter plus a gauss charge"
+        },
+        {
+          "id": "781190663386562602",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:12:47.972+00:00",
+          "content": "yeah I think it looks OK on paper but in practice it's too good"
+        },
+        {
+          "id": "781190667140988938",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:12:48.867+00:00",
+          "content": "on a quantitative level, balance doesn't seem too off. the probablem is how good it is as a first attacker"
+        },
+        {
+          "id": "781190699739643914",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:12:56.639+00:00",
+          "content": "and p2 just has a really good rush"
+        },
+        {
+          "id": "781190749885562930",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:13:08.595+00:00",
+          "content": "the pivot doesn't exactly let p1 undercut"
+        },
+        {
+          "id": "781191038794203136",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:14:17.476+00:00",
+          "content": "i think the moral of the story is you just have to be really careful about giving efficient buildtime attackers to non-red"
+        },
+        {
+          "id": "781191105936883772",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:14:33.484+00:00",
+          "content": "because when a color other than red can ramp attack fast, the color is often unbeatable"
+        },
+        {
+          "id": "781191124466532393",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:14:37.902+00:00",
+          "content": "speaking of, lancetooth"
+        },
+        {
+          "id": "781191183883960320",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:14:52.068+00:00",
+          "content": "the BBGG version is safer against that"
+        },
+        {
+          "id": "781191251424575489",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:15:08.171+00:00",
+          "content": "BBGG I think is an underused cost that is less busted than BGG"
+        },
+        {
+          "id": "781191304432320512",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:15:20.809+00:00",
+          "content": "agreed, especially with the drone cost"
+        },
+        {
+          "id": "781191345657085984",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:15:30.638+00:00",
+          "content": "originally there was no drone cost and it was just expensive"
+        },
+        {
+          "id": "781191360135954433",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:15:34.09+00:00",
+          "content": "like p2 can natural conduit into bb, but then they have CBB and 8 drones"
+        },
+        {
+          "id": "781191667876888606",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:16:47.461+00:00",
+          "content": "being just expensive or costing 1 drone might be better. right now im just afraid you get in a situation where being half a turn later is just bad"
+        },
+        {
+          "id": "781191787737251840",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:17:16.038+00:00",
+          "content": "the BB cost would actually do a lot to help this too"
+        },
+        {
+          "id": "781191820654280714",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:17:23.886+00:00",
+          "content": "i mean, it would hurt if drake was in the set"
+        },
+        {
+          "id": "781191868049260574",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:17:35.186+00:00",
+          "content": "but otherwise, later player to get it can follow up with double wall"
+        },
+        {
+          "id": "781191994444873769",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:18:05.321+00:00",
+          "content": "yeah the problem is if the first player can get 2"
+        },
+        {
+          "id": "781192067174498344",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:18:22.661+00:00",
+          "content": "but that might require some really early conduit or massive drone cutting or something"
+        },
+        {
+          "id": "781192240885792790",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:19:04.077+00:00",
+          "content": "also, if anything, i think it might be interesting to have a design where the click ability gives 7X, so its actually more efficient to click.\nbut of course you might not want to click anyways because you're threatening less for next turn"
+        },
+        {
+          "id": "781192425950937139",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:19:48.2+00:00",
+          "content": "clicking is pretty good early because you can deny absorb"
+        },
+        {
+          "id": "781192472658968617",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:19:59.336+00:00",
+          "content": "if you can't then you don't click much and it turns into a gambit game"
+        },
+        {
+          "id": "781192602975993877",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:20:30.406+00:00",
+          "content": "P1 auric auric CB auric almost gets there with pivot"
+        },
+        {
+          "id": "781192721930518580",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:20:58.767+00:00",
+          "content": "pivot is just a must for the game"
+        },
+        {
+          "id": "781192723214237756",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:20:59.073+00:00",
+          "content": "should I add that too for friday?"
+        },
+        {
+          "id": "781192777794846772",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:21:12.086+00:00",
+          "content": "just about any set with a green unit gets more balanced with pivot"
+        },
+        {
+          "id": "781192983634247721",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:22:01.162+00:00",
+          "content": "add it for friday for sure, i think there's a good chance people will be asking you to just add it to ladder after playing with it on friday"
+        },
+        {
+          "id": "781193079671226419",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:22:24.059+00:00",
+          "content": "you underestimate people's resistance to change 😛"
+        },
+        {
+          "id": "781193249272233996",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:23:04.495+00:00",
+          "content": "i think one way to curb degenerate magna kronus rushes is to add \"When bought: Construct a Gauss Cannon\""
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-25T16:23:17.747+00:00",
+      "end_ts": "2020-11-25T16:51:37.723+00:00",
+      "participants": [
+        "elyot",
+        "masn6811",
+        "megasupp",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 143,
+      "formatted_text": "--- Thread (50 messages, 2020-11-25) ---\n[2020-11-25 16:23] megasupp (mega-supp): Also I bet you can do some stupid shit with fuge\n[2020-11-25 16:23] masn6811 (Masne98888): with the buffed fuge in general? for sure\n[2020-11-25 16:23] masn6811 (Masne98888): i think it's slightly too strong honestly\n[2020-11-25 16:23] masn6811 (Masne98888): but id rather play around with it and nerf gradually\n[2020-11-25 16:24] masn6811 (Masne98888): instead of having this unit that is a non-unit in any non-vai/wincer set and stupid when it is\n[2020-11-25 16:24] megasupp (mega-supp): Oh forgot we are changing fuge\n[2020-11-25 16:25] megasupp (mega-supp): What's the 9 cost do?\n[2020-11-25 16:25] masn6811 (Masne98888): back in, what was it 2016? i proposed like a mini-fuge that was buildtime 2 and add 1 of each color since i liked fuge so much. wouldn't mind trying out that sort of redesign\n[2020-11-25 16:25] masn6811 (Masne98888): it gives 12 gold. no other changes\n[2020-11-25 16:26] masn6811 (Masne98888): if anything, i think that the current fuge is just more degeenrate than the 9 cost fuge. because the current fuge gives a super skew gold to resource ratio, which makes it an good combo with other units with skew ratios, but bad when used normally\n[2020-11-25 16:27] masn6811 (Masne98888): and honestly, i think old fuge is a bit safer in this envirorment\n[2020-11-25 16:27] masn6811 (Masne98888): we wont be cheating out 16BBB drakes\n[2020-11-25 16:27] masn6811 (Masne98888): or no-red-click luci\n[2020-11-25 16:27] masn6811 (Masne98888): the design of big units in general has been toned down a bit since the nerf\n[2020-11-25 16:29] megasupp (mega-supp): Oh holy shit double auric turn 1 rush works if you replace forge with chrono\n[2020-11-25 16:30] masn6811 (Masne98888): cool. but how good is it even? you're left with 4 drones\n[2020-11-25 16:30] masn6811 (Masne98888): fun fact tho. auric->galv transposes with galv->nothing\n[2020-11-25 16:31] masn6811 (Masne98888): thus, p1 even without the pivot can rush galv+galv+c/chrono\n[2020-11-25 16:31] megasupp (mega-supp): I mean after your first you just double auric again and buy a second one\n[2020-11-25 16:32] elyot: btw the decision to click is actually really interesting if you get a bp mirror with it\n[2020-11-25 16:33] masn6811 (Masne98888): you cant since you sacced 2 drones\n[2020-11-25 16:33] masn6811 (Masne98888): yeah, that sounds nice. i would like bp mirrors to be more itnersting\n[2020-11-25 16:34] elyot: I think it may end up getting higher HP and slightly nerfed\n[2020-11-25 16:34] elyot: to be better in BP and less good in rushes\n[2020-11-25 16:34] megasupp (mega-supp): ? Do you realize that you can buy 2 aurics instead of 1 with chrono?\n[2020-11-25 16:35] megasupp (mega-supp): So in total 6 aurics\n[2020-11-25 16:36] masn6811 (Masne98888): oh shoot, you still end up floating 2?\n[2020-11-25 16:36] masn6811 (Masne98888): nope, only 1 since you used pivot\n[2020-11-25 16:36] megasupp (mega-supp): Ah\nKeep forgetting the gold spent on pivot\n[2020-11-25 16:36] masn6811 (Masne98888): but the galv chrono rush does get the second on in 2 turns after\n[2020-11-25 16:36] masn6811 (Masne98888): proof galv is better than auric\n[2020-11-25 16:38] masn6811 (Masne98888): so what wonderboat and i want to do is to make BP less polarized\n[2020-11-25 16:39] masn6811 (Masne98888): like BP on its own a bit better (6 hp gauss cannons being the thing mentioned over and over) 6hp isos for sure.\nbut the OP BP support being a bit worse\n[2020-11-25 16:39] masn6811 (Masne98888): but we're waiting to test out this first patch before making any more changes\n[2020-11-25 16:40] elyot: btw if anyone has any other ideas for changes for Friday, it's open\n[2020-11-25 16:40] elyot: not limiting suggestions to just whatever masn and wonderboat throw at me\n[2020-11-25 16:41] megasupp (mega-supp): Its also hilarious that in that galv rush you get to sync the magnas\n[2020-11-25 16:42] megasupp (mega-supp): Wait. Disregard previous sentence\n[2020-11-25 16:43] masn6811 (Masne98888): honestly, if possible i think it would be nice if it were more than once per week\n[2020-11-25 16:43] masn6811 (Masne98888): ~~replace casual, nobody uses it anyways~~\n[2020-11-25 16:45] masn6811 (Masne98888): whats the nerf you're going with?\n[2020-11-25 16:49] elyot: fuck if I know, will decide later today, show up on stream in a few hrs if you wanna influence my decision 😛\n[2020-11-25 16:49] velizar_ (Name): > i think one way to curb degenerate magna kronus rushes is to add \"When bought: Construct a Gauss Cannon\"\nthat kills its potential to deny absorb, so it kills some strategical complexity. Why not increase the cost instead?\n[2020-11-25 16:50] masn6811 (Masne98888): at least, \"when bought: construct a gauss charge\"\n[2020-11-25 16:50] masn6811 (Masne98888): its too easy to just buy this as a first attacker\n[2020-11-25 16:51] velizar_ (Name): construct a gauss charge with 2:Time:?\n[2020-11-25 16:51] velizar_ (Name): otherwise you'd click it on your next turn anyway\n[2020-11-25 16:51] elyot: drone sac in cost makes it less attractive as first attacker\n[2020-11-25 16:51] masn6811 (Masne98888): hmm, that makes sense\n[2020-11-25 16:51] elyot: but probably not enough to balance it out",
+      "messages": [
+        {
+          "id": "781193304855412746",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:23:17.747+00:00",
+          "content": "Also I bet you can do some stupid shit with fuge"
+        },
+        {
+          "id": "781193368898240515",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:23:33.016+00:00",
+          "content": "with the buffed fuge in general? for sure"
+        },
+        {
+          "id": "781193391828107294",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:23:38.483+00:00",
+          "content": "i think it's slightly too strong honestly"
+        },
+        {
+          "id": "781193438178574389",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:23:49.534+00:00",
+          "content": "but id rather play around with it and nerf gradually"
+        },
+        {
+          "id": "781193528037867560",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:24:10.958+00:00",
+          "content": "instead of having this unit that is a non-unit in any non-vai/wincer set and stupid when it is"
+        },
+        {
+          "id": "781193619876478996",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:24:32.854+00:00",
+          "content": "Oh forgot we are changing fuge"
+        },
+        {
+          "id": "781193749522415616",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:25:03.764+00:00",
+          "content": "What's the 9 cost do?"
+        },
+        {
+          "id": "781193778957516810",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:25:10.782+00:00",
+          "content": "back in, what was it 2016? i proposed like a mini-fuge that was buildtime 2 and add 1 of each color since i liked fuge so much. wouldn't mind trying out that sort of redesign"
+        },
+        {
+          "id": "781193799635697715",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:25:15.712+00:00",
+          "content": "it gives 12 gold. no other changes"
+        },
+        {
+          "id": "781194121276031036",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:26:32.397+00:00",
+          "content": "if anything, i think that the current fuge is just more degeenrate than the 9 cost fuge. because the current fuge gives a super skew gold to resource ratio, which makes it an good combo with other units with skew ratios, but bad when used normally"
+        },
+        {
+          "id": "781194306630189056",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:27:16.589+00:00",
+          "content": "and honestly, i think old fuge is a bit safer in this envirorment"
+        },
+        {
+          "id": "781194346565074964",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:27:26.11+00:00",
+          "content": "we wont be cheating out 16BBB drakes"
+        },
+        {
+          "id": "781194364076032011",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:27:30.285+00:00",
+          "content": "or no-red-click luci"
+        },
+        {
+          "id": "781194463715655711",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:27:54.041+00:00",
+          "content": "the design of big units in general has been toned down a bit since the nerf"
+        },
+        {
+          "id": "781194836342079559",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:29:22.882+00:00",
+          "content": "Oh holy shit double auric turn 1 rush works if you replace forge with chrono"
+        },
+        {
+          "id": "781194997348433941",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:30:01.269+00:00",
+          "content": "cool. but how good is it even? you're left with 4 drones"
+        },
+        {
+          "id": "781195140794548235",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:30:35.469+00:00",
+          "content": "fun fact tho. auric->galv transposes with galv->nothing"
+        },
+        {
+          "id": "781195268199677952",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:31:05.845+00:00",
+          "content": "thus, p1 even without the pivot can rush galv+galv+c/chrono"
+        },
+        {
+          "id": "781195372521193482",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:31:30.717+00:00",
+          "content": "I mean after your first you just double auric again and buy a second one"
+        },
+        {
+          "id": "781195598086668348",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:32:24.496+00:00",
+          "content": "btw the decision to click is actually really interesting if you get a bp mirror with it"
+        },
+        {
+          "id": "781195857700585523",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:33:26.393+00:00",
+          "content": "you cant since you sacced 2 drones"
+        },
+        {
+          "id": "781195944665808916",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:33:47.127+00:00",
+          "content": "yeah, that sounds nice. i would like bp mirrors to be more itnersting"
+        },
+        {
+          "id": "781196021594062868",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:34:05.468+00:00",
+          "content": "I think it may end up getting higher HP and slightly nerfed"
+        },
+        {
+          "id": "781196062610161704",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:34:15.247+00:00",
+          "content": "to be better in BP and less good in rushes"
+        },
+        {
+          "id": "781196163235840032",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:34:39.238+00:00",
+          "content": "? Do you realize that you can buy 2 aurics instead of 1 with chrono?"
+        },
+        {
+          "id": "781196260576854033",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:35:02.446+00:00",
+          "content": "So in total 6 aurics"
+        },
+        {
+          "id": "781196539124645899",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:36:08.857+00:00",
+          "content": "oh shoot, you still end up floating 2?"
+        },
+        {
+          "id": "781196603473526824",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:36:24.199+00:00",
+          "content": "nope, only 1 since you used pivot"
+        },
+        {
+          "id": "781196701469638706",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:36:47.563+00:00",
+          "content": "Ah\nKeep forgetting the gold spent on pivot"
+        },
+        {
+          "id": "781196713468624936",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:36:50.424+00:00",
+          "content": "but the galv chrono rush does get the second on in 2 turns after"
+        },
+        {
+          "id": "781196741822382080",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:36:57.184+00:00",
+          "content": "proof galv is better than auric"
+        },
+        {
+          "id": "781197125932679168",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:38:28.763+00:00",
+          "content": "so what wonderboat and i want to do is to make BP less polarized"
+        },
+        {
+          "id": "781197277711826956",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:39:04.95+00:00",
+          "content": "like BP on its own a bit better (6 hp gauss cannons being the thing mentioned over and over) 6hp isos for sure.\nbut the OP BP support being a bit worse"
+        },
+        {
+          "id": "781197327414853663",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:39:16.8+00:00",
+          "content": "but we're waiting to test out this first patch before making any more changes"
+        },
+        {
+          "id": "781197553977917482",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:40:10.817+00:00",
+          "content": "btw if anyone has any other ideas for changes for Friday, it's open"
+        },
+        {
+          "id": "781197721301811251",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:40:50.71+00:00",
+          "content": "not limiting suggestions to just whatever masn and wonderboat throw at me"
+        },
+        {
+          "id": "781197782735257600",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:41:05.357+00:00",
+          "content": "Its also hilarious that in that galv rush you get to sync the magnas"
+        },
+        {
+          "id": "781198238635524136",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T16:42:54.052+00:00",
+          "content": "Wait. Disregard previous sentence"
+        },
+        {
+          "id": "781198350166917170",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:43:20.643+00:00",
+          "content": "honestly, if possible i think it would be nice if it were more than once per week"
+        },
+        {
+          "id": "781198410678009896",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:43:35.07+00:00",
+          "content": "~~replace casual, nobody uses it anyways~~"
+        },
+        {
+          "id": "781198926203715614",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:45:37.981+00:00",
+          "content": "whats the nerf you're going with?"
+        },
+        {
+          "id": "781199826304892998",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:49:12.582+00:00",
+          "content": "fuck if I know, will decide later today, show up on stream in a few hrs if you wanna influence my decision 😛"
+        },
+        {
+          "id": "781199876482269234",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-25T16:49:24.545+00:00",
+          "content": "> i think one way to curb degenerate magna kronus rushes is to add \"When bought: Construct a Gauss Cannon\"\nthat kills its potential to deny absorb, so it kills some strategical complexity. Why not increase the cost instead?"
+        },
+        {
+          "id": "781200127771541544",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:50:24.457+00:00",
+          "content": "at least, \"when bought: construct a gauss charge\""
+        },
+        {
+          "id": "781200153981878273",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:50:30.706+00:00",
+          "content": "its too easy to just buy this as a first attacker"
+        },
+        {
+          "id": "781200295082459168",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-25T16:51:04.347+00:00",
+          "content": "construct a gauss charge with 2:Time:?"
+        },
+        {
+          "id": "781200349105094686",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-25T16:51:17.227+00:00",
+          "content": "otherwise you'd click it on your next turn anyway"
+        },
+        {
+          "id": "781200355475980289",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:51:18.746+00:00",
+          "content": "drone sac in cost makes it less attractive as first attacker"
+        },
+        {
+          "id": "781200433644830791",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:51:37.383+00:00",
+          "content": "hmm, that makes sense"
+        },
+        {
+          "id": "781200435071287306",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:51:37.723+00:00",
+          "content": "but probably not enough to balance it out"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-25T16:51:54.643+00:00",
+      "end_ts": "2020-11-25T17:12:00.559+00:00",
+      "participants": [
+        "elyot",
+        "masn6811",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 212,
+      "formatted_text": "--- Thread (50 messages, 2020-11-25) ---\n[2020-11-25 16:51] masn6811 (Masne98888): drone sac makes it possible to do crazier rushes though\n[2020-11-25 16:52] elyot: it's not good without a follow-up though\n[2020-11-25 16:52] elyot: it might be terrifying with gmech/drake\n[2020-11-25 16:52] masn6811 (Masne98888): i really liked 16BBB drake, but it has no place in current mata\n[2020-11-25 16:53] velizar_ (Name): threatening to buy it as a first attacker might be very strong because then the opponent needs to get a bunch of blue or green to be prepared to defend 8.\n[2020-11-25 16:54] velizar_ (Name): then if the opponent buys the soak you don't buy the magna kronus\n[2020-11-25 16:55] velizar_ (Name): ... but the opponent might use the BGG to buy a magna kronus of their own, which you can defend against because you have at least BGG\n[2020-11-25 16:55] elyot: it has buildtime 2 to prevent that\n[2020-11-25 16:55] elyot: you can wait until they buy to set up your D\n[2020-11-25 16:56] elyot: maybe it should be even longer\n[2020-11-25 16:56] elyot: like buildtime 3 and really high tech/high dronesac/low gold cost\n[2020-11-25 16:57] elyot: high G cost makes it harder to buy a lot of them\n[2020-11-25 16:57] masn6811 (Masne98888): yes, this is why shock is a bad thing. any number of buildtime means no shock\n[2020-11-25 16:57] masn6811 (Masne98888): was the B added to its cost to stop me complaining about mono-G offensive finesse? 🙂\n[2020-11-25 16:58] elyot: not your complaint specifically, but the click/not click to attack is a B-like feature\n[2020-11-25 16:58] elyot: originally it was just a 3-turn 8 damage \"big iso kronus\" which was boring\n[2020-11-25 16:59] elyot: so we changed it to this\n[2020-11-25 16:59] masn6811 (Masne98888): its also R-like, but i think B makes more sense here if you want it to be BP\n[2020-11-25 16:59] elyot: I kinda want it to have 2 use cases\n[2020-11-25 16:59] elyot: one is BP and a bit degenerate, but won't work without some support\n[2020-11-25 17:00] elyot: the other is more traditional, good early unit, good source of threat and finesses, get a couple over time\n[2020-11-25 17:00] elyot: maybe there is a third use with a heavy absorb denial strat\n[2020-11-25 17:00] elyot: threaten 32 damage at some point\n[2020-11-25 17:01] elyot: sync with wincer or scorch\n[2020-11-25 17:01] masn6811 (Masne98888): what makes you decide whether a unit is legendary?\n[2020-11-25 17:01] masn6811 (Masne98888): eg. fab is 12GGGG, asteri is 16GGGG but rare\n[2020-11-25 17:01] elyot: 4 fab is stupid, 1 asteri is pointless\n[2020-11-25 17:02] elyot: neither are strictly true but like, it's a philosophy\n[2020-11-25 17:02] masn6811 (Masne98888): okay. it seems like stacking this is almost as stupid as stacking vai\n[2020-11-25 17:05] masn6811 (Masne98888): i mean if vai is legendary because 2 vai is stupid, 2 of this is also stupid except for the part where it doesnt f*k up your attack indicators\n[2020-11-25 17:05] elyot: if Vai had 4 supply it would need to be nerfed too\n[2020-11-25 17:06] elyot: like the reason Vai is the way it is\n[2020-11-25 17:06] masn6811 (Masne98888): true. since one of vai's big weaknesses is your left with a stack of red and nothing to use it on\n[2020-11-25 17:06] masn6811 (Masne98888): such as a second vai\n[2020-11-25 17:06] elyot: it's because we had a much smaller, cheaper, 4-supply unit that did a similar thing (pay 1 attack to freeze) and it was a nightmare to calculate whether you could breach\n[2020-11-25 17:06] elyot: but we really liked the unit\n[2020-11-25 17:06] elyot: So we figured \"let's just make it a one-of\"\n[2020-11-25 17:07] elyot: and eventually it became Vai after some thought about where to put it tech-wise and how big to make it\n[2020-11-25 17:07] masn6811 (Masne98888): oh, right, one of the changes i discussed with wonderboat\n[2020-11-25 17:07] masn6811 (Masne98888): we wanted to increase ossi supply.\n[2020-11-25 17:07] masn6811 (Masne98888): (again, another second wave thing)\n[2020-11-25 17:08] elyot: dunno if it's as cool though\n[2020-11-25 17:08] elyot: the idea of your ossified drones going extinct is just a sparkly idea\n[2020-11-25 17:09] elyot: the universe is less interesting if people don't get to have that idea\n[2020-11-25 17:10] masn6811 (Masne98888): yeah, thats true but its more of a novel thing\n[2020-11-25 17:10] masn6811 (Masne98888): like ive seen new players sac a wall to save their last ossi\n[2020-11-25 17:10] masn6811 (Masne98888): but experienced players dont pay much attention\n[2020-11-25 17:10] masn6811 (Masne98888): and i think it'd add an intereting use case where you just buy it as soak\n[2020-11-25 17:11] masn6811 (Masne98888): kinda like an engi that makes a drone vigilant\n[2020-11-25 17:12] masn6811 (Masne98888): are there any other units you're considering making?",
+      "messages": [
+        {
+          "id": "781200506038648842",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:51:54.643+00:00",
+          "content": "drone sac makes it possible to do crazier rushes though"
+        },
+        {
+          "id": "781200581226266654",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:52:12.569+00:00",
+          "content": "it's not good without a follow-up though"
+        },
+        {
+          "id": "781200654948368433",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:52:30.146+00:00",
+          "content": "it might be terrifying with gmech/drake"
+        },
+        {
+          "id": "781200744447344661",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:52:51.484+00:00",
+          "content": "i really liked 16BBB drake, but it has no place in current mata"
+        },
+        {
+          "id": "781200861245735003",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-25T16:53:19.331+00:00",
+          "content": "threatening to buy it as a first attacker might be very strong because then the opponent needs to get a bunch of blue or green to be prepared to defend 8."
+        },
+        {
+          "id": "781201077285945364",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-25T16:54:10.839+00:00",
+          "content": "then if the opponent buys the soak you don't buy the magna kronus"
+        },
+        {
+          "id": "781201464802148382",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-25T16:55:43.23+00:00",
+          "content": "... but the opponent might use the BGG to buy a magna kronus of their own, which you can defend against because you have at least BGG"
+        },
+        {
+          "id": "781201491712671754",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:55:49.646+00:00",
+          "content": "it has buildtime 2 to prevent that"
+        },
+        {
+          "id": "781201519394684948",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:55:56.246+00:00",
+          "content": "you can wait until they buy to set up your D"
+        },
+        {
+          "id": "781201590048653372",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:56:13.091+00:00",
+          "content": "maybe it should be even longer"
+        },
+        {
+          "id": "781201642657808404",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:56:25.634+00:00",
+          "content": "like buildtime 3 and really high tech/high dronesac/low gold cost"
+        },
+        {
+          "id": "781201796047044658",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:57:02.205+00:00",
+          "content": "high G cost makes it harder to buy a lot of them"
+        },
+        {
+          "id": "781201961454272555",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:57:41.641+00:00",
+          "content": "yes, this is why shock is a bad thing. any number of buildtime means no shock"
+        },
+        {
+          "id": "781202015069536267",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:57:54.424+00:00",
+          "content": "was the B added to its cost to stop me complaining about mono-G offensive finesse? 🙂"
+        },
+        {
+          "id": "781202207315722252",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:58:40.259+00:00",
+          "content": "not your complaint specifically, but the click/not click to attack is a B-like feature"
+        },
+        {
+          "id": "781202281818882048",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:58:58.022+00:00",
+          "content": "originally it was just a 3-turn 8 damage \"big iso kronus\" which was boring"
+        },
+        {
+          "id": "781202293055684608",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:59:00.701+00:00",
+          "content": "so we changed it to this"
+        },
+        {
+          "id": "781202328983437332",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T16:59:09.267+00:00",
+          "content": "its also R-like, but i think B makes more sense here if you want it to be BP"
+        },
+        {
+          "id": "781202453282160721",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:59:38.902+00:00",
+          "content": "I kinda want it to have 2 use cases"
+        },
+        {
+          "id": "781202522014220298",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T16:59:55.289+00:00",
+          "content": "one is BP and a bit degenerate, but won't work without some support"
+        },
+        {
+          "id": "781202624615153664",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:00:19.751+00:00",
+          "content": "the other is more traditional, good early unit, good source of threat and finesses, get a couple over time"
+        },
+        {
+          "id": "781202666280976447",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:00:29.685+00:00",
+          "content": "maybe there is a third use with a heavy absorb denial strat"
+        },
+        {
+          "id": "781202753912700939",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:00:50.578+00:00",
+          "content": "threaten 32 damage at some point"
+        },
+        {
+          "id": "781202844896198656",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:01:12.27+00:00",
+          "content": "sync with wincer or scorch"
+        },
+        {
+          "id": "781202887153287213",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:01:22.345+00:00",
+          "content": "what makes you decide whether a unit is legendary?"
+        },
+        {
+          "id": "781202941235036200",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:01:35.239+00:00",
+          "content": "eg. fab is 12GGGG, asteri is 16GGGG but rare"
+        },
+        {
+          "id": "781203013083070464",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:01:52.369+00:00",
+          "content": "4 fab is stupid, 1 asteri is pointless"
+        },
+        {
+          "id": "781203101205004288",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:02:13.379+00:00",
+          "content": "neither are strictly true but like, it's a philosophy"
+        },
+        {
+          "id": "781203267538649149",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:02:53.036+00:00",
+          "content": "okay. it seems like stacking this is almost as stupid as stacking vai"
+        },
+        {
+          "id": "781203865294995516",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:05:15.552+00:00",
+          "content": "i mean if vai is legendary because 2 vai is stupid, 2 of this is also stupid except for the part where it doesnt f*k up your attack indicators"
+        },
+        {
+          "id": "781204000926203935",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:05:47.889+00:00",
+          "content": "if Vai had 4 supply it would need to be nerfed too"
+        },
+        {
+          "id": "781204067653124137",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:06:03.798+00:00",
+          "content": "like the reason Vai is the way it is"
+        },
+        {
+          "id": "781204091833548871",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:06:09.563+00:00",
+          "content": "true. since one of vai's big weaknesses is your left with a stack of red and nothing to use it on"
+        },
+        {
+          "id": "781204112397172776",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:06:14.466+00:00",
+          "content": "such as a second vai"
+        },
+        {
+          "id": "781204197956911184",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:06:34.865+00:00",
+          "content": "it's because we had a much smaller, cheaper, 4-supply unit that did a similar thing (pay 1 attack to freeze) and it was a nightmare to calculate whether you could breach"
+        },
+        {
+          "id": "781204239569125378",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:06:44.786+00:00",
+          "content": "but we really liked the unit"
+        },
+        {
+          "id": "781204267713167360",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:06:51.496+00:00",
+          "content": "So we figured \"let's just make it a one-of\""
+        },
+        {
+          "id": "781204334192361502",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:07:07.346+00:00",
+          "content": "and eventually it became Vai after some thought about where to put it tech-wise and how big to make it"
+        },
+        {
+          "id": "781204442267123782",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:07:33.113+00:00",
+          "content": "oh, right, one of the changes i discussed with wonderboat"
+        },
+        {
+          "id": "781204502135963659",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:07:47.387+00:00",
+          "content": "we wanted to increase ossi supply."
+        },
+        {
+          "id": "781204541680386048",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:07:56.815+00:00",
+          "content": "(again, another second wave thing)"
+        },
+        {
+          "id": "781204745607577650",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:08:45.435+00:00",
+          "content": "dunno if it's as cool though"
+        },
+        {
+          "id": "781204788733411358",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:08:55.717+00:00",
+          "content": "the idea of your ossified drones going extinct is just a sparkly idea"
+        },
+        {
+          "id": "781204845721681922",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:09:09.304+00:00",
+          "content": "the universe is less interesting if people don't get to have that idea"
+        },
+        {
+          "id": "781205105483448370",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:10:11.236+00:00",
+          "content": "yeah, thats true but its more of a novel thing"
+        },
+        {
+          "id": "781205155370500116",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:10:23.13+00:00",
+          "content": "like ive seen new players sac a wall to save their last ossi"
+        },
+        {
+          "id": "781205209892388894",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:10:36.129+00:00",
+          "content": "but experienced players dont pay much attention"
+        },
+        {
+          "id": "781205295606005761",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:10:56.565+00:00",
+          "content": "and i think it'd add an intereting use case where you just buy it as soak"
+        },
+        {
+          "id": "781205326418411540",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:11:03.911+00:00",
+          "content": "kinda like an engi that makes a drone vigilant"
+        },
+        {
+          "id": "781205564016295936",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:12:00.559+00:00",
+          "content": "are there any other units you're considering making?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-25T17:14:23.68+00:00",
+      "end_ts": "2020-11-25T17:16:57.518+00:00",
+      "participants": [
+        "elyot",
+        "masn6811",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 29,
+      "formatted_text": "--- Thread (7 messages, 2020-11-25) ---\n[2020-11-25 17:14] elyot: dunno how many I will drop on friday\n[2020-11-25 17:15] masn6811 (Masne98888): are the community allowed to suggest custom units as well?\n~~who am i kidding, we all know they'll design gauss fabricator fabricator~~\n[2020-11-25 17:15] velizar_ (Name): I always feel a bit sad when I consider sacking my last ossi, or even when I see someone else do it\n[2020-11-25 17:16] masn6811 (Masne98888): honestly, since shadowfang is a bit weak\n[2020-11-25 17:16] masn6811 (Masne98888): maybe it could be replaced with an RRR biotic contract? 🤔\n[2020-11-25 17:16] elyot: that unit needs a redesign\n[2020-11-25 17:16] elyot: lemme check if we ever changed it",
+      "messages": [
+        {
+          "id": "781206164309409813",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:14:23.68+00:00",
+          "content": "dunno how many I will drop on friday"
+        },
+        {
+          "id": "781206397085941761",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:15:19.178+00:00",
+          "content": "are the community allowed to suggest custom units as well?\n~~who am i kidding, we all know they'll design gauss fabricator fabricator~~"
+        },
+        {
+          "id": "781206399240765523",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-25T17:15:19.692+00:00",
+          "content": "I always feel a bit sad when I consider sacking my last ossi, or even when I see someone else do it"
+        },
+        {
+          "id": "781206596294279178",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:16:06.673+00:00",
+          "content": "honestly, since shadowfang is a bit weak"
+        },
+        {
+          "id": "781206645228306472",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:16:18.34+00:00",
+          "content": "maybe it could be replaced with an RRR biotic contract? 🤔"
+        },
+        {
+          "id": "781206729072705556",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:16:38.33+00:00",
+          "content": "that unit needs a redesign"
+        },
+        {
+          "id": "781206809553403936",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:16:57.518+00:00",
+          "content": "lemme check if we ever changed it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-25T17:32:24.122+00:00",
+      "end_ts": "2020-11-25T17:47:29.054+00:00",
+      "participants": [
+        "elyot",
+        "jeacaveo",
+        "masn6811",
+        "megasupp",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 35,
+      "formatted_text": "--- Thread (14 messages, 2020-11-25) ---\n[2020-11-25 17:32] jeacaveo (jeacaveo (#NeverBrowserer)): I lost track of all the changes that will be implemented, but if fuge's gold is not increased, I will be a happy man\n[2020-11-25 17:32] jeacaveo (jeacaveo (#NeverBrowserer)): looking forward to the new units\n[2020-11-25 17:33] jeacaveo (jeacaveo (#NeverBrowserer)): oh and can we make scorchilla 4GR? or 3GRR?\n[2020-11-25 17:34] jeacaveo (jeacaveo (#NeverBrowserer)): 4 or 5 soak units will also be a good thing\n[2020-11-25 17:37] masn6811 (Masne98888): no, and that would completely kill the unit\n[2020-11-25 17:37] masn6811 (Masne98888): the thing is slightly too good, but even 5GR bt2 is perhaps too heavy a nerf\n[2020-11-25 17:37] masn6811 (Masne98888): wonderboat and i wanted to eventually try 2hp\n[2020-11-25 17:37] elyot: it's interesting what you can tell about people from the changes they favour\n[2020-11-25 17:38] jeacaveo (jeacaveo (#NeverBrowserer)): I don't have a problem with Scorch, but it gets a bit old when people complain about it. Strange that it hasn't come up.\n[2020-11-25 17:38] elyot: I want every unit in Pris to be as good as scorch\n[2020-11-25 17:39] jeacaveo (jeacaveo (#NeverBrowserer)): im with you. I would rather buff than nerf, and add other units that could fix some of the issues one might find\n[2020-11-25 17:40] velizar_ (Name): I've heard someone complain that Scorch turns sets into Scorch sets, in which you don't want to buy most of the other units. Don't have an opinion on it myself\n[2020-11-25 17:40] velizar_ (Name): I'm not good enough at using it\n[2020-11-25 17:47] megasupp (mega-supp): I think it's not that scorch is a strong unit. Rather that it screws one of the players when it is the strongest unit in the set",
+      "messages": [
+        {
+          "id": "781210696012660786",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-11-25T17:32:24.122+00:00",
+          "content": "I lost track of all the changes that will be implemented, but if fuge's gold is not increased, I will be a happy man"
+        },
+        {
+          "id": "781210846244110376",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-11-25T17:32:59.94+00:00",
+          "content": "looking forward to the new units"
+        },
+        {
+          "id": "781211084693700608",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-11-25T17:33:56.791+00:00",
+          "content": "oh and can we make scorchilla 4GR? or 3GRR?"
+        },
+        {
+          "id": "781211241376514058",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-11-25T17:34:34.147+00:00",
+          "content": "4 or 5 soak units will also be a good thing"
+        },
+        {
+          "id": "781211910057885707",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:37:13.573+00:00",
+          "content": "no, and that would completely kill the unit"
+        },
+        {
+          "id": "781211994895417344",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:37:33.8+00:00",
+          "content": "the thing is slightly too good, but even 5GR bt2 is perhaps too heavy a nerf"
+        },
+        {
+          "id": "781212023593631814",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T17:37:40.642+00:00",
+          "content": "wonderboat and i wanted to eventually try 2hp"
+        },
+        {
+          "id": "781212059836612638",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:37:49.283+00:00",
+          "content": "it's interesting what you can tell about people from the changes they favour"
+        },
+        {
+          "id": "781212224378634302",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-11-25T17:38:28.513+00:00",
+          "content": "I don't have a problem with Scorch, but it gets a bit old when people complain about it. Strange that it hasn't come up."
+        },
+        {
+          "id": "781212289537015828",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T17:38:44.048+00:00",
+          "content": "I want every unit in Pris to be as good as scorch"
+        },
+        {
+          "id": "781212490498441257",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-11-25T17:39:31.961+00:00",
+          "content": "im with you. I would rather buff than nerf, and add other units that could fix some of the issues one might find"
+        },
+        {
+          "id": "781212720716054530",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-25T17:40:26.849+00:00",
+          "content": "I've heard someone complain that Scorch turns sets into Scorch sets, in which you don't want to buy most of the other units. Don't have an opinion on it myself"
+        },
+        {
+          "id": "781212745181298689",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-25T17:40:32.682+00:00",
+          "content": "I'm not good enough at using it"
+        },
+        {
+          "id": "781214491572568075",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T17:47:29.054+00:00",
+          "content": "I think it's not that scorch is a strong unit. Rather that it screws one of the players when it is the strongest unit in the set"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-25T18:03:19.949+00:00",
+      "end_ts": "2020-11-25T18:19:01.297+00:00",
+      "participants": [
+        "elyot",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 22,
+      "formatted_text": "--- Thread (4 messages, 2020-11-25) ---\n[2020-11-25 18:03] masn6811 (Masne98888): what can you tell of me? 🙂\n[2020-11-25 18:07] elyot: The naive/dumb opinion is... you just want to increase your Elo, you seem to dislike high-variance units and want units where the better player wins more often\n[2020-11-25 18:11] elyot: I think in practice though, your preferences are mostly just in the direction of like, wanting cleaner balancing, like you view imbalanced units as ugly and want to de-uglify things as much as possible\n[2020-11-25 18:19] masn6811 (Masne98888): i would say i like balance because i like having more options. i dont want to have unit X where its in the set and \"oh, I guess its an X set.\" a unit that is an always-buy doesnt mean more options, nor is a unit that is a never-buy\nin general, that does increase my elo, because if say Smorcus is \"oh, i guess its a smorcus set\", then whoever gets the fastimus wins\nbut id like to point to me asking for a centurion nerf. if centurion is an autobuy, that actually does increase my elo because the better player is generally better at squeezing a bit more efficiency in macro mirrors",
+      "messages": [
+        {
+          "id": "781218479915139093",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T18:03:19.949+00:00",
+          "content": "what can you tell of me? 🙂"
+        },
+        {
+          "id": "781219598477426718",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T18:07:46.635+00:00",
+          "content": "The naive/dumb opinion is... you just want to increase your Elo, you seem to dislike high-variance units and want units where the better player wins more often"
+        },
+        {
+          "id": "781220560248111205",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T18:11:35.939+00:00",
+          "content": "I think in practice though, your preferences are mostly just in the direction of like, wanting cleaner balancing, like you view imbalanced units as ugly and want to de-uglify things as much as possible"
+        },
+        {
+          "id": "781222428214296616",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T18:19:01.297+00:00",
+          "content": "i would say i like balance because i like having more options. i dont want to have unit X where its in the set and \"oh, I guess its an X set.\" a unit that is an always-buy doesnt mean more options, nor is a unit that is a never-buy\nin general, that does increase my elo, because if say Smorcus is \"oh, i guess its a smorcus set\", then whoever gets the fastimus wins\nbut id like to point to me asking for a centurion nerf. if centurion is an autobuy, that actually does increase my elo because the better player is generally better at squeezing a bit more efficiency in macro mirrors"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-25T18:38:03.396+00:00",
+      "end_ts": "2020-11-25T18:57:12.305+00:00",
+      "participants": [
+        "masn6811",
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (7 messages, 2020-11-25) ---\n[2020-11-25 18:38] megasupp (mega-supp): I have a slight concern about pivot. That is the timing of conduits.\nBy that I mean that if there is a high green cost unit like xae fab or thunderhead. You need to decide how are you going to split up conduit buys over turns, and pivot gives p1 options that p2 can't have like buying thunderhead off C/CC or fab off C/C but p2 has to suck it up and buy thunderhead with CC/C and fab with CC/... (C/CC).\n[2020-11-25 18:39] megasupp (mega-supp): There is also the issue if you want 3 green in a set and no more (cynestra tia plasma) and p1 can fuge and never buy a conduit. P2 doesn't have that luxury\n[2020-11-25 18:40] megasupp (mega-supp): My proposed solution is to give p2 pivot that converts 2g to gg\n[2020-11-25 18:44] masn6811 (Masne98888): if needed, we can do this, but it seems unneeded and inelegant.\nalthough p1 has more conduit options, p2 gets the conduit easier to make up for it, and still has more efficient lines in most cases.\nthe fuge/3-green concern is valid, but feels too edge to worry about rn. please give feedback after friday event to see how it feels in practice\n[2020-11-25 18:46] megasupp (mega-supp): How does it seem inelegant? I think it's aesthetically more appealing because symmetry\n[2020-11-25 18:50] megasupp (mega-supp): Though that will be terrible for the learning curve. Noobs will always try to use it until someone tells them to stop doing that\n[2020-11-25 18:57] megasupp (mega-supp): Also you are right that in most cases p2 has the more efficient line. sometimes because of alt drones p1 has more efficient line. Also I think there can be some strategical shenanigans where you might want to do a weird p2 pivot line (some rps-y sets)",
+      "messages": [
+        {
+          "id": "781227218525356073",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T18:38:03.396+00:00",
+          "content": "I have a slight concern about pivot. That is the timing of conduits.\nBy that I mean that if there is a high green cost unit like xae fab or thunderhead. You need to decide how are you going to split up conduit buys over turns, and pivot gives p1 options that p2 can't have like buying thunderhead off C/CC or fab off C/C but p2 has to suck it up and buy thunderhead with CC/C and fab with CC/... (C/CC)."
+        },
+        {
+          "id": "781227668975910913",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T18:39:50.792+00:00",
+          "content": "There is also the issue if you want 3 green in a set and no more (cynestra tia plasma) and p1 can fuge and never buy a conduit. P2 doesn't have that luxury"
+        },
+        {
+          "id": "781227837918806016",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T18:40:31.071+00:00",
+          "content": "My proposed solution is to give p2 pivot that converts 2g to gg"
+        },
+        {
+          "id": "781228721637425183",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-25T18:44:01.766+00:00",
+          "content": "if needed, we can do this, but it seems unneeded and inelegant.\nalthough p1 has more conduit options, p2 gets the conduit easier to make up for it, and still has more efficient lines in most cases.\nthe fuge/3-green concern is valid, but feels too edge to worry about rn. please give feedback after friday event to see how it feels in practice"
+        },
+        {
+          "id": "781229393485889546",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T18:46:41.947+00:00",
+          "content": "How does it seem inelegant? I think it's aesthetically more appealing because symmetry"
+        },
+        {
+          "id": "781230386654085120",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T18:50:38.737+00:00",
+          "content": "Though that will be terrible for the learning curve. Noobs will always try to use it until someone tells them to stop doing that"
+        },
+        {
+          "id": "781232037398970448",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-11-25T18:57:12.305+00:00",
+          "content": "Also you are right that in most cases p2 has the more efficient line. sometimes because of alt drones p1 has more efficient line. Also I think there can be some strategical shenanigans where you might want to do a weird p2 pivot line (some rps-y sets)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-25T20:07:46.769+00:00",
+      "end_ts": "2020-11-25T20:08:02.425+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [
+        "uzzle-solvi"
+      ],
+      "score": 14,
+      "formatted_text": "--- Thread (2 messages, 2020-11-25) ---\n[2020-11-25 20:07] elyot: Stream is up at http://twitch.tv/lunarchstudios\nLunarchStudios - Twitch\nLunarch, founded by former MIT PhD students, is the game development studio behind Prismata. This channel features gaming, puzzle-solving, gamedev, and other content (mostly by Lunarch Studios CEO Elyot Grant).\n[2020-11-25 20:08] elyot: Gonna need some time first to like, get the thing working and then we'll look at balance patch and units",
+      "messages": [
+        {
+          "id": "781249798027214878",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T20:07:46.769+00:00",
+          "content": "Stream is up at http://twitch.tv/lunarchstudios\nLunarchStudios - Twitch\nLunarch, founded by former MIT PhD students, is the game development studio behind Prismata. This channel features gaming, puzzle-solving, gamedev, and other content (mostly by Lunarch Studios CEO Elyot Grant)."
+        },
+        {
+          "id": "781249863693893632",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T20:08:02.425+00:00",
+          "content": "Gonna need some time first to like, get the thing working and then we'll look at balance patch and units"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-25T20:32:44.452+00:00",
+      "end_ts": "2020-11-25T20:32:52.07+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (2 messages, 2020-11-25) ---\n[2020-11-25 20:32] elyot: @Masne98888 Should pivot get a lifespan so I can clean it up off the board if it's not used? How many turns you think?\n[2020-11-25 20:32] elyot: Also come hang out in twitch chat if you're around 😛",
+      "messages": [
+        {
+          "id": "781256079764881419",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T20:32:44.452+00:00",
+          "content": "@Masne98888 Should pivot get a lifespan so I can clean it up off the board if it's not used? How many turns you think?"
+        },
+        {
+          "id": "781256111718137857",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-25T20:32:52.07+00:00",
+          "content": "Also come hang out in twitch chat if you're around 😛"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-26T11:21:50.995+00:00",
+      "end_ts": "2020-11-26T11:21:50.995+00:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-11-26) ---\n[2020-11-26 11:21] velizar_ (Name): This unit might not be worth having in the game, but it was fun to design: \nNitrocybe wrapper\n:Red::Attack:, 20 supply - buys a prompt Nitrocybe",
+      "messages": [
+        {
+          "id": "781479831384621086",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-26T11:21:50.995+00:00",
+          "content": "This unit might not be worth having in the game, but it was fun to design: \nNitrocybe wrapper\n:Red::Attack:, 20 supply - buys a prompt Nitrocybe"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-26T13:22:22.251+00:00",
+      "end_ts": "2020-11-26T13:22:46.16+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2020-11-26) ---\n[2020-11-26 13:22] elyot: oh god pivot + synth click is terrifying\n[2020-11-26 13:22] elyot: good thing there aren't any strong BBB units or anything",
+      "messages": [
+        {
+          "id": "781510161470586890",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-26T13:22:22.251+00:00",
+          "content": "oh god pivot + synth click is terrifying"
+        },
+        {
+          "id": "781510261751808000",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-26T13:22:46.16+00:00",
+          "content": "good thing there aren't any strong BBB units or anything"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-27T18:32:26.732+00:00",
+      "end_ts": "2020-11-27T18:33:20.629+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 20,
+      "formatted_text": "--- Thread (4 messages, 2020-11-27) ---\n[2020-11-27 18:32] elyot: I think for Magna Kronus, I'm gonna try 11BBGG + sac 2 drones, and increase HP from 10 to 14\n[2020-11-27 18:32] elyot: still buildtime 2, 3 damage per turn, click for 5 extra damage and exhaust 3\n[2020-11-27 18:33] elyot: unit is still terrifying but hopefully that will be a bit less degenerate\n[2020-11-27 18:33] elyot: if it's too weak/strong let me know and I can buff/nerf it mid-event",
+      "messages": [
+        {
+          "id": "781950582184738816",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:32:26.732+00:00",
+          "content": "I think for Magna Kronus, I'm gonna try 11BBGG + sac 2 drones, and increase HP from 10 to 14"
+        },
+        {
+          "id": "781950675936477184",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:32:49.084+00:00",
+          "content": "still buildtime 2, 3 damage per turn, click for 5 extra damage and exhaust 3"
+        },
+        {
+          "id": "781950767296020511",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:33:10.866+00:00",
+          "content": "unit is still terrifying but hopefully that will be a bit less degenerate"
+        },
+        {
+          "id": "781950808245665853",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:33:20.629+00:00",
+          "content": "if it's too weak/strong let me know and I can buff/nerf it mid-event"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-27T18:49:17.989+00:00",
+      "end_ts": "2020-11-27T19:10:00.985+00:00",
+      "participants": [
+        "elyot",
+        "masn6811",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 116,
+      "formatted_text": "--- Thread (29 messages, 2020-11-27) ---\n[2020-11-27 18:49] masn6811 (Masne98888): thats like a huge nerf @Elyot\n[2020-11-27 18:49] masn6811 (Masne98888): but 14GGBB was honestly terrifying\n[2020-11-27 18:50] masn6811 (Masne98888): like if you look at my balance patch suggestions, usually my nerf suggestions for OP units is to nerf them by half or a third of a gold (centurion being the exception)\n[2020-11-27 18:50] masn6811 (Masne98888): and the converse for buffs\n[2020-11-27 18:50] masn6811 (Masne98888): so half-gold nerfs include changing a 1 to a G, or a G to a 2. or maybe changing a 2 to a D\n[2020-11-27 18:51] elyot: So with big units, you need more of a gold change for it to matter\n[2020-11-27 18:51] elyot: and when you're early on in designing a unit, it's better to take bigger steps first and smaller ones later\n[2020-11-27 18:51] masn6811 (Masne98888): but this is the equivalent of a 2-gold nerf\n[2020-11-27 18:51] masn6811 (Masne98888): valuing D as about 2.5\n[2020-11-27 18:51] elyot: I honestly think it still might be too good\n[2020-11-27 18:52] masn6811 (Masne98888): i just remember even drake\n[2020-11-27 18:52] masn6811 (Masne98888): the change from 16BBB to 17BBB made it pretty much unplayable\n[2020-11-27 18:52] masn6811 (Masne98888): and that was a 1 gold nerf\n[2020-11-27 18:53] velizar_ (Name): it might be easier to try it out than to theoretize\n[2020-11-27 18:53] elyot: it goes live in 1 hour\n[2020-11-27 18:53] elyot: maybe I'll buff it in 2 hours 😛\n[2020-11-27 18:53] masn6811 (Masne98888): honestly, this event seems awesome\n[2020-11-27 18:53] masn6811 (Masne98888): way more exciting that blitz brawls\n[2020-11-27 18:53] elyot: how often should new units spawn\n[2020-11-27 18:53] masn6811 (Masne98888): i wouldnt mind seeing this event like 3 times a week\n[2020-11-27 18:53] elyot: I'll tell you the algorithm\n[2020-11-27 18:54] masn6811 (Masne98888): i believe atm its 10x new units, 3x patchd units?\n[2020-11-27 18:54] elyot: right now it creates a pool of random units to pick from (same unit can't be picked twice), and it puts patched units into the pool 3x and new units 10x\n[2020-11-27 18:55] elyot: so instead of 100 units to pick from, there are like 160 where 40 of them are new units and 30 of them are patched units but the same unit can't be picked twice\n[2020-11-27 18:55] elyot: so in base+8 you'll see 8 of those 160 with no repeats guaranteed which means you'll see a lot of patched and new units\n[2020-11-27 18:58] velizar_ (Name): the spawn rate I saw on the stream felt pretty decent - you always get some new units, and you get old units to interact them with, and you don't get all new units at once, but you usually get a few so you can see how they interact\n[2020-11-27 19:03] masn6811 (Masne98888): ~~can i suggest putting gauss charge into the pool 0x?~~\n[2020-11-27 19:09] masn6811 (Masne98888): @Elyot i do have one problem with that version of magna kronus\n[2020-11-27 19:10] masn6811 (Masne98888): it seems like the differential in how good it is in a set with a blue sink vs sets without is too high",
+      "messages": [
+        {
+          "id": "781954823704543233",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:49:17.989+00:00",
+          "content": "thats like a huge nerf @Elyot"
+        },
+        {
+          "id": "781954887793246258",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:49:33.269+00:00",
+          "content": "but 14GGBB was honestly terrifying"
+        },
+        {
+          "id": "781955121336418374",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:50:28.95+00:00",
+          "content": "like if you look at my balance patch suggestions, usually my nerf suggestions for OP units is to nerf them by half or a third of a gold (centurion being the exception)"
+        },
+        {
+          "id": "781955155167674418",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:50:37.016+00:00",
+          "content": "and the converse for buffs"
+        },
+        {
+          "id": "781955239439106060",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:50:57.108+00:00",
+          "content": "so half-gold nerfs include changing a 1 to a G, or a G to a 2. or maybe changing a 2 to a D"
+        },
+        {
+          "id": "781955322486325258",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:51:16.908+00:00",
+          "content": "So with big units, you need more of a gold change for it to matter"
+        },
+        {
+          "id": "781955381026488320",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:51:30.865+00:00",
+          "content": "and when you're early on in designing a unit, it's better to take bigger steps first and smaller ones later"
+        },
+        {
+          "id": "781955385354354719",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:51:31.897+00:00",
+          "content": "but this is the equivalent of a 2-gold nerf"
+        },
+        {
+          "id": "781955438185938944",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:51:44.493+00:00",
+          "content": "valuing D as about 2.5"
+        },
+        {
+          "id": "781955452887105586",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:51:47.998+00:00",
+          "content": "I honestly think it still might be too good"
+        },
+        {
+          "id": "781955513403179059",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:52:02.426+00:00",
+          "content": "i just remember even drake"
+        },
+        {
+          "id": "781955602775146496",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:52:23.734+00:00",
+          "content": "the change from 16BBB to 17BBB made it pretty much unplayable"
+        },
+        {
+          "id": "781955617501216798",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:52:27.245+00:00",
+          "content": "and that was a 1 gold nerf"
+        },
+        {
+          "id": "781955774070521906",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T18:53:04.574+00:00",
+          "content": "it might be easier to try it out than to theoretize"
+        },
+        {
+          "id": "781955811370598431",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:53:13.467+00:00",
+          "content": "it goes live in 1 hour"
+        },
+        {
+          "id": "781955838092378184",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:53:19.838+00:00",
+          "content": "maybe I'll buff it in 2 hours 😛"
+        },
+        {
+          "id": "781955877569560607",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:53:29.25+00:00",
+          "content": "honestly, this event seems awesome"
+        },
+        {
+          "id": "781955927129194496",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:53:41.066+00:00",
+          "content": "way more exciting that blitz brawls"
+        },
+        {
+          "id": "781955928853446656",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:53:41.477+00:00",
+          "content": "how often should new units spawn"
+        },
+        {
+          "id": "781955968669319208",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:53:50.97+00:00",
+          "content": "i wouldnt mind seeing this event like 3 times a week"
+        },
+        {
+          "id": "781955989473591296",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:53:55.93+00:00",
+          "content": "I'll tell you the algorithm"
+        },
+        {
+          "id": "781956039145947227",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T18:54:07.773+00:00",
+          "content": "i believe atm its 10x new units, 3x patchd units?"
+        },
+        {
+          "id": "781956105382264842",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:54:23.565+00:00",
+          "content": "right now it creates a pool of random units to pick from (same unit can't be picked twice), and it puts patched units into the pool 3x and new units 10x"
+        },
+        {
+          "id": "781956267681120336",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:55:02.26+00:00",
+          "content": "so instead of 100 units to pick from, there are like 160 where 40 of them are new units and 30 of them are patched units but the same unit can't be picked twice"
+        },
+        {
+          "id": "781956361595912203",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T18:55:24.651+00:00",
+          "content": "so in base+8 you'll see 8 of those 160 with no repeats guaranteed which means you'll see a lot of patched and new units"
+        },
+        {
+          "id": "781957198971666462",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T18:58:44.297+00:00",
+          "content": "the spawn rate I saw on the stream felt pretty decent - you always get some new units, and you get old units to interact them with, and you don't get all new units at once, but you usually get a few so you can see how they interact"
+        },
+        {
+          "id": "781958384194682901",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T19:03:26.876+00:00",
+          "content": "~~can i suggest putting gauss charge into the pool 0x?~~"
+        },
+        {
+          "id": "781959957078868039",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T19:09:41.881+00:00",
+          "content": "@Elyot i do have one problem with that version of magna kronus"
+        },
+        {
+          "id": "781960037206851614",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T19:10:00.985+00:00",
+          "content": "it seems like the differential in how good it is in a set with a blue sink vs sets without is too high"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-27T19:20:45.437+00:00",
+      "end_ts": "2020-11-27T19:20:45.437+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (1 messages, 2020-11-27) ---\n[2020-11-27 19:20] elyot: 1) too high relative to what? Lots of units are situational and they're completely fine\n2) having to invest in a 2nd blastforge to get e.g. 4 of these is a tiny tiny fraction of their total cost, it's unlikely to be egregious relative to similar units\n3) I generally recommend that people hold off on forming opinions and complaining about things until after they've played with them, testers are often surprised and it's always easier to give a good evaluation when you're not trying to defend your ego 😛",
+      "messages": [
+        {
+          "id": "781962740234977280",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-27T19:20:45.437+00:00",
+          "content": "1) too high relative to what? Lots of units are situational and they're completely fine\n2) having to invest in a 2nd blastforge to get e.g. 4 of these is a tiny tiny fraction of their total cost, it's unlikely to be egregious relative to similar units\n3) I generally recommend that people hold off on forming opinions and complaining about things until after they've played with them, testers are often surprised and it's always easier to give a good evaluation when you're not trying to defend your ego 😛"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-27T19:46:09.05+00:00",
+      "end_ts": "2020-11-27T19:47:39.417+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (3 messages, 2020-11-27) ---\n[2020-11-27 19:46] masn6811 (Masne98888): very valid on the point 3, look forward to playing it out\n[2020-11-27 19:47] masn6811 (Masne98888): like an example of high differential is bolt venge vs venge without a green sink\n[2020-11-27 19:47] masn6811 (Masne98888): so this gmech vs this without gmech might be like that (might. only way to find out is to play and see)",
+      "messages": [
+        {
+          "id": "781969130730422342",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T19:46:09.05+00:00",
+          "content": "very valid on the point 3, look forward to playing it out"
+        },
+        {
+          "id": "781969349639405568",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T19:47:01.242+00:00",
+          "content": "like an example of high differential is bolt venge vs venge without a green sink"
+        },
+        {
+          "id": "781969509757091861",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T19:47:39.417+00:00",
+          "content": "so this gmech vs this without gmech might be like that (might. only way to find out is to play and see)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-27T21:11:08.468+00:00",
+      "end_ts": "2020-11-27T21:11:08.468+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-11-27) ---\n[2020-11-27 21:11] masn6811 (Masne98888): who would win? defense grid, or one catty boi?",
+      "messages": [
+        {
+          "id": "781990519240392756",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:11:08.468+00:00",
+          "content": "who would win? defense grid, or one catty boi?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-27T21:29:53.831+00:00",
+      "end_ts": "2020-11-27T21:57:38.245+00:00",
+      "participants": [
+        "masn6811",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 41,
+      "formatted_text": "--- Thread (15 messages, 2020-11-27) ---\n[2020-11-27 21:29] masn6811 (Masne98888): magna lost to tarsiers\n[2020-11-27 21:30] masn6811 (Masne98888): i think that means its a bit too weak\n[2020-11-27 21:30] masn6811 (Masne98888): my only two losses this event are when i went for magna and my opponent didnt, and ive won every game my opponent went for magna\n[2020-11-27 21:31] masn6811 (Masne98888): also @Elyot you said to restart prismata in 10 minutes. any hotfixes?\n[2020-11-27 21:39] velizar_ (Name): on that replay you could've clicked your magnas in order to deny absorb\n[2020-11-27 21:39] velizar_ (Name): have no other attackers\n[2020-11-27 21:47] masn6811 (Masne98888): i was considering it, but say you have a stack of 3 magans and 1 S\n[2020-11-27 21:47] masn6811 (Masne98888): you do 7 a turn if you dont click\n[2020-11-27 21:47] masn6811 (Masne98888): you do 22 every 3 turns if you do click, and you lose out on threat\n[2020-11-27 21:48] masn6811 (Masne98888): so its not even better\n[2020-11-27 21:52] velizar_ (Name): yeah it's quite marginal\n[2020-11-27 21:52] masn6811 (Masne98888): marginal is an understatement\n[2020-11-27 21:56] velizar_ (Name): I suppose that infusion grid counters magna pretty badly\n[2020-11-27 21:57] velizar_ (Name): magna is exactly the unit which makes you want to have soak in 2-3 turns\n[2020-11-27 21:57] velizar_ (Name): even if you clicked the opponent would've bought infusion grids before next click",
+      "messages": [
+        {
+          "id": "781995239354531912",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:29:53.831+00:00",
+          "content": "magna lost to tarsiers"
+        },
+        {
+          "id": "781995296736411678",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:30:07.512+00:00",
+          "content": "i think that means its a bit too weak"
+        },
+        {
+          "id": "781995469953040495",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:30:48.81+00:00",
+          "content": "my only two losses this event are when i went for magna and my opponent didnt, and ive won every game my opponent went for magna"
+        },
+        {
+          "id": "781995637628600321",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:31:28.787+00:00",
+          "content": "also @Elyot you said to restart prismata in 10 minutes. any hotfixes?"
+        },
+        {
+          "id": "781997676640075796",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T21:39:34.925+00:00",
+          "content": "on that replay you could've clicked your magnas in order to deny absorb"
+        },
+        {
+          "id": "781997689914523729",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T21:39:38.09+00:00",
+          "content": "have no other attackers"
+        },
+        {
+          "id": "781999660435898429",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:47:27.899+00:00",
+          "content": "i was considering it, but say you have a stack of 3 magans and 1 S"
+        },
+        {
+          "id": "781999694242644008",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:47:35.959+00:00",
+          "content": "you do 7 a turn if you dont click"
+        },
+        {
+          "id": "781999766636462090",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:47:53.219+00:00",
+          "content": "you do 22 every 3 turns if you do click, and you lose out on threat"
+        },
+        {
+          "id": "781999813309890611",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:48:04.347+00:00",
+          "content": "so its not even better"
+        },
+        {
+          "id": "782000882845614130",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T21:52:19.344+00:00",
+          "content": "yeah it's quite marginal"
+        },
+        {
+          "id": "782000972456263740",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T21:52:40.709+00:00",
+          "content": "marginal is an understatement"
+        },
+        {
+          "id": "782001981245620245",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T21:56:41.223+00:00",
+          "content": "I suppose that infusion grid counters magna pretty badly"
+        },
+        {
+          "id": "782002069137522709",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T21:57:02.178+00:00",
+          "content": "magna is exactly the unit which makes you want to have soak in 2-3 turns"
+        },
+        {
+          "id": "782002220413616138",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T21:57:38.245+00:00",
+          "content": "even if you clicked the opponent would've bought infusion grids before next click"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-27T22:15:23.943+00:00",
+      "end_ts": "2020-11-27T22:26:02.017+00:00",
+      "participants": [
+        "masn6811",
+        "torikunsnaps",
+        "velizar_"
+      ],
+      "replay_codes": [
+        "s@e7a-Tp+Z5"
+      ],
+      "score": 35,
+      "formatted_text": "--- Thread (14 messages, 2020-11-27) ---\n[2020-11-27 22:15] masn6811 (Masne98888): doesnt matter once you got enough of a stack that you're not clicking\n[2020-11-27 22:15] velizar_ (Name): Felid seems OP - simply rushing it wins the game, I think.\n[2020-11-27 22:15] torikunsnaps (Torikun): felid+smorcus is kinda nuts lol\n[2020-11-27 22:15] masn6811 (Masne98888): i havent gotten many felid sets, but im getting that vibe\n[2020-11-27 22:16] torikunsnaps (Torikun): and the buffed rates don't help it\n[2020-11-27 22:16] velizar_ (Name): s@e7a-Tp+Z5\nFelid+Smorcus+galvani\n\nBut Smorcus is nerfed, and I messed up my plan twice, in a way that would be game-losing for me normally\n[2020-11-27 22:17] masn6811 (Masne98888): are we going to be requesting a hotfix felid nerf?\n[2020-11-27 22:17] torikunsnaps (Torikun): wasn't there a 3 atk version of it in testing?\n[2020-11-27 22:17] masn6811 (Masne98888): i literally only had one actual felid game so i cant say yet\n[2020-11-27 22:18] velizar_ (Name): I think it would be best if we had an initial batch of balance changes after the event, because we gained more information about the units - it makes sense to iteratively rebalance as we test it, I think\n[2020-11-27 22:18] velizar_ (Name): since we won't get many iterations of propose changes -> test changes -> propose changes...\n[2020-11-27 22:25] masn6811 (Masne98888): new units:\nfelid seems a bit too strong, but havent played with it that much\nrobo-maid is very annoying, but seems fine\nmagna im pretty sure is UP. like full gold buff UP.\neviserator havent played around with enough\n[2020-11-27 22:25] masn6811 (Masne98888): all of my community changes seem good, but i may be biased\n[2020-11-27 22:26] masn6811 (Masne98888): oxide havent seen yet",
+      "messages": [
+        {
+          "id": "782006690274607104",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T22:15:23.943+00:00",
+          "content": "doesnt matter once you got enough of a stack that you're not clicking"
+        },
+        {
+          "id": "782006738303713290",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T22:15:35.394+00:00",
+          "content": "Felid seems OP - simply rushing it wins the game, I think."
+        },
+        {
+          "id": "782006785946157097",
+          "author": "torikunsnaps",
+          "nickname": "Torikun",
+          "timestamp": "2020-11-27T22:15:46.753+00:00",
+          "content": "felid+smorcus is kinda nuts lol"
+        },
+        {
+          "id": "782006830796111944",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T22:15:57.446+00:00",
+          "content": "i havent gotten many felid sets, but im getting that vibe"
+        },
+        {
+          "id": "782006876233400370",
+          "author": "torikunsnaps",
+          "nickname": "Torikun",
+          "timestamp": "2020-11-27T22:16:08.279+00:00",
+          "content": "and the buffed rates don't help it"
+        },
+        {
+          "id": "782006999239229470",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T22:16:37.606+00:00",
+          "content": "s@e7a-Tp+Z5\nFelid+Smorcus+galvani\n\nBut Smorcus is nerfed, and I messed up my plan twice, in a way that would be game-losing for me normally"
+        },
+        {
+          "id": "782007095045652562",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T22:17:00.448+00:00",
+          "content": "are we going to be requesting a hotfix felid nerf?"
+        },
+        {
+          "id": "782007177716039710",
+          "author": "torikunsnaps",
+          "nickname": "Torikun",
+          "timestamp": "2020-11-27T22:17:20.158+00:00",
+          "content": "wasn't there a 3 atk version of it in testing?"
+        },
+        {
+          "id": "782007179208294410",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T22:17:20.514+00:00",
+          "content": "i literally only had one actual felid game so i cant say yet"
+        },
+        {
+          "id": "782007348810088528",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T22:18:00.95+00:00",
+          "content": "I think it would be best if we had an initial batch of balance changes after the event, because we gained more information about the units - it makes sense to iteratively rebalance as we test it, I think"
+        },
+        {
+          "id": "782007499824824351",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T22:18:36.955+00:00",
+          "content": "since we won't get many iterations of propose changes -> test changes -> propose changes..."
+        },
+        {
+          "id": "782009211261288489",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T22:25:24.993+00:00",
+          "content": "new units:\nfelid seems a bit too strong, but havent played with it that much\nrobo-maid is very annoying, but seems fine\nmagna im pretty sure is UP. like full gold buff UP.\neviserator havent played around with enough"
+        },
+        {
+          "id": "782009332920221707",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T22:25:53.999+00:00",
+          "content": "all of my community changes seem good, but i may be biased"
+        },
+        {
+          "id": "782009366550675496",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T22:26:02.017+00:00",
+          "content": "oxide havent seen yet"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-27T22:36:12.572+00:00",
+      "end_ts": "2020-11-27T22:37:37.619+00:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2020-11-27) ---\n[2020-11-27 22:36] velizar_ (Name): is grimbotch viable?\nwould it be base+1 viable?\n[2020-11-27 22:36] velizar_ (Name): I'm also curious about whether oxide is OP\n[2020-11-27 22:37] velizar_ (Name): according to masnhub, oxide mixer was already base+1 viable before the buff, and its buff seems pretty considerable",
+      "messages": [
+        {
+          "id": "782011927403954196",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T22:36:12.572+00:00",
+          "content": "is grimbotch viable?\nwould it be base+1 viable?"
+        },
+        {
+          "id": "782012029233266708",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T22:36:36.85+00:00",
+          "content": "I'm also curious about whether oxide is OP"
+        },
+        {
+          "id": "782012284117450803",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T22:37:37.619+00:00",
+          "content": "according to masnhub, oxide mixer was already base+1 viable before the buff, and its buff seems pretty considerable"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-27T23:39:25.02+00:00",
+      "end_ts": "2020-11-27T23:51:13.985+00:00",
+      "participants": [
+        "masn6811",
+        "velizar_"
+      ],
+      "replay_codes": [
+        "3ID37-q2og6"
+      ],
+      "score": 39,
+      "formatted_text": "--- Thread (13 messages, 2020-11-27) ---\n[2020-11-27 23:39] masn6811 (Masne98888): game highlight: 3ID37-q2og6\nMasN realizes about 8 turns into the game centurion isn't actually in the set, but magna is so bad he beats it anyways\n[2020-11-27 23:39] masn6811 (Masne98888): not sure on oxide. we're testing it out, the buff might be a bit much\n[2020-11-27 23:40] masn6811 (Masne98888): my personal opinion was that it was on the weak side, but i probably would have tried a smaller buff than lifespan +1\n[2020-11-27 23:40] masn6811 (Masne98888): like if you look at my/wonderboat's changes, they've for the most part been very conservative\n[2020-11-27 23:40] masn6811 (Masne98888): eg. thorium was pretty much always an autobuy, and we nerfed it by like 0.25 gold\n[2020-11-27 23:42] masn6811 (Masne98888): smorcus is barely a nerf when used for value, because it costs 1 more, but two can threat of an A\n[2020-11-27 23:42] masn6811 (Masne98888): but we did hose the 4 attack transitions because wtf\n[2020-11-27 23:46] velizar_ (Name): smorcus nerf seemed quite large\n[2020-11-27 23:48] masn6811 (Masne98888): the nerf works out to almost 0 gold actually\n[2020-11-27 23:48] masn6811 (Masne98888): its 12RRRR for 2 attack 2 threat vs 5RR for 1 attack 1 threat\n[2020-11-27 23:49] velizar_ (Name): how did you get those numbers\n[2020-11-27 23:50] velizar_ (Name): the big part of the nerf was where it went from 5RR to 6RR\n[2020-11-27 23:51] velizar_ (Name): at this point you no longer buy it when you're unable to spend your red and already have a smorcus",
+      "messages": [
+        {
+          "id": "782027834083639317",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T23:39:25.02+00:00",
+          "content": "game highlight: 3ID37-q2og6\nMasN realizes about 8 turns into the game centurion isn't actually in the set, but magna is so bad he beats it anyways"
+        },
+        {
+          "id": "782027913729277973",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T23:39:44.009+00:00",
+          "content": "not sure on oxide. we're testing it out, the buff might be a bit much"
+        },
+        {
+          "id": "782028023800266783",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T23:40:10.252+00:00",
+          "content": "my personal opinion was that it was on the weak side, but i probably would have tried a smaller buff than lifespan +1"
+        },
+        {
+          "id": "782028139609456641",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T23:40:37.863+00:00",
+          "content": "like if you look at my/wonderboat's changes, they've for the most part been very conservative"
+        },
+        {
+          "id": "782028204851331082",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T23:40:53.418+00:00",
+          "content": "eg. thorium was pretty much always an autobuy, and we nerfed it by like 0.25 gold"
+        },
+        {
+          "id": "782028501346811954",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T23:42:04.108+00:00",
+          "content": "smorcus is barely a nerf when used for value, because it costs 1 more, but two can threat of an A"
+        },
+        {
+          "id": "782028550294994964",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T23:42:15.778+00:00",
+          "content": "but we did hose the 4 attack transitions because wtf"
+        },
+        {
+          "id": "782029644626919486",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T23:46:36.687+00:00",
+          "content": "smorcus nerf seemed quite large"
+        },
+        {
+          "id": "782030045065642010",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T23:48:12.159+00:00",
+          "content": "the nerf works out to almost 0 gold actually"
+        },
+        {
+          "id": "782030088606318624",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-27T23:48:22.54+00:00",
+          "content": "its 12RRRR for 2 attack 2 threat vs 5RR for 1 attack 1 threat"
+        },
+        {
+          "id": "782030447445147678",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T23:49:48.094+00:00",
+          "content": "how did you get those numbers"
+        },
+        {
+          "id": "782030578962530325",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T23:50:19.45+00:00",
+          "content": "the big part of the nerf was where it went from 5RR to 6RR"
+        },
+        {
+          "id": "782030807699030036",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-27T23:51:13.985+00:00",
+          "content": "at this point you no longer buy it when you're unable to spend your red and already have a smorcus"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-28T00:31:15.335+00:00",
+      "end_ts": "2020-11-28T00:31:15.335+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-11-28) ---\n[2020-11-28 00:31] masn6811 (Masne98888): magna buffed to 10GGBBDD. seems very balanced in current state",
+      "messages": [
+        {
+          "id": "782040879690809374",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T00:31:15.335+00:00",
+          "content": "magna buffed to 10GGBBDD. seems very balanced in current state"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-28T00:53:26.753+00:00",
+      "end_ts": "2020-11-28T00:53:26.753+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2020-11-28) ---\n[2020-11-28 00:53] masn6811 (Masne98888): the gameplay of new smorcus seems much smoother with eviserator than old smorcus",
+      "messages": [
+        {
+          "id": "782046464061734973",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T00:53:26.753+00:00",
+          "content": "the gameplay of new smorcus seems much smoother with eviserator than old smorcus"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-28T01:09:36.136+00:00",
+      "end_ts": "2020-11-28T01:12:09.871+00:00",
+      "participants": [
+        "masn6811",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 32,
+      "formatted_text": "--- Thread (11 messages, 2020-11-28) ---\n[2020-11-28 01:09] masn6811 (Masne98888): eviserator seems like in a very good spot\n[2020-11-28 01:09] masn6811 (Masne98888): robo maid is *slightly* on the weak side is my impression, but its the type of unit you dont want to be strong\n[2020-11-28 01:10] masn6811 (Masne98888): the only possible buff is give vigiance\n[2020-11-28 01:10] velizar_ (Name): that wouldn't be a small buff\n[2020-11-28 01:10] masn6811 (Masne98888): and p1's 2. DB is *very* annoying in sets without the counterplay\n[2020-11-28 01:10] masn6811 (Masne98888): its a very small buff\n[2020-11-28 01:11] masn6811 (Masne98888): since robomaid is something you gambit with anyways\n[2020-11-28 01:11] masn6811 (Masne98888): it'd be a much larger buff on shredder\n[2020-11-28 01:11] velizar_ (Name): breaching for 0 to kill a wall deals 2 more damage\n[2020-11-28 01:11] velizar_ (Name): killing a robomaid only prevents 1 damage\n[2020-11-28 01:12] velizar_ (Name): I haven't played it yet so I neither do nor don't",
+      "messages": [
+        {
+          "id": "782050529949515776",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T01:09:36.136+00:00",
+          "content": "eviserator seems like in a very good spot"
+        },
+        {
+          "id": "782050628725768202",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T01:09:59.686+00:00",
+          "content": "robo maid is *slightly* on the weak side is my impression, but its the type of unit you dont want to be strong"
+        },
+        {
+          "id": "782050707321651230",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T01:10:18.425+00:00",
+          "content": "the only possible buff is give vigiance"
+        },
+        {
+          "id": "782050823651721236",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-28T01:10:46.16+00:00",
+          "content": "that wouldn't be a small buff"
+        },
+        {
+          "id": "782050841775177750",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T01:10:50.481+00:00",
+          "content": "and p1's 2. DB is *very* annoying in sets without the counterplay"
+        },
+        {
+          "id": "782050872599117824",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T01:10:57.83+00:00",
+          "content": "its a very small buff"
+        },
+        {
+          "id": "782050905431605250",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T01:11:05.658+00:00",
+          "content": "since robomaid is something you gambit with anyways"
+        },
+        {
+          "id": "782050956559908905",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T01:11:17.848+00:00",
+          "content": "it'd be a much larger buff on shredder"
+        },
+        {
+          "id": "782051082439753738",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-28T01:11:47.86+00:00",
+          "content": "breaching for 0 to kill a wall deals 2 more damage"
+        },
+        {
+          "id": "782051114148429854",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-28T01:11:55.42+00:00",
+          "content": "killing a robomaid only prevents 1 damage"
+        },
+        {
+          "id": "782051174760841276",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-11-28T01:12:09.871+00:00",
+          "content": "I haven't played it yet so I neither do nor don't"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-28T02:07:14.741+00:00",
+      "end_ts": "2020-11-28T02:07:14.741+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-11-28) ---\n[2020-11-28 02:07] masn6811 (Masne98888): thorium dynamo showcase",
+      "messages": [
+        {
+          "id": "782065036389777441",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T02:07:14.741+00:00",
+          "content": "thorium dynamo showcase"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-28T03:15:15.814+00:00",
+      "end_ts": "2020-11-28T03:18:01.967+00:00",
+      "participants": [
+        "elyot",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (3 messages, 2020-11-28) ---\n[2020-11-28 03:15] elyot: I feel like the Dynamo isn't that much weaker but it feels so much harder to efficiently fit into an opening\n[2020-11-28 03:17] masn6811 (Masne98888): it isnt really. its just the normal dynamo line, delayed half a turn\n[2020-11-28 03:18] masn6811 (Masne98888): didnt you see how clean the line was there",
+      "messages": [
+        {
+          "id": "782082153650323457",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2020-11-28T03:15:15.814+00:00",
+          "content": "I feel like the Dynamo isn't that much weaker but it feels so much harder to efficiently fit into an opening"
+        },
+        {
+          "id": "782082806905831485",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T03:17:51.562+00:00",
+          "content": "it isnt really. its just the normal dynamo line, delayed half a turn"
+        },
+        {
+          "id": "782082850547040257",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T03:18:01.967+00:00",
+          "content": "didnt you see how clean the line was there"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-28T04:09:22.402+00:00",
+      "end_ts": "2020-11-28T04:15:46.43+00:00",
+      "participants": [
+        "masn6811",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (3 messages, 2020-11-28) ---\n[2020-11-28 04:09] masn6811 (Masne98888): am i qualified to give my thoughts on the event?\n[2020-11-28 04:10] silentslayers: No, you're rated lower than Punf, sorry\n[2020-11-28 04:15] silentslayers: Ok i'm kidding, I want to hear them",
+      "messages": [
+        {
+          "id": "782095770827489299",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T04:09:22.402+00:00",
+          "content": "am i qualified to give my thoughts on the event?"
+        },
+        {
+          "id": "782096115251937311",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-28T04:10:44.519+00:00",
+          "content": "No, you're rated lower than Punf, sorry"
+        },
+        {
+          "id": "782097381558583326",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-28T04:15:46.43+00:00",
+          "content": "Ok i'm kidding, I want to hear them"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-28T09:07:12.065+00:00",
+      "end_ts": "2020-11-28T09:22:23.866+00:00",
+      "participants": [
+        "masn6811",
+        "sano712",
+        "silentslayers"
+      ],
+      "replay_codes": [
+        "unter-arkad"
+      ],
+      "score": 91,
+      "formatted_text": "--- Thread (28 messages, 2020-11-28) ---\n[2020-11-28 09:07] masn6811 (Masne98888): Pivot - fixes so many problems. never made a game more play advantaged, but maybe its because i haven't rolled a feral set. still think p2 is slightly favored, but a lot closer now. pls add to ranked immediately\nThorium Dynamo - feels a lot less an auto-buy, but still very strong, and lines are buttery smooth. feels a lot better to play with. a bit too BP since hp wasnt nerfed. i originally suggested 6, it seems 7 might be fine too. pls add to ranked immediately.\nCentrifuge - haven't played around with it enough, but it sure is a lot more fun than 5 cost fuge. maybe theres something busted, but didnt run into it. i like it, wouldnt mind seeing it in ranked, but more testing may be good.\nArka - arka rushes are a lot stronger. get counter-arkad is still a thing, but doesnt feel quite as bad. i really like it, and games certainly feel a lot more exciting than 7hp arka\nSmorcus - lines are way smoother and intuitive. hurts the smorcus rush, and the 4 attack smorcus into econ transition (you can still do it, but not as good.) i think this change was an absolute home run. pls add to ranked immediately.\nBotch - botch lost a lot of power. its still great in times it gets full soak value, but magna and all the frontline units made this less common. still, i think fastimus botch rush was unhealthy for the game, and even if the new one is a bit weak, id rather see it in ranked.\nCenturion - good change. still a powerful unit, but sometimes small red is good enough its not worth buying this. i like making the buy decision non-trivial. 20 seems like a very good number to toss into ranked for now, but open to change to 19/21 in the future. \nIso - there is absolutely no reason to not push this buff into ranked. shouldnt even be contreversial. even then, i think it might be worth experimenting with 7hp in the future\nOxide - played with a it a few times. the old version was weak. not quite sure if this one is slightly too strong. didnt feel oppresive\n[2020-11-28 09:08] masn6811 (Masne98888): magna  - absolutely loved the unit. the 10GGBBDD cost seems absolutely perfect. it opens up way more gambits and semi-bp lines. ive won with this version and lost with this version, so the balance seems fairly good. the gameplay is awesome tho\n[2020-11-28 09:10] masn6811 (Masne98888): felid - at first impression, it *feels* oppressively OP, but with actual gameplay, it turns out fastimus rushing this is beatable. even with natural animus! 4 supply is awkward, but perhaps neccessary. id like more testing before this is added to ladder\n[2020-11-28 09:11] sano712 (sano): I found the botch nerf curious. Have you guys discussed 1 hp botch with the old lifespan? That sounds like a more subtle nerf\n[2020-11-28 09:11] sano712 (sano): the ls3 version looks very underwhelming\n[2020-11-28 09:12] masn6811 (Masne98888): auto-maid - very annoying. seems fair, and the balance seems pretty good. beware DD/DB/DD1, there's a lot of sets where p2 doesn't have a great response (this is weak against fastimus if smorcus/vore/immo is in the set. otherwise, p2 often has to natural conduit and take the hit, and if p1 has a follow up like oxide, they'd just advantaged)\n[2020-11-28 09:13] masn6811 (Masne98888): eviserator - definitely a beatable unit, but very strong. shock and being a red sink makes this fairly good at punishing red, and they might not be able to sink it without an eviserator of their own. won with a t1 forge as p2 in flanimus set. i think more testing may be needed because its really strong, but cant quite say its OP yet\n[2020-11-28 09:14] masn6811 (Masne98888): @sano yes that was my first suggestion. it took a few days of convincing for the other people to get me to agree this version is a better idea\n[2020-11-28 09:14] silentslayers: Yes we have discussed that and decided the LS3 nerf was better. It fits perfectly with blood pact, making it elegant, and is also stronger than the 1 HP botch.\n[2020-11-28 09:14] masn6811 (Masne98888): vore - pls add to ranked immediately. still very playable, definitely a step in the right direction for this units balance\n[2020-11-28 09:14] sano712 (sano): hmm, that is surprising to me, but if the math checks out then it's fine\n[2020-11-28 09:15] masn6811 (Masne98888): i think in general in this event, the better balance made gameplay a LOT more interesting\n[2020-11-28 09:15] masn6811 (Masne98888): i didnt go on autopilot once for my 50ish games\n[2020-11-28 09:15] masn6811 (Masne98888): because it wasnt really possible to go on autoopilot\n[2020-11-28 09:15] masn6811 (Masne98888): maybe thats the new unit effect\n[2020-11-28 09:15] sano712 (sano): I agree that pivot, smorcus, and vore seem like they could be added asap\n[2020-11-28 09:16] sano712 (sano): I also really like magna\n[2020-11-28 09:16] masn6811 (Masne98888): but gambits with robomaid and magna, and pseudo gambits with felid makes the game just a lot more interesting\n[2020-11-28 09:16] masn6811 (Masne98888): elyot kinda wants to wait on throium to make sure player lines are balanced\n[2020-11-28 09:17] masn6811 (Masne98888): but there's a extremely smooth thorium line for both players\nDD/DD\nDD/D1\n11/D1\n[2020-11-28 09:17] masn6811 (Masne98888): gameplay post-thorium also feels super smooth. the extra granularity is much appreciated\n[2020-11-28 09:17] masn6811 (Masne98888): i also really like the rise of semi-bp with magna\n[2020-11-28 09:18] masn6811 (Masne98888): like pre-patch we had like 85% games standard style and 15% BP, barely any games with semi-BP\n[2020-11-28 09:20] masn6811 (Masne98888): magna has a few knobs for fine-tuning\n[2020-11-28 09:21] masn6811 (Masne98888): but honestly i tihnk the only thing worth fine tuning is HP\n[2020-11-28 09:21] masn6811 (Masne98888): unless you want to experiment with a 1-B version\n[2020-11-28 09:22] masn6811 (Masne98888): 13GGBBD is prolly too weak, 12GGBBD is almost certainly too strong, and i think the current version is close to balanced\n[2020-11-28 09:22] masn6811 (Masne98888): more testing needed to know exactly",
+      "messages": [
+        {
+          "id": "782170721626488842",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:07:12.065+00:00",
+          "content": "Pivot - fixes so many problems. never made a game more play advantaged, but maybe its because i haven't rolled a feral set. still think p2 is slightly favored, but a lot closer now. pls add to ranked immediately\nThorium Dynamo - feels a lot less an auto-buy, but still very strong, and lines are buttery smooth. feels a lot better to play with. a bit too BP since hp wasnt nerfed. i originally suggested 6, it seems 7 might be fine too. pls add to ranked immediately.\nCentrifuge - haven't played around with it enough, but it sure is a lot more fun than 5 cost fuge. maybe theres something busted, but didnt run into it. i like it, wouldnt mind seeing it in ranked, but more testing may be good.\nArka - arka rushes are a lot stronger. get counter-arkad is still a thing, but doesnt feel quite as bad. i really like it, and games certainly feel a lot more exciting than 7hp arka\nSmorcus - lines are way smoother and intuitive. hurts the smorcus rush, and the 4 attack smorcus into econ transition (you can still do it, but not as good.) i think this change was an absolute home run. pls add to ranked immediately.\nBotch - botch lost a lot of power. its still great in times it gets full soak value, but magna and all the frontline units made this less common. still, i think fastimus botch rush was unhealthy for the game, and even if the new one is a bit weak, id rather see it in ranked.\nCenturion - good change. still a powerful unit, but sometimes small red is good enough its not worth buying this. i like making the buy decision non-trivial. 20 seems like a very good number to toss into ranked for now, but open to change to 19/21 in the future. \nIso - there is absolutely no reason to not push this buff into ranked. shouldnt even be contreversial. even then, i think it might be worth experimenting with 7hp in the future\nOxide - played with a it a few times. the old version was weak. not quite sure if this one is slightly too strong. didnt feel oppresive"
+        },
+        {
+          "id": "782171168958316555",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:08:58.717+00:00",
+          "content": "magna  - absolutely loved the unit. the 10GGBBDD cost seems absolutely perfect. it opens up way more gambits and semi-bp lines. ive won with this version and lost with this version, so the balance seems fairly good. the gameplay is awesome tho"
+        },
+        {
+          "id": "782171461120032778",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:10:08.374+00:00",
+          "content": "felid - at first impression, it *feels* oppressively OP, but with actual gameplay, it turns out fastimus rushing this is beatable. even with natural animus! 4 supply is awkward, but perhaps neccessary. id like more testing before this is added to ladder"
+        },
+        {
+          "id": "782171778315190292",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-11-28T09:11:23.999+00:00",
+          "content": "I found the botch nerf curious. Have you guys discussed 1 hp botch with the old lifespan? That sounds like a more subtle nerf"
+        },
+        {
+          "id": "782171819104927744",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-11-28T09:11:33.724+00:00",
+          "content": "the ls3 version looks very underwhelming"
+        },
+        {
+          "id": "782171957583544341",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:12:06.74+00:00",
+          "content": "auto-maid - very annoying. seems fair, and the balance seems pretty good. beware DD/DB/DD1, there's a lot of sets where p2 doesn't have a great response (this is weak against fastimus if smorcus/vore/immo is in the set. otherwise, p2 often has to natural conduit and take the hit, and if p1 has a follow up like oxide, they'd just advantaged)"
+        },
+        {
+          "id": "782172341672738826",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:13:38.314+00:00",
+          "content": "eviserator - definitely a beatable unit, but very strong. shock and being a red sink makes this fairly good at punishing red, and they might not be able to sink it without an eviserator of their own. won with a t1 forge as p2 in flanimus set. i think more testing may be needed because its really strong, but cant quite say its OP yet"
+        },
+        {
+          "id": "782172482189918218",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:14:11.816+00:00",
+          "content": "@sano yes that was my first suggestion. it took a few days of convincing for the other people to get me to agree this version is a better idea"
+        },
+        {
+          "id": "782172513848524830",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-11-28T09:14:19.364+00:00",
+          "content": "Yes we have discussed that and decided the LS3 nerf was better. It fits perfectly with blood pact, making it elegant, and is also stronger than the 1 HP botch."
+        },
+        {
+          "id": "782172628450017292",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:14:46.687+00:00",
+          "content": "vore - pls add to ranked immediately. still very playable, definitely a step in the right direction for this units balance"
+        },
+        {
+          "id": "782172674150498334",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-11-28T09:14:57.583+00:00",
+          "content": "hmm, that is surprising to me, but if the math checks out then it's fine"
+        },
+        {
+          "id": "782172810248192031",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:15:30.031+00:00",
+          "content": "i think in general in this event, the better balance made gameplay a LOT more interesting"
+        },
+        {
+          "id": "782172874542809099",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:15:45.36+00:00",
+          "content": "i didnt go on autopilot once for my 50ish games"
+        },
+        {
+          "id": "782172909669842964",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:15:53.735+00:00",
+          "content": "because it wasnt really possible to go on autoopilot"
+        },
+        {
+          "id": "782172927751618599",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:15:58.046+00:00",
+          "content": "maybe thats the new unit effect"
+        },
+        {
+          "id": "782172935531003934",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-11-28T09:15:59.901+00:00",
+          "content": "I agree that pivot, smorcus, and vore seem like they could be added asap"
+        },
+        {
+          "id": "782172961184022559",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-11-28T09:16:06.017+00:00",
+          "content": "I also really like magna"
+        },
+        {
+          "id": "782172995472195604",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:16:14.192+00:00",
+          "content": "but gambits with robomaid and magna, and pseudo gambits with felid makes the game just a lot more interesting"
+        },
+        {
+          "id": "782173112073977887",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:16:41.992+00:00",
+          "content": "elyot kinda wants to wait on throium to make sure player lines are balanced"
+        },
+        {
+          "id": "782173195653480498",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:17:01.919+00:00",
+          "content": "but there's a extremely smooth thorium line for both players\nDD/DD\nDD/D1\n11/D1"
+        },
+        {
+          "id": "782173302553575434",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:17:27.406+00:00",
+          "content": "gameplay post-thorium also feels super smooth. the extra granularity is much appreciated"
+        },
+        {
+          "id": "782173377472495636",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:17:45.268+00:00",
+          "content": "i also really like the rise of semi-bp with magna"
+        },
+        {
+          "id": "782173544145485834",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:18:25.006+00:00",
+          "content": "like pre-patch we had like 85% games standard style and 15% BP, barely any games with semi-BP"
+        },
+        {
+          "id": "782174106119438347",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:20:38.991+00:00",
+          "content": "magna has a few knobs for fine-tuning"
+        },
+        {
+          "id": "782174292267892757",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:21:23.372+00:00",
+          "content": "but honestly i tihnk the only thing worth fine tuning is HP"
+        },
+        {
+          "id": "782174333392519198",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:21:33.177+00:00",
+          "content": "unless you want to experiment with a 1-B version"
+        },
+        {
+          "id": "782174514594840606",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:22:16.379+00:00",
+          "content": "13GGBBD is prolly too weak, 12GGBBD is almost certainly too strong, and i think the current version is close to balanced"
+        },
+        {
+          "id": "782174545998118943",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-11-28T09:22:23.866+00:00",
+          "content": "more testing needed to know exactly"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-11-29T22:19:19.57+00:00",
+      "end_ts": "2020-11-29T22:19:31.856+00:00",
+      "participants": [
+        "Deleted User",
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2020-11-29) ---\n[2020-11-29 22:19] randomflyingtaco (RiFT (#RIPBrowserers)): Units granted from spells are bt1 unless specified otherwise (judging by pact calling out prompt husks and arms race calling out bt2 tarsier) and they don't trigger \"when bought\" effects from the granted units, correct?\n[2020-11-29 22:19] Deleted User (Deleted User): is there's a list of all the recent changes to the game?",
+      "messages": [
+        {
+          "id": "782732454296420382",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2020-11-29T22:19:19.57+00:00",
+          "content": "Units granted from spells are bt1 unless specified otherwise (judging by pact calling out prompt husks and arms race calling out bt2 tarsier) and they don't trigger \"when bought\" effects from the granted units, correct?"
+        },
+        {
+          "id": "782732505828294656",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-11-29T22:19:31.856+00:00",
+          "content": "is there's a list of all the recent changes to the game?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-01T04:19:44.616+00:00",
+      "end_ts": "2020-12-01T04:24:47.725+00:00",
+      "participants": [
+        "alex319",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 13,
+      "formatted_text": "--- Thread (7 messages, 2020-12-01) ---\n[2020-12-01 04:19] alex319 (Alex Mont): I heard there was an event recently where they were testing new units and changes to units. Where can you see what those changes are?\n[2020-12-01 04:21] alex319 (Alex Mont): I see people upthread talking about all the changes, but I don't know what the changes are\n[2020-12-01 04:23] silentslayers: p1 gets pivot (1 time use convert 1G into GG)\nThorium Dynamo -> 6EDD, 6hp, makes 4G at start of turn, click converts GG to 2 (Elyot forgot to set it to 6 hp so its still 8)\nCentrifuge -> Revert to 9 gold version\nArka -> 6BBR(6X) for 4/6\nSmorcus -> 6RR and 1R to click\nBotch -> 1 less life span\nCenturion -> 20GGBBR\nVore -> 1hp\nMixer -> 1 more life span\nIso Kronus 6 HP\n\n+ The 4 new units Elyot released\n[2020-12-01 04:23] silentslayers: some of these will probably change more over time tho\n[2020-12-01 04:23] silentslayers: like dynamo gonna go to 8 after all\n[2020-12-01 04:24] alex319 (Alex Mont): when you say \"p1 gets pivot\" - you mean every game, as just a generic ability?\n[2020-12-01 04:24] alex319 (Alex Mont): not like a new unit?",
+      "messages": [
+        {
+          "id": "783185544179089459",
+          "author": "alex319",
+          "nickname": "Alex Mont",
+          "timestamp": "2020-12-01T04:19:44.616+00:00",
+          "content": "I heard there was an event recently where they were testing new units and changes to units. Where can you see what those changes are?"
+        },
+        {
+          "id": "783185920324403201",
+          "author": "alex319",
+          "nickname": "Alex Mont",
+          "timestamp": "2020-12-01T04:21:14.296+00:00",
+          "content": "I see people upthread talking about all the changes, but I don't know what the changes are"
+        },
+        {
+          "id": "783186435611820042",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-01T04:23:17.15+00:00",
+          "content": "p1 gets pivot (1 time use convert 1G into GG)\nThorium Dynamo -> 6EDD, 6hp, makes 4G at start of turn, click converts GG to 2 (Elyot forgot to set it to 6 hp so its still 8)\nCentrifuge -> Revert to 9 gold version\nArka -> 6BBR(6X) for 4/6\nSmorcus -> 6RR and 1R to click\nBotch -> 1 less life span\nCenturion -> 20GGBBR\nVore -> 1hp\nMixer -> 1 more life span\nIso Kronus 6 HP\n\n+ The 4 new units Elyot released"
+        },
+        {
+          "id": "783186555979694101",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-01T04:23:45.848+00:00",
+          "content": "some of these will probably change more over time tho"
+        },
+        {
+          "id": "783186578482135040",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-01T04:23:51.213+00:00",
+          "content": "like dynamo gonna go to 8 after all"
+        },
+        {
+          "id": "783186783642714112",
+          "author": "alex319",
+          "nickname": "Alex Mont",
+          "timestamp": "2020-12-01T04:24:40.127+00:00",
+          "content": "when you say \"p1 gets pivot\" - you mean every game, as just a generic ability?"
+        },
+        {
+          "id": "783186815511035948",
+          "author": "alex319",
+          "nickname": "Alex Mont",
+          "timestamp": "2020-12-01T04:24:47.725+00:00",
+          "content": "not like a new unit?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-01T21:27:27.199+00:00",
+      "end_ts": "2020-12-01T21:35:57.861+00:00",
+      "participants": [
+        "lyra1712",
+        "randomflyingtaco",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (4 messages, 2020-12-01) ---\n[2020-12-01 21:27] randomflyingtaco (RiFT (#RIPBrowserers)): @SilentSlayers why rate units using NPV as a % of initial cost with a fixed inflation/interest rate instead of IRR? I get that it's simpler, but isn't it going to be wrong for units with click costs?\n[2020-12-01 21:33] lyra1712 (Lyra): the point of prismata maths is to be wrong and argue for your side :LongNoseLiar:\n[2020-12-01 21:34] velizar_ (Name): that's the point of all maths\n[2020-12-01 21:35] randomflyingtaco (RiFT (#RIPBrowserers)): Well, that explains why Punf is on the top of the leaderboard",
+      "messages": [
+        {
+          "id": "783444175798009858",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2020-12-01T21:27:27.199+00:00",
+          "content": "@SilentSlayers why rate units using NPV as a % of initial cost with a fixed inflation/interest rate instead of IRR? I get that it's simpler, but isn't it going to be wrong for units with click costs?"
+        },
+        {
+          "id": "783445599609421896",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-12-01T21:33:06.662+00:00",
+          "content": "the point of prismata maths is to be wrong and argue for your side :LongNoseLiar:"
+        },
+        {
+          "id": "783445859538042882",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-01T21:34:08.634+00:00",
+          "content": "that's the point of all maths"
+        },
+        {
+          "id": "783446317669548033",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2020-12-01T21:35:57.861+00:00",
+          "content": "Well, that explains why Punf is on the top of the leaderboard"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-01T21:57:07.119+00:00",
+      "end_ts": "2020-12-01T22:11:09.658+00:00",
+      "participants": [
+        "randomflyingtaco",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 20,
+      "formatted_text": "--- Thread (7 messages, 2020-12-01) ---\n[2020-12-01 21:57] randomflyingtaco (RiFT (#RIPBrowserers)): Also, could a resonate effect (ampo, savior, reso) be a click/purchase effect or only a \"start of turn\" effect? Like, could you have a Corpus that said \"When Corpus is bought, construct a prompt Husk for each Tarsier you have\"?\n[2020-12-01 21:59] velizar_ (Name): That might be counterintuitive sometimes\n[2020-12-01 21:59] velizar_ (Name): It would probably require writing new code\n[2020-12-01 21:59] velizar_ (Name): So your unit idea would have to be extremely good and fun to persuade Eliot to do it\n[2020-12-01 22:08] randomflyingtaco (RiFT (#RIPBrowserers)): Thanks for your input, probably\nLet me try something more specific: does the fact that resonate attached to click/purchase effects causes action order to matter mean that it can't/shouldn't exist?\n[2020-12-01 22:10] velizar_ (Name): nah, action order already matters, you can't click Auride before you click your attackers, but you can't buy enough stuff before you click Auride\n[2020-12-01 22:11] velizar_ (Name): it just shouldn't be counterintuitive / clunky",
+      "messages": [
+        {
+          "id": "783451641323978802",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2020-12-01T21:57:07.119+00:00",
+          "content": "Also, could a resonate effect (ampo, savior, reso) be a click/purchase effect or only a \"start of turn\" effect? Like, could you have a Corpus that said \"When Corpus is bought, construct a prompt Husk for each Tarsier you have\"?"
+        },
+        {
+          "id": "783452131897638912",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-01T21:59:04.081+00:00",
+          "content": "That might be counterintuitive sometimes"
+        },
+        {
+          "id": "783452217662242816",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-01T21:59:24.529+00:00",
+          "content": "It would probably require writing new code"
+        },
+        {
+          "id": "783452324743086102",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-01T21:59:50.059+00:00",
+          "content": "So your unit idea would have to be extremely good and fun to persuade Eliot to do it"
+        },
+        {
+          "id": "783454414551121931",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2020-12-01T22:08:08.308+00:00",
+          "content": "Thanks for your input, probably\nLet me try something more specific: does the fact that resonate attached to click/purchase effects causes action order to matter mean that it can't/shouldn't exist?"
+        },
+        {
+          "id": "783455053033766984",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-01T22:10:40.534+00:00",
+          "content": "nah, action order already matters, you can't click Auride before you click your attackers, but you can't buy enough stuff before you click Auride"
+        },
+        {
+          "id": "783455175188283413",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-12-01T22:11:09.658+00:00",
+          "content": "it just shouldn't be counterintuitive / clunky"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-02T05:32:34.517+00:00",
+      "end_ts": "2020-12-02T05:32:34.517+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-12-02) ---\n[2020-12-02 05:32] silentslayers: It’s just what I have to work with easily right now because xnor made a spreadsheet for these type of calculations. Recursive inflation are also fine. I don’t think a high level of precision is really necessary ￼￼ for the type of broad comparisons I’m going for. It’s also easier to explain to people not familiar with the calculations using percentages",
+      "messages": [
+        {
+          "id": "783566260737802281",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2020-12-02T05:32:34.517+00:00",
+          "content": "It’s just what I have to work with easily right now because xnor made a spreadsheet for these type of calculations. Recursive inflation are also fine. I don’t think a high level of precision is really necessary ￼￼ for the type of broad comparisons I’m going for. It’s also easier to explain to people not familiar with the calculations using percentages"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-12-03T23:51:14.81+00:00",
+      "end_ts": "2020-12-03T23:53:26.649+00:00",
+      "participants": [
+        "jeacaveo",
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (3 messages, 2020-12-03) ---\n[2020-12-03 23:51] jeacaveo (jeacaveo (#NeverBrowserer)): @RiFT (#RIPBrowserers) SDR?\n[2020-12-03 23:51] randomflyingtaco (RiFT (#RIPBrowserers)): http://blog.prismata.net/2015/10/21/shalevs-rule-in-prismata/\nShalev's Rule in Prismata - Prismata Blog\nHi everyone! First, a small item: We have a brand new Prismata unit balance survey available. If you’re interested in providing feedback on the latest Prismata unit balance changes, we’d really appreciate it! It should only take about 5-10 minutes, though you could spend more time on it if you want. On with today’s topic: I figured it was …\n[2020-12-03 23:53] jeacaveo (jeacaveo (#NeverBrowserer)): oh crap... I broke almost all of them",
+      "messages": [
+        {
+          "id": "784205138352930866",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-12-03T23:51:14.81+00:00",
+          "content": "@RiFT (#RIPBrowserers) SDR?"
+        },
+        {
+          "id": "784205258527866891",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2020-12-03T23:51:43.462+00:00",
+          "content": "http://blog.prismata.net/2015/10/21/shalevs-rule-in-prismata/\nShalev's Rule in Prismata - Prismata Blog\nHi everyone! First, a small item: We have a brand new Prismata unit balance survey available. If you’re interested in providing feedback on the latest Prismata unit balance changes, we’d really appreciate it! It should only take about 5-10 minutes, though you could spend more time on it if you want. On with today’s topic: I figured it was …"
+        },
+        {
+          "id": "784205691324989471",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-12-03T23:53:26.649+00:00",
+          "content": "oh crap... I broke almost all of them"
+        }
+      ]
+    }
+  ]
+}

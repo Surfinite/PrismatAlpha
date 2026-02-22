@@ -1,0 +1,3600 @@
+{
+  "channel": "prismata_chat",
+  "date_range": "2018-04-22 to 2018-04-27",
+  "thread_count": 74,
+  "token_count": 14728,
+  "threads": [
+    {
+      "start_ts": "2018-04-22T17:27:56.377+01:00",
+      "end_ts": "2018-04-22T17:49:13.334+01:00",
+      "participants": [
+        "1m2o",
+        "Deleted User",
+        "crash_overlord",
+        "incnone",
+        "jeacaveo",
+        "mtanzer",
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 102,
+      "formatted_text": "--- Thread (45 messages, 2018-04-22) ---\n[2018-04-22 17:27] mtanzer: there are lots of decisions that aren't trivial but I think p2 wins by enough that most of the really hard decisions for p2 have multiple plays that lead to wins\n[2018-04-22 17:29] mtanzer: just to be clear, it's close enough that I highly doubt there's any simple algorithm or small number of lines that one could memorize to comfortably win with p2 all the time\n[2018-04-22 17:30] crash_overlord: I'm pretty sure theres a few ground rules you can set and win always as p2 🤔\n[2018-04-22 17:30] crash_overlord: But maybe its closer\n[2018-04-22 17:31] crash_overlord: Like, the first 4-5 turns as hard written rules, then follow: X, Y, Z\n[2018-04-22 17:31] crash_overlord: and you can win always\n[2018-04-22 17:31] crash_overlord: But maybe it's closer\n[2018-04-22 17:32] mtanzer: maybe if you restrict p1's options to some sort of standard subset of plays each turn then you could come up with a complicated winning algorithm?\n[2018-04-22 17:33] crash_overlord: But it's not like p1 can do something \"surprising\" that would win right?\n[2018-04-22 17:33] mtanzer: like if you're trying to give a general winning strategy you have to be able to beat green-blue, 3rd engi, etc\n[2018-04-22 17:33] crash_overlord: Ok I guess 3rd engy becomes weird\n[2018-04-22 17:33] 1m2o: definetly there should be 1 winning player 100% of the times\n[2018-04-22 17:33] 1m2o: if both play perfectly\n[2018-04-22 17:33] crash_overlord: but I'm fairly sure CB is just easier to beat than counter A\n[2018-04-22 17:33] steel0229e (Steel): I tested 3rd engi against Aetherllama\n[2018-04-22 17:34] steel0229e (Steel): it is an easy p2 win not even close\n[2018-04-22 17:34] crash_overlord: Nah 3rd engy doesn't win no way\n[2018-04-22 17:34] mtanzer: yes some of those lose kind of easily but there's just so many possibilities for things p1 can do.  those strats just describe the first few turns...the number of possible ways for p1 to play is enormous\n[2018-04-22 17:34] mtanzer: the point is a winning algorithm has to beat all the bad-looking lines too\n[2018-04-22 17:35] mtanzer: and 3rd engi is just an example of a bad-looking line on an early turn.  p1 has a ton of bad-looking options on every turn\n[2018-04-22 17:37] crash_overlord: easly losses :POGGERS:\n[2018-04-22 17:37] 1m2o: it loses to green blue\n[2018-04-22 17:37] incnone: the line i was having trouble with was\n```\n1. DD DD\n2. DD DA\n3. DDA TTD\n4. BTD TTD\n5. WTT BR\n6. WTT WTT\n7. WTT WTT\n```\n... I obviously can't ask for a whole solve from here, was just wondering if there was a replay or two of strong players from here that might help me see what i'm missing (which is probably more of an \"idea\" than a specific trick)\n[2018-04-22 17:37] 1m2o: gaus cannons + stilspitters\n[2018-04-22 17:37] crash_overlord: Those are definitely things you don't beat playing \"an algorithm\"\n[2018-04-22 17:38] jeacaveo (jeacaveo (#NeverBrowserer)): @Steel that's what I was looking for. everyone was being so dodgy with the language, seemed like nobody was sure.\n[2018-04-22 17:39] mtanzer: nobody is 100% sure but people are 90%+ or something like that\n[2018-04-22 17:40] incnone: @Plato the reddit post i'm getting this from <https://www.reddit.com/r/Prismata/comments/60m9in/base_set_only_revisited/> just says \"P2 seems to win after this\"\n[2018-04-22 17:40] crash_overlord: Gotta leave that 1% just so I can't be wrong\n[2018-04-22 17:40] mtanzer: basically after some years of testing top players seem to consistently agree that p2 wins in all the lines everyone's looking at\n[2018-04-22 17:40] incnone: i'm not questioning the conclusion; i'm far too weak to do that. i'm interested in whatever i'm getting wrong\n[2018-04-22 17:40] crash_overlord: Are you buying engineers and rhinos to defend and absorbing on wall?\n[2018-04-22 17:41] steel0229e (Steel): yeah I say 99% because AlphaGo might find a miraculous line :LongNoseLiar:\n[2018-04-22 17:41] incnone: if there aren't replays/examples that's totally cool, i'll just look at it again\n[2018-04-22 17:41] incnone: will probably find whatever i missed eventually :P\n[2018-04-22 17:42] steel0229e (Steel): the best way to answer these kinds of questions is by playtesting\n[2018-04-22 17:43] mtanzer: incnone can you give the next few turns you're playing\n[2018-04-22 17:45] incnone: yes, let me work through them again to see if whatever experience i've accumulated in the meantime points out my mistake\n[2018-04-22 17:45] mtanzer: I think p2 usually just spams WRE after that turn (and was holding the rhino t7)\n[2018-04-22 17:45] jeacaveo (jeacaveo (#NeverBrowserer)): since draw was mentioned, can p1 force a draw in BSO?\n[2018-04-22 17:45] incnone: then if i can't i'll give the mainline\n[2018-04-22 17:46] mtanzer: BSO is very sharp, a draw seems much less likely than a p1 win, which already seems rather unlikely\n[2018-04-22 17:47] mtanzer: I guess if it turned out green-blue was good it might be easier to get a draw with gauss cannons than tarsiers?  also seems very unlikely\n[2018-04-22 17:49] Deleted User (Deleted User): Green Blue tries man\n[2018-04-22 17:49] Deleted User (Deleted User): They try their best every day",
+      "messages": [
+        {
+          "id": "437650776924356619",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:27:56.377+01:00",
+          "content": "there are lots of decisions that aren't trivial but I think p2 wins by enough that most of the really hard decisions for p2 have multiple plays that lead to wins"
+        },
+        {
+          "id": "437651198909087744",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:29:36.986+01:00",
+          "content": "just to be clear, it's close enough that I highly doubt there's any simple algorithm or small number of lines that one could memorize to comfortably win with p2 all the time"
+        },
+        {
+          "id": "437651484843180034",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:30:45.158+01:00",
+          "content": "I'm pretty sure theres a few ground rules you can set and win always as p2 🤔"
+        },
+        {
+          "id": "437651503080144921",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:30:49.506+01:00",
+          "content": "But maybe its closer"
+        },
+        {
+          "id": "437651661775831045",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:31:27.342+01:00",
+          "content": "Like, the first 4-5 turns as hard written rules, then follow: X, Y, Z"
+        },
+        {
+          "id": "437651681958952980",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:31:32.154+01:00",
+          "content": "and you can win always"
+        },
+        {
+          "id": "437651693996343296",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:31:35.024+01:00",
+          "content": "But maybe it's closer"
+        },
+        {
+          "id": "437651943028948994",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:32:34.398+01:00",
+          "content": "maybe if you restrict p1's options to some sort of standard subset of plays each turn then you could come up with a complicated winning algorithm?"
+        },
+        {
+          "id": "437652054740303882",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:33:01.032+01:00",
+          "content": "But it's not like p1 can do something \"surprising\" that would win right?"
+        },
+        {
+          "id": "437652106892017664",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:33:13.466+01:00",
+          "content": "like if you're trying to give a general winning strategy you have to be able to beat green-blue, 3rd engi, etc"
+        },
+        {
+          "id": "437652195161276438",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:33:34.511+01:00",
+          "content": "Ok I guess 3rd engy becomes weird"
+        },
+        {
+          "id": "437652211359809536",
+          "author": "1m2o",
+          "nickname": "1m2o",
+          "timestamp": "2018-04-22T17:33:38.373+01:00",
+          "content": "definetly there should be 1 winning player 100% of the times"
+        },
+        {
+          "id": "437652227046375427",
+          "author": "1m2o",
+          "nickname": "1m2o",
+          "timestamp": "2018-04-22T17:33:42.113+01:00",
+          "content": "if both play perfectly"
+        },
+        {
+          "id": "437652246918856705",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:33:46.851+01:00",
+          "content": "but I'm fairly sure CB is just easier to beat than counter A"
+        },
+        {
+          "id": "437652286567743488",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-22T17:33:56.304+01:00",
+          "content": "I tested 3rd engi against Aetherllama"
+        },
+        {
+          "id": "437652313012830208",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-22T17:34:02.609+01:00",
+          "content": "it is an easy p2 win not even close"
+        },
+        {
+          "id": "437652330050224141",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:34:06.671+01:00",
+          "content": "Nah 3rd engy doesn't win no way"
+        },
+        {
+          "id": "437652360496676872",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:34:13.93+01:00",
+          "content": "yes some of those lose kind of easily but there's just so many possibilities for things p1 can do.  those strats just describe the first few turns...the number of possible ways for p1 to play is enormous"
+        },
+        {
+          "id": "437652496190537738",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:34:46.282+01:00",
+          "content": "the point is a winning algorithm has to beat all the bad-looking lines too"
+        },
+        {
+          "id": "437652584912650250",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:35:07.435+01:00",
+          "content": "and 3rd engi is just an example of a bad-looking line on an early turn.  p1 has a ton of bad-looking options on every turn"
+        },
+        {
+          "id": "437653248178913285",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:37:45.57+01:00",
+          "content": "easly losses :POGGERS:"
+        },
+        {
+          "id": "437653261810532362",
+          "author": "1m2o",
+          "nickname": "1m2o",
+          "timestamp": "2018-04-22T17:37:48.82+01:00",
+          "content": "it loses to green blue"
+        },
+        {
+          "id": "437653278356930571",
+          "author": "incnone",
+          "nickname": "incnone",
+          "timestamp": "2018-04-22T17:37:52.765+01:00",
+          "content": "the line i was having trouble with was\n```\n1. DD DD\n2. DD DA\n3. DDA TTD\n4. BTD TTD\n5. WTT BR\n6. WTT WTT\n7. WTT WTT\n```\n... I obviously can't ask for a whole solve from here, was just wondering if there was a replay or two of strong players from here that might help me see what i'm missing (which is probably more of an \"idea\" than a specific trick)"
+        },
+        {
+          "id": "437653297130635267",
+          "author": "1m2o",
+          "nickname": "1m2o",
+          "timestamp": "2018-04-22T17:37:57.241+01:00",
+          "content": "gaus cannons + stilspitters"
+        },
+        {
+          "id": "437653303212507146",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:37:58.691+01:00",
+          "content": "Those are definitely things you don't beat playing \"an algorithm\""
+        },
+        {
+          "id": "437653544611610627",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-22T17:38:56.245+01:00",
+          "content": "@Steel that's what I was looking for. everyone was being so dodgy with the language, seemed like nobody was sure."
+        },
+        {
+          "id": "437653737582886942",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:39:42.253+01:00",
+          "content": "nobody is 100% sure but people are 90%+ or something like that"
+        },
+        {
+          "id": "437653821938860033",
+          "author": "incnone",
+          "nickname": "incnone",
+          "timestamp": "2018-04-22T17:40:02.365+01:00",
+          "content": "@Plato the reddit post i'm getting this from <https://www.reddit.com/r/Prismata/comments/60m9in/base_set_only_revisited/> just says \"P2 seems to win after this\""
+        },
+        {
+          "id": "437653853719101450",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:40:09.942+01:00",
+          "content": "Gotta leave that 1% just so I can't be wrong"
+        },
+        {
+          "id": "437653913609699343",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:40:24.221+01:00",
+          "content": "basically after some years of testing top players seem to consistently agree that p2 wins in all the lines everyone's looking at"
+        },
+        {
+          "id": "437653941950480395",
+          "author": "incnone",
+          "nickname": "incnone",
+          "timestamp": "2018-04-22T17:40:30.978+01:00",
+          "content": "i'm not questioning the conclusion; i'm far too weak to do that. i'm interested in whatever i'm getting wrong"
+        },
+        {
+          "id": "437654012385296384",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:40:47.771+01:00",
+          "content": "Are you buying engineers and rhinos to defend and absorbing on wall?"
+        },
+        {
+          "id": "437654075316633611",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-22T17:41:02.775+01:00",
+          "content": "yeah I say 99% because AlphaGo might find a miraculous line :LongNoseLiar:"
+        },
+        {
+          "id": "437654174436687874",
+          "author": "incnone",
+          "nickname": "incnone",
+          "timestamp": "2018-04-22T17:41:26.407+01:00",
+          "content": "if there aren't replays/examples that's totally cool, i'll just look at it again"
+        },
+        {
+          "id": "437654200290115597",
+          "author": "incnone",
+          "nickname": "incnone",
+          "timestamp": "2018-04-22T17:41:32.571+01:00",
+          "content": "will probably find whatever i missed eventually :P"
+        },
+        {
+          "id": "437654526221352960",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-22T17:42:50.279+01:00",
+          "content": "the best way to answer these kinds of questions is by playtesting"
+        },
+        {
+          "id": "437654614586949663",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:43:11.347+01:00",
+          "content": "incnone can you give the next few turns you're playing"
+        },
+        {
+          "id": "437655150987837463",
+          "author": "incnone",
+          "nickname": "incnone",
+          "timestamp": "2018-04-22T17:45:19.235+01:00",
+          "content": "yes, let me work through them again to see if whatever experience i've accumulated in the meantime points out my mistake"
+        },
+        {
+          "id": "437655170994667541",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:45:24.005+01:00",
+          "content": "I think p2 usually just spams WRE after that turn (and was holding the rhino t7)"
+        },
+        {
+          "id": "437655174740443136",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-22T17:45:24.898+01:00",
+          "content": "since draw was mentioned, can p1 force a draw in BSO?"
+        },
+        {
+          "id": "437655190363963402",
+          "author": "incnone",
+          "nickname": "incnone",
+          "timestamp": "2018-04-22T17:45:28.623+01:00",
+          "content": "then if i can't i'll give the mainline"
+        },
+        {
+          "id": "437655513807716352",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:46:45.738+01:00",
+          "content": "BSO is very sharp, a draw seems much less likely than a p1 win, which already seems rather unlikely"
+        },
+        {
+          "id": "437655799779557390",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T17:47:53.919+01:00",
+          "content": "I guess if it turned out green-blue was good it might be easier to get a draw with gauss cannons than tarsiers?  also seems very unlikely"
+        },
+        {
+          "id": "437656097134739467",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-22T17:49:04.814+01:00",
+          "content": "Green Blue tries man"
+        },
+        {
+          "id": "437656132870209541",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-22T17:49:13.334+01:00",
+          "content": "They try their best every day"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-22T17:55:29.325+01:00",
+      "end_ts": "2018-04-22T18:05:55.697+01:00",
+      "participants": [
+        "crash_overlord",
+        "incnone",
+        "itsotter",
+        "mtanzer"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (6 messages, 2018-04-22) ---\n[2018-04-22 17:55] itsotter: goose canoe is not the attacker you want to build around\n[2018-04-22 17:57] crash_overlord: It is if you've got thorium :POGGERS:\n[2018-04-22 17:59] incnone: (okay, the line i had written down is definitely insane. stuff after the reddit line still seems complicated to me, but maybe it will just become clearer with more experience.)\n[2018-04-22 18:02] mtanzer: I do think the decisions involved on later turns are complicated, it's just that p2 seems to always win regardless, and when I do something that gives a p1 win usually I can find some turn where I made a mistake with p2\n[2018-04-22 18:03] incnone: all right, that's helpful\n[2018-04-22 18:05] mtanzer: in that particular line after holding the rhino t7, just try to buy WRE for a while (starting t8) as p2, accept any gambit that p1 offers.  Probably don't even need to offer any gambits as p2 from there",
+      "messages": [
+        {
+          "id": "437657709890895873",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-04-22T17:55:29.325+01:00",
+          "content": "goose canoe is not the attacker you want to build around"
+        },
+        {
+          "id": "437658336729628677",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-22T17:57:58.775+01:00",
+          "content": "It is if you've got thorium :POGGERS:"
+        },
+        {
+          "id": "437658821142380575",
+          "author": "incnone",
+          "nickname": "incnone",
+          "timestamp": "2018-04-22T17:59:54.268+01:00",
+          "content": "(okay, the line i had written down is definitely insane. stuff after the reddit line still seems complicated to me, but maybe it will just become clearer with more experience.)"
+        },
+        {
+          "id": "437659527194738698",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T18:02:42.604+01:00",
+          "content": "I do think the decisions involved on later turns are complicated, it's just that p2 seems to always win regardless, and when I do something that gives a p1 win usually I can find some turn where I made a mistake with p2"
+        },
+        {
+          "id": "437659715153952769",
+          "author": "incnone",
+          "nickname": "incnone",
+          "timestamp": "2018-04-22T18:03:27.417+01:00",
+          "content": "all right, that's helpful"
+        },
+        {
+          "id": "437660337085349889",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-22T18:05:55.697+01:00",
+          "content": "in that particular line after holding the rhino t7, just try to buy WRE for a while (starting t8) as p2, accept any gambit that p1 offers.  Probably don't even need to offer any gambits as p2 from there"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-22T19:08:57.534+01:00",
+      "end_ts": "2018-04-22T19:08:57.534+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-04-22) ---\n[2018-04-22 19:08] apooche: I have a winning line for p1 in BSO, but I’m keeping it in my back pocket in case there is a BSO tournament :LongNoseLiar:",
+      "messages": [
+        {
+          "id": "437676199259668493",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-22T19:08:57.534+01:00",
+          "content": "I have a winning line for p1 in BSO, but I’m keeping it in my back pocket in case there is a BSO tournament :LongNoseLiar:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-22T19:39:22.525+01:00",
+      "end_ts": "2018-04-22T19:40:19.164+01:00",
+      "participants": [
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2018-04-22) ---\n[2018-04-22 19:39] wiwiweb: https://i.imgur.com/hBqEKh0.png\n[2018-04-22 19:39] wiwiweb: ok I disabled the plain old `!prismata` command, there's too much overlap :Lul:\n[2018-04-22 19:40] wiwiweb: you can still say `!prismata something`",
+      "messages": [
+        {
+          "id": "437683853826457600",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-22T19:39:22.525+01:00",
+          "content": "https://i.imgur.com/hBqEKh0.png"
+        },
+        {
+          "id": "437683952078159872",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-22T19:39:45.95+01:00",
+          "content": "ok I disabled the plain old `!prismata` command, there's too much overlap :Lul:"
+        },
+        {
+          "id": "437684091387641889",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-22T19:40:19.164+01:00",
+          "content": "you can still say `!prismata something`"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-22T20:33:06.291+01:00",
+      "end_ts": "2018-04-22T20:35:21.42+01:00",
+      "participants": [
+        "totally_not_fbi",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (4 messages, 2018-04-22) ---\n[2018-04-22 20:33] totally_not_fbi (Totally Not FBI): and that Thermite pic is outdated as well\n[2018-04-22 20:34] wiwiweb: I'm actually in the process of updating all the panels\n[2018-04-22 20:35] wiwiweb: I'm at iceblade golem\n[2018-04-22 20:35] wiwiweb: that's ouiouioueb for you",
+      "messages": [
+        {
+          "id": "437697375281086486",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-04-22T20:33:06.291+01:00",
+          "content": "and that Thermite pic is outdated as well"
+        },
+        {
+          "id": "437697840433856515",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-22T20:34:57.192+01:00",
+          "content": "I'm actually in the process of updating all the panels"
+        },
+        {
+          "id": "437697859752689665",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-22T20:35:01.798+01:00",
+          "content": "I'm at iceblade golem"
+        },
+        {
+          "id": "437697942053453824",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-22T20:35:21.42+01:00",
+          "content": "that's ouiouioueb for you"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-22T21:00:15.089+01:00",
+      "end_ts": "2018-04-22T21:01:01.021+01:00",
+      "participants": [
+        "amalloy",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-04-22) ---\n[2018-04-22 21:00] wiwiweb: I changed the pixie picture so maybe that fixed it somehow ¯\\_(ツ)_/¯\n[2018-04-22 21:01] amalloy: @Lia smorcus has a similar issue as drake",
+      "messages": [
+        {
+          "id": "437704206955315210",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-22T21:00:15.089+01:00",
+          "content": "I changed the pixie picture so maybe that fixed it somehow ¯\\_(ツ)_/¯"
+        },
+        {
+          "id": "437704399608086549",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-04-22T21:01:01.021+01:00",
+          "content": "@Lia smorcus has a similar issue as drake"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-22T21:52:55.212+01:00",
+      "end_ts": "2018-04-22T21:52:55.212+01:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-22) ---\n[2018-04-22 21:52] liadahlia (Lia): You're the hero we don't deserve",
+      "messages": [
+        {
+          "id": "437717461471592449",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-22T21:52:55.212+01:00",
+          "content": "You're the hero we don't deserve"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T05:20:47.32+01:00",
+      "end_ts": "2018-04-23T05:20:47.32+01:00",
+      "participants": [
+        "jiecut"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-23) ---\n[2018-04-23 05:20] jiecut: Wow, I think I updated all the unit changelogs that needed to be updated on the wiki. Really went deep into the rabbit hole after looking wanting to change shadowfang. <https://prismata.gamepedia.com/index.php?title=Special:Contributions/Jiecut&offset=&limit=250&target=Jiecut>",
+      "messages": [
+        {
+          "id": "437830171261665311",
+          "author": "jiecut",
+          "nickname": "jiecut",
+          "timestamp": "2018-04-23T05:20:47.32+01:00",
+          "content": "Wow, I think I updated all the unit changelogs that needed to be updated on the wiki. Really went deep into the rabbit hole after looking wanting to change shadowfang. <https://prismata.gamepedia.com/index.php?title=Special:Contributions/Jiecut&offset=&limit=250&target=Jiecut>"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T06:00:18.813+01:00",
+      "end_ts": "2018-04-23T06:09:05.419+01:00",
+      "participants": [
+        "Deleted User",
+        "alpeia",
+        "apooche",
+        "arielhorwitz",
+        "f300xen",
+        "jamesa7171",
+        "liadahlia",
+        "totally_not_fbi",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (14 messages, 2018-04-23) ---\n[2018-04-23 06:00] arielhorwitz (Nerd 🐧🦀🐍): Servers down? Streamer and chat can't log in\n[2018-04-23 06:00] jamesa7171: yeah, this seems to be a widespread issue\n[2018-04-23 06:01] wiwiweb: 🔥 P 🔥  A 🔥 N 🔥  I 🔥  C 🔥\n[2018-04-23 06:01] apooche: I'm online right now, if I log off will I not be able to log back in?\n[2018-04-23 06:02] jamesa7171: @Greyman logged out to check and could not log back in afterwards\n[2018-04-23 06:02] apooche: 31 users online right now :NotLikeThis:\n[2018-04-23 06:03] f300xen (f0x): they're freeing up server space for the free weekend\n[2018-04-23 06:03] alpeia: Can't log in with Steam client, desktop client, or web client\n[2018-04-23 06:04] Deleted User (Deleted User): https://www.youtube.com/watch?v=KMU0tzLwhbE\nDevelopers\nDevelopers, Developers, Developers, Developers, Developers, Developers, Developers, Developers, Developers, Developers, Developers, Developers ...\n[2018-04-23 06:06] apooche: they're all asleep right now 😴\n[2018-04-23 06:06] jamesa7171: The Prismata servers appear to be having some temporary technical problems. The developers have been notified and the game will (hopefully!) be up again ASAP. If you are currently logged in, you will not be able to re-connect to the game if you log out.\n[2018-04-23 06:06] apooche: I blame amazon s3 probably\n[2018-04-23 06:08] totally_not_fbi (Totally Not FBI): :Chill: :server: :Chill:\n[2018-04-23 06:09] liadahlia (Lia): Chill is so overpowered",
+      "messages": [
+        {
+          "id": "437840118024503326",
+          "author": "arielhorwitz",
+          "nickname": "Nerd 🐧🦀🐍",
+          "timestamp": "2018-04-23T06:00:18.813+01:00",
+          "content": "Servers down? Streamer and chat can't log in"
+        },
+        {
+          "id": "437840285796663297",
+          "author": "jamesa7171",
+          "nickname": "jamesa7171",
+          "timestamp": "2018-04-23T06:00:58.813+01:00",
+          "content": "yeah, this seems to be a widespread issue"
+        },
+        {
+          "id": "437840372542996481",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-23T06:01:19.495+01:00",
+          "content": "🔥 P 🔥  A 🔥 N 🔥  I 🔥  C 🔥"
+        },
+        {
+          "id": "437840479602737153",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-23T06:01:45.02+01:00",
+          "content": "I'm online right now, if I log off will I not be able to log back in?"
+        },
+        {
+          "id": "437840557088309253",
+          "author": "jamesa7171",
+          "nickname": "jamesa7171",
+          "timestamp": "2018-04-23T06:02:03.494+01:00",
+          "content": "@Greyman logged out to check and could not log back in afterwards"
+        },
+        {
+          "id": "437840616173600768",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-23T06:02:17.581+01:00",
+          "content": "31 users online right now :NotLikeThis:"
+        },
+        {
+          "id": "437840853134737409",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-23T06:03:14.077+01:00",
+          "content": "they're freeing up server space for the free weekend"
+        },
+        {
+          "id": "437840941336887296",
+          "author": "alpeia",
+          "nickname": "Alpeia",
+          "timestamp": "2018-04-23T06:03:35.106+01:00",
+          "content": "Can't log in with Steam client, desktop client, or web client"
+        },
+        {
+          "id": "437841075554484224",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-23T06:04:07.106+01:00",
+          "content": "https://www.youtube.com/watch?v=KMU0tzLwhbE\nDevelopers\nDevelopers, Developers, Developers, Developers, Developers, Developers, Developers, Developers, Developers, Developers, Developers, Developers ..."
+        },
+        {
+          "id": "437841607669186570",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-23T06:06:13.972+01:00",
+          "content": "they're all asleep right now 😴"
+        },
+        {
+          "id": "437841614103379968",
+          "author": "jamesa7171",
+          "nickname": "jamesa7171",
+          "timestamp": "2018-04-23T06:06:15.506+01:00",
+          "content": "The Prismata servers appear to be having some temporary technical problems. The developers have been notified and the game will (hopefully!) be up again ASAP. If you are currently logged in, you will not be able to re-connect to the game if you log out."
+        },
+        {
+          "id": "437841716318568457",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-23T06:06:39.876+01:00",
+          "content": "I blame amazon s3 probably"
+        },
+        {
+          "id": "437842189800833034",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-04-23T06:08:32.763+01:00",
+          "content": ":Chill: :server: :Chill:"
+        },
+        {
+          "id": "437842326769893376",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-23T06:09:05.419+01:00",
+          "content": "Chill is so overpowered"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T06:55:39.246+01:00",
+      "end_ts": "2018-04-23T06:58:38.501+01:00",
+      "participants": [
+        "Deleted User",
+        "apooche",
+        "f300xen",
+        "totally_not_fbi"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (6 messages, 2018-04-23) ---\n[2018-04-23 06:55] Deleted User (Deleted User): where do u get these pics from\n[2018-04-23 06:55] f300xen (f0x): http://prismatafrontline.com/tools/setgen/index.html\n[2018-04-23 06:57] Deleted User (Deleted User): sick outdates gfx tbh\n[2018-04-23 06:57] apooche: I love that the unit versions in that are from a really short lived patch right after a big balance change with some broken shit\n[2018-04-23 06:57] apooche: it has the 5ggb redeemer with 2/2/2 charges\n[2018-04-23 06:58] totally_not_fbi (Totally Not FBI): that old Xeno though :monkaS:",
+      "messages": [
+        {
+          "id": "437854044929654805",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-23T06:55:39.246+01:00",
+          "content": "where do u get these pics from"
+        },
+        {
+          "id": "437854127150596096",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-23T06:55:58.849+01:00",
+          "content": "http://prismatafrontline.com/tools/setgen/index.html"
+        },
+        {
+          "id": "437854450535628800",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-23T06:57:15.95+01:00",
+          "content": "sick outdates gfx tbh"
+        },
+        {
+          "id": "437854553723895809",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-23T06:57:40.552+01:00",
+          "content": "I love that the unit versions in that are from a really short lived patch right after a big balance change with some broken shit"
+        },
+        {
+          "id": "437854594890989579",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-23T06:57:50.367+01:00",
+          "content": "it has the 5ggb redeemer with 2/2/2 charges"
+        },
+        {
+          "id": "437854796779618305",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-04-23T06:58:38.501+01:00",
+          "content": "that old Xeno though :monkaS:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T07:06:33.521+01:00",
+      "end_ts": "2018-04-23T07:06:33.521+01:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-04-23) ---\n[2018-04-23 07:06] amalloy: huh, even the bots can't log in. i got in the casual queue at max \"prefer bot opponents\" but can't find a match",
+      "messages": [
+        {
+          "id": "437856789158166530",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-04-23T07:06:33.521+01:00",
+          "content": "huh, even the bots can't log in. i got in the casual queue at max \"prefer bot opponents\" but can't find a match"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T11:53:19.653+01:00",
+      "end_ts": "2018-04-23T11:53:33.231+01:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-04-23) ---\n[2018-04-23 11:53] steel0229e (Steel): it would be a fun thing to use the setgen and then play a prismata game here in chat, writing down the moves 😄\n[2018-04-23 11:53] steel0229e (Steel): blindfolded textmata",
+      "messages": [
+        {
+          "id": "437928956906438657",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-23T11:53:19.653+01:00",
+          "content": "it would be a fun thing to use the setgen and then play a prismata game here in chat, writing down the moves 😄"
+        },
+        {
+          "id": "437929013856698378",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-23T11:53:33.231+01:00",
+          "content": "blindfolded textmata"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T12:37:36.166+01:00",
+      "end_ts": "2018-04-23T12:39:22.474+01:00",
+      "participants": [
+        "crash_overlord",
+        "darkeisbein",
+        "kristian1103",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (6 messages, 2018-04-23) ---\n[2018-04-23 12:37] supergreyman (Greyman): I think this is the second time since Steam Release.\n[2018-04-23 12:37] supergreyman (Greyman): But maybe I'm wrong.\n[2018-04-23 12:38] darkeisbein: tfw I basically play every day 24/7 and missed crash day :POGGERS:\n[2018-04-23 12:39] crash_overlord: Don't blame me please :GWfroggyMonkaMega:\n[2018-04-23 12:39] kristian1103 (Arkanishu): First time this happened in over 2 years I think\n[2018-04-23 12:39] supergreyman (Greyman): Overlord of all Crashes",
+      "messages": [
+        {
+          "id": "437940099129278465",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-23T12:37:36.166+01:00",
+          "content": "I think this is the second time since Steam Release."
+        },
+        {
+          "id": "437940188983853086",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-23T12:37:57.589+01:00",
+          "content": "But maybe I'm wrong."
+        },
+        {
+          "id": "437940335197421569",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-23T12:38:32.449+01:00",
+          "content": "tfw I basically play every day 24/7 and missed crash day :POGGERS:"
+        },
+        {
+          "id": "437940465120182273",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T12:39:03.425+01:00",
+          "content": "Don't blame me please :GWfroggyMonkaMega:"
+        },
+        {
+          "id": "437940504483594240",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-04-23T12:39:12.81+01:00",
+          "content": "First time this happened in over 2 years I think"
+        },
+        {
+          "id": "437940545017479168",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-23T12:39:22.474+01:00",
+          "content": "Overlord of all Crashes"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T12:44:57.442+01:00",
+      "end_ts": "2018-04-23T12:47:14.744+01:00",
+      "participants": [
+        "crash_overlord",
+        "darkeisbein",
+        "hayali5569"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (5 messages, 2018-04-23) ---\n[2018-04-23 12:44] hayali5569 (Ahmet Karagöz): is there an announcment about crash ?\n[2018-04-23 12:45] darkeisbein: maybe we should check the news if a meteor hit their ISP\n[2018-04-23 12:46] crash_overlord: I'm assuming the devs are all sleeping right now so no news. Probably gonna be a few more hours before they wake up, assuming like 8-9am worktime start.\n[2018-04-23 12:46] hayali5569 (Ahmet Karagöz): okay , thank you for your response\n[2018-04-23 12:47] darkeisbein: I like my explanation better, makes for a much better story :LongNoseLiar:",
+      "messages": [
+        {
+          "id": "437941949974970378",
+          "author": "hayali5569",
+          "nickname": "Ahmet Karagöz",
+          "timestamp": "2018-04-23T12:44:57.442+01:00",
+          "content": "is there an announcment about crash ?"
+        },
+        {
+          "id": "437942086205964289",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-23T12:45:29.922+01:00",
+          "content": "maybe we should check the news if a meteor hit their ISP"
+        },
+        {
+          "id": "437942258159976470",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T12:46:10.919+01:00",
+          "content": "I'm assuming the devs are all sleeping right now so no news. Probably gonna be a few more hours before they wake up, assuming like 8-9am worktime start."
+        },
+        {
+          "id": "437942365064265729",
+          "author": "hayali5569",
+          "nickname": "Ahmet Karagöz",
+          "timestamp": "2018-04-23T12:46:36.407+01:00",
+          "content": "okay , thank you for your response"
+        },
+        {
+          "id": "437942525861560320",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-23T12:47:14.744+01:00",
+          "content": "I like my explanation better, makes for a much better story :LongNoseLiar:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T13:29:29.845+01:00",
+      "end_ts": "2018-04-23T13:29:29.845+01:00",
+      "participants": [
+        "crash_overlord"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-04-23) ---\n[2018-04-23 13:29] crash_overlord: https://www.reddit.com/r/Prismata/comments/8eb2kx/results_of_the_overlord_open_3_and_sign_up_link/\nResults of The Overlord Open #3 and Sign up link for TOO #4 inside...\nSign up for TOO #4: https://challonge.com/TOO_4 (Saturday, 28th at 5pm CEST) TOO #3 results: 4th-3rd: Stalker & 307th 2nd: Spiritfryer And...",
+      "messages": [
+        {
+          "id": "437953158845693952",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T13:29:29.845+01:00",
+          "content": "https://www.reddit.com/r/Prismata/comments/8eb2kx/results_of_the_overlord_open_3_and_sign_up_link/\nResults of The Overlord Open #3 and Sign up link for TOO #4 inside...\nSign up for TOO #4: https://challonge.com/TOO_4 (Saturday, 28th at 5pm CEST) TOO #3 results: 4th-3rd: Stalker & 307th 2nd: Spiritfryer And..."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T16:19:42.374+01:00",
+      "end_ts": "2018-04-23T16:22:45.629+01:00",
+      "participants": [
+        "1000mh",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (3 messages, 2018-04-23) ---\n[2018-04-23 16:19] wiwiweb: >\"Often if something like this happened in the past, I'd get a phone call from somebody to warn me that I should look into it. This time I didn't get any calls (bystander effect?) but instead just woke up to a whole lot of discord notifications (which, for obvious reasons, are not configured to wake any of us up... :P)\"\n[2018-04-23 16:20] wiwiweb: who here had Elyot's phone number and did not do their job of waking him up? :EGGERS: 💤\n[2018-04-23 16:22] 1000mh (Henry): Sorry, E. We failed :c",
+      "messages": [
+        {
+          "id": "437995993297059850",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-23T16:19:42.374+01:00",
+          "content": ">\"Often if something like this happened in the past, I'd get a phone call from somebody to warn me that I should look into it. This time I didn't get any calls (bystander effect?) but instead just woke up to a whole lot of discord notifications (which, for obvious reasons, are not configured to wake any of us up... :P)\""
+        },
+        {
+          "id": "437996117557379073",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-23T16:20:12+01:00",
+          "content": "who here had Elyot's phone number and did not do their job of waking him up? :EGGERS: 💤"
+        },
+        {
+          "id": "437996761923977236",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-23T16:22:45.629+01:00",
+          "content": "Sorry, E. We failed :c"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T17:11:16.18+01:00",
+      "end_ts": "2018-04-23T17:17:56.06+01:00",
+      "participants": [
+        "1000mh",
+        "iminabearsuit",
+        "itsotter",
+        "mrguy888",
+        "mtanzer",
+        "nirv9924"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (13 messages, 2018-04-23) ---\n[2018-04-23 17:11] nirv9924 (Nirv): alright statsforge it is\n[2018-04-23 17:11] nirv9924 (Nirv): 1853 sounds much nicer than 1730 😄\n[2018-04-23 17:12] iminabearsuit: 1730 isn't a bad rating.\n[2018-04-23 17:13] 1000mh (Henry): Bearsuit is right, I think thats better than average\n[2018-04-23 17:13] iminabearsuit: I think that might even be higher than people on the mod team.\n[2018-04-23 17:14] iminabearsuit: Which are all veterans.\n[2018-04-23 17:14] 1000mh (Henry): Back when I played actively, I peaked at 16XX\n[2018-04-23 17:14] 1000mh (Henry): So already beating me c:\n[2018-04-23 17:15] itsotter: i think lifecoach is around 1740, if you ever exceed him you are a lord of videogames\n[2018-04-23 17:17] iminabearsuit: I'm a lord? :celerityLurk:\n[2018-04-23 17:17] mtanzer: yes but you need a few hundred points higher than that for overlord status\n[2018-04-23 17:17] mrguy888: you wear a bear suit because you are lord of the bears and they dont listen to people they know are human\n[2018-04-23 17:17] nirv9924 (Nirv): if there wasnt 1.29 patch, i could play a lot more prismata and see how high i can go",
+      "messages": [
+        {
+          "id": "438008969659940884",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T17:11:16.18+01:00",
+          "content": "alright statsforge it is"
+        },
+        {
+          "id": "438009003302453261",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T17:11:24.201+01:00",
+          "content": "1853 sounds much nicer than 1730 😄"
+        },
+        {
+          "id": "438009330642714624",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-04-23T17:12:42.245+01:00",
+          "content": "1730 isn't a bad rating."
+        },
+        {
+          "id": "438009539934289933",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-23T17:13:32.144+01:00",
+          "content": "Bearsuit is right, I think thats better than average"
+        },
+        {
+          "id": "438009629000335360",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-04-23T17:13:53.379+01:00",
+          "content": "I think that might even be higher than people on the mod team."
+        },
+        {
+          "id": "438009684331462667",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-04-23T17:14:06.571+01:00",
+          "content": "Which are all veterans."
+        },
+        {
+          "id": "438009759829065729",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-23T17:14:24.571+01:00",
+          "content": "Back when I played actively, I peaked at 16XX"
+        },
+        {
+          "id": "438009774143963166",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-23T17:14:27.984+01:00",
+          "content": "So already beating me c:"
+        },
+        {
+          "id": "438010060216729600",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-04-23T17:15:36.189+01:00",
+          "content": "i think lifecoach is around 1740, if you ever exceed him you are a lord of videogames"
+        },
+        {
+          "id": "438010427004420135",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-04-23T17:17:03.638+01:00",
+          "content": "I'm a lord? :celerityLurk:"
+        },
+        {
+          "id": "438010645137326080",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-04-23T17:17:55.645+01:00",
+          "content": "yes but you need a few hundred points higher than that for overlord status"
+        },
+        {
+          "id": "438010645670264852",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T17:17:55.772+01:00",
+          "content": "you wear a bear suit because you are lord of the bears and they dont listen to people they know are human"
+        },
+        {
+          "id": "438010646877962241",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T17:17:56.06+01:00",
+          "content": "if there wasnt 1.29 patch, i could play a lot more prismata and see how high i can go"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T18:01:22.585+01:00",
+      "end_ts": "2018-04-23T18:02:06.912+01:00",
+      "participants": [
+        "kristian1103"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-04-23) ---\n[2018-04-23 18:01] kristian1103 (Arkanishu): The statsforge calculates median rating out of all games played I think while on ladder recent games count more\n[2018-04-23 18:02] kristian1103 (Arkanishu): Statsforge number being higher for a new player seems weird though",
+      "messages": [
+        {
+          "id": "438021579436195840",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-04-23T18:01:22.585+01:00",
+          "content": "The statsforge calculates median rating out of all games played I think while on ladder recent games count more"
+        },
+        {
+          "id": "438021765357371392",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-04-23T18:02:06.912+01:00",
+          "content": "Statsforge number being higher for a new player seems weird though"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T18:09:10.716+01:00",
+      "end_ts": "2018-04-23T18:10:07.641+01:00",
+      "participants": [
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (3 messages, 2018-04-23) ---\n[2018-04-23 18:09] mrguy888: stats forge uses the prismata numbers and pretends they are chess elo\n[2018-04-23 18:09] mrguy888: its just a different rating system\n[2018-04-23 18:10] mrguy888: and yeah old games are just as relevant as new games in statsforge which means you get a rather meaningless number",
+      "messages": [
+        {
+          "id": "438023542920052747",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T18:09:10.716+01:00",
+          "content": "stats forge uses the prismata numbers and pretends they are chess elo"
+        },
+        {
+          "id": "438023586112995329",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T18:09:21.014+01:00",
+          "content": "its just a different rating system"
+        },
+        {
+          "id": "438023781680807956",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T18:10:07.641+01:00",
+          "content": "and yeah old games are just as relevant as new games in statsforge which means you get a rather meaningless number"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T21:13:36.747+01:00",
+      "end_ts": "2018-04-23T21:23:11.214+01:00",
+      "participants": [
+        "crash_overlord",
+        "mrguy888",
+        "nirv9924",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 57,
+      "formatted_text": "--- Thread (29 messages, 2018-04-23) ---\n[2018-04-23 21:13] mrguy888: we need a bot channel\n[2018-04-23 21:13] crash_overlord: Why are you posting dknis replays 🤔\n[2018-04-23 21:14] nirv9924 (Nirv): look at the rating change after i lost\n[2018-04-23 21:15] crash_overlord: @Elyot :GWfroggyMonkaThink:\n[2018-04-23 21:15] spiritfryer (Spyrfyr): You lost so hard it put you into vacation penalty :LongNoseLiar:\n[2018-04-23 21:15] nirv9924 (Nirv): that doesnt look right 😄\n[2018-04-23 21:15] crash_overlord: did you play enough games this week?\n[2018-04-23 21:15] crash_overlord: I know theres no penalty for below master\n[2018-04-23 21:15] nirv9924 (Nirv): i didnt ... but before i had 1730 (-60 )\n[2018-04-23 21:15] crash_overlord: but maybe if you get master while you haven't played X games in the past while\n[2018-04-23 21:16] nirv9924 (Nirv): now i had 1812 (-45)\n[2018-04-23 21:16] crash_overlord: it gives you instant decay\n[2018-04-23 21:16] nirv9924 (Nirv): honestly, i don't see any reasonable explaination\n[2018-04-23 21:16] nirv9924 (Nirv): either the system is dumb, or I am 😄\n[2018-04-23 21:17] mrguy888: nah i figured it out\n[2018-04-23 21:17] mrguy888: display rating is not mmr\n[2018-04-23 21:17] mrguy888: your actual rating was 1830\n[2018-04-23 21:17] mrguy888: displaying at 1730 was some sort of bug\n[2018-04-23 21:18] nirv9924 (Nirv): why should mmr and displayed rating be different ? 😕\n[2018-04-23 21:18] mrguy888: but they always have been\n[2018-04-23 21:19] mrguy888: once you settle into master tier display is always 350 above your mmr\n[2018-04-23 21:19] mrguy888: but until you do it does who knows what\n[2018-04-23 21:19] crash_overlord: Wait so no one has hit 2k mmr yet :monkaS:\n[2018-04-23 21:19] crash_overlord: :GWfroggyMonkaChrist:\n[2018-04-23 21:19] spiritfryer (Spyrfyr): Display ratings in the replay file: 1729->1811, 1975->1981\n[2018-04-23 21:21] spiritfryer (Spyrfyr): ShalevU is their internal MMR yea?\n[2018-04-23 21:21] spiritfryer (Spyrfyr): 1518->1505\n1625->1631\n[2018-04-23 21:22] mrguy888: shalevV is something else\n[2018-04-23 21:23] spiritfryer (Spyrfyr): Why does ShalevU not change by the same amount for both?",
+      "messages": [
+        {
+          "id": "438069957218009101",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:13:36.747+01:00",
+          "content": "we need a bot channel"
+        },
+        {
+          "id": "438070053326553088",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T21:13:59.661+01:00",
+          "content": "Why are you posting dknis replays 🤔"
+        },
+        {
+          "id": "438070140182200331",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T21:14:20.369+01:00",
+          "content": "look at the rating change after i lost"
+        },
+        {
+          "id": "438070310428999681",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T21:15:00.959+01:00",
+          "content": "@Elyot :GWfroggyMonkaThink:"
+        },
+        {
+          "id": "438070348680790017",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-04-23T21:15:10.079+01:00",
+          "content": "You lost so hard it put you into vacation penalty :LongNoseLiar:"
+        },
+        {
+          "id": "438070360168988685",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T21:15:12.818+01:00",
+          "content": "that doesnt look right 😄"
+        },
+        {
+          "id": "438070442427678721",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T21:15:32.43+01:00",
+          "content": "did you play enough games this week?"
+        },
+        {
+          "id": "438070477215367168",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T21:15:40.724+01:00",
+          "content": "I know theres no penalty for below master"
+        },
+        {
+          "id": "438070521612075008",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T21:15:51.309+01:00",
+          "content": "i didnt ... but before i had 1730 (-60 )"
+        },
+        {
+          "id": "438070535390232576",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T21:15:54.594+01:00",
+          "content": "but maybe if you get master while you haven't played X games in the past while"
+        },
+        {
+          "id": "438070558194925568",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T21:16:00.031+01:00",
+          "content": "now i had 1812 (-45)"
+        },
+        {
+          "id": "438070570765123595",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T21:16:03.028+01:00",
+          "content": "it gives you instant decay"
+        },
+        {
+          "id": "438070694539034634",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T21:16:32.538+01:00",
+          "content": "honestly, i don't see any reasonable explaination"
+        },
+        {
+          "id": "438070758208438273",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T21:16:47.718+01:00",
+          "content": "either the system is dumb, or I am 😄"
+        },
+        {
+          "id": "438070868833468416",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:17:14.093+01:00",
+          "content": "nah i figured it out"
+        },
+        {
+          "id": "438070892678086666",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:17:19.778+01:00",
+          "content": "display rating is not mmr"
+        },
+        {
+          "id": "438070925187874816",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:17:27.529+01:00",
+          "content": "your actual rating was 1830"
+        },
+        {
+          "id": "438070975507202078",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:17:39.526+01:00",
+          "content": "displaying at 1730 was some sort of bug"
+        },
+        {
+          "id": "438071177685237761",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T21:18:27.729+01:00",
+          "content": "why should mmr and displayed rating be different ? 😕"
+        },
+        {
+          "id": "438071239840497666",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:18:42.548+01:00",
+          "content": "but they always have been"
+        },
+        {
+          "id": "438071331410673686",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:19:04.38+01:00",
+          "content": "once you settle into master tier display is always 350 above your mmr"
+        },
+        {
+          "id": "438071376566288389",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:19:15.146+01:00",
+          "content": "but until you do it does who knows what"
+        },
+        {
+          "id": "438071499488755723",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T21:19:44.453+01:00",
+          "content": "Wait so no one has hit 2k mmr yet :monkaS:"
+        },
+        {
+          "id": "438071510285156382",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-23T21:19:47.027+01:00",
+          "content": ":GWfroggyMonkaChrist:"
+        },
+        {
+          "id": "438071552563740673",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-04-23T21:19:57.107+01:00",
+          "content": "Display ratings in the replay file: 1729->1811, 1975->1981"
+        },
+        {
+          "id": "438071868918857738",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-04-23T21:21:12.532+01:00",
+          "content": "ShalevU is their internal MMR yea?"
+        },
+        {
+          "id": "438072031108399105",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-04-23T21:21:51.201+01:00",
+          "content": "1518->1505\n1625->1631"
+        },
+        {
+          "id": "438072109508329482",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:22:09.893+01:00",
+          "content": "shalevV is something else"
+        },
+        {
+          "id": "438072366707376139",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-04-23T21:23:11.214+01:00",
+          "content": "Why does ShalevU not change by the same amount for both?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T21:33:27.939+01:00",
+      "end_ts": "2018-04-23T21:40:28.317+01:00",
+      "participants": [
+        "Deleted User",
+        "mrguy888",
+        "nirv9924"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (8 messages, 2018-04-23) ---\n[2018-04-23 21:33] mrguy888: it used to but then they decided to have it not\n[2018-04-23 21:34] nirv9924 (Nirv): did the devs ever say why they don't use a standard elo rating ?\n[2018-04-23 21:35] mrguy888: because elo is an old rating system that doesnt make good use of computers and multiple variables\n[2018-04-23 21:36] mrguy888: and doesnt accurately model how prismata players win against other prismata players across all the different gaps in rating\n[2018-04-23 21:37] nirv9924 (Nirv): the advantage of elo is that it would be transparent\n[2018-04-23 21:39] Deleted User (Deleted User): why doesn't elo accurately model shit\n[2018-04-23 21:40] mrguy888: accuracy is so so much more important than transparency\n[2018-04-23 21:40] mrguy888: if you asked im sure they will tell you about it",
+      "messages": [
+        {
+          "id": "438074953439641609",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:33:27.939+01:00",
+          "content": "it used to but then they decided to have it not"
+        },
+        {
+          "id": "438075120662347777",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T21:34:07.808+01:00",
+          "content": "did the devs ever say why they don't use a standard elo rating ?"
+        },
+        {
+          "id": "438075393187250190",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:35:12.783+01:00",
+          "content": "because elo is an old rating system that doesnt make good use of computers and multiple variables"
+        },
+        {
+          "id": "438075594668900363",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:36:00.82+01:00",
+          "content": "and doesnt accurately model how prismata players win against other prismata players across all the different gaps in rating"
+        },
+        {
+          "id": "438075995808071680",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T21:37:36.459+01:00",
+          "content": "the advantage of elo is that it would be transparent"
+        },
+        {
+          "id": "438076494233993228",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-23T21:39:35.293+01:00",
+          "content": "why doesn't elo accurately model shit"
+        },
+        {
+          "id": "438076672839909390",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:40:17.876+01:00",
+          "content": "accuracy is so so much more important than transparency"
+        },
+        {
+          "id": "438076716632768512",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:40:28.317+01:00",
+          "content": "if you asked im sure they will tell you about it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T21:50:58.048+01:00",
+      "end_ts": "2018-04-23T21:53:54.363+01:00",
+      "participants": [
+        "awaclus",
+        "mrguy888",
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (4 messages, 2018-04-23) ---\n[2018-04-23 21:50] p0lari (Polari): also Elo isn't an abbreviation\n[2018-04-23 21:52] mrguy888: nobody was saying it was :/\n[2018-04-23 21:53] p0lari (Polari): there was an ELO on #ask_a_dev\n[2018-04-23 21:53] awaclus: if you write it in all caps though, it's understandable that someone would assume that you think it's an abbreviation",
+      "messages": [
+        {
+          "id": "438079357916020736",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-23T21:50:58.048+01:00",
+          "content": "also Elo isn't an abbreviation"
+        },
+        {
+          "id": "438079832471896065",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-23T21:52:51.191+01:00",
+          "content": "nobody was saying it was :/"
+        },
+        {
+          "id": "438080028249554955",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-23T21:53:37.868+01:00",
+          "content": "there was an ELO on #ask_a_dev"
+        },
+        {
+          "id": "438080097434730496",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-04-23T21:53:54.363+01:00",
+          "content": "if you write it in all caps though, it's understandable that someone would assume that you think it's an abbreviation"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-23T22:01:04.506+01:00",
+      "end_ts": "2018-04-23T22:02:00.654+01:00",
+      "participants": [
+        "jamesa7171",
+        "nirv9924"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2018-04-23) ---\n[2018-04-23 22:01] nirv9924 (Nirv): you shouldnt read too much into my capitalisation ...\nI wrote it all small several times, even though Elo would be the apprpriate way to write it I guess\n[2018-04-23 22:01] jamesa7171: https://www.reddit.com/r/Prismata/comments/2xsu2d/elo_discussion/cp3v71q/\nreddit: the front page of the internet\nr/Prismata: The official subreddit for Prismata, the hybrid strategy game by Lunarch Studios.\n[2018-04-23 22:02] jamesa7171: some elyot comments re: rating systems",
+      "messages": [
+        {
+          "id": "438081901584973834",
+          "author": "nirv9924",
+          "nickname": "Nirv",
+          "timestamp": "2018-04-23T22:01:04.506+01:00",
+          "content": "you shouldnt read too much into my capitalisation ...\nI wrote it all small several times, even though Elo would be the apprpriate way to write it I guess"
+        },
+        {
+          "id": "438082048130023444",
+          "author": "jamesa7171",
+          "nickname": "jamesa7171",
+          "timestamp": "2018-04-23T22:01:39.445+01:00",
+          "content": "https://www.reddit.com/r/Prismata/comments/2xsu2d/elo_discussion/cp3v71q/\nreddit: the front page of the internet\nr/Prismata: The official subreddit for Prismata, the hybrid strategy game by Lunarch Studios."
+        },
+        {
+          "id": "438082137086885888",
+          "author": "jamesa7171",
+          "nickname": "jamesa7171",
+          "timestamp": "2018-04-23T22:02:00.654+01:00",
+          "content": "some elyot comments re: rating systems"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T02:20:49.448+01:00",
+      "end_ts": "2018-04-24T02:20:59.32+01:00",
+      "participants": [
+        "amalloy",
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-04-24) ---\n[2018-04-24 02:20] amalloy: @mrguy888 why do we need a bot channel? you can just PM giselle if you want to see replays\n[2018-04-24 02:20] mrguy888: oh i didnt know that",
+      "messages": [
+        {
+          "id": "438147269569544193",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-04-24T02:20:49.448+01:00",
+          "content": "@mrguy888 why do we need a bot channel? you can just PM giselle if you want to see replays"
+        },
+        {
+          "id": "438147310975975435",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-24T02:20:59.32+01:00",
+          "content": "oh i didnt know that"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T03:15:35.777+01:00",
+      "end_ts": "2018-04-24T03:23:13.952+01:00",
+      "participants": [
+        "Deleted User",
+        "apooche",
+        "liadahlia",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 25,
+      "formatted_text": "--- Thread (10 messages, 2018-04-24) ---\n[2018-04-24 03:15] apooche: I thought it would reject it\n[2018-04-24 03:17] apooche: this bot makes no sense. It checks if there is data, and then IF there isn't data, it checks if it matches `[A-Za-z][a-z]{4}-[A-Za-z][a-z]{4}` and then if it matches that it deletes what it said. But why include the second step? If it is already checking if there is data, why not just always remove if there isn't?\n[2018-04-24 03:19] liadahlia (Lia): it's open sourced btw, you can confirm that in the source\n[2018-04-24 03:20] apooche: I think it was faster this way but sure\n[2018-04-24 03:20] liadahlia (Lia): well you might not be 100% correct\n[2018-04-24 03:20] apooche: I mean you don't QA by reading source code...\n[2018-04-24 03:21] wilson0862 (Wilson): I don't believe you are performing QA.\n[2018-04-24 03:21] apooche: 4non I wanted it to reject my legitimate replay code and then I wanted to complain, but this is what I got instead\n[2018-04-24 03:23] Deleted User (Deleted User): I don't understand what's happening\n[2018-04-24 03:23] apooche: its a good thing I had enough replays that I got 7 matches to its rejection pattern",
+      "messages": [
+        {
+          "id": "438161053432414210",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:15:35.777+01:00",
+          "content": "I thought it would reject it"
+        },
+        {
+          "id": "438161611593875457",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:17:48.853+01:00",
+          "content": "this bot makes no sense. It checks if there is data, and then IF there isn't data, it checks if it matches `[A-Za-z][a-z]{4}-[A-Za-z][a-z]{4}` and then if it matches that it deletes what it said. But why include the second step? If it is already checking if there is data, why not just always remove if there isn't?"
+        },
+        {
+          "id": "438162074636386305",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T03:19:39.251+01:00",
+          "content": "it's open sourced btw, you can confirm that in the source"
+        },
+        {
+          "id": "438162163589316608",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:20:00.459+01:00",
+          "content": "I think it was faster this way but sure"
+        },
+        {
+          "id": "438162228244381696",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T03:20:15.874+01:00",
+          "content": "well you might not be 100% correct"
+        },
+        {
+          "id": "438162312910602243",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:20:36.06+01:00",
+          "content": "I mean you don't QA by reading source code..."
+        },
+        {
+          "id": "438162444334923787",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-24T03:21:07.394+01:00",
+          "content": "I don't believe you are performing QA."
+        },
+        {
+          "id": "438162636748619798",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:21:53.269+01:00",
+          "content": "4non I wanted it to reject my legitimate replay code and then I wanted to complain, but this is what I got instead"
+        },
+        {
+          "id": "438162920741011457",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-24T03:23:00.978+01:00",
+          "content": "I don't understand what's happening"
+        },
+        {
+          "id": "438162975157911574",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:23:13.952+01:00",
+          "content": "its a good thing I had enough replays that I got 7 matches to its rejection pattern"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T03:29:55.837+01:00",
+      "end_ts": "2018-04-24T03:37:29.823+01:00",
+      "participants": [
+        "apooche",
+        "liadahlia",
+        "mrguy888"
+      ],
+      "replay_codes": [
+        "Wombo-Combo",
+        "lvede-tfotw",
+        "lvede-tfotV"
+      ],
+      "score": 75,
+      "formatted_text": "--- Thread (24 messages, 2018-04-24) ---\n[2018-04-24 03:29] liadahlia (Lia): seems like all it does is it checks the message for the regex `/^[a-zA-Z0-9@+]{5}-[a-zA-Z0-9@+]{5}$/`\n[2018-04-24 03:30] liadahlia (Lia): and if that matches it tries to fetch the code from the server\n[2018-04-24 03:30] liadahlia (Lia): that's what i got from skimming the code\n[2018-04-24 03:30] apooche: all replay codes will match that regex yeah\n[2018-04-24 03:31] apooche: but if it finds no data AND it matches the regex i posted earlier `[a-zA-Z][a-z]{4}-[a-zA-Z][a-z]{4}` it deletes its message\n[2018-04-24 03:31] apooche: basically to get rid of false matches when people type things like Wombo-Combo\n[2018-04-24 03:32] liadahlia (Lia): and you're wondering why it doesn't just check whether the data exist before sending out the messgae?\n[2018-04-24 03:32] apooche: but why check both of those things? if you are already performing the check that there is replay data, why only delete if it also matches that second pattern? why not just delete all that don't contain data?\n[2018-04-24 03:32] apooche: well it clearly does check, as evidenced by those replay codes I was testing\n[2018-04-24 03:33] apooche: but if you change a letter in one of those, it will see there is no data and reject. lvede-tfotw\n[2018-04-24 03:33] mrguy888: @amalloy are you seeing this?\n[2018-04-24 03:33] apooche: but then why not reject for example lvede-tfotV\n[2018-04-24 03:34] liadahlia (Lia): there's some reference to a \"suspiciousCodeRegex\" that i'm not sure what it's used for\n[2018-04-24 03:34] apooche: isn't it medar who wrote the bot mrguy?\n[2018-04-24 03:34] mrguy888: lets keep bot testing to pms with giselle\n[2018-04-24 03:35] apooche: can we have a bot channel though? like i'm trying to show people this...\n[2018-04-24 03:35] mrguy888: amalloy - Today at 8:20 PM\n@mrguy888 why do we need a bot channel? you can just PM giselle if you want to see replays\n[2018-04-24 03:35] liadahlia (Lia): yeah a bot-spam channel would be a good idea imo\n[2018-04-24 03:35] mrguy888: this was what was posted just before you started apooche\n[2018-04-24 03:36] apooche: oh yeah I remember that something prompted me to do this\n[2018-04-24 03:36] apooche: for the record I made a lot more PMs to Giselle a minute ago\n[2018-04-24 03:37] apooche: mods can't make channels though I believe, only dev role\n[2018-04-24 03:37] mrguy888: I made a bot channel in off topic\n[2018-04-24 03:37] mrguy888: i cant make on in the prismata section",
+      "messages": [
+        {
+          "id": "438164660785512448",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T03:29:55.837+01:00",
+          "content": "seems like all it does is it checks the message for the regex `/^[a-zA-Z0-9@+]{5}-[a-zA-Z0-9@+]{5}$/`"
+        },
+        {
+          "id": "438164721284284416",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T03:30:10.261+01:00",
+          "content": "and if that matches it tries to fetch the code from the server"
+        },
+        {
+          "id": "438164787361218562",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T03:30:26.015+01:00",
+          "content": "that's what i got from skimming the code"
+        },
+        {
+          "id": "438164866990080011",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:30:45+01:00",
+          "content": "all replay codes will match that regex yeah"
+        },
+        {
+          "id": "438165009575575555",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:31:18.995+01:00",
+          "content": "but if it finds no data AND it matches the regex i posted earlier `[a-zA-Z][a-z]{4}-[a-zA-Z][a-z]{4}` it deletes its message"
+        },
+        {
+          "id": "438165083898511360",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:31:36.715+01:00",
+          "content": "basically to get rid of false matches when people type things like Wombo-Combo"
+        },
+        {
+          "id": "438165296948445205",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T03:32:27.51+01:00",
+          "content": "and you're wondering why it doesn't just check whether the data exist before sending out the messgae?"
+        },
+        {
+          "id": "438165306762854401",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:32:29.85+01:00",
+          "content": "but why check both of those things? if you are already performing the check that there is replay data, why only delete if it also matches that second pattern? why not just delete all that don't contain data?"
+        },
+        {
+          "id": "438165389420134410",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:32:49.557+01:00",
+          "content": "well it clearly does check, as evidenced by those replay codes I was testing"
+        },
+        {
+          "id": "438165594051969027",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:33:38.345+01:00",
+          "content": "but if you change a letter in one of those, it will see there is no data and reject. lvede-tfotw"
+        },
+        {
+          "id": "438165642055778304",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-24T03:33:49.79+01:00",
+          "content": "@amalloy are you seeing this?"
+        },
+        {
+          "id": "438165666642788363",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:33:55.652+01:00",
+          "content": "but then why not reject for example lvede-tfotV"
+        },
+        {
+          "id": "438165691535982593",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T03:34:01.587+01:00",
+          "content": "there's some reference to a \"suspiciousCodeRegex\" that i'm not sure what it's used for"
+        },
+        {
+          "id": "438165864240381954",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:34:42.763+01:00",
+          "content": "isn't it medar who wrote the bot mrguy?"
+        },
+        {
+          "id": "438165907760742403",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-24T03:34:53.139+01:00",
+          "content": "lets keep bot testing to pms with giselle"
+        },
+        {
+          "id": "438166003281559563",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:35:15.913+01:00",
+          "content": "can we have a bot channel though? like i'm trying to show people this..."
+        },
+        {
+          "id": "438166104192319489",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-24T03:35:39.972+01:00",
+          "content": "amalloy - Today at 8:20 PM\n@mrguy888 why do we need a bot channel? you can just PM giselle if you want to see replays"
+        },
+        {
+          "id": "438166107849883675",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T03:35:40.844+01:00",
+          "content": "yeah a bot-spam channel would be a good idea imo"
+        },
+        {
+          "id": "438166146454388736",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-24T03:35:50.048+01:00",
+          "content": "this was what was posted just before you started apooche"
+        },
+        {
+          "id": "438166217065234432",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:36:06.883+01:00",
+          "content": "oh yeah I remember that something prompted me to do this"
+        },
+        {
+          "id": "438166298971602951",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:36:26.411+01:00",
+          "content": "for the record I made a lot more PMs to Giselle a minute ago"
+        },
+        {
+          "id": "438166510255603715",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:37:16.785+01:00",
+          "content": "mods can't make channels though I believe, only dev role"
+        },
+        {
+          "id": "438166527301124111",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-24T03:37:20.849+01:00",
+          "content": "I made a bot channel in off topic"
+        },
+        {
+          "id": "438166564940808202",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-24T03:37:29.823+01:00",
+          "content": "i cant make on in the prismata section"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T03:56:55.022+01:00",
+      "end_ts": "2018-04-24T03:56:55.022+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-24) ---\n[2018-04-24 03:56] apooche: I guess the conclusion is that Medar outsmarted me this time. WP sir, WP.",
+      "messages": [
+        {
+          "id": "438171452139634708",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T03:56:55.022+01:00",
+          "content": "I guess the conclusion is that Medar outsmarted me this time. WP sir, WP."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T04:01:17.315+01:00",
+      "end_ts": "2018-04-24T04:01:17.315+01:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-24) ---\n[2018-04-24 04:01] liadahlia (Lia): baited and outsmarted",
+      "messages": [
+        {
+          "id": "438172552276475904",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T04:01:17.315+01:00",
+          "content": "baited and outsmarted"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T06:20:33.367+01:00",
+      "end_ts": "2018-04-24T06:20:33.367+01:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-04-24) ---\n[2018-04-24 06:20] amalloy: i think it replies right away so that its message about the game appears as close as possible to where you sent the replay code, rather than having to wait to get the data from the prismata api before responding",
+      "messages": [
+        {
+          "id": "438207600098672641",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-04-24T06:20:33.367+01:00",
+          "content": "i think it replies right away so that its message about the game appears as close as possible to where you sent the replay code, rather than having to wait to get the data from the prismata api before responding"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T09:29:00.02+01:00",
+      "end_ts": "2018-04-24T09:29:00.02+01:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-24) ---\n[2018-04-24 09:29] awaclus: how much better is a platinum ticket compared to a gold ticket?",
+      "messages": [
+        {
+          "id": "438255023638708225",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-04-24T09:29:00.02+01:00",
+          "content": "how much better is a platinum ticket compared to a gold ticket?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T09:38:55.64+01:00",
+      "end_ts": "2018-04-24T09:38:55.64+01:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-24) ---\n[2018-04-24 09:38] liadahlia (Lia): Isn't a plat ticket 3x the price of a normal ticket and the golden ticket only 2x?",
+      "messages": [
+        {
+          "id": "438257521849794560",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T09:38:55.64+01:00",
+          "content": "Isn't a plat ticket 3x the price of a normal ticket and the golden ticket only 2x?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T13:44:28.14+01:00",
+      "end_ts": "2018-04-24T13:51:05.365+01:00",
+      "participants": [
+        "steel0229e",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 13,
+      "formatted_text": "--- Thread (6 messages, 2018-04-24) ---\n[2018-04-24 13:44] supergreyman (Greyman): Yeah, that's one of the first things people have to overcome. Really important to stop making drones at some point.\n[2018-04-24 13:46] steel0229e (Steel): You should work towards a desired economy size and then spend all your resources on attackers.\n[2018-04-24 13:47] steel0229e (Steel): Getting there is tricky though as you often still drone a bit while addong tech and some attackers.\n[2018-04-24 13:48] steel0229e (Steel): I guess it is an important knowledge to intuit when to stop droning.\n[2018-04-24 13:50] steel0229e (Steel): A general rule of thumb is to make your plan relative to the best absorber. Also avoid floating gold when you can, sometimes buying an extra C or B fixes that.\n[2018-04-24 13:51] steel0229e (Steel): I mean in mid or highecon games.",
+      "messages": [
+        {
+          "id": "438319314433605632",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-24T13:44:28.14+01:00",
+          "content": "Yeah, that's one of the first things people have to overcome. Really important to stop making drones at some point."
+        },
+        {
+          "id": "438319787194712066",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-24T13:46:20.855+01:00",
+          "content": "You should work towards a desired economy size and then spend all your resources on attackers."
+        },
+        {
+          "id": "438320049200168971",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-24T13:47:23.322+01:00",
+          "content": "Getting there is tricky though as you often still drone a bit while addong tech and some attackers."
+        },
+        {
+          "id": "438320294055378944",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-24T13:48:21.7+01:00",
+          "content": "I guess it is an important knowledge to intuit when to stop droning."
+        },
+        {
+          "id": "438320815671476224",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-24T13:50:26.063+01:00",
+          "content": "A general rule of thumb is to make your plan relative to the best absorber. Also avoid floating gold when you can, sometimes buying an extra C or B fixes that."
+        },
+        {
+          "id": "438320980516143105",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-24T13:51:05.365+01:00",
+          "content": "I mean in mid or highecon games."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T17:23:56.569+01:00",
+      "end_ts": "2018-04-24T17:23:56.569+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-04-24) ---\n[2018-04-24 17:23] elyot: @Chupete Wargaming If it's the disconnected popup, it's likely a firewall issue. Tell them to look at our troubleshooting guide and contact support if necessary",
+      "messages": [
+        {
+          "id": "438374546828034060",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-04-24T17:23:56.569+01:00",
+          "content": "@Chupete Wargaming If it's the disconnected popup, it's likely a firewall issue. Tell them to look at our troubleshooting guide and contact support if necessary"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T19:06:27.025+01:00",
+      "end_ts": "2018-04-24T19:09:21.127+01:00",
+      "participants": [
+        "jiecut",
+        "liadahlia",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (4 messages, 2018-04-24) ---\n[2018-04-24 19:06] jiecut: Hit Master last night! 😄\n[2018-04-24 19:07] jiecut: Also interesting my first match (at Tier I) and last match at Tier IX were against @xYotsuba\n[2018-04-24 19:08] liadahlia (Lia): xYotsuba freelo :LongNoseLiar:\n[2018-04-24 19:09] supergreyman (Greyman): Reminds me of Gary from Pokémon.... 👀",
+      "messages": [
+        {
+          "id": "438400343710105603",
+          "author": "jiecut",
+          "nickname": "jiecut",
+          "timestamp": "2018-04-24T19:06:27.025+01:00",
+          "content": "Hit Master last night! 😄"
+        },
+        {
+          "id": "438400546198781974",
+          "author": "jiecut",
+          "nickname": "jiecut",
+          "timestamp": "2018-04-24T19:07:15.302+01:00",
+          "content": "Also interesting my first match (at Tier I) and last match at Tier IX were against @xYotsuba"
+        },
+        {
+          "id": "438400759030087681",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T19:08:06.045+01:00",
+          "content": "xYotsuba freelo :LongNoseLiar:"
+        },
+        {
+          "id": "438401073947082783",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-24T19:09:21.127+01:00",
+          "content": "Reminds me of Gary from Pokémon.... 👀"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T21:01:15.589+01:00",
+      "end_ts": "2018-04-24T21:02:08.278+01:00",
+      "participants": [
+        "itsotter",
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (5 messages, 2018-04-24) ---\n[2018-04-24 21:01] liadahlia (Lia): Your Name is a Lain reference?\n[2018-04-24 21:01] itsotter: https://i2.wp.com/powet.tv/powetblog/wp-content/uploads/2012/08/lain_in_her_famous_teddy_bear_pyjamas.jpg\n[2018-04-24 21:01] itsotter: i thought so! excellent\n[2018-04-24 21:01] liadahlia (Lia): just making a kimi no na wa reference 😉\n[2018-04-24 21:02] liadahlia (Lia): I really want to watch lain",
+      "messages": [
+        {
+          "id": "438429236441776153",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T21:01:15.589+01:00",
+          "content": "Your Name is a Lain reference?"
+        },
+        {
+          "id": "438429270008659978",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-04-24T21:01:23.592+01:00",
+          "content": "https://i2.wp.com/powet.tv/powetblog/wp-content/uploads/2012/08/lain_in_her_famous_teddy_bear_pyjamas.jpg"
+        },
+        {
+          "id": "438429329832017940",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-04-24T21:01:37.855+01:00",
+          "content": "i thought so! excellent"
+        },
+        {
+          "id": "438429412724047874",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T21:01:57.618+01:00",
+          "content": "just making a kimi no na wa reference 😉"
+        },
+        {
+          "id": "438429457435459585",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T21:02:08.278+01:00",
+          "content": "I really want to watch lain"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T22:26:36.87+01:00",
+      "end_ts": "2018-04-24T22:27:14.298+01:00",
+      "participants": [
+        "1m2o",
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2018-04-24) ---\n[2018-04-24 22:26] liadahlia (Lia): Yeah i've been slumping too\n[2018-04-24 22:26] liadahlia (Lia): Anyone who plays me gets freelo\n[2018-04-24 22:27] 1m2o: same i gave so many wins today",
+      "messages": [
+        {
+          "id": "438450716651028500",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T22:26:36.87+01:00",
+          "content": "Yeah i've been slumping too"
+        },
+        {
+          "id": "438450737542856715",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T22:26:41.851+01:00",
+          "content": "Anyone who plays me gets freelo"
+        },
+        {
+          "id": "438450873635569676",
+          "author": "1m2o",
+          "nickname": "1m2o",
+          "timestamp": "2018-04-24T22:27:14.298+01:00",
+          "content": "same i gave so many wins today"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T22:50:52.631+01:00",
+      "end_ts": "2018-04-24T22:50:52.631+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-04-24) ---\n[2018-04-24 22:50] apooche: Wait Otter did you get the reference just from the name iminaBearSuit, or did you see that he also uses the handle ArisuMizuki? Because I’m impressed if it’s just the former",
+      "messages": [
+        {
+          "id": "438456822555475979",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-24T22:50:52.631+01:00",
+          "content": "Wait Otter did you get the reference just from the name iminaBearSuit, or did you see that he also uses the handle ArisuMizuki? Because I’m impressed if it’s just the former"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T22:54:15.872+01:00",
+      "end_ts": "2018-04-24T22:56:52.803+01:00",
+      "participants": [
+        "awaclus",
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (3 messages, 2018-04-24) ---\n[2018-04-24 22:54] liadahlia (Lia): Don't underestimate a true weeb\n[2018-04-24 22:56] awaclus: I got the reference from just the former fwiw\n[2018-04-24 22:56] awaclus: or more like I wasn't sure that it was a Lain reference but that sure was the first thing that came to my mind",
+      "messages": [
+        {
+          "id": "438457675009753088",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-24T22:54:15.872+01:00",
+          "content": "Don't underestimate a true weeb"
+        },
+        {
+          "id": "438458182776389632",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-04-24T22:56:16.933+01:00",
+          "content": "I got the reference from just the former fwiw"
+        },
+        {
+          "id": "438458333226074142",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-04-24T22:56:52.803+01:00",
+          "content": "or more like I wasn't sure that it was a Lain reference but that sure was the first thing that came to my mind"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-24T23:00:09.327+01:00",
+      "end_ts": "2018-04-24T23:05:18.415+01:00",
+      "participants": [
+        "redrame",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (4 messages, 2018-04-24) ---\n[2018-04-24 23:00] redrame: This guy sure has eaten his breads\n[2018-04-24 23:01] redrame: I’ve seen an anime once.  Look at me I’m a weeb too 🤓\n[2018-04-24 23:03] wiwiweb: my favourite anime is Cory in the House\n[2018-04-24 23:05] redrame: My favorite anime is filthy frank",
+      "messages": [
+        {
+          "id": "438459157507735572",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-04-24T23:00:09.327+01:00",
+          "content": "This guy sure has eaten his breads"
+        },
+        {
+          "id": "438459384775835648",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-04-24T23:01:03.512+01:00",
+          "content": "I’ve seen an anime once.  Look at me I’m a weeb too 🤓"
+        },
+        {
+          "id": "438460048541351938",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-24T23:03:41.766+01:00",
+          "content": "my favourite anime is Cory in the House"
+        },
+        {
+          "id": "438460453916508161",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-04-24T23:05:18.415+01:00",
+          "content": "My favorite anime is filthy frank"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-25T09:15:59.994+01:00",
+      "end_ts": "2018-04-25T09:16:00.354+01:00",
+      "participants": [
+        "crash_overlord"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-04-25) ---\n[2018-04-25 09:15] crash_overlord: Small reminder, casual low commitment (2-3h) 60s base+9 tournament this saturday\n[2018-04-25 09:16] crash_overlord: https://challonge.com/TOO_4\nThe Overlord Open #4 - Challonge",
+      "messages": [
+        {
+          "id": "438614139838005250",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-25T09:15:59.994+01:00",
+          "content": "Small reminder, casual low commitment (2-3h) 60s base+9 tournament this saturday"
+        },
+        {
+          "id": "438614141347954698",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-25T09:16:00.354+01:00",
+          "content": "https://challonge.com/TOO_4\nThe Overlord Open #4 - Challonge"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-25T20:45:37.637+01:00",
+      "end_ts": "2018-04-25T20:47:23.723+01:00",
+      "participants": [
+        "crash_overlord",
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (3 messages, 2018-04-25) ---\n[2018-04-25 20:45] crash_overlord: Most likely gonna be the last TOO for a while\n[2018-04-25 20:45] crash_overlord: interest has been dieing down :FeelsBadMan:\n[2018-04-25 20:47] jeacaveo (jeacaveo (#NeverBrowserer)): Noooooo, I won't miss it again. I promise! 😭 😭 😭 😭",
+      "messages": [
+        {
+          "id": "438787690251419648",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-25T20:45:37.637+01:00",
+          "content": "Most likely gonna be the last TOO for a while"
+        },
+        {
+          "id": "438787715262185492",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-25T20:45:43.6+01:00",
+          "content": "interest has been dieing down :FeelsBadMan:"
+        },
+        {
+          "id": "438788135208484886",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-25T20:47:23.723+01:00",
+          "content": "Noooooo, I won't miss it again. I promise! 😭 😭 😭 😭"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-25T21:01:34.236+01:00",
+      "end_ts": "2018-04-25T21:01:34.236+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-25) ---\n[2018-04-25 21:01] apooche: If only we lived on a tidally locked planet without these stupid time zones",
+      "messages": [
+        {
+          "id": "438791702518431754",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-25T21:01:34.236+01:00",
+          "content": "If only we lived on a tidally locked planet without these stupid time zones"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-25T21:07:32.09+01:00",
+      "end_ts": "2018-04-25T21:07:32.09+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-25) ---\n[2018-04-25 21:07] apooche: TOO is rly early in the morning for me",
+      "messages": [
+        {
+          "id": "438793203466895372",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-25T21:07:32.09+01:00",
+          "content": "TOO is rly early in the morning for me"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-25T21:11:14.9+01:00",
+      "end_ts": "2018-04-25T21:11:14.9+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-25) ---\n[2018-04-25 21:11] apooche: And there would be no reason to have time zones on a tidally locked planet",
+      "messages": [
+        {
+          "id": "438794138000031745",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-25T21:11:14.9+01:00",
+          "content": "And there would be no reason to have time zones on a tidally locked planet"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-25T22:19:39.27+01:00",
+      "end_ts": "2018-04-25T22:27:12.252+01:00",
+      "participants": [
+        "masn6811",
+        "mrguy888",
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 26,
+      "formatted_text": "--- Thread (10 messages, 2018-04-25) ---\n[2018-04-25 22:19] xyotsuba: I dont think thats how time zones work\n[2018-04-25 22:22] masn6811 (Masne98888): :Tarsier: :OMEGALUL: :OMEGALUL:       🤔\n[2018-04-25 22:23] masn6811 (Masne98888): i think apooche is right. time zones are so that 8:00am is morning. when it's ALWAYS morning, there's no point setting a time zone to force that\n[2018-04-25 22:23] xyotsuba: Afaik time zones have nothing to do with the ocean/tides and everything to do with the day/night cycle due to the earths rotation\n[2018-04-25 22:23] masn6811 (Masne98888): i think \"tidally locked\" means that the sun is always over one point of the planet\n[2018-04-25 22:23] mrguy888: you should google the term tidally locked\n[2018-04-25 22:24] masn6811 (Masne98888): https://google.com/?q=tidally_locked\nGoogle\nSearch the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for.\n[2018-04-25 22:26] mrguy888: The name is sure confusing though. Why is that \"tidal\"?\n[2018-04-25 22:26] mrguy888: Google isn't helping me out with the origin of the term\n[2018-04-25 22:27] xyotsuba: That is a misleading term tho",
+      "messages": [
+        {
+          "id": "438811352975409162",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-04-25T22:19:39.27+01:00",
+          "content": "I dont think thats how time zones work"
+        },
+        {
+          "id": "438811948952584194",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-25T22:22:01.362+01:00",
+          "content": ":Tarsier: :OMEGALUL: :OMEGALUL:       🤔"
+        },
+        {
+          "id": "438812201780903940",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-25T22:23:01.641+01:00",
+          "content": "i think apooche is right. time zones are so that 8:00am is morning. when it's ALWAYS morning, there's no point setting a time zone to force that"
+        },
+        {
+          "id": "438812238728396805",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-04-25T22:23:10.45+01:00",
+          "content": "Afaik time zones have nothing to do with the ocean/tides and everything to do with the day/night cycle due to the earths rotation"
+        },
+        {
+          "id": "438812358333300736",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-25T22:23:38.966+01:00",
+          "content": "i think \"tidally locked\" means that the sun is always over one point of the planet"
+        },
+        {
+          "id": "438812366931755009",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-25T22:23:41.016+01:00",
+          "content": "you should google the term tidally locked"
+        },
+        {
+          "id": "438812615544930304",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-25T22:24:40.29+01:00",
+          "content": "https://google.com/?q=tidally_locked\nGoogle\nSearch the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for."
+        },
+        {
+          "id": "438813128633876491",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-25T22:26:42.62+01:00",
+          "content": "The name is sure confusing though. Why is that \"tidal\"?"
+        },
+        {
+          "id": "438813187362652160",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-25T22:26:56.622+01:00",
+          "content": "Google isn't helping me out with the origin of the term"
+        },
+        {
+          "id": "438813252919623681",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-04-25T22:27:12.252+01:00",
+          "content": "That is a misleading term tho"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-25T22:30:39.769+01:00",
+      "end_ts": "2018-04-25T22:31:49.012+01:00",
+      "participants": [
+        "mrguy888",
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2018-04-25) ---\n[2018-04-25 22:30] xyotsuba: So google says that mercury is tidally locked. That means that its always the same time of day there? I guess thats why it has a hot side and a cold side.\n[2018-04-25 22:31] mrguy888: i can confirm that hot comes from the sun",
+      "messages": [
+        {
+          "id": "438814123309006849",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-04-25T22:30:39.769+01:00",
+          "content": "So google says that mercury is tidally locked. That means that its always the same time of day there? I guess thats why it has a hot side and a cold side."
+        },
+        {
+          "id": "438814413735198741",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-25T22:31:49.012+01:00",
+          "content": "i can confirm that hot comes from the sun"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T02:49:15.638+01:00",
+      "end_ts": "2018-04-26T02:53:58.471+01:00",
+      "participants": [
+        "apooche",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (3 messages, 2018-04-26) ---\n[2018-04-26 02:49] apooche: The term Tidally Locked (and this is totally prismata chat because Beacon is tidally locked) uses those words because it gets that way due to tidal forces - the same forces that cause the tides! Planets and moons are deformed by tidal forces, and if their rotation rate isn't equal to their revolution rate then the attracting body will apply a torque that moves their rotation rate and revolution rate towards each other. Once that torque equalizes the two, the body becomes tidally locked.\n[2018-04-26 02:51] apooche: Fun fact! The moon is tidally locked to the earth, but the earth is not locked to the moon. By the time it is, the length of a day=month will have grown by a factor of about 50.\n[2018-04-26 02:53] masn6811 (Masne98888): Does anyone have a discord for @Apooche explains random stuff? I'd totally subscribe to that.",
+      "messages": [
+        {
+          "id": "438879201580285953",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-26T02:49:15.638+01:00",
+          "content": "The term Tidally Locked (and this is totally prismata chat because Beacon is tidally locked) uses those words because it gets that way due to tidal forces - the same forces that cause the tides! Planets and moons are deformed by tidal forces, and if their rotation rate isn't equal to their revolution rate then the attracting body will apply a torque that moves their rotation rate and revolution rate towards each other. Once that torque equalizes the two, the body becomes tidally locked."
+        },
+        {
+          "id": "438879769237389313",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-26T02:51:30.978+01:00",
+          "content": "Fun fact! The moon is tidally locked to the earth, but the earth is not locked to the moon. By the time it is, the length of a day=month will have grown by a factor of about 50."
+        },
+        {
+          "id": "438880387868000256",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-26T02:53:58.471+01:00",
+          "content": "Does anyone have a discord for @Apooche explains random stuff? I'd totally subscribe to that."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T06:59:47.966+01:00",
+      "end_ts": "2018-04-26T06:59:47.966+01:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-26) ---\n[2018-04-26 06:59] amalloy: there'd be a different kind of time zones on a tidally locked planet. you could live in 3:00",
+      "messages": [
+        {
+          "id": "438942251734007809",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-04-26T06:59:47.966+01:00",
+          "content": "there'd be a different kind of time zones on a tidally locked planet. you could live in 3:00"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T13:09:39.284+01:00",
+      "end_ts": "2018-04-26T13:12:27.285+01:00",
+      "participants": [
+        "Deleted User",
+        "crash_overlord",
+        "darkeisbein"
+      ],
+      "replay_codes": [
+        "bling-wants"
+      ],
+      "score": 7,
+      "formatted_text": "--- Thread (6 messages, 2018-04-26) ---\n[2018-04-26 13:09] darkeisbein: there isn't actually much EU law on that\n[2018-04-26 13:10] darkeisbein: although I could be wrong about that\n[2018-04-26 13:10] crash_overlord: A new one just passed?\n[2018-04-26 13:10] Deleted User (Deleted User): I know people had been pushing for it\n[2018-04-26 13:11] crash_overlord: https://www.pcgamer.com/belgium-says-loot-boxes-are-gambling-wants-them-banned-in-europe/\nBelgium's Justice Minister calls for loot box ban in Europe (Updated)\nThe country's Gaming Commission is continuing its investigation.\n[2018-04-26 13:12] darkeisbein: yeah so just belgian law",
+      "messages": [
+        {
+          "id": "439035328867860481",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-26T13:09:39.284+01:00",
+          "content": "there isn't actually much EU law on that"
+        },
+        {
+          "id": "439035498103570453",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-26T13:10:19.633+01:00",
+          "content": "although I could be wrong about that"
+        },
+        {
+          "id": "439035504453877762",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-26T13:10:21.147+01:00",
+          "content": "A new one just passed?"
+        },
+        {
+          "id": "439035581432070154",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-26T13:10:39.5+01:00",
+          "content": "I know people had been pushing for it"
+        },
+        {
+          "id": "439035815486685204",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-26T13:11:35.303+01:00",
+          "content": "https://www.pcgamer.com/belgium-says-loot-boxes-are-gambling-wants-them-banned-in-europe/\nBelgium's Justice Minister calls for loot box ban in Europe (Updated)\nThe country's Gaming Commission is continuing its investigation."
+        },
+        {
+          "id": "439036033514995713",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-26T13:12:27.285+01:00",
+          "content": "yeah so just belgian law"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T13:50:35.814+01:00",
+      "end_ts": "2018-04-26T13:50:35.814+01:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-04-26) ---\n[2018-04-26 13:50] p0lari (Polari): regulation is hard and everything would be better if everyone acted in good faith and there was no need for it",
+      "messages": [
+        {
+          "id": "439045632301203456",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-26T13:50:35.814+01:00",
+          "content": "regulation is hard and everything would be better if everyone acted in good faith and there was no need for it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T16:57:38.11+01:00",
+      "end_ts": "2018-04-26T16:57:38.11+01:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-04-26) ---\n[2018-04-26 16:57] p0lari (Polari): idk, laws that might affect prismata seem more on topic to me than non-moderator opinions about discord server moderation",
+      "messages": [
+        {
+          "id": "439092702022205440",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-26T16:57:38.11+01:00",
+          "content": "idk, laws that might affect prismata seem more on topic to me than non-moderator opinions about discord server moderation"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T17:49:35.826+01:00",
+      "end_ts": "2018-04-26T18:02:08.312+01:00",
+      "participants": [
+        ".bky_1556",
+        "nilaus",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 13,
+      "formatted_text": "--- Thread (12 messages, 2018-04-26) ---\n[2018-04-26 17:49] supergreyman (Greyman): @Nilaus I don't see any rules related to advertising your Prismata stream, so I think it's ok, as long as it doesn't look too spammy. But I'm not a mod, so I could be wrong. 😛\n[2018-04-26 17:51] nilaus: @Greyman, there was a scenario released come years ago (not sure if it is still in the game). DOOM or something, that was an amazing puzzle\n[2018-04-26 17:53] supergreyman (Greyman): That was *before* I join the Prismata club. Too bad for me... 😭\n[2018-04-26 17:53] .bky_1556 (bky): Mod confirmation: discussing your Prismata stream is encouraged as long as it's in an appropriate channel and it's not spammy.\n[2018-04-26 17:54] .bky_1556 (bky): As far as advertising goes, it's built into the Discord sidebar.\n[2018-04-26 17:55] .bky_1556 (bky): It's also built into the game client itself.\n[2018-04-26 17:55] .bky_1556 (bky): So why would it be forbidden in #prismata_chat ?\n[2018-04-26 17:57] supergreyman (Greyman): I just don't see any rules forbidding it, so it's ok to talk about it here.\n[2018-04-26 17:58] supergreyman (Greyman): I think you're good to go. 😄\n[2018-04-26 17:59] nilaus: I don't want to be coming in here and just advertising, so I want to ask before spamming.\n[2018-04-26 18:00] nilaus: Playing the campaign blind. Starting in 30 min at https://gaming.youtube.com/watch?v=aXI_ZGzdMJQ\nLets Try Prismata - Streaming THURSDAY 19:30 CEST / 1:30 PM EDT - ...\nPrismata is a turn-based, perfect information card game. The game begins with the reveal of a \"random set\" of 5 or more units, randomly chosen from a list o...\n[2018-04-26 18:02] supergreyman (Greyman): Too bad I'm at work. 😥",
+      "messages": [
+        {
+          "id": "439105778671026216",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-26T17:49:35.826+01:00",
+          "content": "@Nilaus I don't see any rules related to advertising your Prismata stream, so I think it's ok, as long as it doesn't look too spammy. But I'm not a mod, so I could be wrong. 😛"
+        },
+        {
+          "id": "439106284047040513",
+          "author": "nilaus",
+          "nickname": "Nilaus",
+          "timestamp": "2018-04-26T17:51:36.317+01:00",
+          "content": "@Greyman, there was a scenario released come years ago (not sure if it is still in the game). DOOM or something, that was an amazing puzzle"
+        },
+        {
+          "id": "439106682891796500",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-26T17:53:11.409+01:00",
+          "content": "That was *before* I join the Prismata club. Too bad for me... 😭"
+        },
+        {
+          "id": "439106796523749376",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-26T17:53:38.501+01:00",
+          "content": "Mod confirmation: discussing your Prismata stream is encouraged as long as it's in an appropriate channel and it's not spammy."
+        },
+        {
+          "id": "439106916703010826",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-26T17:54:07.154+01:00",
+          "content": "As far as advertising goes, it's built into the Discord sidebar."
+        },
+        {
+          "id": "439107151622045698",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-26T17:55:03.163+01:00",
+          "content": "It's also built into the game client itself."
+        },
+        {
+          "id": "439107317460500492",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-26T17:55:42.702+01:00",
+          "content": "So why would it be forbidden in #prismata_chat ?"
+        },
+        {
+          "id": "439107731446824980",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-26T17:57:21.404+01:00",
+          "content": "I just don't see any rules forbidding it, so it's ok to talk about it here."
+        },
+        {
+          "id": "439107944257290260",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-26T17:58:12.142+01:00",
+          "content": "I think you're good to go. 😄"
+        },
+        {
+          "id": "439108341302820873",
+          "author": "nilaus",
+          "nickname": "Nilaus",
+          "timestamp": "2018-04-26T17:59:46.805+01:00",
+          "content": "I don't want to be coming in here and just advertising, so I want to ask before spamming."
+        },
+        {
+          "id": "439108638104354818",
+          "author": "nilaus",
+          "nickname": "Nilaus",
+          "timestamp": "2018-04-26T18:00:57.568+01:00",
+          "content": "Playing the campaign blind. Starting in 30 min at https://gaming.youtube.com/watch?v=aXI_ZGzdMJQ\nLets Try Prismata - Streaming THURSDAY 19:30 CEST / 1:30 PM EDT - ...\nPrismata is a turn-based, perfect information card game. The game begins with the reveal of a \"random set\" of 5 or more units, randomly chosen from a list o..."
+        },
+        {
+          "id": "439108934825934850",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-26T18:02:08.312+01:00",
+          "content": "Too bad I'm at work. 😥"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T19:35:36.316+01:00",
+      "end_ts": "2018-04-26T19:44:41.351+01:00",
+      "participants": [
+        "kurikara",
+        "liadahlia",
+        "p0lari",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 19,
+      "formatted_text": "--- Thread (18 messages, 2018-04-26) ---\n[2018-04-26 19:35] kurikara: is it known whether Prismata will have more affordable price anytime in the future or not? I don't mean f2p but £19.49 is bit too much 😦 I'm long term MTG player and I was looking for a side game to play  and  I think such a mix of strategy and  card game looks fun.\n[2018-04-26 19:36] wilson0862 (Wilson): It will actually be free at some point. That was always the plan.\n[2018-04-26 19:37] wilson0862 (Wilson): 19.49 is like one good MTG card though, lmao\n[2018-04-26 19:38] p0lari (Polari): it's a quarter of a jace!\n[2018-04-26 19:38] kurikara: oh, okay! thanks 😄 I am aware but tomorrow next expansion gets launched and I have Grand Prix next month so I'm tight on the budget, lol\n[2018-04-26 19:39] kurikara: so I wondered if the prices will change within 30 days\n[2018-04-26 19:39] wilson0862 (Wilson): haha, I see. No idea on the timeframe, sorry.\n[2018-04-26 19:40] liadahlia (Lia): Free weekend soon(tm)\n[2018-04-26 19:40] liadahlia (Lia): You can also just ask for a free key\n[2018-04-26 19:41] kurikara: 🤔 that's what I'm trying to do, I guess\n[2018-04-26 19:41] wilson0862 (Wilson): Nah, you gotta spit it out.\n[2018-04-26 19:42] kurikara: any chance I could get a free key, pretty please :Lul:\n[2018-04-26 19:42] wilson0862 (Wilson): lmao I don't have one but somebody somewhere will have one if you keep waiting. :p\n[2018-04-26 19:43] kurikara: thank you 😃 I will keep looking then\n[2018-04-26 19:43] liadahlia (Lia): Mods love it when people *begs* for a free key :LongNoseLiar:\n[2018-04-26 19:44] wilson0862 (Wilson): I mean if you won't straight up ask, do you really deserve one? ;)\n[2018-04-26 19:44] liadahlia (Lia): You also gotta answer a trivia question and provide your social security number\n[2018-04-26 19:44] kurikara: Nah. I thought it might look bit sad because most of the links or resources lead me to steam store, lol 😄",
+      "messages": [
+        {
+          "id": "439132456499675136",
+          "author": "kurikara",
+          "nickname": "Kurikara",
+          "timestamp": "2018-04-26T19:35:36.316+01:00",
+          "content": "is it known whether Prismata will have more affordable price anytime in the future or not? I don't mean f2p but £19.49 is bit too much 😦 I'm long term MTG player and I was looking for a side game to play  and  I think such a mix of strategy and  card game looks fun."
+        },
+        {
+          "id": "439132727086940171",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-26T19:36:40.829+01:00",
+          "content": "It will actually be free at some point. That was always the plan."
+        },
+        {
+          "id": "439132813636141057",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-26T19:37:01.464+01:00",
+          "content": "19.49 is like one good MTG card though, lmao"
+        },
+        {
+          "id": "439133084072542209",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-26T19:38:05.941+01:00",
+          "content": "it's a quarter of a jace!"
+        },
+        {
+          "id": "439133125273190401",
+          "author": "kurikara",
+          "nickname": "Kurikara",
+          "timestamp": "2018-04-26T19:38:15.764+01:00",
+          "content": "oh, okay! thanks 😄 I am aware but tomorrow next expansion gets launched and I have Grand Prix next month so I'm tight on the budget, lol"
+        },
+        {
+          "id": "439133497937100802",
+          "author": "kurikara",
+          "nickname": "Kurikara",
+          "timestamp": "2018-04-26T19:39:44.614+01:00",
+          "content": "so I wondered if the prices will change within 30 days"
+        },
+        {
+          "id": "439133544661516288",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-26T19:39:55.754+01:00",
+          "content": "haha, I see. No idea on the timeframe, sorry."
+        },
+        {
+          "id": "439133640778186754",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-26T19:40:18.67+01:00",
+          "content": "Free weekend soon(tm)"
+        },
+        {
+          "id": "439133683769802762",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-26T19:40:28.92+01:00",
+          "content": "You can also just ask for a free key"
+        },
+        {
+          "id": "439133848794562560",
+          "author": "kurikara",
+          "nickname": "Kurikara",
+          "timestamp": "2018-04-26T19:41:08.265+01:00",
+          "content": "🤔 that's what I'm trying to do, I guess"
+        },
+        {
+          "id": "439134045583048707",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-26T19:41:55.183+01:00",
+          "content": "Nah, you gotta spit it out."
+        },
+        {
+          "id": "439134186306273300",
+          "author": "kurikara",
+          "nickname": "Kurikara",
+          "timestamp": "2018-04-26T19:42:28.734+01:00",
+          "content": "any chance I could get a free key, pretty please :Lul:"
+        },
+        {
+          "id": "439134274306703370",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-26T19:42:49.715+01:00",
+          "content": "lmao I don't have one but somebody somewhere will have one if you keep waiting. :p"
+        },
+        {
+          "id": "439134362424836097",
+          "author": "kurikara",
+          "nickname": "Kurikara",
+          "timestamp": "2018-04-26T19:43:10.724+01:00",
+          "content": "thank you 😃 I will keep looking then"
+        },
+        {
+          "id": "439134502158204948",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-26T19:43:44.039+01:00",
+          "content": "Mods love it when people *begs* for a free key :LongNoseLiar:"
+        },
+        {
+          "id": "439134584681005095",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-26T19:44:03.714+01:00",
+          "content": "I mean if you won't straight up ask, do you really deserve one? ;)"
+        },
+        {
+          "id": "439134694894731265",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-26T19:44:29.991+01:00",
+          "content": "You also gotta answer a trivia question and provide your social security number"
+        },
+        {
+          "id": "439134742542024704",
+          "author": "kurikara",
+          "nickname": "Kurikara",
+          "timestamp": "2018-04-26T19:44:41.351+01:00",
+          "content": "Nah. I thought it might look bit sad because most of the links or resources lead me to steam store, lol 😄"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T19:49:09.772+01:00",
+      "end_ts": "2018-04-26T19:52:28.758+01:00",
+      "participants": [
+        "iminabearsuit",
+        "supergreyman",
+        "totally_not_fbi",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (6 messages, 2018-04-26) ---\n[2018-04-26 19:49] supergreyman (Greyman): That's too easy! Where's the 100 push-ups? 😤\n[2018-04-26 19:49] wilson0862 (Wilson): bear is too kind honestly.\n[2018-04-26 19:49] iminabearsuit: I would recommend doing the campaign first, since it teaches you all the mechanics you need to learn.\n[2018-04-26 19:50] wilson0862 (Wilson): Even giving advice too. Hm.\n[2018-04-26 19:52] iminabearsuit: New players are great. Especially mtg players, since they spread it to their friends. :celerityOK:\n[2018-04-26 19:52] totally_not_fbi (Totally Not FBI): Cmon bear stop lowering prismata revenue :LongNoseLiar:",
+      "messages": [
+        {
+          "id": "439135868381298708",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-26T19:49:09.772+01:00",
+          "content": "That's too easy! Where's the 100 push-ups? 😤"
+        },
+        {
+          "id": "439135961016958976",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-26T19:49:31.858+01:00",
+          "content": "bear is too kind honestly."
+        },
+        {
+          "id": "439136034802892801",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-04-26T19:49:49.45+01:00",
+          "content": "I would recommend doing the campaign first, since it teaches you all the mechanics you need to learn."
+        },
+        {
+          "id": "439136133553586186",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-26T19:50:12.994+01:00",
+          "content": "Even giving advice too. Hm."
+        },
+        {
+          "id": "439136641509228566",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-04-26T19:52:14.1+01:00",
+          "content": "New players are great. Especially mtg players, since they spread it to their friends. :celerityOK:"
+        },
+        {
+          "id": "439136702989336577",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-04-26T19:52:28.758+01:00",
+          "content": "Cmon bear stop lowering prismata revenue :LongNoseLiar:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T20:19:42.035+01:00",
+      "end_ts": "2018-04-26T20:19:42.035+01:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-26) ---\n[2018-04-26 20:19] liadahlia (Lia): Can I buy some prismata packs 🤔",
+      "messages": [
+        {
+          "id": "439143553449459713",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-26T20:19:42.035+01:00",
+          "content": "Can I buy some prismata packs 🤔"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-26T21:13:28.077+01:00",
+      "end_ts": "2018-04-26T21:14:30.61+01:00",
+      "participants": [
+        "liadahlia",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-04-26) ---\n[2018-04-26 21:13] supergreyman (Greyman): Plow through the ladder with your **shocking new emotes**. 😮\n\nMesmerize all opponents with your **legendary skins**. 😱\n\nGain *competitive edge*. Gain *all-star fame*. **Buy your shards now** and be the player you want to be! :Green: :Green: :Green:\n[2018-04-26 21:14] liadahlia (Lia): can i buy an extra gold with microtransaction :POGGERS:",
+      "messages": [
+        {
+          "id": "439157084450193408",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-26T21:13:28.077+01:00",
+          "content": "Plow through the ladder with your **shocking new emotes**. 😮\n\nMesmerize all opponents with your **legendary skins**. 😱\n\nGain *competitive edge*. Gain *all-star fame*. **Buy your shards now** and be the player you want to be! :Green: :Green: :Green:"
+        },
+        {
+          "id": "439157346732867585",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-26T21:14:30.61+01:00",
+          "content": "can i buy an extra gold with microtransaction :POGGERS:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T03:30:28.757+01:00",
+      "end_ts": "2018-04-27T03:40:38.784+01:00",
+      "participants": [
+        "apooche",
+        "liadahlia",
+        "mrguy888",
+        "sandraudiga",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (7 messages, 2018-04-27) ---\n[2018-04-27 03:30] apooche: Yeah Sif that has been a pretty consistent behavior for pacifist bot (really all the bots) for a while.\n[2018-04-27 03:32] liadahlia (Lia): But what happens if wacky bot crash 🤔\n[2018-04-27 03:34] wilson0862 (Wilson): How would you ever know? 🤔\n[2018-04-27 03:36] apooche: Wacky bot is build into the client. It would look like a client crash. Other bots are run using PrismataAi.exe\n[2018-04-27 03:36] apooche: So when that executable doesn’t respond in time, the wacky bot in the client takes over\n[2018-04-27 03:38] mrguy888: ah so the \"crash\" is just the ai timing out not actually crashing?\n[2018-04-27 03:40] sandraudiga: interestingly, when pacifist bot 'crashed' the client hung for several seconds before resuming. I thought the client itself had crashed at first",
+      "messages": [
+        {
+          "id": "439251962459062274",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-27T03:30:28.757+01:00",
+          "content": "Yeah Sif that has been a pretty consistent behavior for pacifist bot (really all the bots) for a while."
+        },
+        {
+          "id": "439252546130018304",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-27T03:32:47.915+01:00",
+          "content": "But what happens if wacky bot crash 🤔"
+        },
+        {
+          "id": "439252877135970315",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-27T03:34:06.833+01:00",
+          "content": "How would you ever know? 🤔"
+        },
+        {
+          "id": "439253393345740801",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-27T03:36:09.907+01:00",
+          "content": "Wacky bot is build into the client. It would look like a client crash. Other bots are run using PrismataAi.exe"
+        },
+        {
+          "id": "439253535625052161",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-27T03:36:43.829+01:00",
+          "content": "So when that executable doesn’t respond in time, the wacky bot in the client takes over"
+        },
+        {
+          "id": "439254004661223455",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T03:38:35.656+01:00",
+          "content": "ah so the \"crash\" is just the ai timing out not actually crashing?"
+        },
+        {
+          "id": "439254521097748480",
+          "author": "sandraudiga",
+          "nickname": "sandraudiga",
+          "timestamp": "2018-04-27T03:40:38.784+01:00",
+          "content": "interestingly, when pacifist bot 'crashed' the client hung for several seconds before resuming. I thought the client itself had crashed at first"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T06:45:15.826+01:00",
+      "end_ts": "2018-04-27T06:45:15.826+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-04-27) ---\n[2018-04-27 06:45] apooche: The game communicates with the ai by feeding info about the board state (and which bot is playing) into the ai executable, and then the ai gives back what turn to play. If the ai fails in some way, the prismata client will keep running and just give you an error (like lost thread to ai... something like that) and then just have wacky bot take over. Prismata either got an illegal turn back or the ai just never responded because the board state messed it up in some way.\nI'm not sure how the ai works in the web version, but I think the basic separation between the ai program and the actual game engine is still there. Dave said he actually rewrote the engine in C++ for the bot to use.",
+      "messages": [
+        {
+          "id": "439300981579317249",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-27T06:45:15.826+01:00",
+          "content": "The game communicates with the ai by feeding info about the board state (and which bot is playing) into the ai executable, and then the ai gives back what turn to play. If the ai fails in some way, the prismata client will keep running and just give you an error (like lost thread to ai... something like that) and then just have wacky bot take over. Prismata either got an illegal turn back or the ai just never responded because the board state messed it up in some way.\nI'm not sure how the ai works in the web version, but I think the basic separation between the ai program and the actual game engine is still there. Dave said he actually rewrote the engine in C++ for the bot to use."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T09:16:35.698+01:00",
+      "end_ts": "2018-04-27T09:16:35.698+01:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-27) ---\n[2018-04-27 09:16] liadahlia (Lia): Why does a man with goose cannon as a profile picture not have goose cannon as a favorite unit?",
+      "messages": [
+        {
+          "id": "439339065322766338",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-27T09:16:35.698+01:00",
+          "content": "Why does a man with goose cannon as a profile picture not have goose cannon as a favorite unit?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T13:07:00.735+01:00",
+      "end_ts": "2018-04-27T13:07:00.735+01:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-04-27) ---\n[2018-04-27 13:07] awaclus: >Why does a man named Steel not have a Steelsplitter as a favorite unit?\nmaybe he doesn't want to get split",
+      "messages": [
+        {
+          "id": "439397051730493446",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-04-27T13:07:00.735+01:00",
+          "content": ">Why does a man named Steel not have a Steelsplitter as a favorite unit?\nmaybe he doesn't want to get split"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T13:10:42.428+01:00",
+      "end_ts": "2018-04-27T13:11:51.455+01:00",
+      "participants": [
+        "crash_overlord",
+        "darkeisbein"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2018-04-27) ---\n[2018-04-27 13:10] crash_overlord: :GWfroggyMonkaChrist:\n[2018-04-27 13:11] darkeisbein: Is a steelsplitter a splitter made of steel or made to split steel 🤔",
+      "messages": [
+        {
+          "id": "439397981578330112",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-27T13:10:42.428+01:00",
+          "content": ":GWfroggyMonkaChrist:"
+        },
+        {
+          "id": "439398271098683402",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-27T13:11:51.455+01:00",
+          "content": "Is a steelsplitter a splitter made of steel or made to split steel 🤔"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T13:55:23.467+01:00",
+      "end_ts": "2018-04-27T13:55:23.467+01:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-27) ---\n[2018-04-27 13:55] awaclus: is an omegasplitter a splitter made of omega or made to split omega 🤔",
+      "messages": [
+        {
+          "id": "439409226671194142",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-04-27T13:55:23.467+01:00",
+          "content": "is an omegasplitter a splitter made of omega or made to split omega 🤔"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T14:38:40.488+01:00",
+      "end_ts": "2018-04-27T14:41:07.114+01:00",
+      "participants": [
+        "crash_overlord",
+        "mrguy888",
+        "ravnabergsndot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (4 messages, 2018-04-27) ---\n[2018-04-27 14:38] ravnabergsndot (Ravna): Is a blastforge used for forging blasts or is it a device that uses blasts to forge stuff\n[2018-04-27 14:40] crash_overlord: uses blastforges to forge blasts\n[2018-04-27 14:40] mrguy888: it fires the blastforge as ammo and the blast forge blasts on impact to do 2 extra damage instead of 1\n[2018-04-27 14:41] mrguy888: just like how the splitter fired from odin shoots the enemy during its travel time as a bullet",
+      "messages": [
+        {
+          "id": "439420119366631425",
+          "author": "ravnabergsndot",
+          "nickname": "Ravna",
+          "timestamp": "2018-04-27T14:38:40.488+01:00",
+          "content": "Is a blastforge used for forging blasts or is it a device that uses blasts to forge stuff"
+        },
+        {
+          "id": "439420465451106344",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-27T14:40:03.001+01:00",
+          "content": "uses blastforges to forge blasts"
+        },
+        {
+          "id": "439420588482887682",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T14:40:32.334+01:00",
+          "content": "it fires the blastforge as ammo and the blast forge blasts on impact to do 2 extra damage instead of 1"
+        },
+        {
+          "id": "439420734360649731",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T14:41:07.114+01:00",
+          "content": "just like how the splitter fired from odin shoots the enemy during its travel time as a bullet"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T15:50:44.739+01:00",
+      "end_ts": "2018-04-27T15:51:45.565+01:00",
+      "participants": [
+        "crash_overlord",
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (3 messages, 2018-04-27) ---\n[2018-04-27 15:50] mrguy888: is it twin guns or a rail gun?\n[2018-04-27 15:51] mrguy888: like i thought the forge goes between the two rods\n[2018-04-27 15:51] crash_overlord: Have you seen the firing animation?",
+      "messages": [
+        {
+          "id": "439438256590028815",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T15:50:44.739+01:00",
+          "content": "is it twin guns or a rail gun?"
+        },
+        {
+          "id": "439438341310644224",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T15:51:04.938+01:00",
+          "content": "like i thought the forge goes between the two rods"
+        },
+        {
+          "id": "439438511712632842",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-27T15:51:45.565+01:00",
+          "content": "Have you seen the firing animation?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T16:14:51.094+01:00",
+      "end_ts": "2018-04-27T16:14:51.094+01:00",
+      "participants": [
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-27) ---\n[2018-04-27 16:14] mrguy888: And ninja wall has 4 hp. You can't really trust those contracted artists.",
+      "messages": [
+        {
+          "id": "439444323042590722",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T16:14:51.094+01:00",
+          "content": "And ninja wall has 4 hp. You can't really trust those contracted artists."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T16:32:15.144+01:00",
+      "end_ts": "2018-04-27T16:36:23.165+01:00",
+      "participants": [
+        "lavenders2",
+        "p0lari"
+      ],
+      "replay_codes": [
+        "5MHom-JnvlO"
+      ],
+      "score": 14,
+      "formatted_text": "--- Thread (7 messages, 2018-04-27) ---\n[2018-04-27 16:32] lavenders2: I'm not sure if I am missing something, but why did my opponent resign this game? I'm fairly sure he had it 5MHom-JnvlO\n[2018-04-27 16:33] p0lari (Polari): oh resigned, not just left\n[2018-04-27 16:33] lavenders2: Also, I feel like the discord needs some kind of \"replay analysis\" or \"replay posting\" chat for people to put all the replays in and for people to say stuff about them but maybe thats just me\n[2018-04-27 16:34] p0lari (Polari): you mean like #strategy_advice ?\n[2018-04-27 16:34] lavenders2: thats probs a good place now that i think about it haha\n[2018-04-27 16:35] p0lari (Polari): ok now that I look at the replay I'm guessing he saw he couldn't conveniently defend and didn't look further than that\n[2018-04-27 16:36] lavenders2: true, I didn't realize that until I copy pastad the replay in here and it said he was tier 2, I just assume every player i meet these days is tier 9 or master",
+      "messages": [
+        {
+          "id": "439448702105681950",
+          "author": "lavenders2",
+          "nickname": "Lavenders2",
+          "timestamp": "2018-04-27T16:32:15.144+01:00",
+          "content": "I'm not sure if I am missing something, but why did my opponent resign this game? I'm fairly sure he had it 5MHom-JnvlO"
+        },
+        {
+          "id": "439449112723587082",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-27T16:33:53.043+01:00",
+          "content": "oh resigned, not just left"
+        },
+        {
+          "id": "439449114720337942",
+          "author": "lavenders2",
+          "nickname": "Lavenders2",
+          "timestamp": "2018-04-27T16:33:53.519+01:00",
+          "content": "Also, I feel like the discord needs some kind of \"replay analysis\" or \"replay posting\" chat for people to put all the replays in and for people to say stuff about them but maybe thats just me"
+        },
+        {
+          "id": "439449250024390679",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-27T16:34:25.778+01:00",
+          "content": "you mean like #strategy_advice ?"
+        },
+        {
+          "id": "439449317753880576",
+          "author": "lavenders2",
+          "nickname": "Lavenders2",
+          "timestamp": "2018-04-27T16:34:41.926+01:00",
+          "content": "thats probs a good place now that i think about it haha"
+        },
+        {
+          "id": "439449601099956237",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-27T16:35:49.481+01:00",
+          "content": "ok now that I look at the replay I'm guessing he saw he couldn't conveniently defend and didn't look further than that"
+        },
+        {
+          "id": "439449742381154316",
+          "author": "lavenders2",
+          "nickname": "Lavenders2",
+          "timestamp": "2018-04-27T16:36:23.165+01:00",
+          "content": "true, I didn't realize that until I copy pastad the replay in here and it said he was tier 2, I just assume every player i meet these days is tier 9 or master"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T16:40:42.696+01:00",
+      "end_ts": "2018-04-27T16:41:36.772+01:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2018-04-27) ---\n[2018-04-27 16:40] p0lari (Polari): I've thought there's been a bunch of sevens and eights too\n[2018-04-27 16:41] p0lari (Polari): the issue with finding lower tier players is that people progress out of those pretty quick and never fall back down so anyone but very recently started players will have already got out of them",
+      "messages": [
+        {
+          "id": "439450830932803587",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-27T16:40:42.696+01:00",
+          "content": "I've thought there's been a bunch of sevens and eights too"
+        },
+        {
+          "id": "439451057744117762",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-27T16:41:36.772+01:00",
+          "content": "the issue with finding lower tier players is that people progress out of those pretty quick and never fall back down so anyone but very recently started players will have already got out of them"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T17:57:15.666+01:00",
+      "end_ts": "2018-04-27T18:00:47.598+01:00",
+      "participants": [
+        "kristian1103",
+        "mrguy888",
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (4 messages, 2018-04-27) ---\n[2018-04-27 17:57] kristian1103 (Arkanishu): Just Elyot, if he didn't forget about it\n[2018-04-27 17:57] mrguy888: I wouldn't be confident that Elyot currently knows the next mode of the week.\n[2018-04-27 17:59] p0lari (Polari): we'll probably know it within an hour from the event having started\n[2018-04-27 18:00] kristian1103 (Arkanishu): Mrgoose888 vs steel in 2 hours HYPE",
+      "messages": [
+        {
+          "id": "439470095245246466",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-04-27T17:57:15.666+01:00",
+          "content": "Just Elyot, if he didn't forget about it"
+        },
+        {
+          "id": "439470214556418048",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T17:57:44.112+01:00",
+          "content": "I wouldn't be confident that Elyot currently knows the next mode of the week."
+        },
+        {
+          "id": "439470713301106689",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-27T17:59:43.022+01:00",
+          "content": "we'll probably know it within an hour from the event having started"
+        },
+        {
+          "id": "439470984152743946",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-04-27T18:00:47.598+01:00",
+          "content": "Mrgoose888 vs steel in 2 hours HYPE"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T18:06:39.192+01:00",
+      "end_ts": "2018-04-27T18:11:27.014+01:00",
+      "participants": [
+        "mrguy888",
+        "supergreyman",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (4 messages, 2018-04-27) ---\n[2018-04-27 18:06] supergreyman (Greyman): Why do people keep calling Gauss as goose?\n[2018-04-27 18:07] wiwiweb: the real unit name is Goose Cannon but there's a typo ingame\n[2018-04-27 18:09] mrguy888: this is what i see when i play prismata. do other people not have this?\n[2018-04-27 18:11] supergreyman (Greyman): I think I downloaded a counterfeit game.",
+      "messages": [
+        {
+          "id": "439472458844864522",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-27T18:06:39.192+01:00",
+          "content": "Why do people keep calling Gauss as goose?"
+        },
+        {
+          "id": "439472566177103872",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-27T18:07:04.782+01:00",
+          "content": "the real unit name is Goose Cannon but there's a typo ingame"
+        },
+        {
+          "id": "439473241082429441",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T18:09:45.692+01:00",
+          "content": "this is what i see when i play prismata. do other people not have this?"
+        },
+        {
+          "id": "439473666057699328",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-27T18:11:27.014+01:00",
+          "content": "I think I downloaded a counterfeit game."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T18:34:12.359+01:00",
+      "end_ts": "2018-04-27T18:37:53.398+01:00",
+      "participants": [
+        "kristian1103",
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (5 messages, 2018-04-27) ---\n[2018-04-27 18:34] xyotsuba: Will there be another golden cup?\n[2018-04-27 18:34] xyotsuba: Or other major tournament\n[2018-04-27 18:35] kristian1103 (Arkanishu): the plan was to go for some league system after golden cup, the highest league being streamed and having prizes. Redrame also wanted to organize that.\n[2018-04-27 18:36] kristian1103 (Arkanishu): tbh though if the player numbers don´t go up I don´t think I´ll put as much effort into a tournament again as I did for golden Cup\n[2018-04-27 18:37] xyotsuba: How much would be the highest league?",
+      "messages": [
+        {
+          "id": "439479392729694218",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-04-27T18:34:12.359+01:00",
+          "content": "Will there be another golden cup?"
+        },
+        {
+          "id": "439479467140972554",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-04-27T18:34:30.1+01:00",
+          "content": "Or other major tournament"
+        },
+        {
+          "id": "439479822306246666",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-04-27T18:35:54.778+01:00",
+          "content": "the plan was to go for some league system after golden cup, the highest league being streamed and having prizes. Redrame also wanted to organize that."
+        },
+        {
+          "id": "439479924362051594",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-04-27T18:36:19.11+01:00",
+          "content": "tbh though if the player numbers don´t go up I don´t think I´ll put as much effort into a tournament again as I did for golden Cup"
+        },
+        {
+          "id": "439480319834325002",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-04-27T18:37:53.398+01:00",
+          "content": "How much would be the highest league?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T19:01:38.715+01:00",
+      "end_ts": "2018-04-27T19:02:33.074+01:00",
+      "participants": [
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2018-04-27) ---\n[2018-04-27 19:01] liadahlia (Lia): is that reverse backtick you're using for apostrophes?\n[2018-04-27 19:02] liadahlia (Lia): but yeah i'd imagine leagues wouldn't be based on rankings, as some people are good at tournaments while being bad at ladder",
+      "messages": [
+        {
+          "id": "439486298047119360",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-27T19:01:38.715+01:00",
+          "content": "is that reverse backtick you're using for apostrophes?"
+        },
+        {
+          "id": "439486526045552660",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-27T19:02:33.074+01:00",
+          "content": "but yeah i'd imagine leagues wouldn't be based on rankings, as some people are good at tournaments while being bad at ladder"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T21:06:12.894+01:00",
+      "end_ts": "2018-04-27T21:06:12.894+01:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-27) ---\n[2018-04-27 21:06] p0lari (Polari): and you reloaded the page?",
+      "messages": [
+        {
+          "id": "439517647026126848",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-04-27T21:06:12.894+01:00",
+          "content": "and you reloaded the page?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T21:45:29.076+01:00",
+      "end_ts": "2018-04-27T21:47:23.68+01:00",
+      "participants": [
+        "liadahlia",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2018-04-27) ---\n[2018-04-27 21:45] supergreyman (Greyman): :GaussCannon:   >   :Steelsplitter:\n[2018-04-27 21:47] liadahlia (Lia): And there you go, age old argument is now resolved",
+      "messages": [
+        {
+          "id": "439527529569845269",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-27T21:45:29.076+01:00",
+          "content": ":GaussCannon:   >   :Steelsplitter:"
+        },
+        {
+          "id": "439528010253598720",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-27T21:47:23.68+01:00",
+          "content": "And there you go, age old argument is now resolved"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-27T22:38:44.199+01:00",
+      "end_ts": "2018-04-27T22:51:17.402+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot",
+        "itsotter",
+        "liadahlia",
+        "mrguy888",
+        "supergreyman",
+        "wiwiweb",
+        "zezetel"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (22 messages, 2018-04-27) ---\n[2018-04-27 22:38] wiwiweb: >Changed \"When bought:\" to \"Additional cost:\"\n[2018-04-27 22:38] wiwiweb: God dammit Loonarch I just re-uploaded all new panels to the wiki a couple days ago :HUGGERS:\n[2018-04-27 22:40] zezetel: @Elyot combat training asks a pasword\n[2018-04-27 22:40] zezetel: I think thats unintended?\n[2018-04-27 22:41] zezetel: should be just chapter 2 no?\n[2018-04-27 22:42] zezetel: aa thank you darkrai\n[2018-04-27 22:42] supergreyman (Greyman): That is totally not intended.\n[2018-04-27 22:43] supergreyman (Greyman): I wonder if this is intended too...?\n[2018-04-27 22:44] Deleted User (Deleted User): no, it's when gfx doesn't load\n[2018-04-27 22:44] Deleted User (Deleted User): also i love this event\n[2018-04-27 22:44] Deleted User (Deleted User): this event is fucking amazing eloyot\n[2018-04-27 22:44] liadahlia (Lia): is it intended for tier 8 to match with rank #54 🤔\n[2018-04-27 22:44] supergreyman (Greyman): Has it always been like this for event-only units?\n[2018-04-27 22:44] elyot: and yes event matching is wiiiiide\n[2018-04-27 22:45] supergreyman (Greyman): I'm having a hard time getting into chapter 2. What's the password for it? 😉\n[2018-04-27 22:46] itsotter: @Elyot is stalling until server downtime an intended prismata strategy\n[2018-04-27 22:47] elyot: uh we won't ban anybody for it, but you're a jerk, maybe 😛\n[2018-04-27 22:48] mrguy888: is queueing 90s after a server downtime warning an intended prismata strategy?\n[2018-04-27 22:48] itsotter: i queued before the warning\n[2018-04-27 22:49] liadahlia (Lia): Banned for being a jerk :NotLikeThis:\n[2018-04-27 22:49] mrguy888: well that is a bit more rough then\n[2018-04-27 22:51] Deleted User (Deleted User): i wonder if i can have a 5 win sweep on event tbh",
+      "messages": [
+        {
+          "id": "439540930887024641",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-27T22:38:44.199+01:00",
+          "content": ">Changed \"When bought:\" to \"Additional cost:\""
+        },
+        {
+          "id": "439540989921853450",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-04-27T22:38:58.274+01:00",
+          "content": "God dammit Loonarch I just re-uploaded all new panels to the wiki a couple days ago :HUGGERS:"
+        },
+        {
+          "id": "439541440843087872",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-04-27T22:40:45.782+01:00",
+          "content": "@Elyot combat training asks a pasword"
+        },
+        {
+          "id": "439541466377879552",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-04-27T22:40:51.87+01:00",
+          "content": "I think thats unintended?"
+        },
+        {
+          "id": "439541519607791616",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-04-27T22:41:04.561+01:00",
+          "content": "should be just chapter 2 no?"
+        },
+        {
+          "id": "439541790744510464",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-04-27T22:42:09.205+01:00",
+          "content": "aa thank you darkrai"
+        },
+        {
+          "id": "439541841096867860",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-27T22:42:21.21+01:00",
+          "content": "That is totally not intended."
+        },
+        {
+          "id": "439542060723208193",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-27T22:43:13.573+01:00",
+          "content": "I wonder if this is intended too...?"
+        },
+        {
+          "id": "439542339338502165",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-27T22:44:20+01:00",
+          "content": "no, it's when gfx doesn't load"
+        },
+        {
+          "id": "439542352760012811",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-27T22:44:23.2+01:00",
+          "content": "also i love this event"
+        },
+        {
+          "id": "439542388428505122",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-27T22:44:31.704+01:00",
+          "content": "this event is fucking amazing eloyot"
+        },
+        {
+          "id": "439542431374114827",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-27T22:44:41.943+01:00",
+          "content": "is it intended for tier 8 to match with rank #54 🤔"
+        },
+        {
+          "id": "439542445991264267",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-27T22:44:45.428+01:00",
+          "content": "Has it always been like this for event-only units?"
+        },
+        {
+          "id": "439542501620318221",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-04-27T22:44:58.691+01:00",
+          "content": "and yes event matching is wiiiiide"
+        },
+        {
+          "id": "439542728871772161",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-27T22:45:52.872+01:00",
+          "content": "I'm having a hard time getting into chapter 2. What's the password for it? 😉"
+        },
+        {
+          "id": "439542994199117826",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-04-27T22:46:56.131+01:00",
+          "content": "@Elyot is stalling until server downtime an intended prismata strategy"
+        },
+        {
+          "id": "439543133781360641",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-04-27T22:47:29.41+01:00",
+          "content": "uh we won't ban anybody for it, but you're a jerk, maybe 😛"
+        },
+        {
+          "id": "439543299783655424",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T22:48:08.988+01:00",
+          "content": "is queueing 90s after a server downtime warning an intended prismata strategy?"
+        },
+        {
+          "id": "439543490561441812",
+          "author": "itsotter",
+          "nickname": "itsotter",
+          "timestamp": "2018-04-27T22:48:54.473+01:00",
+          "content": "i queued before the warning"
+        },
+        {
+          "id": "439543575517331456",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-27T22:49:14.728+01:00",
+          "content": "Banned for being a jerk :NotLikeThis:"
+        },
+        {
+          "id": "439543629439303680",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-27T22:49:27.584+01:00",
+          "content": "well that is a bit more rough then"
+        },
+        {
+          "id": "439544090049249291",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-27T22:51:17.402+01:00",
+          "content": "i wonder if i can have a 5 win sweep on event tbh"
+        }
+      ]
+    }
+  ]
+}

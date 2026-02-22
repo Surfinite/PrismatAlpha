@@ -90,6 +90,27 @@ CHANNEL_PRIORITY = [
     "prismata_chat",
 ]
 
+# Channel relevance tiers for batch processing (--channels all)
+CHANNEL_TIERS = {
+    "HIGH": [
+        "strategy_advice",
+        "prismata_chat",
+        "unit_and_game_design",
+        "alpha_player_lounge",
+    ],
+    "MEDIUM": [
+        "questions_and_help",
+        "ask_a_dev",
+    ],
+    "LOW": [
+        "dev_seeking_feedback",
+        "general",
+    ],
+}
+
+# Flat set of HIGH + MEDIUM channels for --channels all
+HIGH_MED_CHANNELS = set(CHANNEL_TIERS["HIGH"] + CHANNEL_TIERS["MEDIUM"])
+
 # Known expert handles (match on author.name, which is stable lowercase)
 EXPERTS = {
     "amalloy", "mrguy888", "velizar_", "masn6811", "awaclus", "apooche", "elyot",
@@ -1082,6 +1103,57 @@ def write_chunks(all_results, work_dir):
         }, f, indent=2, ensure_ascii=False)
 
     return chunk_num
+
+
+def write_chunks_per_channel(all_results, work_dir):
+    """Write chunk files to per-channel directories.
+
+    Creates ``work_dir/chunks_{channel}/`` for each channel and writes
+    numbered JSON files. Each channel gets its own ``chunk_manifest.json``.
+
+    Returns:
+        dict: Mapping of channel_name -> number of chunk files written.
+    """
+    per_channel = {}
+
+    for result in all_results:
+        channel_name = result["channel"]
+        channel_chunks_dir = Path(work_dir) / f"chunks_{channel_name}"
+        channel_chunks_dir.mkdir(parents=True, exist_ok=True)
+
+        manifest = []
+        chunk_num = 0
+
+        for chunk in result["chunks"]:
+            chunk_num += 1
+            filename = f"chunk_{chunk_num:04d}.json"
+            filepath = channel_chunks_dir / filename
+
+            with open(filepath, "w", encoding="utf-8") as f:
+                json.dump(chunk, f, indent=2, ensure_ascii=False, default=str)
+
+            manifest.append({
+                "filename": filename,
+                "channel": chunk["channel"],
+                "date_range": chunk["date_range"],
+                "thread_count": chunk["thread_count"],
+                "token_count": chunk["token_count"],
+            })
+
+        # Write per-channel manifest
+        manifest_path = channel_chunks_dir / "chunk_manifest.json"
+        with open(manifest_path, "w", encoding="utf-8") as f:
+            json.dump({
+                "total_chunks": chunk_num,
+                "total_tokens": sum(m["token_count"] for m in manifest),
+                "channel": channel_name,
+                "generated": datetime.now(timezone.utc).isoformat(),
+                "chunks": manifest,
+            }, f, indent=2, ensure_ascii=False)
+
+        per_channel[channel_name] = chunk_num
+
+    return per_channel
 
 
 # ---------------------------------------------------------------------------
@@ -2266,6 +2338,10 @@ def parse_args():
                         help="Phase 1 only: print stats, no API calls, no chunk files")
     parser.add_argument("--channel", type=str, default=None,
                         help="Process single channel only (e.g., strategy_advice)")
+    parser.add_argument("--channels", type=str, default=None,
+                        help="Process multiple channels: comma-separated names or 'all' "
+                             "for all HIGH+MEDIUM channels. Outputs to per-channel "
+                             "directories (chunks_{channel}/)")
     parser.add_argument("--work-dir", type=str, default=None,
                         help="Working directory (default: discord_extraction/ relative to script)")
     parser.add_argument("--exports-dir", type=str, default=DISCORD_EXPORTS_DIR,
@@ -2349,8 +2425,37 @@ def main():
     print(f"Found {len(channel_files)} channels: {', '.join(sorted(channel_files.keys()))}")
     print()
 
-    # Determine processing order
-    if args.channel:
+    # Determine processing order and output mode
+    use_per_channel_dirs = False
+
+    if args.channel and args.channels:
+        print("ERROR: --channel and --channels are mutually exclusive.", file=sys.stderr)
+        sys.exit(1)
+
+    if args.channels:
+        use_per_channel_dirs = True
+        if args.channels.lower() == "all":
+            # Process all HIGH + MEDIUM channels
+            channels_to_process = [ch for ch in CHANNEL_PRIORITY
+                                   if ch in channel_files and ch in HIGH_MED_CHANNELS]
+            missing = HIGH_MED_CHANNELS - set(channel_files.keys())
+            if missing:
+                print(f"WARNING: channels not found in exports: {', '.join(sorted(missing))}",
+                      file=sys.stderr)
+        else:
+            # Comma-separated channel names
+            requested = [ch.strip() for ch in args.channels.split(",")]
+            channels_to_process = []
+            for ch in requested:
+                if ch not in channel_files:
+                    available = ", ".join(sorted(channel_files.keys()))
+                    print(f"ERROR: channel '{ch}' not found. Available: {available}",
+                          file=sys.stderr)
+                    sys.exit(1)
+                channels_to_process.append(ch)
+        print(f"Multi-channel mode: {len(channels_to_process)} channels "
+              f"({', '.join(channels_to_process)})")
+    elif args.channel:
         if args.channel not in channel_files:
             available = ", ".join(sorted(channel_files.keys()))
             print(f"ERROR: channel '{args.channel}' not found. Available: {available}",
@@ -2376,6 +2481,21 @@ def main():
 
     # Output
     if args.dry_run:
+        print_dry_run(all_results)
+    elif use_per_channel_dirs:
+        print(f"\nWriting chunks to per-channel directories in {work_dir}/...")
+        per_channel_counts = write_chunks_per_channel(all_results, work_dir)
+        for ch_name, ch_count in per_channel_counts.items():
+            print(f"  {ch_name}: {ch_count} chunks -> chunks_{ch_name}/")
+
+        # Print summary
+        total_written = sum(per_channel_counts.values())
+        total_tokens = sum(r["total_tokens"] for r in all_results)
+        total_threads = sum(r["scored_count"] for r in all_results)
+        print(f"\nSummary: {total_written} chunks across {len(per_channel_counts)} channels, "
+              f"{total_threads} threads, {total_tokens:,} tokens")
+
+        # Print cost estimate (same as dry-run)
         print_dry_run(all_results)
     else:
         print(f"\nWriting chunks to {work_dir}/chunks/...")

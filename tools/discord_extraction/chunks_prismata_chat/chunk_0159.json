@@ -1,0 +1,3427 @@
+{
+  "channel": "prismata_chat",
+  "date_range": "2023-02-18 to 2023-03-09",
+  "thread_count": 90,
+  "token_count": 14968,
+  "threads": [
+    {
+      "start_ts": "2023-02-18T02:54:51.034+00:00",
+      "end_ts": "2023-02-18T02:59:33.351+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (3 messages, 2023-02-18) ---\n[2023-02-18 02:54] spiritfryer (Spyrfyr): --\nAnother potential issue: what if having that big of a limit (10 gold) is too much, and some players would \"exploit\" the system by forcing wildly unconventional games?\n\nIdeas for potential solutions, if it is an issue:\n* Lower the max gold bid to something lower, probably 3 or 4 should already handle most unbalanced sets, while still allowing enough granularity if setting the bid to take effect on a later turn?\n[2023-02-18 02:57] spiritfryer (Spyrfyr): --\nAlso: what if this takes away too much from the current skills the game tests for?\n\nMy personal answer: Idk, but since it's optional and since many ppl (especially more skilled players) tend to get annoyed by some autowin sets -- it seems to be worth a shot\n[2023-02-18 02:59] spiritfryer (Spyrfyr): --\nAnd then, potential big benefit, apart from hopefully solving the issue of autowin sets: possibly introduces some freshness to the game and ppl can theorycraft the optimal bids for different kinds of sets\n\nMaybe even enables b+1 / b+2 being a more interesting mode",
+      "messages": [
+        {
+          "id": "1076335963418144809",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-18T02:54:51.034+00:00",
+          "content": "--\nAnother potential issue: what if having that big of a limit (10 gold) is too much, and some players would \"exploit\" the system by forcing wildly unconventional games?\n\nIdeas for potential solutions, if it is an issue:\n* Lower the max gold bid to something lower, probably 3 or 4 should already handle most unbalanced sets, while still allowing enough granularity if setting the bid to take effect on a later turn?"
+        },
+        {
+          "id": "1076336632208310404",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-18T02:57:30.486+00:00",
+          "content": "--\nAlso: what if this takes away too much from the current skills the game tests for?\n\nMy personal answer: Idk, but since it's optional and since many ppl (especially more skilled players) tend to get annoyed by some autowin sets -- it seems to be worth a shot"
+        },
+        {
+          "id": "1076337147541463080",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-18T02:59:33.351+00:00",
+          "content": "--\nAnd then, potential big benefit, apart from hopefully solving the issue of autowin sets: possibly introduces some freshness to the game and ppl can theorycraft the optimal bids for different kinds of sets\n\nMaybe even enables b+1 / b+2 being a more interesting mode"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-18T11:34:57.017+00:00",
+      "end_ts": "2023-02-18T21:21:03.285+00:00",
+      "participants": [
+        "spiritfryer",
+        "vanilvanil"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2023-02-18) ---\n[2023-02-18 11:34] vanilvanil (Vanil - Ваніль): Hm. Is the player in the worst position simply supposed to bid to get into the better position, therefore removing some advantage once they swap?\n[2023-02-18 21:21] spiritfryer (Spyrfyr): Yea the main motivation is to balance \"auto win\" sets",
+      "messages": [
+        {
+          "id": "1076466850797453322",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-02-18T11:34:57.017+00:00",
+          "content": "Hm. Is the player in the worst position simply supposed to bid to get into the better position, therefore removing some advantage once they swap?"
+        },
+        {
+          "id": "1076614348816007218",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-18T21:21:03.285+00:00",
+          "content": "Yea the main motivation is to balance \"auto win\" sets"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-18T23:51:17.635+00:00",
+      "end_ts": "2023-02-18T23:55:24.92+00:00",
+      "participants": [
+        "amalloy",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (2 messages, 2023-02-18) ---\n[2023-02-18 23:51] spiritfryer (Spyrfyr): New mode:\n\nBoth players play two games at the same time, using the same random set -- each player is p1 in one game and p2 in the other.\n\nThe turns are played simultaneously. I.e. on turn 1, both players play their p1 turn, on turn 1' they both play their p2 turn, and so on. However, they don't get to see their opponent's moves until after submitting their own.\n\nAll existing mechanics apply to both games independently, and even if one game ends, the other still continues as normal.\n\nThe overall match outcome is decided by the combining the two games' outcomes. If both players win 1 out of the 2 games then the match ends in a draw.\n\nMore specifically: winning a game gives +1 point, and drawing or losing a game gives +0 point. Therefore the possible combinations of outcomes can yield the following from the perspective of one of the players:\n* Win A / Win A: +2/+0  --> A wins by 2\n* Win A / Win B: +1/+1  --> A & B draw\n* Win A / Draw: +1/+0 --> A wins by 1\n* Draw / Draw: +0/+0 --> A & B draw\n[2023-02-18 23:55] amalloy: you're inventing duplicate bridge",
+      "messages": [
+        {
+          "id": "1076652157740261387",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-18T23:51:17.635+00:00",
+          "content": "New mode:\n\nBoth players play two games at the same time, using the same random set -- each player is p1 in one game and p2 in the other.\n\nThe turns are played simultaneously. I.e. on turn 1, both players play their p1 turn, on turn 1' they both play their p2 turn, and so on. However, they don't get to see their opponent's moves until after submitting their own.\n\nAll existing mechanics apply to both games independently, and even if one game ends, the other still continues as normal.\n\nThe overall match outcome is decided by the combining the two games' outcomes. If both players win 1 out of the 2 games then the match ends in a draw.\n\nMore specifically: winning a game gives +1 point, and drawing or losing a game gives +0 point. Therefore the possible combinations of outcomes can yield the following from the perspective of one of the players:\n* Win A / Win A: +2/+0  --> A wins by 2\n* Win A / Win B: +1/+1  --> A & B draw\n* Win A / Draw: +1/+0 --> A wins by 1\n* Draw / Draw: +0/+0 --> A & B draw"
+        },
+        {
+          "id": "1076653194928730112",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-02-18T23:55:24.92+00:00",
+          "content": "you're inventing duplicate bridge"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-18T23:59:11.094+00:00",
+      "end_ts": "2023-02-19T00:00:01.584+00:00",
+      "participants": [
+        "amalloy",
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2023-02-18 to 2023-02-19) ---\n[2023-02-18 23:59] awaclus: Duplicate/Bridge is pretty good, it lets you gain all the Provinces in a megaturn\n[2023-02-19 00:00] amalloy: when Adventures was new, i Duplicated Provinces by putting Ferry on Province. this would have been a better play if it were legal",
+      "messages": [
+        {
+          "id": "1076654143571243069",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-18T23:59:11.094+00:00",
+          "content": "Duplicate/Bridge is pretty good, it lets you gain all the Provinces in a megaturn"
+        },
+        {
+          "id": "1076654355341639753",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-02-19T00:00:01.584+00:00",
+          "content": "when Adventures was new, i Duplicated Provinces by putting Ferry on Province. this would have been a better play if it were legal"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-19T00:01:08.791+00:00",
+      "end_ts": "2023-02-19T00:20:41.703+00:00",
+      "participants": [
+        "amalloy",
+        "awaclus",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 70,
+      "formatted_text": "--- Thread (21 messages, 2023-02-19) ---\n[2023-02-19 00:01] spiritfryer (Spyrfyr): ah cool\n\nI mean it seems like an interesting way to address imbalance\n[2023-02-19 00:01] spiritfryer (Spyrfyr): but it can also be kinda unsatisfying\n[2023-02-19 00:01] spiritfryer (Spyrfyr): since you have to play the \"same game\" twice technically\n[2023-02-19 00:02] spiritfryer (Spyrfyr): well, in theory it shouldn't take too much longer, but you have to think more\n[2023-02-19 00:02] spiritfryer (Spyrfyr): if playing both games simultaneously\n[2023-02-19 00:02] spiritfryer (Spyrfyr): and if not playing them simultaneously, then there is more imbalance reintroduced\n[2023-02-19 00:02] amalloy: yes, duplicate is good for any game with random setup. your \"play the same game as white and black\" idea is one way to get the match played multiple times, but a more normal way would just be to have other people also play the same setup\n[2023-02-19 00:04] spiritfryer (Spyrfyr): oh I guess maybe I misunderstood what duplicate bridge is\n[2023-02-19 00:04] spiritfryer (Spyrfyr): multiple sets of players play the same setup\n[2023-02-19 00:04] spiritfryer (Spyrfyr): not the same set of players play the same setup twice?\n[2023-02-19 00:04] amalloy: right. with hidden information, the same players playing a hand twice is infeasible\n[2023-02-19 00:05] spiritfryer (Spyrfyr): yea that's interesting as well\n[2023-02-19 00:05] spiritfryer (Spyrfyr): but feels less applicable to Mata at first glance\n[2023-02-19 00:06] spiritfryer (Spyrfyr): well, it reminds me of the \"grandmaster\" set concept though\n[2023-02-19 00:07] amalloy: no, it fits fine. there are several ways you could set it up. one approach that would be easy for players to organize would be a teams event. you and i enter a tournament as a team of 2. our team gets matched against awaclus and wonderboat. two games happen with the same random set: me as p1 against awaclus, you as p2 against wonderboat\n[2023-02-19 00:07] spiritfryer (Spyrfyr): but that approaches the idea of balancing p1/p2 from a different direction (grandmaster sets, that is)\n[2023-02-19 00:08] amalloy: nobody has to play the same set twice, but we have two results from the same set to compare, which solves the same problem you were trying to solve: if the set is p1 favored, each team got p1 once\n[2023-02-19 00:09] amalloy: there are other event structures that wouldn't require finding a teammate\n[2023-02-19 00:09] spiritfryer (Spyrfyr): yea makes sense\n\nAn interesting mechanic to add to it would be if we could see the set in advance and decide which player plays p1 or p2\n[2023-02-19 00:18] awaclus: what if you can see the battle in advance\n[2023-02-19 00:20] amalloy: is this some obscure cba thing",
+      "messages": [
+        {
+          "id": "1076654637228240966",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:01:08.791+00:00",
+          "content": "ah cool\n\nI mean it seems like an interesting way to address imbalance"
+        },
+        {
+          "id": "1076654715867242526",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:01:27.54+00:00",
+          "content": "but it can also be kinda unsatisfying"
+        },
+        {
+          "id": "1076654762210111508",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:01:38.589+00:00",
+          "content": "since you have to play the \"same game\" twice technically"
+        },
+        {
+          "id": "1076654909463732295",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:02:13.697+00:00",
+          "content": "well, in theory it shouldn't take too much longer, but you have to think more"
+        },
+        {
+          "id": "1076654935514546317",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:02:19.908+00:00",
+          "content": "if playing both games simultaneously"
+        },
+        {
+          "id": "1076655068968927232",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:02:51.726+00:00",
+          "content": "and if not playing them simultaneously, then there is more imbalance reintroduced"
+        },
+        {
+          "id": "1076655077693063220",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-02-19T00:02:53.806+00:00",
+          "content": "yes, duplicate is good for any game with random setup. your \"play the same game as white and black\" idea is one way to get the match played multiple times, but a more normal way would just be to have other people also play the same setup"
+        },
+        {
+          "id": "1076655376545628291",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:04:05.058+00:00",
+          "content": "oh I guess maybe I misunderstood what duplicate bridge is"
+        },
+        {
+          "id": "1076655442811437177",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:04:20.857+00:00",
+          "content": "multiple sets of players play the same setup"
+        },
+        {
+          "id": "1076655471227842630",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:04:27.632+00:00",
+          "content": "not the same set of players play the same setup twice?"
+        },
+        {
+          "id": "1076655534968688651",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-02-19T00:04:42.829+00:00",
+          "content": "right. with hidden information, the same players playing a hand twice is infeasible"
+        },
+        {
+          "id": "1076655631848706150",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:05:05.927+00:00",
+          "content": "yea that's interesting as well"
+        },
+        {
+          "id": "1076655673179377665",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:05:15.781+00:00",
+          "content": "but feels less applicable to Mata at first glance"
+        },
+        {
+          "id": "1076655993720688771",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:06:32.204+00:00",
+          "content": "well, it reminds me of the \"grandmaster\" set concept though"
+        },
+        {
+          "id": "1076656275116539914",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-02-19T00:07:39.294+00:00",
+          "content": "no, it fits fine. there are several ways you could set it up. one approach that would be easy for players to organize would be a teams event. you and i enter a tournament as a team of 2. our team gets matched against awaclus and wonderboat. two games happen with the same random set: me as p1 against awaclus, you as p2 against wonderboat"
+        },
+        {
+          "id": "1076656275632427218",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:07:39.417+00:00",
+          "content": "but that approaches the idea of balancing p1/p2 from a different direction (grandmaster sets, that is)"
+        },
+        {
+          "id": "1076656500342263808",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-02-19T00:08:32.992+00:00",
+          "content": "nobody has to play the same set twice, but we have two results from the same set to compare, which solves the same problem you were trying to solve: if the set is p1 favored, each team got p1 once"
+        },
+        {
+          "id": "1076656632941006978",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-02-19T00:09:04.606+00:00",
+          "content": "there are other event structures that wouldn't require finding a teammate"
+        },
+        {
+          "id": "1076656698615398412",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:09:20.264+00:00",
+          "content": "yea makes sense\n\nAn interesting mechanic to add to it would be if we could see the set in advance and decide which player plays p1 or p2"
+        },
+        {
+          "id": "1076658995047174234",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-19T00:18:27.776+00:00",
+          "content": "what if you can see the battle in advance"
+        },
+        {
+          "id": "1076659556777738302",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-02-19T00:20:41.703+00:00",
+          "content": "is this some obscure cba thing"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-19T00:23:48.099+00:00",
+      "end_ts": "2023-02-19T00:24:01.249+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2023-02-19) ---\n[2023-02-19 00:23] spiritfryer (Spyrfyr): c the battle in advance?\n[2023-02-19 00:24] spiritfryer (Spyrfyr): that might be cool, but cba to give it too much thought",
+      "messages": [
+        {
+          "id": "1076660338579222598",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:23:48.099+00:00",
+          "content": "c the battle in advance?"
+        },
+        {
+          "id": "1076660393734307910",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T00:24:01.249+00:00",
+          "content": "that might be cool, but cba to give it too much thought"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-19T01:24:38.388+00:00",
+      "end_ts": "2023-02-19T02:16:21.329+00:00",
+      "participants": [
+        "spiritfryer",
+        "vanilvanil"
+      ],
+      "replay_codes": [],
+      "score": 34,
+      "formatted_text": "--- Thread (12 messages, 2023-02-19) ---\n[2023-02-19 01:24] vanilvanil (Vanil - Ваніль): You would need more than double the length of a normal game for that to work imo. also, an interaction between the games?\n[2023-02-19 02:13] spiritfryer (Spyrfyr): Hmm what do you mean \"need\"?\n\nIn the implementation I described, both games are played simultaneously, so the maximum length of a match is the same as the maximum length of an ordinary game\n[2023-02-19 02:13] spiritfryer (Spyrfyr): But yea the average turn time is likely to be higher -- you think it'd be double?\n[2023-02-19 02:13] vanilvanil (Vanil - Ваніль): No way. One set of thinking time for each game and a little extra because you brain sucks at multitasking\n[2023-02-19 02:14] vanilvanil (Vanil - Ваніль): So at least more than double\n[2023-02-19 02:14] spiritfryer (Spyrfyr): but you are only playing one turn at a time\n[2023-02-19 02:14] spiritfryer (Spyrfyr): yea agreed, extra time cos multitasking\n[2023-02-19 02:14] spiritfryer (Spyrfyr): but you aren't playing two turns at a time, you are playing one turn in one game, then one turn in the other game, alternating\n[2023-02-19 02:15] spiritfryer (Spyrfyr): but you are playing a turn at all times, unless you submitted your turn and your opponent hasn't submitted theirs yet, then you have downtime\n[2023-02-19 02:15] spiritfryer (Spyrfyr): but yea apart from extra time cos multitasking, also extra time because in a traditional game you can think during downtime\n[2023-02-19 02:15] spiritfryer (Spyrfyr): but prolly most ppl have lower efficiency during downtime anyway\n[2023-02-19 02:16] spiritfryer (Spyrfyr): so I expect this game mode would increase \"thinking efficiency\", but also feel less \"comfortable/chill\" to play",
+      "messages": [
+        {
+          "id": "1076675649000980563",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-02-19T01:24:38.388+00:00",
+          "content": "You would need more than double the length of a normal game for that to work imo. also, an interaction between the games?"
+        },
+        {
+          "id": "1076687920511070369",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T02:13:24.144+00:00",
+          "content": "Hmm what do you mean \"need\"?\n\nIn the implementation I described, both games are played simultaneously, so the maximum length of a match is the same as the maximum length of an ordinary game"
+        },
+        {
+          "id": "1076687992497897614",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T02:13:41.307+00:00",
+          "content": "But yea the average turn time is likely to be higher -- you think it'd be double?"
+        },
+        {
+          "id": "1076688069429837974",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-02-19T02:13:59.649+00:00",
+          "content": "No way. One set of thinking time for each game and a little extra because you brain sucks at multitasking"
+        },
+        {
+          "id": "1076688107627360336",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-02-19T02:14:08.756+00:00",
+          "content": "So at least more than double"
+        },
+        {
+          "id": "1076688158772711434",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T02:14:20.95+00:00",
+          "content": "but you are only playing one turn at a time"
+        },
+        {
+          "id": "1076688195124740186",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T02:14:29.617+00:00",
+          "content": "yea agreed, extra time cos multitasking"
+        },
+        {
+          "id": "1076688275319824436",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T02:14:48.737+00:00",
+          "content": "but you aren't playing two turns at a time, you are playing one turn in one game, then one turn in the other game, alternating"
+        },
+        {
+          "id": "1076688336334364742",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T02:15:03.284+00:00",
+          "content": "but you are playing a turn at all times, unless you submitted your turn and your opponent hasn't submitted theirs yet, then you have downtime"
+        },
+        {
+          "id": "1076688507382284338",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T02:15:44.065+00:00",
+          "content": "but yea apart from extra time cos multitasking, also extra time because in a traditional game you can think during downtime"
+        },
+        {
+          "id": "1076688562747093133",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T02:15:57.265+00:00",
+          "content": "but prolly most ppl have lower efficiency during downtime anyway"
+        },
+        {
+          "id": "1076688663678824499",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T02:16:21.329+00:00",
+          "content": "so I expect this game mode would increase \"thinking efficiency\", but also feel less \"comfortable/chill\" to play"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-19T03:28:57.616+00:00",
+      "end_ts": "2023-02-19T03:30:11.804+00:00",
+      "participants": [
+        "awaclus",
+        "pikachumemes."
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (3 messages, 2023-02-19) ---\n[2023-02-19 03:28] pikachumemes. (Pikachu Memes): i dont think thats great, since playing the op lien in one game and then the oppoent just copies what u just did\n[2023-02-19 03:29] pikachumemes. (Pikachu Memes): it would only make sense with teams of 2\n[2023-02-19 03:30] awaclus: >i dont think thats great\nyeah it's not really what Prismata needs",
+      "messages": [
+        {
+          "id": "1076706935270809650",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2023-02-19T03:28:57.616+00:00",
+          "content": "i dont think thats great, since playing the op lien in one game and then the oppoent just copies what u just did"
+        },
+        {
+          "id": "1076707037460836433",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2023-02-19T03:29:21.98+00:00",
+          "content": "it would only make sense with teams of 2"
+        },
+        {
+          "id": "1076707246437826631",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-19T03:30:11.804+00:00",
+          "content": ">i dont think thats great\nyeah it's not really what Prismata needs"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-19T03:34:56.655+00:00",
+      "end_ts": "2023-02-19T03:34:56.655+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-02-19) ---\n[2023-02-19 03:34] spiritfryer (Spyrfyr): > \"The turns are played simultaneously\"\n\n> \"they don't get to see their opponent's moves until after submitting their own.\"",
+      "messages": [
+        {
+          "id": "1076708441189535764",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-19T03:34:56.655+00:00",
+          "content": "> \"The turns are played simultaneously\"\n\n> \"they don't get to see their opponent's moves until after submitting their own.\""
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-21T02:23:31.44+00:00",
+      "end_ts": "2023-02-21T02:27:04.292+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 21,
+      "formatted_text": "--- Thread (6 messages, 2023-02-21) ---\n[2023-02-21 02:23] spiritfryer (Spyrfyr): I queue it to get matched\n[2023-02-21 02:23] spiritfryer (Spyrfyr): and when I get matched in both vs the same person, I lower the time control on b+5\n[2023-02-21 02:24] spiritfryer (Spyrfyr): to grind as many games as possible, in the shortest amount possible (but not too short cos cba having to rush)\n[2023-02-21 02:24] spiritfryer (Spyrfyr): in other words, I want my opponent to have as little time as possible, and I want myself to have as much time as I feel like I need\n[2023-02-21 02:24] spiritfryer (Spyrfyr): and the time I feel like I need tends to be in the 20-30s range\n[2023-02-21 02:27] spiritfryer (Spyrfyr): if there was a mode with AI that played better than me and submitted its turns in 0 seconds, that'd be my fav mode",
+      "messages": [
+        {
+          "id": "1077415243426312303",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-21T02:23:31.44+00:00",
+          "content": "I queue it to get matched"
+        },
+        {
+          "id": "1077415283028934766",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-21T02:23:40.882+00:00",
+          "content": "and when I get matched in both vs the same person, I lower the time control on b+5"
+        },
+        {
+          "id": "1077415438692134923",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-21T02:24:17.995+00:00",
+          "content": "to grind as many games as possible, in the shortest amount possible (but not too short cos cba having to rush)"
+        },
+        {
+          "id": "1077415524293685359",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-21T02:24:38.404+00:00",
+          "content": "in other words, I want my opponent to have as little time as possible, and I want myself to have as much time as I feel like I need"
+        },
+        {
+          "id": "1077415581076168795",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-21T02:24:51.942+00:00",
+          "content": "and the time I feel like I need tends to be in the 20-30s range"
+        },
+        {
+          "id": "1077416136192294974",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-21T02:27:04.292+00:00",
+          "content": "if there was a mode with AI that played better than me and submitted its turns in 0 seconds, that'd be my fav mode"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-21T02:32:54.315+00:00",
+      "end_ts": "2023-02-21T02:32:54.315+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-02-21) ---\n[2023-02-21 02:32] spiritfryer (Spyrfyr): _ᶦⁿˢᵗᵃⁿᵗ ᵍʳᵃᵗᶦᶠᶦᶜᵃᵗᶦᵒⁿ ᵇᵉ ᵈᵃᵐⁿᵉᵈ_",
+      "messages": [
+        {
+          "id": "1077417604295176222",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-21T02:32:54.315+00:00",
+          "content": "_ᶦⁿˢᵗᵃⁿᵗ ᵍʳᵃᵗᶦᶠᶦᶜᵃᵗᶦᵒⁿ ᵇᵉ ᵈᵃᵐⁿᵉᵈ_"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-21T14:43:21.497+00:00",
+      "end_ts": "2023-02-21T14:46:08.238+00:00",
+      "participants": [
+        "amalloy",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2023-02-21) ---\n[2023-02-21 14:43] silentslayers: Rate this concede timing\n[2023-02-21 14:46] amalloy: bot probably shouldn't resign yet. they have a lot of green income to make up for the spotty access to red and blue",
+      "messages": [
+        {
+          "id": "1077601428819943484",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-02-21T14:43:21.497+00:00",
+          "content": "Rate this concede timing"
+        },
+        {
+          "id": "1077602128182390784",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-02-21T14:46:08.238+00:00",
+          "content": "bot probably shouldn't resign yet. they have a lot of green income to make up for the spotty access to red and blue"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-23T01:37:27.588+00:00",
+      "end_ts": "2023-02-23T01:39:01.219+00:00",
+      "participants": [
+        "pikachumemes.",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (6 messages, 2023-02-23) ---\n[2023-02-23 01:37] pikachumemes. (Pikachu Memes): This game is obviously lost for top, but I've won games out of my ass before so I can't really blame people for not clicking x\n[2023-02-23 01:38] silentslayers: Sooo whats ur rating?\n[2023-02-23 01:38] silentslayers: > Rate this concede timing\n[2023-02-23 01:38] pikachumemes. (Pikachu Memes): that would depend on his play time usage\n[2023-02-23 01:38] pikachumemes. (Pikachu Memes): if he's playing quick 3/10\n[2023-02-23 01:39] pikachumemes. (Pikachu Memes): if he's stalling -1/10",
+      "messages": [
+        {
+          "id": "1078128426722013194",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2023-02-23T01:37:27.588+00:00",
+          "content": "This game is obviously lost for top, but I've won games out of my ass before so I can't really blame people for not clicking x"
+        },
+        {
+          "id": "1078128582691409980",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-02-23T01:38:04.774+00:00",
+          "content": "Sooo whats ur rating?"
+        },
+        {
+          "id": "1078128658838978570",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-02-23T01:38:22.929+00:00",
+          "content": "> Rate this concede timing"
+        },
+        {
+          "id": "1078128769191129098",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2023-02-23T01:38:49.239+00:00",
+          "content": "that would depend on his play time usage"
+        },
+        {
+          "id": "1078128794847694889",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2023-02-23T01:38:55.356+00:00",
+          "content": "if he's playing quick 3/10"
+        },
+        {
+          "id": "1078128819438882836",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2023-02-23T01:39:01.219+00:00",
+          "content": "if he's stalling -1/10"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-26T10:06:32.63+00:00",
+      "end_ts": "2023-02-26T10:06:32.63+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-02-26) ---\n[2023-02-26 10:06] spiritfryer (Spyrfyr): _ʷᶦᵗʰᵒᵘᵗ ᵉˣᵖˡᵒᶦᵗᶦⁿᵍ ⁿᵒⁿ⁻ʰᵒⁿᵒʳ ᵍᵃᵐᵉˢ ᵇᵃᶜᵏ ᶦⁿ ᵗʰᵉ ᵈᵃʸˢ ᵇᵗʷ_",
+      "messages": [
+        {
+          "id": "1079343705510658068",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-26T10:06:32.63+00:00",
+          "content": "_ʷᶦᵗʰᵒᵘᵗ ᵉˣᵖˡᵒᶦᵗᶦⁿᵍ ⁿᵒⁿ⁻ʰᵒⁿᵒʳ ᵍᵃᵐᵉˢ ᵇᵃᶜᵏ ᶦⁿ ᵗʰᵉ ᵈᵃʸˢ ᵇᵗʷ_"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-28T05:33:14.761+00:00",
+      "end_ts": "2023-02-28T08:21:18.631+00:00",
+      "participants": [
+        "hyreon",
+        "msven",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2023-02-28) ---\n[2023-02-28 05:33] hyreon: what set leads to the longest optimal game?\n[2023-02-28 08:19] msven: Probably something like dgrid+matrix+apollo+polywall+aegis\n[2023-02-28 08:21] silentslayers: yeah sounds about right",
+      "messages": [
+        {
+          "id": "1079999703594315806",
+          "author": "hyreon",
+          "nickname": "Hyreon",
+          "timestamp": "2023-02-28T05:33:14.761+00:00",
+          "content": "what set leads to the longest optimal game?"
+        },
+        {
+          "id": "1080041629404102706",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2023-02-28T08:19:50.653+00:00",
+          "content": "Probably something like dgrid+matrix+apollo+polywall+aegis"
+        },
+        {
+          "id": "1080041998410588261",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-02-28T08:21:18.631+00:00",
+          "content": "yeah sounds about right"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-28T15:25:44.605+00:00",
+      "end_ts": "2023-02-28T15:31:00.728+00:00",
+      "participants": [
+        "awaclus",
+        "vanilvanil"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (4 messages, 2023-02-28) ---\n[2023-02-28 15:25] vanilvanil (Vanil - Ваніль): How can you wipe out each others attack?\n[2023-02-28 15:26] vanilvanil (Vanil - Ваніль): The firstperson to reduce the enemy down to drones is gonna win by half a turn, right?\n[2023-02-28 15:29] awaclus: you don't have to wipe out all the attack, as long as you wipe out enough of it\n[2023-02-28 15:31] awaclus: I'm not sure if there exists a set that leads to a situation that is very close to being a tie but with recovery being possible with optimal play though",
+      "messages": [
+        {
+          "id": "1080148810447192124",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-02-28T15:25:44.605+00:00",
+          "content": "How can you wipe out each others attack?"
+        },
+        {
+          "id": "1080148922791645234",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-02-28T15:26:11.39+00:00",
+          "content": "The firstperson to reduce the enemy down to drones is gonna win by half a turn, right?"
+        },
+        {
+          "id": "1080149657558200372",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-28T15:29:06.572+00:00",
+          "content": "you don't have to wipe out all the attack, as long as you wipe out enough of it"
+        },
+        {
+          "id": "1080150136363159582",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-28T15:31:00.728+00:00",
+          "content": "I'm not sure if there exists a set that leads to a situation that is very close to being a tie but with recovery being possible with optimal play though"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-28T16:34:37.585+00:00",
+      "end_ts": "2023-02-28T16:36:06.589+00:00",
+      "participants": [
+        "megasupp",
+        "vanilvanil"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2023-02-28) ---\n[2023-02-28 16:34] megasupp (mega-supp): well there are stamina units like bombarder and units like scorchilla that can jus be protected by golden armor, thermite core can really ramp up attack to ridiculous numbers, add some chill like endo or some nivos and I think it can happen\n[2023-02-28 16:36] vanilvanil (Vanil - Ваніль): Hmmmm. who's gonna find it though",
+      "messages": [
+        {
+          "id": "1080166145421758484",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2023-02-28T16:34:37.585+00:00",
+          "content": "well there are stamina units like bombarder and units like scorchilla that can jus be protected by golden armor, thermite core can really ramp up attack to ridiculous numbers, add some chill like endo or some nivos and I think it can happen"
+        },
+        {
+          "id": "1080166518731587605",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-02-28T16:36:06.589+00:00",
+          "content": "Hmmmm. who's gonna find it though"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-28T17:48:28.396+00:00",
+      "end_ts": "2023-02-28T17:48:28.396+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2023-02-28) ---\n[2023-02-28 17:48] spiritfryer (Spyrfyr): Big Bertha, the watchlisted Wincer darknet prototype does that\n\n**Big Bertha **: ~~[REDACTED]~~:Gold:  :Green::Green::Green::Blue::Red::Red::Red:\n:Fragile:[UNKNOWN]\n:Time: Buildtime of ~~[REDACTED]~~ turns\nClick: consume 13:Drone: and ~~[REDACTED]~~ to gain 39:Attack:\n⌛Exhaust for [UNKNOWN] turns",
+      "messages": [
+        {
+          "id": "1080184729590050836",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-02-28T17:48:28.396+00:00",
+          "content": "Big Bertha, the watchlisted Wincer darknet prototype does that\n\n**Big Bertha **: ~~[REDACTED]~~:Gold:  :Green::Green::Green::Blue::Red::Red::Red:\n:Fragile:[UNKNOWN]\n:Time: Buildtime of ~~[REDACTED]~~ turns\nClick: consume 13:Drone: and ~~[REDACTED]~~ to gain 39:Attack:\n⌛Exhaust for [UNKNOWN] turns"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-28T18:05:34.773+00:00",
+      "end_ts": "2023-02-28T18:05:34.773+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-02-28) ---\n[2023-02-28 18:05] awaclus: because if it is not optimal for one player to force a draw, it must be for the other",
+      "messages": [
+        {
+          "id": "1080189034527203338",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-28T18:05:34.773+00:00",
+          "content": "because if it is not optimal for one player to force a draw, it must be for the other"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-28T20:13:47.215+00:00",
+      "end_ts": "2023-02-28T20:17:29.162+00:00",
+      "participants": [
+        "awaclus",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (5 messages, 2023-02-28) ---\n[2023-02-28 20:13] awaclus: I guess it's also possible for a draw to actually end the game\n[2023-02-28 20:15] silentslayers: I count it as ending the game because that's how mata handles it 😛\n[2023-02-28 20:16] awaclus: well if it's a draw forced by one player, mata only handles it that way if a player actually forces it, right?\n[2023-02-28 20:17] awaclus: in which case arguably if it was optimal for both players to keep passing turns without forcing the draw, it would go on forever\n[2023-02-28 20:17] awaclus: but it can't be optimal for more than one player to do that",
+      "messages": [
+        {
+          "id": "1080221298967445605",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-28T20:13:47.215+00:00",
+          "content": "I guess it's also possible for a draw to actually end the game"
+        },
+        {
+          "id": "1080221634989916200",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-02-28T20:15:07.329+00:00",
+          "content": "I count it as ending the game because that's how mata handles it 😛"
+        },
+        {
+          "id": "1080222027434180658",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-28T20:16:40.895+00:00",
+          "content": "well if it's a draw forced by one player, mata only handles it that way if a player actually forces it, right?"
+        },
+        {
+          "id": "1080222153309421609",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-28T20:17:10.906+00:00",
+          "content": "in which case arguably if it was optimal for both players to keep passing turns without forcing the draw, it would go on forever"
+        },
+        {
+          "id": "1080222229880647843",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-02-28T20:17:29.162+00:00",
+          "content": "but it can't be optimal for more than one player to do that"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-02-28T20:23:09.765+00:00",
+      "end_ts": "2023-02-28T20:24:08.163+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2023-02-28) ---\n[2023-02-28 20:23] silentslayers: I admit i dont remember exactly how their draw mechanic works\n[2023-02-28 20:24] silentslayers: either way makes no sense for both ppl to pass back and forth forever",
+      "messages": [
+        {
+          "id": "1080223658473164912",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-02-28T20:23:09.765+00:00",
+          "content": "I admit i dont remember exactly how their draw mechanic works"
+        },
+        {
+          "id": "1080223903412133979",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-02-28T20:24:08.163+00:00",
+          "content": "either way makes no sense for both ppl to pass back and forth forever"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-01T13:37:59.795+00:00",
+      "end_ts": "2023-03-01T13:37:59.795+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-01) ---\n[2023-03-01 13:37] awaclus: isn't Addition not a new player",
+      "messages": [
+        {
+          "id": "1080484082934366228",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-01T13:37:59.795+00:00",
+          "content": "isn't Addition not a new player"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-01T17:01:41.707+00:00",
+      "end_ts": "2023-03-01T17:01:41.707+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-01) ---\n[2023-03-01 17:01] spiritfryer (Spyrfyr): is sano snao or saon?",
+      "messages": [
+        {
+          "id": "1080535345348739193",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-01T17:01:41.707+00:00",
+          "content": "is sano snao or saon?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-01T17:11:05.307+00:00",
+      "end_ts": "2023-03-01T17:14:28.402+00:00",
+      "participants": [
+        "awaclus",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 25,
+      "formatted_text": "--- Thread (7 messages, 2023-03-01) ---\n[2023-03-01 17:11] awaclus: Why is Cryo Ray such an absolute bullShiT unit that you win games just by buying the entire Cryo Ray supply and dealing like 4 damage for the entire game? Because you get to choose the Cryo Ray's target.\n[2023-03-01 17:11] spiritfryer (Spyrfyr): What did the bully Prismata nerd say to ~~Rey~~ Awa after throwing a frozen broccoli at them and making them cry? ||Cry oh ray! ❄️||\n[2023-03-01 17:12] spiritfryer (Spyrfyr): also, you dealt 2 damage the entire game\n[2023-03-01 17:12] awaclus: I would have dealt like 10 damage if I hadn't been forced to hold all of it every turn\n[2023-03-01 17:14] awaclus: why didn't I buy trinity\n[2023-03-01 17:14] spiritfryer (Spyrfyr): then don't buy a breach vulnerable unit like Lisa\n[2023-03-01 17:14] awaclus: oh right because I had no green",
+      "messages": [
+        {
+          "id": "1080537709258481664",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-01T17:11:05.307+00:00",
+          "content": "Why is Cryo Ray such an absolute bullShiT unit that you win games just by buying the entire Cryo Ray supply and dealing like 4 damage for the entire game? Because you get to choose the Cryo Ray's target."
+        },
+        {
+          "id": "1080537809229729802",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-01T17:11:29.142+00:00",
+          "content": "What did the bully Prismata nerd say to ~~Rey~~ Awa after throwing a frozen broccoli at them and making them cry? ||Cry oh ray! ❄️||"
+        },
+        {
+          "id": "1080537941962665984",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-01T17:12:00.788+00:00",
+          "content": "also, you dealt 2 damage the entire game"
+        },
+        {
+          "id": "1080538052604207204",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-01T17:12:27.167+00:00",
+          "content": "I would have dealt like 10 damage if I hadn't been forced to hold all of it every turn"
+        },
+        {
+          "id": "1080538516913664040",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-01T17:14:17.867+00:00",
+          "content": "why didn't I buy trinity"
+        },
+        {
+          "id": "1080538558558916679",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-01T17:14:27.796+00:00",
+          "content": "then don't buy a breach vulnerable unit like Lisa"
+        },
+        {
+          "id": "1080538561100648459",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-01T17:14:28.402+00:00",
+          "content": "oh right because I had no green"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-01T17:30:49.746+00:00",
+      "end_ts": "2023-03-01T17:31:32.596+00:00",
+      "participants": [
+        "awaclus",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2023-03-01) ---\n[2023-03-01 17:30] spiritfryer (Spyrfyr): why didn't you buy cry oh ray to stop my Lisa\n[2023-03-01 17:31] awaclus: because it wasn't in the set because I embargoed it\n[2023-03-01 17:31] spiritfryer (Spyrfyr): you couldn't stop the Lisa cos you embargoed the unit you needed to stop her",
+      "messages": [
+        {
+          "id": "1080542677155721336",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-01T17:30:49.746+00:00",
+          "content": "why didn't you buy cry oh ray to stop my Lisa"
+        },
+        {
+          "id": "1080542731694247987",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-01T17:31:02.749+00:00",
+          "content": "because it wasn't in the set because I embargoed it"
+        },
+        {
+          "id": "1080542856881651792",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-01T17:31:32.596+00:00",
+          "content": "you couldn't stop the Lisa cos you embargoed the unit you needed to stop her"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-02T18:14:17.781+00:00",
+      "end_ts": "2023-03-02T18:14:27.623+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2023-03-02) ---\n[2023-03-02 18:14] spiritfryer (Spyrfyr): I have embargoed Smorcus\n[2023-03-02 18:14] spiritfryer (Spyrfyr): rate the above decision",
+      "messages": [
+        {
+          "id": "1080916003912953877",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-02T18:14:17.781+00:00",
+          "content": "I have embargoed Smorcus"
+        },
+        {
+          "id": "1080916045193302057",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-02T18:14:27.623+00:00",
+          "content": "rate the above decision"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-02T19:47:10.781+00:00",
+      "end_ts": "2023-03-02T19:47:10.781+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2023-03-02) ---\n[2023-03-02 19:47] spiritfryer (Spyrfyr): oppo goes t2 animus and I have to invent novel rocket propulsion technology just to get a whiff at a potential peek at victory?",
+      "messages": [
+        {
+          "id": "1080939378769145896",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-02T19:47:10.781+00:00",
+          "content": "oppo goes t2 animus and I have to invent novel rocket propulsion technology just to get a whiff at a potential peek at victory?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-02T20:28:20.085+00:00",
+      "end_ts": "2023-03-02T20:28:35.577+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2023-03-02) ---\n[2023-03-02 20:28] awaclus: generally you can just build a slightly higher econ than the smorc player and that'll do it\n[2023-03-02 20:28] awaclus: you might need to buy more engis to replace the ones that are getting killed in the early game",
+      "messages": [
+        {
+          "id": "1080949735780786267",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-02T20:28:20.085+00:00",
+          "content": "generally you can just build a slightly higher econ than the smorc player and that'll do it"
+        },
+        {
+          "id": "1080949800758952141",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-02T20:28:35.577+00:00",
+          "content": "you might need to buy more engis to replace the ones that are getting killed in the early game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-02T21:08:21.596+00:00",
+      "end_ts": "2023-03-02T21:11:14.016+00:00",
+      "participants": [
+        "msven",
+        "sano712"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (4 messages, 2023-03-02) ---\n[2023-03-02 21:08] msven: 5/10. The t1 animus builds suck to play against but those are rare enough that I don't have it embargoed myself. t2 animus builds where smorc dominates are usually the same sets where that player dominates without it anyway\n[2023-03-02 21:10] sano712 (sano): I think I embargo savior and flanimus only\n[2023-03-02 21:11] msven: savior embargo is sacrilegious\n[2023-03-02 21:11] sano712 (sano): I just hate savior games lol",
+      "messages": [
+        {
+          "id": "1080959808447971349",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2023-03-02T21:08:21.596+00:00",
+          "content": "5/10. The t1 animus builds suck to play against but those are rare enough that I don't have it embargoed myself. t2 animus builds where smorc dominates are usually the same sets where that player dominates without it anyway"
+        },
+        {
+          "id": "1080960322057285712",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-02T21:10:24.05+00:00",
+          "content": "I think I embargo savior and flanimus only"
+        },
+        {
+          "id": "1080960481512132739",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2023-03-02T21:11:02.067+00:00",
+          "content": "savior embargo is sacrilegious"
+        },
+        {
+          "id": "1080960531629871265",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-02T21:11:14.016+00:00",
+          "content": "I just hate savior games lol"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-03T07:18:40.113+00:00",
+      "end_ts": "2023-03-03T07:26:02.762+00:00",
+      "participants": [
+        "chloe1price",
+        "pikachumemes."
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (4 messages, 2023-03-03) ---\n[2023-03-03 07:18] pikachumemes. (Pikachu Memes): with smocus you can go t1 animus\n[2023-03-03 07:20] chloe1price (chloeprice): you can just go drone and make forge after smorc.your wall will absorb only 1, but that good enough. wall is cheaper than smorces and forge is cheaper than animus\n[2023-03-03 07:23] pikachumemes. (Pikachu Memes): this feels overly simplistic. t1 animus can easily win games if the right support is in the set\n[2023-03-03 07:26] pikachumemes. (Pikachu Memes): ive won a game with t1 animus before--the win did not feel earned in any way",
+      "messages": [
+        {
+          "id": "1081113397640298496",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2023-03-03T07:18:40.113+00:00",
+          "content": "with smocus you can go t1 animus"
+        },
+        {
+          "id": "1081113843733893150",
+          "author": "chloe1price",
+          "nickname": "chloeprice",
+          "timestamp": "2023-03-03T07:20:26.47+00:00",
+          "content": "you can just go drone and make forge after smorc.your wall will absorb only 1, but that good enough. wall is cheaper than smorces and forge is cheaper than animus"
+        },
+        {
+          "id": "1081114574130008144",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2023-03-03T07:23:20.61+00:00",
+          "content": "this feels overly simplistic. t1 animus can easily win games if the right support is in the set"
+        },
+        {
+          "id": "1081115254244790282",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2023-03-03T07:26:02.762+00:00",
+          "content": "ive won a game with t1 animus before--the win did not feel earned in any way"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-03T13:58:28.557+00:00",
+      "end_ts": "2023-03-03T13:58:45.718+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (2 messages, 2023-03-03) ---\n[2023-03-03 13:58] spiritfryer (Spyrfyr): I frequently lose when I try to go forge vs animus smorcus +red support\n[2023-03-03 13:58] spiritfryer (Spyrfyr): Maybe I suck, but I don't think I suck enough to the point that the above doesn't actually just beat the forge response most of the time",
+      "messages": [
+        {
+          "id": "1081214012466925608",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T13:58:28.557+00:00",
+          "content": "I frequently lose when I try to go forge vs animus smorcus +red support"
+        },
+        {
+          "id": "1081214084445380608",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T13:58:45.718+00:00",
+          "content": "Maybe I suck, but I don't think I suck enough to the point that the above doesn't actually just beat the forge response most of the time"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-03T14:02:58.107+00:00",
+      "end_ts": "2023-03-03T14:02:58.107+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-03) ---\n[2023-03-03 14:02] awaclus: TL note: the forge line is DD/DDEE/DDB as p2",
+      "messages": [
+        {
+          "id": "1081215143041577062",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-03T14:02:58.107+00:00",
+          "content": "TL note: the forge line is DD/DDEE/DDB as p2"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-03T14:18:35.265+00:00",
+      "end_ts": "2023-03-03T14:19:14.487+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (3 messages, 2023-03-03) ---\n[2023-03-03 14:18] spiritfryer (Spyrfyr): are you talking about p1 t1 animus?\n[2023-03-03 14:18] spiritfryer (Spyrfyr): name a set where that's viable\n[2023-03-03 14:19] spiritfryer (Spyrfyr): and I'm not complaining about p1 t1 animus lel",
+      "messages": [
+        {
+          "id": "1081219073767133204",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T14:18:35.265+00:00",
+          "content": "are you talking about p1 t1 animus?"
+        },
+        {
+          "id": "1081219112920940564",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T14:18:44.6+00:00",
+          "content": "name a set where that's viable"
+        },
+        {
+          "id": "1081219238276116551",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T14:19:14.487+00:00",
+          "content": "and I'm not complaining about p1 t1 animus lel"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-03T14:24:03.961+00:00",
+      "end_ts": "2023-03-03T14:25:31.79+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (3 messages, 2023-03-03) ---\n[2023-03-03 14:24] spiritfryer (Spyrfyr): what do you do as p1?\n[2023-03-03 14:25] spiritfryer (Spyrfyr): frequently p2 seems well off with t2 animus, or with t2 forge->t3 wall+animus if p1 tries to t2 animus\n[2023-03-03 14:25] spiritfryer (Spyrfyr): it just feels that a lotta the time the p2 red advantage gets extreme with smorcus",
+      "messages": [
+        {
+          "id": "1081220452418072697",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T14:24:03.961+00:00",
+          "content": "what do you do as p1?"
+        },
+        {
+          "id": "1081220699429023845",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T14:25:02.853+00:00",
+          "content": "frequently p2 seems well off with t2 animus, or with t2 forge->t3 wall+animus if p1 tries to t2 animus"
+        },
+        {
+          "id": "1081220820799594496",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T14:25:31.79+00:00",
+          "content": "it just feels that a lotta the time the p2 red advantage gets extreme with smorcus"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-03T15:04:26.209+00:00",
+      "end_ts": "2023-03-03T15:08:58.402+00:00",
+      "participants": [
+        "sano712",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 28,
+      "formatted_text": "--- Thread (16 messages, 2023-03-03) ---\n[2023-03-03 15:04] spiritfryer (Spyrfyr): yea, it feels p2 is already generally happy in red sets, and more so with smorcus\n[2023-03-03 15:05] spiritfryer (Spyrfyr): yea there are some sets where p2 t1 animus works cos of smorcus\n[2023-03-03 15:05] spiritfryer (Spyrfyr): which is ofc shit if it's autowin\n[2023-03-03 15:05] spiritfryer (Spyrfyr): but I'm also complaining about p2 t2 animus\n[2023-03-03 15:05] sano712 (sano): \"turn 2 animus\" is vague\n[2023-03-03 15:05] sano712 (sano): fastimus is generally not that annoying\n[2023-03-03 15:05] spiritfryer (Spyrfyr): p2 t2 smorcus + things\n[2023-03-03 15:05] sano712 (sano): elyot animus is really annoying\n[2023-03-03 15:06] spiritfryer (Spyrfyr): it feels that p1 has to work very hard to try to find something\n[2023-03-03 15:06] spiritfryer (Spyrfyr): and p2 just gets to autopilot\n[2023-03-03 15:06] sano712 (sano): on the other hand elyot animus being the best play is kinda rare\n[2023-03-03 15:06] sano712 (sano): feel like that's true in just a small fraction of sets\n[2023-03-03 15:07] sano712 (sano): more often than not fastimus will win\n[2023-03-03 15:07] spiritfryer (Spyrfyr): It feels p2 is still happy with dd db wa 1s no?\n[2023-03-03 15:07] spiritfryer (Spyrfyr): unless p1 has some very good red support I guess\n[2023-03-03 15:08] sano712 (sano): dd db is pretty sad, I think p2 usually responds with red to",
+      "messages": [
+        {
+          "id": "1081230612062547978",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T15:04:26.209+00:00",
+          "content": "yea, it feels p2 is already generally happy in red sets, and more so with smorcus"
+        },
+        {
+          "id": "1081230818770432081",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T15:05:15.492+00:00",
+          "content": "yea there are some sets where p2 t1 animus works cos of smorcus"
+        },
+        {
+          "id": "1081230853423779871",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T15:05:23.754+00:00",
+          "content": "which is ofc shit if it's autowin"
+        },
+        {
+          "id": "1081230877771694100",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T15:05:29.559+00:00",
+          "content": "but I'm also complaining about p2 t2 animus"
+        },
+        {
+          "id": "1081230925779718235",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-03T15:05:41.005+00:00",
+          "content": "\"turn 2 animus\" is vague"
+        },
+        {
+          "id": "1081230970126082048",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-03T15:05:51.578+00:00",
+          "content": "fastimus is generally not that annoying"
+        },
+        {
+          "id": "1081230980897054801",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T15:05:54.146+00:00",
+          "content": "p2 t2 smorcus + things"
+        },
+        {
+          "id": "1081230992284585994",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-03T15:05:56.861+00:00",
+          "content": "elyot animus is really annoying"
+        },
+        {
+          "id": "1081231042804977664",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T15:06:08.906+00:00",
+          "content": "it feels that p1 has to work very hard to try to find something"
+        },
+        {
+          "id": "1081231060282638386",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T15:06:13.073+00:00",
+          "content": "and p2 just gets to autopilot"
+        },
+        {
+          "id": "1081231140939112489",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-03T15:06:32.303+00:00",
+          "content": "on the other hand elyot animus being the best play is kinda rare"
+        },
+        {
+          "id": "1081231231938723851",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-03T15:06:53.999+00:00",
+          "content": "feel like that's true in just a small fraction of sets"
+        },
+        {
+          "id": "1081231257238777987",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-03T15:07:00.031+00:00",
+          "content": "more often than not fastimus will win"
+        },
+        {
+          "id": "1081231301991997450",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T15:07:10.701+00:00",
+          "content": "It feels p2 is still happy with dd db wa 1s no?"
+        },
+        {
+          "id": "1081231353045061663",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T15:07:22.873+00:00",
+          "content": "unless p1 has some very good red support I guess"
+        },
+        {
+          "id": "1081231753722740777",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-03T15:08:58.402+00:00",
+          "content": "dd db is pretty sad, I think p2 usually responds with red to"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-03T18:41:33.984+00:00",
+      "end_ts": "2023-03-03T18:41:33.984+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-03) ---\n[2023-03-03 18:41] spiritfryer (Spyrfyr): This should unlock an achievement or smth",
+      "messages": [
+        {
+          "id": "1081285254511349801",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T18:41:33.984+00:00",
+          "content": "This should unlock an achievement or smth"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-03T20:29:31.198+00:00",
+      "end_ts": "2023-03-03T20:29:31.198+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-03-03) ---\n[2023-03-03 20:29] spiritfryer (Spyrfyr): ---\n> - Commander! The bulls! They... are all down! They barely lasted a few seconds...\n> \n> - Send in the Iceblades!",
+      "messages": [
+        {
+          "id": "1081312421915930675",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-03T20:29:31.198+00:00",
+          "content": "---\n> - Commander! The bulls! They... are all down! They barely lasted a few seconds...\n> \n> - Send in the Iceblades!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-04T10:43:53.764+00:00",
+      "end_ts": "2023-03-04T10:43:53.764+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-04) ---\n[2023-03-04 10:43] silentslayers: Gz Msven! last time i played it was like Jamberine 2337 or something like that, and i have 2325, did that change? did jamberine or someone else get even higher 😄 ?",
+      "messages": [
+        {
+          "id": "1081527432701546547",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-04T10:43:53.764+00:00",
+          "content": "Gz Msven! last time i played it was like Jamberine 2337 or something like that, and i have 2325, did that change? did jamberine or someone else get even higher 😄 ?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-04T21:05:49.603+00:00",
+      "end_ts": "2023-03-04T21:06:10.111+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2023-03-04) ---\n[2023-03-04 21:05] spiritfryer (Spyrfyr): why, where is your name in this weak era\n[2023-03-04 21:06] spiritfryer (Spyrfyr): can't find it in that ss\n[2023-03-04 21:06] spiritfryer (Spyrfyr): come ladder to fix that",
+      "messages": [
+        {
+          "id": "1081683946674343997",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-04T21:05:49.603+00:00",
+          "content": "why, where is your name in this weak era"
+        },
+        {
+          "id": "1081683995651223672",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-04T21:06:01.28+00:00",
+          "content": "can't find it in that ss"
+        },
+        {
+          "id": "1081684032691118291",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-04T21:06:10.111+00:00",
+          "content": "come ladder to fix that"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-05T04:49:12.688+00:00",
+      "end_ts": "2023-03-05T04:49:12.688+00:00",
+      "participants": [
+        "msven"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-05) ---\n[2023-03-05 04:49] msven: Also I'd like to note that I believe jamberine, wonderboat, and kolento are at a similar skill level as the OGs were at their peak. A few other players have also leveled up substantially. The limited player pool may skew ratings a bit, but saying they wouldn't have survived is a stretch.",
+      "messages": [
+        {
+          "id": "1081800561264959558",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2023-03-05T04:49:12.688+00:00",
+          "content": "Also I'd like to note that I believe jamberine, wonderboat, and kolento are at a similar skill level as the OGs were at their peak. A few other players have also leveled up substantially. The limited player pool may skew ratings a bit, but saying they wouldn't have survived is a stretch."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-05T05:06:36.642+00:00",
+      "end_ts": "2023-03-05T05:09:55.296+00:00",
+      "participants": [
+        "msven",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (6 messages, 2023-03-05) ---\n[2023-03-05 05:06] silentslayers: overall skill atm is higher than past imo\n[2023-03-05 05:06] silentslayers: so im dragging us down\n[2023-03-05 05:09] silentslayers: i also swear i just roll sets liek this and then log off\n[2023-03-05 05:09] silentslayers: fission p1 over and over zz\n[2023-03-05 05:09] silentslayers: thunder deemer threat(idk if real lol)\n[2023-03-05 05:09] msven: It's impressive to be a great player who's also able to be great at being bad. Call it \"dynamic range\" on your résumé",
+      "messages": [
+        {
+          "id": "1081804939925389342",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T05:06:36.642+00:00",
+          "content": "overall skill atm is higher than past imo"
+        },
+        {
+          "id": "1081805033793929236",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T05:06:59.022+00:00",
+          "content": "so im dragging us down"
+        },
+        {
+          "id": "1081805580148166707",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T05:09:09.283+00:00",
+          "content": "i also swear i just roll sets liek this and then log off"
+        },
+        {
+          "id": "1081805633470341130",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T05:09:21.996+00:00",
+          "content": "fission p1 over and over zz"
+        },
+        {
+          "id": "1081805663795155075",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T05:09:29.226+00:00",
+          "content": "thunder deemer threat(idk if real lol)"
+        },
+        {
+          "id": "1081805773140656170",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2023-03-05T05:09:55.296+00:00",
+          "content": "It's impressive to be a great player who's also able to be great at being bad. Call it \"dynamic range\" on your résumé"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-05T13:59:42.826+00:00",
+      "end_ts": "2023-03-05T14:09:52.196+00:00",
+      "participants": [
+        "msven",
+        "sano712",
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 19,
+      "formatted_text": "--- Thread (11 messages, 2023-03-05) ---\n[2023-03-05 13:59] msven: I say that because he has had strong play in our matches for the past few months\n[2023-03-05 14:01] silentslayers: Everyone OP now :LoganWha:\n[2023-03-05 14:02] sano712 (sano): I find it funny that kolento, a well known personality online, still fiends prismata daily without basically any of his fanbase being aware. Also without ever interacting with anyone. Just shows he truly enjoys the game lol\n[2023-03-05 14:03] silentslayers: He doesn’t message you guys ever??? Guess I’m lucky 😏\n[2023-03-05 14:04] sano712 (sano): I always start my games with the \"Hi.\" emote... Someday he might reply\n[2023-03-05 14:04] silentslayers: Lifecoach talked to me a decent bit\n[2023-03-05 14:04] silentslayers: Mostly on my Smurf though\n[2023-03-05 14:04] silentslayers: Don’t think he knew the connection\n[2023-03-05 14:06] sano712 (sano): Ah yeah lifecoach enjoyed interacting with ppl\n[2023-03-05 14:09] spiritfryer (Spyrfyr): if I have smorcus embargoed then why must I play sets like this as p1?\n[2023-03-05 14:09] spiritfryer (Spyrfyr): what do I do as p1 please",
+      "messages": [
+        {
+          "id": "1081939099704893500",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2023-03-05T13:59:42.826+00:00",
+          "content": "I say that because he has had strong play in our matches for the past few months"
+        },
+        {
+          "id": "1081939622310989854",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T14:01:47.425+00:00",
+          "content": "Everyone OP now :LoganWha:"
+        },
+        {
+          "id": "1081939810794618890",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-05T14:02:32.363+00:00",
+          "content": "I find it funny that kolento, a well known personality online, still fiends prismata daily without basically any of his fanbase being aware. Also without ever interacting with anyone. Just shows he truly enjoys the game lol"
+        },
+        {
+          "id": "1081940029183623168",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T14:03:24.431+00:00",
+          "content": "He doesn’t message you guys ever??? Guess I’m lucky 😏"
+        },
+        {
+          "id": "1081940194011385908",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-05T14:04:03.729+00:00",
+          "content": "I always start my games with the \"Hi.\" emote... Someday he might reply"
+        },
+        {
+          "id": "1081940278866366505",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T14:04:23.96+00:00",
+          "content": "Lifecoach talked to me a decent bit"
+        },
+        {
+          "id": "1081940302341877862",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T14:04:29.557+00:00",
+          "content": "Mostly on my Smurf though"
+        },
+        {
+          "id": "1081940329097339002",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T14:04:35.936+00:00",
+          "content": "Don’t think he knew the connection"
+        },
+        {
+          "id": "1081940798561591438",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-05T14:06:27.865+00:00",
+          "content": "Ah yeah lifecoach enjoyed interacting with ppl"
+        },
+        {
+          "id": "1081941525149266082",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-05T14:09:21.097+00:00",
+          "content": "if I have smorcus embargoed then why must I play sets like this as p1?"
+        },
+        {
+          "id": "1081941655587926158",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-05T14:09:52.196+00:00",
+          "content": "what do I do as p1 please"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-05T14:21:22.365+00:00",
+      "end_ts": "2023-03-05T14:21:33.087+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2023-03-05) ---\n[2023-03-05 14:21] silentslayers: we really need the balance patch\n[2023-03-05 14:21] silentslayers: it would fix some of this",
+      "messages": [
+        {
+          "id": "1081944550366519387",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T14:21:22.365+00:00",
+          "content": "we really need the balance patch"
+        },
+        {
+          "id": "1081944595337850930",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-05T14:21:33.087+00:00",
+          "content": "it would fix some of this"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-05T16:14:18.824+00:00",
+      "end_ts": "2023-03-05T16:16:13.858+00:00",
+      "participants": [
+        ".bananasplit",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2023-03-05) ---\n[2023-03-05 16:14] .bananasplit (Bananasplit): Wait I’m coming back soon to reach high Elo thanks to you\n[2023-03-05 16:15] spiritfryer (Spyrfyr): I don't think you can\n[2023-03-05 16:16] spiritfryer (Spyrfyr): I have no elo left to give",
+      "messages": [
+        {
+          "id": "1081972972895600671",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-05T16:14:18.824+00:00",
+          "content": "Wait I’m coming back soon to reach high Elo thanks to you"
+        },
+        {
+          "id": "1081973379348840548",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-05T16:15:55.73+00:00",
+          "content": "I don't think you can"
+        },
+        {
+          "id": "1081973455383167026",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-05T16:16:13.858+00:00",
+          "content": "I have no elo left to give"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-05T18:42:56.153+00:00",
+      "end_ts": "2023-03-05T18:43:04.944+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2023-03-05) ---\n[2023-03-05 18:42] spiritfryer (Spyrfyr): there are 3 games happening rn\n[2023-03-05 18:43] spiritfryer (Spyrfyr): everyone, get in here",
+      "messages": [
+        {
+          "id": "1082010374884302868",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-05T18:42:56.153+00:00",
+          "content": "there are 3 games happening rn"
+        },
+        {
+          "id": "1082010411756429374",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-05T18:43:04.944+00:00",
+          "content": "everyone, get in here"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-05T18:44:00.766+00:00",
+      "end_ts": "2023-03-05T18:44:05.336+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2023-03-05) ---\n[2023-03-05 18:44] spiritfryer (Spyrfyr): I think no matter what you try, p2's smorcus tooth is just better\n[2023-03-05 18:44] spiritfryer (Spyrfyr): but would love to be proven wrong",
+      "messages": [
+        {
+          "id": "1082010645890875446",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-05T18:44:00.766+00:00",
+          "content": "I think no matter what you try, p2's smorcus tooth is just better"
+        },
+        {
+          "id": "1082010665058828424",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-05T18:44:05.336+00:00",
+          "content": "but would love to be proven wrong"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-05T23:11:13.282+00:00",
+      "end_ts": "2023-03-05T23:11:13.282+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "g1Alq-5Qmz6"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-03-05) ---\n[2023-03-05 23:11] spiritfryer (Spyrfyr): Frontline Central  \n```g1Alq-5Qmz6```",
+      "messages": [
+        {
+          "id": "1082077891136852032",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-05T23:11:13.282+00:00",
+          "content": "Frontline Central  \n```g1Alq-5Qmz6```"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T03:15:52.371+00:00",
+      "end_ts": "2023-03-06T03:15:56.502+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2023-03-06) ---\n[2023-03-06 03:15] spiritfryer (Spyrfyr): oh thanks, I'll just wait then\n[2023-03-06 03:15] spiritfryer (Spyrfyr): what should I do once it's my turn though",
+      "messages": [
+        {
+          "id": "1082139459698561136",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-06T03:15:52.371+00:00",
+          "content": "oh thanks, I'll just wait then"
+        },
+        {
+          "id": "1082139477025226912",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-06T03:15:56.502+00:00",
+          "content": "what should I do once it's my turn though"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T03:28:12.34+00:00",
+      "end_ts": "2023-03-06T03:28:12.34+00:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-06) ---\n[2023-03-06 03:28] amalloy: switch to a game with an Offer Draw button",
+      "messages": [
+        {
+          "id": "1082142563353493644",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-03-06T03:28:12.34+00:00",
+          "content": "switch to a game with an Offer Draw button"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T17:18:04.976+00:00",
+      "end_ts": "2023-03-06T17:20:26.339+00:00",
+      "participants": [
+        "awaclus",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (4 messages, 2023-03-06) ---\n[2023-03-06 17:18] spiritfryer (Spyrfyr): smorcus strikes again\n[2023-03-06 17:18] spiritfryer (Spyrfyr): I love this well-designed unit :D\n[2023-03-06 17:19] awaclus: both players have a medium econ and have gotten other random set units\n[2023-03-06 17:20] awaclus: evidently it is not monolithic",
+      "messages": [
+        {
+          "id": "1082351408805851136",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-06T17:18:04.976+00:00",
+          "content": "smorcus strikes again"
+        },
+        {
+          "id": "1082351433267023993",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-06T17:18:10.808+00:00",
+          "content": "I love this well-designed unit :D"
+        },
+        {
+          "id": "1082351880421769247",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-06T17:19:57.418+00:00",
+          "content": "both players have a medium econ and have gotten other random set units"
+        },
+        {
+          "id": "1082352001725243492",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-06T17:20:26.339+00:00",
+          "content": "evidently it is not monolithic"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T18:35:21.547+00:00",
+      "end_ts": "2023-03-06T18:39:43.138+00:00",
+      "participants": [
+        ".bananasplit",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (5 messages, 2023-03-06) ---\n[2023-03-06 18:35] silentslayers: we need bananasplits blessing that our tourney doesnt matter and that we wouldnt survive if the OGs were here\n[2023-03-06 18:39] .bananasplit (Bananasplit): I struck a chord here\n[2023-03-06 18:39] .bananasplit (Bananasplit): and Im not mean either lol\n[2023-03-06 18:39] .bananasplit (Bananasplit): just telling the truth\n[2023-03-06 18:39] .bananasplit (Bananasplit): It's not your fault ofc",
+      "messages": [
+        {
+          "id": "1082370855994146857",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T18:35:21.547+00:00",
+          "content": "we need bananasplits blessing that our tourney doesnt matter and that we wouldnt survive if the OGs were here"
+        },
+        {
+          "id": "1082371796453564416",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T18:39:05.77+00:00",
+          "content": "I struck a chord here"
+        },
+        {
+          "id": "1082371828246396968",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T18:39:13.35+00:00",
+          "content": "and Im not mean either lol"
+        },
+        {
+          "id": "1082371845669531750",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T18:39:17.504+00:00",
+          "content": "just telling the truth"
+        },
+        {
+          "id": "1082371953186308128",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T18:39:43.138+00:00",
+          "content": "It's not your fault ofc"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T18:53:00.077+00:00",
+      "end_ts": "2023-03-06T19:09:21.194+00:00",
+      "participants": [
+        "awaclus",
+        "siepu",
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 69,
+      "formatted_text": "--- Thread (33 messages, 2023-03-06) ---\n[2023-03-06 18:53] steel0229e (Steel): hi guys! I redeemer my password and loggen into discord after 4 years just for this tournament announcement\n[2023-03-06 18:53] steel0229e (Steel): I'd like to help with organising and/or casting\n[2023-03-06 18:53] steel0229e (Steel): I have some recommendations for the format:\n[2023-03-06 18:53] steel0229e (Steel): I have been thinking about this for long, even wrote in chat\n[2023-03-06 18:54] steel0229e (Steel): but I didn't take the initiative\n[2023-03-06 18:54] awaclus: why is the most important skill in the game the ability to not get distracted while your opponent is taking forever to think\n[2023-03-06 18:55] steel0229e (Steel): So about format. My recommendation:\n[2023-03-06 18:55] steel0229e (Steel): best of 5, double elimination\n[2023-03-06 18:55] steel0229e (Steel): in the lower bracket it should be best of 3 or best of 1\n[2023-03-06 18:55] steel0229e (Steel): mulligans should be an option, 1 mulligan/game\n[2023-03-06 18:56] awaclus: can I mulligan the time control into 20s\n[2023-03-06 18:56] steel0229e (Steel): to prevent games where players feel it is very advantaged to one side\n[2023-03-06 18:57] steel0229e (Steel): in 5 games that is very liberal\n[2023-03-06 18:58] steel0229e (Steel): Anyway here goes my next recommendation: a separate bracket for players whose elo is below 1900. So we encourage new players as well as less experienced players\n[2023-03-06 18:58] siepu: the only players below 1900\n[2023-03-06 18:58] siepu: are the 2100 players with decay\n[2023-03-06 18:58] steel0229e (Steel): The inspiration for this is my first ever Prismata tournament organised by Crash, it was called chrono cup. It had a noob bracket and it was so much fun to play\n[2023-03-06 18:58] steel0229e (Steel): there are people like Addition who play regularly\n[2023-03-06 19:00] steel0229e (Steel): maybe the winner of the \"noob bracket\" gets seeded into the main tournament\n[2023-03-06 19:01] steel0229e (Steel): i dont think mentioniong names is helpful, just wanted to point out that not everyone is 2100 rated\n[2023-03-06 19:01] steel0229e (Steel): maybe an announcement like this would draw back people who quitted\n[2023-03-06 19:02] steel0229e (Steel): since bo5 takes forever I think 45s is fair\n[2023-03-06 19:03] steel0229e (Steel): especially with double elim\n[2023-03-06 19:03] steel0229e (Steel): maybe the beginner bracket could have 60s\n[2023-03-06 19:04] steel0229e (Steel): What are your thoughts?\n[2023-03-06 19:06] steel0229e (Steel): any objections to double elim or the beginner bracket?\n[2023-03-06 19:07] steel0229e (Steel): yeah it would make only sense if it had at least 10 people in it\n[2023-03-06 19:07] steel0229e (Steel): if we create a challongeone page and announce it in advance I think many people will sign up\n[2023-03-06 19:07] steel0229e (Steel): i just phrased that way for alliteration\n[2023-03-06 19:08] steel0229e (Steel): i live in the past man 😄\n[2023-03-06 19:08] steel0229e (Steel): nowadays everything is a league\n[2023-03-06 19:08] steel0229e (Steel): even a 10 player tournament\n[2023-03-06 19:09] steel0229e (Steel): minor league sounds like overexaggeration but ok",
+      "messages": [
+        {
+          "id": "1082375295790759968",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:53:00.077+00:00",
+          "content": "hi guys! I redeemer my password and loggen into discord after 4 years just for this tournament announcement"
+        },
+        {
+          "id": "1082375349205209119",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:53:12.812+00:00",
+          "content": "I'd like to help with organising and/or casting"
+        },
+        {
+          "id": "1082375414250483742",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:53:28.32+00:00",
+          "content": "I have some recommendations for the format:"
+        },
+        {
+          "id": "1082375524204163163",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:53:54.535+00:00",
+          "content": "I have been thinking about this for long, even wrote in chat"
+        },
+        {
+          "id": "1082375556730986616",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:54:02.29+00:00",
+          "content": "but I didn't take the initiative"
+        },
+        {
+          "id": "1082375709433004103",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-06T18:54:38.697+00:00",
+          "content": "why is the most important skill in the game the ability to not get distracted while your opponent is taking forever to think"
+        },
+        {
+          "id": "1082375881261056030",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:55:19.664+00:00",
+          "content": "So about format. My recommendation:"
+        },
+        {
+          "id": "1082375902438101003",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:55:24.713+00:00",
+          "content": "best of 5, double elimination"
+        },
+        {
+          "id": "1082375951427584081",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:55:36.393+00:00",
+          "content": "in the lower bracket it should be best of 3 or best of 1"
+        },
+        {
+          "id": "1082376007396364348",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:55:49.737+00:00",
+          "content": "mulligans should be an option, 1 mulligan/game"
+        },
+        {
+          "id": "1082376096902824007",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-06T18:56:11.077+00:00",
+          "content": "can I mulligan the time control into 20s"
+        },
+        {
+          "id": "1082376100438626304",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:56:11.92+00:00",
+          "content": "to prevent games where players feel it is very advantaged to one side"
+        },
+        {
+          "id": "1082376302729887764",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:57:00.15+00:00",
+          "content": "in 5 games that is very liberal"
+        },
+        {
+          "id": "1082376576576012338",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:58:05.44+00:00",
+          "content": "Anyway here goes my next recommendation: a separate bracket for players whose elo is below 1900. So we encourage new players as well as less experienced players"
+        },
+        {
+          "id": "1082376681534271488",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2023-03-06T18:58:30.464+00:00",
+          "content": "the only players below 1900"
+        },
+        {
+          "id": "1082376711188004934",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2023-03-06T18:58:37.534+00:00",
+          "content": "are the 2100 players with decay"
+        },
+        {
+          "id": "1082376723288555660",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:58:40.419+00:00",
+          "content": "The inspiration for this is my first ever Prismata tournament organised by Crash, it was called chrono cup. It had a noob bracket and it was so much fun to play"
+        },
+        {
+          "id": "1082376805316579418",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T18:58:59.976+00:00",
+          "content": "there are people like Addition who play regularly"
+        },
+        {
+          "id": "1082377145558511656",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:00:21.096+00:00",
+          "content": "maybe the winner of the \"noob bracket\" gets seeded into the main tournament"
+        },
+        {
+          "id": "1082377320746209361",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:01:02.864+00:00",
+          "content": "i dont think mentioniong names is helpful, just wanted to point out that not everyone is 2100 rated"
+        },
+        {
+          "id": "1082377440715878421",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:01:31.467+00:00",
+          "content": "maybe an announcement like this would draw back people who quitted"
+        },
+        {
+          "id": "1082377796984254534",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:02:56.408+00:00",
+          "content": "since bo5 takes forever I think 45s is fair"
+        },
+        {
+          "id": "1082377938407792660",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:03:30.126+00:00",
+          "content": "especially with double elim"
+        },
+        {
+          "id": "1082378032217604166",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:03:52.492+00:00",
+          "content": "maybe the beginner bracket could have 60s"
+        },
+        {
+          "id": "1082378101142597693",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:04:08.925+00:00",
+          "content": "What are your thoughts?"
+        },
+        {
+          "id": "1082378644263014410",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:06:18.415+00:00",
+          "content": "any objections to double elim or the beginner bracket?"
+        },
+        {
+          "id": "1082378828975972453",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:07:02.454+00:00",
+          "content": "yeah it would make only sense if it had at least 10 people in it"
+        },
+        {
+          "id": "1082378968927309945",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:07:35.821+00:00",
+          "content": "if we create a challongeone page and announce it in advance I think many people will sign up"
+        },
+        {
+          "id": "1082379055908794438",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:07:56.559+00:00",
+          "content": "i just phrased that way for alliteration"
+        },
+        {
+          "id": "1082379192152363018",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:08:29.042+00:00",
+          "content": "i live in the past man 😄"
+        },
+        {
+          "id": "1082379285031047208",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:08:51.186+00:00",
+          "content": "nowadays everything is a league"
+        },
+        {
+          "id": "1082379316307959930",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:08:58.643+00:00",
+          "content": "even a 10 player tournament"
+        },
+        {
+          "id": "1082379410893717524",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:09:21.194+00:00",
+          "content": "minor league sounds like overexaggeration but ok"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T19:33:02.844+00:00",
+      "end_ts": "2023-03-06T19:33:02.844+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-03-06) ---\n[2023-03-06 19:33] silentslayers: yes you obviously struck a chord, thought the whole point of what you said was nothing but negative and taking away from people's accomplishments, all the while i don't even fully agree with your point, but i cba to go further with this",
+      "messages": [
+        {
+          "id": "1082385373725995038",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:33:02.844+00:00",
+          "content": "yes you obviously struck a chord, thought the whole point of what you said was nothing but negative and taking away from people's accomplishments, all the while i don't even fully agree with your point, but i cba to go further with this"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T19:40:56.101+00:00",
+      "end_ts": "2023-03-06T20:17:39.746+00:00",
+      "participants": [
+        ".bananasplit",
+        "lyra1712",
+        "sano712",
+        "silentslayers",
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 64,
+      "formatted_text": "--- Thread (35 messages, 2023-03-06) ---\n[2023-03-06 19:40] sano712 (sano): even if several of the past top players haven't played in a long time, _some_ top players are still around (e.g. Msven), and I don't think jamberine or Wonderboat have terrible results against him (but have no data to back this up)\n[2023-03-06 19:41] sano712 (sano): and Msven beat several of the so-called \"OGs\" in the grand prix\n[2023-03-06 19:41] silentslayers: My WR vs msven isnt that great (I mean it's fine but hes decently favored), but I was pretty good against arka/mrguy/apooche/redrame etc\n[2023-03-06 19:41] silentslayers: and im 50/50 vs jamberine\n[2023-03-06 19:42] sano712 (sano): I miss mrguy :FeelsBadMan:\n[2023-03-06 19:43] steel0229e (Steel): I believe the current top players match the oldies in skill although we'll never know.\n[2023-03-06 19:43] silentslayers: i just think its so ridiculous to come to a dead game server, where someone is proud of an achievement and then come say basically your achievement isn't that important cause xyz\n[2023-03-06 19:44] silentslayers: And then also say X people wouldn't survive (But it's ok its just a hyperbole hahaha)\n[2023-03-06 19:44] steel0229e (Steel): Im also an OG for the record and while my winrate isn't spectacular vs Msven too I take games off of him. Yesterday I 0-3d Kolento too. Do not count us out.\n[2023-03-06 19:45] lyra1712 (Lyra): i would gladly shake my rust off for a tournament, great idea\n[2023-03-06 19:46] lyra1712 (Lyra): leaning towards 45s aswell, bo5 is decently long already\n[2023-03-06 19:47] lyra1712 (Lyra): i don't like mulligans very much myself, id be fine with 1 or 2 per bo5, but one per game per player seems too much to me\n[2023-03-06 19:47] silentslayers: i dont like mulligans either but the game is terribly balanced without the patch\n[2023-03-06 19:48] silentslayers: at least w/ tourney we can do like bs+10\n[2023-03-06 19:48] lyra1712 (Lyra): i think \"terribly balanced\" is an overstatement, i tend to believe top players overrate the imbalance, though thats probably a bias of my own\n[2023-03-06 19:48] lyra1712 (Lyra): yea, bs+10 or 11 is cooler than bs+8\n[2023-03-06 19:49] silentslayers: the bs+8s i play on ladder feel very coin flippy\n[2023-03-06 19:49] steel0229e (Steel): i think the game has never been as balanced as it is\n[2023-03-06 19:50] silentslayers: but its still imbalanced\n[2023-03-06 19:50] steel0229e (Steel): i see no problems with balance I have no embargoes\n[2023-03-06 19:50] silentslayers: the patch is way more balanced\n[2023-03-06 19:50] lyra1712 (Lyra): i agree the patch is probably way more balanced\n[2023-03-06 19:50] lyra1712 (Lyra): but thats not a realistic option i believe\n[2023-03-06 19:50] silentslayers: hence why i want mulligans\n[2023-03-06 19:50] silentslayers: they dont even take long\n[2023-03-06 19:51] steel0229e (Steel): agree about the patch\n[2023-03-06 19:51] lyra1712 (Lyra): as i said, im not against the idea, but id prefer if we didn't go too far there\n[2023-03-06 19:51] silentslayers: i can compromise 2 in a Bo5 😛\n[2023-03-06 19:51] lyra1712 (Lyra): if im in the minority ofc id deal with it\n[2023-03-06 19:51] lyra1712 (Lyra): just voicing my opinion\n[2023-03-06 19:51] lyra1712 (Lyra): 2 feels like a good compromise to me\n[2023-03-06 20:10] .bananasplit (Bananasplit): Yes so you fell for my troll. My main point was that the highest ELO achieved now would simply not occur in a non dead game server.\nAs for the skill arguments, as I said to Steel on the game, The previous players benefitted from mutual reinforcements and more incentives to improve with all the big tournaments and fierce competition so I would likely favor them at their peak over you. That being said, had you been there at the time you would have probably improved faster to their level as well, that's why I wasn't too serious about belittling you and you should still be happy to be a top player now.\n[2023-03-06 20:13] steel0229e (Steel): I share your general sentiment Bananasplit. Anyone who played through that era somehow misses the fierce competition. However it is possible to achieve the same high elo even with those conditions. Many people got near 2300 levels even back then. With smurfs it should be even more likely.\n[2023-03-06 20:15] steel0229e (Steel): I would likely favor them at their peak over you - now this is something I felt for years, but not any more. It is just being nostalgic, but the current elite will always be good as long as they play each other.\n[2023-03-06 20:17] steel0229e (Steel): By \"current\" I mean eternally as a principle, whoever is on top.",
+      "messages": [
+        {
+          "id": "1082387358709710858",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-06T19:40:56.101+00:00",
+          "content": "even if several of the past top players haven't played in a long time, _some_ top players are still around (e.g. Msven), and I don't think jamberine or Wonderboat have terrible results against him (but have no data to back this up)"
+        },
+        {
+          "id": "1082387445825405008",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-06T19:41:16.871+00:00",
+          "content": "and Msven beat several of the so-called \"OGs\" in the grand prix"
+        },
+        {
+          "id": "1082387579476906075",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:41:48.736+00:00",
+          "content": "My WR vs msven isnt that great (I mean it's fine but hes decently favored), but I was pretty good against arka/mrguy/apooche/redrame etc"
+        },
+        {
+          "id": "1082387601404739674",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:41:53.964+00:00",
+          "content": "and im 50/50 vs jamberine"
+        },
+        {
+          "id": "1082387780832862219",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-06T19:42:36.743+00:00",
+          "content": "I miss mrguy :FeelsBadMan:"
+        },
+        {
+          "id": "1082388041924100268",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:43:38.992+00:00",
+          "content": "I believe the current top players match the oldies in skill although we'll never know."
+        },
+        {
+          "id": "1082388109876002816",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:43:55.193+00:00",
+          "content": "i just think its so ridiculous to come to a dead game server, where someone is proud of an achievement and then come say basically your achievement isn't that important cause xyz"
+        },
+        {
+          "id": "1082388185792917616",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:44:13.293+00:00",
+          "content": "And then also say X people wouldn't survive (But it's ok its just a hyperbole hahaha)"
+        },
+        {
+          "id": "1082388273986543727",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:44:34.32+00:00",
+          "content": "Im also an OG for the record and while my winrate isn't spectacular vs Msven too I take games off of him. Yesterday I 0-3d Kolento too. Do not count us out."
+        },
+        {
+          "id": "1082388554933616720",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:45:41.303+00:00",
+          "content": "i would gladly shake my rust off for a tournament, great idea"
+        },
+        {
+          "id": "1082388640795197440",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:46:01.774+00:00",
+          "content": "leaning towards 45s aswell, bo5 is decently long already"
+        },
+        {
+          "id": "1082388919099871344",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:47:08.127+00:00",
+          "content": "i don't like mulligans very much myself, id be fine with 1 or 2 per bo5, but one per game per player seems too much to me"
+        },
+        {
+          "id": "1082389040315256963",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:47:37.027+00:00",
+          "content": "i dont like mulligans either but the game is terribly balanced without the patch"
+        },
+        {
+          "id": "1082389138109628528",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:48:00.343+00:00",
+          "content": "at least w/ tourney we can do like bs+10"
+        },
+        {
+          "id": "1082389282058145803",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:48:34.663+00:00",
+          "content": "i think \"terribly balanced\" is an overstatement, i tend to believe top players overrate the imbalance, though thats probably a bias of my own"
+        },
+        {
+          "id": "1082389339603996834",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:48:48.383+00:00",
+          "content": "yea, bs+10 or 11 is cooler than bs+8"
+        },
+        {
+          "id": "1082389556910882856",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:49:40.193+00:00",
+          "content": "the bs+8s i play on ladder feel very coin flippy"
+        },
+        {
+          "id": "1082389612258938900",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:49:53.389+00:00",
+          "content": "i think the game has never been as balanced as it is"
+        },
+        {
+          "id": "1082389670035460209",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:50:07.164+00:00",
+          "content": "but its still imbalanced"
+        },
+        {
+          "id": "1082389674368180335",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:50:08.197+00:00",
+          "content": "i see no problems with balance I have no embargoes"
+        },
+        {
+          "id": "1082389684220596294",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:50:10.546+00:00",
+          "content": "the patch is way more balanced"
+        },
+        {
+          "id": "1082389736968163439",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:50:23.122+00:00",
+          "content": "i agree the patch is probably way more balanced"
+        },
+        {
+          "id": "1082389771642478645",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:50:31.389+00:00",
+          "content": "but thats not a realistic option i believe"
+        },
+        {
+          "id": "1082389814302736444",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:50:41.56+00:00",
+          "content": "hence why i want mulligans"
+        },
+        {
+          "id": "1082389827921662012",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:50:44.807+00:00",
+          "content": "they dont even take long"
+        },
+        {
+          "id": "1082389931571294208",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T19:51:09.519+00:00",
+          "content": "agree about the patch"
+        },
+        {
+          "id": "1082389935539097750",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:51:10.465+00:00",
+          "content": "as i said, im not against the idea, but id prefer if we didn't go too far there"
+        },
+        {
+          "id": "1082390010373886052",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T19:51:28.307+00:00",
+          "content": "i can compromise 2 in a Bo5 😛"
+        },
+        {
+          "id": "1082390015394467860",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:51:29.504+00:00",
+          "content": "if im in the minority ofc id deal with it"
+        },
+        {
+          "id": "1082390045132083251",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:51:36.594+00:00",
+          "content": "just voicing my opinion"
+        },
+        {
+          "id": "1082390130909782107",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-06T19:51:57.045+00:00",
+          "content": "2 feels like a good compromise to me"
+        },
+        {
+          "id": "1082394915956326561",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T20:10:57.889+00:00",
+          "content": "Yes so you fell for my troll. My main point was that the highest ELO achieved now would simply not occur in a non dead game server.\nAs for the skill arguments, as I said to Steel on the game, The previous players benefitted from mutual reinforcements and more incentives to improve with all the big tournaments and fierce competition so I would likely favor them at their peak over you. That being said, had you been there at the time you would have probably improved faster to their level as well, that's why I wasn't too serious about belittling you and you should still be happy to be a top player now."
+        },
+        {
+          "id": "1082395548948123699",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T20:13:28.806+00:00",
+          "content": "I share your general sentiment Bananasplit. Anyone who played through that era somehow misses the fierce competition. However it is possible to achieve the same high elo even with those conditions. Many people got near 2300 levels even back then. With smurfs it should be even more likely."
+        },
+        {
+          "id": "1082396174750842880",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T20:15:58.009+00:00",
+          "content": "I would likely favor them at their peak over you - now this is something I felt for years, but not any more. It is just being nostalgic, but the current elite will always be good as long as they play each other."
+        },
+        {
+          "id": "1082396601466761237",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T20:17:39.746+00:00",
+          "content": "By \"current\" I mean eternally as a principle, whoever is on top."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T20:21:56.724+00:00",
+      "end_ts": "2023-03-06T20:23:27.792+00:00",
+      "participants": [
+        ".bananasplit"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2023-03-06) ---\n[2023-03-06 20:21] .bananasplit (Bananasplit): It's not a perfect comparison but if you know tennis a little bit, there was the BIG 3 that won almost every grand slam for 15 years and the rest. Now that they are close to retirement, a new tennis elite will emerge but seeing how they cannot beat the BIG 3 as they are aging (while the big 3 stormed through the top rankings as soon as they were 18-20 y olds), you can tell that not all elites across eras have the same skills or talents. \nIt's simply a matter of luck and mutual reinforcement.\nI'm not saying that the current era of prismata is necessarily less talented but we lack the reference games of both of them at their peak to judge and by default someone dominating a bigger pool of players for a long period of time will always appear more dominating.\n[2023-03-06 20:23] .bananasplit (Bananasplit): Msven gives us an hint maybe as he was a top player back then still but not necessarily the best, while now he is the undisputed best current player",
+      "messages": [
+        {
+          "id": "1082397679310606356",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T20:21:56.724+00:00",
+          "content": "It's not a perfect comparison but if you know tennis a little bit, there was the BIG 3 that won almost every grand slam for 15 years and the rest. Now that they are close to retirement, a new tennis elite will emerge but seeing how they cannot beat the BIG 3 as they are aging (while the big 3 stormed through the top rankings as soon as they were 18-20 y olds), you can tell that not all elites across eras have the same skills or talents. \nIt's simply a matter of luck and mutual reinforcement.\nI'm not saying that the current era of prismata is necessarily less talented but we lack the reference games of both of them at their peak to judge and by default someone dominating a bigger pool of players for a long period of time will always appear more dominating."
+        },
+        {
+          "id": "1082398061277499402",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T20:23:27.792+00:00",
+          "content": "Msven gives us an hint maybe as he was a top player back then still but not necessarily the best, while now he is the undisputed best current player"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T20:33:21.26+00:00",
+      "end_ts": "2023-03-06T20:33:21.26+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-06) ---\n[2023-03-06 20:33] awaclus: ...and he's been improving while the people who quit haven't",
+      "messages": [
+        {
+          "id": "1082400550462689350",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-06T20:33:21.26+00:00",
+          "content": "...and he's been improving while the people who quit haven't"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T20:33:46.094+00:00",
+      "end_ts": "2023-03-06T20:35:53.497+00:00",
+      "participants": [
+        ".bananasplit",
+        "awaclus",
+        "sano712"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (3 messages, 2023-03-06) ---\n[2023-03-06 20:33] .bananasplit (Bananasplit): Yes it is, because I would need to be talking seriously to be a dick in this case, which I wasn't\n[2023-03-06 20:35] sano712 (sano): pretty sure you can be a dick while not being serious, but ok\n[2023-03-06 20:35] awaclus: in a deep enough strategy game, unless it has been studied for centuries like Chess etc, it is easily the case that even a player who's not really good enough to be considered a top player now is better than the best player from a few years ago",
+      "messages": [
+        {
+          "id": "1082400654624051260",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T20:33:46.094+00:00",
+          "content": "Yes it is, because I would need to be talking seriously to be a dick in this case, which I wasn't"
+        },
+        {
+          "id": "1082401186608582758",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-06T20:35:52.929+00:00",
+          "content": "pretty sure you can be a dick while not being serious, but ok"
+        },
+        {
+          "id": "1082401188990963814",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-06T20:35:53.497+00:00",
+          "content": "in a deep enough strategy game, unless it has been studied for centuries like Chess etc, it is easily the case that even a player who's not really good enough to be considered a top player now is better than the best player from a few years ago"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T20:49:09.176+00:00",
+      "end_ts": "2023-03-06T20:52:08.17+00:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2023-03-06) ---\n[2023-03-06 20:49] steel0229e (Steel): If we can rely on sentiment I also believe that the average quality of games was much higher a few years ago. I could not just queue and grind, every game had to be taken very seriously and focusing attention was the hardest. Now I feel most of the time I can just be pressing buttons and not using up my time bank to think some turns ahead. And I am not necessarily better than at my peak when I got top 16 in the Prismata grand prix, if anything I am significantly worse. I no longer think about the game all the time, I don't do theory crafting any more, and no more maths spreadsheets either. In that era this was necessary to stay top 20, now I am top 5 with much less effort. All this personal experience affirms what Bananasplit was saying.\n[2023-03-06 20:52] steel0229e (Steel): I had to take breaks because if I just started a new game afresh immediately my mind was so burnt I could not focus. People were so good noone missed plays that makes you lose 1 gold.",
+      "messages": [
+        {
+          "id": "1082404526310576178",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T20:49:09.176+00:00",
+          "content": "If we can rely on sentiment I also believe that the average quality of games was much higher a few years ago. I could not just queue and grind, every game had to be taken very seriously and focusing attention was the hardest. Now I feel most of the time I can just be pressing buttons and not using up my time bank to think some turns ahead. And I am not necessarily better than at my peak when I got top 16 in the Prismata grand prix, if anything I am significantly worse. I no longer think about the game all the time, I don't do theory crafting any more, and no more maths spreadsheets either. In that era this was necessary to stay top 20, now I am top 5 with much less effort. All this personal experience affirms what Bananasplit was saying."
+        },
+        {
+          "id": "1082405277065822240",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T20:52:08.17+00:00",
+          "content": "I had to take breaks because if I just started a new game afresh immediately my mind was so burnt I could not focus. People were so good noone missed plays that makes you lose 1 gold."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T20:57:16.578+00:00",
+      "end_ts": "2023-03-06T21:02:43.352+00:00",
+      "participants": [
+        ".bananasplit",
+        "liquideggproduct",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (7 messages, 2023-03-06) ---\n[2023-03-06 20:57] silentslayers: `People were so good noone missed plays that makes you lose 1 gold.` that's some copium right there\n[2023-03-06 20:57] silentslayers: I think there's some really bad takes going on that I kind of want to talk about but I also CBA because I have a lot to say and its subjective anyways\n[2023-03-06 20:57] silentslayers: fwiw I agree with some of it, its just nuanced in my view\n[2023-03-06 20:58] liquideggproduct (Liquid Egg Product): If tourney does get off the ground, would we want to do community raised prize pool? Add a little bit of spice...\n\nOfc, it adds complexity and would have to agree on a trustworthy person to handle payouts\n[2023-03-06 20:59] .bananasplit (Bananasplit): yes and I wouldn't want to to disturb your precious time!\n[2023-03-06 21:00] .bananasplit (Bananasplit): who talks about cba seriously\n[2023-03-06 21:02] .bananasplit (Bananasplit): alright you can return to manage your nation",
+      "messages": [
+        {
+          "id": "1082406570622713936",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T20:57:16.578+00:00",
+          "content": "`People were so good noone missed plays that makes you lose 1 gold.` that's some copium right there"
+        },
+        {
+          "id": "1082406694807670794",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T20:57:46.186+00:00",
+          "content": "I think there's some really bad takes going on that I kind of want to talk about but I also CBA because I have a lot to say and its subjective anyways"
+        },
+        {
+          "id": "1082406750390595714",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-06T20:57:59.438+00:00",
+          "content": "fwiw I agree with some of it, its just nuanced in my view"
+        },
+        {
+          "id": "1082406996617203862",
+          "author": "liquideggproduct",
+          "nickname": "Liquid Egg Product",
+          "timestamp": "2023-03-06T20:58:58.143+00:00",
+          "content": "If tourney does get off the ground, would we want to do community raised prize pool? Add a little bit of spice...\n\nOfc, it adds complexity and would have to agree on a trustworthy person to handle payouts"
+        },
+        {
+          "id": "1082407076757782680",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T20:59:17.25+00:00",
+          "content": "yes and I wouldn't want to to disturb your precious time!"
+        },
+        {
+          "id": "1082407285336322099",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T21:00:06.979+00:00",
+          "content": "who talks about cba seriously"
+        },
+        {
+          "id": "1082407941212217355",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2023-03-06T21:02:43.352+00:00",
+          "content": "alright you can return to manage your nation"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T21:19:44.048+00:00",
+      "end_ts": "2023-03-06T21:20:17.15+00:00",
+      "participants": [
+        "awaclus",
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (2 messages, 2023-03-06) ---\n[2023-03-06 21:19] steel0229e (Steel): what does cba stand for\n[2023-03-06 21:20] awaclus: - conduit blastforge animus\n - can't be arsed\n - can't be asked\n - chess battle advanced",
+      "messages": [
+        {
+          "id": "1082412222321537024",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T21:19:44.048+00:00",
+          "content": "what does cba stand for"
+        },
+        {
+          "id": "1082412361161388093",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-06T21:20:17.15+00:00",
+          "content": "- conduit blastforge animus\n - can't be arsed\n - can't be asked\n - chess battle advanced"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T22:47:13.038+00:00",
+      "end_ts": "2023-03-06T22:49:46.558+00:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2023-03-06) ---\n[2023-03-06 22:47] steel0229e (Steel): don't be pessimistic\n[2023-03-06 22:47] steel0229e (Steel): we haven't have a tournament for a very long time, save beginner tournament\n[2023-03-06 22:49] steel0229e (Steel): Is there any preferred date?",
+      "messages": [
+        {
+          "id": "1082434238181294080",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T22:47:13.038+00:00",
+          "content": "don't be pessimistic"
+        },
+        {
+          "id": "1082434310704992276",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T22:47:30.329+00:00",
+          "content": "we haven't have a tournament for a very long time, save beginner tournament"
+        },
+        {
+          "id": "1082434882090848297",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-06T22:49:46.558+00:00",
+          "content": "Is there any preferred date?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-06T23:05:03.323+00:00",
+      "end_ts": "2023-03-06T23:05:03.323+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-06) ---\n[2023-03-06 23:05] spiritfryer (Spyrfyr): lemme ask my butler about my schedule",
+      "messages": [
+        {
+          "id": "1082438727281950870",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-06T23:05:03.323+00:00",
+          "content": "lemme ask my butler about my schedule"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T00:55:01.194+00:00",
+      "end_ts": "2023-03-07T00:55:01.194+00:00",
+      "participants": [
+        "msven"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-07) ---\n[2023-03-07 00:55] msven: Loving the idea of a new tournament. I could do a few streams to help get the word out, and I would also contribute to a prize pool if there is one. Regarding double elim: Bo1 in losers bracket would lead to a lot of upsets. Even the best players sometimes lose to someone 500+ points below. I think it should be bo3 minimum",
+      "messages": [
+        {
+          "id": "1082466400758669313",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2023-03-07T00:55:01.194+00:00",
+          "content": "Loving the idea of a new tournament. I could do a few streams to help get the word out, and I would also contribute to a prize pool if there is one. Regarding double elim: Bo1 in losers bracket would lead to a lot of upsets. Even the best players sometimes lose to someone 500+ points below. I think it should be bo3 minimum"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T01:19:55.594+00:00",
+      "end_ts": "2023-03-07T01:19:55.594+00:00",
+      "participants": [
+        "msven"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-07) ---\n[2023-03-07 01:19] msven: Regarding reference games, there are tournament vods you can find on lunarch/ruinedshadows/arka/etc twitch channels. You can study those and compare them to current replays. PGP (on ruinedshadows channel) was the last and the biggest tournament that nearly all of the OGs participated in. I can tell you from experience that the OGs knew all about efficiency and executed their strategies well, but they lacked strategic depth and often didn't read sets that well. A good example is me vs apooche game 3, with 307th commentating. Both apooche and 307th read the set the same way, and 307th was reiterating his conviction. I did a completely different strategy and absolutely crushed. I already knew this at the time which is why I was telling my stream that I'd win the tournament even before the ro8 had been played.",
+      "messages": [
+        {
+          "id": "1082472668726575155",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2023-03-07T01:19:55.594+00:00",
+          "content": "Regarding reference games, there are tournament vods you can find on lunarch/ruinedshadows/arka/etc twitch channels. You can study those and compare them to current replays. PGP (on ruinedshadows channel) was the last and the biggest tournament that nearly all of the OGs participated in. I can tell you from experience that the OGs knew all about efficiency and executed their strategies well, but they lacked strategic depth and often didn't read sets that well. A good example is me vs apooche game 3, with 307th commentating. Both apooche and 307th read the set the same way, and 307th was reiterating his conviction. I did a completely different strategy and absolutely crushed. I already knew this at the time which is why I was telling my stream that I'd win the tournament even before the ro8 had been played."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T01:32:58.079+00:00",
+      "end_ts": "2023-03-07T01:32:58.079+00:00",
+      "participants": [
+        "msven"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-07) ---\n[2023-03-07 01:32] msven: I think the reason that someone can get to top 5 now with less effort is because there are less players than before, not lower quality players. The gradient of skill levels used to be much more diverse. If you want to challenge yourself then there's always the 2300 goal to strive for.",
+      "messages": [
+        {
+          "id": "1082475950706536549",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2023-03-07T01:32:58.079+00:00",
+          "content": "I think the reason that someone can get to top 5 now with less effort is because there are less players than before, not lower quality players. The gradient of skill levels used to be much more diverse. If you want to challenge yourself then there's always the 2300 goal to strive for."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T08:33:06.61+00:00",
+      "end_ts": "2023-03-07T08:34:02.457+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (3 messages, 2023-03-07) ---\n[2023-03-07 08:33] silentslayers: i dont think ppl understand how hard 2300 is even with player as it is now. Its different than top 5 or top 3 or even top 1.\n[2023-03-07 08:33] silentslayers: jamberines 2338 is ludicrous\n[2023-03-07 08:34] silentslayers: every few points past 2300 is super difficult and a bit pressuring x)",
+      "messages": [
+        {
+          "id": "1082581682948935694",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-07T08:33:06.61+00:00",
+          "content": "i dont think ppl understand how hard 2300 is even with player as it is now. Its different than top 5 or top 3 or even top 1."
+        },
+        {
+          "id": "1082581744198361158",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-07T08:33:21.213+00:00",
+          "content": "jamberines 2338 is ludicrous"
+        },
+        {
+          "id": "1082581917188227082",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-07T08:34:02.457+00:00",
+          "content": "every few points past 2300 is super difficult and a bit pressuring x)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T10:21:03.496+00:00",
+      "end_ts": "2023-03-07T10:22:31.343+00:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2023-03-07) ---\n[2023-03-07 10:21] steel0229e (Steel): I am well aware how difficult it is. You gain 1-2 points pe win and are basically not allowed to lose.\n[2023-03-07 10:22] steel0229e (Steel): Very glad that the ranking system was changed some years ago so the top players are expected to win less often.",
+      "messages": [
+        {
+          "id": "1082608848977788948",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-07T10:21:03.496+00:00",
+          "content": "I am well aware how difficult it is. You gain 1-2 points pe win and are basically not allowed to lose."
+        },
+        {
+          "id": "1082609217434824704",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-07T10:22:31.343+00:00",
+          "content": "Very glad that the ranking system was changed some years ago so the top players are expected to win less often."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T10:42:26.045+00:00",
+      "end_ts": "2023-03-07T10:43:06.499+00:00",
+      "participants": [
+        "sano712",
+        "steel0229e",
+        "zezetel"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2023-03-07) ---\n[2023-03-07 10:42] zezetel: and I'm still not good\n[2023-03-07 10:43] steel0229e (Steel): you'll get there fast\n[2023-03-07 10:43] sano712 (sano): if you're like me then you're worse than ever",
+      "messages": [
+        {
+          "id": "1082614228378206229",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2023-03-07T10:42:26.045+00:00",
+          "content": "and I'm still not good"
+        },
+        {
+          "id": "1082614388437028874",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-07T10:43:04.206+00:00",
+          "content": "you'll get there fast"
+        },
+        {
+          "id": "1082614398054576168",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-07T10:43:06.499+00:00",
+          "content": "if you're like me then you're worse than ever"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T11:37:22.614+00:00",
+      "end_ts": "2023-03-07T11:37:22.614+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-07) ---\n[2023-03-07 11:37] awaclus: the reason why Addition doesn't ever talk to anyone is that he has been muted",
+      "messages": [
+        {
+          "id": "1082628055190732891",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-07T11:37:22.614+00:00",
+          "content": "the reason why Addition doesn't ever talk to anyone is that he has been muted"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T12:13:34.75+00:00",
+      "end_ts": "2023-03-07T12:15:35.525+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2023-03-07) ---\n[2023-03-07 12:13] awaclus: eh maybe he's just muted in the general chat and/or the mute was temporary\n[2023-03-07 12:15] awaclus: he was being super aggressive and calling people slurs and stuff though, in Through The Ages he sent death threats to other players and his conduct was only barely better than that in Prismata",
+      "messages": [
+        {
+          "id": "1082637165789454456",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-07T12:13:34.75+00:00",
+          "content": "eh maybe he's just muted in the general chat and/or the mute was temporary"
+        },
+        {
+          "id": "1082637672356519936",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-07T12:15:35.525+00:00",
+          "content": "he was being super aggressive and calling people slurs and stuff though, in Through The Ages he sent death threats to other players and his conduct was only barely better than that in Prismata"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T12:41:45.109+00:00",
+      "end_ts": "2023-03-07T12:42:28.802+00:00",
+      "participants": [
+        "awaclus",
+        "sano712"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2023-03-07) ---\n[2023-03-07 12:41] sano712 (sano): lol is he active in TTA?\n[2023-03-07 12:42] awaclus: idk I don't play TTA, there was just a screenshot of him there",
+      "messages": [
+        {
+          "id": "1082644255668981820",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-03-07T12:41:45.109+00:00",
+          "content": "lol is he active in TTA?"
+        },
+        {
+          "id": "1082644438930690160",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-07T12:42:28.802+00:00",
+          "content": "idk I don't play TTA, there was just a screenshot of him there"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T20:20:07.215+00:00",
+      "end_ts": "2023-03-07T20:20:07.215+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-07) ---\n[2023-03-07 20:20] spiritfryer (Spyrfyr): come 4 immense fun, guaranteed™",
+      "messages": [
+        {
+          "id": "1082759607862182019",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-07T20:20:07.215+00:00",
+          "content": "come 4 immense fun, guaranteed™"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T22:45:49.693+00:00",
+      "end_ts": "2023-03-07T22:45:49.693+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2023-03-07) ---\n[2023-03-07 22:45] silentslayers: Answer. The noun animus can be countable or uncountable. In more general, commonly used, contexts, the plural form will also be animus. However, in more specific contexts, the plural form can also be animuses e.g. in reference to various types of animuses or a collection of animuses.",
+      "messages": [
+        {
+          "id": "1082796276472627280",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-07T22:45:49.693+00:00",
+          "content": "Answer. The noun animus can be countable or uncountable. In more general, commonly used, contexts, the plural form will also be animus. However, in more specific contexts, the plural form can also be animuses e.g. in reference to various types of animuses or a collection of animuses."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T22:58:37.267+00:00",
+      "end_ts": "2023-03-07T22:58:37.267+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-07) ---\n[2023-03-07 22:58] spiritfryer (Spyrfyr): what? everyone knows it's anime",
+      "messages": [
+        {
+          "id": "1082799495911309312",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-07T22:58:37.267+00:00",
+          "content": "what? everyone knows it's anime"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T23:35:30.979+00:00",
+      "end_ts": "2023-03-07T23:35:30.979+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-07) ---\n[2023-03-07 23:35] awaclus: if there was a Prismata unit that sacced or created multiple Animuss, it would say Animuss",
+      "messages": [
+        {
+          "id": "1082808780892405860",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-07T23:35:30.979+00:00",
+          "content": "if there was a Prismata unit that sacced or created multiple Animuss, it would say Animuss"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-07T23:41:08.543+00:00",
+      "end_ts": "2023-03-07T23:41:08.543+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-07) ---\n[2023-03-07 23:41] spiritfryer (Spyrfyr): source: loonark source code",
+      "messages": [
+        {
+          "id": "1082810196738441346",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-07T23:41:08.543+00:00",
+          "content": "source: loonark source code"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T03:39:28.453+00:00",
+      "end_ts": "2023-03-08T03:41:19.755+00:00",
+      "participants": [
+        "awaclus",
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (4 messages, 2023-03-08) ---\n[2023-03-08 03:39] steel0229e (Steel): animi? like in colossi\n[2023-03-08 03:40] steel0229e (Steel): afaikl any word with a latin origin that ends with the suffix -us has a plural i\n[2023-03-08 03:40] awaclus: the plural of Colossus is Colossuss\n[2023-03-08 03:41] steel0229e (Steel): then mrguy was right about animuss",
+      "messages": [
+        {
+          "id": "1082870174908162058",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T03:39:28.453+00:00",
+          "content": "animi? like in colossi"
+        },
+        {
+          "id": "1082870324070191164",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T03:40:04.016+00:00",
+          "content": "afaikl any word with a latin origin that ends with the suffix -us has a plural i"
+        },
+        {
+          "id": "1082870341006803054",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-08T03:40:08.054+00:00",
+          "content": "the plural of Colossus is Colossuss"
+        },
+        {
+          "id": "1082870641742598185",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T03:41:19.755+00:00",
+          "content": "then mrguy was right about animuss"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T05:16:12.817+00:00",
+      "end_ts": "2023-03-08T05:16:12.817+00:00",
+      "participants": [
+        "jamesa7171"
+      ],
+      "replay_codes": [
+        "lower-seede"
+      ],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-08) ---\n[2023-03-08 05:16] jamesa7171: IMO, this type of separation makes a lot of sense for an ongoing league format (where you try and win promotion to the next level up and so on), but i think for a one-off tournament this can backfire in terms of generating interest from non-elite players, because there's no real prize - \"you won the tournament of all the people who weren't good enough to play in the actual tournament\" feels pretty lame IMO, i'd rather just play in the main tournament even if i get my ass kicked early. i had a lot of fun in the Golden Cup and Grand Prix playing in \"the real thing\" as a lower-seeded player, though i can't claim to speak for other non-elite players obviously",
+      "messages": [
+        {
+          "id": "1082894520175308810",
+          "author": "jamesa7171",
+          "nickname": "jamesa7171",
+          "timestamp": "2023-03-08T05:16:12.817+00:00",
+          "content": "IMO, this type of separation makes a lot of sense for an ongoing league format (where you try and win promotion to the next level up and so on), but i think for a one-off tournament this can backfire in terms of generating interest from non-elite players, because there's no real prize - \"you won the tournament of all the people who weren't good enough to play in the actual tournament\" feels pretty lame IMO, i'd rather just play in the main tournament even if i get my ass kicked early. i had a lot of fun in the Golden Cup and Grand Prix playing in \"the real thing\" as a lower-seeded player, though i can't claim to speak for other non-elite players obviously"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T05:22:01.345+00:00",
+      "end_ts": "2023-03-08T05:22:01.345+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-08) ---\n[2023-03-08 05:22] awaclus: if 1900 is the cutoff, I'm getting rekt in the main tourney either way",
+      "messages": [
+        {
+          "id": "1082895982007701567",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-08T05:22:01.345+00:00",
+          "content": "if 1900 is the cutoff, I'm getting rekt in the main tourney either way"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T05:25:43.181+00:00",
+      "end_ts": "2023-03-08T05:27:34.832+00:00",
+      "participants": [
+        "awaclus",
+        "liquideggproduct"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (4 messages, 2023-03-08) ---\n[2023-03-08 05:25] liquideggproduct (Liquid Egg Product): For Prismata League (which granted was much bigger) it was nice not playing to be merely a sacrificial lamb. But don't plan on playing in this tourney\n[2023-03-08 05:26] awaclus: but I guess if it was e.g. 2000 instead, then I'd prefer for there to be no separate bracket, I'd much rather face stronger opponents and see how I can perform even if it's a tough challenge\n[2023-03-08 05:26] awaclus: like, it's fine to take on tough challenges and then fail\n[2023-03-08 05:27] awaclus: it'd also be a tiny bracket",
+      "messages": [
+        {
+          "id": "1082896912455323720",
+          "author": "liquideggproduct",
+          "nickname": "Liquid Egg Product",
+          "timestamp": "2023-03-08T05:25:43.181+00:00",
+          "content": "For Prismata League (which granted was much bigger) it was nice not playing to be merely a sacrificial lamb. But don't plan on playing in this tourney"
+        },
+        {
+          "id": "1082897046987603978",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-08T05:26:15.256+00:00",
+          "content": "but I guess if it was e.g. 2000 instead, then I'd prefer for there to be no separate bracket, I'd much rather face stronger opponents and see how I can perform even if it's a tough challenge"
+        },
+        {
+          "id": "1082897143758585866",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-08T05:26:38.328+00:00",
+          "content": "like, it's fine to take on tough challenges and then fail"
+        },
+        {
+          "id": "1082897380753559624",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-08T05:27:34.832+00:00",
+          "content": "it'd also be a tiny bracket"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T06:43:28.968+00:00",
+      "end_ts": "2023-03-08T06:43:28.968+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2023-03-08) ---\n[2023-03-08 06:43] elyot: I'm no good at blitz in my current state",
+      "messages": [
+        {
+          "id": "1082916482184396871",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2023-03-08T06:43:28.968+00:00",
+          "content": "I'm no good at blitz in my current state"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T11:11:59.854+00:00",
+      "end_ts": "2023-03-08T11:11:59.854+00:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-03-08) ---\n[2023-03-08 11:11] steel0229e (Steel): When I started Prismata there was Chrono Cup, an entire tournament dedicated to new players. It was very motivating for me who came from a competetive background and it wasn't derogatory at all. I actually ended up winning it (it was a tie with zezetel) and it got both of us hooked. Of all the other participants, noone else plays the game any more, just the 2 of us. And the organisers could fill a whole bracket (around 14-20 people).\n\nIf the then reigning top players would have been paired with us, we'd have stood no chance. I think this hasn't changed, a 200 elo gap is so big in this game that in a best of 5 the underdog is expected to lose all the time. Which is why it makes sense to cut the ladder in half and create a separate event so everyone can have an enjoyable game, even the less competetive type of players.",
+      "messages": [
+        {
+          "id": "1082984056137973761",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T11:11:59.854+00:00",
+          "content": "When I started Prismata there was Chrono Cup, an entire tournament dedicated to new players. It was very motivating for me who came from a competetive background and it wasn't derogatory at all. I actually ended up winning it (it was a tie with zezetel) and it got both of us hooked. Of all the other participants, noone else plays the game any more, just the 2 of us. And the organisers could fill a whole bracket (around 14-20 people).\n\nIf the then reigning top players would have been paired with us, we'd have stood no chance. I think this hasn't changed, a 200 elo gap is so big in this game that in a best of 5 the underdog is expected to lose all the time. Which is why it makes sense to cut the ladder in half and create a separate event so everyone can have an enjoyable game, even the less competetive type of players."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T11:15:21.661+00:00",
+      "end_ts": "2023-03-08T11:18:15.086+00:00",
+      "participants": [
+        "silentslayers",
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (6 messages, 2023-03-08) ---\n[2023-03-08 11:15] steel0229e (Steel): If you phrase it like \"you won the tournament of all the people who weren't good enough to play in the actual tournament\" it sounds pretty lame but there is no \"actual\" tournament. Both tournaments are legit and it does not take away from your accomplishment if you end up progressing far at either one. Moreover this is the exact reason why I recommended to have a seed option so finalists of the Major League could get paired with the top 8 pool.\n[2023-03-08 11:16] steel0229e (Steel): But I get that organising a double tournament might be too much of a task, and there is an argument to just create seeds based on eloyot in a single tournament.\n[2023-03-08 11:17] steel0229e (Steel): This would create of course other issues, people wanting to sandbag to lower their elo.\n[2023-03-08 11:18] silentslayers: maybe thats why elyot in the past has done snapshots of peak elo in certain time periods\n[2023-03-08 11:18] silentslayers: to stop the sandbagging\n[2023-03-08 11:18] silentslayers: (sorry if i interupted you)",
+      "messages": [
+        {
+          "id": "1082984902577893446",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T11:15:21.661+00:00",
+          "content": "If you phrase it like \"you won the tournament of all the people who weren't good enough to play in the actual tournament\" it sounds pretty lame but there is no \"actual\" tournament. Both tournaments are legit and it does not take away from your accomplishment if you end up progressing far at either one. Moreover this is the exact reason why I recommended to have a seed option so finalists of the Major League could get paired with the top 8 pool."
+        },
+        {
+          "id": "1082985263971704892",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T11:16:47.824+00:00",
+          "content": "But I get that organising a double tournament might be too much of a task, and there is an argument to just create seeds based on eloyot in a single tournament."
+        },
+        {
+          "id": "1082985506905796628",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T11:17:45.744+00:00",
+          "content": "This would create of course other issues, people wanting to sandbag to lower their elo."
+        },
+        {
+          "id": "1082985588984119326",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-08T11:18:05.313+00:00",
+          "content": "maybe thats why elyot in the past has done snapshots of peak elo in certain time periods"
+        },
+        {
+          "id": "1082985613030072370",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-08T11:18:11.046+00:00",
+          "content": "to stop the sandbagging"
+        },
+        {
+          "id": "1082985629975052388",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-08T11:18:15.086+00:00",
+          "content": "(sorry if i interupted you)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T11:28:00.748+00:00",
+      "end_ts": "2023-03-08T11:28:54.214+00:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2023-03-08) ---\n[2023-03-08 11:28] steel0229e (Steel): it is just unfair to punish people who have a higher elo\n[2023-03-08 11:28] steel0229e (Steel): given how the game design philosophy is you should never be punished for having more of something\n[2023-03-08 11:28] steel0229e (Steel): in most competitive scenes the higher rated players are rewarded by being seeded with underdogs",
+      "messages": [
+        {
+          "id": "1082988086419533826",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T11:28:00.748+00:00",
+          "content": "it is just unfair to punish people who have a higher elo"
+        },
+        {
+          "id": "1082988184197156944",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T11:28:24.06+00:00",
+          "content": "given how the game design philosophy is you should never be punished for having more of something"
+        },
+        {
+          "id": "1082988310672187452",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T11:28:54.214+00:00",
+          "content": "in most competitive scenes the higher rated players are rewarded by being seeded with underdogs"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T11:32:52.187+00:00",
+      "end_ts": "2023-03-08T11:32:52.187+00:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-08) ---\n[2023-03-08 11:32] steel0229e (Steel): actually now im leaning towards a single tournament with a fair seeding, with a fix to the issue of punishing high rated players",
+      "messages": [
+        {
+          "id": "1082989308803297290",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T11:32:52.187+00:00",
+          "content": "actually now im leaning towards a single tournament with a fair seeding, with a fix to the issue of punishing high rated players"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T14:50:15.502+00:00",
+      "end_ts": "2023-03-08T14:50:15.502+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-03-08) ---\n[2023-03-08 14:50] spiritfryer (Spyrfyr): why, have there been instances where the highest rated players were seeded against the other highest rated players?",
+      "messages": [
+        {
+          "id": "1083038983266762835",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-08T14:50:15.502+00:00",
+          "content": "why, have there been instances where the highest rated players were seeded against the other highest rated players?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T14:55:51.558+00:00",
+      "end_ts": "2023-03-08T14:56:30.87+00:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2023-03-08) ---\n[2023-03-08 14:55] steel0229e (Steel): I think the Prismata League had a similar system although it was long ago\n[2023-03-08 14:56] steel0229e (Steel): name of the game: patience is virtue",
+      "messages": [
+        {
+          "id": "1083040392787808318",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T14:55:51.558+00:00",
+          "content": "I think the Prismata League had a similar system although it was long ago"
+        },
+        {
+          "id": "1083040557674266644",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-08T14:56:30.87+00:00",
+          "content": "name of the game: patience is virtue"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T20:11:43.722+00:00",
+      "end_ts": "2023-03-08T20:17:21.805+00:00",
+      "participants": [
+        "awaclus",
+        "lyra1712",
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 21,
+      "formatted_text": "--- Thread (10 messages, 2023-03-08) ---\n[2023-03-08 20:11] shadourow (Rando): Wow, what's happening ? What revived this server the last few days ?\n[2023-03-08 20:12] shadourow (Rando): The last week, actually, I can see that this servers has been active lately !\n[2023-03-08 20:13] shadourow (Rando): Any reason for that ?\n[2023-03-08 20:13] lyra1712 (Lyra): https://discord.com/channels/112616041175089152/119275839652102145/1082369556577796227\n[2023-03-08 20:14] awaclus: the reason is that Prismata is a FUCKING GREAT ! game\n[2023-03-08 20:14] lyra1712 (Lyra): other than that, no idea, ig people started playing again\n[2023-03-08 20:14] shadourow (Rando): I guess that multiple people just remembered that Prismata is a great game and the hype train kept going\n[2023-03-08 20:15] shadourow (Rando): Did the community remember to regularly thanks Elyot for maintaining the game btw ? He's doing great despite Amazon outage now and then\n[2023-03-08 20:16] lyra1712 (Lyra): yes, but probably not as much as we should\n[2023-03-08 20:17] awaclus: I certainly remember to at least think \"thanks Elyot\" whenever I hit 97 points in Armory",
+      "messages": [
+        {
+          "id": "1083119883925069914",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2023-03-08T20:11:43.722+00:00",
+          "content": "Wow, what's happening ? What revived this server the last few days ?"
+        },
+        {
+          "id": "1083120199869403196",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2023-03-08T20:12:59.049+00:00",
+          "content": "The last week, actually, I can see that this servers has been active lately !"
+        },
+        {
+          "id": "1083120224506761247",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2023-03-08T20:13:04.923+00:00",
+          "content": "Any reason for that ?"
+        },
+        {
+          "id": "1083120395370119310",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-08T20:13:45.66+00:00",
+          "content": "https://discord.com/channels/112616041175089152/119275839652102145/1082369556577796227"
+        },
+        {
+          "id": "1083120551905722509",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-08T20:14:22.981+00:00",
+          "content": "the reason is that Prismata is a FUCKING GREAT ! game"
+        },
+        {
+          "id": "1083120571786739874",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-08T20:14:27.721+00:00",
+          "content": "other than that, no idea, ig people started playing again"
+        },
+        {
+          "id": "1083120696684712057",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2023-03-08T20:14:57.499+00:00",
+          "content": "I guess that multiple people just remembered that Prismata is a great game and the hype train kept going"
+        },
+        {
+          "id": "1083120909394661406",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2023-03-08T20:15:48.213+00:00",
+          "content": "Did the community remember to regularly thanks Elyot for maintaining the game btw ? He's doing great despite Amazon outage now and then"
+        },
+        {
+          "id": "1083121099895750799",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-08T20:16:33.632+00:00",
+          "content": "yes, but probably not as much as we should"
+        },
+        {
+          "id": "1083121301947953242",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-08T20:17:21.805+00:00",
+          "content": "I certainly remember to at least think \"thanks Elyot\" whenever I hit 97 points in Armory"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-08T21:46:10.649+00:00",
+      "end_ts": "2023-03-08T21:46:10.649+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-03-08) ---\n[2023-03-08 21:46] spiritfryer (Spyrfyr): I was inactive for a long time, but throughout that time, sometimes I would randomly hop in, see nothing going on and leave",
+      "messages": [
+        {
+          "id": "1083143652739653652",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-08T21:46:10.649+00:00",
+          "content": "I was inactive for a long time, but throughout that time, sometimes I would randomly hop in, see nothing going on and leave"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-09T11:28:26.939+00:00",
+      "end_ts": "2023-03-09T11:30:15.381+00:00",
+      "participants": [
+        "awaclus",
+        "tflash3672"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2023-03-09) ---\n[2023-03-09 11:28] tflash3672 (T-Flash): Im tryng to get master and Addition is the only player I play and he is blocking me what do I do\n[2023-03-09 11:30] awaclus: you don't have to post the same thing multiple times",
+      "messages": [
+        {
+          "id": "1083350584138141737",
+          "author": "tflash3672",
+          "nickname": "T-Flash",
+          "timestamp": "2023-03-09T11:28:26.939+00:00",
+          "content": "Im tryng to get master and Addition is the only player I play and he is blocking me what do I do"
+        },
+        {
+          "id": "1083351038976864348",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-09T11:30:15.381+00:00",
+          "content": "you don't have to post the same thing multiple times"
+        }
+      ]
+    }
+  ]
+}

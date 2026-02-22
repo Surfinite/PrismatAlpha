@@ -1,0 +1,2762 @@
+{
+  "channel": "prismata_chat",
+  "date_range": "2024-12-02 to 2025-09-04",
+  "thread_count": 79,
+  "token_count": 14244,
+  "threads": [
+    {
+      "start_ts": "2024-12-02T00:00:42.519+00:00",
+      "end_ts": "2024-12-02T21:37:33.513+00:00",
+      "participants": [
+        ".holyfire",
+        "aa01blue"
+      ],
+      "replay_codes": [
+        "stant-coeff"
+      ],
+      "score": 19,
+      "formatted_text": "--- Thread (9 messages, 2024-12-02) ---\n[2024-12-02 00:00] aa01blue: if it's modelled with continuous time you wouldnt need the starting advantage\n[2024-12-02 00:01] aa01blue: the starting number doesn't matter if you double both players' drones\n[2024-12-02 21:32] .holyfire (Holy-Fire): Oh, I didn't think Pikachu was talking about the continuous time I mentioned. His reference to DD/A/TT doesn't make much sense in that context.\n[2024-12-02 21:33] aa01blue: Continuous time also doesn't seem like a good idea not because it doesn't model the game correctly but because integrals are too hard\n[2024-12-02 21:34] .holyfire (Holy-Fire): In this case, they're fairly straightforward. You just have linear constant-coefficient differential equations so the solutions should be given by a sum of exponentials. I'm just a bit rusty on the practice.\n[2024-12-02 21:35] .holyfire (Holy-Fire): A lot of stuff that work in the single variable case work more or less the same with multivariate, just with matrices instead of numbers.\n[2024-12-02 21:36] .holyfire (Holy-Fire): For example y' = ay + b is a simple equation, with more variables you have y' = Ay + b where A is a matrix and b,y are vectors, and the solution should take the same form.\n[2024-12-02 21:37] .holyfire (Holy-Fire): And I believe this is the equation we have here.\n[2024-12-02 21:37] aa01blue: ye but drone + tarsier is more complicated no",
+      "messages": [
+        {
+          "id": "1312931415406546965",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-12-02T00:00:42.519+00:00",
+          "content": "if it's modelled with continuous time you wouldnt need the starting advantage"
+        },
+        {
+          "id": "1312931492502048818",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-12-02T00:01:00.9+00:00",
+          "content": "the starting number doesn't matter if you double both players' drones"
+        },
+        {
+          "id": "1313256542639755418",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-02T21:32:38.892+00:00",
+          "content": "Oh, I didn't think Pikachu was talking about the continuous time I mentioned. His reference to DD/A/TT doesn't make much sense in that context."
+        },
+        {
+          "id": "1313256745828880395",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-12-02T21:33:27.336+00:00",
+          "content": "Continuous time also doesn't seem like a good idea not because it doesn't model the game correctly but because integrals are too hard"
+        },
+        {
+          "id": "1313257095633703055",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-02T21:34:50.736+00:00",
+          "content": "In this case, they're fairly straightforward. You just have linear constant-coefficient differential equations so the solutions should be given by a sum of exponentials. I'm just a bit rusty on the practice."
+        },
+        {
+          "id": "1313257364522008658",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-02T21:35:54.844+00:00",
+          "content": "A lot of stuff that work in the single variable case work more or less the same with multivariate, just with matrices instead of numbers."
+        },
+        {
+          "id": "1313257623696445560",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-02T21:36:56.636+00:00",
+          "content": "For example y' = ay + b is a simple equation, with more variables you have y' = Ay + b where A is a matrix and b,y are vectors, and the solution should take the same form."
+        },
+        {
+          "id": "1313257696425807902",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-02T21:37:13.976+00:00",
+          "content": "And I believe this is the equation we have here."
+        },
+        {
+          "id": "1313257778369925252",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-12-02T21:37:33.513+00:00",
+          "content": "ye but drone + tarsier is more complicated no"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-02T21:42:19.524+00:00",
+      "end_ts": "2024-12-02T21:42:19.524+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2024-12-02) ---\n[2024-12-02 21:42] .holyfire (Holy-Fire): Basically what I want to model is the following:\n\nBoth players start out building drones. The strategy each player chooses is the time t at which they stop building drones and build tarsiers instead. (There's no sense in building drones again after you started with tarsiers).\n\nIn all cases, a player which is attacked defends in the most efficient way - with absorb when it's available, or soak when max absorb is reached.\n\nI want to find the time t which is a Nash equilibrium. This will be the optimal time no player will want to deviate from.\n\nFrom this concept it's just working out the solutions to the equations you get at each phase, and thus the initial conditions of the last phase, from which you can calculate which player eventually cannot defend and effectively loses.",
+      "messages": [
+        {
+          "id": "1313258977986871306",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-02T21:42:19.524+00:00",
+          "content": "Basically what I want to model is the following:\n\nBoth players start out building drones. The strategy each player chooses is the time t at which they stop building drones and build tarsiers instead. (There's no sense in building drones again after you started with tarsiers).\n\nIn all cases, a player which is attacked defends in the most efficient way - with absorb when it's available, or soak when max absorb is reached.\n\nI want to find the time t which is a Nash equilibrium. This will be the optimal time no player will want to deviate from.\n\nFrom this concept it's just working out the solutions to the equations you get at each phase, and thus the initial conditions of the last phase, from which you can calculate which player eventually cannot defend and effectively loses."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-02T23:29:23.381+00:00",
+      "end_ts": "2024-12-02T23:29:23.381+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2024-12-02) ---\n[2024-12-02 23:29] .holyfire (Holy-Fire): I'll probably abstract out engineers completely. Then I can either roll over their cost to the drone cost - so a drone would cost 3.56 - or not, under the assumption that your initial 2 engineers are enough. I didn't originally intend to, but I can take into account their soak. So each player starts with some soak ready to be expended - 2 in the latter case, or equal to their ultimate drones-per-time-unit in the former case.\n\nAs for granularity - I'm not going to model that, but I could set BV to something like 2.4 to emulate the fact that in addition to walls you'd need to build less-efficient engineers for granularity.",
+      "messages": [
+        {
+          "id": "1313285921596243969",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-02T23:29:23.381+00:00",
+          "content": "I'll probably abstract out engineers completely. Then I can either roll over their cost to the drone cost - so a drone would cost 3.56 - or not, under the assumption that your initial 2 engineers are enough. I didn't originally intend to, but I can take into account their soak. So each player starts with some soak ready to be expended - 2 in the latter case, or equal to their ultimate drones-per-time-unit in the former case.\n\nAs for granularity - I'm not going to model that, but I could set BV to something like 2.4 to emulate the fact that in addition to walls you'd need to build less-efficient engineers for granularity."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-03T15:23:53.818+00:00",
+      "end_ts": "2024-12-03T15:24:34.961+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (2 messages, 2024-12-03) ---\n[2024-12-03 15:23] .holyfire (Holy-Fire): We already talked about that... You're right in principle, but not in practice. Even though a wall is effectively 2.22 BV, there is no point in the game where the cost per BV is actually 2.22. At first, because a wall is too big and a single wall gives you more soak than you need. Then, because you need to build ~1 engineer per turn for granularity. And then, even though you're facing more attack and 1 engineer is a small part of that - you're not going to actually defend with more walls, because you only have 1 blastforge, you're probably not going to build more at this point in the game, and your supply of walls is limited. So you need to defend less efficiently - engineers, FF, Rhino etc. - increasing the marginal cost per BV.\n\nIf you want to model all this accurately, then the concept of \"BV\" is completely meaningless. You just look at the actual game tree and whatever is the result of minimaxing it is the correct play.\n\nIf you want to model it abstractly and simply, it's very reasonable to encapsulate all these inefficiencies with a single BV value that is higher than the theoretical 2.22.\n\nI guess another approach is to model BV non-linearly. Instead of Soak_Cost = 2.4 * Soak_Amount, you can have Soak_Cost = 2.4 * Soak_Amount + 0.02 * Soak_Amount^2. This models the increasingly inefficient defense as the game progresses.\n[2024-12-03 15:24] .holyfire (Holy-Fire): Of course, in the continuous model, non-linear defense cost makes the relevant differential equations harder, but I think they're still solvable.",
+      "messages": [
+        {
+          "id": "1313526131218972685",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:23:53.818+00:00",
+          "content": "We already talked about that... You're right in principle, but not in practice. Even though a wall is effectively 2.22 BV, there is no point in the game where the cost per BV is actually 2.22. At first, because a wall is too big and a single wall gives you more soak than you need. Then, because you need to build ~1 engineer per turn for granularity. And then, even though you're facing more attack and 1 engineer is a small part of that - you're not going to actually defend with more walls, because you only have 1 blastforge, you're probably not going to build more at this point in the game, and your supply of walls is limited. So you need to defend less efficiently - engineers, FF, Rhino etc. - increasing the marginal cost per BV.\n\nIf you want to model all this accurately, then the concept of \"BV\" is completely meaningless. You just look at the actual game tree and whatever is the result of minimaxing it is the correct play.\n\nIf you want to model it abstractly and simply, it's very reasonable to encapsulate all these inefficiencies with a single BV value that is higher than the theoretical 2.22.\n\nI guess another approach is to model BV non-linearly. Instead of Soak_Cost = 2.4 * Soak_Amount, you can have Soak_Cost = 2.4 * Soak_Amount + 0.02 * Soak_Amount^2. This models the increasingly inefficient defense as the game progresses."
+        },
+        {
+          "id": "1313526303785226341",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:24:34.961+00:00",
+          "content": "Of course, in the continuous model, non-linear defense cost makes the relevant differential equations harder, but I think they're still solvable."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-03T15:31:49.877+00:00",
+      "end_ts": "2024-12-03T15:44:02.332+00:00",
+      "participants": [
+        ".holyfire",
+        "lyra1712",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 34,
+      "formatted_text": "--- Thread (12 messages, 2024-12-03) ---\n[2024-12-03 15:31] .holyfire (Holy-Fire): Let's put it this way.\n\nAssume your opponent's attack can be predicted precisely, they have no finnesse and the attackers are Tarsiers which can be prepared for unpromptly.\n\nLet's say r=1.4 so engineer cost of 2 for unprompt defense is equivalent to 2.8 for prompt defense. And a wall with 3 defense costs the equivalent of 6.66.\n\nSo the amount you need to pay as soak is some function of the impending attack.\n\nLet me work on a graph of that, assuming blue and gold are interchangeable...\n[2024-12-03 15:33] silentslayers: what are you trying to solve / accomplish if you're assuming supplies exist? I forget\n[2024-12-03 15:33] silentslayers: feel free to TL;DR me\n[2024-12-03 15:36] .holyfire (Holy-Fire): Well we talked about a bunch of different stuff so it's kind of hard to tell\n\nBut my main goal currently is: A simplified and abstract model of the game that captures the spirit of the standard style of play. So I can get a formula which shows how many drones we need to build until we start focusing on attackers, as a function of biggest absorber, BV and similar parameters.\n[2024-12-03 15:37] .holyfire (Holy-Fire): So I can say something like - with wall (2 attack absorbed) you want X drones, with Energy matrix Y drones, etc.\n\nOf course it won't be accurate, but it will give a general idea and you can easily see how plugging different parameters changes things.\n[2024-12-03 15:38] silentslayers: Sounds fun and interesting. So supply is dealt with just by it affecting BV basically\n[2024-12-03 15:38] .holyfire (Holy-Fire): In a sense, yes. Though there are different ways to model it, which differ in complexity and accuracy\n[2024-12-03 15:41] .holyfire (Holy-Fire): I think non-linear cost will give accuracy a boost. The idea is - to make sure supplies last a while, you limit how many blastforges you buy. But that means you're limited in the available efficient defense per turn. The more total attack you need to defend against, the bigger the marginal cost per attack.\n[2024-12-03 15:41] lyra1712 (Lyra): i think you should go for the simplest model first\n[2024-12-03 15:43] lyra1712 (Lyra): if only because its easier to debug\n[2024-12-03 15:43] .holyfire (Holy-Fire): Probably, but I'd refine that a bit - the simplest model that could conceivably give meaningful results. No sense in an overly simplified model that is obviously completely unrealistic.\n[2024-12-03 15:44] lyra1712 (Lyra): oh yea, i meant the simplest model that display the relevant features",
+      "messages": [
+        {
+          "id": "1313528127955271680",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:31:49.877+00:00",
+          "content": "Let's put it this way.\n\nAssume your opponent's attack can be predicted precisely, they have no finnesse and the attackers are Tarsiers which can be prepared for unpromptly.\n\nLet's say r=1.4 so engineer cost of 2 for unprompt defense is equivalent to 2.8 for prompt defense. And a wall with 3 defense costs the equivalent of 6.66.\n\nSo the amount you need to pay as soak is some function of the impending attack.\n\nLet me work on a graph of that, assuming blue and gold are interchangeable..."
+        },
+        {
+          "id": "1313528443870384210",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T15:33:05.197+00:00",
+          "content": "what are you trying to solve / accomplish if you're assuming supplies exist? I forget"
+        },
+        {
+          "id": "1313528516746149888",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T15:33:22.572+00:00",
+          "content": "feel free to TL;DR me"
+        },
+        {
+          "id": "1313529195485200434",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:36:04.396+00:00",
+          "content": "Well we talked about a bunch of different stuff so it's kind of hard to tell\n\nBut my main goal currently is: A simplified and abstract model of the game that captures the spirit of the standard style of play. So I can get a formula which shows how many drones we need to build until we start focusing on attackers, as a function of biggest absorber, BV and similar parameters."
+        },
+        {
+          "id": "1313529548947718217",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:37:28.668+00:00",
+          "content": "So I can say something like - with wall (2 attack absorbed) you want X drones, with Energy matrix Y drones, etc.\n\nOf course it won't be accurate, but it will give a general idea and you can easily see how plugging different parameters changes things."
+        },
+        {
+          "id": "1313529728568786984",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T15:38:11.493+00:00",
+          "content": "Sounds fun and interesting. So supply is dealt with just by it affecting BV basically"
+        },
+        {
+          "id": "1313529925684428800",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:38:58.489+00:00",
+          "content": "In a sense, yes. Though there are different ways to model it, which differ in complexity and accuracy"
+        },
+        {
+          "id": "1313530496256577589",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:41:14.524+00:00",
+          "content": "I think non-linear cost will give accuracy a boost. The idea is - to make sure supplies last a while, you limit how many blastforges you buy. But that means you're limited in the available efficient defense per turn. The more total attack you need to defend against, the bigger the marginal cost per attack."
+        },
+        {
+          "id": "1313530665547071508",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-12-03T15:41:54.886+00:00",
+          "content": "i think you should go for the simplest model first"
+        },
+        {
+          "id": "1313530953934569592",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-12-03T15:43:03.643+00:00",
+          "content": "if only because its easier to debug"
+        },
+        {
+          "id": "1313531032074584116",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:43:22.273+00:00",
+          "content": "Probably, but I'd refine that a bit - the simplest model that could conceivably give meaningful results. No sense in an overly simplified model that is obviously completely unrealistic."
+        },
+        {
+          "id": "1313531200094208021",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-12-03T15:44:02.332+00:00",
+          "content": "oh yea, i meant the simplest model that display the relevant features"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-03T15:51:13.32+00:00",
+      "end_ts": "2024-12-03T19:53:00.958+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas",
+        "lyra1712",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 64,
+      "formatted_text": "--- Thread (34 messages, 2024-12-03) ---\n[2024-12-03 15:51] .holyfire (Holy-Fire): If we do linear regression on that, we get 6.66x - 3.86\n[2024-12-03 15:51] .holyfire (Holy-Fire): Where we'd expect 6.66x - 4.44 if we could have fractional walls\n[2024-12-03 15:52] .holyfire (Holy-Fire): So perhaps a more accurate way to model the engineer granularity tax is as a reduction in absorb\n[2024-12-03 15:52] lyra1712 (Lyra): x axis is incoming attack, and y axis is how much you need to pay to block ?\n[2024-12-03 15:53] .holyfire (Holy-Fire): Under the assumptions I mentioned above.\n[2024-12-03 15:53] .holyfire (Holy-Fire): We can see how much more efficient defending against 5 attack is, for example. Since it's just one wall.\n[2024-12-03 15:54] lyra1712 (Lyra): that seems to make sense to me\n[2024-12-03 18:16] silentslayers: That would work yeah\n[2024-12-03 18:16] silentslayers: but as you said there's forcefields / rhinos etc too\n[2024-12-03 18:17] .holyfire (Holy-Fire): Hm, yeah, FF is good for granularity too. If you don't have green then possibly rhino as well, though in the midgame it's inferior to buying engineers in advance.\n[2024-12-03 18:18] silentslayers: yeah. as a side note the 1 threat on rhino is usually real even if you plan to soak it\n[2024-12-03 18:19] .holyfire (Holy-Fire): Hmm... Well that would be pretty difficult to incorporate in my model.\n[2024-12-03 18:20] silentslayers: its a very small amount of value\n[2024-12-03 18:20] silentslayers: opponent pays 1 bv more but then gets the 1 bv back 1 turn later when the threat is gone\n[2024-12-03 18:21] .holyfire (Holy-Fire): Anyway, I think the general direction should be that the cost of soak is some quadratic function of the amount - and we can play with the parameters to best reflect the different ways you could defend in an actual game\n[2024-12-03 18:24] .holyfire (Holy-Fire): Maybe it's enough to make Rhinos better than engineers... Borrowing a BV is like paying 0.3 BV with r=1.4. And opponent does that half a turn after you, so it's 0.25 BV value. So essentially rhino is 2.25 BV for 6, giving 2.66 per BV, vs engineer 2.8. So maybe Rhino is better after all. Interesting.\n[2024-12-03 18:25] .holyfire (Holy-Fire): Though Rhino is also not fully granular, so you'll still need some amount of engineers\n[2024-12-03 18:26] silentslayers: Isn’t it fine to say rhino costs 5 not 6 because the red is free at that point. You’re not gonna buy tarsiers at the point you’re buying rhinos\n[2024-12-03 18:27] .holyfire (Holy-Fire): I guess it depends on the exact phase, but according to this calculation, Rhino is viable for defense even when you still want tarsiers.\n\nBut of course I don't know how it would look in an actual game tree of BSO.\n[2024-12-03 18:27] .holyfire (Holy-Fire): Of course, in later phases Rhino is much better.\n[2024-12-03 18:28] .holyfire (Holy-Fire): r also increases in later phases, so the effective cost of engineers is above 2.8, widening the gap.\n[2024-12-03 18:33] silentslayers: Real game logic when a tarsier or rhino is really close in value is usually like:\n\nI have 6 gold so T+E\nI have 7 gold so R+E\n\nor if rhino immediately makes enemy turn worse\n[2024-12-03 18:34] silentslayers: rhinos are pretty op sometimes. like if p1 does TTD instead of TDB on turn 4, P2 can RR and you crush\n[2024-12-03 18:35] silentslayers: ive used it in real BS+8 games against top players\n[2024-12-03 18:52] .holyfire (Holy-Fire): I actually think I'm going to change how I play in light of this... I usually try to start every turn with 2 engineers, but maybe it's generally better to have just 1 and buy a Rhino if needed.\n[2024-12-03 19:46] lezaleas: yes this is the simplest way\n[2024-12-03 19:46] lezaleas: because it scales directly off absorb\n[2024-12-03 19:46] lezaleas: it's just 1 engi per 2 absorb\n[2024-12-03 19:48] lezaleas: so you can add (half an engi - 1/6 wall) of cost to every point of absorb i think\n[2024-12-03 19:52] lezaleas: that might make sense\n[2024-12-03 19:52] lezaleas: although if you really need the rhyno to absorb\n[2024-12-03 19:52] lezaleas: is the rhyno threat actually real?\n[2024-12-03 19:52] lezaleas: because you would need to waste a 2/3 wall to attack with the rhyno\n[2024-12-03 19:53] lezaleas: youd need that threat to be really strong to make up for it",
+      "messages": [
+        {
+          "id": "1313533007788769354",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:51:13.32+00:00",
+          "content": "If we do linear regression on that, we get 6.66x - 3.86"
+        },
+        {
+          "id": "1313533203151061003",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:51:59.898+00:00",
+          "content": "Where we'd expect 6.66x - 4.44 if we could have fractional walls"
+        },
+        {
+          "id": "1313533305710186566",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:52:24.35+00:00",
+          "content": "So perhaps a more accurate way to model the engineer granularity tax is as a reduction in absorb"
+        },
+        {
+          "id": "1313533425482862662",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-12-03T15:52:52.906+00:00",
+          "content": "x axis is incoming attack, and y axis is how much you need to pay to block ?"
+        },
+        {
+          "id": "1313533495682928671",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:53:09.643+00:00",
+          "content": "Under the assumptions I mentioned above."
+        },
+        {
+          "id": "1313533583511519262",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T15:53:30.583+00:00",
+          "content": "We can see how much more efficient defending against 5 attack is, for example. Since it's just one wall."
+        },
+        {
+          "id": "1313533782313144440",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-12-03T15:54:17.981+00:00",
+          "content": "that seems to make sense to me"
+        },
+        {
+          "id": "1313569472895782954",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T18:16:07.279+00:00",
+          "content": "That would work yeah"
+        },
+        {
+          "id": "1313569551413284966",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T18:16:25.999+00:00",
+          "content": "but as you said there's forcefields / rhinos etc too"
+        },
+        {
+          "id": "1313569926757351516",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T18:17:55.488+00:00",
+          "content": "Hm, yeah, FF is good for granularity too. If you don't have green then possibly rhino as well, though in the midgame it's inferior to buying engineers in advance."
+        },
+        {
+          "id": "1313570178864513065",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T18:18:55.595+00:00",
+          "content": "yeah. as a side note the 1 threat on rhino is usually real even if you plan to soak it"
+        },
+        {
+          "id": "1313570396552958003",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T18:19:47.496+00:00",
+          "content": "Hmm... Well that would be pretty difficult to incorporate in my model."
+        },
+        {
+          "id": "1313570497296076871",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T18:20:11.515+00:00",
+          "content": "its a very small amount of value"
+        },
+        {
+          "id": "1313570590254432339",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T18:20:33.678+00:00",
+          "content": "opponent pays 1 bv more but then gets the 1 bv back 1 turn later when the threat is gone"
+        },
+        {
+          "id": "1313570887550631967",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T18:21:44.559+00:00",
+          "content": "Anyway, I think the general direction should be that the cost of soak is some quadratic function of the amount - and we can play with the parameters to best reflect the different ways you could defend in an actual game"
+        },
+        {
+          "id": "1313571640138924073",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T18:24:43.99+00:00",
+          "content": "Maybe it's enough to make Rhinos better than engineers... Borrowing a BV is like paying 0.3 BV with r=1.4. And opponent does that half a turn after you, so it's 0.25 BV value. So essentially rhino is 2.25 BV for 6, giving 2.66 per BV, vs engineer 2.8. So maybe Rhino is better after all. Interesting."
+        },
+        {
+          "id": "1313571940493168690",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T18:25:55.6+00:00",
+          "content": "Though Rhino is also not fully granular, so you'll still need some amount of engineers"
+        },
+        {
+          "id": "1313571982985658399",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T18:26:05.731+00:00",
+          "content": "Isn’t it fine to say rhino costs 5 not 6 because the red is free at that point. You’re not gonna buy tarsiers at the point you’re buying rhinos"
+        },
+        {
+          "id": "1313572220022427730",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T18:27:02.245+00:00",
+          "content": "I guess it depends on the exact phase, but according to this calculation, Rhino is viable for defense even when you still want tarsiers.\n\nBut of course I don't know how it would look in an actual game tree of BSO."
+        },
+        {
+          "id": "1313572320954286140",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T18:27:26.309+00:00",
+          "content": "Of course, in later phases Rhino is much better."
+        },
+        {
+          "id": "1313572635946520627",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T18:28:41.409+00:00",
+          "content": "r also increases in later phases, so the effective cost of engineers is above 2.8, widening the gap."
+        },
+        {
+          "id": "1313573876696875128",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T18:33:37.227+00:00",
+          "content": "Real game logic when a tarsier or rhino is really close in value is usually like:\n\nI have 6 gold so T+E\nI have 7 gold so R+E\n\nor if rhino immediately makes enemy turn worse"
+        },
+        {
+          "id": "1313574191076872244",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T18:34:52.181+00:00",
+          "content": "rhinos are pretty op sometimes. like if p1 does TTD instead of TDB on turn 4, P2 can RR and you crush"
+        },
+        {
+          "id": "1313574336719880223",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T18:35:26.905+00:00",
+          "content": "ive used it in real BS+8 games against top players"
+        },
+        {
+          "id": "1313578740353077380",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T18:52:56.813+00:00",
+          "content": "I actually think I'm going to change how I play in light of this... I usually try to start every turn with 2 engineers, but maybe it's generally better to have just 1 and buy a Rhino if needed."
+        },
+        {
+          "id": "1313592230493028435",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-03T19:46:33.113+00:00",
+          "content": "yes this is the simplest way"
+        },
+        {
+          "id": "1313592266610446348",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-03T19:46:41.724+00:00",
+          "content": "because it scales directly off absorb"
+        },
+        {
+          "id": "1313592312760238110",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-03T19:46:52.727+00:00",
+          "content": "it's just 1 engi per 2 absorb"
+        },
+        {
+          "id": "1313592709461708812",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-03T19:48:27.308+00:00",
+          "content": "so you can add (half an engi - 1/6 wall) of cost to every point of absorb i think"
+        },
+        {
+          "id": "1313593640865763400",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-03T19:52:09.372+00:00",
+          "content": "that might make sense"
+        },
+        {
+          "id": "1313593720934891623",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-03T19:52:28.462+00:00",
+          "content": "although if you really need the rhyno to absorb"
+        },
+        {
+          "id": "1313593745870159904",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-03T19:52:34.407+00:00",
+          "content": "is the rhyno threat actually real?"
+        },
+        {
+          "id": "1313593794117111868",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-03T19:52:45.91+00:00",
+          "content": "because you would need to waste a 2/3 wall to attack with the rhyno"
+        },
+        {
+          "id": "1313593857232867398",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-03T19:53:00.958+00:00",
+          "content": "youd need that threat to be really strong to make up for it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-03T20:25:15.573+00:00",
+      "end_ts": "2024-12-03T20:25:15.573+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2024-12-03) ---\n[2024-12-03 20:25] silentslayers: its worth to absorb on rhino compared to absorbing on your wall to breach their wall",
+      "messages": [
+        {
+          "id": "1313601971596562452",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T20:25:15.573+00:00",
+          "content": "its worth to absorb on rhino compared to absorbing on your wall to breach their wall"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-03T20:31:28.401+00:00",
+      "end_ts": "2024-12-03T20:43:17.425+00:00",
+      "participants": [
+        ".holyfire",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 31,
+      "formatted_text": "--- Thread (9 messages, 2024-12-03) ---\n[2024-12-03 20:31] .holyfire (Holy-Fire): Assuming the other player doesn't want to be breached (fair assumption since they lose more than me in this scenario)\n\nThey have to borrow defense to prevent it, and the value of the Rhino is based on the cost of borrowing defense. It doesn't matter *how much* better is sacrificing the wall (and breaching) over sacrificing the Rhino, just that it *is* better.\n[2024-12-03 20:33] .holyfire (Holy-Fire): Don't forget that in the breaching scenario, both of you lose a wall, but you get to keep the Rhino for later use\n[2024-12-03 20:35] silentslayers: yeah it's a pretty significant deal\n[2024-12-03 20:37] silentslayers: absorbing on rhino compared to wall just in general isn't completely terrible (never really optimal unless you have extra defense lying around though), so generating two more damage compared to that than usual (from breaching) is a lot\n[2024-12-03 20:40] .holyfire (Holy-Fire): Punf used to say \"Why do people absorb on Rhino instead of Wall? Don't they understand that 3 is a bigger number than 2?\".\n\nYou can learn a lot about which numbers are bigger than others by playing Prismata. For example, 5 is a bigger number than 2, and this is why you want to soak on last-turn Doomed Mech.\n\nI've adopted the \"X is a bigger number than Y\" phrase and use it all the time.\n[2024-12-03 20:41] silentslayers: I feel he never understood that when you get a free breach out of the deal, it swings the trade massively. Or he's just trolling, hard to tell with Punf.\n[2024-12-03 20:42] .holyfire (Holy-Fire): Can't say I understand the full context of that saying. I'm guessing he wasn't talking about a possible breach, but then it's not clear who are the players that would absorb on Rhino.\n[2024-12-03 20:42] silentslayers: Yeah I'm quite certain he's said it during breaches\n[2024-12-03 20:43] silentslayers: But to be fair, sometimes there is a point where it's less clear, like holding 7 drones to do it or something. But i feel you're losing already if you can't take it in most games",
+      "messages": [
+        {
+          "id": "1313603535350403173",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T20:31:28.401+00:00",
+          "content": "Assuming the other player doesn't want to be breached (fair assumption since they lose more than me in this scenario)\n\nThey have to borrow defense to prevent it, and the value of the Rhino is based on the cost of borrowing defense. It doesn't matter *how much* better is sacrificing the wall (and breaching) over sacrificing the Rhino, just that it *is* better."
+        },
+        {
+          "id": "1313604131977560076",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T20:33:50.648+00:00",
+          "content": "Don't forget that in the breaching scenario, both of you lose a wall, but you get to keep the Rhino for later use"
+        },
+        {
+          "id": "1313604603866124438",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T20:35:43.155+00:00",
+          "content": "yeah it's a pretty significant deal"
+        },
+        {
+          "id": "1313605010806018048",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T20:37:20.177+00:00",
+          "content": "absorbing on rhino compared to wall just in general isn't completely terrible (never really optimal unless you have extra defense lying around though), so generating two more damage compared to that than usual (from breaching) is a lot"
+        },
+        {
+          "id": "1313605777172463726",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T20:40:22.893+00:00",
+          "content": "Punf used to say \"Why do people absorb on Rhino instead of Wall? Don't they understand that 3 is a bigger number than 2?\".\n\nYou can learn a lot about which numbers are bigger than others by playing Prismata. For example, 5 is a bigger number than 2, and this is why you want to soak on last-turn Doomed Mech.\n\nI've adopted the \"X is a bigger number than Y\" phrase and use it all the time."
+        },
+        {
+          "id": "1313606077216067597",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T20:41:34.429+00:00",
+          "content": "I feel he never understood that when you get a free breach out of the deal, it swings the trade massively. Or he's just trolling, hard to tell with Punf."
+        },
+        {
+          "id": "1313606333378990223",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T20:42:35.503+00:00",
+          "content": "Can't say I understand the full context of that saying. I'm guessing he wasn't talking about a possible breach, but then it's not clear who are the players that would absorb on Rhino."
+        },
+        {
+          "id": "1313606414689763358",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T20:42:54.889+00:00",
+          "content": "Yeah I'm quite certain he's said it during breaches"
+        },
+        {
+          "id": "1313606509212471438",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T20:43:17.425+00:00",
+          "content": "But to be fair, sometimes there is a point where it's less clear, like holding 7 drones to do it or something. But i feel you're losing already if you can't take it in most games"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-03T20:48:31.801+00:00",
+      "end_ts": "2024-12-03T20:48:31.801+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2024-12-03) ---\n[2024-12-03 20:48] .holyfire (Holy-Fire): Speaking of... He also said that \"Energy Matrix is a low-econ unit\", and I never quite understood what he meant (if indeed he meant anything).\n\nSo to better understand if there's something there - in Base+Matrix, is it correct to use it? Is it correct to go for 3rd engi?\n\nBecause if not, it provides some context for that saying.",
+      "messages": [
+        {
+          "id": "1313607827800981616",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-03T20:48:31.801+00:00",
+          "content": "Speaking of... He also said that \"Energy Matrix is a low-econ unit\", and I never quite understood what he meant (if indeed he meant anything).\n\nSo to better understand if there's something there - in Base+Matrix, is it correct to use it? Is it correct to go for 3rd engi?\n\nBecause if not, it provides some context for that saying."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-03T21:20:26.033+00:00",
+      "end_ts": "2024-12-03T21:23:36.972+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (4 messages, 2024-12-03) ---\n[2024-12-03 21:20] silentslayers: You can win with 2 engi from what i've heard. no idea if 3rd engi also wins. that's how centurion works is that p1 can win with either 2 or 3 engis.\n[2024-12-03 21:20] silentslayers: i do feel that this is mostly a bs+1 thing. once you introduce more units, matrix/centurion can be more like a 3rd engi unit\n[2024-12-03 21:21] silentslayers: but definitely depends on the set\n[2024-12-03 21:23] silentslayers: Matrix is definitely a 3 engi unit in principle, it's just that BB tech is usually pretty bad after you buy the matrix. Make BB tech good, and you'll go bigger econ for sure. Especially if no wall supply concerns",
+      "messages": [
+        {
+          "id": "1313615856672178238",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T21:20:26.033+00:00",
+          "content": "You can win with 2 engi from what i've heard. no idea if 3rd engi also wins. that's how centurion works is that p1 can win with either 2 or 3 engis."
+        },
+        {
+          "id": "1313615980081189007",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T21:20:55.456+00:00",
+          "content": "i do feel that this is mostly a bs+1 thing. once you introduce more units, matrix/centurion can be more like a 3rd engi unit"
+        },
+        {
+          "id": "1313616017301180467",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T21:21:04.33+00:00",
+          "content": "but definitely depends on the set"
+        },
+        {
+          "id": "1313616657528258663",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-03T21:23:36.972+00:00",
+          "content": "Matrix is definitely a 3 engi unit in principle, it's just that BB tech is usually pretty bad after you buy the matrix. Make BB tech good, and you'll go bigger econ for sure. Especially if no wall supply concerns"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-04T05:45:55.587+00:00",
+      "end_ts": "2024-12-04T05:49:55.661+00:00",
+      "participants": [
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2024-12-04) ---\n[2024-12-04 05:45] megasupp (mega-supp): I think the specific thing about ematrix is that it's very cheap so you can always get it out even on low econ. And you win prismata by buying the most efficient units. And drones are very inefficient\n[2024-12-04 05:47] megasupp (mega-supp): So you don't actually want to buy a lot of drones\n[2024-12-04 05:49] megasupp (mega-supp): You always want to buy the lowest possible number of drones to keep up with the best tech for the set+not choke on absorb barrier",
+      "messages": [
+        {
+          "id": "1313743068041707540",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2024-12-04T05:45:55.587+00:00",
+          "content": "I think the specific thing about ematrix is that it's very cheap so you can always get it out even on low econ. And you win prismata by buying the most efficient units. And drones are very inefficient"
+        },
+        {
+          "id": "1313743571769229342",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2024-12-04T05:47:55.685+00:00",
+          "content": "So you don't actually want to buy a lot of drones"
+        },
+        {
+          "id": "1313744074984919060",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2024-12-04T05:49:55.661+00:00",
+          "content": "You always want to buy the lowest possible number of drones to keep up with the best tech for the set+not choke on absorb barrier"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-04T06:10:54.009+00:00",
+      "end_ts": "2024-12-04T06:13:19.267+00:00",
+      "participants": [
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2024-12-04) ---\n[2024-12-04 06:10] megasupp (mega-supp): Also in regards to \"Why do people absorb on Rhino instead of Wall? Don't they understand that 3 is a bigger number than 2? \"\nI think punf usually says this when someone gambits for exact breach and it's a mistake to absorb on the rhino due to how hard the defence becomes\n[2024-12-04 06:13] megasupp (mega-supp): So he does legitimately point out bad plays but the reasoning he gives is absolutely troll",
+      "messages": [
+        {
+          "id": "1313749352878968842",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2024-12-04T06:10:54.009+00:00",
+          "content": "Also in regards to \"Why do people absorb on Rhino instead of Wall? Don't they understand that 3 is a bigger number than 2? \"\nI think punf usually says this when someone gambits for exact breach and it's a mistake to absorb on the rhino due to how hard the defence becomes"
+        },
+        {
+          "id": "1313749962135175198",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2024-12-04T06:13:19.267+00:00",
+          "content": "So he does legitimately point out bad plays but the reasoning he gives is absolutely troll"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-04T12:24:47.345+00:00",
+      "end_ts": "2024-12-04T12:27:52.212+00:00",
+      "participants": [
+        ".holyfire",
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (3 messages, 2024-12-04) ---\n[2024-12-04 12:24] megasupp (mega-supp): I'm pretty sure someone actually wrote a paper on this exact problem, it might have been aegis instead of plexo though\n[2024-12-04 12:26] .holyfire (Holy-Fire): Makes sense, IIRC my calculation from a few days ago, you'd need BV of something like 1.5 for that\n[2024-12-04 12:27] megasupp (mega-supp): I think they found some invariant that only goes down once it reaches a certain number and with computer assistance proved that it can't stay too high forever",
+      "messages": [
+        {
+          "id": "1313843445109882943",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2024-12-04T12:24:47.345+00:00",
+          "content": "I'm pretty sure someone actually wrote a paper on this exact problem, it might have been aegis instead of plexo though"
+        },
+        {
+          "id": "1313843863294574692",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-04T12:26:27.048+00:00",
+          "content": "Makes sense, IIRC my calculation from a few days ago, you'd need BV of something like 1.5 for that"
+        },
+        {
+          "id": "1313844220498542655",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2024-12-04T12:27:52.212+00:00",
+          "content": "I think they found some invariant that only goes down once it reaches a certain number and with computer assistance proved that it can't stay too high forever"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-04T12:59:28.911+00:00",
+      "end_ts": "2024-12-04T12:59:28.911+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2024-12-04) ---\n[2024-12-04 12:59] silentslayers: It was splitter vs aegis, it was done by @ExtraTricky I believe",
+      "messages": [
+        {
+          "id": "1313852175830749307",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-04T12:59:28.911+00:00",
+          "content": "It was splitter vs aegis, it was done by @ExtraTricky I believe"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-04T23:09:33.135+00:00",
+      "end_ts": "2024-12-04T23:11:22.391+00:00",
+      "participants": [
+        "lezaleas"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2024-12-04) ---\n[2024-12-04 23:09] lezaleas: is there any other reason than absorb that makes us build drones?\n[2024-12-04 23:10] lezaleas: there's also granularity but that would probably have the player work around it on low drones rather than build drones to fix it without absorb in the game\n[2024-12-04 23:11] lezaleas: even if the set has some very strong units, like some kind of red set with all the red bosses, you would still rather build 1 animus and tarsiers if absorb is not in the game right?",
+      "messages": [
+        {
+          "id": "1314005705073885355",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-04T23:09:33.135+00:00",
+          "content": "is there any other reason than absorb that makes us build drones?"
+        },
+        {
+          "id": "1314005874305667193",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-04T23:10:13.483+00:00",
+          "content": "there's also granularity but that would probably have the player work around it on low drones rather than build drones to fix it without absorb in the game"
+        },
+        {
+          "id": "1314006163326500886",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-12-04T23:11:22.391+00:00",
+          "content": "even if the set has some very strong units, like some kind of red set with all the red bosses, you would still rather build 1 animus and tarsiers if absorb is not in the game right?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-05T02:41:07.257+00:00",
+      "end_ts": "2024-12-05T02:41:07.257+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2024-12-05) ---\n[2024-12-05 02:41] .holyfire (Holy-Fire): I think the fact you start with some defense works in favor of buying a few drones, since you don't have to defend immediately against opponent attack. 2 engis isn't a lot, though.\n\nAlso, since you can't buy fractional animus, you might want to go up to 8 drones to be able to buy 2 tarsiers per turn\n\nBut the exact answer would require analysis of the game tree (with some units excluded, or with some units turned to fragile to keep the same soak options)",
+      "messages": [
+        {
+          "id": "1314058948080439407",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-05T02:41:07.257+00:00",
+          "content": "I think the fact you start with some defense works in favor of buying a few drones, since you don't have to defend immediately against opponent attack. 2 engis isn't a lot, though.\n\nAlso, since you can't buy fractional animus, you might want to go up to 8 drones to be able to buy 2 tarsiers per turn\n\nBut the exact answer would require analysis of the game tree (with some units excluded, or with some units turned to fragile to keep the same soak options)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-11T15:03:43.056+00:00",
+      "end_ts": "2024-12-11T15:03:43.056+00:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2024-12-11) ---\n[2024-12-11 15:03] amalloy: per some quick googling, michael jordan lost more of his games than top HS players do",
+      "messages": [
+        {
+          "id": "1316420155840008272",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2024-12-11T15:03:43.056+00:00",
+          "content": "per some quick googling, michael jordan lost more of his games than top HS players do"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-19T16:17:15.174+00:00",
+      "end_ts": "2024-12-19T16:18:21.016+00:00",
+      "participants": [
+        "liquideggproduct",
+        "siepu"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2024-12-19) ---\n[2024-12-19 16:17] liquideggproduct (Liquid Egg Product): Master Bot LOVES Mobile Animus\n[2024-12-19 16:18] siepu: only to doubleclick it next turn",
+      "messages": [
+        {
+          "id": "1319337764529115179",
+          "author": "liquideggproduct",
+          "nickname": "Liquid Egg Product",
+          "timestamp": "2024-12-19T16:17:15.174+00:00",
+          "content": "Master Bot LOVES Mobile Animus"
+        },
+        {
+          "id": "1319338040690212954",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2024-12-19T16:18:21.016+00:00",
+          "content": "only to doubleclick it next turn"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-27T03:01:17.156+00:00",
+      "end_ts": "2024-12-27T03:01:17.156+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2024-12-27) ---\n[2024-12-27 03:01] .holyfire (Holy-Fire): Question. When I breach, I usually feel that targetting drones is more valuable than Steelsplitters given those two options. But if there's vivid, I feel that targetting tarsiers is better than vivid. I don't think these two preferences are very consistent.\n\nSo which one is usually more correct? Or is there something nonobvious that makes them both correct? (I think that maybe, games where I can choose tarsier/vivid are games where I myself am more vulnerable to breach, so I should focus on attackers to relieve the immediate pressure.)",
+      "messages": [
+        {
+          "id": "1322036555807854614",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-27T03:01:17.156+00:00",
+          "content": "Question. When I breach, I usually feel that targetting drones is more valuable than Steelsplitters given those two options. But if there's vivid, I feel that targetting tarsiers is better than vivid. I don't think these two preferences are very consistent.\n\nSo which one is usually more correct? Or is there something nonobvious that makes them both correct? (I think that maybe, games where I can choose tarsier/vivid are games where I myself am more vulnerable to breach, so I should focus on attackers to relieve the immediate pressure.)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-27T03:15:11.843+00:00",
+      "end_ts": "2024-12-27T03:15:11.843+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2024-12-27) ---\n[2024-12-27 03:15] .holyfire (Holy-Fire): And probably, not only is the composition more vulnerable - in games where drone/SS are the most vulnerable, the stakes for breaching are lower so the breach might happen earlier (especially against MB which sometimes lets me breach just because why wouldn't it) so it's easier for me to defend and I don't need to rush to target attackers.\n\nStill would be happy for an authoritative answer.",
+      "messages": [
+        {
+          "id": "1322040056738742283",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-12-27T03:15:11.843+00:00",
+          "content": "And probably, not only is the composition more vulnerable - in games where drone/SS are the most vulnerable, the stakes for breaching are lower so the breach might happen earlier (especially against MB which sometimes lets me breach just because why wouldn't it) so it's easier for me to defend and I don't need to rush to target attackers.\n\nStill would be happy for an authoritative answer."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-27T04:30:57.34+00:00",
+      "end_ts": "2024-12-27T04:30:57.34+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2024-12-27) ---\n[2024-12-27 04:30] silentslayers: Very much depends. When in doubt, try to calculate the next 1 or 2 turns cause usually the game states are smallish in these breach scenarios. Main rule of thumb is 2 drones = 1 attacker. AKA don't target splitters (usually), target drones/tarsiers. tarsiers ofc hurt you 1 turn earlier than their drones do stuff, so you can argue kill tarsier in most cases, but it does come down to how good that damage of theirs is, and what the drones are buying. And depends if you can continuously breach them or if it's just a 1 time breach and the game's tempo changes afterwards.\n\n__Some examples:__\n\nGeneral case -> Kill tarsiers\n\nWhen there's vivids -> Kill vivids only if they buy good stuff (example: walls, breach proof stuff) **and** killing their tarsiers doesn't save anything valuable of yours. Otherwise, kill tarsiers\n\nIf you're good at counting -> Calculate 1-2 turns ahead, try to leave them at exactly 4 gold so they can't wall (for example), leave them low enough in drones so they can't start absorbing again, put them at a bad attack number so it's wasted. Breakpoint stuff like that. \n\nIf you can only breach once and the game will slow down afterwards (freeze or burst from something like wincer etc) -> Kill drones",
+      "messages": [
+        {
+          "id": "1322059121935122452",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-27T04:30:57.34+00:00",
+          "content": "Very much depends. When in doubt, try to calculate the next 1 or 2 turns cause usually the game states are smallish in these breach scenarios. Main rule of thumb is 2 drones = 1 attacker. AKA don't target splitters (usually), target drones/tarsiers. tarsiers ofc hurt you 1 turn earlier than their drones do stuff, so you can argue kill tarsier in most cases, but it does come down to how good that damage of theirs is, and what the drones are buying. And depends if you can continuously breach them or if it's just a 1 time breach and the game's tempo changes afterwards.\n\n__Some examples:__\n\nGeneral case -> Kill tarsiers\n\nWhen there's vivids -> Kill vivids only if they buy good stuff (example: walls, breach proof stuff) **and** killing their tarsiers doesn't save anything valuable of yours. Otherwise, kill tarsiers\n\nIf you're good at counting -> Calculate 1-2 turns ahead, try to leave them at exactly 4 gold so they can't wall (for example), leave them low enough in drones so they can't start absorbing again, put them at a bad attack number so it's wasted. Breakpoint stuff like that. \n\nIf you can only breach once and the game will slow down afterwards (freeze or burst from something like wincer etc) -> Kill drones"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-28T01:17:28.428+00:00",
+      "end_ts": "2024-12-28T01:17:28.428+00:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (1 messages, 2024-12-28) ---\n[2024-12-28 01:17] apooche: A tarsier can kill a tarsier/vivid per turn, but a vivid can’t make a tarsier/vivid per turn, so tarsier is higher value to kill. If you can make gauss cannons or something though, 2 vivids makes a cannon per turn while it takes 5 tarsiers to kill one, so vivids must be killed.\nIt takes 3 steelsplitters to kill a steelsplitter per turn, but it only takes 6 drones to make a steelsplitter per turn.",
+      "messages": [
+        {
+          "id": "1322372818494689330",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2024-12-28T01:17:28.428+00:00",
+          "content": "A tarsier can kill a tarsier/vivid per turn, but a vivid can’t make a tarsier/vivid per turn, so tarsier is higher value to kill. If you can make gauss cannons or something though, 2 vivids makes a cannon per turn while it takes 5 tarsiers to kill one, so vivids must be killed.\nIt takes 3 steelsplitters to kill a steelsplitter per turn, but it only takes 6 drones to make a steelsplitter per turn."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-28T04:53:59.423+00:00",
+      "end_ts": "2024-12-28T04:53:59.423+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2024-12-28) ---\n[2024-12-28 04:53] silentslayers: As I said it depends on if you’re both breaching each other or not and if you have anything precious that’s actually being killed by enemy tarsier etc.",
+      "messages": [
+        {
+          "id": "1322427306676850700",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-12-28T04:53:59.423+00:00",
+          "content": "As I said it depends on if you’re both breaching each other or not and if you have anything precious that’s actually being killed by enemy tarsier etc."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-12-28T18:14:31.127+00:00",
+      "end_ts": "2025-01-01T00:04:25.601+00:00",
+      "participants": [
+        ".holyfire",
+        "homeless2"
+      ],
+      "replay_codes": [
+        "BbGOS-yFFfK"
+      ],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2024-12-28 to 2025-01-01) ---\n[2024-12-28 18:14] homeless2 (Homeless): Just press Q and let the game decide 5head\n[2025-01-01 00:02] .holyfire (Holy-Fire): I'm... Not sure I knew that Q attack is a thing. Maybe I heard about it sometime and forgot.\n\nNow I'm not sure if I want to use it. It took me a long time to start using Q defense. (Which is a good thing since it helped me understand defense better.)\n[2025-01-01 00:04] .holyfire (Holy-Fire): BbGOS-yFFfK\n\nAs always, I probably played far from optimally. But building Centurion and Lucy on the same turn is something.",
+      "messages": [
+        {
+          "id": "1322628766245326949",
+          "author": "homeless2",
+          "nickname": "Homeless",
+          "timestamp": "2024-12-28T18:14:31.127+00:00",
+          "content": "Just press Q and let the game decide 5head"
+        },
+        {
+          "id": "1323803509639872512",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-01-01T00:02:31.778+00:00",
+          "content": "I'm... Not sure I knew that Q attack is a thing. Maybe I heard about it sometime and forgot.\n\nNow I'm not sure if I want to use it. It took me a long time to start using Q defense. (Which is a good thing since it helped me understand defense better.)"
+        },
+        {
+          "id": "1323803987048403067",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-01-01T00:04:25.601+00:00",
+          "content": "BbGOS-yFFfK\n\nAs always, I probably played far from optimally. But building Centurion and Lucy on the same turn is something."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-01-01T00:08:10.174+00:00",
+      "end_ts": "2025-01-01T00:22:56.748+00:00",
+      "participants": [
+        ".holyfire",
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 38,
+      "formatted_text": "--- Thread (11 messages, 2025-01-01) ---\n[2025-01-01 00:08] apooche: Q attack is relevant because you aren’t allowed to end your turn without assigning breach damage, so it gets applied automatically if you run out of time.\n[2025-01-01 00:09] .holyfire (Holy-Fire): Yeah, I had the chance to see automatic breach damage when time runs out. But I don't recall thinking about triggering it voluntarily.\n[2025-01-01 00:09] apooche: I used to write up posts around once a year about the issues with Q defense and Q attack, and Elyot fixed most of them except the really weird/hard/rare ones.\n[2025-01-01 00:11] .holyfire (Holy-Fire): Well there are still some fairly common scenarios where Q defense is wrong. I pretty much learned what they are and fix it when they occur.\n\nIt's a bit amusing that in some cases Masterbot defends better than Q defense, and in some cases worse.\n[2025-01-01 00:12] apooche: Attacking is easier to do fast because you can just shift click things in priority order\n[2025-01-01 00:13] apooche: Almost all defenses can be done with a single click + Q, you just have to know ahead of time how Q will get it wrong to know what to click\n[2025-01-01 00:14] apooche: But there’s no way I’d have my pattern recognition still primed to do all those now on 6s timers\n[2025-01-01 00:15] apooche: I believe master bot has 4 or so defense algorithms, and it uses its MCTS to decide which one to use. If all 4 are suboptimal in a situation it can’t defend correctly.\n[2025-01-01 00:17] .holyfire (Holy-Fire): I can think of a few common scenarios where that wouldn't suffice.\n\nIn any case, I usually start with Q and then do adjustments.\n[2025-01-01 00:20] .holyfire (Holy-Fire): I never studied how the master bot algorithm works, only read the abstract... This comment makes me understand much better the things I recall reading in that abstract.\n[2025-01-01 00:22] apooche: I caught his talk on it at GDC years ago.",
+      "messages": [
+        {
+          "id": "1323804928975835197",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-01-01T00:08:10.174+00:00",
+          "content": "Q attack is relevant because you aren’t allowed to end your turn without assigning breach damage, so it gets applied automatically if you run out of time."
+        },
+        {
+          "id": "1323805216969330816",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-01-01T00:09:18.837+00:00",
+          "content": "Yeah, I had the chance to see automatic breach damage when time runs out. But I don't recall thinking about triggering it voluntarily."
+        },
+        {
+          "id": "1323805290566516736",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-01-01T00:09:36.384+00:00",
+          "content": "I used to write up posts around once a year about the issues with Q defense and Q attack, and Elyot fixed most of them except the really weird/hard/rare ones."
+        },
+        {
+          "id": "1323805807845965897",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-01-01T00:11:39.713+00:00",
+          "content": "Well there are still some fairly common scenarios where Q defense is wrong. I pretty much learned what they are and fix it when they occur.\n\nIt's a bit amusing that in some cases Masterbot defends better than Q defense, and in some cases worse."
+        },
+        {
+          "id": "1323805920844845159",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-01-01T00:12:06.654+00:00",
+          "content": "Attacking is easier to do fast because you can just shift click things in priority order"
+        },
+        {
+          "id": "1323806165678821377",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-01-01T00:13:05.027+00:00",
+          "content": "Almost all defenses can be done with a single click + Q, you just have to know ahead of time how Q will get it wrong to know what to click"
+        },
+        {
+          "id": "1323806518419918889",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-01-01T00:14:29.127+00:00",
+          "content": "But there’s no way I’d have my pattern recognition still primed to do all those now on 6s timers"
+        },
+        {
+          "id": "1323806879842963519",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-01-01T00:15:55.297+00:00",
+          "content": "I believe master bot has 4 or so defense algorithms, and it uses its MCTS to decide which one to use. If all 4 are suboptimal in a situation it can’t defend correctly."
+        },
+        {
+          "id": "1323807334635405443",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-01-01T00:17:43.728+00:00",
+          "content": "I can think of a few common scenarios where that wouldn't suffice.\n\nIn any case, I usually start with Q and then do adjustments."
+        },
+        {
+          "id": "1323808100033101854",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-01-01T00:20:46.213+00:00",
+          "content": "I never studied how the master bot algorithm works, only read the abstract... This comment makes me understand much better the things I recall reading in that abstract."
+        },
+        {
+          "id": "1323808647536574646",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-01-01T00:22:56.748+00:00",
+          "content": "I caught his talk on it at GDC years ago."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-01-05T00:59:51.903+00:00",
+      "end_ts": "2025-01-05T00:59:51.903+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2025-01-05) ---\n[2025-01-05 00:59] .holyfire (Holy-Fire): TIL that Master bot will soak on Xeno to absorb on spent Bombarder.\n\nWhich shouldn't be too much of a surprise, it seems it ignores stamina levels when assigning defense. e.g., absorbing on spent Corpus instead of Wall.\n\nIronically, I'm pretty sure that even a fresh Corpus is worth less than a wall... So that doesn't make much sense either way.",
+      "messages": [
+        {
+          "id": "1325267490032320524",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-01-05T00:59:51.903+00:00",
+          "content": "TIL that Master bot will soak on Xeno to absorb on spent Bombarder.\n\nWhich shouldn't be too much of a surprise, it seems it ignores stamina levels when assigning defense. e.g., absorbing on spent Corpus instead of Wall.\n\nIronically, I'm pretty sure that even a fresh Corpus is worth less than a wall... So that doesn't make much sense either way."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-01-10T05:58:13.854+00:00",
+      "end_ts": "2025-01-10T05:58:13.854+00:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2025-01-10) ---\n[2025-01-10 05:58] apooche: we may have cheesed some achievements back in the day to force that out",
+      "messages": [
+        {
+          "id": "1327154515585269834",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-01-10T05:58:13.854+00:00",
+          "content": "we may have cheesed some achievements back in the day to force that out"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-01-14T00:47:33.191+00:00",
+      "end_ts": "2025-01-14T00:47:33.191+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-01-14) ---\n[2025-01-14 00:47] .holyfire (Holy-Fire): TIL that Master Bot will click on Asteri even when there is no possibility that the barrier will do anything.",
+      "messages": [
+        {
+          "id": "1328525882440159334",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-01-14T00:47:33.191+00:00",
+          "content": "TIL that Master Bot will click on Asteri even when there is no possibility that the barrier will do anything."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-01-22T00:33:42.206+00:00",
+      "end_ts": "2025-01-22T00:33:42.206+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [
+        "cYIUP-HZrj8"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-01-22) ---\n[2025-01-22 00:33] .holyfire (Holy-Fire): One of my longest games. I imagine I didn't play too well, but I know that MB made some pretty stupid mistakes.\n\ncYIUP-HZrj8",
+      "messages": [
+        {
+          "id": "1331421499961114634",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-01-22T00:33:42.206+00:00",
+          "content": "One of my longest games. I imagine I didn't play too well, but I know that MB made some pretty stupid mistakes.\n\ncYIUP-HZrj8"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-01-24T07:00:49.459+00:00",
+      "end_ts": "2025-01-24T07:00:49.459+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2025-01-24) ---\n[2025-01-24 07:00] spiritfryer (Spyrfyr): prismata mentioned\nhttps://youtu.be/I0qS4e1T8FI?si=r3Y92GSpMmlmcIWY&t=1910\nHearthstone x StarCraft!!! - Destroying with Mass Carrier\nI CAN'T BELIEVE MY LIFE HOW IS IT SO GOOD?! STARCRAFT AND HEARTHSTONE IN THE SAME GAME???? Today I'll be building and running some Protoss Decks!  May the finest carrier build win :)\n\nMY GAME STUDIO IS HIRING! We secured additional funding for our multiplayer PC strategy game and have openings for Lead Character Artist, Senior Animator, Senior T...",
+      "messages": [
+        {
+          "id": "1332243697852616797",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-01-24T07:00:49.459+00:00",
+          "content": "prismata mentioned\nhttps://youtu.be/I0qS4e1T8FI?si=r3Y92GSpMmlmcIWY&t=1910\nHearthstone x StarCraft!!! - Destroying with Mass Carrier\nI CAN'T BELIEVE MY LIFE HOW IS IT SO GOOD?! STARCRAFT AND HEARTHSTONE IN THE SAME GAME???? Today I'll be building and running some Protoss Decks!  May the finest carrier build win :)\n\nMY GAME STUDIO IS HIRING! We secured additional funding for our multiplayer PC strategy game and have openings for Lead Character Artist, Senior Animator, Senior T..."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-01-24T07:07:34.552+00:00",
+      "end_ts": "2025-01-24T07:14:28.325+00:00",
+      "participants": [
+        "iminabearsuit",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (7 messages, 2025-01-24) ---\n[2025-01-24 07:07] iminabearsuit: Damn... And he declined all the invites to do promotional stuff for them. 😢\n[2025-01-24 07:07] iminabearsuit: Like the tournaments and stuff\n[2025-01-24 07:08] iminabearsuit: It always seemed like such a perfect fit for him when it released\n[2025-01-24 07:10] spiritfryer (Spyrfyr): I caught that by accident, was flicking through the video, about to close it, then saw the MSPaint drawing and as he was describing it I was like \"that sounds very much like Prismata lol\" so I rewinded\n[2025-01-24 07:12] spiritfryer (Spyrfyr): LifeCoach has also mentioned Prismata once or twice over the past years, and those were just when I happened to be watching, so maybe there were more instances\n\nbut OK he got quite into the game for a while so it's not surprising\n[2025-01-24 07:12] iminabearsuit: Yeah, still waiting for Prismata 2\n[2025-01-24 07:14] spiritfryer (Spyrfyr): I caught the tail end of the golden age and I think for me it's just as much about the community as the game itself",
+      "messages": [
+        {
+          "id": "1332245396935807026",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2025-01-24T07:07:34.552+00:00",
+          "content": "Damn... And he declined all the invites to do promotional stuff for them. 😢"
+        },
+        {
+          "id": "1332245434579685456",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2025-01-24T07:07:43.527+00:00",
+          "content": "Like the tournaments and stuff"
+        },
+        {
+          "id": "1332245524132401234",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2025-01-24T07:08:04.878+00:00",
+          "content": "It always seemed like such a perfect fit for him when it released"
+        },
+        {
+          "id": "1332246174035480598",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-01-24T07:10:39.827+00:00",
+          "content": "I caught that by accident, was flicking through the video, about to close it, then saw the MSPaint drawing and as he was describing it I was like \"that sounds very much like Prismata lol\" so I rewinded"
+        },
+        {
+          "id": "1332246563275280384",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-01-24T07:12:12.629+00:00",
+          "content": "LifeCoach has also mentioned Prismata once or twice over the past years, and those were just when I happened to be watching, so maybe there were more instances\n\nbut OK he got quite into the game for a while so it's not surprising"
+        },
+        {
+          "id": "1332246746004197397",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2025-01-24T07:12:56.195+00:00",
+          "content": "Yeah, still waiting for Prismata 2"
+        },
+        {
+          "id": "1332247132425682995",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-01-24T07:14:28.325+00:00",
+          "content": "I caught the tail end of the golden age and I think for me it's just as much about the community as the game itself"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-01-24T07:17:38.097+00:00",
+      "end_ts": "2025-01-24T07:17:38.097+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2025-01-24) ---\n[2025-01-24 07:17] spiritfryer (Spyrfyr): too bad ioi turned out as it did, curious what's next for loonark",
+      "messages": [
+        {
+          "id": "1332247928387010592",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-01-24T07:17:38.097+00:00",
+          "content": "too bad ioi turned out as it did, curious what's next for loonark"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-01-24T12:05:29.881+00:00",
+      "end_ts": "2025-01-24T12:05:29.881+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2025-01-24) ---\n[2025-01-24 12:05] elyot: day9 is a bro, I've chatted with him a few times.",
+      "messages": [
+        {
+          "id": "1332320371499597844",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2025-01-24T12:05:29.881+00:00",
+          "content": "day9 is a bro, I've chatted with him a few times."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-02-03T01:27:56.155+00:00",
+      "end_ts": "2025-02-03T01:27:56.155+00:00",
+      "participants": [
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2025-02-03) ---\n[2025-02-03 01:27] megasupp (mega-supp): Imagining all this shit when you breach and then undoing it to absorb on a wall instead of rhino because you couldn't defend",
+      "messages": [
+        {
+          "id": "1335783802399752306",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2025-02-03T01:27:56.155+00:00",
+          "content": "Imagining all this shit when you breach and then undoing it to absorb on a wall instead of rhino because you couldn't defend"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-02-14T20:18:40.224+00:00",
+      "end_ts": "2025-02-14T20:19:23.073+00:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2025-02-14) ---\n[2025-02-14 20:18] velizar_ (Name): does it help to report the message as spam?\n[2025-02-14 20:18] velizar_ (Name): or is it better to ping a mod\n[2025-02-14 20:19] velizar_ (Name): @iminaBearSuit spam is abound",
+      "messages": [
+        {
+          "id": "1340054627571204137",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2025-02-14T20:18:40.224+00:00",
+          "content": "does it help to report the message as spam?"
+        },
+        {
+          "id": "1340054660630974557",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2025-02-14T20:18:48.106+00:00",
+          "content": "or is it better to ping a mod"
+        },
+        {
+          "id": "1340054807293198377",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2025-02-14T20:19:23.073+00:00",
+          "content": "@iminaBearSuit spam is abound"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-03-07T00:39:01.157+00:00",
+      "end_ts": "2025-03-07T00:39:01.157+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [
+        "78xVR-XRYE0"
+      ],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2025-03-07) ---\n[2025-03-07 00:39] .holyfire (Holy-Fire): Masterbot's Galvanophobia is just weird.\n\nIt's bad enough that it targets Galvani when it could have killed drones instead, which literally strictly dominates. (Not in this game, but it's pretty common)\n\nBut targeting Galvani instead of breaching is just... Wow.\n\nI'm not entirely sure I've seen this before. It certainly surprised me.\n\n78xVR-XRYE0",
+      "messages": [
+        {
+          "id": "1347367903825100883",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-03-07T00:39:01.157+00:00",
+          "content": "Masterbot's Galvanophobia is just weird.\n\nIt's bad enough that it targets Galvani when it could have killed drones instead, which literally strictly dominates. (Not in this game, but it's pretty common)\n\nBut targeting Galvani instead of breaching is just... Wow.\n\nI'm not entirely sure I've seen this before. It certainly surprised me.\n\n78xVR-XRYE0"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-03-07T07:45:24.668+00:00",
+      "end_ts": "2025-03-07T07:48:38.566+00:00",
+      "participants": [
+        "pikachumemes."
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (5 messages, 2025-03-07) ---\n[2025-03-07 07:45] pikachumemes. (Pikachu Memes): to be fair galvani drone is nuts\n[2025-03-07 07:46] pikachumemes. (Pikachu Memes): literally enables p2 t1 blastforge\n[2025-03-07 07:46] pikachumemes. (Pikachu Memes): (in conjuction with some help, ofc)\n[2025-03-07 07:47] pikachumemes. (Pikachu Memes): i actually went p1 t1 animus due to galvani existing and won\n[2025-03-07 07:48] pikachumemes. (Pikachu Memes): (galvani + smorcus + feral + possbly some other help to be fair)",
+      "messages": [
+        {
+          "id": "1347475208847753266",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-03-07T07:45:24.668+00:00",
+          "content": "to be fair galvani drone is nuts"
+        },
+        {
+          "id": "1347475432509018153",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-03-07T07:46:17.993+00:00",
+          "content": "literally enables p2 t1 blastforge"
+        },
+        {
+          "id": "1347475484983693314",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-03-07T07:46:30.504+00:00",
+          "content": "(in conjuction with some help, ofc)"
+        },
+        {
+          "id": "1347475779021312011",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-03-07T07:47:40.608+00:00",
+          "content": "i actually went p1 t1 animus due to galvani existing and won"
+        },
+        {
+          "id": "1347476022114910218",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-03-07T07:48:38.566+00:00",
+          "content": "(galvani + smorcus + feral + possbly some other help to be fair)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-03-07T11:27:23.769+00:00",
+      "end_ts": "2025-03-07T11:27:23.769+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2025-03-07) ---\n[2025-03-07 11:27] .holyfire (Holy-Fire): I mean, sure, Galvani is useful... But that's because it's cheap, a single Galvani unit itself is worth very little. It's painfully nonsensical to kill Galvani instead of drone, or - as in this game - Two Galvani instead of wall and drone.",
+      "messages": [
+        {
+          "id": "1347531073206222961",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-03-07T11:27:23.769+00:00",
+          "content": "I mean, sure, Galvani is useful... But that's because it's cheap, a single Galvani unit itself is worth very little. It's painfully nonsensical to kill Galvani instead of drone, or - as in this game - Two Galvani instead of wall and drone."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-03-09T01:08:58.55+00:00",
+      "end_ts": "2025-03-09T01:08:58.55+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2025-03-09) ---\n[2025-03-09 01:08] .holyfire (Holy-Fire): TIL Master Bot Apollo will target 2-Health Tantalum Ray rather than Steelsplitter\n\nIn general, MB seems to never consider Health or Stamina when comparing between different units.",
+      "messages": [
+        {
+          "id": "1348100218368950272",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-03-09T01:08:58.55+00:00",
+          "content": "TIL Master Bot Apollo will target 2-Health Tantalum Ray rather than Steelsplitter\n\nIn general, MB seems to never consider Health or Stamina when comparing between different units."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-03-09T07:44:07.567+00:00",
+      "end_ts": "2025-03-09T07:44:07.567+00:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2025-03-09) ---\n[2025-03-09 07:44] apooche: Master bot generally values units based on their cost. For example it overvalues borehole patrollers because it doesn't consider the fact that part of their cost was for a pixie.",
+      "messages": [
+        {
+          "id": "1348199661193920633",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-03-09T07:44:07.567+00:00",
+          "content": "Master bot generally values units based on their cost. For example it overvalues borehole patrollers because it doesn't consider the fact that part of their cost was for a pixie."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-04-07T15:38:13.498+01:00",
+      "end_ts": "2025-04-07T17:19:58.848+01:00",
+      "participants": [
+        "saintbellarmine5119",
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "kPWpJ-1IV9+",
+        "5BZLJ-8mlcj",
+        "Ox99g-brLP4",
+        "UPpss-tASnN",
+        "qKWey-3yNm8",
+        "5KHYW-dMj+z",
+        "OUh61-q2b76",
+        "g1Alq-5Qmz6",
+        "enCZB-FeVUr",
+        "4Dpt@-UhyMF",
+        "gNkN@-aON6u",
+        "oJE3d-Y6oA5",
+        "HQe0q-gJ7f+",
+        "VEKBh-3U1lN",
+        "A3sDa-tv4P+",
+        "Kfnl9-c4grA",
+        "gTd3F-OVX7L",
+        "8S0BH-UZBQZ",
+        "BKLxk-vb35n",
+        "YG8q+-jELoX",
+        "6VjZ6-nEyVm",
+        "C+G1B-bV7@n",
+        "iXNYC-ZC4vg"
+      ],
+      "score": 29,
+      "formatted_text": "--- Thread (4 messages, 2025-04-07) ---\n[2025-04-07 15:38] saintbellarmine5119 (saintbellarmine): Does anyone have like a big list of cool replays of good games to share with me?\n[2025-04-07 15:38] saintbellarmine5119 (saintbellarmine): I wish they had done a feature to be able to see the games of others like all that stuff posted online especially for higher rated games\n[2025-04-07 15:38] saintbellarmine5119 (saintbellarmine): the best way to learn the game is to watch good people play\n[2025-04-07 17:19] spiritfryer (Spyrfyr): here are the ones randomly in my txt file\n\n```Msven masterclass:\nkPWpJ-1IV9+\n5BZLJ-8mlcj ???\n---\nKolento masterclass:\nOx99g-brLP4\n---\nSteel BM: UPpss-tASnN\n---\nqKWey-3yNm8\n---\nZeze Kolento\n5KHYW-dMj+z\nOUh61-q2b76\n---\nFrontline Central g1Alq-5Qmz6 \n---\nGigaNivo\nenCZB-FeVUr\n4Dpt@-UhyMF\n---\ngNkN@-aON6u\noJE3d-Y6oA5\n---\nHQe0q-gJ7f+\n\nVEKBh-3U1lN\nA3sDa-tv4P+\nKfnl9-c4grA\ngTd3F-OVX7L\n8S0BH-UZBQZ\nBKLxk-vb35n\nYG8q+-jELoX\n6VjZ6-nEyVm\nC+G1B-bV7@n\niXNYC-ZC4vg\n```",
+      "messages": [
+        {
+          "id": "1358813120683835513",
+          "author": "saintbellarmine5119",
+          "nickname": "saintbellarmine",
+          "timestamp": "2025-04-07T15:38:13.498+01:00",
+          "content": "Does anyone have like a big list of cool replays of good games to share with me?"
+        },
+        {
+          "id": "1358813215928094911",
+          "author": "saintbellarmine5119",
+          "nickname": "saintbellarmine",
+          "timestamp": "2025-04-07T15:38:36.206+01:00",
+          "content": "I wish they had done a feature to be able to see the games of others like all that stuff posted online especially for higher rated games"
+        },
+        {
+          "id": "1358813252607545464",
+          "author": "saintbellarmine5119",
+          "nickname": "saintbellarmine",
+          "timestamp": "2025-04-07T15:38:44.951+01:00",
+          "content": "the best way to learn the game is to watch good people play"
+        },
+        {
+          "id": "1358838728378023977",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-04-07T17:19:58.848+01:00",
+          "content": "here are the ones randomly in my txt file\n\n```Msven masterclass:\nkPWpJ-1IV9+\n5BZLJ-8mlcj ???\n---\nKolento masterclass:\nOx99g-brLP4\n---\nSteel BM: UPpss-tASnN\n---\nqKWey-3yNm8\n---\nZeze Kolento\n5KHYW-dMj+z\nOUh61-q2b76\n---\nFrontline Central g1Alq-5Qmz6 \n---\nGigaNivo\nenCZB-FeVUr\n4Dpt@-UhyMF\n---\ngNkN@-aON6u\noJE3d-Y6oA5\n---\nHQe0q-gJ7f+\n\nVEKBh-3U1lN\nA3sDa-tv4P+\nKfnl9-c4grA\ngTd3F-OVX7L\n8S0BH-UZBQZ\nBKLxk-vb35n\nYG8q+-jELoX\n6VjZ6-nEyVm\nC+G1B-bV7@n\niXNYC-ZC4vg\n```"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-04-07T17:24:25.92+01:00",
+      "end_ts": "2025-04-07T17:24:25.92+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-04-07) ---\n[2025-04-07 17:24] spiritfryer (Spyrfyr): also this, chatlogs of when we were looking through our personal replays to find who has the longest ones, I think by turn count",
+      "messages": [
+        {
+          "id": "1358839848558919861",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-04-07T17:24:25.92+01:00",
+          "content": "also this, chatlogs of when we were looking through our personal replays to find who has the longest ones, I think by turn count"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-04-13T02:51:15.91+01:00",
+      "end_ts": "2025-04-13T02:51:15.91+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-04-13) ---\n[2025-04-13 02:51] spiritfryer (Spyrfyr): centurion attacks while defending",
+      "messages": [
+        {
+          "id": "1360794436124152079",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-04-13T02:51:15.91+01:00",
+          "content": "centurion attacks while defending"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-04-13T13:41:57.789+01:00",
+      "end_ts": "2025-04-13T13:46:33.596+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (5 messages, 2025-04-13) ---\n[2025-04-13 13:41] spiritfryer (Spyrfyr): Start of turn: gain 2 :Attack:\n[2025-04-13 13:42] spiritfryer (Spyrfyr): as opposed to say Steelsplitter's Click: gain 1 :Attack:\n[2025-04-13 13:44] spiritfryer (Spyrfyr): Any unit with Blocker and no click ability will defend while doing whatever else its text says\n[2025-04-13 13:45] spiritfryer (Spyrfyr): well I guess there are units with both start of turn and click, like Hannibull so that's not entirely true\n[2025-04-13 13:46] spiritfryer (Spyrfyr): any unit with blocker will defend unless clicked (if it can be clicked)",
+      "messages": [
+        {
+          "id": "1360958189633274096",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-04-13T13:41:57.789+01:00",
+          "content": "Start of turn: gain 2 :Attack:"
+        },
+        {
+          "id": "1360958263860133958",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-04-13T13:42:15.486+01:00",
+          "content": "as opposed to say Steelsplitter's Click: gain 1 :Attack:"
+        },
+        {
+          "id": "1360958737438736405",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-04-13T13:44:08.396+01:00",
+          "content": "Any unit with Blocker and no click ability will defend while doing whatever else its text says"
+        },
+        {
+          "id": "1360959064971936048",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-04-13T13:45:26.486+01:00",
+          "content": "well I guess there are units with both start of turn and click, like Hannibull so that's not entirely true"
+        },
+        {
+          "id": "1360959346451939359",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-04-13T13:46:33.596+01:00",
+          "content": "any unit with blocker will defend unless clicked (if it can be clicked)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-04-14T22:28:06.533+01:00",
+      "end_ts": "2025-04-14T22:31:02.983+01:00",
+      "participants": [
+        "siepu",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (3 messages, 2025-04-14) ---\n[2025-04-14 22:28] silentslayers: That has to be the most dead I've ever seen the leaderboard :/\n[2025-04-14 22:28] silentslayers: Like the top 10 aside Homeless is all full -225 vacation penalty I think\n[2025-04-14 22:31] siepu: its been like 10 years mate :<",
+      "messages": [
+        {
+          "id": "1361452986408112340",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2025-04-14T22:28:06.533+01:00",
+          "content": "That has to be the most dead I've ever seen the leaderboard :/"
+        },
+        {
+          "id": "1361453079467135188",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2025-04-14T22:28:28.72+01:00",
+          "content": "Like the top 10 aside Homeless is all full -225 vacation penalty I think"
+        },
+        {
+          "id": "1361453726493180125",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2025-04-14T22:31:02.983+01:00",
+          "content": "its been like 10 years mate :<"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-04-20T01:28:36.362+01:00",
+      "end_ts": "2025-04-20T01:28:36.362+01:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [
+        "DjAz2-76K4r"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-04-20) ---\n[2025-04-20 01:28] .holyfire (Holy-Fire): For a moment there I thought I was losing and was going to resign. But I decided to play 1 more turn to see where it goes. Ended up winning by a hair - it almost ended in a draw.\n\nDjAz2-76K4r",
+      "messages": [
+        {
+          "id": "1363310349331337368",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-04-20T01:28:36.362+01:00",
+          "content": "For a moment there I thought I was losing and was going to resign. But I decided to play 1 more turn to see where it goes. Ended up winning by a hair - it almost ended in a draw.\n\nDjAz2-76K4r"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-14T02:28:52.557+01:00",
+      "end_ts": "2025-05-14T02:30:38.04+01:00",
+      "participants": [
+        "ruinedshadows",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (5 messages, 2025-05-14) ---\n[2025-05-14 02:28] silentslayers: Well I played flopflop and yujiri the other night so I had some nice games 😊\n[2025-05-14 02:29] silentslayers: Not dead till 0 players or server down\n[2025-05-14 02:30] ruinedshadows: No please don't kill it before I get millionaire\n[2025-05-14 02:30] silentslayers: If server goes down I do think elyot will pass the torch on too. Won’t leave us hanging.\n[2025-05-14 02:30] ruinedshadows: Been slowly making about 1k gold per day logging in to play 3 games against master bot for the daily rewards",
+      "messages": [
+        {
+          "id": "1372022825526890626",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2025-05-14T02:28:52.557+01:00",
+          "content": "Well I played flopflop and yujiri the other night so I had some nice games 😊"
+        },
+        {
+          "id": "1372022981794201732",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2025-05-14T02:29:29.814+01:00",
+          "content": "Not dead till 0 players or server down"
+        },
+        {
+          "id": "1372023108457988108",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-14T02:30:00.013+01:00",
+          "content": "No please don't kill it before I get millionaire"
+        },
+        {
+          "id": "1372023111070912595",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2025-05-14T02:30:00.636+01:00",
+          "content": "If server goes down I do think elyot will pass the torch on too. Won’t leave us hanging."
+        },
+        {
+          "id": "1372023267954790450",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-14T02:30:38.04+01:00",
+          "content": "Been slowly making about 1k gold per day logging in to play 3 games against master bot for the daily rewards"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-14T05:45:38.738+01:00",
+      "end_ts": "2025-05-14T05:46:52.399+01:00",
+      "participants": [
+        "ruinedshadows",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (6 messages, 2025-05-14) ---\n[2025-05-14 05:45] silentslayers: Unless servers go down he can do it in about 30 days\n[2025-05-14 05:45] ruinedshadows: I don't always get to play every day though 😭\n[2025-05-14 05:46] ruinedshadows: But yeah hoping to hit it soon\n[2025-05-14 05:46] ruinedshadows: I would farm more but they did kinda patch the old exploit and I'm lazy lol\n[2025-05-14 05:46] ruinedshadows: I think gold per game towards the achievement is now capped at 1k\n[2025-05-14 05:46] ruinedshadows: Even if you hold space and make more",
+      "messages": [
+        {
+          "id": "1372072344239210536",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2025-05-14T05:45:38.738+01:00",
+          "content": "Unless servers go down he can do it in about 30 days"
+        },
+        {
+          "id": "1372072421581914193",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-14T05:45:57.178+01:00",
+          "content": "I don't always get to play every day though 😭"
+        },
+        {
+          "id": "1372072456738701343",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-14T05:46:05.56+01:00",
+          "content": "But yeah hoping to hit it soon"
+        },
+        {
+          "id": "1372072545867665439",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-14T05:46:26.81+01:00",
+          "content": "I would farm more but they did kinda patch the old exploit and I'm lazy lol"
+        },
+        {
+          "id": "1372072606190010409",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-14T05:46:41.192+01:00",
+          "content": "I think gold per game towards the achievement is now capped at 1k"
+        },
+        {
+          "id": "1372072653195841668",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-14T05:46:52.399+01:00",
+          "content": "Even if you hold space and make more"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-16T19:53:33.22+01:00",
+      "end_ts": "2025-05-17T14:13:48.411+01:00",
+      "participants": [
+        "ruinedshadows",
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (4 messages, 2025-05-16 to 2025-05-17) ---\n[2025-05-16 19:53] ruinedshadows: I've been playing Flesh and Blood mostly as far as strategy games go\n[2025-05-16 19:54] ruinedshadows: Also some other sim/related games like factorio, derail valley, rimworld, and deckbuilding games like slay the spire\n[2025-05-16 19:55] ruinedshadows: @Bananasplit you have messages from non-friends turned off so even though I am receiving your dms I cannot reply lmao\n[2025-05-17 14:13] shadourow (Rando): you could send messages in morse code by blocking/unblocking him",
+      "messages": [
+        {
+          "id": "1373010503013503037",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-16T19:53:33.22+01:00",
+          "content": "I've been playing Flesh and Blood mostly as far as strategy games go"
+        },
+        {
+          "id": "1373010817204883621",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-16T19:54:48.129+01:00",
+          "content": "Also some other sim/related games like factorio, derail valley, rimworld, and deckbuilding games like slay the spire"
+        },
+        {
+          "id": "1373011070238724159",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2025-05-16T19:55:48.457+01:00",
+          "content": "@Bananasplit you have messages from non-friends turned off so even though I am receiving your dms I cannot reply lmao"
+        },
+        {
+          "id": "1373287390793175051",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2025-05-17T14:13:48.411+01:00",
+          "content": "you could send messages in morse code by blocking/unblocking him"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-25T15:29:23.13+01:00",
+      "end_ts": "2025-05-25T15:36:34.427+01:00",
+      "participants": [
+        ".holyfire",
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "insta-recon"
+      ],
+      "score": 28,
+      "formatted_text": "--- Thread (10 messages, 2025-05-25) ---\n[2025-05-25 15:29] spiritfryer (Spyrfyr): idk I can launch the game\n[2025-05-25 15:29] .holyfire (Holy-Fire): Ok, I managed to log in after a few minutes of waiting\n[2025-05-25 15:30] spiritfryer (Spyrfyr): it launched instantly for me just now\n[2025-05-25 15:30] spiritfryer (Spyrfyr): idk what this set is xd\n[2025-05-25 15:31] .holyfire (Holy-Fire): I think it might be something I configured once for analyzing. No idea why it came up.\n[2025-05-25 15:31] spiritfryer (Spyrfyr): I think the latest set you configured in custom games comes up when you invite someone\n[2025-05-25 15:32] .holyfire (Holy-Fire): Yeah, but I edited it afterwards. In general, the server is a bit lagging for me.\n[2025-05-25 15:33] spiritfryer (Spyrfyr): my vpn just kicked back and got insta-reconnected in <1 s\n[2025-05-25 15:36] spiritfryer (Spyrfyr): woah the game exited to main menu so fast when I surrendered and did the exit hotkeys\n[2025-05-25 15:36] spiritfryer (Spyrfyr): I don't recall it being so fast",
+      "messages": [
+        {
+          "id": "1376205513708011641",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-25T15:29:23.13+01:00",
+          "content": "idk I can launch the game"
+        },
+        {
+          "id": "1376205663847448658",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-05-25T15:29:58.926+01:00",
+          "content": "Ok, I managed to log in after a few minutes of waiting"
+        },
+        {
+          "id": "1376205713810002071",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-25T15:30:10.838+01:00",
+          "content": "it launched instantly for me just now"
+        },
+        {
+          "id": "1376205874770612334",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-25T15:30:49.214+01:00",
+          "content": "idk what this set is xd"
+        },
+        {
+          "id": "1376206028936446063",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-05-25T15:31:25.97+01:00",
+          "content": "I think it might be something I configured once for analyzing. No idea why it came up."
+        },
+        {
+          "id": "1376206099618730044",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-25T15:31:42.822+01:00",
+          "content": "I think the latest set you configured in custom games comes up when you invite someone"
+        },
+        {
+          "id": "1376206181915164712",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-05-25T15:32:02.443+01:00",
+          "content": "Yeah, but I edited it afterwards. In general, the server is a bit lagging for me."
+        },
+        {
+          "id": "1376206605015584900",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-25T15:33:43.318+01:00",
+          "content": "my vpn just kicked back and got insta-reconnected in <1 s"
+        },
+        {
+          "id": "1376207303174262918",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-25T15:36:29.772+01:00",
+          "content": "woah the game exited to main menu so fast when I surrendered and did the exit hotkeys"
+        },
+        {
+          "id": "1376207322699005962",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-25T15:36:34.427+01:00",
+          "content": "I don't recall it being so fast"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-28T09:39:30.523+01:00",
+      "end_ts": "2025-05-28T12:55:08.363+01:00",
+      "participants": [
+        "kajtek1414",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2025-05-28) ---\n[2025-05-28 09:39] kajtek1414 (kajtek): Hey. I see its preaty dead here - thats sad as I believe Prismata is trully an amazing game.\nDo you guys know any similar titles that you can recomend?\n[2025-05-28 12:55] spiritfryer (Spyrfyr): for a perfect information strategy game with symmetric gameplay, Mechabellum\n\nbut Mechabellum is not just about unit composition but also about actual tactical placement",
+      "messages": [
+        {
+          "id": "1377204627929301083",
+          "author": "kajtek1414",
+          "nickname": "kajtek",
+          "timestamp": "2025-05-28T09:39:30.523+01:00",
+          "content": "Hey. I see its preaty dead here - thats sad as I believe Prismata is trully an amazing game.\nDo you guys know any similar titles that you can recomend?"
+        },
+        {
+          "id": "1377253859998568563",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-28T12:55:08.363+01:00",
+          "content": "for a perfect information strategy game with symmetric gameplay, Mechabellum\n\nbut Mechabellum is not just about unit composition but also about actual tactical placement"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-31T11:15:35.377+01:00",
+      "end_ts": "2025-05-31T11:15:35.377+01:00",
+      "participants": [
+        "erezshin"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2025-05-31) ---\n[2025-05-31 11:15] erezshin (Erez): Hi everyone! I was thinking about Tarsiers. They're a really great unit, but maybe a little too great for a basic unit. Without extra cards, tarsiers+wall are basically the only viable strat. And when Amporilla is in play, most other cards become irrelevant. But I'm not saying Tarsier itself should be changed. Maybe having only 8 available instead of 10 could nerf them sufficiently? And yes, please let me know how I completely got it wrong.",
+      "messages": [
+        {
+          "id": "1378315971076427816",
+          "author": "erezshin",
+          "nickname": "Erez",
+          "timestamp": "2025-05-31T11:15:35.377+01:00",
+          "content": "Hi everyone! I was thinking about Tarsiers. They're a really great unit, but maybe a little too great for a basic unit. Without extra cards, tarsiers+wall are basically the only viable strat. And when Amporilla is in play, most other cards become irrelevant. But I'm not saying Tarsier itself should be changed. Maybe having only 8 available instead of 10 could nerf them sufficiently? And yes, please let me know how I completely got it wrong."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-31T11:36:55.264+01:00",
+      "end_ts": "2025-05-31T11:36:55.264+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2025-05-31) ---\n[2025-05-31 11:36] spiritfryer (Spyrfyr): hmm, it feels to me that tarsier supply is mainly relevant in bigger sets (longer game --> enough rounds to buy out supply) that also lack better attackers -- and in such sets, I feel it would not be wise to nerf attack even more (via tarsier supply nerf) because those sets already tend to be very long with many units being fully bought out",
+      "messages": [
+        {
+          "id": "1378321339311456279",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-31T11:36:55.264+01:00",
+          "content": "hmm, it feels to me that tarsier supply is mainly relevant in bigger sets (longer game --> enough rounds to buy out supply) that also lack better attackers -- and in such sets, I feel it would not be wise to nerf attack even more (via tarsier supply nerf) because those sets already tend to be very long with many units being fully bought out"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-31T11:40:24.302+01:00",
+      "end_ts": "2025-05-31T11:42:58.924+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (3 messages, 2025-05-31) ---\n[2025-05-31 11:40] spiritfryer (Spyrfyr): the more specific sets you mentioned:\n* without extra cards: I don't think 10 tarsiers can be bought in base set only anyway\n* Amporilla: I think it's very rare for 10 tarsiers to be bought in ampo sets. Maybe with some weird asymmetric apollo vs amporilla setup? Not sure\n[2025-05-31 11:41] spiritfryer (Spyrfyr): speaking of apollo though, I guess nerfing tarsier supply would make apollo stronger in certain sets where due to having 1 less turn of double tarsier purchase, the non-apollo player loses tempo sooner than if they had 1 extra turn of tarsiers\n[2025-05-31 11:42] spiritfryer (Spyrfyr): just my initial thoughts/feelings, and could ofc be wrong about them, curious what others think",
+      "messages": [
+        {
+          "id": "1378322216080511106",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-31T11:40:24.302+01:00",
+          "content": "the more specific sets you mentioned:\n* without extra cards: I don't think 10 tarsiers can be bought in base set only anyway\n* Amporilla: I think it's very rare for 10 tarsiers to be bought in ampo sets. Maybe with some weird asymmetric apollo vs amporilla setup? Not sure"
+        },
+        {
+          "id": "1378322520142250087",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-31T11:41:36.796+01:00",
+          "content": "speaking of apollo though, I guess nerfing tarsier supply would make apollo stronger in certain sets where due to having 1 less turn of double tarsier purchase, the non-apollo player loses tempo sooner than if they had 1 extra turn of tarsiers"
+        },
+        {
+          "id": "1378322864612315236",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-31T11:42:58.924+01:00",
+          "content": "just my initial thoughts/feelings, and could ofc be wrong about them, curious what others think"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-31T12:03:26.362+01:00",
+      "end_ts": "2025-05-31T12:03:26.362+01:00",
+      "participants": [
+        "erezshin"
+      ],
+      "replay_codes": [
+        "pollo-tarsi"
+      ],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2025-05-31) ---\n[2025-05-31 12:03] erezshin (Erez): I see your point. I think I saw a lot of games when tarsiers are bought in full, but maybe reducing the supply isn't the best solution. I definitely had this apollo-tarsier tempo in a few games, but I think it's too much of an edge case by itself. But 10 tarsiers+amporilla has happened to me in games with big shields, and those extra 2 tarsiers made a lot of difference then.",
+      "messages": [
+        {
+          "id": "1378328012860428389",
+          "author": "erezshin",
+          "nickname": "Erez",
+          "timestamp": "2025-05-31T12:03:26.362+01:00",
+          "content": "I see your point. I think I saw a lot of games when tarsiers are bought in full, but maybe reducing the supply isn't the best solution. I definitely had this apollo-tarsier tempo in a few games, but I think it's too much of an edge case by itself. But 10 tarsiers+amporilla has happened to me in games with big shields, and those extra 2 tarsiers made a lot of difference then."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-31T12:17:13.34+01:00",
+      "end_ts": "2025-05-31T12:19:00.186+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (3 messages, 2025-05-31) ---\n[2025-05-31 12:17] spiritfryer (Spyrfyr): regarding 10 tarsier+ampo, I'd have to see the game, but my instinct is that it shouldn't happen because an earlier ampo should be winning from the other side\n[2025-05-31 12:18] spiritfryer (Spyrfyr): My instinct is that the posturing from both players towards the right ampo timing likely never reaches a timing that ends up allowing 10 tarsiers\n[2025-05-31 12:19] spiritfryer (Spyrfyr): but I could see asymmetric sets allowing 10 tarsier ampos",
+      "messages": [
+        {
+          "id": "1378331481457561702",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-31T12:17:13.34+01:00",
+          "content": "regarding 10 tarsier+ampo, I'd have to see the game, but my instinct is that it shouldn't happen because an earlier ampo should be winning from the other side"
+        },
+        {
+          "id": "1378331822919909396",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-31T12:18:34.751+01:00",
+          "content": "My instinct is that the posturing from both players towards the right ampo timing likely never reaches a timing that ends up allowing 10 tarsiers"
+        },
+        {
+          "id": "1378331929601904681",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-31T12:19:00.186+01:00",
+          "content": "but I could see asymmetric sets allowing 10 tarsier ampos"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-31T17:24:19.357+01:00",
+      "end_ts": "2025-05-31T17:24:19.357+01:00",
+      "participants": [
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-05-31) ---\n[2025-05-31 17:24] megasupp (mega-supp): Is that really a problem? The thing is blue has best defense in base set, however steelsplitter is a very bad attacker. Red in contrast has best attack in base set but rhino is terrible defense. And green is kinda middle of the road in both",
+      "messages": [
+        {
+          "id": "1378408765774106687",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2025-05-31T17:24:19.357+01:00",
+          "content": "Is that really a problem? The thing is blue has best defense in base set, however steelsplitter is a very bad attacker. Red in contrast has best attack in base set but rhino is terrible defense. And green is kinda middle of the road in both"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-05-31T18:44:21.681+01:00",
+      "end_ts": "2025-05-31T18:44:21.681+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2025-05-31) ---\n[2025-05-31 18:44] spiritfryer (Spyrfyr): in most sets either:\n* there are more efficient attackers than tarsiers which enable pressuring your opponent if they try to ramp tarsiers into ampo\n* or, there are attack/defense hybrid units that enable you to defend their tarsier ramp while still pressuring them to make ampo hard for them to reach",
+      "messages": [
+        {
+          "id": "1378428908181000383",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-05-31T18:44:21.681+01:00",
+          "content": "in most sets either:\n* there are more efficient attackers than tarsiers which enable pressuring your opponent if they try to ramp tarsiers into ampo\n* or, there are attack/defense hybrid units that enable you to defend their tarsier ramp while still pressuring them to make ampo hard for them to reach"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-06-02T20:03:44.72+01:00",
+      "end_ts": "2025-06-02T20:03:44.72+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2025-06-02) ---\n[2025-06-02 20:03] spiritfryer (Spyrfyr): xD cheatz\n\n-# ||it ended on t26 in reality, long game enjoyers in shambles||",
+      "messages": [
+        {
+          "id": "1379173661545595112",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-06-02T20:03:44.72+01:00",
+          "content": "xD cheatz\n\n-# ||it ended on t26 in reality, long game enjoyers in shambles||"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-06-02T23:52:02.423+01:00",
+      "end_ts": "2025-06-02T23:54:00.302+01:00",
+      "participants": [
+        "pikachumemes.",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (5 messages, 2025-06-02) ---\n[2025-06-02 23:52] pikachumemes. (Pikachu Memes): honestly do you know what the really OP base set unit is? Drone.\n[2025-06-02 23:52] pikachumemes. (Pikachu Memes): i swear its almost always correct to buy at least one, OP as hell\n[2025-06-02 23:52] pikachumemes. (Pikachu Memes): how many high level games have you had where its correct to not build any drones? yeah not many like i thought\n[2025-06-02 23:53] pikachumemes. (Pikachu Memes): comapred to tarsier, drones are way too damn op\n[2025-06-02 23:54] spiritfryer (Spyrfyr): ah how I miss mata shitposts\n\nty",
+      "messages": [
+        {
+          "id": "1379231113876213823",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-02T23:52:02.423+01:00",
+          "content": "honestly do you know what the really OP base set unit is? Drone."
+        },
+        {
+          "id": "1379231173863018546",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-02T23:52:16.725+01:00",
+          "content": "i swear its almost always correct to buy at least one, OP as hell"
+        },
+        {
+          "id": "1379231264833536141",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-02T23:52:38.414+01:00",
+          "content": "how many high level games have you had where its correct to not build any drones? yeah not many like i thought"
+        },
+        {
+          "id": "1379231390947868854",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-02T23:53:08.482+01:00",
+          "content": "comapred to tarsier, drones are way too damn op"
+        },
+        {
+          "id": "1379231608296443936",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-06-02T23:54:00.302+01:00",
+          "content": "ah how I miss mata shitposts\n\nty"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-06-03T03:43:17.701+01:00",
+      "end_ts": "2025-06-03T03:43:17.701+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-06-03) ---\n[2025-06-03 03:43] spiritfryer (Spyrfyr): there are degen t1 animus sets courtesy of smorcus",
+      "messages": [
+        {
+          "id": "1379289311010230313",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-06-03T03:43:17.701+01:00",
+          "content": "there are degen t1 animus sets courtesy of smorcus"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-06-03T18:59:50.051+01:00",
+      "end_ts": "2025-06-03T19:10:00.506+01:00",
+      "participants": [
+        "homander_",
+        "pikachumemes."
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (28 messages, 2025-06-03) ---\n[2025-06-03 18:59] pikachumemes. (Pikachu Memes): I'm not sure it's correct to ignore drones in such sets--some of the point of smorcus is that it's a red sink, allowing you get drones and blastforge\n[2025-06-03 18:59] homander_ (homander): Even when you can afford drone\n[2025-06-03 19:00] homander_ (homander): Like you have exactly 3 gold 1 energy\n[2025-06-03 19:00] pikachumemes. (Pikachu Memes): i mean in the opening\n[2025-06-03 19:00] homander_ (homander): You still just buy the 2 gold wild\n[2025-06-03 19:00] pikachumemes. (Pikachu Memes): the first turn of the game\n[2025-06-03 19:00] pikachumemes. (Pikachu Memes): isnt that committing to iceblade too early\n[2025-06-03 19:00] homander_ (homander): No in some sets it's OP\n[2025-06-03 19:01] homander_ (homander): Especially if you have a support unit like militia or something\n[2025-06-03 19:02] homander_ (homander): I frequently win games with it\n[2025-06-03 19:02] homander_ (homander): I love wild spam ice blade\n[2025-06-03 19:03] pikachumemes. (Pikachu Memes): id think militia would be a counter to iceblade\n[2025-06-03 19:03] pikachumemes. (Pikachu Memes): but if it works it works\n[2025-06-03 19:03] homander_ (homander): Militia is a potato it's not a great counter to anything\n[2025-06-03 19:03] pikachumemes. (Pikachu Memes): well... it's a breachproof attacker\n[2025-06-03 19:04] homander_ (homander): It's like spamming steel splitters though\n[2025-06-03 19:05] pikachumemes. (Pikachu Memes): i actually beat a guy by spamming the 5B unit vs ice blade\n[2025-06-03 19:05] pikachumemes. (Pikachu Memes): was a very silly game\n[2025-06-03 19:07] pikachumemes. (Pikachu Memes): man now i remember why drone doesnt get powercrept\n[2025-06-03 19:08] pikachumemes. (Pikachu Memes): like the last time we acutally powercrept it with the old wild drone everyone lost their shit and the unit had to be rewored\n[2025-06-03 19:08] pikachumemes. (Pikachu Memes): (was the old wild drone really that bad to play with, come on lol)\n[2025-06-03 19:08] homander_ (homander): They had to nerf the old vivid as well\n[2025-06-03 19:09] homander_ (homander): Around the same time\n[2025-06-03 19:09] homander_ (homander): It was bad in some sets yes\n[2025-06-03 19:09] homander_ (homander): 5 gold 2e for two instant drones\n[2025-06-03 19:09] pikachumemes. (Pikachu Memes): is this not true for every prismata unit ever though\n[2025-06-03 19:09] homander_ (homander): Well it was very very bad in some sets\n[2025-06-03 19:10] homander_ (homander): It needed nerfed/reworked",
+      "messages": [
+        {
+          "id": "1379519965643935914",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T18:59:50.051+01:00",
+          "content": "I'm not sure it's correct to ignore drones in such sets--some of the point of smorcus is that it's a red sink, allowing you get drones and blastforge"
+        },
+        {
+          "id": "1379519996417544272",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T18:59:57.388+01:00",
+          "content": "Even when you can afford drone"
+        },
+        {
+          "id": "1379520069662539916",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:00:14.851+01:00",
+          "content": "Like you have exactly 3 gold 1 energy"
+        },
+        {
+          "id": "1379520092638806128",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:00:20.329+01:00",
+          "content": "i mean in the opening"
+        },
+        {
+          "id": "1379520098041204736",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:00:21.617+01:00",
+          "content": "You still just buy the 2 gold wild"
+        },
+        {
+          "id": "1379520118828044329",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:00:26.573+01:00",
+          "content": "the first turn of the game"
+        },
+        {
+          "id": "1379520195705438271",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:00:44.902+01:00",
+          "content": "isnt that committing to iceblade too early"
+        },
+        {
+          "id": "1379520231977783507",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:00:53.55+01:00",
+          "content": "No in some sets it's OP"
+        },
+        {
+          "id": "1379520292514304141",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:01:07.983+01:00",
+          "content": "Especially if you have a support unit like militia or something"
+        },
+        {
+          "id": "1379520689996042462",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:02:42.75+01:00",
+          "content": "I frequently win games with it"
+        },
+        {
+          "id": "1379520762188136538",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:02:59.962+01:00",
+          "content": "I love wild spam ice blade"
+        },
+        {
+          "id": "1379520792525803682",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:03:07.195+01:00",
+          "content": "id think militia would be a counter to iceblade"
+        },
+        {
+          "id": "1379520820031787140",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:03:13.753+01:00",
+          "content": "but if it works it works"
+        },
+        {
+          "id": "1379520875665166409",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:03:27.017+01:00",
+          "content": "Militia is a potato it's not a great counter to anything"
+        },
+        {
+          "id": "1379520973904023622",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:03:50.439+01:00",
+          "content": "well... it's a breachproof attacker"
+        },
+        {
+          "id": "1379521084679917579",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:04:16.85+01:00",
+          "content": "It's like spamming steel splitters though"
+        },
+        {
+          "id": "1379521279450939403",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:05:03.287+01:00",
+          "content": "i actually beat a guy by spamming the 5B unit vs ice blade"
+        },
+        {
+          "id": "1379521293539479782",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:05:06.646+01:00",
+          "content": "was a very silly game"
+        },
+        {
+          "id": "1379522005283508235",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:07:56.339+01:00",
+          "content": "man now i remember why drone doesnt get powercrept"
+        },
+        {
+          "id": "1379522086254542871",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:08:15.644+01:00",
+          "content": "like the last time we acutally powercrept it with the old wild drone everyone lost their shit and the unit had to be rewored"
+        },
+        {
+          "id": "1379522256262402218",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:08:56.177+01:00",
+          "content": "(was the old wild drone really that bad to play with, come on lol)"
+        },
+        {
+          "id": "1379522261090046153",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:08:57.328+01:00",
+          "content": "They had to nerf the old vivid as well"
+        },
+        {
+          "id": "1379522275052752917",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:09:00.657+01:00",
+          "content": "Around the same time"
+        },
+        {
+          "id": "1379522315166945360",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:09:10.221+01:00",
+          "content": "It was bad in some sets yes"
+        },
+        {
+          "id": "1379522396540899519",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:09:29.622+01:00",
+          "content": "5 gold 2e for two instant drones"
+        },
+        {
+          "id": "1379522405222977626",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-06-03T19:09:31.692+01:00",
+          "content": "is this not true for every prismata unit ever though"
+        },
+        {
+          "id": "1379522481194270851",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:09:49.805+01:00",
+          "content": "Well it was very very bad in some sets"
+        },
+        {
+          "id": "1379522526077653082",
+          "author": "homander_",
+          "nickname": "homander",
+          "timestamp": "2025-06-03T19:10:00.506+01:00",
+          "content": "It needed nerfed/reworked"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-06-04T01:15:47.02+01:00",
+      "end_ts": "2025-06-04T01:15:47.02+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-06-04) ---\n[2025-06-04 01:15] apooche: Old vivid and wild made openings more constrained and one-sided since you can’t get half of one of them, so the opener that more naturally got the good resource building was way ahead.",
+      "messages": [
+        {
+          "id": "1379614576429236244",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-06-04T01:15:47.02+01:00",
+          "content": "Old vivid and wild made openings more constrained and one-sided since you can’t get half of one of them, so the opener that more naturally got the good resource building was way ahead."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-07-02T23:19:45.392+01:00",
+      "end_ts": "2025-07-02T23:21:07.123+01:00",
+      "participants": [
+        "cale"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2025-07-02) ---\n[2025-07-02 23:19] cale: lol, I've been playing a few bot games to relax lately, and just noticed that I recently got the Swift Victory (defeat Basic Bot honourably in 10 turns or less) achievement on Steam. Turns out I got it vs. Master Bot in a game where it foolishly rushed a Tia Thurnax to which I comfortably replied Protoplasm into Tia Thurnax\n[2025-07-02 23:21] cale: (I've been picking up lots of achievements I didn't have because I used to always play on the web client)",
+      "messages": [
+        {
+          "id": "1390094625347207199",
+          "author": "cale",
+          "nickname": "Cale",
+          "timestamp": "2025-07-02T23:19:45.392+01:00",
+          "content": "lol, I've been playing a few bot games to relax lately, and just noticed that I recently got the Swift Victory (defeat Basic Bot honourably in 10 turns or less) achievement on Steam. Turns out I got it vs. Master Bot in a game where it foolishly rushed a Tia Thurnax to which I comfortably replied Protoplasm into Tia Thurnax"
+        },
+        {
+          "id": "1390094968151998615",
+          "author": "cale",
+          "nickname": "Cale",
+          "timestamp": "2025-07-02T23:21:07.123+01:00",
+          "content": "(I've been picking up lots of achievements I didn't have because I used to always play on the web client)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-07-03T07:56:54.741+01:00",
+      "end_ts": "2025-07-03T07:56:54.741+01:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2025-07-03) ---\n[2025-07-03 07:56] amalloy: i wouldn't say it rushed Tia, since it was spewing off Guass Charges and Rhinos for no reason for a while first. i'd say you were well ahead before the bot committed to Tia, but the Proto into Tia with Fission providing the green was a cool defense. your second Fission seems quite brave to me - i would have just built two engis. but if you'd mathed it out and saw you were winning either way, sure",
+      "messages": [
+        {
+          "id": "1390224771869970462",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2025-07-03T07:56:54.741+01:00",
+          "content": "i wouldn't say it rushed Tia, since it was spewing off Guass Charges and Rhinos for no reason for a while first. i'd say you were well ahead before the bot committed to Tia, but the Proto into Tia with Fission providing the green was a cool defense. your second Fission seems quite brave to me - i would have just built two engis. but if you'd mathed it out and saw you were winning either way, sure"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-07-03T21:31:28.858+01:00",
+      "end_ts": "2025-07-03T21:31:28.858+01:00",
+      "participants": [
+        "surfinite"
+      ],
+      "replay_codes": [
+        "Atfoj-PFtWf"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-07-03) ---\n[2025-07-03 21:31] surfinite: I don't have a good mind for analysis right now.  I feel like I should have been able to squeeze out a win here.  If someone cares to take a look would you mind letting me know if and how it was possible please.\nAtfoj-PFtWf\n\nI was basically playing vibes Prismata",
+      "messages": [
+        {
+          "id": "1390429764774400021",
+          "author": "surfinite",
+          "nickname": "Surfinite",
+          "timestamp": "2025-07-03T21:31:28.858+01:00",
+          "content": "I don't have a good mind for analysis right now.  I feel like I should have been able to squeeze out a win here.  If someone cares to take a look would you mind letting me know if and how it was possible please.\nAtfoj-PFtWf\n\nI was basically playing vibes Prismata"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-07-04T16:49:43.687+01:00",
+      "end_ts": "2025-07-04T16:49:43.687+01:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2025-07-04) ---\n[2025-07-04 16:49] amalloy: yeah, tia a turn later looks winning. if your tia's not absorbing 3, and opponent isn't threatening their own tia, you're usually better off delaying it and building more attack to support it. you could even TTG instead of tia, making sure polywall that turn is really awful. i'm not sure that's the best line; maybe something normal like tarsier + feral + cybe",
+      "messages": [
+        {
+          "id": "1390721247213650034",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2025-07-04T16:49:43.687+01:00",
+          "content": "yeah, tia a turn later looks winning. if your tia's not absorbing 3, and opponent isn't threatening their own tia, you're usually better off delaying it and building more attack to support it. you could even TTG instead of tia, making sure polywall that turn is really awful. i'm not sure that's the best line; maybe something normal like tarsier + feral + cybe"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-07-25T01:34:52.176+01:00",
+      "end_ts": "2025-07-25T01:34:52.176+01:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-07-25) ---\n[2025-07-25 01:34] .holyfire (Holy-Fire): When you have a sentinel which would just be absorbed if clicked, is it considered better to click for the engi or save the stamina?",
+      "messages": [
+        {
+          "id": "1398101160707227762",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-07-25T01:34:52.176+01:00",
+          "content": "When you have a sentinel which would just be absorbed if clicked, is it considered better to click for the engi or save the stamina?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-07-25T01:37:54.491+01:00",
+      "end_ts": "2025-07-25T01:37:54.491+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2025-07-25) ---\n[2025-07-25 01:37] silentslayers: Most of the time the tempo is high enough that clicking it is better than saving a stamina imo. If you’re max stamina it’s also a lot easier to justify attacking too.",
+      "messages": [
+        {
+          "id": "1398101925391503562",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2025-07-25T01:37:54.491+01:00",
+          "content": "Most of the time the tempo is high enough that clicking it is better than saving a stamina imo. If you’re max stamina it’s also a lot easier to justify attacking too."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-07-29T00:03:24.358+01:00",
+      "end_ts": "2025-07-29T00:04:55.173+01:00",
+      "participants": [
+        "pikachumemes."
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (5 messages, 2025-07-29) ---\n[2025-07-29 00:03] pikachumemes. (Pikachu Memes): 1 atk vs 1 engineer is about the same\n[2025-07-29 00:03] pikachumemes. (Pikachu Memes): which means its usually better to hold\n[2025-07-29 00:03] pikachumemes. (Pikachu Memes): like would u rather have 2 gold or 1 atk\n[2025-07-29 00:03] pikachumemes. (Pikachu Memes): (e.g. how often are you clicking auride core)\n[2025-07-29 00:04] pikachumemes. (Pikachu Memes): but the 1tk is delayed until sentinel runs out and even then its the turn after since the 3 soak is meaningful",
+      "messages": [
+        {
+          "id": "1399527694592507944",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-07-29T00:03:24.358+01:00",
+          "content": "1 atk vs 1 engineer is about the same"
+        },
+        {
+          "id": "1399527738208948245",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-07-29T00:03:34.757+01:00",
+          "content": "which means its usually better to hold"
+        },
+        {
+          "id": "1399527799122956328",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-07-29T00:03:49.28+01:00",
+          "content": "like would u rather have 2 gold or 1 atk"
+        },
+        {
+          "id": "1399527827375788032",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-07-29T00:03:56.016+01:00",
+          "content": "(e.g. how often are you clicking auride core)"
+        },
+        {
+          "id": "1399528075498356939",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2025-07-29T00:04:55.173+01:00",
+          "content": "but the 1tk is delayed until sentinel runs out and even then its the turn after since the 3 soak is meaningful"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-08-06T15:05:01.715+01:00",
+      "end_ts": "2025-08-06T15:05:01.715+01:00",
+      "participants": [
+        "liquideggproduct"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-08-06) ---\n[2025-08-06 15:05] liquideggproduct (Liquid Egg Product): Fascinating how highly MB rates Patroller. It will absorb on Patroller over Splitter and Doomed Wall!",
+      "messages": [
+        {
+          "id": "1402653698278162464",
+          "author": "liquideggproduct",
+          "nickname": "Liquid Egg Product",
+          "timestamp": "2025-08-06T15:05:01.715+01:00",
+          "content": "Fascinating how highly MB rates Patroller. It will absorb on Patroller over Splitter and Doomed Wall!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-08-06T17:44:14.429+01:00",
+      "end_ts": "2025-08-06T17:44:14.429+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2025-08-06) ---\n[2025-08-06 17:44] apooche: Because it costs more",
+      "messages": [
+        {
+          "id": "1402693765264838777",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-08-06T17:44:14.429+01:00",
+          "content": "Because it costs more"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-08-10T03:19:19.257+01:00",
+      "end_ts": "2025-08-10T03:19:19.257+01:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (1 messages, 2025-08-10) ---\n[2025-08-10 03:19] .holyfire (Holy-Fire): I've just encountered something super weird. Simply put, given the choice between soaking on wall or steelsplitter, Q-defense tried to soak on steelsplitter.\n\nQ-defense has issues with some specific units, but overall it does a good job. I don't recall ever encountering something like this. Does anyone?\n\nI should point out that if I start by clicking a rhino and then hit Q, it soaks on wall instead. It seems that something about this particular combination of defenders (wall, FF, 2 Rhinos, all prompt; steelsplitter, infusion grid) confuses it.",
+      "messages": [
+        {
+          "id": "1403925652599607388",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-08-10T03:19:19.257+01:00",
+          "content": "I've just encountered something super weird. Simply put, given the choice between soaking on wall or steelsplitter, Q-defense tried to soak on steelsplitter.\n\nQ-defense has issues with some specific units, but overall it does a good job. I don't recall ever encountering something like this. Does anyone?\n\nI should point out that if I start by clicking a rhino and then hit Q, it soaks on wall instead. It seems that something about this particular combination of defenders (wall, FF, 2 Rhinos, all prompt; steelsplitter, infusion grid) confuses it."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-08-10T03:25:05.311+01:00",
+      "end_ts": "2025-08-10T03:25:05.311+01:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [
+        "5VnVG-XG@fB"
+      ],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2025-08-10) ---\n[2025-08-10 03:25] .holyfire (Holy-Fire): Replay code: 5VnVG-XG@fB",
+      "messages": [
+        {
+          "id": "1403927104055279766",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2025-08-10T03:25:05.311+01:00",
+          "content": "Replay code: 5VnVG-XG@fB"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-08-10T10:32:56.208+01:00",
+      "end_ts": "2025-08-10T10:32:56.208+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2025-08-10) ---\n[2025-08-10 10:32] apooche: Way back in the day we used to find issues like that and Elyot would patch them. I’m surprised something like that is still in the game, it must be a rare case.",
+      "messages": [
+        {
+          "id": "1404034775601254440",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2025-08-10T10:32:56.208+01:00",
+          "content": "Way back in the day we used to find issues like that and Elyot would patch them. I’m surprised something like that is still in the game, it must be a rare case."
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-08-22T23:55:28.119+01:00",
+      "end_ts": "2025-08-22T23:56:35.695+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (2 messages, 2025-08-22) ---\n[2025-08-22 23:55] spiritfryer (Spyrfyr): could also solve it clean for the existing set of units and their stats (and consider updating the solution if stats change or new units are introduced), with fallback to the heuristics version if the set is different\n[2025-08-22 23:56] spiritfryer (Spyrfyr): but that's kinda hindsight I guess, expecting rare (or no) unit updates",
+      "messages": [
+        {
+          "id": "1408585393741500649",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-08-22T23:55:28.119+01:00",
+          "content": "could also solve it clean for the existing set of units and their stats (and consider updating the solution if stats change or new units are introduced), with fallback to the heuristics version if the set is different"
+        },
+        {
+          "id": "1408585677175783504",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-08-22T23:56:35.695+01:00",
+          "content": "but that's kinda hindsight I guess, expecting rare (or no) unit updates"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-09-03T06:30:03.12+01:00",
+      "end_ts": "2025-09-03T06:30:35.016+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (2 messages, 2025-09-03) ---\n[2025-09-03 06:30] spiritfryer (Spyrfyr): idk where Elyot communicated last about it, whether it was on some stream, or here\n\ncan't find relevant messages on a quick search here though\n\nbut from what I recall, most gameplay/puzzles were done but some dialogue still had to be completed or smth like that?\n[2025-09-03 06:30] spiritfryer (Spyrfyr): don't quote me on that though, could be misremembering or could have misunderstood at the time",
+      "messages": [
+        {
+          "id": "1412670960414228621",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-09-03T06:30:03.12+01:00",
+          "content": "idk where Elyot communicated last about it, whether it was on some stream, or here\n\ncan't find relevant messages on a quick search here though\n\nbut from what I recall, most gameplay/puzzles were done but some dialogue still had to be completed or smth like that?"
+        },
+        {
+          "id": "1412671094195884114",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-09-03T06:30:35.016+01:00",
+          "content": "don't quote me on that though, could be misremembering or could have misunderstood at the time"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-09-03T19:30:54.162+01:00",
+      "end_ts": "2025-09-03T19:30:54.162+01:00",
+      "participants": [
+        "liquideggproduct"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2025-09-03) ---\n[2025-09-03 19:30] liquideggproduct (Liquid Egg Product): It seemed pretty clear a couple years ago that the campaign isn't going to be completed. Unless something has changed since Jun 2023\n\nhttps://discord.com/channels/112616041175089152/119275839652102145/1121556953206886540",
+      "messages": [
+        {
+          "id": "1412867467927355575",
+          "author": "liquideggproduct",
+          "nickname": "Liquid Egg Product",
+          "timestamp": "2025-09-03T19:30:54.162+01:00",
+          "content": "It seemed pretty clear a couple years ago that the campaign isn't going to be completed. Unless something has changed since Jun 2023\n\nhttps://discord.com/channels/112616041175089152/119275839652102145/1121556953206886540"
+        }
+      ]
+    },
+    {
+      "start_ts": "2025-09-04T14:28:31.662+01:00",
+      "end_ts": "2025-09-04T14:30:14.163+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (2 messages, 2025-09-04) ---\n[2025-09-04 14:28] spiritfryer (Spyrfyr): BEHOLD! MY 1 RECTIFIER! SUBMIT OR...\n\n-# laugh in :Wall: and outecon me...?!\n[2025-09-04 14:30] spiritfryer (Spyrfyr): btw I love how replay codes are this Loonark marketing magic that drive (me at least) to open the game thereby boosting playerbase stats\n-# (dedgaem either way ofc, but still)",
+      "messages": [
+        {
+          "id": "1413153760632504411",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-09-04T14:28:31.662+01:00",
+          "content": "BEHOLD! MY 1 RECTIFIER! SUBMIT OR...\n\n-# laugh in :Wall: and outecon me...?!"
+        },
+        {
+          "id": "1413154190552731680",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2025-09-04T14:30:14.163+01:00",
+          "content": "btw I love how replay codes are this Loonark marketing magic that drive (me at least) to open the game thereby boosting playerbase stats\n-# (dedgaem either way ofc, but still)"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2858 @@
+{
+  "channel": "ask_a_dev",
+  "date_range": "2018-09-02 to 2019-03-15",
+  "thread_count": 93,
+  "token_count": 14649,
+  "threads": [
+    {
+      "start_ts": "2018-09-02T23:56:40.351+01:00",
+      "end_ts": "2018-09-02T23:56:40.351+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-09-02) ---\n[2018-09-02 23:56] apooche: @Elyot thoughts on this situation: if I chill some enemy units, then breach, and then spend damage on a chilled defender, I am allowed to unclick my chill units that are chilling that defender (this is good). However, this unclick is a non-redoable undo. I can use backspace to reapply the chill to that unit, but I can't reapply the chill normally; the error message says `There are no legal targets.`\n\nI kind of feel like I'd rather be able to chill my opponent's breached defenders whenever so that I can undo the damage on them and apply it to other stuff without having to undo the entire breach. But I can see that this user interface is unintuitive to a new player. Maybe you should be allowed to chill (or snipe) a breached defender and have that automatically un-apply the damage you are using on it? I'm asking here because I know you have a bit of a philosophy on what should be undoable, and this feels like the existing implementation might be an exception to that.",
+      "messages": [
+        {
+          "id": "485946190886600725",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-09-02T23:56:40.351+01:00",
+          "content": "@Elyot thoughts on this situation: if I chill some enemy units, then breach, and then spend damage on a chilled defender, I am allowed to unclick my chill units that are chilling that defender (this is good). However, this unclick is a non-redoable undo. I can use backspace to reapply the chill to that unit, but I can't reapply the chill normally; the error message says `There are no legal targets.`\n\nI kind of feel like I'd rather be able to chill my opponent's breached defenders whenever so that I can undo the damage on them and apply it to other stuff without having to undo the entire breach. But I can see that this user interface is unintuitive to a new player. Maybe you should be allowed to chill (or snipe) a breached defender and have that automatically un-apply the damage you are using on it? I'm asking here because I know you have a bit of a philosophy on what should be undoable, and this feels like the existing implementation might be an exception to that."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-03T05:20:44.015+01:00",
+      "end_ts": "2018-09-03T05:25:33.396+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 34,
+      "formatted_text": "--- Thread (6 messages, 2018-09-03) ---\n[2018-09-03 05:20] elyot: @Will Ma would be the one to best answer that question, but my default opinion is, \"why not I guess\"\n[2018-09-03 05:21] elyot: But this is the type of thing that's so minor that I don't think it will become a priority for a long time\n[2018-09-03 05:21] elyot: Maybe it's an easy change? The problem is that it might require a lot of complicated testing\n[2018-09-03 05:22] elyot: It might also have some unintended consequences, like maybe the luckclick bot suddenly starts doing stupid things with chill, idk\n[2018-09-03 05:24] elyot: generally on these sort of subtle, nuanced decisions, I trust will's current implementation\n[2018-09-03 05:25] elyot: Can you explain more about the benefit to what you're proposing? Is it mostly a blitz thing? Or just a shortcut that you would use in a typical game? Is there a case where this might come up a lot? Like I guess when you blow an endotherm and you're trying to decide whether to like, kill a splitter or freeze it and kill something else instead?",
+      "messages": [
+        {
+          "id": "486027743524290560",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-03T05:20:44.015+01:00",
+          "content": "@Will Ma would be the one to best answer that question, but my default opinion is, \"why not I guess\""
+        },
+        {
+          "id": "486027859375423508",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-03T05:21:11.636+01:00",
+          "content": "But this is the type of thing that's so minor that I don't think it will become a priority for a long time"
+        },
+        {
+          "id": "486027978170695681",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-03T05:21:39.959+01:00",
+          "content": "Maybe it's an easy change? The problem is that it might require a lot of complicated testing"
+        },
+        {
+          "id": "486028108567150593",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-03T05:22:11.048+01:00",
+          "content": "It might also have some unintended consequences, like maybe the luckclick bot suddenly starts doing stupid things with chill, idk"
+        },
+        {
+          "id": "486028639637340161",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-03T05:24:17.665+01:00",
+          "content": "generally on these sort of subtle, nuanced decisions, I trust will's current implementation"
+        },
+        {
+          "id": "486028957276176385",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-03T05:25:33.396+01:00",
+          "content": "Can you explain more about the benefit to what you're proposing? Is it mostly a blitz thing? Or just a shortcut that you would use in a typical game? Is there a case where this might come up a lot? Like I guess when you blow an endotherm and you're trying to decide whether to like, kill a splitter or freeze it and kill something else instead?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-03T07:24:00.851+01:00",
+      "end_ts": "2018-09-03T07:24:00.851+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-09-03) ---\n[2018-09-03 07:24] apooche: no, this was more of a philosophical question that came up in analysis. I just noticed that there was an action that could be only done with the undo button, which is pretty rare in the game. it would definitely be pretty minor, and loses a lot of its usefulness by being unknown to most players (I think many players don't realize you can kill a unit to un-chill it without undoing breach already). The benefit would mostly be in iterating on how to apply damage and chill on a complex board state. Often you want to go back and forth easily between two positions, but will chill breaches you have to undo a lot to do so.",
+      "messages": [
+        {
+          "id": "486058768103243797",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-09-03T07:24:00.851+01:00",
+          "content": "no, this was more of a philosophical question that came up in analysis. I just noticed that there was an action that could be only done with the undo button, which is pretty rare in the game. it would definitely be pretty minor, and loses a lot of its usefulness by being unknown to most players (I think many players don't realize you can kill a unit to un-chill it without undoing breach already). The benefit would mostly be in iterating on how to apply damage and chill on a complex board state. Often you want to go back and forth easily between two positions, but will chill breaches you have to undo a lot to do so."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-04T11:07:17.441+01:00",
+      "end_ts": "2018-09-04T11:15:04.212+01:00",
+      "participants": [
+        "sonoja",
+        "zezetel"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-09-04) ---\n[2018-09-04 11:07] sonoja: @Elyot Will we have some lore about legendary units at some point in the campaign or elsewhere ? I guess Tia Thurnax, Arka Sodara or Vai Mauronax must have interesting backstories 😃\n[2018-09-04 11:15] zezetel: arka is in the campaign right",
+      "messages": [
+        {
+          "id": "486477345339867153",
+          "author": "sonoja",
+          "nickname": "sonoja",
+          "timestamp": "2018-09-04T11:07:17.441+01:00",
+          "content": "@Elyot Will we have some lore about legendary units at some point in the campaign or elsewhere ? I guess Tia Thurnax, Arka Sodara or Vai Mauronax must have interesting backstories 😃"
+        },
+        {
+          "id": "486479303119208449",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-09-04T11:15:04.212+01:00",
+          "content": "arka is in the campaign right"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-04T11:52:09.18+01:00",
+      "end_ts": "2018-09-04T11:52:09.18+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-09-04) ---\n[2018-09-04 11:52] elyot: @sonoja yes there will be some lore",
+      "messages": [
+        {
+          "id": "486488635311390720",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-04T11:52:09.18+01:00",
+          "content": "@sonoja yes there will be some lore"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-04T17:02:50.191+01:00",
+      "end_ts": "2018-09-04T17:04:26.311+01:00",
+      "participants": [
+        "cachotognax",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2018-09-04) ---\n[2018-09-04 17:02] cachotognax: @Elyot how's the translation support going? I applied but recived no messages, still in progress? Found someone cheaper?\n[2018-09-04 17:03] elyot: no we're still actually dealing with bugs, we'll reach out once the deploy happens\n[2018-09-04 17:04] cachotognax: thank you, I just wanted to know, I'm a patient guy.",
+      "messages": [
+        {
+          "id": "486566821378523136",
+          "author": "cachotognax",
+          "nickname": "CachoTognax",
+          "timestamp": "2018-09-04T17:02:50.191+01:00",
+          "content": "@Elyot how's the translation support going? I applied but recived no messages, still in progress? Found someone cheaper?"
+        },
+        {
+          "id": "486566963166838784",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-04T17:03:23.996+01:00",
+          "content": "no we're still actually dealing with bugs, we'll reach out once the deploy happens"
+        },
+        {
+          "id": "486567224535154691",
+          "author": "cachotognax",
+          "nickname": "CachoTognax",
+          "timestamp": "2018-09-04T17:04:26.311+01:00",
+          "content": "thank you, I just wanted to know, I'm a patient guy."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-08T18:38:16.823+01:00",
+      "end_ts": "2018-09-08T18:38:16.823+01:00",
+      "participants": [
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-09-08) ---\n[2018-09-08 18:38] mrguy888: can we do a poll about forcing p2 to always be red? i liked how the pixie one turned out",
+      "messages": [
+        {
+          "id": "488040392076558356",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-09-08T18:38:16.823+01:00",
+          "content": "can we do a poll about forcing p2 to always be red? i liked how the pixie one turned out"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-09T02:56:50.847+01:00",
+      "end_ts": "2018-09-09T02:57:12.224+01:00",
+      "participants": [
+        "ruinedshadows"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2018-09-09) ---\n[2018-09-09 02:56] ruinedshadows: also, is there a way to preserve chat between switching languages/chats?\n[2018-09-09 02:57] ruinedshadows: and maybe message history with people too?\n[2018-09-09 02:57] ruinedshadows: I realize that may not be a priority though",
+      "messages": [
+        {
+          "id": "488165860586815536",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-09-09T02:56:50.847+01:00",
+          "content": "also, is there a way to preserve chat between switching languages/chats?"
+        },
+        {
+          "id": "488165915414888448",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-09-09T02:57:03.919+01:00",
+          "content": "and maybe message history with people too?"
+        },
+        {
+          "id": "488165950248714262",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-09-09T02:57:12.224+01:00",
+          "content": "I realize that may not be a priority though"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-09T08:40:19.77+01:00",
+      "end_ts": "2018-09-09T08:43:44.96+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 20,
+      "formatted_text": "--- Thread (6 messages, 2018-09-09) ---\n[2018-09-09 08:40] elyot: @Arkanishu Stream got moved to next morning cuz I ended up having to do a ton of bizdev stuff all afternoon. Stepmania is just me at the gym dude. 😃\n[2018-09-09 08:40] elyot: @Wilson We'll put in a bunch more, they're just for testing, we have fonts for chinese, russian, and all the latin ones\n[2018-09-09 08:41] elyot: @ruinedshadows Preserving chat history I think we can do, as long as server doesn't have to have any memory of it, should be fine. So like, we can retain all messages you received since logging in, but not before that\n[2018-09-09 08:42] elyot: Switching languages does a logout/login but switching chats does not\n[2018-09-09 08:42] Deleted User (Deleted User): What about having access to different language chats to your option language\n[2018-09-09 08:43] Deleted User (Deleted User): That was the one thing about say having it in french that only 1 kid is in your server",
+      "messages": [
+        {
+          "id": "488252300675121152",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-09T08:40:19.77+01:00",
+          "content": "@Arkanishu Stream got moved to next morning cuz I ended up having to do a ton of bizdev stuff all afternoon. Stepmania is just me at the gym dude. 😃"
+        },
+        {
+          "id": "488252435488571403",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-09T08:40:51.912+01:00",
+          "content": "@Wilson We'll put in a bunch more, they're just for testing, we have fonts for chinese, russian, and all the latin ones"
+        },
+        {
+          "id": "488252678342836226",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-09T08:41:49.813+01:00",
+          "content": "@ruinedshadows Preserving chat history I think we can do, as long as server doesn't have to have any memory of it, should be fine. So like, we can retain all messages you received since logging in, but not before that"
+        },
+        {
+          "id": "488252748861800459",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-09T08:42:06.626+01:00",
+          "content": "Switching languages does a logout/login but switching chats does not"
+        },
+        {
+          "id": "488252805149360128",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-09-09T08:42:20.046+01:00",
+          "content": "What about having access to different language chats to your option language"
+        },
+        {
+          "id": "488253161304358932",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-09-09T08:43:44.96+01:00",
+          "content": "That was the one thing about say having it in french that only 1 kid is in your server"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-10T03:39:11.985+01:00",
+      "end_ts": "2018-09-10T03:39:11.985+01:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-09-10) ---\n[2018-09-10 03:39] amalloy: is it intended for any of the puzzle solutions to depend on misplays by the AI?",
+      "messages": [
+        {
+          "id": "488538906757824522",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-09-10T03:39:11.985+01:00",
+          "content": "is it intended for any of the puzzle solutions to depend on misplays by the AI?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-10T04:17:19.792+01:00",
+      "end_ts": "2018-09-10T04:18:12.861+01:00",
+      "participants": [
+        "amalloy",
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (3 messages, 2018-09-10) ---\n[2018-09-10 04:17] shadourow (Rando): If by misplay you mean killing an useless Tesla Coil then no\n[2018-09-10 04:17] amalloy: i was thinking of the tia puzzle\n[2018-09-10 04:18] shadourow (Rando): That's intended, indeed",
+      "messages": [
+        {
+          "id": "488548502516006935",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-09-10T04:17:19.792+01:00",
+          "content": "If by misplay you mean killing an useless Tesla Coil then no"
+        },
+        {
+          "id": "488548541363388421",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-09-10T04:17:29.054+01:00",
+          "content": "i was thinking of the tia puzzle"
+        },
+        {
+          "id": "488548725103394828",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-09-10T04:18:12.861+01:00",
+          "content": "That's intended, indeed"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-10T15:26:28.426+01:00",
+      "end_ts": "2018-09-10T15:27:09.533+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (2 messages, 2018-09-10) ---\n[2018-09-10 15:26] elyot: @Deleted User You can change chats by clicking the little arrow next to the top of chat. We'll be splitting up some of them if they get too crowded too, like english chat 1/2/3/etc.. But it will place you in a default one based on language\n[2018-09-10 15:27] elyot: @amalloy If the AI makes a mistake in a puzzle, send a bug report and we'll look into it. All of the puzzles should be beatable without AI mistakes, except there are some missions where the AI plays a specific opening (like xelgudu and giselle) that's rigged",
+      "messages": [
+        {
+          "id": "488716898092056587",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-10T15:26:28.426+01:00",
+          "content": "@Deleted User You can change chats by clicking the little arrow next to the top of chat. We'll be splitting up some of them if they get too crowded too, like english chat 1/2/3/etc.. But it will place you in a default one based on language"
+        },
+        {
+          "id": "488717070507180034",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-10T15:27:09.533+01:00",
+          "content": "@amalloy If the AI makes a mistake in a puzzle, send a bug report and we'll look into it. All of the puzzles should be beatable without AI mistakes, except there are some missions where the AI plays a specific opening (like xelgudu and giselle) that's rigged"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-10T20:32:08.663+01:00",
+      "end_ts": "2018-09-10T20:32:08.663+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-09-10) ---\n[2018-09-10 20:32] apooche: There is definitely one that relies on AI mistake by design (acknowledged in the post mission tip)",
+      "messages": [
+        {
+          "id": "488793822621335553",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-09-10T20:32:08.663+01:00",
+          "content": "There is definitely one that relies on AI mistake by design (acknowledged in the post mission tip)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-10T23:57:52.351+01:00",
+      "end_ts": "2018-09-10T23:57:52.351+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-09-10) ---\n[2018-09-10 23:57] elyot: For Tia Enigma, I agree that it should be specified that the enemy always attacks",
+      "messages": [
+        {
+          "id": "488845595801419805",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-10T23:57:52.351+01:00",
+          "content": "For Tia Enigma, I agree that it should be specified that the enemy always attacks"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-11T16:27:06.307+01:00",
+      "end_ts": "2018-09-11T16:27:06.307+01:00",
+      "participants": [
+        "sorawotobu"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-09-11) ---\n[2018-09-11 16:27] sorawotobu: do you have any idea what causes the queue disconnect bug, ie the bug that makes it appear to you as though you were still in queue when in reality you got an autoloss minutes ago? that one's been in the game for a few months now and continues to frustrate me greatly.",
+      "messages": [
+        {
+          "id": "489094544336355338",
+          "author": "sorawotobu",
+          "nickname": "sorawotobu",
+          "timestamp": "2018-09-11T16:27:06.307+01:00",
+          "content": "do you have any idea what causes the queue disconnect bug, ie the bug that makes it appear to you as though you were still in queue when in reality you got an autoloss minutes ago? that one's been in the game for a few months now and continues to frustrate me greatly."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-12T19:34:28.131+01:00",
+      "end_ts": "2018-09-12T19:37:31.448+01:00",
+      "participants": [
+        "inasyn",
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-09-12) ---\n[2018-09-12 19:34] p0lari (Polari): are there plans to add any kind of a flashy high end blastforge skin to the game?\n[2018-09-12 19:37] inasyn: Is the game dying to any extend? I did hear the playerbase currently is as big as the discord server if not smaller when it comes to active players.",
+      "messages": [
+        {
+          "id": "489504083829456906",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-09-12T19:34:28.131+01:00",
+          "content": "are there plans to add any kind of a flashy high end blastforge skin to the game?"
+        },
+        {
+          "id": "489504852716814348",
+          "author": "inasyn",
+          "nickname": "Inasyn",
+          "timestamp": "2018-09-12T19:37:31.448+01:00",
+          "content": "Is the game dying to any extend? I did hear the playerbase currently is as big as the discord server if not smaller when it comes to active players."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-13T22:54:39.875+01:00",
+      "end_ts": "2018-09-13T23:04:56.554+01:00",
+      "participants": [
+        "1m2o",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 36,
+      "formatted_text": "--- Thread (7 messages, 2018-09-13) ---\n[2018-09-13 22:54] 1m2o: @Elyot https://www.twitch.tv/videos/309636507?t=02h39m42s another bug when you leave someone who you spectate the moment you get queue pop\nExplaining what i don't understand #prismataThings\nthe1m2o - Prismata - Twitch\n[2018-09-13 22:59] elyot: saw that, I'll take a look.\n[2018-09-13 23:00] elyot: @jelly czech is definitely not a language we would pay for professional translation into, so if any fans or players would like to help contribute, we'd certainly be grateful!\n[2018-09-13 23:02] elyot: @sorawotobu I know of one such bug that was fixed recently, are you still having that issue? Can you report it when it happens so we have a timestamp and other info?\n[2018-09-13 23:03] elyot: @Phin not that easy to add because of the way our database stores replays, but we'll think about it. I know a way to do it that isn't hard but it's definitely not a priority right now.\n[2018-09-13 23:04] elyot: @Polari Hmm... we'll think about it. New skins are coming at some point after f2p launch\n[2018-09-13 23:04] elyot: @Inasyn Game isn't even out yet! We're going free-to-play in a few weeks and we'll be doing a lot of advertising then, full release q1 next year",
+      "messages": [
+        {
+          "id": "489916852600963094",
+          "author": "1m2o",
+          "nickname": "1m2o",
+          "timestamp": "2018-09-13T22:54:39.875+01:00",
+          "content": "@Elyot https://www.twitch.tv/videos/309636507?t=02h39m42s another bug when you leave someone who you spectate the moment you get queue pop\nExplaining what i don't understand #prismataThings\nthe1m2o - Prismata - Twitch"
+        },
+        {
+          "id": "489918149928681473",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-13T22:59:49.182+01:00",
+          "content": "saw that, I'll take a look."
+        },
+        {
+          "id": "489918365515644931",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-13T23:00:40.582+01:00",
+          "content": "@jelly czech is definitely not a language we would pay for professional translation into, so if any fans or players would like to help contribute, we'd certainly be grateful!"
+        },
+        {
+          "id": "489918814750769152",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-13T23:02:27.688+01:00",
+          "content": "@sorawotobu I know of one such bug that was fixed recently, are you still having that issue? Can you report it when it happens so we have a timestamp and other info?"
+        },
+        {
+          "id": "489919145417113627",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-13T23:03:46.525+01:00",
+          "content": "@Phin not that easy to add because of the way our database stores replays, but we'll think about it. I know a way to do it that isn't hard but it's definitely not a priority right now."
+        },
+        {
+          "id": "489919246277672961",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-13T23:04:10.572+01:00",
+          "content": "@Polari Hmm... we'll think about it. New skins are coming at some point after f2p launch"
+        },
+        {
+          "id": "489919439140290580",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-13T23:04:56.554+01:00",
+          "content": "@Inasyn Game isn't even out yet! We're going free-to-play in a few weeks and we'll be doing a lot of advertising then, full release q1 next year"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-14T21:14:42.658+01:00",
+      "end_ts": "2018-09-14T21:14:42.658+01:00",
+      "participants": [
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-09-14) ---\n[2018-09-14 21:14] mrguy888: in chat l and I cannot be told apart but on the leaderboard they are easy to tell apart. In chat 0 and O are easy to tell apart but on leaderboard they cannot be. Why not use the same good font for both instead of 2 different bad fonts?",
+      "messages": [
+        {
+          "id": "490254086315311104",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-09-14T21:14:42.658+01:00",
+          "content": "in chat l and I cannot be told apart but on the leaderboard they are easy to tell apart. In chat 0 and O are easy to tell apart but on leaderboard they cannot be. Why not use the same good font for both instead of 2 different bad fonts?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-15T10:42:31.122+01:00",
+      "end_ts": "2018-09-15T10:42:51.247+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [
+        "dware-rende"
+      ],
+      "score": 12,
+      "formatted_text": "--- Thread (2 messages, 2018-09-15) ---\n[2018-09-15 10:42] elyot: @mrguy888 We need to use a hardware-rendered font for chat or it would be too slow. There aren't many options in flash, basically we have to use the built-in one.\n[2018-09-15 10:42] elyot: @star In theory yes, but it's undocumented and not really reasonable for a person to use",
+      "messages": [
+        {
+          "id": "490457377787871233",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-15T10:42:31.122+01:00",
+          "content": "@mrguy888 We need to use a hardware-rendered font for chat or it would be too slow. There aren't many options in flash, basically we have to use the built-in one."
+        },
+        {
+          "id": "490457462197977089",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-15T10:42:51.247+01:00",
+          "content": "@star In theory yes, but it's undocumented and not really reasonable for a person to use"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-15T20:53:35.626+01:00",
+      "end_ts": "2018-09-15T20:53:35.626+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-09-15) ---\n[2018-09-15 20:53] elyot: yeah actually we're thinking of adding that as an event",
+      "messages": [
+        {
+          "id": "490611159863656458",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-15T20:53:35.626+01:00",
+          "content": "yeah actually we're thinking of adding that as an event"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-19T01:45:57.402+01:00",
+      "end_ts": "2018-09-19T01:45:57.402+01:00",
+      "participants": [
+        "liquideggproduct"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-09-19) ---\n[2018-09-19 01:45] liquideggproduct (Liquid Egg Product): Was the lack of a black character in the campaign ever noted/discussed? This is not a question intended to be divisive or judgmental, but I am curious. It's easy to imagine it not being a factor with all the other factors necessary for a successful game launch.",
+      "messages": [
+        {
+          "id": "491771899001569280",
+          "author": "liquideggproduct",
+          "nickname": "Liquid Egg Product",
+          "timestamp": "2018-09-19T01:45:57.402+01:00",
+          "content": "Was the lack of a black character in the campaign ever noted/discussed? This is not a question intended to be divisive or judgmental, but I am curious. It's easy to imagine it not being a factor with all the other factors necessary for a successful game launch."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-19T10:28:23.28+01:00",
+      "end_ts": "2018-09-19T10:30:55.673+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-09-19) ---\n[2018-09-19 10:28] elyot: @Deleted User yeah it was because we forgot to tell the server about some languages, will be fixed in the restart today\n[2018-09-19 10:30] Deleted User (Deleted User): Potentially there could be a feature which is perhaps opt-in where you can have your name added to the list of peoples' names that pop up when kids type /users?",
+      "messages": [
+        {
+          "id": "491903373142917120",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-19T10:28:23.28+01:00",
+          "content": "@Deleted User yeah it was because we forgot to tell the server about some languages, will be fixed in the restart today"
+        },
+        {
+          "id": "491904012325617665",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-09-19T10:30:55.673+01:00",
+          "content": "Potentially there could be a feature which is perhaps opt-in where you can have your name added to the list of peoples' names that pop up when kids type /users?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-19T11:49:33.619+01:00",
+      "end_ts": "2018-09-19T11:51:23.259+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [
+        "arker-skinn",
+        "ostly-south",
+        "arker-skinn",
+        "ostly-afric"
+      ],
+      "score": 24,
+      "formatted_text": "--- Thread (3 messages, 2018-09-19) ---\n[2018-09-19 11:49] elyot: @Liquid Egg Product no shame in asking those questions. Without saying any spoilers, we have a darker-skinned mostly-south-asian character coming in a future chapter and a darker-skinned mostly-african character written into an expansion/sequel. People on Beacon are generally a bit pale because the sun has a lower colour temperature so there's less UV in the spectrum and humans wouldn't really tan much. You can probably calculate the colour temperature if you know the size of the sun and know a bit about atmospheric dynamics of tidally locked aquaplanets. There are also some plot-related reasons for the type of genetic diversity and distribution that exist in Beacon's population. We've had people say we're everything from nazi eugenicists to SJW propagandists but at the end of the day we're just doing what we feel is most appropriate for the story, we don't really make an effort to tick boxes or anything like that\n[2018-09-19 11:50] elyot: @Deleted User It's not really a feature that anybody would use, the reason it looked like that was because the server thought it was a custom chat instead of a global chat\n[2018-09-19 11:51] elyot: @Phin There are probably some small improvements that can be made with hard-coding, but master bot is written to be super general so that it works with new and rebalanced units, so it's tricky to improve in general. There is 1 research project I know of that's looking into it though!",
+      "messages": [
+        {
+          "id": "491923800825397277",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-19T11:49:33.619+01:00",
+          "content": "@Liquid Egg Product no shame in asking those questions. Without saying any spoilers, we have a darker-skinned mostly-south-asian character coming in a future chapter and a darker-skinned mostly-african character written into an expansion/sequel. People on Beacon are generally a bit pale because the sun has a lower colour temperature so there's less UV in the spectrum and humans wouldn't really tan much. You can probably calculate the colour temperature if you know the size of the sun and know a bit about atmospheric dynamics of tidally locked aquaplanets. There are also some plot-related reasons for the type of genetic diversity and distribution that exist in Beacon's population. We've had people say we're everything from nazi eugenicists to SJW propagandists but at the end of the day we're just doing what we feel is most appropriate for the story, we don't really make an effort to tick boxes or anything like that"
+        },
+        {
+          "id": "491924053649522688",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-19T11:50:33.897+01:00",
+          "content": "@Deleted User It's not really a feature that anybody would use, the reason it looked like that was because the server thought it was a custom chat instead of a global chat"
+        },
+        {
+          "id": "491924260689018880",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-19T11:51:23.259+01:00",
+          "content": "@Phin There are probably some small improvements that can be made with hard-coding, but master bot is written to be super general so that it works with new and rebalanced units, so it's tricky to improve in general. There is 1 research project I know of that's looking into it though!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-22T00:12:04.002+01:00",
+      "end_ts": "2018-09-22T00:19:32.8+01:00",
+      "participants": [
+        "elyot",
+        "sano712"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (4 messages, 2018-09-22) ---\n[2018-09-22 00:12] elyot: @Greyman Every language needs to ask this question, there are no strictly right or wrong answers, but we can change the default shortcuts based on the language if need be. I think having them all on the left hand is more important than having the name start with the same letter or having the same letter as english, but AZERTY and QWERTZ both have all the needed letters on the left so it should be OK to only worry about names and just try to get them to match if possible, otherwise use english name if it's cool-sounding in the language and make up a new name if not\n[2018-09-22 00:12] elyot: like it's ok to have a few \"pikachu\" names that are just borrowed fully from the original language but they shouldn't all be that way\n[2018-09-22 00:18] sano712 (sano): I'm torn on this. I definitely prefer maintaining the English names for units, but there are some units that simply have such a straightforward translation that it's weird not to translate (engineer, rhino), which leaves us with some units being translated and other not... Which feels inconsistent\n[2018-09-22 00:19] sano712 (sano): (talking specifically about Portuguese)",
+      "messages": [
+        {
+          "id": "492835434406346775",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-22T00:12:04.002+01:00",
+          "content": "@Greyman Every language needs to ask this question, there are no strictly right or wrong answers, but we can change the default shortcuts based on the language if need be. I think having them all on the left hand is more important than having the name start with the same letter or having the same letter as english, but AZERTY and QWERTZ both have all the needed letters on the left so it should be OK to only worry about names and just try to get them to match if possible, otherwise use english name if it's cool-sounding in the language and make up a new name if not"
+        },
+        {
+          "id": "492835548373843979",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-22T00:12:31.174+01:00",
+          "content": "like it's ok to have a few \"pikachu\" names that are just borrowed fully from the original language but they shouldn't all be that way"
+        },
+        {
+          "id": "492837169115824129",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2018-09-22T00:18:57.589+01:00",
+          "content": "I'm torn on this. I definitely prefer maintaining the English names for units, but there are some units that simply have such a straightforward translation that it's weird not to translate (engineer, rhino), which leaves us with some units being translated and other not... Which feels inconsistent"
+        },
+        {
+          "id": "492837316801331200",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2018-09-22T00:19:32.8+01:00",
+          "content": "(talking specifically about Portuguese)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-22T05:36:46.919+01:00",
+      "end_ts": "2018-09-22T05:36:46.919+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-09-22) ---\n[2018-09-22 05:36] elyot: I think having the right amount is best, like japanese games that have a few japanese words here and there are OK, but if they start to have too many then it can become a chore to keep up",
+      "messages": [
+        {
+          "id": "492917151683051532",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-22T05:36:46.919+01:00",
+          "content": "I think having the right amount is best, like japanese games that have a few japanese words here and there are OK, but if they start to have too many then it can become a chore to keep up"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-26T00:51:14.192+01:00",
+      "end_ts": "2018-09-26T00:51:14.192+01:00",
+      "participants": [
+        "drevoed"
+      ],
+      "replay_codes": [
+        "ucing-assig"
+      ],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-09-26) ---\n[2018-09-26 00:51] drevoed: Have you thought about adding cosmetics other than units and emotes? For example various attack producing-assigning animations, like throwing shurikens instead of plasma balls. Or other sounds for breaching your enemy. You name it.",
+      "messages": [
+        {
+          "id": "494294843279933440",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-09-26T00:51:14.192+01:00",
+          "content": "Have you thought about adding cosmetics other than units and emotes? For example various attack producing-assigning animations, like throwing shurikens instead of plasma balls. Or other sounds for breaching your enemy. You name it."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-26T22:19:24.172+01:00",
+      "end_ts": "2018-09-26T22:38:52.02+01:00",
+      "participants": [
+        "1000mh",
+        "amalloy",
+        "drevoed"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (4 messages, 2018-09-26) ---\n[2018-09-26 22:19] drevoed: Why did you decide not to show your opponent's rating, unlike most competitive 1v1 games?\n[2018-09-26 22:29] 1000mh (Henry): @Potatoes Here is a Press Kit with a ton of assets including box art: https://drive.google.com/drive/u/0/folders/0B1nZ_gmeA_X5VlU0b3lxdF9Tc1U\n[2018-09-26 22:34] amalloy: the *new* F2P cover art\n[2018-09-26 22:38] 1000mh (Henry): Yeah it's old, sorry :c",
+      "messages": [
+        {
+          "id": "494619020952338482",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-09-26T22:19:24.172+01:00",
+          "content": "Why did you decide not to show your opponent's rating, unlike most competitive 1v1 games?"
+        },
+        {
+          "id": "494621472459980810",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-09-26T22:29:08.657+01:00",
+          "content": "@Potatoes Here is a Press Kit with a ton of assets including box art: https://drive.google.com/drive/u/0/folders/0B1nZ_gmeA_X5VlU0b3lxdF9Tc1U"
+        },
+        {
+          "id": "494622876025225217",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-09-26T22:34:43.293+01:00",
+          "content": "the *new* F2P cover art"
+        },
+        {
+          "id": "494623919261614100",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-09-26T22:38:52.02+01:00",
+          "content": "Yeah it's old, sorry :c"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-27T11:21:35.687+01:00",
+      "end_ts": "2018-09-27T11:25:30.433+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 23,
+      "formatted_text": "--- Thread (4 messages, 2018-09-27) ---\n[2018-09-27 11:21] elyot: @UndefeatedOrca I want to add an event calendar to the game because that stuff I feel really just clutters up the patch notes, it's incoming\n[2018-09-27 11:22] elyot: @Drevoed Yeah maybe cosmetic particles and that kinda thing could be cool. Cosmetics won't be a priority for a little while though.\n[2018-09-27 11:22] elyot: @Potatoes I'll update the press kit soon, it's on my TODO list\n[2018-09-27 11:25] elyot: @Drevoed we've thought about it, there are pros and cons to showing the opponent's rating, we'll revisit the decision once we have a more full ladder",
+      "messages": [
+        {
+          "id": "494815865993166848",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-27T11:21:35.687+01:00",
+          "content": "@UndefeatedOrca I want to add an event calendar to the game because that stuff I feel really just clutters up the patch notes, it's incoming"
+        },
+        {
+          "id": "494815994800504843",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-27T11:22:06.397+01:00",
+          "content": "@Drevoed Yeah maybe cosmetic particles and that kinda thing could be cool. Cosmetics won't be a priority for a little while though."
+        },
+        {
+          "id": "494816195338305536",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-27T11:22:54.209+01:00",
+          "content": "@Potatoes I'll update the press kit soon, it's on my TODO list"
+        },
+        {
+          "id": "494816850589253634",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-27T11:25:30.433+01:00",
+          "content": "@Drevoed we've thought about it, there are pros and cons to showing the opponent's rating, we'll revisit the decision once we have a more full ladder"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-27T23:49:17.338+01:00",
+      "end_ts": "2018-09-27T23:49:17.338+01:00",
+      "participants": [
+        "ruinedshadows"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-09-27) ---\n[2018-09-27 23:49] ruinedshadows: what's the rule for for losing due to disconnect? I was playing a 60 second game and my internet cut out just after connecting to the first turn. I restarted it quickly to recconect (within the turn limit) but when I got back it just said \"defeat\". Do you autolose if your connection drops, regardless of if you make it back?",
+      "messages": [
+        {
+          "id": "495004029395402752",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-09-27T23:49:17.338+01:00",
+          "content": "what's the rule for for losing due to disconnect? I was playing a 60 second game and my internet cut out just after connecting to the first turn. I restarted it quickly to recconect (within the turn limit) but when I got back it just said \"defeat\". Do you autolose if your connection drops, regardless of if you make it back?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-28T05:11:39.932+01:00",
+      "end_ts": "2018-09-28T05:11:39.932+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2018-09-28) ---\n[2018-09-28 05:11] elyot: @1m2o 1) this has been suggested but it would be non-trivial for us to implement, most people just screenshare over discord for this type of thing\n2) The problem is that there are some situations (breachproof vs non-breachproof games) where you might legit want to do nothing during your turn but still want to take your time thinking if you want to buy or do something. So we'd have to implement some kind of \"are you still there\" thing which is a bit nontrivial. We only give the auto-loss if it's turn 1 or if you're disconnected.\n@ruinedshadows if you miss the first turn and click nothing during it, game assumes you went AFK in queue and gives you loss, even if you're not disconnected\n@mrguy888 june 14 2014 5:12am, the reason it's not sooner is probably because we deployed a new server. I likely have older replays in the .db files from our old sqlite database that was hosted on the university of waterloo computer science club server",
+      "messages": [
+        {
+          "id": "495085158115049472",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-09-28T05:11:39.932+01:00",
+          "content": "@1m2o 1) this has been suggested but it would be non-trivial for us to implement, most people just screenshare over discord for this type of thing\n2) The problem is that there are some situations (breachproof vs non-breachproof games) where you might legit want to do nothing during your turn but still want to take your time thinking if you want to buy or do something. So we'd have to implement some kind of \"are you still there\" thing which is a bit nontrivial. We only give the auto-loss if it's turn 1 or if you're disconnected.\n@ruinedshadows if you miss the first turn and click nothing during it, game assumes you went AFK in queue and gives you loss, even if you're not disconnected\n@mrguy888 june 14 2014 5:12am, the reason it's not sooner is probably because we deployed a new server. I likely have older replays in the .db files from our old sqlite database that was hosted on the university of waterloo computer science club server"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-28T05:55:44.865+01:00",
+      "end_ts": "2018-09-28T05:55:57.892+01:00",
+      "participants": [
+        "cronos"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-09-28) ---\n[2018-09-28 05:55] cronos (Moderator): extension on @1m2o 's first suggestion could be a replay takeover feature in which you can see how a game would have gone differently if you did something different starting from a turn\n[2018-09-28 05:55] cronos (Moderator): even if you weren't one of the two players",
+      "messages": [
+        {
+          "id": "495096251768111136",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-09-28T05:55:44.865+01:00",
+          "content": "extension on @1m2o 's first suggestion could be a replay takeover feature in which you can see how a game would have gone differently if you did something different starting from a turn"
+        },
+        {
+          "id": "495096306407178241",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-09-28T05:55:57.892+01:00",
+          "content": "even if you weren't one of the two players"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-09-28T08:30:20.497+01:00",
+      "end_ts": "2018-09-28T08:30:20.497+01:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-09-28) ---\n[2018-09-28 08:30] p0lari (Polari): is that not how analysis mode works already?",
+      "messages": [
+        {
+          "id": "495135156588511232",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-09-28T08:30:20.497+01:00",
+          "content": "is that not how analysis mode works already?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-01T08:42:40.83+01:00",
+      "end_ts": "2018-10-01T08:42:40.83+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2018-10-01) ---\n[2018-10-01 08:42] elyot: @Drevoed I have forwarded a lot of feedback to twitch about this. Actually my biggest concern is the targeting because most of the people taking these bounties are people who I would not have even offered them to, we gave them a huge list. Hopefully we can improve things going forward.",
+      "messages": [
+        {
+          "id": "496225425366712320",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-01T08:42:40.83+01:00",
+          "content": "@Drevoed I have forwarded a lot of feedback to twitch about this. Actually my biggest concern is the targeting because most of the people taking these bounties are people who I would not have even offered them to, we gave them a huge list. Hopefully we can improve things going forward."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-01T09:16:59.46+01:00",
+      "end_ts": "2018-10-01T09:22:47.451+01:00",
+      "participants": [
+        "alegop",
+        "elyot",
+        "sonoja"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (6 messages, 2018-10-01) ---\n[2018-10-01 09:16] sonoja: i watched Kripp doing a short video showing the basics of Artifact. https://www.youtube.com/watch?v=gnbRCGLj-ns\nKripp's Intro To Artifact\nArtifact - An overview of Artifact's basic cards and mechanics. Pro guides coming soon?! Kripp’s Stream ⭐ http://www.twitch.tv/nl_kripp Rania’s Stream ⭐ http...\n[2018-10-01 09:17] sonoja: Would it be possible to have some known streamer doing the same thing for Prismata ? So people are not lost when they watch a Prismata stream ?\n[2018-10-01 09:18] elyot: Kripp did one many years ago and trump did one more recently, both for free, but these types of paid sponsorships generally cost more than $10000 and are not really worth it for us.\n[2018-10-01 09:19] sonoja: Are you allowed to link it with Prismata resources in game ?\n[2018-10-01 09:20] sonoja: Or maybe that's useless, since people who willw atch it must already have the game\n[2018-10-01 09:22] alegop: The exact Kripp video https://www.youtube.com/watch?v=nmkMcrDJo64 is linked under Battle -> Learb\n[Prismata] Kripp Teaches & Plays Prismata\nTwitch: http://www.twitch.tv/nl_kripp G2A: http://www.G2A.com/r/kripp A review of how to play Prismata, my opinion of the game, and my best tournament match ...",
+      "messages": [
+        {
+          "id": "496234059886886913",
+          "author": "sonoja",
+          "nickname": "sonoja",
+          "timestamp": "2018-10-01T09:16:59.46+01:00",
+          "content": "i watched Kripp doing a short video showing the basics of Artifact. https://www.youtube.com/watch?v=gnbRCGLj-ns\nKripp's Intro To Artifact\nArtifact - An overview of Artifact's basic cards and mechanics. Pro guides coming soon?! Kripp’s Stream ⭐ http://www.twitch.tv/nl_kripp Rania’s Stream ⭐ http..."
+        },
+        {
+          "id": "496234242658009088",
+          "author": "sonoja",
+          "nickname": "sonoja",
+          "timestamp": "2018-10-01T09:17:43.036+01:00",
+          "content": "Would it be possible to have some known streamer doing the same thing for Prismata ? So people are not lost when they watch a Prismata stream ?"
+        },
+        {
+          "id": "496234561609662466",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-01T09:18:59.08+01:00",
+          "content": "Kripp did one many years ago and trump did one more recently, both for free, but these types of paid sponsorships generally cost more than $10000 and are not really worth it for us."
+        },
+        {
+          "id": "496234790190841856",
+          "author": "sonoja",
+          "nickname": "sonoja",
+          "timestamp": "2018-10-01T09:19:53.578+01:00",
+          "content": "Are you allowed to link it with Prismata resources in game ?"
+        },
+        {
+          "id": "496234923808653313",
+          "author": "sonoja",
+          "nickname": "sonoja",
+          "timestamp": "2018-10-01T09:20:25.435+01:00",
+          "content": "Or maybe that's useless, since people who willw atch it must already have the game"
+        },
+        {
+          "id": "496235519466799115",
+          "author": "alegop",
+          "nickname": "Alegop",
+          "timestamp": "2018-10-01T09:22:47.451+01:00",
+          "content": "The exact Kripp video https://www.youtube.com/watch?v=nmkMcrDJo64 is linked under Battle -> Learb\n[Prismata] Kripp Teaches & Plays Prismata\nTwitch: http://www.twitch.tv/nl_kripp G2A: http://www.G2A.com/r/kripp A review of how to play Prismata, my opinion of the game, and my best tournament match ..."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-05T19:52:29.143+01:00",
+      "end_ts": "2018-10-05T20:16:39.156+01:00",
+      "participants": [
+        "amalloy",
+        "cachotognax",
+        "elyot",
+        "phufhi"
+      ],
+      "replay_codes": [],
+      "score": 39,
+      "formatted_text": "--- Thread (10 messages, 2018-10-05) ---\n[2018-10-05 19:52] phufhi (Phuf): @Elyot  how do you manage to get to the front page of Reddit so consistently? https://www.reddit.com/r/bestof/comments/9lm8mg/uelyot_catches_the_reddit_corporation_using_his/\nr/bestof - /u/Elyot catches the reddit corporation using his copyr...\n7,311 votes and 127 comments so far on Reddit\n[2018-10-05 19:53] elyot: Post good content to the right subreddits at the right time with the right titles and don't do anything too sketchy or shill\n[2018-10-05 19:54] phufhi (Phuf): be a marketing genius, got it! 😉\n[2018-10-05 19:55] elyot: idk I think most people just don't post anything and that's mistake #1\n[2018-10-05 20:03] cachotognax: you don't get the post on the front page for sure on every post you don't post.\n[2018-10-05 20:04] cachotognax: @Elyot Already getting called out\nhttps://www.reddit.com/r/bestof/comments/9lm8mg/uelyot_catches_the_reddit_corporation_using_his/e780zd1/\nr/bestof - /u/Elyot catches the reddit corporation using his copyr...\n7,700 votes and 133 comments so far on Reddit\n[2018-10-05 20:06] elyot: somebody actually suggested that maybe I was the one who created the image using the tesla coil in it\n[2018-10-05 20:06] elyot: these people are hilarious LOL but no\n[2018-10-05 20:08] elyot: @UndefeatedOrca cash brawls sounds like a good idea, ugh there is so much stuff to do!\n@Wassim I added f2p as a category, it should appear now\n@Terra Reveene Moving stuff between turns is kinda annoying, we don't like the idea of doing that. But we've thought about it. We're actually considering a 2-row version with horizontal scrolling for mobile\n[2018-10-05 20:16] amalloy: elyot is a stealth marketing wizard. i don't know why he wastes his time making games",
+      "messages": [
+        {
+          "id": "497843538831212551",
+          "author": "phufhi",
+          "nickname": "Phuf",
+          "timestamp": "2018-10-05T19:52:29.143+01:00",
+          "content": "@Elyot  how do you manage to get to the front page of Reddit so consistently? https://www.reddit.com/r/bestof/comments/9lm8mg/uelyot_catches_the_reddit_corporation_using_his/\nr/bestof - /u/Elyot catches the reddit corporation using his copyr...\n7,311 votes and 127 comments so far on Reddit"
+        },
+        {
+          "id": "497843889533616128",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-05T19:53:52.757+01:00",
+          "content": "Post good content to the right subreddits at the right time with the right titles and don't do anything too sketchy or shill"
+        },
+        {
+          "id": "497844104898805820",
+          "author": "phufhi",
+          "nickname": "Phuf",
+          "timestamp": "2018-10-05T19:54:44.104+01:00",
+          "content": "be a marketing genius, got it! 😉"
+        },
+        {
+          "id": "497844326907510794",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-05T19:55:37.035+01:00",
+          "content": "idk I think most people just don't post anything and that's mistake #1"
+        },
+        {
+          "id": "497846242517188649",
+          "author": "cachotognax",
+          "nickname": "CachoTognax",
+          "timestamp": "2018-10-05T20:03:13.752+01:00",
+          "content": "you don't get the post on the front page for sure on every post you don't post."
+        },
+        {
+          "id": "497846614753542146",
+          "author": "cachotognax",
+          "nickname": "CachoTognax",
+          "timestamp": "2018-10-05T20:04:42.5+01:00",
+          "content": "@Elyot Already getting called out\nhttps://www.reddit.com/r/bestof/comments/9lm8mg/uelyot_catches_the_reddit_corporation_using_his/e780zd1/\nr/bestof - /u/Elyot catches the reddit corporation using his copyr...\n7,700 votes and 133 comments so far on Reddit"
+        },
+        {
+          "id": "497847074646261770",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-05T20:06:32.147+01:00",
+          "content": "somebody actually suggested that maybe I was the one who created the image using the tesla coil in it"
+        },
+        {
+          "id": "497847112612970511",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-05T20:06:41.199+01:00",
+          "content": "these people are hilarious LOL but no"
+        },
+        {
+          "id": "497847560065777685",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-05T20:08:27.88+01:00",
+          "content": "@UndefeatedOrca cash brawls sounds like a good idea, ugh there is so much stuff to do!\n@Wassim I added f2p as a category, it should appear now\n@Terra Reveene Moving stuff between turns is kinda annoying, we don't like the idea of doing that. But we've thought about it. We're actually considering a 2-row version with horizontal scrolling for mobile"
+        },
+        {
+          "id": "497849620626669578",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-10-05T20:16:39.156+01:00",
+          "content": "elyot is a stealth marketing wizard. i don't know why he wastes his time making games"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-09T21:47:45.197+01:00",
+      "end_ts": "2018-10-09T21:49:17.284+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2018-10-09) ---\n[2018-10-09 21:47] elyot: @UndefeatedOrca no plans for more tickets, puzzle packs I have no idea, at least 1 more though\n[2018-10-09 21:48] elyot: @Drevoed we could do that, we initially didn't feel it would help keep more players though so we didn't. If anyone else thinks it's a good idea then feel free to chime in\n[2018-10-09 21:49] Deleted User (Deleted User): I think it's a good idea to have weeklies, but I wonder if you had already analysed it",
+      "messages": [
+        {
+          "id": "499322098326568960",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-09T21:47:45.197+01:00",
+          "content": "@UndefeatedOrca no plans for more tickets, puzzle packs I have no idea, at least 1 more though"
+        },
+        {
+          "id": "499322384789012480",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-09T21:48:53.495+01:00",
+          "content": "@Drevoed we could do that, we initially didn't feel it would help keep more players though so we didn't. If anyone else thinks it's a good idea then feel free to chime in"
+        },
+        {
+          "id": "499322484567572480",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-10-09T21:49:17.284+01:00",
+          "content": "I think it's a good idea to have weeklies, but I wonder if you had already analysed it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-09T23:07:43.273+01:00",
+      "end_ts": "2018-10-09T23:12:33.332+01:00",
+      "participants": [
+        "cachotognax",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (4 messages, 2018-10-09) ---\n[2018-10-09 23:07] wiwiweb: About that \"reach level 40\" part, do new players no longer progressively unlock units in their games?\n[2018-10-09 23:07] wiwiweb: or is that supposed to mean \"Reach level 40 and you'll have all the blueprints in the game\"\n[2018-10-09 23:08] wiwiweb: seems unclear if it's the second one, but maybe that's just me\n[2018-10-09 23:12] cachotognax: I think it's the second, it says them all since the units added in updates are all added at once at lv 40.",
+      "messages": [
+        {
+          "id": "499342222916059136",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-10-09T23:07:43.273+01:00",
+          "content": "About that \"reach level 40\" part, do new players no longer progressively unlock units in their games?"
+        },
+        {
+          "id": "499342282105946152",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-10-09T23:07:57.385+01:00",
+          "content": "or is that supposed to mean \"Reach level 40 and you'll have all the blueprints in the game\""
+        },
+        {
+          "id": "499342407792328714",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-10-09T23:08:27.351+01:00",
+          "content": "seems unclear if it's the second one, but maybe that's just me"
+        },
+        {
+          "id": "499343439511552000",
+          "author": "cachotognax",
+          "nickname": "CachoTognax",
+          "timestamp": "2018-10-09T23:12:33.332+01:00",
+          "content": "I think it's the second, it says them all since the units added in updates are all added at once at lv 40."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-10T09:53:57.741+01:00",
+      "end_ts": "2018-10-10T10:11:59.906+01:00",
+      "participants": [
+        "Deleted User",
+        "cronos"
+      ],
+      "replay_codes": [
+        "unter-strik"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (6 messages, 2018-10-10) ---\n[2018-10-10 09:53] cronos (Moderator): I wonder if a setting to swipe left-to-right would be handy for mobile (flipped unit stacks but not unit positions)\n[2018-10-10 09:54] cronos (Moderator): think most people are more ambidextrous with that though\n[2018-10-10 09:54] cronos (Moderator): as a left-handed person I wonder if I wouldn't be a terrible counter-strike player if I learned to use left-handed mice\n[2018-10-10 10:03] cronos (Moderator): @Wiwiweb they're still unlocked slowly as you level up rather than all at once\n[2018-10-10 10:06] Deleted User (Deleted User): Is there a way to automatically join groups on log in. I want to be able to auto /join kid and have kids who care abt my ramble join also\n[2018-10-10 10:11] Deleted User (Deleted User): I guess petition for /autojoin",
+      "messages": [
+        {
+          "id": "499504854822289428",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-10T09:53:57.741+01:00",
+          "content": "I wonder if a setting to swipe left-to-right would be handy for mobile (flipped unit stacks but not unit positions)"
+        },
+        {
+          "id": "499504902004015104",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-10T09:54:08.99+01:00",
+          "content": "think most people are more ambidextrous with that though"
+        },
+        {
+          "id": "499505068601638912",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-10T09:54:48.71+01:00",
+          "content": "as a left-handed person I wonder if I wouldn't be a terrible counter-strike player if I learned to use left-handed mice"
+        },
+        {
+          "id": "499507257789382658",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-10T10:03:30.653+01:00",
+          "content": "@Wiwiweb they're still unlocked slowly as you level up rather than all at once"
+        },
+        {
+          "id": "499507987317260289",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-10-10T10:06:24.586+01:00",
+          "content": "Is there a way to automatically join groups on log in. I want to be able to auto /join kid and have kids who care abt my ramble join also"
+        },
+        {
+          "id": "499509393751277580",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-10-10T10:11:59.906+01:00",
+          "content": "I guess petition for /autojoin"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-13T22:50:53.083+01:00",
+      "end_ts": "2018-10-13T22:50:53.083+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-10-13) ---\n[2018-10-13 22:50] masn6811 (Masne98888): version of the invasion where the zemora builds 2 golden shield conduits instead of 4 engis?",
+      "messages": [
+        {
+          "id": "500787537334501386",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-10-13T22:50:53.083+01:00",
+          "content": "version of the invasion where the zemora builds 2 golden shield conduits instead of 4 engis?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-16T19:11:39.671+01:00",
+      "end_ts": "2018-10-16T19:12:50.654+01:00",
+      "participants": [
+        "coscott",
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2018-10-16) ---\n[2018-10-16 19:11] coscott: (not criticizing, seems like the right decision to not let people buy puzzle packs with shards, just want to know if I should save shards.)\n[2018-10-16 19:12] mrguy888: he has said before that puzzle packs will be cash only",
+      "messages": [
+        {
+          "id": "501819531522473995",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-10-16T19:11:39.671+01:00",
+          "content": "(not criticizing, seems like the right decision to not let people buy puzzle packs with shards, just want to know if I should save shards.)"
+        },
+        {
+          "id": "501819829246754816",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-10-16T19:12:50.654+01:00",
+          "content": "he has said before that puzzle packs will be cash only"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-18T20:23:58.901+01:00",
+      "end_ts": "2018-10-18T20:23:58.901+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2018-10-18) ---\n[2018-10-18 20:23] elyot: @Wiwiweb new players get them through beating missions or levelling up. The main thing we want to communicate is that they're all free.\n@Arkanishu PBWC this fall I hope! We're so behind on so many things but PBWC will happen. :)\n@Moderator Flipping unit stacks would cause a lot of problems, we'd have to flip a lot of aspects of the user interface because of the way all the different icons and things are laid out. Even the art is designed with that in mind. It's not easy!\n@Deleted User We can add it but it's a bit low priority. And no we don't put difficult opponents at 10 and 15 wins, it's not considered\n@Coscott We changed our mind after seeing the gold-hoarding behaviour with hearthstone players waiting for expansions",
+      "messages": [
+        {
+          "id": "502562507303550977",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-18T20:23:58.901+01:00",
+          "content": "@Wiwiweb new players get them through beating missions or levelling up. The main thing we want to communicate is that they're all free.\n@Arkanishu PBWC this fall I hope! We're so behind on so many things but PBWC will happen. :)\n@Moderator Flipping unit stacks would cause a lot of problems, we'd have to flip a lot of aspects of the user interface because of the way all the different icons and things are laid out. Even the art is designed with that in mind. It's not easy!\n@Deleted User We can add it but it's a bit low priority. And no we don't put difficult opponents at 10 and 15 wins, it's not considered\n@Coscott We changed our mind after seeing the gold-hoarding behaviour with hearthstone players waiting for expansions"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-19T21:44:37.297+01:00",
+      "end_ts": "2018-10-19T21:44:37.297+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-10-19) ---\n[2018-10-19 21:44] spiritfryer (Spyrfyr): Has community made modes with a custom mode queuing system been considered? (kinda like Warcraft and Starcraft custom maps). I guess requires bigger community to be worth",
+      "messages": [
+        {
+          "id": "502945188872978442",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-10-19T21:44:37.297+01:00",
+          "content": "Has community made modes with a custom mode queuing system been considered? (kinda like Warcraft and Starcraft custom maps). I guess requires bigger community to be worth"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-22T19:56:28.58+01:00",
+      "end_ts": "2018-10-22T20:00:47.709+01:00",
+      "participants": [
+        "p0lari",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (4 messages, 2018-10-22) ---\n[2018-10-22 19:56] spiritfryer (Spyrfyr): What's the logic behind the current schedule for events? Why no events on Monday, arguably for some the worst day of the week (end of weekend :P)?\n[2018-10-22 19:58] p0lari (Polari): there's one event each weekday if you're american\n[2018-10-22 19:58] p0lari (Polari): I assume you're european and have monday's and wednesday's events past midnight and technically on the next day\n[2018-10-22 20:00] p0lari (Polari): then for a followup question, when's the rotating event schedule I recall mentioned ages ago, and europeans ever being able to earn the price war brawl badge?",
+      "messages": [
+        {
+          "id": "504005136817979403",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-10-22T19:56:28.58+01:00",
+          "content": "What's the logic behind the current schedule for events? Why no events on Monday, arguably for some the worst day of the week (end of weekend :P)?"
+        },
+        {
+          "id": "504005577353986059",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-10-22T19:58:13.612+01:00",
+          "content": "there's one event each weekday if you're american"
+        },
+        {
+          "id": "504005751824711695",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-10-22T19:58:55.209+01:00",
+          "content": "I assume you're european and have monday's and wednesday's events past midnight and technically on the next day"
+        },
+        {
+          "id": "504006223683780636",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-10-22T20:00:47.709+01:00",
+          "content": "then for a followup question, when's the rotating event schedule I recall mentioned ages ago, and europeans ever being able to earn the price war brawl badge?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-23T02:47:54.622+01:00",
+      "end_ts": "2018-10-23T02:47:54.622+01:00",
+      "participants": [
+        "coscott"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-10-23) ---\n[2018-10-23 02:47] coscott: Two questions. Sometimes I (and ive noticed some other people) like to give advice with emotes when the opponent is about to do something that they obviously did not intend to do (like clicking a rhino that will end up dealing no damage). Is this okay by the TOS? If so, can you add some more emotes to make this easier? (I was thinking something like \"Before you end your turn...\" since it is vague, but will get people to pay attention if followed by \"mistakes were made\")",
+      "messages": [
+        {
+          "id": "504108677582815233",
+          "author": "coscott",
+          "nickname": "Coscott",
+          "timestamp": "2018-10-23T02:47:54.622+01:00",
+          "content": "Two questions. Sometimes I (and ive noticed some other people) like to give advice with emotes when the opponent is about to do something that they obviously did not intend to do (like clicking a rhino that will end up dealing no damage). Is this okay by the TOS? If so, can you add some more emotes to make this easier? (I was thinking something like \"Before you end your turn...\" since it is vague, but will get people to pay attention if followed by \"mistakes were made\")"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-24T18:08:14.205+01:00",
+      "end_ts": "2018-10-24T18:23:44.67+01:00",
+      "participants": [
+        "drevoed",
+        "elyot",
+        "totally_not_fbi"
+      ],
+      "replay_codes": [
+        "unity-reque"
+      ],
+      "score": 31,
+      "formatted_text": "--- Thread (9 messages, 2018-10-24) ---\n[2018-10-24 18:08] elyot: @Deleted User I think having an award for 1st place in a 10-hour event would be a bit much, no? Like it would encourage people to play way too long if they wanted to win?\n@Spyrfyr Yeah the mode-of-the week idea is the best compromise to that I think, we could have community-requested modes though.\n@Drevoed Price was just calculated based on estimated value of the rewards you get so it's roughly fair. Some people get them. They're cheaper if you have the golden pass.\n@Spyrfyr @Polari Yeah we should update events and event timing, it's on the TODO list somewhere. Maybe we'll get to it soon!\n@Coscott I think trying to be helpful to your opponent using emotes is fine, IMO it's not kibitzing because you're the player who stands to lose by the advice.\n@Plato Still need more work on E4 and E5, we don't have a date. There will be a few small updates before E4.\n@Drevoed The tier X achievement says 0.6% have it, but those stats are super polluted by the botnet that farmed trading cards. For reference, 3.1% have \"outbreak complete\" and 0.5% have millionaire (which is super hard to get to the point where I think most people who have it are using achievement hacking). My guess is something like 1 in 10 players make it to tier X.\n[2018-10-24 18:09] elyot: @Plato We don't ever create units in Prismata that are golden shield but also have abilities that activate. But we could make the zemora have 99 hp or something.\n[2018-10-24 18:10] drevoed: what's the total number of players to ever play ranked, then? I was more interested in how good of an achievement top 100 etc is.\n[2018-10-24 18:13] elyot: a couple tens of thousands\n[2018-10-24 18:16] drevoed: What's the rating of the top 50, 100, 200 player, not counting the elo decay?\n[2018-10-24 18:18] totally_not_fbi (Totally Not FBI): 50,100 and 200 :LongNoseLiar:\n[2018-10-24 18:22] drevoed: Also, 69 shards for the plat ticket is the golden pass price for me. A bug?\n[2018-10-24 18:23] elyot: no that's correct, it's higher if you don't have it\n[2018-10-24 18:23] elyot: I don't really have a good way to check ratings of top 50 not counting elo decay without running a big query... let me think",
+      "messages": [
+        {
+          "id": "504702673166008335",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-24T18:08:14.205+01:00",
+          "content": "@Deleted User I think having an award for 1st place in a 10-hour event would be a bit much, no? Like it would encourage people to play way too long if they wanted to win?\n@Spyrfyr Yeah the mode-of-the week idea is the best compromise to that I think, we could have community-requested modes though.\n@Drevoed Price was just calculated based on estimated value of the rewards you get so it's roughly fair. Some people get them. They're cheaper if you have the golden pass.\n@Spyrfyr @Polari Yeah we should update events and event timing, it's on the TODO list somewhere. Maybe we'll get to it soon!\n@Coscott I think trying to be helpful to your opponent using emotes is fine, IMO it's not kibitzing because you're the player who stands to lose by the advice.\n@Plato Still need more work on E4 and E5, we don't have a date. There will be a few small updates before E4.\n@Drevoed The tier X achievement says 0.6% have it, but those stats are super polluted by the botnet that farmed trading cards. For reference, 3.1% have \"outbreak complete\" and 0.5% have millionaire (which is super hard to get to the point where I think most people who have it are using achievement hacking). My guess is something like 1 in 10 players make it to tier X."
+        },
+        {
+          "id": "504702869442658315",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-24T18:09:01.001+01:00",
+          "content": "@Plato We don't ever create units in Prismata that are golden shield but also have abilities that activate. But we could make the zemora have 99 hp or something."
+        },
+        {
+          "id": "504703292815704096",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-10-24T18:10:41.941+01:00",
+          "content": "what's the total number of players to ever play ranked, then? I was more interested in how good of an achievement top 100 etc is."
+        },
+        {
+          "id": "504704113859362836",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-24T18:13:57.693+01:00",
+          "content": "a couple tens of thousands"
+        },
+        {
+          "id": "504704657940021281",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-10-24T18:16:07.412+01:00",
+          "content": "What's the rating of the top 50, 100, 200 player, not counting the elo decay?"
+        },
+        {
+          "id": "504705244790259712",
+          "author": "totally_not_fbi",
+          "nickname": "Totally Not FBI",
+          "timestamp": "2018-10-24T18:18:27.328+01:00",
+          "content": "50,100 and 200 :LongNoseLiar:"
+        },
+        {
+          "id": "504706342410256414",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-10-24T18:22:49.021+01:00",
+          "content": "Also, 69 shards for the plat ticket is the golden pass price for me. A bug?"
+        },
+        {
+          "id": "504706424484528137",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-24T18:23:08.589+01:00",
+          "content": "no that's correct, it's higher if you don't have it"
+        },
+        {
+          "id": "504706575819079680",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-24T18:23:44.67+01:00",
+          "content": "I don't really have a good way to check ratings of top 50 not counting elo decay without running a big query... let me think"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-24T18:34:14.816+01:00",
+      "end_ts": "2018-10-24T18:36:15.848+01:00",
+      "participants": [
+        "crash_overlord",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (3 messages, 2018-10-24) ---\n[2018-10-24 18:34] crash_overlord: Correction Elyot, it's only players #50, #100 and #200 not 1-49.\n[2018-10-24 18:34] elyot: we actually run a thing once per day that recalculates decay for the leaderboard and updates ratings, we internally store more than 200 so that if somebody decays off the bottom, we can replace them\n[2018-10-24 18:36] elyot: I would say about half of players have no penalty, so probably #25 is close to top 50",
+      "messages": [
+        {
+          "id": "504709218843099146",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-10-24T18:34:14.816+01:00",
+          "content": "Correction Elyot, it's only players #50, #100 and #200 not 1-49."
+        },
+        {
+          "id": "504709338611580938",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-24T18:34:43.371+01:00",
+          "content": "we actually run a thing once per day that recalculates decay for the leaderboard and updates ratings, we internally store more than 200 so that if somebody decays off the bottom, we can replace them"
+        },
+        {
+          "id": "504709726488231946",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-24T18:36:15.848+01:00",
+          "content": "I would say about half of players have no penalty, so probably #25 is close to top 50"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-24T18:56:55.987+01:00",
+      "end_ts": "2018-10-24T18:56:55.987+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-10-24) ---\n[2018-10-24 18:56] spiritfryer (Spyrfyr): Re:modes, how about allowing use of existing modes in friendly games? Is there a reason to restrict them only to scheduled events?",
+      "messages": [
+        {
+          "id": "504714928007938058",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2018-10-24T18:56:55.987+01:00",
+          "content": "Re:modes, how about allowing use of existing modes in friendly games? Is there a reason to restrict them only to scheduled events?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-24T19:16:51.137+01:00",
+      "end_ts": "2018-10-24T19:16:51.137+01:00",
+      "participants": [
+        "awoodokehu"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-10-24) ---\n[2018-10-24 19:16] awoodokehu (dokawehu): who did the cover art for the game?\ndo you have a stream schedule?\nwas the reason zemora's hp needed to be tweaked was actually because of the lost gauss cannon?",
+      "messages": [
+        {
+          "id": "504719940830363669",
+          "author": "awoodokehu",
+          "nickname": "dokawehu",
+          "timestamp": "2018-10-24T19:16:51.137+01:00",
+          "content": "who did the cover art for the game?\ndo you have a stream schedule?\nwas the reason zemora's hp needed to be tweaked was actually because of the lost gauss cannon?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-24T23:45:19.41+01:00",
+      "end_ts": "2018-10-24T23:45:19.41+01:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-10-24) ---\n[2018-10-24 23:45] awaclus: why not have like a logarithmic formula that makes it closer and closer to the same amount for wins and losses every time",
+      "messages": [
+        {
+          "id": "504787503824371712",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-10-24T23:45:19.41+01:00",
+          "content": "why not have like a logarithmic formula that makes it closer and closer to the same amount for wins and losses every time"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-25T03:55:44.365+01:00",
+      "end_ts": "2018-10-25T03:57:35.002+01:00",
+      "participants": [
+        "cronos"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (6 messages, 2018-10-25) ---\n[2018-10-25 03:55] cronos (Moderator): would be nice to be able to rearrange units at any point in the campaign (or if you can, earlier on) like you can in multiplayer\n[2018-10-25 03:56] cronos (Moderator): for clicking units instead of using hotkeys\n[2018-10-25 03:56] cronos (Moderator): https://i.imgur.com/AHlj1WW.jpg\n[2018-10-25 03:57] cronos (Moderator): this part of episode 2 (last part of Photonic Countdown) adds these units below nitrocybe which was previously at the bottom (below stuff like perforator and immolite)\n[2018-10-25 03:57] cronos (Moderator): got rearranged for some reason and I can't drag nitrocybe back down like I can in MP\n[2018-10-25 03:57] cronos (Moderator): accidentally built a ton of immolites",
+      "messages": [
+        {
+          "id": "504850523053359104",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-25T03:55:44.365+01:00",
+          "content": "would be nice to be able to rearrange units at any point in the campaign (or if you can, earlier on) like you can in multiplayer"
+        },
+        {
+          "id": "504850736736239618",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-25T03:56:35.311+01:00",
+          "content": "for clicking units instead of using hotkeys"
+        },
+        {
+          "id": "504850747452817419",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-25T03:56:37.866+01:00",
+          "content": "https://i.imgur.com/AHlj1WW.jpg"
+        },
+        {
+          "id": "504850882349760531",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-25T03:57:10.028+01:00",
+          "content": "this part of episode 2 (last part of Photonic Countdown) adds these units below nitrocybe which was previously at the bottom (below stuff like perforator and immolite)"
+        },
+        {
+          "id": "504850954986717185",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-25T03:57:27.346+01:00",
+          "content": "got rearranged for some reason and I can't drag nitrocybe back down like I can in MP"
+        },
+        {
+          "id": "504850987098439680",
+          "author": "cronos",
+          "nickname": "Moderator",
+          "timestamp": "2018-10-25T03:57:35.002+01:00",
+          "content": "accidentally built a ton of immolites"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-26T11:49:29.698+01:00",
+      "end_ts": "2018-10-26T11:50:50.75+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (2 messages, 2018-10-26) ---\n[2018-10-26 11:49] elyot: @Spyrfyr We could add custom modes for friendlies, we'll think about it.\n@dokawehu cover art was this guy: https://www.artstation.com/diegogisbert\nI do not have a stream schedule, but maybe I should? I believe that the solution that rushes down Zemora doesn't work with the extra Gauss Cannon but I could be wrong, maybe you should try :P\n@Plato Oh I see what you mean now. Yeah, we could do that to keep damage off of it before it fires. I guess it was like that originally, hmmm... maybe I'll make the change\nDiego Gisbert Llorens\nFreelance illustrator/Concept Artist-  studioniten@yahoo.es\n[2018-10-26 11:50] elyot: @Moderator We don't support rearrangement of units where some have number hotkeys and some are letter hotkeys, it would be a bit complex/messy to have a good implementation. Not saying we couldn't, but we just never went down that road yet",
+      "messages": [
+        {
+          "id": "505332135406862346",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-26T11:49:29.698+01:00",
+          "content": "@Spyrfyr We could add custom modes for friendlies, we'll think about it.\n@dokawehu cover art was this guy: https://www.artstation.com/diegogisbert\nI do not have a stream schedule, but maybe I should? I believe that the solution that rushes down Zemora doesn't work with the extra Gauss Cannon but I could be wrong, maybe you should try :P\n@Plato Oh I see what you mean now. Yeah, we could do that to keep damage off of it before it fires. I guess it was like that originally, hmmm... maybe I'll make the change\nDiego Gisbert Llorens\nFreelance illustrator/Concept Artist-  studioniten@yahoo.es"
+        },
+        {
+          "id": "505332475363328001",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-26T11:50:50.75+01:00",
+          "content": "@Moderator We don't support rearrangement of units where some have number hotkeys and some are letter hotkeys, it would be a bit complex/messy to have a good implementation. Not saying we couldn't, but we just never went down that road yet"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-29T01:13:18.236+00:00",
+      "end_ts": "2018-10-29T01:13:30.546+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-10-29) ---\n[2018-10-29 01:13] masn6811 (Masne98888): https://snag.gy/gZrWBm.jpg\nSnaggy - easy screenshots\n[2018-10-29 01:13] masn6811 (Masne98888): in the name of consistent enforcement, can you ban punf from the queue?",
+      "messages": [
+        {
+          "id": "506274295782178828",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-10-29T01:13:18.236+00:00",
+          "content": "https://snag.gy/gZrWBm.jpg\nSnaggy - easy screenshots"
+        },
+        {
+          "id": "506274347414192139",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-10-29T01:13:30.546+00:00",
+          "content": "in the name of consistent enforcement, can you ban punf from the queue?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-10-29T13:17:27.439+00:00",
+      "end_ts": "2018-10-29T13:17:27.439+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-10-29) ---\n[2018-10-29 13:17] elyot: if you send a game where he did that then maybe, half of what punf says is just trolling",
+      "messages": [
+        {
+          "id": "506456534948118548",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-10-29T13:17:27.439+00:00",
+          "content": "if you send a game where he did that then maybe, half of what punf says is just trolling"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-01T00:23:07.308+00:00",
+      "end_ts": "2018-11-01T00:23:16.515+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2018-11-01) ---\n[2018-11-01 00:23] elyot: @Drevoed it would need to be 13.3 cores? like it's very very precisely calibrated 😛\n[2018-11-01 00:23] elyot: @dokawehu maybe... 😉",
+      "messages": [
+        {
+          "id": "507348830631493673",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-01T00:23:07.308+00:00",
+          "content": "@Drevoed it would need to be 13.3 cores? like it's very very precisely calibrated 😛"
+        },
+        {
+          "id": "507348869248581635",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-01T00:23:16.515+00:00",
+          "content": "@dokawehu maybe... 😉"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-06T17:56:43.373+00:00",
+      "end_ts": "2018-11-06T18:01:01.364+00:00",
+      "participants": [
+        "p0lari",
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (3 messages, 2018-11-06) ---\n[2018-11-06 17:56] randomflyingtaco (RiFT (#RIPBrowserers)): Casual match gives you the ability to play against a random AI personality, but they are all of a similar difficulty.  I don't know why you want to not know whether you want to play Wacky bot or Master bot, since you would know within the first two turns.\n[2018-11-06 17:58] p0lari (Polari): casual bots are not similar difficulty\n[2018-11-06 18:01] p0lari (Polari): or I guess if you're good enough to consistently slap master bot around then they are all easy, but they range from \"basic bot limited to specific kinds of builds\" to \"master bot with some openings added\" (which is rated higher than plain master bot)",
+      "messages": [
+        {
+          "id": "509425917353787392",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-11-06T17:56:43.373+00:00",
+          "content": "Casual match gives you the ability to play against a random AI personality, but they are all of a similar difficulty.  I don't know why you want to not know whether you want to play Wacky bot or Master bot, since you would know within the first two turns."
+        },
+        {
+          "id": "509426441927131136",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-11-06T17:58:48.441+00:00",
+          "content": "casual bots are not similar difficulty"
+        },
+        {
+          "id": "509426999446732801",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-11-06T18:01:01.364+00:00",
+          "content": "or I guess if you're good enough to consistently slap master bot around then they are all easy, but they range from \"basic bot limited to specific kinds of builds\" to \"master bot with some openings added\" (which is rated higher than plain master bot)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-08T07:32:30.74+00:00",
+      "end_ts": "2018-11-08T07:32:30.74+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-11-08) ---\n[2018-11-08 07:32] elyot: We could add something like that, we've been thinking about doing something with bot personalities as a sort of premium feature for players who mostly prefer to fight the AI and don't play much ranked",
+      "messages": [
+        {
+          "id": "509993605356716052",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-08T07:32:30.74+00:00",
+          "content": "We could add something like that, we've been thinking about doing something with bot personalities as a sort of premium feature for players who mostly prefer to fight the AI and don't play much ranked"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-11T01:17:24.743+00:00",
+      "end_ts": "2018-11-11T01:17:24.743+00:00",
+      "participants": [
+        "iminabearsuit"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-11-11) ---\n[2018-11-11 01:17] iminabearsuit: Any plans on having \"test missions\" for the campaign, like you did with the puzzles? As I think the general consensus is that the missions get's a lot more interesting after chapter 1. I know there's probably some concerns about dropping player in the middle of the story, but I think showcasing how cool some of the missions can be would be a great incentive for people to get them.",
+      "messages": [
+        {
+          "id": "510986371960274957",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-11-11T01:17:24.743+00:00",
+          "content": "Any plans on having \"test missions\" for the campaign, like you did with the puzzles? As I think the general consensus is that the missions get's a lot more interesting after chapter 1. I know there's probably some concerns about dropping player in the middle of the story, but I think showcasing how cool some of the missions can be would be a great incentive for people to get them."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-13T12:11:17.427+00:00",
+      "end_ts": "2018-11-13T12:13:06.152+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (2 messages, 2018-11-13) ---\n[2018-11-13 12:11] elyot: @Villain hahah it's funny, originally you had to click TWICE to end your turn in that case, once to enter confirm phase and then again to submit. And we removed the second space press because we figured it was redundant. And now you want us to remove the first? You people are so demanding... 😛\n[2018-11-13 12:13] elyot: @iminaBearSuit I actually think if anything, we give too much away for free to the point that it hurts sales. There's a reason why a lot of games don't do shareware anymore and it's that they lose sales from people who would have bought it if they didn't play the demo. I think demo makes sense for us because it's such a unique and different game, but giving away more free content doesn't always help",
+      "messages": [
+        {
+          "id": "511875701494906880",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-13T12:11:17.427+00:00",
+          "content": "@Villain hahah it's funny, originally you had to click TWICE to end your turn in that case, once to enter confirm phase and then again to submit. And we removed the second space press because we figured it was redundant. And now you want us to remove the first? You people are so demanding... 😛"
+        },
+        {
+          "id": "511876157520478223",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-13T12:13:06.152+00:00",
+          "content": "@iminaBearSuit I actually think if anything, we give too much away for free to the point that it hurts sales. There's a reason why a lot of games don't do shareware anymore and it's that they lose sales from people who would have bought it if they didn't play the demo. I think demo makes sense for us because it's such a unique and different game, but giving away more free content doesn't always help"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-15T01:31:11.678+00:00",
+      "end_ts": "2018-11-15T01:33:45.264+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2018-11-15) ---\n[2018-11-15 01:31] elyot: No idea, we could still be making it years from now, probably just buy it as it comes out\n[2018-11-15 01:33] elyot: If we plan on offering bundles then we're not going to penalize people who bought in early",
+      "messages": [
+        {
+          "id": "512439391839453184",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-15T01:31:11.678+00:00",
+          "content": "No idea, we could still be making it years from now, probably just buy it as it comes out"
+        },
+        {
+          "id": "512440036025958400",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-15T01:33:45.264+00:00",
+          "content": "If we plan on offering bundles then we're not going to penalize people who bought in early"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-16T07:50:21.188+00:00",
+      "end_ts": "2018-11-16T07:50:21.188+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2018-11-16) ---\n[2018-11-16 07:50] elyot: We use stats quite a bit, but we also talk to top players a lot and listen to player opinions and complaints... our goal is to have the best version of each unit, but a big part of that is just keeping players happy",
+      "messages": [
+        {
+          "id": "512897198065975326",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-16T07:50:21.188+00:00",
+          "content": "We use stats quite a bit, but we also talk to top players a lot and listen to player opinions and complaints... our goal is to have the best version of each unit, but a big part of that is just keeping players happy"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-17T17:56:28.675+00:00",
+      "end_ts": "2018-11-17T17:58:07.157+00:00",
+      "participants": [
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-11-17) ---\n[2018-11-17 17:56] xyotsuba: Overall winrate, side winrate, overall userate, and side userate are all important.\n[2018-11-17 17:58] xyotsuba: Overall rates tell if a unit is too strong or too weak and side rates tell if a unit is too player favored.",
+      "messages": [
+        {
+          "id": "513412122227769365",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-11-17T17:56:28.675+00:00",
+          "content": "Overall winrate, side winrate, overall userate, and side userate are all important."
+        },
+        {
+          "id": "513412535291215903",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-11-17T17:58:07.157+00:00",
+          "content": "Overall rates tell if a unit is too strong or too weak and side rates tell if a unit is too player favored."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-19T01:29:09.054+00:00",
+      "end_ts": "2018-11-19T01:29:28.303+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (2 messages, 2018-11-19) ---\n[2018-11-19 01:29] elyot: We look at winrates and buyrates for all units but buyrates are very heavily skewed by units being low-tech or working in certain openings, it's not obvious how to interpret them and sometimes high buyrates are OK.\n[2018-11-19 01:29] elyot: @Artificial Hope Yes we will add new units and we're planning a few balance updates",
+      "messages": [
+        {
+          "id": "513888428979388416",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-19T01:29:09.054+00:00",
+          "content": "We look at winrates and buyrates for all units but buyrates are very heavily skewed by units being low-tech or working in certain openings, it's not obvious how to interpret them and sometimes high buyrates are OK."
+        },
+        {
+          "id": "513888509715808296",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-19T01:29:28.303+00:00",
+          "content": "@Artificial Hope Yes we will add new units and we're planning a few balance updates"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-21T10:03:56.883+00:00",
+      "end_ts": "2018-11-21T10:03:56.883+00:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-11-21) ---\n[2018-11-21 10:03] p0lari (Polari): Smurfs are manually removed from the leaderboard",
+      "messages": [
+        {
+          "id": "514742757655445506",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-11-21T10:03:56.883+00:00",
+          "content": "Smurfs are manually removed from the leaderboard"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-22T18:30:22.481+00:00",
+      "end_ts": "2018-11-22T18:31:37.27+00:00",
+      "participants": [
+        "awoodokehu",
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2018-11-22) ---\n[2018-11-22 18:30] mrguy888: It is true that there is a salt index that takes things like embargos and emotes into consideration to get units nerfed? If so I am rather upset that I now have incentive to BM the crap out of my opponents but will do what I must because I can.\n[2018-11-22 18:31] awoodokehu (dokawehu): When's Brimstone (the unit expansion) coming out?",
+      "messages": [
+        {
+          "id": "515232591956148226",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-11-22T18:30:22.481+00:00",
+          "content": "It is true that there is a salt index that takes things like embargos and emotes into consideration to get units nerfed? If so I am rather upset that I now have incentive to BM the crap out of my opponents but will do what I must because I can."
+        },
+        {
+          "id": "515232905643950080",
+          "author": "awoodokehu",
+          "nickname": "dokawehu",
+          "timestamp": "2018-11-22T18:31:37.27+00:00",
+          "content": "When's Brimstone (the unit expansion) coming out?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-23T02:10:14.716+00:00",
+      "end_ts": "2018-11-23T02:11:02.836+00:00",
+      "participants": [
+        "flynnv"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-11-23) ---\n[2018-11-23 02:10] flynnv (Flynn): Is there a way that two players can both play against each other with separate custom built decks of units? And if there is not is there any plans to implement this in the future?\n[2018-11-23 02:11] flynnv (Flynn): I feel like it could be a lot of fun to play with different units than the other player has. Maybe even a mode where both players have different random units. Even if its just a custom mode between friends only.",
+      "messages": [
+        {
+          "id": "515348322177908738",
+          "author": "flynnv",
+          "nickname": "Flynn",
+          "timestamp": "2018-11-23T02:10:14.716+00:00",
+          "content": "Is there a way that two players can both play against each other with separate custom built decks of units? And if there is not is there any plans to implement this in the future?"
+        },
+        {
+          "id": "515348524007948303",
+          "author": "flynnv",
+          "nickname": "Flynn",
+          "timestamp": "2018-11-23T02:11:02.836+00:00",
+          "content": "I feel like it could be a lot of fun to play with different units than the other player has. Maybe even a mode where both players have different random units. Even if its just a custom mode between friends only."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-23T22:00:12.584+00:00",
+      "end_ts": "2018-11-23T22:00:12.584+00:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-11-23) ---\n[2018-11-23 22:00] p0lari (Polari): is a prismata.net update in the plans? I was going to link it somewhere and noticed it still has an alpha key signup, among other things",
+      "messages": [
+        {
+          "id": "515647786541121565",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-11-23T22:00:12.584+00:00",
+          "content": "is a prismata.net update in the plans? I was going to link it somewhere and noticed it still has an alpha key signup, among other things"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-11-26T22:49:10.848+00:00",
+      "end_ts": "2018-11-26T22:52:58.685+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 32,
+      "formatted_text": "--- Thread (5 messages, 2018-11-26) ---\n[2018-11-26 22:49] elyot: @Satra Smurfs are actually self-identified and we remove them from the leaderboard because we want each slot on the leaderboard to belong to a unique person\n[2018-11-26 22:51] elyot: @Zera That bot behaviour is because it doesn't really have a good way of bifurcating on the buy step according to inflation or short-term defense advantage on the other side, it could be added but it's really non-obvious to do so\n[2018-11-26 22:51] elyot: @Rus The art is copyrighted by us, but you can make your own shirts with it for personal use and we don't care\n[2018-11-26 22:52] elyot: @dokawehu We haven't announced new units, but there will be some next year, we've been thinking about dropping a few before then too, not sure though\n[2018-11-26 22:52] elyot: @Flynn We actually already have an event where both sides get different random units. There are a few small issues, like theoretically it can blow our VRAM budget if there are too many units in one single game, but we could enable it maybe...",
+      "messages": [
+        {
+          "id": "516747274110369803",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-26T22:49:10.848+00:00",
+          "content": "@Satra Smurfs are actually self-identified and we remove them from the leaderboard because we want each slot on the leaderboard to belong to a unique person"
+        },
+        {
+          "id": "516747775619104768",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-26T22:51:10.417+00:00",
+          "content": "@Zera That bot behaviour is because it doesn't really have a good way of bifurcating on the buy step according to inflation or short-term defense advantage on the other side, it could be added but it's really non-obvious to do so"
+        },
+        {
+          "id": "516747917491568643",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-26T22:51:44.242+00:00",
+          "content": "@Rus The art is copyrighted by us, but you can make your own shirts with it for personal use and we don't care"
+        },
+        {
+          "id": "516748016359833601",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-26T22:52:07.814+00:00",
+          "content": "@dokawehu We haven't announced new units, but there will be some next year, we've been thinking about dropping a few before then too, not sure though"
+        },
+        {
+          "id": "516748229728010250",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-11-26T22:52:58.685+00:00",
+          "content": "@Flynn We actually already have an event where both sides get different random units. There are a few small issues, like theoretically it can blow our VRAM budget if there are too many units in one single game, but we could enable it maybe..."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-12-11T20:34:20.477+00:00",
+      "end_ts": "2018-12-11T20:36:17.952+00:00",
+      "participants": [
+        "Deleted User",
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-12-11) ---\n[2018-12-11 20:34] Deleted User (Deleted User): How about more rewards for the 10 hour events? If you cba grinders getting rewarded, just have it only reward you for your best hour\n[2018-12-11 20:36] awaclus: not sure if only looking at your best hour is a good solution but I agree that a fully random chance of getting 3 omnis isn't a great incentive to play events",
+      "messages": [
+        {
+          "id": "522149158619054082",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-12-11T20:34:20.477+00:00",
+          "content": "How about more rewards for the 10 hour events? If you cba grinders getting rewarded, just have it only reward you for your best hour"
+        },
+        {
+          "id": "522149651345047592",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-12-11T20:36:17.952+00:00",
+          "content": "not sure if only looking at your best hour is a good solution but I agree that a fully random chance of getting 3 omnis isn't a great incentive to play events"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-12-16T23:37:28.207+00:00",
+      "end_ts": "2018-12-16T23:37:28.207+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-12-16) ---\n[2018-12-16 23:37] masn6811 (Masne98888): ```\nactually innervi and gaygis have their names the wrong way round, since regenerating = gay (gayhar, gaytron)\ncan someone tell elyot to fix his game\n```\nThoughts on changing the name of innervi field to annervi field?",
+      "messages": [
+        {
+          "id": "524007183826812928",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-12-16T23:37:28.207+00:00",
+          "content": "```\nactually innervi and gaygis have their names the wrong way round, since regenerating = gay (gayhar, gaytron)\ncan someone tell elyot to fix his game\n```\nThoughts on changing the name of innervi field to annervi field?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-12-17T00:19:23.746+00:00",
+      "end_ts": "2018-12-17T00:19:23.746+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-12-17) ---\n[2018-12-17 00:19] masn6811 (Masne98888): also, why is it mega drone but O mega splitter?",
+      "messages": [
+        {
+          "id": "524017734762102784",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-12-17T00:19:23.746+00:00",
+          "content": "also, why is it mega drone but O mega splitter?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-12-20T06:57:42.563+00:00",
+      "end_ts": "2018-12-20T06:57:42.563+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-12-20) ---\n[2018-12-20 06:57] masn6811 (Masne98888): hey devs, as you might be aware, red has been a powerful technology at getting attack for a long time. the good folks at blizzard have responded to the power of druid by nerfing one of druid's core cards (wild growth) by 33%. May I humbly suggest a 29% nerf to one of red's core units (tarsier, from 4R to 6R) so that we don't lag behind the competition?",
+      "messages": [
+        {
+          "id": "525205137262903297",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-12-20T06:57:42.563+00:00",
+          "content": "hey devs, as you might be aware, red has been a powerful technology at getting attack for a long time. the good folks at blizzard have responded to the power of druid by nerfing one of druid's core cards (wild growth) by 33%. May I humbly suggest a 29% nerf to one of red's core units (tarsier, from 4R to 6R) so that we don't lag behind the competition?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-12-24T22:36:38.349+00:00",
+      "end_ts": "2018-12-24T22:36:38.349+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-12-24) ---\n[2018-12-24 22:36] masn6811 (Masne98888): @Developers serious question here. are you still concerned about units where \"earliest possible rush\" wins? asking because punf just made a new base+1 discovery",
+      "messages": [
+        {
+          "id": "526890978137735191",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-12-24T22:36:38.349+00:00",
+          "content": "@Developers serious question here. are you still concerned about units where \"earliest possible rush\" wins? asking because punf just made a new base+1 discovery"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-12-25T03:56:50.752+00:00",
+      "end_ts": "2018-12-25T04:15:30.037+00:00",
+      "participants": [
+        "drevoed",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 88,
+      "formatted_text": "--- Thread (17 messages, 2018-12-25) ---\n[2018-12-25 03:56] elyot: @Masne98888 Always interested in hearing what you guys are discovering but base+1 rushes are often not practical in more standard situations so we take it with a grain of salt\n[2018-12-25 03:59] elyot: I want to apologize for slow answers to these questions, actually I just kept forgetting to check this channel and somehow my notification settings in discord got screwed up so it wasn't pinging me, normally I get a notification every time somebody posts something in here but apparently it was off, it's been fixed now!\n[2018-12-25 03:59] elyot: Let me get caught up...\n[2018-12-25 04:03] elyot: @Deleted User raids will happen if Prismata does well and we want to build them out as a new feature as we continue developing the game, we'll see\n@Plato we'll announce episode 4 when we're 100% sure we have a date but we still don't have one\n@Drevoed Mostly things are going well but there are always delays. We've spent a lot of time lately doing API integrations and stuff with publishing partners and it's a lot of work, we actually hired somebody to help but even still it's a lot of work cuz they need to get up to speed on all our systems and things. Localization also was so much more work than expected and these types of projects leave us with less time than I'd like to work on campaign etc..\n[2018-12-25 04:07] elyot: @Drevoed Well the goal of the \"honorable\" requirement is that you at least have to try a bit to beat the bot. Allowing it in friendlies would lead to a lot of farming with multiple accounts or even botting.\n@Deleted User Yes we've been talking to Epic, I'm honestly not that optimistic about it but I think sometime around Q3 2019 there will be a lot of games on there and we'll try to be in that bunch\n@Deleted User We sorta wanted to emulate Hearthstone tavern brawl in that it's not really about the rewards for the long events. I guess we could add something but the point was just to give a small incentive to play a game\n@Deleted User We don't really use \"swarmwielder\" in our marketing much, we tried to think of a word for \"pokemon\" in our universe but never found one that felt good. swarmwielder was actually independently created by 2 writers\n[2018-12-25 04:09] elyot: @Masne98888 Aennervi Field sounds like a cool name. If we were hiring a unit naming specialist then I'd interview you. 😛\n[2018-12-25 04:09] elyot: @Deleted User PM me and I can use my admin powers to unlink your prismata account from Steam, need to know your Prismata userID and will need to confirm ownership of the account\n[2018-12-25 04:10] elyot: @satibel That joke always gets people, it's one of many bad jokes I contributed to the story, I apologize for all the other ones but I'm glad you like that one\n[2018-12-25 04:12] elyot: Apologies again for taking a long time to answer, I think the notifications are fixed now so it should be back to my usual 24-hour-ish turnaround time\n[2018-12-25 04:12] drevoed: Are you gonna work through Christmass holidays?\n[2018-12-25 04:12] elyot: I will do a bit of stuff because one of our partners is in russia and their xmas is in january so they're working this week\n[2018-12-25 04:12] elyot: they ask us to fix stuff for localization etc.\n[2018-12-25 04:13] elyot: I might do a bit of writing for campaign while I'm chilling out of town\n[2018-12-25 04:13] elyot: and actually we are doing a playtest with will/david/etc. to finalize a few unit changes that we're deploying\n[2018-12-25 04:13] elyot: but that's honestly like... not even work to me 😛\n[2018-12-25 04:14] elyot: it's more like hanging out with will while he's in town visiting family\n[2018-12-25 04:15] drevoed: Glad to hear it! (that you will have some chill time with an old friend)",
+      "messages": [
+        {
+          "id": "526971560796487731",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T03:56:50.752+00:00",
+          "content": "@Masne98888 Always interested in hearing what you guys are discovering but base+1 rushes are often not practical in more standard situations so we take it with a grain of salt"
+        },
+        {
+          "id": "526972237665009677",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T03:59:32.13+00:00",
+          "content": "I want to apologize for slow answers to these questions, actually I just kept forgetting to check this channel and somehow my notification settings in discord got screwed up so it wasn't pinging me, normally I get a notification every time somebody posts something in here but apparently it was off, it's been fixed now!"
+        },
+        {
+          "id": "526972254668455936",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T03:59:36.184+00:00",
+          "content": "Let me get caught up..."
+        },
+        {
+          "id": "526973254896975872",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:03:34.657+00:00",
+          "content": "@Deleted User raids will happen if Prismata does well and we want to build them out as a new feature as we continue developing the game, we'll see\n@Plato we'll announce episode 4 when we're 100% sure we have a date but we still don't have one\n@Drevoed Mostly things are going well but there are always delays. We've spent a lot of time lately doing API integrations and stuff with publishing partners and it's a lot of work, we actually hired somebody to help but even still it's a lot of work cuz they need to get up to speed on all our systems and things. Localization also was so much more work than expected and these types of projects leave us with less time than I'd like to work on campaign etc.."
+        },
+        {
+          "id": "526974348859277312",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:07:55.478+00:00",
+          "content": "@Drevoed Well the goal of the \"honorable\" requirement is that you at least have to try a bit to beat the bot. Allowing it in friendlies would lead to a lot of farming with multiple accounts or even botting.\n@Deleted User Yes we've been talking to Epic, I'm honestly not that optimistic about it but I think sometime around Q3 2019 there will be a lot of games on there and we'll try to be in that bunch\n@Deleted User We sorta wanted to emulate Hearthstone tavern brawl in that it's not really about the rewards for the long events. I guess we could add something but the point was just to give a small incentive to play a game\n@Deleted User We don't really use \"swarmwielder\" in our marketing much, we tried to think of a word for \"pokemon\" in our universe but never found one that felt good. swarmwielder was actually independently created by 2 writers"
+        },
+        {
+          "id": "526974637322534913",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:09:04.253+00:00",
+          "content": "@Masne98888 Aennervi Field sounds like a cool name. If we were hiring a unit naming specialist then I'd interview you. 😛"
+        },
+        {
+          "id": "526974788342906893",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:09:40.259+00:00",
+          "content": "@Deleted User PM me and I can use my admin powers to unlink your prismata account from Steam, need to know your Prismata userID and will need to confirm ownership of the account"
+        },
+        {
+          "id": "526975106140995584",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:10:56.028+00:00",
+          "content": "@satibel That joke always gets people, it's one of many bad jokes I contributed to the story, I apologize for all the other ones but I'm glad you like that one"
+        },
+        {
+          "id": "526975380985479196",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:12:01.556+00:00",
+          "content": "Apologies again for taking a long time to answer, I think the notifications are fixed now so it should be back to my usual 24-hour-ish turnaround time"
+        },
+        {
+          "id": "526975403638652941",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-12-25T04:12:06.957+00:00",
+          "content": "Are you gonna work through Christmass holidays?"
+        },
+        {
+          "id": "526975549722198016",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:12:41.786+00:00",
+          "content": "I will do a bit of stuff because one of our partners is in russia and their xmas is in january so they're working this week"
+        },
+        {
+          "id": "526975609402818560",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:12:56.015+00:00",
+          "content": "they ask us to fix stuff for localization etc."
+        },
+        {
+          "id": "526975700201373696",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:13:17.663+00:00",
+          "content": "I might do a bit of writing for campaign while I'm chilling out of town"
+        },
+        {
+          "id": "526975780442472451",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:13:36.794+00:00",
+          "content": "and actually we are doing a playtest with will/david/etc. to finalize a few unit changes that we're deploying"
+        },
+        {
+          "id": "526975802332413962",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:13:42.013+00:00",
+          "content": "but that's honestly like... not even work to me 😛"
+        },
+        {
+          "id": "526975887019868170",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-12-25T04:14:02.204+00:00",
+          "content": "it's more like hanging out with will while he's in town visiting family"
+        },
+        {
+          "id": "526976255418171413",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-12-25T04:15:30.037+00:00",
+          "content": "Glad to hear it! (that you will have some chill time with an old friend)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-01-01T05:50:20.061+00:00",
+      "end_ts": "2019-01-01T05:53:59.721+00:00",
+      "participants": [
+        "Deleted User",
+        "elyot",
+        "msven"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (6 messages, 2019-01-01) ---\n[2019-01-01 05:50] msven: Based on some chatter in my stream chat, there seems to be a demand for some way for newer players to queue into eachother on ladder. How about a new section on this Discord channel just for new players to communicate?\n[2019-01-01 05:52] Deleted User (Deleted User): Is that just a sophisticated \"any kid rated\"\n[2019-01-01 05:53] elyot: @Deleted User it's a pretty simple wild drone, the ones we didn't like were ones that made 2 gold per turn\n[2019-01-01 05:53] elyot: @xYotsuba patch probably this week\n[2019-01-01 05:53] Deleted User (Deleted User): Interesting... so I'm expecting the new one not to?\n[2019-01-01 05:53] elyot: @Msven yeah I wonder if we can do something in discord, sounds like a good idea, I'll think about it",
+      "messages": [
+        {
+          "id": "529536836167663619",
+          "author": "msven",
+          "nickname": "Msven",
+          "timestamp": "2019-01-01T05:50:20.061+00:00",
+          "content": "Based on some chatter in my stream chat, there seems to be a demand for some way for newer players to queue into eachother on ladder. How about a new section on this Discord channel just for new players to communicate?"
+        },
+        {
+          "id": "529537380714020864",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2019-01-01T05:52:29.891+00:00",
+          "content": "Is that just a sophisticated \"any kid rated\""
+        },
+        {
+          "id": "529537509072437288",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-01T05:53:00.494+00:00",
+          "content": "@Deleted User it's a pretty simple wild drone, the ones we didn't like were ones that made 2 gold per turn"
+        },
+        {
+          "id": "529537556308819978",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-01T05:53:11.756+00:00",
+          "content": "@xYotsuba patch probably this week"
+        },
+        {
+          "id": "529537662684626948",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2019-01-01T05:53:37.118+00:00",
+          "content": "Interesting... so I'm expecting the new one not to?"
+        },
+        {
+          "id": "529537757488349184",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-01T05:53:59.721+00:00",
+          "content": "@Msven yeah I wonder if we can do something in discord, sounds like a good idea, I'll think about it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-01-12T14:31:10.915+00:00",
+      "end_ts": "2019-01-12T14:38:43.84+00:00",
+      "participants": [
+        "drevoed",
+        "elyot"
+      ],
+      "replay_codes": [
+        "lower-ranke"
+      ],
+      "score": 33,
+      "formatted_text": "--- Thread (7 messages, 2019-01-12) ---\n[2019-01-12 14:31] elyot: @Drevoed we'll wait and see how things go once we start rolling out heavy ads before we think about adjusting matchmaking due to low volume problems\n[2019-01-12 14:33] elyot: @Drevoed we care about what all players enjoy, we find that low-ranked players just generally have a distaste for non-standard units but those units need to exist and we don't really want to balance them around lower-ranked players who don't know how to deal with them yet, part of the fun in learning Prismata is learning how to deal with non-standard units\n[2019-01-12 14:34] elyot: @Subido (rovaniemi) Yeah there are several puzzles involving phage but we might just keep the old phage for them unless there is an obvious fix\n[2019-01-12 14:34] elyot: I'm doing a pass over them today\n[2019-01-12 14:34] elyot: Thankfully the Odin change didn't affect any missions (there are several in chapter 4)\n[2019-01-12 14:35] drevoed: About lower rank unit enjoyment, I was wondering about solutions other than unit changes.\n[2019-01-12 14:38] drevoed: Like more combat scenarios focused on teaching to play with those units, pushing them further in level up blueprint unlocks, choosing only units that *both* players have for pre-master ranked games, highlighting that embargo is a thing that exists, etc.",
+      "messages": [
+        {
+          "id": "533654178271199233",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-12T14:31:10.915+00:00",
+          "content": "@Drevoed we'll wait and see how things go once we start rolling out heavy ads before we think about adjusting matchmaking due to low volume problems"
+        },
+        {
+          "id": "533654702089306122",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-12T14:33:15.803+00:00",
+          "content": "@Drevoed we care about what all players enjoy, we find that low-ranked players just generally have a distaste for non-standard units but those units need to exist and we don't really want to balance them around lower-ranked players who don't know how to deal with them yet, part of the fun in learning Prismata is learning how to deal with non-standard units"
+        },
+        {
+          "id": "533654918821576704",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-12T14:34:07.476+00:00",
+          "content": "@Subido (rovaniemi) Yeah there are several puzzles involving phage but we might just keep the old phage for them unless there is an obvious fix"
+        },
+        {
+          "id": "533655013508120577",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-12T14:34:30.051+00:00",
+          "content": "I'm doing a pass over them today"
+        },
+        {
+          "id": "533655083011932161",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-12T14:34:46.622+00:00",
+          "content": "Thankfully the Odin change didn't affect any missions (there are several in chapter 4)"
+        },
+        {
+          "id": "533655220526514176",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2019-01-12T14:35:19.408+00:00",
+          "content": "About lower rank unit enjoyment, I was wondering about solutions other than unit changes."
+        },
+        {
+          "id": "533656077976338464",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2019-01-12T14:38:43.84+00:00",
+          "content": "Like more combat scenarios focused on teaching to play with those units, pushing them further in level up blueprint unlocks, choosing only units that *both* players have for pre-master ranked games, highlighting that embargo is a thing that exists, etc."
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-01-16T09:28:11.863+00:00",
+      "end_ts": "2019-01-16T09:28:30.095+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2019-01-16) ---\n[2019-01-16 09:28] elyot: It's a custom font that our artist created\n[2019-01-16 09:28] elyot: @Asymat yeah I fixed that but fixed in wrong branch by mistake, will redeploy soon",
+      "messages": [
+        {
+          "id": "535027481262948372",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-16T09:28:11.863+00:00",
+          "content": "It's a custom font that our artist created"
+        },
+        {
+          "id": "535027557733498880",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-16T09:28:30.095+00:00",
+          "content": "@Asymat yeah I fixed that but fixed in wrong branch by mistake, will redeploy soon"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-01-16T10:10:38.171+00:00",
+      "end_ts": "2019-01-16T10:19:30.074+00:00",
+      "participants": [
+        "elyot",
+        "sonoja"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (3 messages, 2019-01-16) ---\n[2019-01-16 10:10] sonoja: Do you feel that Appollo limits you in term of game design ? For every new unit you design, the threshold of 3 HP is very important, and you can't make a high cost unit with less than 3 HP anymore (or if you do, none will play it in an Appollo set).\n[2019-01-16 10:18] elyot: we seldom think about it because it's only relevant for maybe 10% of units\n[2019-01-16 10:19] elyot: it's also not a bad thing to have hard counters because it can create some situations where tech-switching to apollo at a high cost is an interesting decision, like if you've already committed to other colours",
+      "messages": [
+        {
+          "id": "535038161253040128",
+          "author": "sonoja",
+          "nickname": "sonoja",
+          "timestamp": "2019-01-16T10:10:38.171+00:00",
+          "content": "Do you feel that Appollo limits you in term of game design ? For every new unit you design, the threshold of 3 HP is very important, and you can't make a high cost unit with less than 3 HP anymore (or if you do, none will play it in an Appollo set)."
+        },
+        {
+          "id": "535040224930299904",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-16T10:18:50.19+00:00",
+          "content": "we seldom think about it because it's only relevant for maybe 10% of units"
+        },
+        {
+          "id": "535040392215920641",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-16T10:19:30.074+00:00",
+          "content": "it's also not a bad thing to have hard counters because it can create some situations where tech-switching to apollo at a high cost is an interesting decision, like if you've already committed to other colours"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-01-17T11:15:57.153+00:00",
+      "end_ts": "2019-01-17T11:15:57.153+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2019-01-17) ---\n[2019-01-17 11:15] elyot: it's more accepting of larger rating gaps but less accepting of repeat matches",
+      "messages": [
+        {
+          "id": "535416986520256522",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-17T11:15:57.153+00:00",
+          "content": "it's more accepting of larger rating gaps but less accepting of repeat matches"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-01-17T17:52:54.509+00:00",
+      "end_ts": "2019-01-17T17:59:14.656+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [
+        "nally-calcu"
+      ],
+      "score": 30,
+      "formatted_text": "--- Thread (5 messages, 2019-01-17) ---\n[2019-01-17 17:52] elyot: we actually have 3 different acceptability criteria for matching people depending on whether it's a casual event (tuesday/friday) or a blitz brawl or a megabrawl\n[2019-01-17 17:53] elyot: tuesday/friday is not based on event score at all, only internally-calculated MMR which has nothing to do with events\n[2019-01-17 17:55] elyot: blitz brawls only care about MMR during the first few games, they switch to caring about event score after 10 points or so\n[2019-01-17 17:56] elyot: you'll have to wait in queue a long time before it will match you with somebody like 20 event score ahead of you\n[2019-01-17 17:59] elyot: megabrawl does not care about MMR at all but also adds randomness to matchmaking",
+      "messages": [
+        {
+          "id": "535516883752058880",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-17T17:52:54.509+00:00",
+          "content": "we actually have 3 different acceptability criteria for matching people depending on whether it's a casual event (tuesday/friday) or a blitz brawl or a megabrawl"
+        },
+        {
+          "id": "535517067307253761",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-17T17:53:38.272+00:00",
+          "content": "tuesday/friday is not based on event score at all, only internally-calculated MMR which has nothing to do with events"
+        },
+        {
+          "id": "535517595072200714",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-17T17:55:44.101+00:00",
+          "content": "blitz brawls only care about MMR during the first few games, they switch to caring about event score after 10 points or so"
+        },
+        {
+          "id": "535517682938937345",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-17T17:56:05.05+00:00",
+          "content": "you'll have to wait in queue a long time before it will match you with somebody like 20 event score ahead of you"
+        },
+        {
+          "id": "535518478204141588",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-01-17T17:59:14.656+00:00",
+          "content": "megabrawl does not care about MMR at all but also adds randomness to matchmaking"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-03T00:15:24.18+00:00",
+      "end_ts": "2019-02-03T00:15:24.18+00:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2019-02-03) ---\n[2019-02-03 00:15] awaclus: @Elyot have you considered organizing the files on your desktop some time?",
+      "messages": [
+        {
+          "id": "541411347498270752",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2019-02-03T00:15:24.18+00:00",
+          "content": "@Elyot have you considered organizing the files on your desktop some time?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-03T20:35:23.529+00:00",
+      "end_ts": "2019-02-03T20:52:07.713+00:00",
+      "participants": [
+        "elyot",
+        "p0lari"
+      ],
+      "replay_codes": [
+        "skill-based"
+      ],
+      "score": 33,
+      "formatted_text": "--- Thread (6 messages, 2019-02-03) ---\n[2019-02-03 20:35] elyot: @Awaclus Should I livestream it?\n[2019-02-03 20:36] elyot: I'd drag them all into a folder then go \"look done\"\n[2019-02-03 20:41] elyot: @Zera the best way to think of it is actually 2 systems working together, one is that ranked play has both a visible mmr and a hidden underlying \"true\" mmr, and it rubberbands between them; and two is that casual match play affects the hidden mmr and the strength of the rubberbanding\n[2019-02-03 20:44] p0lari (Polari): wait, I can cause my ranked rating to trend downwards by durdling and losing games in casual?\n[2019-02-03 20:51] elyot: no it doesn't rubber-band in the downward direction, and also for high-ranking players, the hidden and visible mmrs are identical so there is no rubberbanding anyway\n[2019-02-03 20:52] elyot: the ranking system interpolates between a system that rewards playing more games (at low tiers) to one that is entirely skill-based (at high tiers)",
+      "messages": [
+        {
+          "id": "541718367820578821",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-03T20:35:23.529+00:00",
+          "content": "@Awaclus Should I livestream it?"
+        },
+        {
+          "id": "541718553850806273",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-03T20:36:07.882+00:00",
+          "content": "I'd drag them all into a folder then go \"look done\""
+        },
+        {
+          "id": "541719988050985001",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-03T20:41:49.822+00:00",
+          "content": "@Zera the best way to think of it is actually 2 systems working together, one is that ranked play has both a visible mmr and a hidden underlying \"true\" mmr, and it rubberbands between them; and two is that casual match play affects the hidden mmr and the strength of the rubberbanding"
+        },
+        {
+          "id": "541720725875327016",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2019-02-03T20:44:45.733+00:00",
+          "content": "wait, I can cause my ranked rating to trend downwards by durdling and losing games in casual?"
+        },
+        {
+          "id": "541722479262171166",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-03T20:51:43.773+00:00",
+          "content": "no it doesn't rubber-band in the downward direction, and also for high-ranking players, the hidden and visible mmrs are identical so there is no rubberbanding anyway"
+        },
+        {
+          "id": "541722579673808896",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-03T20:52:07.713+00:00",
+          "content": "the ranking system interpolates between a system that rewards playing more games (at low tiers) to one that is entirely skill-based (at high tiers)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-03T22:07:00.837+00:00",
+      "end_ts": "2019-02-03T22:07:00.837+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [
+        "ntary-style"
+      ],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2019-02-03) ---\n[2019-02-03 22:07] elyot: @Drevoed We're actually working on a longer documentary-style video about Prismata and its development, maybe we can create a shorter edit of it that will satisfy the needs you mentioned",
+      "messages": [
+        {
+          "id": "541741425201512508",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-03T22:07:00.837+00:00",
+          "content": "@Drevoed We're actually working on a longer documentary-style video about Prismata and its development, maybe we can create a shorter edit of it that will satisfy the needs you mentioned"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-05T00:26:09.674+00:00",
+      "end_ts": "2019-02-05T00:26:09.674+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2019-02-05) ---\n[2019-02-05 00:26] elyot: @DeadHour Yeah sure, I've done that before, PM me.",
+      "messages": [
+        {
+          "id": "542138830627536906",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-05T00:26:09.674+00:00",
+          "content": "@DeadHour Yeah sure, I've done that before, PM me."
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-05T01:25:00.08+00:00",
+      "end_ts": "2019-02-05T01:25:29.688+00:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2019-02-05) ---\n[2019-02-05 01:25] amalloy: @JP that sounds right to me. or steelsplitter tier includes both of those things\n[2019-02-05 01:25] amalloy: not sure about the relative prices",
+      "messages": [
+        {
+          "id": "542153638223544331",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2019-02-05T01:25:00.08+00:00",
+          "content": "@JP that sounds right to me. or steelsplitter tier includes both of those things"
+        },
+        {
+          "id": "542153762408759306",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2019-02-05T01:25:29.688+00:00",
+          "content": "not sure about the relative prices"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-08T20:29:22.414+00:00",
+      "end_ts": "2019-02-08T20:29:22.414+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2019-02-08) ---\n[2019-02-08 20:29] masn6811 (Masne98888): is \"Effect: THIS SHOULD NEVER HAPPEN?\" an easter egg?",
+      "messages": [
+        {
+          "id": "543528792522620953",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2019-02-08T20:29:22.414+00:00",
+          "content": "is \"Effect: THIS SHOULD NEVER HAPPEN?\" an easter egg?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-10T17:32:59+00:00",
+      "end_ts": "2019-02-10T17:32:59+00:00",
+      "participants": [
+        "upskuttle"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2019-02-10) ---\n[2019-02-10 17:32] upskuttle: hey @Elyot, i have a streak of 155 against masterbot and probably thousands of masterbot games. i've been told i should ask for a badge for this extremely dubious achievement, to show everyone how much time i waste pressing buttons",
+      "messages": [
+        {
+          "id": "544209178198278145",
+          "author": "upskuttle",
+          "nickname": "upskuttle",
+          "timestamp": "2019-02-10T17:32:59+00:00",
+          "content": "hey @Elyot, i have a streak of 155 against masterbot and probably thousands of masterbot games. i've been told i should ask for a badge for this extremely dubious achievement, to show everyone how much time i waste pressing buttons"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-11T12:38:25.05+00:00",
+      "end_ts": "2019-02-11T12:39:12.16+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2019-02-11) ---\n[2019-02-11 12:38] elyot: holy crap that's actually an insane streak\n[2019-02-11 12:39] elyot: we don't have a badge but damn that's impressive, take a screenshot and frame it 😛",
+      "messages": [
+        {
+          "id": "544497436144566282",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-11T12:38:25.05+00:00",
+          "content": "holy crap that's actually an insane streak"
+        },
+        {
+          "id": "544497633738358784",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-11T12:39:12.16+00:00",
+          "content": "we don't have a badge but damn that's impressive, take a screenshot and frame it 😛"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-11T21:00:42.424+00:00",
+      "end_ts": "2019-02-11T21:00:42.424+00:00",
+      "participants": [
+        "kristian1103"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2019-02-11) ---\n[2019-02-11 21:00] kristian1103 (Arkanishu): when will bombarder be nerfed? The more I play with it the more I think it really needs a nerf. \nEven when there is nothing else to buy with blue just going BB to spam all the bombarders is worth it most of the time",
+      "messages": [
+        {
+          "id": "544623841452752896",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2019-02-11T21:00:42.424+00:00",
+          "content": "when will bombarder be nerfed? The more I play with it the more I think it really needs a nerf. \nEven when there is nothing else to buy with blue just going BB to spam all the bombarders is worth it most of the time"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-11T21:44:13.985+00:00",
+      "end_ts": "2019-02-11T21:51:28.668+00:00",
+      "participants": [
+        "elyot",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 38,
+      "formatted_text": "--- Thread (7 messages, 2019-02-11) ---\n[2019-02-11 21:44] elyot: guys please keep it to dev questions in here.\n@Arkanishu I'll pull some more stats on Bombarder, maybe it's time\n[2019-02-11 21:44] masn6811 (Masne98888): also @Elyot could i get an answer for https://discordapp.com/channels/112616041175089152/391209800911814656/543528792522620953\n[2019-02-11 21:50] elyot: no, there's some switch statement in the code and it falls through to that if there are too many things, it must have been a unit that did something really insane for an event\n[2019-02-11 21:50] elyot: I could fix in like 5 minutes, can you give an example?\n[2019-02-11 21:50] masn6811 (Masne98888): arms race in trinket collection\n[2019-02-11 21:51] masn6811 (Masne98888): so make one splitter, make one gauss cannon, make one tarsier, make one barrier, make one pixie, make one nitrocybe, and give your opponent 4 engis\n[2019-02-11 21:51] masn6811 (Masne98888): on a related note, it also displays the prompt icon on the spell",
+      "messages": [
+        {
+          "id": "544634795133763615",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-11T21:44:13.985+00:00",
+          "content": "guys please keep it to dev questions in here.\n@Arkanishu I'll pull some more stats on Bombarder, maybe it's time"
+        },
+        {
+          "id": "544634804302512129",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2019-02-11T21:44:16.171+00:00",
+          "content": "also @Elyot could i get an answer for https://discordapp.com/channels/112616041175089152/391209800911814656/543528792522620953"
+        },
+        {
+          "id": "544636279627972649",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-11T21:50:07.916+00:00",
+          "content": "no, there's some switch statement in the code and it falls through to that if there are too many things, it must have been a unit that did something really insane for an event"
+        },
+        {
+          "id": "544636323844063234",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-11T21:50:18.458+00:00",
+          "content": "I could fix in like 5 minutes, can you give an example?"
+        },
+        {
+          "id": "544636362398105600",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2019-02-11T21:50:27.65+00:00",
+          "content": "arms race in trinket collection"
+        },
+        {
+          "id": "544636515163308033",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2019-02-11T21:51:04.072+00:00",
+          "content": "so make one splitter, make one gauss cannon, make one tarsier, make one barrier, make one pixie, make one nitrocybe, and give your opponent 4 engis"
+        },
+        {
+          "id": "544636618326147096",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2019-02-11T21:51:28.668+00:00",
+          "content": "on a related note, it also displays the prompt icon on the spell"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-18T23:30:01.493+00:00",
+      "end_ts": "2019-02-18T23:30:01.493+00:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2019-02-18) ---\n[2019-02-18 23:30] masn6811 (Masne98888): @Developers Should 5B be more expensive than most attackers?",
+      "messages": [
+        {
+          "id": "547198133571026974",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2019-02-18T23:30:01.493+00:00",
+          "content": "@Developers Should 5B be more expensive than most attackers?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-19T00:45:45.852+00:00",
+      "end_ts": "2019-02-19T00:48:20.787+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 13,
+      "formatted_text": "--- Thread (2 messages, 2019-02-19) ---\n[2019-02-19 00:45] elyot: @Moderator If somebody is looking for summer 2019 then we might consider it, need to figure out some things first though. They can contact me or email me a CV and/or any portfolio they have\n[2019-02-19 00:48] elyot: @Masne98888 Depends on what \"most\" is quantifying over, like obviously stuff costs more if it has some extra value and less if it has some weakness, we don't really make much of an effort to have a specific distribution of 'units with extra value' vs units with weaknesses but I would say on average we have more cheap units with weaknesses than expensive units with extra benefits",
+      "messages": [
+        {
+          "id": "547217193994158080",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-19T00:45:45.852+00:00",
+          "content": "@Moderator If somebody is looking for summer 2019 then we might consider it, need to figure out some things first though. They can contact me or email me a CV and/or any portfolio they have"
+        },
+        {
+          "id": "547217843838779404",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-02-19T00:48:20.787+00:00",
+          "content": "@Masne98888 Depends on what \"most\" is quantifying over, like obviously stuff costs more if it has some extra value and less if it has some weakness, we don't really make much of an effort to have a specific distribution of 'units with extra value' vs units with weaknesses but I would say on average we have more cheap units with weaknesses than expensive units with extra benefits"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-02-27T17:51:43.588+00:00",
+      "end_ts": "2019-02-27T17:51:43.588+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2019-02-27) ---\n[2019-02-27 17:51] silentslayers: Is there a way to go back to the main menu screen after somebody fails to load a ranked game? I have to close my client",
+      "messages": [
+        {
+          "id": "550374488777162755",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2019-02-27T17:51:43.588+00:00",
+          "content": "Is there a way to go back to the main menu screen after somebody fails to load a ranked game? I have to close my client"
+        }
+      ]
+    },
+    {
+      "start_ts": "2019-03-15T17:19:35.683+00:00",
+      "end_ts": "2019-03-15T17:20:40.634+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (2 messages, 2019-03-15) ---\n[2019-03-15 17:19] elyot: @Deleted User Unfortunately most of the work we've been doing lately is relating to localization and porting. So it still might be a while before there is a big update that will affect Steam or desktop players. We want to time the episode 4 release for when it will be most impactful to our growth, and we're gonna have several tens of thousands of new players once our publishing partners launch in their respective regions. Can't give a date and it's really not up to us, but I promise this will ultimately be for the best!\n\n@Zera Googly eyes are made by me and uh... idunno, I can make more if people want them I guess. >_<\n\n@SilentSlayers If you wait long enough then it will abort the game and kick you back to the menu\n\n@Inasyn It will increase a lot once our publishing partners do their launches, which will be soon!\n\n@Drevoed Honestly it barely matters, it's more of a thing to be consistent with other green-red units I guess?\n[2019-03-15 17:20] elyot: Also sorry for slow responses everyone. Honestly I thought discord was pinging me every time somebody posted in here, but apparently it only makes noise and doesn't actually put a ping on the channel.\n\nFrom now on, could people just @Elyot me whenever they ask a question in here? I won't mind, I promise.",
+      "messages": [
+        {
+          "id": "556164608407109643",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-03-15T17:19:35.683+00:00",
+          "content": "@Deleted User Unfortunately most of the work we've been doing lately is relating to localization and porting. So it still might be a while before there is a big update that will affect Steam or desktop players. We want to time the episode 4 release for when it will be most impactful to our growth, and we're gonna have several tens of thousands of new players once our publishing partners launch in their respective regions. Can't give a date and it's really not up to us, but I promise this will ultimately be for the best!\n\n@Zera Googly eyes are made by me and uh... idunno, I can make more if people want them I guess. >_<\n\n@SilentSlayers If you wait long enough then it will abort the game and kick you back to the menu\n\n@Inasyn It will increase a lot once our publishing partners do their launches, which will be soon!\n\n@Drevoed Honestly it barely matters, it's more of a thing to be consistent with other green-red units I guess?"
+        },
+        {
+          "id": "556164880831479809",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2019-03-15T17:20:40.634+00:00",
+          "content": "Also sorry for slow responses everyone. Honestly I thought discord was pinging me every time somebody posted in here, but apparently it only makes noise and doesn't actually put a ping on the channel.\n\nFrom now on, could people just @Elyot me whenever they ask a question in here? I won't mind, I promise."
+        }
+      ]
+    }
+  ]
+}

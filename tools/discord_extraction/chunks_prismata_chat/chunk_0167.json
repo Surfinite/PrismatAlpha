@@ -1,0 +1,2822 @@
+{
+  "channel": "prismata_chat",
+  "date_range": "2024-05-15 to 2024-06-29",
+  "thread_count": 35,
+  "token_count": 13294,
+  "threads": [
+    {
+      "start_ts": "2024-05-15T07:12:31.704+01:00",
+      "end_ts": "2024-05-15T07:31:38.794+01:00",
+      "participants": [
+        "aa01blue",
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "multi-absor",
+        "force-killi"
+      ],
+      "score": 102,
+      "formatted_text": "--- Thread (50 messages, 2024-05-15) ---\n[2024-05-15 07:12] spiritfryer (Spyrfyr): I wanted to say what if it sniped >5 as a meme, but then decided it's not a great meme, but then it gave me an interesting idea\n\nWhat if there was a mechanic that forced part of an attack to be non-granular\n\nThis non-granular attack could be called something like \"Heavy\" or \"Siege\" attack\n\nEach instance of X Siege attack can only be defended using units whose health is >= X\n-- EDIT: also it turns the chosen soak fragile, for example 3 Siege soaked on an infusion grid leaves you with a 1 HP fragile infusion grid (to solve the problem of multi-absorb making it useless, and force-killing >X hp soak making it OP AF)\n-- EDIT: if no soak with >= X is available, the Siege attack breaches (as regular granular attack)\n\nFor example if you were being attacked for 10 + 2 instances of 3 Siege attack, then you could defend using 2 wall absorb + 8 engineers for the 10 part, and 2 walls for the 2*3 Siege part\n[2024-05-15 07:13] spiritfryer (Spyrfyr): so if you are out of big soak, bye bye absorb\n[2024-05-15 07:14] spiritfryer (Spyrfyr): because for example if you have a matrix, then just one instance of 3 Siege can never bust it down\n[2024-05-15 07:14] spiritfryer (Spyrfyr): but if there are two 3 Siege attackers, and you are completely out of big soak (that has 3 or more health), then you will be forced to put both 3 Sieges onto the matrix and it dies\n[2024-05-15 07:15] spiritfryer (Spyrfyr): I guess there is the question of what happens to the overkill damage, I guess it can turn into granular attack, though it's a bit inelegant/complex\n[2024-05-15 07:15] aa01blue: or just straight up waste it\n[2024-05-15 07:16] aa01blue: which gives weird interactions where a 4 soak and a 5 soak do the same thing against 3 siege\n[2024-05-15 07:17] aa01blue: then again it does the same thing against 3 chill\n[2024-05-15 07:17] spiritfryer (Spyrfyr): but should the siege damage kill the soaking unit even if it has more health?\n[2024-05-15 07:17] spiritfryer (Spyrfyr): I think it should be absorbed\n[2024-05-15 07:18] spiritfryer (Spyrfyr): it's weird cos if it's absorbed then siege attackers or useless if there are blue health units with >X HP\n[2024-05-15 07:18] aa01blue: Yeah but that causes weird interactions no\n[2024-05-15 07:18] aa01blue: can you soak siege and damage separately\n[2024-05-15 07:18] spiritfryer (Spyrfyr): yea that's what I mean\n[2024-05-15 07:18] spiritfryer (Spyrfyr): if each instance of siege can be soaked as long as you have sufficient separate big HP units\n[2024-05-15 07:18] spiritfryer (Spyrfyr): then siege is kinda useless most of the time\n[2024-05-15 07:19] spiritfryer (Spyrfyr): but the alternative is that each instance of siege kills the assigned soak\n[2024-05-15 07:19] spiritfryer (Spyrfyr): unless it is the last instance?\n[2024-05-15 07:19] aa01blue: cuz like siege 3 is insane when wall biggest, but completely useless against igrids\n[2024-05-15 07:19] aa01blue: or at least only as valuable as an igrid\n[2024-05-15 07:19] spiritfryer (Spyrfyr): yea if you allow multi absorb then it's useless\n[2024-05-15 07:19] spiritfryer (Spyrfyr): and if you force kill each instance then it's busted OP\n[2024-05-15 07:20] spiritfryer (Spyrfyr): what if it turns the soak fragile?\n[2024-05-15 07:20] spiritfryer (Spyrfyr): so it forces 0 absorb\n[2024-05-15 07:21] spiritfryer (Spyrfyr): I think that's a decent solution\n[2024-05-15 07:21] spiritfryer (Spyrfyr): organic defense is immune to this siege tech which turns absorbers ~~brittle~~ fragile\n[2024-05-15 07:22] spiritfryer (Spyrfyr): cos organs are already fragile :LongNoseLiar:\n[2024-05-15 07:22] aa01blue: I wouldn't say mahar is organic, I've always imagined it being forcefields\n[2024-05-15 07:23] aa01blue: If you made each siege x its separate attack where you can assign blockers to block a multiple of x damage, it could work\n[2024-05-15 07:24] aa01blue: assuming bigger siege better\n[2024-05-15 07:24] aa01blue: as in you can only absorb siege 3 attacks with 1 unit, and siege 4 attacks with 1 unit, etc\n[2024-05-15 07:24] spiritfryer (Spyrfyr): yea I assume the implementation would require each siege to be its own attack\n[2024-05-15 07:25] spiritfryer (Spyrfyr): they would be resolved in turns\n[2024-05-15 07:25] spiritfryer (Spyrfyr): starting with the biggest siege I guess\n[2024-05-15 07:25] aa01blue: then siege 2 + siege 3 might be worse than double siege 2 tho\n[2024-05-15 07:25] spiritfryer (Spyrfyr): well with the fragile version you can never absorb siege\n[2024-05-15 07:25] aa01blue: against igrid for example\n[2024-05-15 07:25] aa01blue: yeah but the fragile version is really sus\n[2024-05-15 07:26] spiritfryer (Spyrfyr): I am going with the siege definition of: must choose a defending unit of >= X, and if >X then it takes X damage and turns fragile\n[2024-05-15 07:26] spiritfryer (Spyrfyr): if no option, then it breaches as standard granular attack\n[2024-05-15 07:26] aa01blue: cuz of regen \"absorber\" interactions\n[2024-05-15 07:27] aa01blue: would be funny if it must breach as nongranulsr attack\n[2024-05-15 07:28] aa01blue: i mean it's already a wall killer\n[2024-05-15 07:29] spiritfryer (Spyrfyr): you have strictly less (or at most equal) options on what you can assign the siege3 attack onto as the defender\n[2024-05-15 07:29] spiritfryer (Spyrfyr): so how can it ever be better for the defender\n[2024-05-15 07:30] aa01blue: if we assume you can only absorb using 1 defender against all instances of siege x\n[2024-05-15 07:30] aa01blue: 2 igrids can absorb both siege 2 and 3\n[2024-05-15 07:30] aa01blue: but you have to kill off an igrid to absorb 2 siege 2\n[2024-05-15 07:31] spiritfryer (Spyrfyr): well in the fragile version there is no longer the overkill being wasted though\n[2024-05-15 07:31] spiritfryer (Spyrfyr): there is never overkill in the fragilemaker version",
+      "messages": [
+        {
+          "id": "1240185025924698122",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:12:31.704+01:00",
+          "content": "I wanted to say what if it sniped >5 as a meme, but then decided it's not a great meme, but then it gave me an interesting idea\n\nWhat if there was a mechanic that forced part of an attack to be non-granular\n\nThis non-granular attack could be called something like \"Heavy\" or \"Siege\" attack\n\nEach instance of X Siege attack can only be defended using units whose health is >= X\n-- EDIT: also it turns the chosen soak fragile, for example 3 Siege soaked on an infusion grid leaves you with a 1 HP fragile infusion grid (to solve the problem of multi-absorb making it useless, and force-killing >X hp soak making it OP AF)\n-- EDIT: if no soak with >= X is available, the Siege attack breaches (as regular granular attack)\n\nFor example if you were being attacked for 10 + 2 instances of 3 Siege attack, then you could defend using 2 wall absorb + 8 engineers for the 10 part, and 2 walls for the 2*3 Siege part"
+        },
+        {
+          "id": "1240185197333450772",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:13:12.571+01:00",
+          "content": "so if you are out of big soak, bye bye absorb"
+        },
+        {
+          "id": "1240185413902008330",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:14:04.205+01:00",
+          "content": "because for example if you have a matrix, then just one instance of 3 Siege can never bust it down"
+        },
+        {
+          "id": "1240185508127313991",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:14:26.67+01:00",
+          "content": "but if there are two 3 Siege attackers, and you are completely out of big soak (that has 3 or more health), then you will be forced to put both 3 Sieges onto the matrix and it dies"
+        },
+        {
+          "id": "1240185743830155336",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:15:22.866+01:00",
+          "content": "I guess there is the question of what happens to the overkill damage, I guess it can turn into granular attack, though it's a bit inelegant/complex"
+        },
+        {
+          "id": "1240185793981710366",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:15:34.823+01:00",
+          "content": "or just straight up waste it"
+        },
+        {
+          "id": "1240186124022845500",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:16:53.511+01:00",
+          "content": "which gives weird interactions where a 4 soak and a 5 soak do the same thing against 3 siege"
+        },
+        {
+          "id": "1240186168122015764",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:17:04.025+01:00",
+          "content": "then again it does the same thing against 3 chill"
+        },
+        {
+          "id": "1240186356500791336",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:17:48.938+01:00",
+          "content": "but should the siege damage kill the soaking unit even if it has more health?"
+        },
+        {
+          "id": "1240186379158294589",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:17:54.34+01:00",
+          "content": "I think it should be absorbed"
+        },
+        {
+          "id": "1240186488671440926",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:18:20.45+01:00",
+          "content": "it's weird cos if it's absorbed then siege attackers or useless if there are blue health units with >X HP"
+        },
+        {
+          "id": "1240186495701356605",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:18:22.126+01:00",
+          "content": "Yeah but that causes weird interactions no"
+        },
+        {
+          "id": "1240186533902946326",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:18:31.234+01:00",
+          "content": "can you soak siege and damage separately"
+        },
+        {
+          "id": "1240186556967288894",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:18:36.733+01:00",
+          "content": "yea that's what I mean"
+        },
+        {
+          "id": "1240186617441026068",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:18:51.151+01:00",
+          "content": "if each instance of siege can be soaked as long as you have sufficient separate big HP units"
+        },
+        {
+          "id": "1240186634117316678",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:18:55.127+01:00",
+          "content": "then siege is kinda useless most of the time"
+        },
+        {
+          "id": "1240186693827428455",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:19:09.363+01:00",
+          "content": "but the alternative is that each instance of siege kills the assigned soak"
+        },
+        {
+          "id": "1240186716506030181",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:19:14.77+01:00",
+          "content": "unless it is the last instance?"
+        },
+        {
+          "id": "1240186746617200640",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:19:21.949+01:00",
+          "content": "cuz like siege 3 is insane when wall biggest, but completely useless against igrids"
+        },
+        {
+          "id": "1240186786890649641",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:19:31.551+01:00",
+          "content": "or at least only as valuable as an igrid"
+        },
+        {
+          "id": "1240186821397184512",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:19:39.778+01:00",
+          "content": "yea if you allow multi absorb then it's useless"
+        },
+        {
+          "id": "1240186853114511390",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:19:47.34+01:00",
+          "content": "and if you force kill each instance then it's busted OP"
+        },
+        {
+          "id": "1240187019259543594",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:20:26.952+01:00",
+          "content": "what if it turns the soak fragile?"
+        },
+        {
+          "id": "1240187052469911653",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:20:34.87+01:00",
+          "content": "so it forces 0 absorb"
+        },
+        {
+          "id": "1240187164554166272",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:21:01.593+01:00",
+          "content": "I think that's a decent solution"
+        },
+        {
+          "id": "1240187310243315742",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:21:36.328+01:00",
+          "content": "organic defense is immune to this siege tech which turns absorbers ~~brittle~~ fragile"
+        },
+        {
+          "id": "1240187463364771840",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:22:12.835+01:00",
+          "content": "cos organs are already fragile :LongNoseLiar:"
+        },
+        {
+          "id": "1240187470595883028",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:22:14.559+01:00",
+          "content": "I wouldn't say mahar is organic, I've always imagined it being forcefields"
+        },
+        {
+          "id": "1240187834950746195",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:23:41.428+01:00",
+          "content": "If you made each siege x its separate attack where you can assign blockers to block a multiple of x damage, it could work"
+        },
+        {
+          "id": "1240187983278247966",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:24:16.792+01:00",
+          "content": "assuming bigger siege better"
+        },
+        {
+          "id": "1240188137989210162",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:24:53.678+01:00",
+          "content": "as in you can only absorb siege 3 attacks with 1 unit, and siege 4 attacks with 1 unit, etc"
+        },
+        {
+          "id": "1240188149406240830",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:24:56.4+01:00",
+          "content": "yea I assume the implementation would require each siege to be its own attack"
+        },
+        {
+          "id": "1240188182017085450",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:25:04.175+01:00",
+          "content": "they would be resolved in turns"
+        },
+        {
+          "id": "1240188207551877130",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:25:10.263+01:00",
+          "content": "starting with the biggest siege I guess"
+        },
+        {
+          "id": "1240188336275066950",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:25:40.953+01:00",
+          "content": "then siege 2 + siege 3 might be worse than double siege 2 tho"
+        },
+        {
+          "id": "1240188358282444841",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:25:46.2+01:00",
+          "content": "well with the fragile version you can never absorb siege"
+        },
+        {
+          "id": "1240188364062195742",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:25:47.578+01:00",
+          "content": "against igrid for example"
+        },
+        {
+          "id": "1240188410438877274",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:25:58.635+01:00",
+          "content": "yeah but the fragile version is really sus"
+        },
+        {
+          "id": "1240188527635992586",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:26:26.577+01:00",
+          "content": "I am going with the siege definition of: must choose a defending unit of >= X, and if >X then it takes X damage and turns fragile"
+        },
+        {
+          "id": "1240188592660418590",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:26:42.08+01:00",
+          "content": "if no option, then it breaches as standard granular attack"
+        },
+        {
+          "id": "1240188635723337768",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:26:52.347+01:00",
+          "content": "cuz of regen \"absorber\" interactions"
+        },
+        {
+          "id": "1240188795836698624",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:27:30.521+01:00",
+          "content": "would be funny if it must breach as nongranulsr attack"
+        },
+        {
+          "id": "1240189056931991553",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:28:32.771+01:00",
+          "content": "i mean it's already a wall killer"
+        },
+        {
+          "id": "1240189382326095874",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:29:50.351+01:00",
+          "content": "you have strictly less (or at most equal) options on what you can assign the siege3 attack onto as the defender"
+        },
+        {
+          "id": "1240189409362444318",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:29:56.797+01:00",
+          "content": "so how can it ever be better for the defender"
+        },
+        {
+          "id": "1240189513804939285",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:30:21.698+01:00",
+          "content": "if we assume you can only absorb using 1 defender against all instances of siege x"
+        },
+        {
+          "id": "1240189575566200832",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:30:36.423+01:00",
+          "content": "2 igrids can absorb both siege 2 and 3"
+        },
+        {
+          "id": "1240189617685397604",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:30:46.465+01:00",
+          "content": "but you have to kill off an igrid to absorb 2 siege 2"
+        },
+        {
+          "id": "1240189733204660235",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:31:14.007+01:00",
+          "content": "well in the fragile version there is no longer the overkill being wasted though"
+        },
+        {
+          "id": "1240189837169000448",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:31:38.794+01:00",
+          "content": "there is never overkill in the fragilemaker version"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-15T07:31:46.995+01:00",
+      "end_ts": "2024-05-15T07:46:11.96+01:00",
+      "participants": [
+        "aa01blue",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 104,
+      "formatted_text": "--- Thread (40 messages, 2024-05-15) ---\n[2024-05-15 07:31] spiritfryer (Spyrfyr): unless you breach and there is nothing to kill\n[2024-05-15 07:32] spiritfryer (Spyrfyr): or you breach and the backline absorbs\n[2024-05-15 07:32] spiritfryer (Spyrfyr): and I think it's thematic for siege damage to turn the target fragile\n[2024-05-15 07:33] spiritfryer (Spyrfyr): cos it busts through defense\n[2024-05-15 07:33] spiritfryer (Spyrfyr): and if you ain't got nothing big enough to soak it, it breaches\n[2024-05-15 07:34] aa01blue: The problem is that siege would be regular value against an aegis, and completely broken against say centurion\n[2024-05-15 07:34] spiritfryer (Spyrfyr): well even against aegis, it forces overdefense in some cases\n[2024-05-15 07:34] spiritfryer (Spyrfyr): and if you have many siege3s, even aegis will struggle\n[2024-05-15 07:35] spiritfryer (Spyrfyr): though you prolly wouldn't be able to get many\n[2024-05-15 07:35] spiritfryer (Spyrfyr): cos it's worth more than 3 attack after all\n[2024-05-15 07:35] aa01blue: against centurion siege 3 is worth... a centurion\n[2024-05-15 07:35] spiritfryer (Spyrfyr): only once you are out of walls at least\n[2024-05-15 07:36] spiritfryer (Spyrfyr): I doubt siege 4 is balanced\n[2024-05-15 07:36] spiritfryer (Spyrfyr): I think siege3 max xD\n[2024-05-15 07:36] spiritfryer (Spyrfyr): I think siege3 is the sweet spot\n[2024-05-15 07:36] spiritfryer (Spyrfyr): and siege2 can be interesting too\n[2024-05-15 07:36] spiritfryer (Spyrfyr): but siege3 is the nicest version of the mechanic in what it offers\n[2024-05-15 07:36] spiritfryer (Spyrfyr): you could do siege 4+ as build time burst thing\n[2024-05-15 07:37] aa01blue: shame that it gets invalidated by the goated plexo cell\n[2024-05-15 07:37] spiritfryer (Spyrfyr): but as a recurring attacker, siege3 max\n[2024-05-15 07:38] spiritfryer (Spyrfyr): but yea I like the idea of a once-off big siege\n[2024-05-15 07:38] spiritfryer (Spyrfyr): it would force a partial breach in some sets\n[2024-05-15 07:38] spiritfryer (Spyrfyr): and not for a massive amount\n[2024-05-15 07:38] spiritfryer (Spyrfyr): which is interesting\n[2024-05-15 07:39] spiritfryer (Spyrfyr): perhaps you can make it so that if there is a breaching siege, it first goes through the biggest soak available\n[2024-05-15 07:39] spiritfryer (Spyrfyr): or does that break sdr\n[2024-05-15 07:39] spiritfryer (Spyrfyr): I don't think it does\n[2024-05-15 07:39] spiritfryer (Spyrfyr): since the attacker can choose to kill that thing on breach anyway\n[2024-05-15 07:39] aa01blue: who chooses which of the biggest soaks available\n[2024-05-15 07:40] spiritfryer (Spyrfyr): since in siege breaching there will still be leftover defense sometimes, which the attacker should be able to target under this new mechanic\n[2024-05-15 07:40] spiritfryer (Spyrfyr): otherwise you break sdr\n[2024-05-15 07:40] spiritfryer (Spyrfyr): so I think it's fine to force target the biggest soak on breaching siege to soften the siege breach\n[2024-05-15 07:40] spiritfryer (Spyrfyr): and I think it makes sense thematically\n[2024-05-15 07:40] spiritfryer (Spyrfyr): since the defender would sack their biggest soak to soften the blow\n[2024-05-15 07:40] aa01blue: ig turning into regular attack if not defended fixes sdr?\n[2024-05-15 07:42] aa01blue: I thought the idea was that the siege would just pummel through defenders smaller than the attack\n[2024-05-15 07:42] aa01blue: otherwise what's stopping the defender from throwing engis at it\n[2024-05-15 07:45] spiritfryer (Spyrfyr): yea I'm settling on this definition:\n\n\"Siege\" is non-granular attack (cannot be defended \"granularly\") that turns defense fragile and can only be soaked using sufficiently high health units, otherwise it forcefully breaches (after being softened by the biggest available soak)\n\nSiege X: \n\n- Each instance of Siege will be resolved in turns, before the main \"normal\" attack, and starting with the largest instances of Siege attack first\n\n- For each instance of Siege X, the defender must assign soak with health >= X -- and if it is >X, it turns fragile and takes X damage\n\n- If there is no soak with health >= X, then the attacker must choose one of the biggest health soak available, and then gets to breach with the leftover damage as normal granular attack\n(in this case, this \"forced Siege breach\" happens before the attacker passes their turn, just as regular defense overrun breach would)\n--> For example: Siege3 -- nothing with >= 3 health --> attacker has to choose between a forcefield and a rhino (both of which have 2 health and are the highest health soak currently on the defender's side), and then gets to breach with the leftover 1 attack\n[2024-05-15 07:45] aa01blue: it's pretty interesting\n[2024-05-15 07:46] aa01blue: I think it's a bit complicated to fit in with the other prismata mechanics but it sounds like it could lead to interactions",
+      "messages": [
+        {
+          "id": "1240189871566356480",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:31:46.995+01:00",
+          "content": "unless you breach and there is nothing to kill"
+        },
+        {
+          "id": "1240189945037979708",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:32:04.512+01:00",
+          "content": "or you breach and the backline absorbs"
+        },
+        {
+          "id": "1240190161963188276",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:32:56.231+01:00",
+          "content": "and I think it's thematic for siege damage to turn the target fragile"
+        },
+        {
+          "id": "1240190222432735294",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:33:10.648+01:00",
+          "content": "cos it busts through defense"
+        },
+        {
+          "id": "1240190343966883910",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:33:39.624+01:00",
+          "content": "and if you ain't got nothing big enough to soak it, it breaches"
+        },
+        {
+          "id": "1240190496572182600",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:34:16.008+01:00",
+          "content": "The problem is that siege would be regular value against an aegis, and completely broken against say centurion"
+        },
+        {
+          "id": "1240190615472574535",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:34:44.356+01:00",
+          "content": "well even against aegis, it forces overdefense in some cases"
+        },
+        {
+          "id": "1240190664906510377",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:34:56.142+01:00",
+          "content": "and if you have many siege3s, even aegis will struggle"
+        },
+        {
+          "id": "1240190733923647498",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:35:12.597+01:00",
+          "content": "though you prolly wouldn't be able to get many"
+        },
+        {
+          "id": "1240190758292815932",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:35:18.407+01:00",
+          "content": "cos it's worth more than 3 attack after all"
+        },
+        {
+          "id": "1240190841956466698",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:35:38.354+01:00",
+          "content": "against centurion siege 3 is worth... a centurion"
+        },
+        {
+          "id": "1240190913893109790",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:35:55.505+01:00",
+          "content": "only once you are out of walls at least"
+        },
+        {
+          "id": "1240190972709568602",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:36:09.528+01:00",
+          "content": "I doubt siege 4 is balanced"
+        },
+        {
+          "id": "1240190983015239691",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:36:11.985+01:00",
+          "content": "I think siege3 max xD"
+        },
+        {
+          "id": "1240191016498368522",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:36:19.968+01:00",
+          "content": "I think siege3 is the sweet spot"
+        },
+        {
+          "id": "1240191038073737287",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:36:25.112+01:00",
+          "content": "and siege2 can be interesting too"
+        },
+        {
+          "id": "1240191089168613396",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:36:37.294+01:00",
+          "content": "but siege3 is the nicest version of the mechanic in what it offers"
+        },
+        {
+          "id": "1240191178717003787",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:36:58.644+01:00",
+          "content": "you could do siege 4+ as build time burst thing"
+        },
+        {
+          "id": "1240191227689697281",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:37:10.32+01:00",
+          "content": "shame that it gets invalidated by the goated plexo cell"
+        },
+        {
+          "id": "1240191300653809744",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:37:27.716+01:00",
+          "content": "but as a recurring attacker, siege3 max"
+        },
+        {
+          "id": "1240191467801018379",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:38:07.567+01:00",
+          "content": "but yea I like the idea of a once-off big siege"
+        },
+        {
+          "id": "1240191506581819392",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:38:16.813+01:00",
+          "content": "it would force a partial breach in some sets"
+        },
+        {
+          "id": "1240191537489383455",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:38:24.182+01:00",
+          "content": "and not for a massive amount"
+        },
+        {
+          "id": "1240191549112057877",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:38:26.953+01:00",
+          "content": "which is interesting"
+        },
+        {
+          "id": "1240191705924370454",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:39:04.34+01:00",
+          "content": "perhaps you can make it so that if there is a breaching siege, it first goes through the biggest soak available"
+        },
+        {
+          "id": "1240191794289836032",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:39:25.408+01:00",
+          "content": "or does that break sdr"
+        },
+        {
+          "id": "1240191839185666059",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:39:36.112+01:00",
+          "content": "I don't think it does"
+        },
+        {
+          "id": "1240191899697152051",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:39:50.539+01:00",
+          "content": "since the attacker can choose to kill that thing on breach anyway"
+        },
+        {
+          "id": "1240191936246186085",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:39:59.253+01:00",
+          "content": "who chooses which of the biggest soaks available"
+        },
+        {
+          "id": "1240191978650730596",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:40:09.363+01:00",
+          "content": "since in siege breaching there will still be leftover defense sometimes, which the attacker should be able to target under this new mechanic"
+        },
+        {
+          "id": "1240191990738718741",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:40:12.245+01:00",
+          "content": "otherwise you break sdr"
+        },
+        {
+          "id": "1240192039585316964",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:40:23.891+01:00",
+          "content": "so I think it's fine to force target the biggest soak on breaching siege to soften the siege breach"
+        },
+        {
+          "id": "1240192070547804231",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:40:31.273+01:00",
+          "content": "and I think it makes sense thematically"
+        },
+        {
+          "id": "1240192100214243328",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:40:38.346+01:00",
+          "content": "since the defender would sack their biggest soak to soften the blow"
+        },
+        {
+          "id": "1240192103196131428",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:40:39.057+01:00",
+          "content": "ig turning into regular attack if not defended fixes sdr?"
+        },
+        {
+          "id": "1240192449595314186",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:42:01.645+01:00",
+          "content": "I thought the idea was that the siege would just pummel through defenders smaller than the attack"
+        },
+        {
+          "id": "1240192500719947787",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:42:13.834+01:00",
+          "content": "otherwise what's stopping the defender from throwing engis at it"
+        },
+        {
+          "id": "1240193240213229639",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:45:10.143+01:00",
+          "content": "yea I'm settling on this definition:\n\n\"Siege\" is non-granular attack (cannot be defended \"granularly\") that turns defense fragile and can only be soaked using sufficiently high health units, otherwise it forcefully breaches (after being softened by the biggest available soak)\n\nSiege X: \n\n- Each instance of Siege will be resolved in turns, before the main \"normal\" attack, and starting with the largest instances of Siege attack first\n\n- For each instance of Siege X, the defender must assign soak with health >= X -- and if it is >X, it turns fragile and takes X damage\n\n- If there is no soak with health >= X, then the attacker must choose one of the biggest health soak available, and then gets to breach with the leftover damage as normal granular attack\n(in this case, this \"forced Siege breach\" happens before the attacker passes their turn, just as regular defense overrun breach would)\n--> For example: Siege3 -- nothing with >= 3 health --> attacker has to choose between a forcefield and a rhino (both of which have 2 health and are the highest health soak currently on the defender's side), and then gets to breach with the leftover 1 attack"
+        },
+        {
+          "id": "1240193361189666836",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:45:38.986+01:00",
+          "content": "it's pretty interesting"
+        },
+        {
+          "id": "1240193499492651078",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-05-15T07:46:11.96+01:00",
+          "content": "I think it's a bit complicated to fit in with the other prismata mechanics but it sounds like it could lead to interactions"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-15T07:52:41.141+01:00",
+      "end_ts": "2024-05-15T07:55:49.903+01:00",
+      "participants": [
+        "bleevoe",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 29,
+      "formatted_text": "--- Thread (10 messages, 2024-05-15) ---\n[2024-05-15 07:52] spiritfryer (Spyrfyr): btw doesn't burst damage kinda break sdr\n[2024-05-15 07:53] spiritfryer (Spyrfyr): since it makes it so the defender could prefer to delay buying low health units if a breach is imminent\n[2024-05-15 07:53] spiritfryer (Spyrfyr): since it's burst damage, they will be safe after it passes\n[2024-05-15 07:53] spiritfryer (Spyrfyr): but if they buy the squishy valuable units before it lands, then they lose them\n[2024-05-15 07:53] spiritfryer (Spyrfyr): so they should delay buying them\n[2024-05-15 07:53] spiritfryer (Spyrfyr): does that break sdr or no\n[2024-05-15 07:54] spiritfryer (Spyrfyr): nvm sdr assumes you get free stuff\n[2024-05-15 07:54] spiritfryer (Spyrfyr): sdr is not about getting them now or later\n[2024-05-15 07:54] spiritfryer (Spyrfyr): it's about getting them for free always > not getting them\n[2024-05-15 07:55] bleevoe: Right. There are other examples of later being preferable. Such as barrier.",
+      "messages": [
+        {
+          "id": "1240195131835945002",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:52:41.141+01:00",
+          "content": "btw doesn't burst damage kinda break sdr"
+        },
+        {
+          "id": "1240195225524109404",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:53:03.478+01:00",
+          "content": "since it makes it so the defender could prefer to delay buying low health units if a breach is imminent"
+        },
+        {
+          "id": "1240195271254872074",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:53:14.381+01:00",
+          "content": "since it's burst damage, they will be safe after it passes"
+        },
+        {
+          "id": "1240195359473405996",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:53:35.414+01:00",
+          "content": "but if they buy the squishy valuable units before it lands, then they lose them"
+        },
+        {
+          "id": "1240195377983131658",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:53:39.827+01:00",
+          "content": "so they should delay buying them"
+        },
+        {
+          "id": "1240195402075209810",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:53:45.571+01:00",
+          "content": "does that break sdr or no"
+        },
+        {
+          "id": "1240195553372143647",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:54:21.643+01:00",
+          "content": "nvm sdr assumes you get free stuff"
+        },
+        {
+          "id": "1240195594593763381",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:54:31.471+01:00",
+          "content": "sdr is not about getting them now or later"
+        },
+        {
+          "id": "1240195623215693977",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:54:38.295+01:00",
+          "content": "it's about getting them for free always > not getting them"
+        },
+        {
+          "id": "1240195923561283584",
+          "author": "bleevoe",
+          "nickname": "Bleevoe",
+          "timestamp": "2024-05-15T07:55:49.903+01:00",
+          "content": "Right. There are other examples of later being preferable. Such as barrier."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-15T07:59:33.326+01:00",
+      "end_ts": "2024-05-15T08:04:47.984+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 45,
+      "formatted_text": "--- Thread (14 messages, 2024-05-15) ---\n[2024-05-15 07:59] spiritfryer (Spyrfyr): ok I think there's a flaw in this definition\n[2024-05-15 07:59] spiritfryer (Spyrfyr): a breach could happen AFTER the attacker passes their turn\n[2024-05-15 08:00] spiritfryer (Spyrfyr): so I think I must alter the definition such that ALL siege happens at the start of the attacker's turn\n[2024-05-15 08:00] spiritfryer (Spyrfyr): just like regular breaches\n[2024-05-15 08:00] spiritfryer (Spyrfyr): oh but this breaks the mechanic\n[2024-05-15 08:00] spiritfryer (Spyrfyr): cos then you can just kill the cent for free\n[2024-05-15 08:00] spiritfryer (Spyrfyr): then not sure off the cuff how to solve this issue\n[2024-05-15 08:01] spiritfryer (Spyrfyr): cos it really sux to need to pass player interaction back and forth\n[2024-05-15 08:01] spiritfryer (Spyrfyr): to the point where I think the mechanic is not viable\n[2024-05-15 08:02] spiritfryer (Spyrfyr): and you can't make it so that the attacker must choose from the smallest units >= X either\n[2024-05-15 08:02] spiritfryer (Spyrfyr): because it breaks SDR\n[2024-05-15 08:03] spiritfryer (Spyrfyr): or at least, it makes it OP again\n[2024-05-15 08:03] spiritfryer (Spyrfyr): since you can just kill patrollers and reso forcefields and whatnot\n[2024-05-15 08:04] spiritfryer (Spyrfyr): but yea, in its current form it kinda sux cos you could get scenarios where you pass your turn as the attacker with say two Siege3s, the defender can soak one of them but the other breaches\n\nso it goes:\n- attacker ends turn\n- defender soaks one siege\n- attacker breaches with the other siege\n- defender continues the remaining standard defense phase and then takes their turn\n- ...",
+      "messages": [
+        {
+          "id": "1240196860665270335",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:59:33.326+01:00",
+          "content": "ok I think there's a flaw in this definition"
+        },
+        {
+          "id": "1240196895809208401",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T07:59:41.705+01:00",
+          "content": "a breach could happen AFTER the attacker passes their turn"
+        },
+        {
+          "id": "1240197006996275240",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:00:08.214+01:00",
+          "content": "so I think I must alter the definition such that ALL siege happens at the start of the attacker's turn"
+        },
+        {
+          "id": "1240197026076033085",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:00:12.763+01:00",
+          "content": "just like regular breaches"
+        },
+        {
+          "id": "1240197097798631466",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:00:29.863+01:00",
+          "content": "oh but this breaks the mechanic"
+        },
+        {
+          "id": "1240197124025483325",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:00:36.116+01:00",
+          "content": "cos then you can just kill the cent for free"
+        },
+        {
+          "id": "1240197210000326667",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:00:56.614+01:00",
+          "content": "then not sure off the cuff how to solve this issue"
+        },
+        {
+          "id": "1240197260294361109",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:01:08.605+01:00",
+          "content": "cos it really sux to need to pass player interaction back and forth"
+        },
+        {
+          "id": "1240197293593071678",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:01:16.544+01:00",
+          "content": "to the point where I think the mechanic is not viable"
+        },
+        {
+          "id": "1240197628269039628",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:02:36.337+01:00",
+          "content": "and you can't make it so that the attacker must choose from the smallest units >= X either"
+        },
+        {
+          "id": "1240197703162396752",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:02:54.193+01:00",
+          "content": "because it breaks SDR"
+        },
+        {
+          "id": "1240197744291876946",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:03:03.999+01:00",
+          "content": "or at least, it makes it OP again"
+        },
+        {
+          "id": "1240197789682634763",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:03:14.821+01:00",
+          "content": "since you can just kill patrollers and reso forcefields and whatnot"
+        },
+        {
+          "id": "1240198180436574269",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-15T08:04:47.984+01:00",
+          "content": "but yea, in its current form it kinda sux cos you could get scenarios where you pass your turn as the attacker with say two Siege3s, the defender can soak one of them but the other breaches\n\nso it goes:\n- attacker ends turn\n- defender soaks one siege\n- attacker breaches with the other siege\n- defender continues the remaining standard defense phase and then takes their turn\n- ..."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-16T04:08:58.422+01:00",
+      "end_ts": "2024-05-16T04:08:58.422+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2024-05-16) ---\n[2024-05-16 04:08] spiritfryer (Spyrfyr): isn't that working as intended?",
+      "messages": [
+        {
+          "id": "1240501220737683507",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T04:08:58.422+01:00",
+          "content": "isn't that working as intended?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-16T05:15:12.089+01:00",
+      "end_ts": "2024-05-17T05:32:25.617+01:00",
+      "participants": [
+        "spiritfryer",
+        "surfinite"
+      ],
+      "replay_codes": [
+        "0W9l7-3mDIB"
+      ],
+      "score": 42,
+      "formatted_text": "--- Thread (13 messages, 2024-05-16 to 2024-05-17) ---\n[2024-05-16 05:15] spiritfryer (Spyrfyr): hmm but didn't surf say they played no ranked games?\n[2024-05-16 05:16] spiritfryer (Spyrfyr): ah I see I've looked at the chat log in the screenshots\n[2024-05-16 05:17] spiritfryer (Spyrfyr): the replay works for me `0W9l7-3mDIB`\n[2024-05-16 05:19] spiritfryer (Spyrfyr): but beyond the name temporarily not showing, I still don't get it\n[2024-05-16 05:19] spiritfryer (Spyrfyr): a screenshot is shown with 2 ranked games played and the game saying play 2 more\n[2024-05-16 05:20] spiritfryer (Spyrfyr): and then a later screenshot where it says play 3 more, presumably because the next countdown rolled over\n[2024-05-16 05:20] spiritfryer (Spyrfyr): or is the countdown meant to stop once you play any ranked games?\n[2024-05-16 05:21] spiritfryer (Spyrfyr): it could be a constant countdown that compares against your total recently played ranked games\n[2024-05-16 05:21] spiritfryer (Spyrfyr): or it could be a countdown that only kicks in after a period of ranked inactivity\n[2024-05-16 05:23] spiritfryer (Spyrfyr): but easiest is prolly just `games_required = max(0, min_games_required - sum(ranked in last X days))`\n[2024-05-16 05:24] spiritfryer (Spyrfyr): and there was an hour rollover between those two screenshots\n[2024-05-16 05:25] spiritfryer (Spyrfyr): so maybe the server date rolled to the next day\n[2024-05-17 05:32] surfinite: It orginaly said \"Play 1 ranked game\"\nI played one, and it changed to \"play 2 ranked games\"\nPieter suggested that I might have been playing at the exact time that I finished games two weeks ago, but I only played against masterbot on 1st May",
+      "messages": [
+        {
+          "id": "1240517887505072148",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:15:12.089+01:00",
+          "content": "hmm but didn't surf say they played no ranked games?"
+        },
+        {
+          "id": "1240518181995413555",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:16:22.301+01:00",
+          "content": "ah I see I've looked at the chat log in the screenshots"
+        },
+        {
+          "id": "1240518469498175591",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:17:30.847+01:00",
+          "content": "the replay works for me `0W9l7-3mDIB`"
+        },
+        {
+          "id": "1240518980977033216",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:19:32.793+01:00",
+          "content": "but beyond the name temporarily not showing, I still don't get it"
+        },
+        {
+          "id": "1240519040515178567",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:19:46.988+01:00",
+          "content": "a screenshot is shown with 2 ranked games played and the game saying play 2 more"
+        },
+        {
+          "id": "1240519111377948783",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:20:03.883+01:00",
+          "content": "and then a later screenshot where it says play 3 more, presumably because the next countdown rolled over"
+        },
+        {
+          "id": "1240519252528599090",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:20:37.536+01:00",
+          "content": "or is the countdown meant to stop once you play any ranked games?"
+        },
+        {
+          "id": "1240519455973314570",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:21:26.041+01:00",
+          "content": "it could be a constant countdown that compares against your total recently played ranked games"
+        },
+        {
+          "id": "1240519494661701675",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:21:35.265+01:00",
+          "content": "or it could be a countdown that only kicks in after a period of ranked inactivity"
+        },
+        {
+          "id": "1240519960011210772",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:23:26.213+01:00",
+          "content": "but easiest is prolly just `games_required = max(0, min_games_required - sum(ranked in last X days))`"
+        },
+        {
+          "id": "1240520346785022063",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:24:58.427+01:00",
+          "content": "and there was an hour rollover between those two screenshots"
+        },
+        {
+          "id": "1240520437704822835",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-16T05:25:20.104+01:00",
+          "content": "so maybe the server date rolled to the next day"
+        },
+        {
+          "id": "1240884610301165578",
+          "author": "surfinite",
+          "nickname": "Surfinite",
+          "timestamp": "2024-05-17T05:32:25.617+01:00",
+          "content": "It orginaly said \"Play 1 ranked game\"\nI played one, and it changed to \"play 2 ranked games\"\nPieter suggested that I might have been playing at the exact time that I finished games two weeks ago, but I only played against masterbot on 1st May"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-17T07:12:59.631+01:00",
+      "end_ts": "2024-05-17T07:15:59.115+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (6 messages, 2024-05-17) ---\n[2024-05-17 07:12] spiritfryer (Spyrfyr): ah I see\n\nthe vacation pen is games played in last 2 weeks?\n[2024-05-17 07:13] spiritfryer (Spyrfyr): ah yea it says in the text\n[2024-05-17 07:14] spiritfryer (Spyrfyr): then maybe it's positive counter after the threshold is reached?\n[2024-05-17 07:14] spiritfryer (Spyrfyr): in that once you have insufficient games, the penalty slowly starts incrementing up to a limit?\n[2024-05-17 07:15] spiritfryer (Spyrfyr): though idk if that makes much sense\n[2024-05-17 07:15] spiritfryer (Spyrfyr): like what would be the point in effectively having two counters",
+      "messages": [
+        {
+          "id": "1240909918790488184",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-17T07:12:59.631+01:00",
+          "content": "ah I see\n\nthe vacation pen is games played in last 2 weeks?"
+        },
+        {
+          "id": "1240909973790265385",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-17T07:13:12.744+01:00",
+          "content": "ah yea it says in the text"
+        },
+        {
+          "id": "1240910235917352981",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-17T07:14:15.24+01:00",
+          "content": "then maybe it's positive counter after the threshold is reached?"
+        },
+        {
+          "id": "1240910311079546890",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-17T07:14:33.16+01:00",
+          "content": "in that once you have insufficient games, the penalty slowly starts incrementing up to a limit?"
+        },
+        {
+          "id": "1240910611026808832",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-17T07:15:44.673+01:00",
+          "content": "though idk if that makes much sense"
+        },
+        {
+          "id": "1240910671600947281",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-17T07:15:59.115+01:00",
+          "content": "like what would be the point in effectively having two counters"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-17T17:46:59.113+01:00",
+      "end_ts": "2024-05-17T17:46:59.113+01:00",
+      "participants": [
+        "surfinite"
+      ],
+      "replay_codes": [
+        "Paper-Sciss"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2024-05-17) ---\n[2024-05-17 17:46] surfinite: Here's something I was thinking about during a long car journey:\nWhat would be the go to strategy if every unit in the game could be bought?  I imagine it would be very Rock-Paper-Scissors-y, where reacting to your opponent becomes even more important.\nIf one or a few key units would always be played towards, then how many units do you need need to ban before you could end up with a wildly different strategy winning every game? (And what units get banned?)",
+      "messages": [
+        {
+          "id": "1241069467941998662",
+          "author": "surfinite",
+          "nickname": "Surfinite",
+          "timestamp": "2024-05-17T17:46:59.113+01:00",
+          "content": "Here's something I was thinking about during a long car journey:\nWhat would be the go to strategy if every unit in the game could be bought?  I imagine it would be very Rock-Paper-Scissors-y, where reacting to your opponent becomes even more important.\nIf one or a few key units would always be played towards, then how many units do you need need to ban before you could end up with a wildly different strategy winning every game? (And what units get banned?)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-17T17:50:28.379+01:00",
+      "end_ts": "2024-05-17T17:59:57.965+01:00",
+      "participants": [
+        "lyra1712",
+        "silentslayers",
+        "tmtyioh"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (10 messages, 2024-05-17) ---\n[2024-05-17 17:50] tmtyioh: BS+100\ni think i'm getting a headache  XD\n[2024-05-17 17:53] lyra1712 (Lyra): if i had to guess it would be dominated by stupid rush combos, like galvantima and cluster venges\n[2024-05-17 17:54] lyra1712 (Lyra): maybe smorcus t1 animus stuff aswell, who knows\n[2024-05-17 17:57] silentslayers: i am pretty sure antima would be involved\n[2024-05-17 17:57] silentslayers: t1 smorcus seems bad vs absorb prob\n[2024-05-17 17:57] lyra1712 (Lyra): would you go antima as p2 against p1 double galv+C ?\n[2024-05-17 17:58] lyra1712 (Lyra): t1 smorcus gets access to stupid stuff like rager or even gaussite tia nivo\n[2024-05-17 17:58] lyra1712 (Lyra): kinda hard to just survive\n[2024-05-17 17:59] lyra1712 (Lyra): actually, its not obvious to me how to respond to p1 double galv+C turn 1\n[2024-05-17 17:59] lyra1712 (Lyra): auric chrono into bull ? LUL",
+      "messages": [
+        {
+          "id": "1241070345667215451",
+          "author": "tmtyioh",
+          "nickname": "tmtyioh",
+          "timestamp": "2024-05-17T17:50:28.379+01:00",
+          "content": "BS+100\ni think i'm getting a headache  XD"
+        },
+        {
+          "id": "1241071061538312233",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-05-17T17:53:19.056+01:00",
+          "content": "if i had to guess it would be dominated by stupid rush combos, like galvantima and cluster venges"
+        },
+        {
+          "id": "1241071432390283406",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-05-17T17:54:47.474+01:00",
+          "content": "maybe smorcus t1 animus stuff aswell, who knows"
+        },
+        {
+          "id": "1241072024609099916",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-05-17T17:57:08.67+01:00",
+          "content": "i am pretty sure antima would be involved"
+        },
+        {
+          "id": "1241072100991697047",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-05-17T17:57:26.881+01:00",
+          "content": "t1 smorcus seems bad vs absorb prob"
+        },
+        {
+          "id": "1241072126669226144",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-05-17T17:57:33.003+01:00",
+          "content": "would you go antima as p2 against p1 double galv+C ?"
+        },
+        {
+          "id": "1241072257644626041",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-05-17T17:58:04.23+01:00",
+          "content": "t1 smorcus gets access to stupid stuff like rager or even gaussite tia nivo"
+        },
+        {
+          "id": "1241072290565722142",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-05-17T17:58:12.079+01:00",
+          "content": "kinda hard to just survive"
+        },
+        {
+          "id": "1241072591217623131",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-05-17T17:59:23.76+01:00",
+          "content": "actually, its not obvious to me how to respond to p1 double galv+C turn 1"
+        },
+        {
+          "id": "1241072734683926569",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2024-05-17T17:59:57.965+01:00",
+          "content": "auric chrono into bull ? LUL"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-17T18:08:02.055+01:00",
+      "end_ts": "2024-05-17T18:08:16.839+01:00",
+      "participants": [
+        "tmtyioh",
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2024-05-17) ---\n[2024-05-17 18:08] tmtyioh: i was also thinking about auric chrono to defend against t1 animus.\nbut i think it's less good against clusters\n[2024-05-17 18:08] xyotsuba: iirc p1 double galv conduit into chrono antima loses to gause cannons",
+      "messages": [
+        {
+          "id": "1241074765104545912",
+          "author": "tmtyioh",
+          "nickname": "tmtyioh",
+          "timestamp": "2024-05-17T18:08:02.055+01:00",
+          "content": "i was also thinking about auric chrono to defend against t1 animus.\nbut i think it's less good against clusters"
+        },
+        {
+          "id": "1241074827113009265",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2024-05-17T18:08:16.839+01:00",
+          "content": "iirc p1 double galv conduit into chrono antima loses to gause cannons"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-18T06:05:08.28+01:00",
+      "end_ts": "2024-05-18T07:04:24.968+01:00",
+      "participants": [
+        "megasupp",
+        "pikachumemes."
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (5 messages, 2024-05-18) ---\n[2024-05-18 06:05] pikachumemes. (Pikachu Memes): iirc p1 wins with chrono + hannibull and cluster\n[2024-05-18 06:05] pikachumemes. (Pikachu Memes): hannibul flat out stomps most \"cheese\" strats and cluster is broken\n[2024-05-18 06:07] pikachumemes. (Pikachu Memes): due to getting conduit + chrono anyways u can always pivot to galvani antima\n[2024-05-18 07:03] megasupp (mega-supp): I tested chrono+ bull+cluster against chrono galvantima with another top player (I think it was jamberine) and the results were inconclusive chrono bull easily survives the antima but then we ran into a problem of 11 units being not enough\n[2024-05-18 07:04] megasupp (mega-supp): also notably chrono hannibull cluster is p1 favored only when there's auric present",
+      "messages": [
+        {
+          "id": "1241255230172303441",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2024-05-18T06:05:08.28+01:00",
+          "content": "iirc p1 wins with chrono + hannibull and cluster"
+        },
+        {
+          "id": "1241255400213315634",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2024-05-18T06:05:48.821+01:00",
+          "content": "hannibul flat out stomps most \"cheese\" strats and cluster is broken"
+        },
+        {
+          "id": "1241255922475733023",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2024-05-18T06:07:53.338+01:00",
+          "content": "due to getting conduit + chrono anyways u can always pivot to galvani antima"
+        },
+        {
+          "id": "1241269972593016873",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2024-05-18T07:03:43.147+01:00",
+          "content": "I tested chrono+ bull+cluster against chrono galvantima with another top player (I think it was jamberine) and the results were inconclusive chrono bull easily survives the antima but then we ran into a problem of 11 units being not enough"
+        },
+        {
+          "id": "1241270148002873445",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2024-05-18T07:04:24.968+01:00",
+          "content": "also notably chrono hannibull cluster is p1 favored only when there's auric present"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-18T23:03:12.789+01:00",
+      "end_ts": "2024-05-18T23:06:22.644+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (4 messages, 2024-05-18) ---\n[2024-05-18 23:03] silentslayers: what even is this \"iirc\"? Are you claiming you or someone studied bs+100?\n[2024-05-18 23:04] silentslayers: I'm not convinced for sure bull comes out. It sure might. I feel like vs an early bull you can infusion and just defend the antima if they go too fast\n[2024-05-18 23:04] silentslayers: you can also target the galvs so the bull absorb stuff isnt too relevant\n[2024-05-18 23:06] silentslayers: i feel convinced theres heavy rock paper scissors based on what people do, and the most secure line would be not to commit right away to anything so drones are strong in the first turn at the very least, and possibly some turns after",
+      "messages": [
+        {
+          "id": "1241511437172740156",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-05-18T23:03:12.789+01:00",
+          "content": "what even is this \"iirc\"? Are you claiming you or someone studied bs+100?"
+        },
+        {
+          "id": "1241511648879968388",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-05-18T23:04:03.264+01:00",
+          "content": "I'm not convinced for sure bull comes out. It sure might. I feel like vs an early bull you can infusion and just defend the antima if they go too fast"
+        },
+        {
+          "id": "1241511775585697952",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-05-18T23:04:33.473+01:00",
+          "content": "you can also target the galvs so the bull absorb stuff isnt too relevant"
+        },
+        {
+          "id": "1241512233482059796",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-05-18T23:06:22.644+01:00",
+          "content": "i feel convinced theres heavy rock paper scissors based on what people do, and the most secure line would be not to commit right away to anything so drones are strong in the first turn at the very least, and possibly some turns after"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-18T23:12:00.383+01:00",
+      "end_ts": "2024-05-19T00:59:32.133+01:00",
+      "participants": [
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2024-05-18 to 2024-05-19) ---\n[2024-05-18 23:12] silentslayers: like even if someone does a really crazy fast antima you might be able to do crazy stuff like make golden dynamos and buy a few cryos as soak that they are forced to target to defend the golden dynamos if necessary\n[2024-05-19 00:59] spiritfryer (Spyrfyr): dayum, never thought about the cryo soak for golden armor idea",
+      "messages": [
+        {
+          "id": "1241513650062102548",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-05-18T23:12:00.383+01:00",
+          "content": "like even if someone does a really crazy fast antima you might be able to do crazy stuff like make golden dynamos and buy a few cryos as soak that they are forced to target to defend the golden dynamos if necessary"
+        },
+        {
+          "id": "1241540710662930472",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-05-19T00:59:32.133+01:00",
+          "content": "dayum, never thought about the cryo soak for golden armor idea"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-24T01:41:39.041+01:00",
+      "end_ts": "2024-05-24T01:55:16.237+01:00",
+      "participants": [
+        "iminabearsuit",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 21,
+      "formatted_text": "--- Thread (28 messages, 2024-05-24) ---\n[2024-05-24 01:41] wilson0862 (Wilson): Well I've only been playing multiplayer games that are not actively being developed so my expectations weren't very high.\n[2024-05-24 01:41] wilson0862 (Wilson): 22 is fanfuckingtastic.\n[2024-05-24 01:42] wilson0862 (Wilson): I recognize names in this server though so looks like we still have a bunch of veterans.\n[2024-05-24 01:43] iminabearsuit: Yeah, but I think a lot of people are doing other games mainly.\n[2024-05-24 01:43] iminabearsuit: https://www.twitch.tv/apooche\nIs doing mechabellum for example\nApooche - Twitch\nNormal games\n[2024-05-24 01:43] wilson0862 (Wilson): Sounds like it would've been 0 players without a few people's help last January, looking at the #announcements channel.\n[2024-05-24 01:43] wilson0862 (Wilson): Yeah I stumbled on his stream earlier today.\n[2024-05-24 01:43] wilson0862 (Wilson): Nice to see he's still casually streaming stuff at all.\n[2024-05-24 01:45] iminabearsuit: Yeah, and usually see Prismata names in chats of these smaller strategy games\n[2024-05-24 01:46] wilson0862 (Wilson): I actually started playing Elder Scrolls Legends and saw Pasta played in an official tournament like five years ago.\n[2024-05-24 01:46] iminabearsuit: I think, Backpack Battles, Fairytale Fables are the two I can think about over the last year. and afformentioned mechabellum\n[2024-05-24 01:46] wilson0862 (Wilson): I assume it was the same pasta haha\n[2024-05-24 01:46] wilson0862 (Wilson): Ah never heard of them. Once a strategy game fan, always a strategy game fan tho\n[2024-05-24 01:47] iminabearsuit: Well its more on the lighter side. So auto-battle esque ones\n[2024-05-24 01:47] wilson0862 (Wilson): Would be hard to find a game as hardcore as prismata probably.\n[2024-05-24 01:48] wilson0862 (Wilson): I saw Lunarch put out two more games though. 👀\n[2024-05-24 01:48] iminabearsuit: Probably... theres a reason that these games hit 10k concurrent, and Prismata reached 100 in the prime\n[2024-05-24 01:49] iminabearsuit: But hey, chess is still going pretty strong. Dont have concurrent players for that one, but I assume its pretty high\n[2024-05-24 01:49] iminabearsuit: Or you could learn Go, mahjong or shogi\n[2024-05-24 01:49] wilson0862 (Wilson): I guess we need to go back in time and invent prismata at a time where there was just fewer stuff to do.\n[2024-05-24 01:51] wilson0862 (Wilson): Like I can't imagine chess would be as popular as it is if it was invented now.\n[2024-05-24 01:52] iminabearsuit: It holds up. But yeah, I can see it being difficult to convince people to get through the learning process.\n[2024-05-24 01:52] iminabearsuit: Without the context of everything surrounding it\n[2024-05-24 01:54] wilson0862 (Wilson): And there's probably no revenue for a long long time for the devs either.\n[2024-05-24 01:54] wilson0862 (Wilson): Although skins and cosmetics for chess pieces would be hilarious\n[2024-05-24 01:54] iminabearsuit: I mean... t hat is a thing right\n[2024-05-24 01:54] iminabearsuit: You can get some pretty expensive chess boards\n[2024-05-24 01:55] iminabearsuit: Theres no royalties going to the developer though.",
+      "messages": [
+        {
+          "id": "1243363248611266620",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:41:39.041+01:00",
+          "content": "Well I've only been playing multiplayer games that are not actively being developed so my expectations weren't very high."
+        },
+        {
+          "id": "1243363290134872136",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:41:48.941+01:00",
+          "content": "22 is fanfuckingtastic."
+        },
+        {
+          "id": "1243363411853836289",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:42:17.961+01:00",
+          "content": "I recognize names in this server though so looks like we still have a bunch of veterans."
+        },
+        {
+          "id": "1243363604451950693",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:43:03.88+01:00",
+          "content": "Yeah, but I think a lot of people are doing other games mainly."
+        },
+        {
+          "id": "1243363640883675136",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:43:12.566+01:00",
+          "content": "https://www.twitch.tv/apooche\nIs doing mechabellum for example\nApooche - Twitch\nNormal games"
+        },
+        {
+          "id": "1243363651004534866",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:43:14.979+01:00",
+          "content": "Sounds like it would've been 0 players without a few people's help last January, looking at the #announcements channel."
+        },
+        {
+          "id": "1243363729006137404",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:43:33.576+01:00",
+          "content": "Yeah I stumbled on his stream earlier today."
+        },
+        {
+          "id": "1243363814292852746",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:43:53.91+01:00",
+          "content": "Nice to see he's still casually streaming stuff at all."
+        },
+        {
+          "id": "1243364197409226802",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:45:25.252+01:00",
+          "content": "Yeah, and usually see Prismata names in chats of these smaller strategy games"
+        },
+        {
+          "id": "1243364443224539257",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:46:23.859+01:00",
+          "content": "I actually started playing Elder Scrolls Legends and saw Pasta played in an official tournament like five years ago."
+        },
+        {
+          "id": "1243364462065356953",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:46:28.351+01:00",
+          "content": "I think, Backpack Battles, Fairytale Fables are the two I can think about over the last year. and afformentioned mechabellum"
+        },
+        {
+          "id": "1243364468545687573",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:46:29.896+01:00",
+          "content": "I assume it was the same pasta haha"
+        },
+        {
+          "id": "1243364577408712734",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:46:55.851+01:00",
+          "content": "Ah never heard of them. Once a strategy game fan, always a strategy game fan tho"
+        },
+        {
+          "id": "1243364669796651059",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:47:17.878+01:00",
+          "content": "Well its more on the lighter side. So auto-battle esque ones"
+        },
+        {
+          "id": "1243364779536551976",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:47:44.042+01:00",
+          "content": "Would be hard to find a game as hardcore as prismata probably."
+        },
+        {
+          "id": "1243364975477526568",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:48:30.758+01:00",
+          "content": "I saw Lunarch put out two more games though. 👀"
+        },
+        {
+          "id": "1243364986961657886",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:48:33.496+01:00",
+          "content": "Probably... theres a reason that these games hit 10k concurrent, and Prismata reached 100 in the prime"
+        },
+        {
+          "id": "1243365230336151552",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:49:31.521+01:00",
+          "content": "But hey, chess is still going pretty strong. Dont have concurrent players for that one, but I assume its pretty high"
+        },
+        {
+          "id": "1243365315979771955",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:49:51.94+01:00",
+          "content": "Or you could learn Go, mahjong or shogi"
+        },
+        {
+          "id": "1243365344085803098",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:49:58.641+01:00",
+          "content": "I guess we need to go back in time and invent prismata at a time where there was just fewer stuff to do."
+        },
+        {
+          "id": "1243365671660949554",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:51:16.741+01:00",
+          "content": "Like I can't imagine chess would be as popular as it is if it was invented now."
+        },
+        {
+          "id": "1243365979975843873",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:52:30.249+01:00",
+          "content": "It holds up. But yeah, I can see it being difficult to convince people to get through the learning process."
+        },
+        {
+          "id": "1243366084661350441",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:52:55.208+01:00",
+          "content": "Without the context of everything surrounding it"
+        },
+        {
+          "id": "1243366364899577857",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:54:02.022+01:00",
+          "content": "And there's probably no revenue for a long long time for the devs either."
+        },
+        {
+          "id": "1243366503701811251",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2024-05-24T01:54:35.115+01:00",
+          "content": "Although skins and cosmetics for chess pieces would be hilarious"
+        },
+        {
+          "id": "1243366570772926537",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:54:51.106+01:00",
+          "content": "I mean... t hat is a thing right"
+        },
+        {
+          "id": "1243366605799555242",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:54:59.457+01:00",
+          "content": "You can get some pretty expensive chess boards"
+        },
+        {
+          "id": "1243366676179976283",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-05-24T01:55:16.237+01:00",
+          "content": "Theres no royalties going to the developer though."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-31T20:06:36.661+01:00",
+      "end_ts": "2024-05-31T20:06:36.661+01:00",
+      "participants": [
+        "barkode443"
+      ],
+      "replay_codes": [
+        "smata-stats"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2024-05-31) ---\n[2024-05-31 20:06] barkode443 (BarKode): I recently patched and rehosted Prismata Stats if anyone is still interested in looking though their match history:\nhttps://prismata-stats.web.app/\nPrismata stats\nWeb application for viewing statistics for community submitted replays.",
+      "messages": [
+        {
+          "id": "1246178036043350056",
+          "author": "barkode443",
+          "nickname": "BarKode",
+          "timestamp": "2024-05-31T20:06:36.661+01:00",
+          "content": "I recently patched and rehosted Prismata Stats if anyone is still interested in looking though their match history:\nhttps://prismata-stats.web.app/\nPrismata stats\nWeb application for viewing statistics for community submitted replays."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-05-31T21:53:35.616+01:00",
+      "end_ts": "2024-05-31T21:53:35.616+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2024-05-31) ---\n[2024-05-31 21:53] silentslayers: Noice, what's everyone's best unit and why is it always Odin for P1? :LongNoseLiar:",
+      "messages": [
+        {
+          "id": "1246204959092117615",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-05-31T21:53:35.616+01:00",
+          "content": "Noice, what's everyone's best unit and why is it always Odin for P1? :LongNoseLiar:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-01T00:37:01.051+01:00",
+      "end_ts": "2024-06-01T00:49:45.819+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "smata-stats"
+      ],
+      "score": 50,
+      "formatted_text": "--- Thread (16 messages, 2024-06-01) ---\n[2024-06-01 00:37] spiritfryer (Spyrfyr): idk it still shows nothing for me\n[2024-06-01 00:37] spiritfryer (Spyrfyr): nvm it's case-sensitive oops\n[2024-06-01 00:37] spiritfryer (Spyrfyr): https://prismata-stats.web.app/players/player/SpiritFryer/overview\nPrismata stats\nWeb application for viewing statistics for community submitted replays.\n[2024-06-01 00:38] spiritfryer (Spyrfyr): am I really in such a consistent pattern?\n[2024-06-01 00:39] spiritfryer (Spyrfyr): look how consistently I leave and come back lmao\n[2024-06-01 00:40] spiritfryer (Spyrfyr): something about March\n[2024-06-01 00:40] spiritfryer (Spyrfyr): some Loonark sorcery\n[2024-06-01 00:41] spiritfryer (Spyrfyr): actually it's around 9 months every time 💀\n[2024-06-01 00:41] spiritfryer (Spyrfyr): is there something I should know?\n[2024-06-01 00:44] spiritfryer (Spyrfyr): I guess I'm a green/econ main\n[2024-06-01 00:45] spiritfryer (Spyrfyr): (though I also suck with green units apparently :OMEGALUL:)\n[overall bottom]\n[2024-06-01 00:46] spiritfryer (Spyrfyr): lmfao ossy top unit 3 unit as p1\n[p1 top]\n[2024-06-01 00:47] spiritfryer (Spyrfyr): and green/red BS demolishes me as p1 who woulda thunk\n[p1 bottom]\n[2024-06-01 00:47] spiritfryer (Spyrfyr): bruh what are these p2 winrates on these units\n[p2 top]\n[2024-06-01 00:49] spiritfryer (Spyrfyr): and half of them are negative as p1 lmao\n[2024-06-01 00:49] spiritfryer (Spyrfyr): I guess I should always buy auric p2 and never as p1 TIL :LongNoseLiar:",
+      "messages": [
+        {
+          "id": "1246246086067359754",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:37:01.051+01:00",
+          "content": "idk it still shows nothing for me"
+        },
+        {
+          "id": "1246246208985366559",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:37:30.357+01:00",
+          "content": "nvm it's case-sensitive oops"
+        },
+        {
+          "id": "1246246223653109780",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:37:33.854+01:00",
+          "content": "https://prismata-stats.web.app/players/player/SpiritFryer/overview\nPrismata stats\nWeb application for viewing statistics for community submitted replays."
+        },
+        {
+          "id": "1246246533842866186",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:38:47.809+01:00",
+          "content": "am I really in such a consistent pattern?"
+        },
+        {
+          "id": "1246246608203681902",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:39:05.538+01:00",
+          "content": "look how consistently I leave and come back lmao"
+        },
+        {
+          "id": "1246246952035815545",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:40:27.514+01:00",
+          "content": "something about March"
+        },
+        {
+          "id": "1246246970331234314",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:40:31.876+01:00",
+          "content": "some Loonark sorcery"
+        },
+        {
+          "id": "1246247222341931028",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:41:31.96+01:00",
+          "content": "actually it's around 9 months every time 💀"
+        },
+        {
+          "id": "1246247270437879818",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:41:43.427+01:00",
+          "content": "is there something I should know?"
+        },
+        {
+          "id": "1246248016613216287",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:44:41.329+01:00",
+          "content": "I guess I'm a green/econ main"
+        },
+        {
+          "id": "1246248264454373396",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:45:40.419+01:00",
+          "content": "(though I also suck with green units apparently :OMEGALUL:)\n[overall bottom]"
+        },
+        {
+          "id": "1246248486953943091",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:46:33.467+01:00",
+          "content": "lmfao ossy top unit 3 unit as p1\n[p1 top]"
+        },
+        {
+          "id": "1246248668198338580",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:47:16.679+01:00",
+          "content": "and green/red BS demolishes me as p1 who woulda thunk\n[p1 bottom]"
+        },
+        {
+          "id": "1246248847576141874",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:47:59.446+01:00",
+          "content": "bruh what are these p2 winrates on these units\n[p2 top]"
+        },
+        {
+          "id": "1246249227491872848",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:49:30.025+01:00",
+          "content": "and half of them are negative as p1 lmao"
+        },
+        {
+          "id": "1246249293736841227",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:49:45.819+01:00",
+          "content": "I guess I should always buy auric p2 and never as p1 TIL :LongNoseLiar:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-01T00:53:55.757+01:00",
+      "end_ts": "2024-06-01T01:06:59.656+01:00",
+      "participants": [
+        "aa01blue",
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 19,
+      "formatted_text": "--- Thread (8 messages, 2024-06-01) ---\n[2024-06-01 00:53] spiritfryer (Spyrfyr): looks like top players have 4-7% higher winrate as p2\n[2024-06-01 00:56] spiritfryer (Spyrfyr): lol I suck with green units as p2:\n[p2 bottom]\n[2024-06-01 00:58] spiritfryer (Spyrfyr): I guess I should filter these for the past year or two for better insights though lol\n[2024-06-01 00:59] spiritfryer (Spyrfyr): most of these are in my bans xd\n[2024-06-01 01:01] aa01blue: Means they're good bans\n[2024-06-01 01:02] silentslayers: Your worst unit is botch?\n[2024-06-01 01:02] silentslayers: I'd guess mine probably isn't great either, but still lol, it's a funny concept.\n[2024-06-01 01:06] spiritfryer (Spyrfyr): overall yea, but in the last 2 years it's 8th worst",
+      "messages": [
+        {
+          "id": "1246250342052528148",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:53:55.757+01:00",
+          "content": "looks like top players have 4-7% higher winrate as p2"
+        },
+        {
+          "id": "1246251082976329739",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:56:52.407+01:00",
+          "content": "lol I suck with green units as p2:\n[p2 bottom]"
+        },
+        {
+          "id": "1246251380193366190",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:58:03.269+01:00",
+          "content": "I guess I should filter these for the past year or two for better insights though lol"
+        },
+        {
+          "id": "1246251629041422437",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T00:59:02.599+01:00",
+          "content": "most of these are in my bans xd"
+        },
+        {
+          "id": "1246252338696552598",
+          "author": "aa01blue",
+          "nickname": "AA01blue",
+          "timestamp": "2024-06-01T01:01:51.794+01:00",
+          "content": "Means they're good bans"
+        },
+        {
+          "id": "1246252437518680125",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-01T01:02:15.355+01:00",
+          "content": "Your worst unit is botch?"
+        },
+        {
+          "id": "1246252521123614871",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-01T01:02:35.288+01:00",
+          "content": "I'd guess mine probably isn't great either, but still lol, it's a funny concept."
+        },
+        {
+          "id": "1246253629963243606",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T01:06:59.656+01:00",
+          "content": "overall yea, but in the last 2 years it's 8th worst"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-01T10:48:24.096+01:00",
+      "end_ts": "2024-06-01T10:49:25.254+01:00",
+      "participants": [
+        "barkode443"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2024-06-01) ---\n[2024-06-01 10:48] barkode443 (BarKode): Ok, the issue is that whenever there is a new replay I scan the entire dataset (65 Mb) to check is its there to avoid duplicates. \nSo 16k checks resulted in 1,051,008 Mi of scanned data -> 1 Tb\n[2024-06-01 10:49] barkode443 (BarKode): I'll need to optimize insertions, probably do batching",
+      "messages": [
+        {
+          "id": "1246399945909473290",
+          "author": "barkode443",
+          "nickname": "BarKode",
+          "timestamp": "2024-06-01T10:48:24.096+01:00",
+          "content": "Ok, the issue is that whenever there is a new replay I scan the entire dataset (65 Mb) to check is its there to avoid duplicates. \nSo 16k checks resulted in 1,051,008 Mi of scanned data -> 1 Tb"
+        },
+        {
+          "id": "1246400202424975390",
+          "author": "barkode443",
+          "nickname": "BarKode",
+          "timestamp": "2024-06-01T10:49:25.254+01:00",
+          "content": "I'll need to optimize insertions, probably do batching"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-01T13:38:35.791+01:00",
+      "end_ts": "2024-06-01T13:38:35.791+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2024-06-01) ---\n[2024-06-01 13:38] spiritfryer (Spyrfyr): would a feature of analyzing p1/p2 unit winrate broken down by whether you purchased the unit or not be interesting?",
+      "messages": [
+        {
+          "id": "1246442776862920706",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-01T13:38:35.791+01:00",
+          "content": "would a feature of analyzing p1/p2 unit winrate broken down by whether you purchased the unit or not be interesting?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-02T00:30:49.041+01:00",
+      "end_ts": "2024-06-02T00:30:49.041+01:00",
+      "participants": [
+        "crash_overlord"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2024-06-02) ---\n[2024-06-02 00:30] crash_overlord: I think it's been longer :clordSad:",
+      "messages": [
+        {
+          "id": "1246606913609797722",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2024-06-02T00:30:49.041+01:00",
+          "content": "I think it's been longer :clordSad:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-02T00:37:10.406+01:00",
+      "end_ts": "2024-06-02T00:37:37.812+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2024-06-02) ---\n[2024-06-02 00:37] silentslayers: Whenever other people play. You can see the paradox :P\n[2024-06-02 00:37] silentslayers: But for real it’s great when I login and see homeless playing and other regulars!",
+      "messages": [
+        {
+          "id": "1246608513170411642",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-02T00:37:10.406+01:00",
+          "content": "Whenever other people play. You can see the paradox :P"
+        },
+        {
+          "id": "1246608628119502948",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-02T00:37:37.812+01:00",
+          "content": "But for real it’s great when I login and see homeless playing and other regulars!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-02T02:53:38.833+01:00",
+      "end_ts": "2024-06-02T02:53:38.833+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2024-06-02) ---\n[2024-06-02 02:53] spiritfryer (Spyrfyr): I am down the Factorio rabbithole for the foreseeable future, but maybe one day I'll play some Mata :LongNoseLiar:",
+      "messages": [
+        {
+          "id": "1246642857922789469",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-02T02:53:38.833+01:00",
+          "content": "I am down the Factorio rabbithole for the foreseeable future, but maybe one day I'll play some Mata :LongNoseLiar:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-10T02:56:06.268+01:00",
+      "end_ts": "2024-06-11T02:04:20.274+01:00",
+      "participants": [
+        "awoodokehu",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2024-06-10 to 2024-06-11) ---\n[2024-06-10 02:56] spiritfryer (Spyrfyr): Congrats! The hardest achievement in the game :LongNoseLiar:\n[2024-06-11 02:04] awoodokehu (dokawehu): I still do not have this achievement 💀",
+      "messages": [
+        {
+          "id": "1249542579234537512",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-10T02:56:06.268+01:00",
+          "content": "Congrats! The hardest achievement in the game :LongNoseLiar:"
+        },
+        {
+          "id": "1249891939617210398",
+          "author": "awoodokehu",
+          "nickname": "dokawehu",
+          "timestamp": "2024-06-11T02:04:20.274+01:00",
+          "content": "I still do not have this achievement 💀"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-23T18:53:45.011+01:00",
+      "end_ts": "2024-06-23T18:53:45.011+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2024-06-23) ---\n[2024-06-23 18:53] spiritfryer (Spyrfyr): Make new account, donate freelo",
+      "messages": [
+        {
+          "id": "1254494620923199548",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-23T18:53:45.011+01:00",
+          "content": "Make new account, donate freelo"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-24T07:45:49.816+01:00",
+      "end_ts": "2024-06-24T07:49:55.978+01:00",
+      "participants": [
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 23,
+      "formatted_text": "--- Thread (9 messages, 2024-06-24) ---\n[2024-06-24 07:45] spiritfryer (Spyrfyr): Yea but if the difference between the bots' elo and the lowest \"veteran ladder player\" elo is too high, then even if a newbie is sufficiently better than the bots, they will be stuck in elo hell for a while\n[2024-06-24 07:46] spiritfryer (Spyrfyr): (Assuming the only entities in the queue are low elo bots, the newbie, and higher elo veterans)\n[2024-06-24 07:46] silentslayers: id like to see proof that new players cant get human games\n[2024-06-24 07:46] silentslayers: its never been the case. Maybe it is now though.\n[2024-06-24 07:47] silentslayers: The solution may be to increase your starting hidden MMR\n[2024-06-24 07:47] silentslayers: If we have a bit of inflation\n[2024-06-24 07:48] silentslayers: the 500 gap is pretty big\n[2024-06-24 07:48] silentslayers: like there's 1900ers who play the game aren't there? I think starting mmrs can hit that\n[2024-06-24 07:49] spiritfryer (Spyrfyr): If changes are made, can the spectator system show all ongoing ladder pvp games please",
+      "messages": [
+        {
+          "id": "1254688921237852212",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-24T07:45:49.816+01:00",
+          "content": "Yea but if the difference between the bots' elo and the lowest \"veteran ladder player\" elo is too high, then even if a newbie is sufficiently better than the bots, they will be stuck in elo hell for a while"
+        },
+        {
+          "id": "1254689156786032653",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-24T07:46:45.975+01:00",
+          "content": "(Assuming the only entities in the queue are low elo bots, the newbie, and higher elo veterans)"
+        },
+        {
+          "id": "1254689166172618856",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-24T07:46:48.213+01:00",
+          "content": "id like to see proof that new players cant get human games"
+        },
+        {
+          "id": "1254689198926069781",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-24T07:46:56.022+01:00",
+          "content": "its never been the case. Maybe it is now though."
+        },
+        {
+          "id": "1254689240932024382",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-24T07:47:06.037+01:00",
+          "content": "The solution may be to increase your starting hidden MMR"
+        },
+        {
+          "id": "1254689312855822426",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-24T07:47:23.185+01:00",
+          "content": "If we have a bit of inflation"
+        },
+        {
+          "id": "1254689562366574673",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-24T07:48:22.673+01:00",
+          "content": "the 500 gap is pretty big"
+        },
+        {
+          "id": "1254689643526357064",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-24T07:48:42.023+01:00",
+          "content": "like there's 1900ers who play the game aren't there? I think starting mmrs can hit that"
+        },
+        {
+          "id": "1254689953716371458",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-24T07:49:55.978+01:00",
+          "content": "If changes are made, can the spectator system show all ongoing ladder pvp games please"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-24T22:59:04.86+01:00",
+      "end_ts": "2024-06-24T22:59:04.86+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2024-06-24) ---\n[2024-06-24 22:59] spiritfryer (Spyrfyr): We should get the CEO widening search animation :LongNoseLiar:",
+      "messages": [
+        {
+          "id": "1254918748310339704",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-24T22:59:04.86+01:00",
+          "content": "We should get the CEO widening search animation :LongNoseLiar:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-26T18:25:08.679+01:00",
+      "end_ts": "2024-06-26T18:26:47.391+01:00",
+      "participants": [
+        "ruinedshadows"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (5 messages, 2024-06-26) ---\n[2024-06-26 18:25] ruinedshadows: Lol yup I'm worthless, idk who can add roles but not me\n[2024-06-26 18:25] ruinedshadows: Maybe we can add a discord role bot so people couls give themselves the vc role idk\n[2024-06-26 18:25] ruinedshadows: Getting in 11 games in a row last night waa pretty sick\n[2024-06-26 18:26] ruinedshadows: Hope to get some more games in soon, glad to see there's still at least a few people around.\n[2024-06-26 18:26] ruinedshadows: I'm so rusty though haha I've forgotten so much",
+      "messages": [
+        {
+          "id": "1255574585701826632",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2024-06-26T18:25:08.679+01:00",
+          "content": "Lol yup I'm worthless, idk who can add roles but not me"
+        },
+        {
+          "id": "1255574687283679285",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2024-06-26T18:25:32.898+01:00",
+          "content": "Maybe we can add a discord role bot so people couls give themselves the vc role idk"
+        },
+        {
+          "id": "1255574780094972016",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2024-06-26T18:25:55.026+01:00",
+          "content": "Getting in 11 games in a row last night waa pretty sick"
+        },
+        {
+          "id": "1255574920805617795",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2024-06-26T18:26:28.574+01:00",
+          "content": "Hope to get some more games in soon, glad to see there's still at least a few people around."
+        },
+        {
+          "id": "1255574999729836092",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2024-06-26T18:26:47.391+01:00",
+          "content": "I'm so rusty though haha I've forgotten so much"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-26T18:31:00.993+01:00",
+      "end_ts": "2024-06-26T18:33:20.509+01:00",
+      "participants": [
+        "ruinedshadows",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (5 messages, 2024-06-26) ---\n[2024-06-26 18:31] silentslayers: 😂 😂 classic ruinedshadows\n[2024-06-26 18:31] ruinedshadows: Firing wincer is bad\n[2024-06-26 18:31] ruinedshadows: 90s in not enough time\n[2024-06-26 18:31] ruinedshadows: My brain no work so good\n[2024-06-26 18:33] ruinedshadows: But actually, that'd be cool",
+      "messages": [
+        {
+          "id": "1255576063413719201",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-06-26T18:31:00.993+01:00",
+          "content": "😂 😂 classic ruinedshadows"
+        },
+        {
+          "id": "1255576072230010941",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2024-06-26T18:31:03.095+01:00",
+          "content": "Firing wincer is bad"
+        },
+        {
+          "id": "1255576236873220166",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2024-06-26T18:31:42.349+01:00",
+          "content": "90s in not enough time"
+        },
+        {
+          "id": "1255576290988265523",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2024-06-26T18:31:55.251+01:00",
+          "content": "My brain no work so good"
+        },
+        {
+          "id": "1255576648586231930",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2024-06-26T18:33:20.509+01:00",
+          "content": "But actually, that'd be cool"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-27T00:16:03.088+01:00",
+      "end_ts": "2024-06-27T00:18:06.768+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (3 messages, 2024-06-27) ---\n[2024-06-27 00:16] spiritfryer (Spyrfyr): Idk I sat here thinking about it for a few mins and this is the best I could come up with, but that sentence does not support this image\n[2024-06-27 00:17] spiritfryer (Spyrfyr): I mean there is also the distance between `beat_bot` and `beat_human`, but\n[2024-06-27 00:18] spiritfryer (Spyrfyr): The only thing that would make sense to me is to possibly say: the difference between beating bots to beating humans is smaller/larger than the difficulty of beating bots",
+      "messages": [
+        {
+          "id": "1255662894293712957",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-27T00:16:03.088+01:00",
+          "content": "Idk I sat here thinking about it for a few mins and this is the best I could come up with, but that sentence does not support this image"
+        },
+        {
+          "id": "1255663176196821193",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-27T00:17:10.299+01:00",
+          "content": "I mean there is also the distance between `beat_bot` and `beat_human`, but"
+        },
+        {
+          "id": "1255663413045100675",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-27T00:18:06.768+01:00",
+          "content": "The only thing that would make sense to me is to possibly say: the difference between beating bots to beating humans is smaller/larger than the difficulty of beating bots"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-27T01:31:45.983+01:00",
+      "end_ts": "2024-06-27T01:33:31.803+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (2 messages, 2024-06-27) ---\n[2024-06-27 01:31] spiritfryer (Spyrfyr): Ah gotcha, yea ain't much to learn from masterbot once you start beating it at a reasonable consistency\n[2024-06-27 01:33] spiritfryer (Spyrfyr): Though tbh even losing to humans is not necessarily educational in itself, without analysis or conversation\n\nBut then, when you're new, how can you even analyze",
+      "messages": [
+        {
+          "id": "1255681948576387114",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-27T01:31:45.983+01:00",
+          "content": "Ah gotcha, yea ain't much to learn from masterbot once you start beating it at a reasonable consistency"
+        },
+        {
+          "id": "1255682392417501317",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-27T01:33:31.803+01:00",
+          "content": "Though tbh even losing to humans is not necessarily educational in itself, without analysis or conversation\n\nBut then, when you're new, how can you even analyze"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-29T17:54:42.937+01:00",
+      "end_ts": "2024-06-29T18:08:51.196+01:00",
+      "participants": [
+        "flower6149",
+        "iminabearsuit",
+        "zezetel"
+      ],
+      "replay_codes": [],
+      "score": 34,
+      "formatted_text": "--- Thread (32 messages, 2024-06-29) ---\n[2024-06-29 17:54] flower6149 (Flower): that 7hp wall was huge\n[2024-06-29 17:54] zezetel: I think you should have gotten blastforge after I got my first omega\n[2024-06-29 17:54] flower6149 (Flower): i went too all in early maybe?\n[2024-06-29 17:55] zezetel: I think going aggressive was generally fine but defending with rhinos rather then walls is not great\n[2024-06-29 17:56] flower6149 (Flower): interesting, you think my side was still playable once you got your omega?\n[2024-06-29 17:57] zezetel: you spammed so many engineers that could have been wall if you got blastforge\n[2024-06-29 17:57] zezetel: 5 gold for 3 hp rather then 6 + you have 2 absorb rather then 1 on the rhino\n[2024-06-29 17:57] flower6149 (Flower): ok im thinking about it\n[2024-06-29 17:58] flower6149 (Flower): i didnt think about it that way\n[2024-06-29 17:58] flower6149 (Flower): i really thought i was committed to all in but I like the wall. Is my plan to outstall the defense matrix?\n[2024-06-29 17:59] zezetel: well you already had 6 attack when I got matrix up\n[2024-06-29 17:59] zezetel: so just get more attack but also a blastforge\n[2024-06-29 18:00] iminabearsuit: Matrix just negates the first 4 attack the opponents get. Its not that efficient to soak damage with\n[2024-06-29 18:00] flower6149 (Flower): i used the wrong name\n[2024-06-29 18:01] zezetel: I'm also bad at names\n[2024-06-29 18:01] zezetel: but regardless you had 6 attack\n[2024-06-29 18:01] iminabearsuit: Seems like a well timed D-grid\n[2024-06-29 18:01] zezetel: bear turn 7 who do you think is winning?\n[2024-06-29 18:02] flower6149 (Flower): also i think turn 6 i should have gotten blast instead of conduit\n[2024-06-29 18:03] zezetel: yeah possible the conduit didn't really buy much\n[2024-06-29 18:03] iminabearsuit: I think tripple blue wins from that position easily. You're doing the same damage to eachother, aka 0. But you have more econ and ability to ramp up damage\n[2024-06-29 18:03] zezetel: mmm so I guess it was over 😄 but yeah still it wouldve been closer with an earlier blast on reds side\n[2024-06-29 18:04] iminabearsuit: Yeah, I think going 4 tarsiers was too slow to punish 3rd engi start\n[2024-06-29 18:04] zezetel: you want a vore rush?\n[2024-06-29 18:04] iminabearsuit: I would have liked 2 tarsiers, 2 electrovore, then going back to tarsiers. So you attack for 4 damage, to do maximum mental damage\n[2024-06-29 18:05] iminabearsuit: 4 is just the best attack number versus walls\n[2024-06-29 18:05] zezetel: or honestly vores to open I had no blastforge the first tarsier turn\n[2024-06-29 18:06] iminabearsuit: Yeah, maybe that also works\n[2024-06-29 18:07] iminabearsuit: There might be a chance to transition into a chain of colossus after the dgrid came out.\n[2024-06-29 18:07] iminabearsuit: But not sure if its good enough\n[2024-06-29 18:08] flower6149 (Flower): zeze do you want to play another?\n[2024-06-29 18:08] zezetel: in a game vs bear atm 😄 after sure",
+      "messages": [
+        {
+          "id": "1256654091581390878",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T17:54:42.937+01:00",
+          "content": "that 7hp wall was huge"
+        },
+        {
+          "id": "1256654117850583091",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T17:54:49.2+01:00",
+          "content": "I think you should have gotten blastforge after I got my first omega"
+        },
+        {
+          "id": "1256654122938142720",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T17:54:50.413+01:00",
+          "content": "i went too all in early maybe?"
+        },
+        {
+          "id": "1256654361749229599",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T17:55:47.35+01:00",
+          "content": "I think going aggressive was generally fine but defending with rhinos rather then walls is not great"
+        },
+        {
+          "id": "1256654465717506139",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T17:56:12.138+01:00",
+          "content": "interesting, you think my side was still playable once you got your omega?"
+        },
+        {
+          "id": "1256654690591051886",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T17:57:05.752+01:00",
+          "content": "you spammed so many engineers that could have been wall if you got blastforge"
+        },
+        {
+          "id": "1256654786561052743",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T17:57:28.633+01:00",
+          "content": "5 gold for 3 hp rather then 6 + you have 2 absorb rather then 1 on the rhino"
+        },
+        {
+          "id": "1256654876356640789",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T17:57:50.042+01:00",
+          "content": "ok im thinking about it"
+        },
+        {
+          "id": "1256654980723638403",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T17:58:14.925+01:00",
+          "content": "i didnt think about it that way"
+        },
+        {
+          "id": "1256655092883394663",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T17:58:41.666+01:00",
+          "content": "i really thought i was committed to all in but I like the wall. Is my plan to outstall the defense matrix?"
+        },
+        {
+          "id": "1256655260236124221",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T17:59:21.566+01:00",
+          "content": "well you already had 6 attack when I got matrix up"
+        },
+        {
+          "id": "1256655340779474966",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T17:59:40.769+01:00",
+          "content": "so just get more attack but also a blastforge"
+        },
+        {
+          "id": "1256655594249519194",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:00:41.201+01:00",
+          "content": "Matrix just negates the first 4 attack the opponents get. Its not that efficient to soak damage with"
+        },
+        {
+          "id": "1256655647374839950",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:00:53.867+01:00",
+          "content": "i used the wrong name"
+        },
+        {
+          "id": "1256655719390908508",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:01:11.037+01:00",
+          "content": "I'm also bad at names"
+        },
+        {
+          "id": "1256655748729929758",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:01:18.032+01:00",
+          "content": "but regardless you had 6 attack"
+        },
+        {
+          "id": "1256655791243661394",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:01:28.168+01:00",
+          "content": "Seems like a well timed D-grid"
+        },
+        {
+          "id": "1256655913666740334",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:01:57.356+01:00",
+          "content": "bear turn 7 who do you think is winning?"
+        },
+        {
+          "id": "1256656109079494738",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:02:43.946+01:00",
+          "content": "also i think turn 6 i should have gotten blast instead of conduit"
+        },
+        {
+          "id": "1256656207968600196",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:03:07.523+01:00",
+          "content": "yeah possible the conduit didn't really buy much"
+        },
+        {
+          "id": "1256656258203779174",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:03:19.5+01:00",
+          "content": "I think tripple blue wins from that position easily. You're doing the same damage to eachother, aka 0. But you have more econ and ability to ramp up damage"
+        },
+        {
+          "id": "1256656395202465793",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:03:52.163+01:00",
+          "content": "mmm so I guess it was over 😄 but yeah still it wouldve been closer with an earlier blast on reds side"
+        },
+        {
+          "id": "1256656500672430160",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:04:17.309+01:00",
+          "content": "Yeah, I think going 4 tarsiers was too slow to punish 3rd engi start"
+        },
+        {
+          "id": "1256656573648998544",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:04:34.708+01:00",
+          "content": "you want a vore rush?"
+        },
+        {
+          "id": "1256656671397249045",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:04:58.013+01:00",
+          "content": "I would have liked 2 tarsiers, 2 electrovore, then going back to tarsiers. So you attack for 4 damage, to do maximum mental damage"
+        },
+        {
+          "id": "1256656749629411430",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:05:16.665+01:00",
+          "content": "4 is just the best attack number versus walls"
+        },
+        {
+          "id": "1256656880151826544",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:05:47.784+01:00",
+          "content": "or honestly vores to open I had no blastforge the first tarsier turn"
+        },
+        {
+          "id": "1256656978068115546",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:06:11.129+01:00",
+          "content": "Yeah, maybe that also works"
+        },
+        {
+          "id": "1256657218351403070",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:07:08.417+01:00",
+          "content": "There might be a chance to transition into a chain of colossus after the dgrid came out."
+        },
+        {
+          "id": "1256657267273633873",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:07:20.081+01:00",
+          "content": "But not sure if its good enough"
+        },
+        {
+          "id": "1256657610237546527",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:08:41.85+01:00",
+          "content": "zeze do you want to play another?"
+        },
+        {
+          "id": "1256657649437642782",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:08:51.196+01:00",
+          "content": "in a game vs bear atm 😄 after sure"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-29T18:37:08.47+01:00",
+      "end_ts": "2024-06-29T18:52:20.546+01:00",
+      "participants": [
+        "flower6149",
+        "iminabearsuit",
+        "zezetel"
+      ],
+      "replay_codes": [],
+      "score": 42,
+      "formatted_text": "--- Thread (33 messages, 2024-06-29) ---\n[2024-06-29 18:37] flower6149 (Flower): i had so many drones i think i needed more damage\n[2024-06-29 18:37] zezetel: this one I felt like you had no plan\n[2024-06-29 18:37] zezetel: it felt like you where doing nothing till way too late\n[2024-06-29 18:37] flower6149 (Flower): freeze is new to me still\n[2024-06-29 18:38] zezetel: especially on defence\n[2024-06-29 18:39] zezetel: against a lot of freeze you actually shouldn't fully defend\n[2024-06-29 18:39] zezetel: just let the opponent waste all their freeze on a small breach\n[2024-06-29 18:40] iminabearsuit: I think the big issue there was getting an offense of only steelsplitters, it's the least efficient offensive unit in the game. So you're never really going to be able to apply pressure with them in that way.\n[2024-06-29 18:41] zezetel: yeah tarsiers are just way cheaper\n[2024-06-29 18:41] iminabearsuit: Yeah, you spent like 4 turns and 24 gold, just to run into an energy matrix\n[2024-06-29 18:42] flower6149 (Flower): i didnt think of it like that\n[2024-06-29 18:42] flower6149 (Flower): but yes and i didnt end up attacking with them ever\n[2024-06-29 18:42] iminabearsuit: So at that point, you just go all in on Econ instead. and try to get all the drones, so that in 3 turns, you can just build 4-5 attackers a turn\n[2024-06-29 18:44] flower6149 (Flower): are there any good attackers here?\n[2024-06-29 18:44] flower6149 (Flower): are you just thinking tarsiers and gauss cannons?\n[2024-06-29 18:44] zezetel: just tarsiers for attack and then whatever if you get all 10\n[2024-06-29 18:45] iminabearsuit: Yeah, tarsiers is your friend. If there's no attackers in the set, 9/10 times both players end up on tarsiers\n[2024-06-29 18:45] flower6149 (Flower): when a set has endotherm kit is it a must get?\n[2024-06-29 18:45] zezetel: its more so the other attackers\n[2024-06-29 18:45] zezetel: tarsier is the most efficient base set attacker\n[2024-06-29 18:46] iminabearsuit: Endotherm kit can be a bit slow, there's also some units that can counter it pretty good\n[2024-06-29 18:47] flower6149 (Flower): can you give an example\n[2024-06-29 18:47] zezetel: units that attack and defence at the same time\n[2024-06-29 18:47] zezetel: xeno guardian for example\n[2024-06-29 18:47] iminabearsuit: Attackers that also gives some block when you buy them is a good one. Like Xeno Guardian, Urban Sentry, or Hellhound\n[2024-06-29 18:48] zezetel: they allow you to defend the freeze whilst attacking\n[2024-06-29 18:49] iminabearsuit: Theres also some units that are pretty hard to kill, if you get breached. So if instead of tarsiers, you have feral wardens for example. You can allow the opponent to \"waste\" all his frostbites, to get through for 4-5 damage, and only kill one attacker. Which isnt usually worth\n[2024-06-29 18:50] zezetel: or sometimes you can just ignore defence altogether and get high health drones and attackers\n[2024-06-29 18:50] iminabearsuit: But yeah, if you need to defend for the full amount of freeze, endotherm kit is very valuable. Just buying 5 walls is 25 gold\n[2024-06-29 18:51] zezetel: https://www.youtube.com/watch?v=KM1VpF8US5c\n[2024-06-29 18:51] flower6149 (Flower): it does seem super cost effective\n[2024-06-29 18:52] iminabearsuit: Yeah, the build path is just really slow. 3 green requires 3 turns with a conduit, or an investment of 2 conduits\n[2024-06-29 18:52] iminabearsuit: And then it has a build time on top of that",
+      "messages": [
+        {
+          "id": "1256664768320634880",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:37:08.47+01:00",
+          "content": "i had so many drones i think i needed more damage"
+        },
+        {
+          "id": "1256664808602861622",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:37:18.074+01:00",
+          "content": "this one I felt like you had no plan"
+        },
+        {
+          "id": "1256664863820873788",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:37:31.239+01:00",
+          "content": "it felt like you where doing nothing till way too late"
+        },
+        {
+          "id": "1256664925837983847",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:37:46.025+01:00",
+          "content": "freeze is new to me still"
+        },
+        {
+          "id": "1256665094658461850",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:38:26.275+01:00",
+          "content": "especially on defence"
+        },
+        {
+          "id": "1256665404068200458",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:39:40.044+01:00",
+          "content": "against a lot of freeze you actually shouldn't fully defend"
+        },
+        {
+          "id": "1256665478911496304",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:39:57.888+01:00",
+          "content": "just let the opponent waste all their freeze on a small breach"
+        },
+        {
+          "id": "1256665677893337146",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:40:45.329+01:00",
+          "content": "I think the big issue there was getting an offense of only steelsplitters, it's the least efficient offensive unit in the game. So you're never really going to be able to apply pressure with them in that way."
+        },
+        {
+          "id": "1256665761729089668",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:41:05.317+01:00",
+          "content": "yeah tarsiers are just way cheaper"
+        },
+        {
+          "id": "1256665954692104202",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:41:51.323+01:00",
+          "content": "Yeah, you spent like 4 turns and 24 gold, just to run into an energy matrix"
+        },
+        {
+          "id": "1256666097160032287",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:42:25.29+01:00",
+          "content": "i didnt think of it like that"
+        },
+        {
+          "id": "1256666128663576671",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:42:32.801+01:00",
+          "content": "but yes and i didnt end up attacking with them ever"
+        },
+        {
+          "id": "1256666133818245151",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:42:34.03+01:00",
+          "content": "So at that point, you just go all in on Econ instead. and try to get all the drones, so that in 3 turns, you can just build 4-5 attackers a turn"
+        },
+        {
+          "id": "1256666519266398269",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:44:05.928+01:00",
+          "content": "are there any good attackers here?"
+        },
+        {
+          "id": "1256666567106625656",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:44:17.334+01:00",
+          "content": "are you just thinking tarsiers and gauss cannons?"
+        },
+        {
+          "id": "1256666666088136856",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:44:40.933+01:00",
+          "content": "just tarsiers for attack and then whatever if you get all 10"
+        },
+        {
+          "id": "1256666820576804915",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:45:17.766+01:00",
+          "content": "Yeah, tarsiers is your friend. If there's no attackers in the set, 9/10 times both players end up on tarsiers"
+        },
+        {
+          "id": "1256666888809873571",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:45:34.034+01:00",
+          "content": "when a set has endotherm kit is it a must get?"
+        },
+        {
+          "id": "1256666942790701087",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:45:46.904+01:00",
+          "content": "its more so the other attackers"
+        },
+        {
+          "id": "1256666992019243008",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:45:58.641+01:00",
+          "content": "tarsier is the most efficient base set attacker"
+        },
+        {
+          "id": "1256667199490228335",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:46:48.106+01:00",
+          "content": "Endotherm kit can be a bit slow, there's also some units that can counter it pretty good"
+        },
+        {
+          "id": "1256667287067431025",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:47:08.986+01:00",
+          "content": "can you give an example"
+        },
+        {
+          "id": "1256667346429411409",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:47:23.139+01:00",
+          "content": "units that attack and defence at the same time"
+        },
+        {
+          "id": "1256667388686893126",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:47:33.214+01:00",
+          "content": "xeno guardian for example"
+        },
+        {
+          "id": "1256667394978353224",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:47:34.714+01:00",
+          "content": "Attackers that also gives some block when you buy them is a good one. Like Xeno Guardian, Urban Sentry, or Hellhound"
+        },
+        {
+          "id": "1256667562565959690",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:48:14.67+01:00",
+          "content": "they allow you to defend the freeze whilst attacking"
+        },
+        {
+          "id": "1256667953135353856",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:49:47.789+01:00",
+          "content": "Theres also some units that are pretty hard to kill, if you get breached. So if instead of tarsiers, you have feral wardens for example. You can allow the opponent to \"waste\" all his frostbites, to get through for 4-5 damage, and only kill one attacker. Which isnt usually worth"
+        },
+        {
+          "id": "1256668138926248007",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:50:32.085+01:00",
+          "content": "or sometimes you can just ignore defence altogether and get high health drones and attackers"
+        },
+        {
+          "id": "1256668170811473991",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:50:39.687+01:00",
+          "content": "But yeah, if you need to defend for the full amount of freeze, endotherm kit is very valuable. Just buying 5 walls is 25 gold"
+        },
+        {
+          "id": "1256668382145679451",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2024-06-29T18:51:30.073+01:00",
+          "content": "https://www.youtube.com/watch?v=KM1VpF8US5c"
+        },
+        {
+          "id": "1256668404891516968",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T18:51:35.496+01:00",
+          "content": "it does seem super cost effective"
+        },
+        {
+          "id": "1256668560403595315",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:52:12.573+01:00",
+          "content": "Yeah, the build path is just really slow. 3 green requires 3 turns with a conduit, or an investment of 2 conduits"
+        },
+        {
+          "id": "1256668593844785152",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T18:52:20.546+01:00",
+          "content": "And then it has a build time on top of that"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-29T19:43:03.796+01:00",
+      "end_ts": "2024-06-29T19:47:24.228+01:00",
+      "participants": [
+        "flower6149",
+        "iminabearsuit"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (6 messages, 2024-06-29) ---\n[2024-06-29 19:43] iminabearsuit: I think that was just a slow blue green set, where small inefficencies snowball over time. Like your first gauss cannon only killed one engineer in the 3 turns. You didnt use your third blastforge after you built it. I managed to get a Mega Drone, to deny abosrb. You had to spend too much on defending versus your Redeemer charges\n[2024-06-29 19:44] iminabearsuit: I think as player 2 in that set, you should also be pretty happy playing heavy green, and trying to get Xaetron and Asteri, instead of trying to get tripple blast forge\n[2024-06-29 19:44] iminabearsuit: Player 2 is usually stronger going for green. And player 1 is usually stronger at blue.\n[2024-06-29 19:45] flower6149 (Flower): thank you that wasnt a gameplan i was considering\n[2024-06-29 19:47] flower6149 (Flower): also thank you for the analysis\n[2024-06-29 19:47] iminabearsuit: No worries, Im always happy to see new players learning the game :)",
+      "messages": [
+        {
+          "id": "1256681358160564245",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T19:43:03.796+01:00",
+          "content": "I think that was just a slow blue green set, where small inefficencies snowball over time. Like your first gauss cannon only killed one engineer in the 3 turns. You didnt use your third blastforge after you built it. I managed to get a Mega Drone, to deny abosrb. You had to spend too much on defending versus your Redeemer charges"
+        },
+        {
+          "id": "1256681616600731648",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T19:44:05.413+01:00",
+          "content": "I think as player 2 in that set, you should also be pretty happy playing heavy green, and trying to get Xaetron and Asteri, instead of trying to get tripple blast forge"
+        },
+        {
+          "id": "1256681692979265616",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T19:44:23.623+01:00",
+          "content": "Player 2 is usually stronger going for green. And player 1 is usually stronger at blue."
+        },
+        {
+          "id": "1256681982142971987",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T19:45:32.565+01:00",
+          "content": "thank you that wasnt a gameplan i was considering"
+        },
+        {
+          "id": "1256682377799925788",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T19:47:06.897+01:00",
+          "content": "also thank you for the analysis"
+        },
+        {
+          "id": "1256682450491543612",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T19:47:24.228+01:00",
+          "content": "No worries, Im always happy to see new players learning the game :)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-06-29T20:07:59.422+01:00",
+      "end_ts": "2024-06-29T20:30:36.437+01:00",
+      "participants": [
+        "flower6149",
+        "iminabearsuit",
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "drone-tarsi"
+      ],
+      "score": 47,
+      "formatted_text": "--- Thread (19 messages, 2024-06-29) ---\n[2024-06-29 20:07] flower6149 (Flower): plexo cells and bloodphages are stronger that i thought they would be\n[2024-06-29 20:08] iminabearsuit: Yeah, Plexo is really strong. Feral Warden also is just crazy value, if you can defend on them.\n[2024-06-29 20:09] iminabearsuit: Feral Warden is the same attack and cost as a tarsier + gauss charge. So, if you can additionally get 2 absorb onto it, its just one of the most efficient things you can be doing.\n[2024-06-29 20:10] iminabearsuit: And this game, you ended up just a turn after me in getting all the good units there.\n[2024-06-29 20:11] flower6149 (Flower): its fun how that works\n[2024-06-29 20:11] flower6149 (Flower): why did you get a 3rd bloodphage?\n[2024-06-29 20:13] iminabearsuit: Well, blood phage is kind of close to drone tarsier. 6gold vs 7gold. But blood phage \"loses\" 1 gold next turn. But in that spot I needed an extra engineer to be able to have a good defense\n[2024-06-29 20:13] iminabearsuit: So I only had 6 gold left\n[2024-06-29 20:16] flower6149 (Flower): I will start thinking of things in “drone-tarsier” terms\n[2024-06-29 20:16] iminabearsuit: Yeah, it simplifies comparrisions\n[2024-06-29 20:16] flower6149 (Flower): thx for the games @iminaBearSuit and @zezetel\n[2024-06-29 20:18] spiritfryer (Spyrfyr): Yea it's really strong, but just as a note, it isn't technically 2 absorb\n\nIt's 2 soak\n[2024-06-29 20:19] spiritfryer (Spyrfyr): Like if I absorb 2 on a wall, next turn I need to defend 2 less compared to if I soaked 2 on a feral\n[2024-06-29 20:19] spiritfryer (Spyrfyr): (Because the wall is still there participating on defense, whereas the feral would be swinging on 1 health in the backline)\n[2024-06-29 20:21] spiritfryer (Spyrfyr): Which is why in small red feral vs feral there sometimes comes a point where it's better to full soak feral and absorb 1 on rhino\n[2024-06-29 20:21] spiritfryer (Spyrfyr): For that +1 defense on the following turn\n[2024-06-29 20:22] spiritfryer (Spyrfyr): (Though idk, usually the side who has to do that first is losing? Not sure -- but either way, it's more defense)\n[2024-06-29 20:25] iminabearsuit: Yeah, soak vs absorb... I tend to use absorb as the unit you assign the damage to. So I would absorb onto Protoplasm. Not sure which terminology would be easier to understand for new players.\n[2024-06-29 20:30] spiritfryer (Spyrfyr): Yea no worries! Not sure either\nJust wanted to clarify that it's not the same as \"absorbing\" 2 (such as on a Wall) -- in case that's a potential point of confusion for newer players with the terminology\n\nI generally say something like \"defend on\" to indicate which unit I assigned the final bit of incoming attack to\n\nAnd \"absorb\" for when that unit has non-fragile :Health: HP (or regen like Mahar / Xae) -- so \"free\" defense tempo was gained\n\nAnd \"soak\" for soaked units (that fully died as part of defense), as well as for lost fragile health on the defended upon unit (if it has non-regenerating fragile :Fragile: HP, like in the Feral example)",
+      "messages": [
+        {
+          "id": "1256687631270547497",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T20:07:59.422+01:00",
+          "content": "plexo cells and bloodphages are stronger that i thought they would be"
+        },
+        {
+          "id": "1256687808077103239",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T20:08:41.576+01:00",
+          "content": "Yeah, Plexo is really strong. Feral Warden also is just crazy value, if you can defend on them."
+        },
+        {
+          "id": "1256688017209299065",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T20:09:31.437+01:00",
+          "content": "Feral Warden is the same attack and cost as a tarsier + gauss charge. So, if you can additionally get 2 absorb onto it, its just one of the most efficient things you can be doing."
+        },
+        {
+          "id": "1256688141490716796",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T20:10:01.068+01:00",
+          "content": "And this game, you ended up just a turn after me in getting all the good units there."
+        },
+        {
+          "id": "1256688401797611693",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T20:11:03.13+01:00",
+          "content": "its fun how that works"
+        },
+        {
+          "id": "1256688458932686968",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T20:11:16.752+01:00",
+          "content": "why did you get a 3rd bloodphage?"
+        },
+        {
+          "id": "1256689106092822568",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T20:13:51.047+01:00",
+          "content": "Well, blood phage is kind of close to drone tarsier. 6gold vs 7gold. But blood phage \"loses\" 1 gold next turn. But in that spot I needed an extra engineer to be able to have a good defense"
+        },
+        {
+          "id": "1256689125436948563",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T20:13:55.659+01:00",
+          "content": "So I only had 6 gold left"
+        },
+        {
+          "id": "1256689688429858846",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T20:16:09.887+01:00",
+          "content": "I will start thinking of things in “drone-tarsier” terms"
+        },
+        {
+          "id": "1256689733158047837",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T20:16:20.551+01:00",
+          "content": "Yeah, it simplifies comparrisions"
+        },
+        {
+          "id": "1256689789302865960",
+          "author": "flower6149",
+          "nickname": "Flower",
+          "timestamp": "2024-06-29T20:16:33.937+01:00",
+          "content": "thx for the games @iminaBearSuit and @zezetel"
+        },
+        {
+          "id": "1256690381010243666",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-29T20:18:55.011+01:00",
+          "content": "Yea it's really strong, but just as a note, it isn't technically 2 absorb\n\nIt's 2 soak"
+        },
+        {
+          "id": "1256690494696853587",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-29T20:19:22.116+01:00",
+          "content": "Like if I absorb 2 on a wall, next turn I need to defend 2 less compared to if I soaked 2 on a feral"
+        },
+        {
+          "id": "1256690600627929191",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-29T20:19:47.372+01:00",
+          "content": "(Because the wall is still there participating on defense, whereas the feral would be swinging on 1 health in the backline)"
+        },
+        {
+          "id": "1256690906199756972",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-29T20:21:00.226+01:00",
+          "content": "Which is why in small red feral vs feral there sometimes comes a point where it's better to full soak feral and absorb 1 on rhino"
+        },
+        {
+          "id": "1256691033664913489",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-29T20:21:30.616+01:00",
+          "content": "For that +1 defense on the following turn"
+        },
+        {
+          "id": "1256691192595484743",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-29T20:22:08.508+01:00",
+          "content": "(Though idk, usually the side who has to do that first is losing? Not sure -- but either way, it's more defense)"
+        },
+        {
+          "id": "1256691919577415680",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2024-06-29T20:25:01.834+01:00",
+          "content": "Yeah, soak vs absorb... I tend to use absorb as the unit you assign the damage to. So I would absorb onto Protoplasm. Not sure which terminology would be easier to understand for new players."
+        },
+        {
+          "id": "1256693323003859004",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2024-06-29T20:30:36.437+01:00",
+          "content": "Yea no worries! Not sure either\nJust wanted to clarify that it's not the same as \"absorbing\" 2 (such as on a Wall) -- in case that's a potential point of confusion for newer players with the terminology\n\nI generally say something like \"defend on\" to indicate which unit I assigned the final bit of incoming attack to\n\nAnd \"absorb\" for when that unit has non-fragile :Health: HP (or regen like Mahar / Xae) -- so \"free\" defense tempo was gained\n\nAnd \"soak\" for soaked units (that fully died as part of defense), as well as for lost fragile health on the defended upon unit (if it has non-regenerating fragile :Fragile: HP, like in the Feral example)"
+        }
+      ]
+    }
+  ]
+}

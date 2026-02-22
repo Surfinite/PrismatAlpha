@@ -1,0 +1,3022 @@
+{
+  "channel": "strategy_advice",
+  "date_range": "2020-04-18 to 2020-04-23",
+  "thread_count": 37,
+  "token_count": 14774,
+  "threads": [
+    {
+      "start_ts": "2020-04-18T19:42:22.432+01:00",
+      "end_ts": "2020-04-18T20:07:51.301+01:00",
+      "participants": [
+        "lyra1712",
+        "sano712",
+        "siepu",
+        "velizar_",
+        "willflame"
+      ],
+      "replay_codes": [
+        "earch-space",
+        "unter-intui",
+        "brute-forci",
+        "brute-forci",
+        "brute-forci"
+      ],
+      "score": 73,
+      "formatted_text": "--- Thread (50 messages, 2020-04-18) ---\n[2020-04-18 19:42] velizar_ (Name): Most Prismata games are won or lost in the first few turns. (Except for Turn 1). That is, for humans. But I assume for AI it will be similar.\n[2020-04-18 19:43] sano712 (sano): eh I will object that statement about prismata having lots of trivially pointless moves\n[2020-04-18 19:43] sano712 (sano): stuff like holding drones, splitters etc can be correct against threat, chill etc\n[2020-04-18 19:43] sano712 (sano): so you can't just remove those from the state spac\n[2020-04-18 19:44] sano712 (sano): i mean, we've seen games being won by floating 20 gold into buying 5 animus for 10 tarsiers\n[2020-04-18 19:44] sano712 (sano): so even seemingly absurd plays can be correct\n[2020-04-18 19:47] velizar_ (Name): I'm not ruling out absurd plays; I'm only ruling out plays which are strictly worse than a different play which is available to you.\n[2020-04-18 19:48] velizar_ (Name): Even floating gold is done so that the gold can be used after 1 or 2 turns.\n[2020-04-18 19:48] velizar_ (Name): It isn't done in situations where you don't have a good use for it in 1-2 turns.\n[2020-04-18 19:48] siepu: simple exercise, try to count how many nonabsurd plays you can make on like turn 5 with some rescources already\n[2020-04-18 19:49] velizar_ (Name): That prunes the search-space quite a bit\n[2020-04-18 19:49] siepu: I think you will get to 50\n[2020-04-18 19:49] siepu: and then it only gets more complicated\n[2020-04-18 19:49] siepu: and if you want to solve the set you have to check every path\n[2020-04-18 19:49] siepu: its really fucking hard\n[2020-04-18 19:50] willflame: it's not that there aren't a lot of viable paths, it's just that there are even more possible paths in total and many of them are strictly worse than the viable ones\n[2020-04-18 19:51] siepu: I excluded the paths that you can prove are worse (holding drones below the absorb barrier)\n[2020-04-18 19:52] siepu: but you cant easily prove floating is strictly worse\n[2020-04-18 19:52] lyra1712 (Lyra): 50 is a ridiculous underestimation\n[2020-04-18 19:52] velizar_ (Name): Chess is much worse, we aren't even 100% sure that in an optimal play, black doesn't win. \nAs a chess player, you can always do the same move in your first turn, based on the statistics of how often it wins - you don't need to think about it. But you can't rule out absurd plays for first move, if you're considering EVERYTHING.\nLikewise, as a chess player, you use heuristics such as \"tempo is good\" and \"having more figures is good\", but there will be rare counter-intuitive exceptions to those. If you're considering everything, you're in trouble.\n[2020-04-18 19:53] siepu: chess has a simplie list of all possible moves every turn\n[2020-04-18 19:54] siepu: even if an average game is longer than in prismata\n[2020-04-18 19:55] velizar_ (Name): My point is that simple brute-forcing Chess would be much easier than simple brute-forcing Prismata; but if instead you're doing brute-forcing while only considering moves which aren't strictly inferior to another move, then Chess should be harder.\n[2020-04-18 19:55] velizar_ (Name): And in my opinion, Prismata with a fixed extra set should be easier to write a good AI for.\n[2020-04-18 19:55] lyra1712 (Lyra): i agree with your first point, disagree about the second\n[2020-04-18 19:56] siepu: depends what a good ai is\n[2020-04-18 19:56] siepu: i think master bot is good ai\n[2020-04-18 19:56] velizar_ (Name): stronger than most players.\n[2020-04-18 19:56] lyra1712 (Lyra): even if you disregard strictly dominated moves, you end up with a much bigger game tree in prismata\n[2020-04-18 19:56] velizar_ (Name): That's _only_ if you disregard strictly dominated moves?\n[2020-04-18 19:57] lyra1712 (Lyra): no, obviously if you dont the game tree is even bigger\n[2020-04-18 19:57] velizar_ (Name): Oh yeah you're right\n[2020-04-18 19:57] velizar_ (Name): I misunderstood what  \"disregard\" applies to\n[2020-04-18 19:58] velizar_ (Name): I disagree though. Prismata tends to have fewer turns, and fewer non-dominated options per turn, right?\n[2020-04-18 19:58] lyra1712 (Lyra): fewer turns sure, fewer non-dominated option i disagree\n[2020-04-18 19:59] lyra1712 (Lyra): suppose you have 15 drones, how many different things can you buy (including floating gold), using only base set\n[2020-04-18 19:59] lyra1712 (Lyra): i dont see at first glance why any of these option could be strictly dominated\n[2020-04-18 20:00] velizar_ (Name): I guess that optimal defense is ... NP-hard, but usually Q-defense is the optimal.\n[2020-04-18 20:00] lyra1712 (Lyra): maybe also suppose you have a blastforge and an animus\n[2020-04-18 20:00] lyra1712 (Lyra): then you'll literally have thousands of options\n[2020-04-18 20:00] lyra1712 (Lyra): none of them would be strictly dominated\n[2020-04-18 20:01] lyra1712 (Lyra): obviously most would be stupid\n[2020-04-18 20:01] velizar_ (Name): Let me open a random replay at a random turn\n[2020-04-18 20:03] lyra1712 (Lyra): defense is way easier than buy phase\n[2020-04-18 20:05] velizar_ (Name): Yeah I don't think I can convince myself that not getting breached tends to be provably strictly worse than getting breached.\n[2020-04-18 20:05] velizar_ (Name): So buying steelsplitters instead of walls will be a consideration.\n[2020-04-18 20:06] velizar_ (Name): Alright fair enough, you've convinced me.\n[2020-04-18 20:06] velizar_ (Name): If anyone wants to see an arbitrary game state, here's what I looked at\n[2020-04-18 20:07] velizar_ (Name): There's only one way to defend, thanks to Shaiev which says that you never prefer to have fewer units rather than more\n[2020-04-18 20:07] lyra1712 (Lyra): yeah, defense is mostly easy, or at least has few non-dominated options",
+      "messages": [
+        {
+          "id": "701140586702438494",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:42:22.432+01:00",
+          "content": "Most Prismata games are won or lost in the first few turns. (Except for Turn 1). That is, for humans. But I assume for AI it will be similar."
+        },
+        {
+          "id": "701140801178304562",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-18T19:43:13.567+01:00",
+          "content": "eh I will object that statement about prismata having lots of trivially pointless moves"
+        },
+        {
+          "id": "701140870564544572",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-18T19:43:30.11+01:00",
+          "content": "stuff like holding drones, splitters etc can be correct against threat, chill etc"
+        },
+        {
+          "id": "701140910796177468",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-18T19:43:39.702+01:00",
+          "content": "so you can't just remove those from the state spac"
+        },
+        {
+          "id": "701141117516775424",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-18T19:44:28.988+01:00",
+          "content": "i mean, we've seen games being won by floating 20 gold into buying 5 animus for 10 tarsiers"
+        },
+        {
+          "id": "701141154053226627",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-18T19:44:37.699+01:00",
+          "content": "so even seemingly absurd plays can be correct"
+        },
+        {
+          "id": "701141826278654072",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:47:17.97+01:00",
+          "content": "I'm not ruling out absurd plays; I'm only ruling out plays which are strictly worse than a different play which is available to you."
+        },
+        {
+          "id": "701142057917350019",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:48:13.197+01:00",
+          "content": "Even floating gold is done so that the gold can be used after 1 or 2 turns."
+        },
+        {
+          "id": "701142223949135913",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:48:52.782+01:00",
+          "content": "It isn't done in situations where you don't have a good use for it in 1-2 turns."
+        },
+        {
+          "id": "701142229884076043",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:48:54.197+01:00",
+          "content": "simple exercise, try to count how many nonabsurd plays you can make on like turn 5 with some rescources already"
+        },
+        {
+          "id": "701142258438766733",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:49:01.005+01:00",
+          "content": "That prunes the search-space quite a bit"
+        },
+        {
+          "id": "701142273445855303",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:49:04.583+01:00",
+          "content": "I think you will get to 50"
+        },
+        {
+          "id": "701142385429708860",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:49:31.282+01:00",
+          "content": "and then it only gets more complicated"
+        },
+        {
+          "id": "701142441343975464",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:49:44.613+01:00",
+          "content": "and if you want to solve the set you have to check every path"
+        },
+        {
+          "id": "701142469085233185",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:49:51.227+01:00",
+          "content": "its really fucking hard"
+        },
+        {
+          "id": "701142738258886657",
+          "author": "willflame",
+          "nickname": "WillFlame",
+          "timestamp": "2020-04-18T19:50:55.403+01:00",
+          "content": "it's not that there aren't a lot of viable paths, it's just that there are even more possible paths in total and many of them are strictly worse than the viable ones"
+        },
+        {
+          "id": "701142975941574687",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:51:52.071+01:00",
+          "content": "I excluded the paths that you can prove are worse (holding drones below the absorb barrier)"
+        },
+        {
+          "id": "701143037400842310",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:52:06.724+01:00",
+          "content": "but you cant easily prove floating is strictly worse"
+        },
+        {
+          "id": "701143084477579314",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T19:52:17.948+01:00",
+          "content": "50 is a ridiculous underestimation"
+        },
+        {
+          "id": "701143171341746280",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:52:38.658+01:00",
+          "content": "Chess is much worse, we aren't even 100% sure that in an optimal play, black doesn't win. \nAs a chess player, you can always do the same move in your first turn, based on the statistics of how often it wins - you don't need to think about it. But you can't rule out absurd plays for first move, if you're considering EVERYTHING.\nLikewise, as a chess player, you use heuristics such as \"tempo is good\" and \"having more figures is good\", but there will be rare counter-intuitive exceptions to those. If you're considering everything, you're in trouble."
+        },
+        {
+          "id": "701143358474813550",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:53:23.274+01:00",
+          "content": "chess has a simplie list of all possible moves every turn"
+        },
+        {
+          "id": "701143649320435793",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:54:32.617+01:00",
+          "content": "even if an average game is longer than in prismata"
+        },
+        {
+          "id": "701143770258997328",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:55:01.451+01:00",
+          "content": "My point is that simple brute-forcing Chess would be much easier than simple brute-forcing Prismata; but if instead you're doing brute-forcing while only considering moves which aren't strictly inferior to another move, then Chess should be harder."
+        },
+        {
+          "id": "701143856908861460",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:55:22.11+01:00",
+          "content": "And in my opinion, Prismata with a fixed extra set should be easier to write a good AI for."
+        },
+        {
+          "id": "701143953935958027",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T19:55:45.243+01:00",
+          "content": "i agree with your first point, disagree about the second"
+        },
+        {
+          "id": "701144049431609465",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:56:08.011+01:00",
+          "content": "depends what a good ai is"
+        },
+        {
+          "id": "701144070457655371",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-18T19:56:13.024+01:00",
+          "content": "i think master bot is good ai"
+        },
+        {
+          "id": "701144089382617139",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:56:17.536+01:00",
+          "content": "stronger than most players."
+        },
+        {
+          "id": "701144126220927107",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T19:56:26.319+01:00",
+          "content": "even if you disregard strictly dominated moves, you end up with a much bigger game tree in prismata"
+        },
+        {
+          "id": "701144246945841283",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:56:55.102+01:00",
+          "content": "That's _only_ if you disregard strictly dominated moves?"
+        },
+        {
+          "id": "701144306123145276",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T19:57:09.211+01:00",
+          "content": "no, obviously if you dont the game tree is even bigger"
+        },
+        {
+          "id": "701144391615643758",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:57:29.594+01:00",
+          "content": "Oh yeah you're right"
+        },
+        {
+          "id": "701144453242552340",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:57:44.287+01:00",
+          "content": "I misunderstood what  \"disregard\" applies to"
+        },
+        {
+          "id": "701144562776932533",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T19:58:10.402+01:00",
+          "content": "I disagree though. Prismata tends to have fewer turns, and fewer non-dominated options per turn, right?"
+        },
+        {
+          "id": "701144674521317456",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T19:58:37.044+01:00",
+          "content": "fewer turns sure, fewer non-dominated option i disagree"
+        },
+        {
+          "id": "701144913252843540",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T19:59:33.962+01:00",
+          "content": "suppose you have 15 drones, how many different things can you buy (including floating gold), using only base set"
+        },
+        {
+          "id": "701145015010852914",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T19:59:58.223+01:00",
+          "content": "i dont see at first glance why any of these option could be strictly dominated"
+        },
+        {
+          "id": "701145154676981762",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:00:31.522+01:00",
+          "content": "I guess that optimal defense is ... NP-hard, but usually Q-defense is the optimal."
+        },
+        {
+          "id": "701145159739375616",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T20:00:32.729+01:00",
+          "content": "maybe also suppose you have a blastforge and an animus"
+        },
+        {
+          "id": "701145201460248597",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T20:00:42.676+01:00",
+          "content": "then you'll literally have thousands of options"
+        },
+        {
+          "id": "701145245974397029",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T20:00:53.289+01:00",
+          "content": "none of them would be strictly dominated"
+        },
+        {
+          "id": "701145322856120351",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T20:01:11.619+01:00",
+          "content": "obviously most would be stupid"
+        },
+        {
+          "id": "701145390921023559",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:01:27.847+01:00",
+          "content": "Let me open a random replay at a random turn"
+        },
+        {
+          "id": "701145952479608882",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T20:03:41.733+01:00",
+          "content": "defense is way easier than buy phase"
+        },
+        {
+          "id": "701146413408714873",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:05:31.627+01:00",
+          "content": "Yeah I don't think I can convince myself that not getting breached tends to be provably strictly worse than getting breached."
+        },
+        {
+          "id": "701146474716856401",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:05:46.244+01:00",
+          "content": "So buying steelsplitters instead of walls will be a consideration."
+        },
+        {
+          "id": "701146563359277128",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:06:07.378+01:00",
+          "content": "Alright fair enough, you've convinced me."
+        },
+        {
+          "id": "701146708435927061",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:06:41.967+01:00",
+          "content": "If anyone wants to see an arbitrary game state, here's what I looked at"
+        },
+        {
+          "id": "701146894163902574",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:07:26.248+01:00",
+          "content": "There's only one way to defend, thanks to Shaiev which says that you never prefer to have fewer units rather than more"
+        },
+        {
+          "id": "701146999243800606",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T20:07:51.301+01:00",
+          "content": "yeah, defense is mostly easy, or at least has few non-dominated options"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-18T20:08:16.685+01:00",
+      "end_ts": "2020-04-18T20:13:49.373+01:00",
+      "participants": [
+        "lyra1712",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 19,
+      "formatted_text": "--- Thread (7 messages, 2020-04-18) ---\n[2020-04-18 20:08] velizar_ (Name): Then if you decide to not get breached, then... you still have to decide if you want an animus, or condiut, blastforge... double animus?\n[2020-04-18 20:08] lyra1712 (Lyra): any amount of floated gold is something \"to consider\"\n[2020-04-18 20:10] velizar_ (Name): I could buy splitter, then hold all doomed drones and some drones, so that I can avoid losing engineers.\n[2020-04-18 20:10] velizar_ (Name): This way I can have more energy next turn.\n[2020-04-18 20:11] velizar_ (Name): Hard to put an estimate, but I believe there's over 100 possibilities here, even ignoring the blood phages.\n[2020-04-18 20:11] lyra1712 (Lyra): i stand by my estimation of \"literally thousands\", as a lower bound\n[2020-04-18 20:13] velizar_ (Name): Could be - my error margin is logarithmic.",
+      "messages": [
+        {
+          "id": "701147105712013384",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:08:16.685+01:00",
+          "content": "Then if you decide to not get breached, then... you still have to decide if you want an animus, or condiut, blastforge... double animus?"
+        },
+        {
+          "id": "701147236322639913",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T20:08:47.825+01:00",
+          "content": "any amount of floated gold is something \"to consider\""
+        },
+        {
+          "id": "701147648484311081",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:10:26.092+01:00",
+          "content": "I could buy splitter, then hold all doomed drones and some drones, so that I can avoid losing engineers."
+        },
+        {
+          "id": "701147685423546368",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:10:34.899+01:00",
+          "content": "This way I can have more energy next turn."
+        },
+        {
+          "id": "701147815404896256",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:11:05.889+01:00",
+          "content": "Hard to put an estimate, but I believe there's over 100 possibilities here, even ignoring the blood phages."
+        },
+        {
+          "id": "701147968505512056",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-18T20:11:42.391+01:00",
+          "content": "i stand by my estimation of \"literally thousands\", as a lower bound"
+        },
+        {
+          "id": "701148501106491393",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-18T20:13:49.373+01:00",
+          "content": "Could be - my error margin is logarithmic."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T11:31:04.638+01:00",
+      "end_ts": "2020-04-19T12:07:01.12+01:00",
+      "participants": [
+        "flakmaniak",
+        "velizar_"
+      ],
+      "replay_codes": [
+        "8TC1i-KzsZI"
+      ],
+      "score": 56,
+      "formatted_text": "--- Thread (29 messages, 2020-04-19) ---\n[2020-04-19 11:31] flakmaniak: Ok so WTF is going on here, and WTF should have been going on: 8TC1i-KzsZI\n[2020-04-19 11:31] flakmaniak: I was sooo confused the whole game, about what I should be doing.\n[2020-04-19 11:31] flakmaniak: When the guy built double Blastforge, I wasn't thinking about Grenade Mech at all; I assumed immediate Deadeye was the play.\n[2020-04-19 11:31] flakmaniak: So I wasn't ready to defend.\n[2020-04-19 11:31] flakmaniak: Getting breached seemed the least bad option there.\n[2020-04-19 11:32] flakmaniak: Killing my Animus seemed correct; meant I had to wait ages to build more Scorches.\n[2020-04-19 11:32] flakmaniak: Neither player going for triple Engie seemed right, given there aren't any good absorbers. Well, Mega Drone, I guess. Not that you'd want to use it that way.\n[2020-04-19 11:33] flakmaniak: I figured that as P2, it's an easy DD/DDC into Scorches, but as you can see, it wasn't that simple.\n[2020-04-19 11:33] flakmaniak: But... Man, what a weird set, and game.\n[2020-04-19 11:33] flakmaniak: Some REALLY interesting midgame positions.\n[2020-04-19 11:34] flakmaniak: That one wouldn't get in a normal, non-awkward game.\n[2020-04-19 11:39] velizar_ (Name): Your opponent should have won as soon as you didn't react to the double blastforge. They weren't supposed to build a deadeye, they were supposed to build a second gmech, and also kill drones instead of your animus. Then you'd be left with\n[2020-04-19 11:40] velizar_ (Name): Not noticing G Mech in the set was a game losing mistake\n[2020-04-19 11:42] velizar_ (Name): Then you'll be in this state:\n[2020-04-19 11:43] velizar_ (Name): Actually this doesn't seem like an obviously losing state...\n[2020-04-19 11:44] velizar_ (Name): Anyway, after that, your opponent made more mistakes:\n[2020-04-19 11:45] velizar_ (Name): Holding 6 drones and a steelsplitter was a mistake - they should have let you breach. They ended up losing 3 drones and a husk.\n[2020-04-19 11:46] velizar_ (Name): If they instead clicked the splitter and all drones and floated the 6 gold, then they would have lost 4 drones.\n[2020-04-19 11:46] velizar_ (Name): This mistake costed XQ10XA 1 attack and ~5 gold. Really big mistake.\n[2020-04-19 11:48] velizar_ (Name): Fun fact: losing a clicked drone is just as bad as losing an engineer. If your most valuable unit for breaching is a drone, and you're not going to get any absorb, then losing clicked drones isn't actually bad. The bad thing about getting breached for drones is losing the ability to absorb.\n[2020-04-19 11:52] velizar_ (Name): If you have infinite energy, and have two options:\n1. buy some engis\n2. buy the same amount of drones\nthen the units you bought are going to get killed as soon as they are built, then in case 2 you still gain back one gold from clicking the drones, so the drones end up costing you 2 gold each.\n[2020-04-19 11:57] flakmaniak: Sacrificing all the Blastforges so aggressively seemed weird as well; the guy kind of ran out of steam (and persistent attack) by doing that. And the Chrono Filter didn't really seem like enough.\n[2020-04-19 11:57] flakmaniak: When the guy built the first Grenade Mech, do you think it was correct for me to just allow the breach? Blocking just didn't seem very good there.\n[2020-04-19 11:58] flakmaniak: So I figured, whatever, gonna set up my Scorches, and if he kills my Animus, then I'll figure out what to do about that later.\n[2020-04-19 11:59] velizar_ (Name): I might have bought rhino+forcefield in order to get absorb. Hmm...\n[2020-04-19 12:00] velizar_ (Name): I'm not sure if rhino+forcefield is better than allowing breach.\n[2020-04-19 12:04] flakmaniak: I figured a breach wasn't all that bad at that point, and I really wanted to get some attackers set up, to not be on the back foot forever.\n[2020-04-19 12:04] velizar_ (Name): Ok I was wrong about clicked drones being as good defense as engis. Actually engis are more cost-effective. Although my overall point remains valid that XQ10XA shouldn't have held the drones & splitter.\n[2020-04-19 12:07] velizar_ (Name): Yeah I'm not sure either.",
+      "messages": [
+        {
+          "id": "701379335738753024",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:31:04.638+01:00",
+          "content": "Ok so WTF is going on here, and WTF should have been going on: 8TC1i-KzsZI"
+        },
+        {
+          "id": "701379365300207627",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:31:11.686+01:00",
+          "content": "I was sooo confused the whole game, about what I should be doing."
+        },
+        {
+          "id": "701379462075514992",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:31:34.759+01:00",
+          "content": "When the guy built double Blastforge, I wasn't thinking about Grenade Mech at all; I assumed immediate Deadeye was the play."
+        },
+        {
+          "id": "701379481385828364",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:31:39.363+01:00",
+          "content": "So I wasn't ready to defend."
+        },
+        {
+          "id": "701379511446667264",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:31:46.53+01:00",
+          "content": "Getting breached seemed the least bad option there."
+        },
+        {
+          "id": "701379597203144824",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:32:06.976+01:00",
+          "content": "Killing my Animus seemed correct; meant I had to wait ages to build more Scorches."
+        },
+        {
+          "id": "701379818578772009",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:32:59.756+01:00",
+          "content": "Neither player going for triple Engie seemed right, given there aren't any good absorbers. Well, Mega Drone, I guess. Not that you'd want to use it that way."
+        },
+        {
+          "id": "701379988129316946",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:33:40.18+01:00",
+          "content": "I figured that as P2, it's an easy DD/DDC into Scorches, but as you can see, it wasn't that simple."
+        },
+        {
+          "id": "701380016898048021",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:33:47.039+01:00",
+          "content": "But... Man, what a weird set, and game."
+        },
+        {
+          "id": "701380051127631872",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:33:55.2+01:00",
+          "content": "Some REALLY interesting midgame positions."
+        },
+        {
+          "id": "701380077765525609",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:34:01.551+01:00",
+          "content": "That one wouldn't get in a normal, non-awkward game."
+        },
+        {
+          "id": "701381538184691773",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:39:49.742+01:00",
+          "content": "Your opponent should have won as soon as you didn't react to the double blastforge. They weren't supposed to build a deadeye, they were supposed to build a second gmech, and also kill drones instead of your animus. Then you'd be left with"
+        },
+        {
+          "id": "701381659202682880",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:40:18.595+01:00",
+          "content": "Not noticing G Mech in the set was a game losing mistake"
+        },
+        {
+          "id": "701382100116570122",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:42:03.717+01:00",
+          "content": "Then you'll be in this state:"
+        },
+        {
+          "id": "701382559208046643",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:43:53.173+01:00",
+          "content": "Actually this doesn't seem like an obviously losing state..."
+        },
+        {
+          "id": "701382620067659808",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:44:07.683+01:00",
+          "content": "Anyway, after that, your opponent made more mistakes:"
+        },
+        {
+          "id": "701382943297372180",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:45:24.747+01:00",
+          "content": "Holding 6 drones and a steelsplitter was a mistake - they should have let you breach. They ended up losing 3 drones and a husk."
+        },
+        {
+          "id": "701383091838648371",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:46:00.162+01:00",
+          "content": "If they instead clicked the splitter and all drones and floated the 6 gold, then they would have lost 4 drones."
+        },
+        {
+          "id": "701383322986872923",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:46:55.272+01:00",
+          "content": "This mistake costed XQ10XA 1 attack and ~5 gold. Really big mistake."
+        },
+        {
+          "id": "701383832242225202",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:48:56.688+01:00",
+          "content": "Fun fact: losing a clicked drone is just as bad as losing an engineer. If your most valuable unit for breaching is a drone, and you're not going to get any absorb, then losing clicked drones isn't actually bad. The bad thing about getting breached for drones is losing the ability to absorb."
+        },
+        {
+          "id": "701384699792195624",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:52:23.528+01:00",
+          "content": "If you have infinite energy, and have two options:\n1. buy some engis\n2. buy the same amount of drones\nthen the units you bought are going to get killed as soon as they are built, then in case 2 you still gain back one gold from clicking the drones, so the drones end up costing you 2 gold each."
+        },
+        {
+          "id": "701385926735036506",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:57:16.054+01:00",
+          "content": "Sacrificing all the Blastforges so aggressively seemed weird as well; the guy kind of ran out of steam (and persistent attack) by doing that. And the Chrono Filter didn't really seem like enough."
+        },
+        {
+          "id": "701386035031965787",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:57:41.874+01:00",
+          "content": "When the guy built the first Grenade Mech, do you think it was correct for me to just allow the breach? Blocking just didn't seem very good there."
+        },
+        {
+          "id": "701386165915484165",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T11:58:13.079+01:00",
+          "content": "So I figured, whatever, gonna set up my Scorches, and if he kills my Animus, then I'll figure out what to do about that later."
+        },
+        {
+          "id": "701386590156750860",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T11:59:54.226+01:00",
+          "content": "I might have bought rhino+forcefield in order to get absorb. Hmm..."
+        },
+        {
+          "id": "701386851197517864",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T12:00:56.463+01:00",
+          "content": "I'm not sure if rhino+forcefield is better than allowing breach."
+        },
+        {
+          "id": "701387796983578655",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T12:04:41.956+01:00",
+          "content": "I figured a breach wasn't all that bad at that point, and I really wanted to get some attackers set up, to not be on the back foot forever."
+        },
+        {
+          "id": "701387828592115783",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T12:04:49.492+01:00",
+          "content": "Ok I was wrong about clicked drones being as good defense as engis. Actually engis are more cost-effective. Although my overall point remains valid that XQ10XA shouldn't have held the drones & splitter."
+        },
+        {
+          "id": "701388380679962684",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T12:07:01.12+01:00",
+          "content": "Yeah I'm not sure either."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T12:49:03.109+01:00",
+      "end_ts": "2020-04-19T13:08:28.623+01:00",
+      "participants": [
+        "masn6811",
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (4 messages, 2020-04-19) ---\n[2020-04-19 12:49] megasupp (mega-supp): I wouldn't call drones in that situation defense.  defense allows you to protect your units. In this situation drones are just the most valuable target to breach\n[2020-04-19 12:53] megasupp (mega-supp): I think a more useful advice is to view any breach in terms of how much absorb it denies and what it kills\n[2020-04-19 12:59] megasupp (mega-supp): that's why when you say have engi and wall  and your opponent has thermite 2 tarsiers and 2 pixies you shouldn't hold a drone. If they can't breach you they still give you 0 absorb by clicking thermite.\n[2020-04-19 13:08] masn6811 (Masne98888): the value of a breach is absorb denial plus all the SDRs it grants",
+      "messages": [
+        {
+          "id": "701398958668251166",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T12:49:03.109+01:00",
+          "content": "I wouldn't call drones in that situation defense.  defense allows you to protect your units. In this situation drones are just the most valuable target to breach"
+        },
+        {
+          "id": "701399974063243284",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T12:53:05.198+01:00",
+          "content": "I think a more useful advice is to view any breach in terms of how much absorb it denies and what it kills"
+        },
+        {
+          "id": "701401544515387423",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T12:59:19.623+01:00",
+          "content": "that's why when you say have engi and wall  and your opponent has thermite 2 tarsiers and 2 pixies you shouldn't hold a drone. If they can't breach you they still give you 0 absorb by clicking thermite."
+        },
+        {
+          "id": "701403847188545548",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-04-19T13:08:28.623+01:00",
+          "content": "the value of a breach is absorb denial plus all the SDRs it grants"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T13:28:53.257+01:00",
+      "end_ts": "2020-04-19T13:38:06.936+01:00",
+      "participants": [
+        "flakmaniak",
+        "lyra1712",
+        "megasupp"
+      ],
+      "replay_codes": [],
+      "score": 15,
+      "formatted_text": "--- Thread (9 messages, 2020-04-19) ---\n[2020-04-19 13:28] megasupp (mega-supp): > I figured a breach wasn't all that bad at that point, and I really wanted to get some attackers set up, to not be on the back foot forever.\n@FlakManiak \nthat's the wrong way to think about it grenade mech only  gives 1 permanent attack so it's not a good long term investment. Grenade mech derives its value from opponents inability to defend or forcing out inefficent defence. So when opponent rushes you with Gmechs your objective should be to make sure you can defend efficently.Allowing a breach is the opposite of that\n[2020-04-19 13:31] flakmaniak: I guess, but I didn't have any absorbers at all yet. You can see the board state I was in. I'd lose either two Drones or an Animus. Instead of having to block really inefficiently with Rhinos or something.\n[2020-04-19 13:32] megasupp (mega-supp): if we assume red is worth 1 gold then buying rhino is like spending 6 gold to protect 2 drones or an animus whichever is more valuable\n[2020-04-19 13:33] megasupp (mega-supp): which by itself may be a good or a bad deal depending on the board state\n[2020-04-19 13:34] megasupp (mega-supp): but if rhino gets absorb  it's like you are trading 1 defence for a rhino which is obviosly a very good deal\n[2020-04-19 13:35] megasupp (mega-supp): 1 thing to consider is opportunity cost of buying a rhino. in that case not being able to buy scorch. I don't consider additional scorch to be worth more than you get by absorbing\n[2020-04-19 13:36] lyra1712 (Lyra): tldr absorb is good 😮\n[2020-04-19 13:37] megasupp (mega-supp): sometimes opportunity cost is high enough that you are fine with allowing a breach. For example being able to buy a thunderhead or lucina or odin is a big enough deal that makes you consider allowing a breach\n[2020-04-19 13:38] megasupp (mega-supp): but that is not the case here",
+      "messages": [
+        {
+          "id": "701408983675568128",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T13:28:53.257+01:00",
+          "content": "> I figured a breach wasn't all that bad at that point, and I really wanted to get some attackers set up, to not be on the back foot forever.\n@FlakManiak \nthat's the wrong way to think about it grenade mech only  gives 1 permanent attack so it's not a good long term investment. Grenade mech derives its value from opponents inability to defend or forcing out inefficent defence. So when opponent rushes you with Gmechs your objective should be to make sure you can defend efficently.Allowing a breach is the opposite of that"
+        },
+        {
+          "id": "701409666101542933",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T13:31:35.96+01:00",
+          "content": "I guess, but I didn't have any absorbers at all yet. You can see the board state I was in. I'd lose either two Drones or an Animus. Instead of having to block really inefficiently with Rhinos or something."
+        },
+        {
+          "id": "701409926467027005",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T13:32:38.036+01:00",
+          "content": "if we assume red is worth 1 gold then buying rhino is like spending 6 gold to protect 2 drones or an animus whichever is more valuable"
+        },
+        {
+          "id": "701410112002326528",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T13:33:22.271+01:00",
+          "content": "which by itself may be a good or a bad deal depending on the board state"
+        },
+        {
+          "id": "701410284476301442",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T13:34:03.392+01:00",
+          "content": "but if rhino gets absorb  it's like you are trading 1 defence for a rhino which is obviosly a very good deal"
+        },
+        {
+          "id": "701410616790745130",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T13:35:22.622+01:00",
+          "content": "1 thing to consider is opportunity cost of buying a rhino. in that case not being able to buy scorch. I don't consider additional scorch to be worth more than you get by absorbing"
+        },
+        {
+          "id": "701410821535957062",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-19T13:36:11.437+01:00",
+          "content": "tldr absorb is good 😮"
+        },
+        {
+          "id": "701411183344877599",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T13:37:37.699+01:00",
+          "content": "sometimes opportunity cost is high enough that you are fine with allowing a breach. For example being able to buy a thunderhead or lucina or odin is a big enough deal that makes you consider allowing a breach"
+        },
+        {
+          "id": "701411305973612624",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T13:38:06.936+01:00",
+          "content": "but that is not the case here"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T14:36:44.597+01:00",
+      "end_ts": "2020-04-19T14:36:44.597+01:00",
+      "participants": [
+        "jeacaveo"
+      ],
+      "replay_codes": [
+        "phaGo-style"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-04-19) ---\n[2020-04-19 14:36] jeacaveo (jeacaveo (#NeverBrowserer)): > Tangentially, has anyone tried building an AlphaGo-style neural net-based bot for Prismata?\n@FlakManiak I know someone is doing that as part of research for their phd or something like that, but for the life of me I can't find anything on Reddit or here. Maybe someone will help us out.",
+      "messages": [
+        {
+          "id": "701426060113346650",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-19T14:36:44.597+01:00",
+          "content": "> Tangentially, has anyone tried building an AlphaGo-style neural net-based bot for Prismata?\n@FlakManiak I know someone is doing that as part of research for their phd or something like that, but for the life of me I can't find anything on Reddit or here. Maybe someone will help us out."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T15:00:49.377+01:00",
+      "end_ts": "2020-04-19T15:04:58.012+01:00",
+      "participants": [
+        "flakmaniak",
+        "lyra1712",
+        "shadourow"
+      ],
+      "replay_codes": [
+        "Akuma-style"
+      ],
+      "score": 11,
+      "formatted_text": "--- Thread (6 messages, 2020-04-19) ---\n[2020-04-19 15:00] shadourow (Rando): I remember something like that, yeah\n[2020-04-19 15:01] flakmaniak: If such a thing were successful, and were really good (even if it didn't eclipse all humans like the various AlphaBots did), do you reckon it might get added to the game, as some kind of secret option?\n[2020-04-19 15:03] shadourow (Rando): It definitly would be added somewhere\n[2020-04-19 15:03] lyra1712 (Lyra): my guess is that would depend on the amount of work required from lunarch\n[2020-04-19 15:04] flakmaniak: Imagine having Prismata tournaments, where the Akuma-style last boss comes out at the end. The top two humans play in grand finals, and then the winner faces the ultimate bot in an exhibition match.\n[2020-04-19 15:04] lyra1712 (Lyra): i mean, its hard to imagine the bot to be at a comparable level to top players, it would either be much better or much worse imo",
+      "messages": [
+        {
+          "id": "701432119959748660",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T15:00:49.377+01:00",
+          "content": "I remember something like that, yeah"
+        },
+        {
+          "id": "701432316433530891",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T15:01:36.22+01:00",
+          "content": "If such a thing were successful, and were really good (even if it didn't eclipse all humans like the various AlphaBots did), do you reckon it might get added to the game, as some kind of secret option?"
+        },
+        {
+          "id": "701432784576577619",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T15:03:27.834+01:00",
+          "content": "It definitly would be added somewhere"
+        },
+        {
+          "id": "701432877837189140",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-19T15:03:50.069+01:00",
+          "content": "my guess is that would depend on the amount of work required from lunarch"
+        },
+        {
+          "id": "701432975736438845",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T15:04:13.41+01:00",
+          "content": "Imagine having Prismata tournaments, where the Akuma-style last boss comes out at the end. The top two humans play in grand finals, and then the winner faces the ultimate bot in an exhibition match."
+        },
+        {
+          "id": "701433162810785904",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-19T15:04:58.012+01:00",
+          "content": "i mean, its hard to imagine the bot to be at a comparable level to top players, it would either be much better or much worse imo"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T15:38:50.539+01:00",
+      "end_ts": "2020-04-19T16:03:09.225+01:00",
+      "participants": [
+        "flakmaniak",
+        "megasupp",
+        "sano712",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 27,
+      "formatted_text": "--- Thread (18 messages, 2020-04-19) ---\n[2020-04-19 15:38] velizar_ (Name): it would be cool if the bot has a difficulty slider\n[2020-04-19 15:45] sano712 (sano): it already has a discrete difficulty slider\n[2020-04-19 15:45] sano712 (sano): with basic, adept, expert, and master\n[2020-04-19 15:46] sano712 (sano): and master 3s and 7s\n[2020-04-19 15:50] flakmaniak: Please educate me on Doomed openings. Is p2 DE1/DDD particularly good? Seems like it would be.\n[2020-04-19 15:50] flakmaniak: Then, I dunno, turn 3 is something like DD1C.\n[2020-04-19 15:51] velizar_ (Name): yes but the master 7s isn't very hard for many players\n[2020-04-19 15:52] velizar_ (Name): the thing with deep learning bots is that I'm not sure I've seen one with a difficulty slider - both OpenAI and DeepMind had bots, but didn't offer a version for random players to train with :(\n[2020-04-19 15:52] velizar_ (Name): as far as I know at least\n[2020-04-19 15:52] sano712 (sano): sure, but then you're asking for a better bot, not for a difficulty slider, it's a whole different thing\n[2020-04-19 15:53] velizar_ (Name): I'm asking for a combination of a better bot and a difficulty slider\n[2020-04-19 15:53] velizar_ (Name): a better bot without a difficulty slider will be like playing chess bots\n[2020-04-19 15:53] sano712 (sano): depends on how better it is :LongNoseLiar:\n[2020-04-19 15:53] megasupp (mega-supp): > Gotta go FAST.\n@FlakManiak \nI don't see why you would want to buy A if you can't afford even a second T, besides I am pretty sure buying tarsier and floating blue is better than buying splitter and floating red\n[2020-04-19 15:54] flakmaniak: Huh? I didn't say to buy an Animus or a Blastforge.\n[2020-04-19 15:56] megasupp (mega-supp): That was a joke. (albeit not a funny one) FAST= Forcefield Animus Steelsplitter Tarsier  in standard conventions of writing prismata lines\n[2020-04-19 16:02] velizar_ (Name): > buying tarsier and floating blue is better than buying splitter and floating red\nIsn't it the opposite?\n[2020-04-19 16:03] velizar_ (Name): One extra attack is worth more than 2, and being able to hold it is also worth something, right?",
+      "messages": [
+        {
+          "id": "701441687846781014",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T15:38:50.539+01:00",
+          "content": "it would be cool if the bot has a difficulty slider"
+        },
+        {
+          "id": "701443383117348926",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T15:45:34.723+01:00",
+          "content": "it already has a discrete difficulty slider"
+        },
+        {
+          "id": "701443439103049798",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T15:45:48.071+01:00",
+          "content": "with basic, adept, expert, and master"
+        },
+        {
+          "id": "701443491615735918",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T15:46:00.591+01:00",
+          "content": "and master 3s and 7s"
+        },
+        {
+          "id": "701444509577379862",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T15:50:03.292+01:00",
+          "content": "Please educate me on Doomed openings. Is p2 DE1/DDD particularly good? Seems like it would be."
+        },
+        {
+          "id": "701444692612743281",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T15:50:46.931+01:00",
+          "content": "Then, I dunno, turn 3 is something like DD1C."
+        },
+        {
+          "id": "701444969617031208",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T15:51:52.974+01:00",
+          "content": "yes but the master 7s isn't very hard for many players"
+        },
+        {
+          "id": "701445165151158303",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T15:52:39.593+01:00",
+          "content": "the thing with deep learning bots is that I'm not sure I've seen one with a difficulty slider - both OpenAI and DeepMind had bots, but didn't offer a version for random players to train with :("
+        },
+        {
+          "id": "701445194423468103",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T15:52:46.572+01:00",
+          "content": "as far as I know at least"
+        },
+        {
+          "id": "701445199703965776",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T15:52:47.831+01:00",
+          "content": "sure, but then you're asking for a better bot, not for a difficulty slider, it's a whole different thing"
+        },
+        {
+          "id": "701445258440999013",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T15:53:01.835+01:00",
+          "content": "I'm asking for a combination of a better bot and a difficulty slider"
+        },
+        {
+          "id": "701445314413985872",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T15:53:15.18+01:00",
+          "content": "a better bot without a difficulty slider will be like playing chess bots"
+        },
+        {
+          "id": "701445376988676166",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T15:53:30.099+01:00",
+          "content": "depends on how better it is :LongNoseLiar:"
+        },
+        {
+          "id": "701445419531763842",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T15:53:40.242+01:00",
+          "content": "> Gotta go FAST.\n@FlakManiak \nI don't see why you would want to buy A if you can't afford even a second T, besides I am pretty sure buying tarsier and floating blue is better than buying splitter and floating red"
+        },
+        {
+          "id": "701445680161358024",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T15:54:42.381+01:00",
+          "content": "Huh? I didn't say to buy an Animus or a Blastforge."
+        },
+        {
+          "id": "701446191145287790",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T15:56:44.209+01:00",
+          "content": "That was a joke. (albeit not a funny one) FAST= Forcefield Animus Steelsplitter Tarsier  in standard conventions of writing prismata lines"
+        },
+        {
+          "id": "701447666906824805",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T16:02:36.058+01:00",
+          "content": "> buying tarsier and floating blue is better than buying splitter and floating red\nIsn't it the opposite?"
+        },
+        {
+          "id": "701447806019436634",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T16:03:09.225+01:00",
+          "content": "One extra attack is worth more than 2, and being able to hold it is also worth something, right?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T16:14:38.728+01:00",
+      "end_ts": "2020-04-19T16:49:30.855+01:00",
+      "participants": [
+        "Deleted User",
+        "flakmaniak",
+        "megasupp",
+        "sano712",
+        "shadourow",
+        "siepu",
+        "velizar_"
+      ],
+      "replay_codes": [
+        "unbAt-ZnUX2"
+      ],
+      "score": 52,
+      "formatted_text": "--- Thread (50 messages, 2020-04-19) ---\n[2020-04-19 16:14] Deleted User (Deleted User): depends on inflation\n[2020-04-19 16:14] megasupp (mega-supp): well if you calculate inflation for both assuming blue and red is free tarsier comes out slightly ahead (1.47 vs 1.46)\n[2020-04-19 16:15] megasupp (mega-supp): but actually yes it really does depend on position\n[2020-04-19 16:17] megasupp (mega-supp): also if you are considering buying a splitter that means you don't need to buy wall so most likely low inflation which makes tarsier better because buildtime units are good in low inflation\n[2020-04-19 16:18] shadourow (Rando): > Please educate me on Doomed openings. Is p2 DE1/DDD particularly good? Seems like it would be.\n@FlakManiak \nIt's a common opening whenever P2 want to go 3 engies\n[2020-04-19 16:20] megasupp (mega-supp): I would say it's overrated but yes definitely a perfectly good opening\n[2020-04-19 16:21] shadourow (Rando): If 3 engies are bad, that opening is bad, ofc\n[2020-04-19 16:22] shadourow (Rando): That's just an improved 3 engies opening\n[2020-04-19 16:22] flakmaniak: So what you're saying is, it shouldn't really change whether you go triple Engie, but if you were doing that already, might as well use that opening.\n[2020-04-19 16:24] megasupp (mega-supp): well doomed drone is a unit that tends to make econ size smaller and by extension 3 engi builds\n[2020-04-19 16:25] shadourow (Rando): It supports rush strategies, right\n[2020-04-19 16:25] shadourow (Rando): But it does not really makes other strategies go that much faster\n[2020-04-19 16:26] Deleted User (Deleted User): i think p2's DD/DDEE is better generally\n[2020-04-19 16:27] megasupp (mega-supp): Spoken like a true econ main\n[2020-04-19 16:31] velizar_ (Name): rush your opponent with engineers\n[2020-04-19 16:31] velizar_ (Name): will always surprise them\n[2020-04-19 16:32] Deleted User (Deleted User): engineers are OP with doomed drone in the set\n[2020-04-19 16:32] velizar_ (Name): that's also a good time to whip out a shockingly customized emote\n[2020-04-19 16:32] Deleted User (Deleted User): 4 engineers allow u to spam the f out of doomeds\n[2020-04-19 16:34] flakmaniak: So you're saying DD/DDEE/DDD1, that sort of thing?\n[2020-04-19 16:34] shadourow (Rando): Yes, but actually no\n[2020-04-19 16:35] shadourow (Rando): Cooled has his own playstyle\n[2020-04-19 16:35] shadourow (Rando): But I truly don't think that it's a good idea\n[2020-04-19 16:36] sano712 (sano): I would say cooled plays suboptimally and wins because he plays well, so his rating is slightly lower than it should be if he didn't to gimmicky lines\n[2020-04-19 16:39] Deleted User (Deleted User): something like DD/DDEE/1111 or smth but depends on the set\n[2020-04-19 16:39] Deleted User (Deleted User): ^^ if lower to mid econ\n[2020-04-19 16:40] megasupp (mega-supp): although I would say that I tested out cooled statement that in otherwise very fast sets getting 3rd engi just so you can spam triple doomed drone ( think some immolite+feral warden stuff) is good. And ... it kinda is.\n[2020-04-19 16:42] Deleted User (Deleted User): with 4 engineers you can get 4 doomed drones a turn\n[2020-04-19 16:42] Deleted User (Deleted User): how can that be bad?\n[2020-04-19 16:43] shadourow (Rando): you still bought a 4th engi\n[2020-04-19 16:43] shadourow (Rando): But it feels sub-optimal to me\n[2020-04-19 16:43] megasupp (mega-supp): engineer is a bad unit if it doesn't buy you a doomed drone\nand there are only 10 doomed drones in supply\n[2020-04-19 16:44] flakmaniak: Just against the bot (side note, the bot seems terrible at using Antima), but stuff like DE1/DDD/A111: unbAt-ZnUX2\n[2020-04-19 16:44] flakmaniak: You can get four Doomed Drones per turn... For two turns.\n[2020-04-19 16:44] flakmaniak: And then you run out of Doomeds.\n[2020-04-19 16:44] shadourow (Rando): that's why it's sub-obtimal\n[2020-04-19 16:44] flakmaniak: Also I dunno why the bot wasted its red there.\n[2020-04-19 16:45] shadourow (Rando): ahah, Masterbot is terrifying as a noob\n[2020-04-19 16:45] shadourow (Rando): But the more you play...\n[2020-04-19 16:45] flakmaniak: Ok so speaking of Antima, I really don't know how to use it well. Is there some Antima guide, showing how one would get high value from it, and not lose afterwards? I feel like, years ago, I saw a bunch of Antima games on stream. But I never had a good feel for using it myself.\n[2020-04-19 16:46] flakmaniak: And specifically, from that replay's set (though neither of us bought Electrovore), what're some good openings for Electrovore/Antima?\n[2020-04-19 16:46] shadourow (Rando): I don't think so and I def would need one\n[2020-04-19 16:46] shadourow (Rando): I'm pretty bad with antima\n[2020-04-19 16:46] flakmaniak: Gimmicky units like Antima and Savior are the ones I least know how to use.\n[2020-04-19 16:46] flakmaniak: Even stuff like Centurion, Odin, Apollo I feel like I can grasp decently.\n[2020-04-19 16:47] flakmaniak: But Antima and Savior? Haven't a clue when to buy them and what to do.\n[2020-04-19 16:47] shadourow (Rando): Ahah, appolo isn't even that easy to get !\n[2020-04-19 16:48] flakmaniak: It's like, if a set is \"default win con of Tarsiers and absorbers\", where I'm using some units from the random set (possibly a random set attacker in place of Tarsier), then I feel reasonably at home. And sometimes I feel like I understand when to go for e.g. a Venge Cannon tempo play. But anything beyond that?\n[2020-04-19 16:48] siepu: in most sets the simple apollo heurestic is\n[2020-04-19 16:49] shadourow (Rando): Apple is very sexy, but pretty bad in practice",
+      "messages": [
+        {
+          "id": "701450698004627566",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-19T16:14:38.728+01:00",
+          "content": "depends on inflation"
+        },
+        {
+          "id": "701450740543258664",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:14:48.87+01:00",
+          "content": "well if you calculate inflation for both assuming blue and red is free tarsier comes out slightly ahead (1.47 vs 1.46)"
+        },
+        {
+          "id": "701450853130829915",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:15:15.713+01:00",
+          "content": "but actually yes it really does depend on position"
+        },
+        {
+          "id": "701451442510364732",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:17:36.232+01:00",
+          "content": "also if you are considering buying a splitter that means you don't need to buy wall so most likely low inflation which makes tarsier better because buildtime units are good in low inflation"
+        },
+        {
+          "id": "701451697914118174",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:18:37.125+01:00",
+          "content": "> Please educate me on Doomed openings. Is p2 DE1/DDD particularly good? Seems like it would be.\n@FlakManiak \nIt's a common opening whenever P2 want to go 3 engies"
+        },
+        {
+          "id": "701452135199670283",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:20:21.382+01:00",
+          "content": "I would say it's overrated but yes definitely a perfectly good opening"
+        },
+        {
+          "id": "701452512590299199",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:21:51.359+01:00",
+          "content": "If 3 engies are bad, that opening is bad, ofc"
+        },
+        {
+          "id": "701452682275323904",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:22:31.815+01:00",
+          "content": "That's just an improved 3 engies opening"
+        },
+        {
+          "id": "701452749262553208",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:22:47.786+01:00",
+          "content": "So what you're saying is, it shouldn't really change whether you go triple Engie, but if you were doing that already, might as well use that opening."
+        },
+        {
+          "id": "701453088204128287",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:24:08.596+01:00",
+          "content": "well doomed drone is a unit that tends to make econ size smaller and by extension 3 engi builds"
+        },
+        {
+          "id": "701453317934678126",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:25:03.368+01:00",
+          "content": "It supports rush strategies, right"
+        },
+        {
+          "id": "701453372515156040",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:25:16.381+01:00",
+          "content": "But it does not really makes other strategies go that much faster"
+        },
+        {
+          "id": "701453727239897198",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-19T16:26:40.954+01:00",
+          "content": "i think p2's DD/DDEE is better generally"
+        },
+        {
+          "id": "701453899520802816",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:27:22.029+01:00",
+          "content": "Spoken like a true econ main"
+        },
+        {
+          "id": "701454948696719431",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T16:31:32.172+01:00",
+          "content": "rush your opponent with engineers"
+        },
+        {
+          "id": "701455005361897522",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T16:31:45.682+01:00",
+          "content": "will always surprise them"
+        },
+        {
+          "id": "701455088022978560",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-19T16:32:05.39+01:00",
+          "content": "engineers are OP with doomed drone in the set"
+        },
+        {
+          "id": "701455099695988836",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T16:32:08.173+01:00",
+          "content": "that's also a good time to whip out a shockingly customized emote"
+        },
+        {
+          "id": "701455222547021836",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-19T16:32:37.463+01:00",
+          "content": "4 engineers allow u to spam the f out of doomeds"
+        },
+        {
+          "id": "701455776534888488",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:34:49.544+01:00",
+          "content": "So you're saying DD/DDEE/DDD1, that sort of thing?"
+        },
+        {
+          "id": "701455816431239249",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:34:59.056+01:00",
+          "content": "Yes, but actually no"
+        },
+        {
+          "id": "701455848731443270",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:35:06.757+01:00",
+          "content": "Cooled has his own playstyle"
+        },
+        {
+          "id": "701455950787117093",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:35:31.089+01:00",
+          "content": "But I truly don't think that it's a good idea"
+        },
+        {
+          "id": "701456127023644686",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T16:36:13.107+01:00",
+          "content": "I would say cooled plays suboptimally and wins because he plays well, so his rating is slightly lower than it should be if he didn't to gimmicky lines"
+        },
+        {
+          "id": "701456835449978950",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-19T16:39:02.009+01:00",
+          "content": "something like DD/DDEE/1111 or smth but depends on the set"
+        },
+        {
+          "id": "701456869969100923",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-19T16:39:10.239+01:00",
+          "content": "^^ if lower to mid econ"
+        },
+        {
+          "id": "701457281816068290",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:40:48.431+01:00",
+          "content": "although I would say that I tested out cooled statement that in otherwise very fast sets getting 3rd engi just so you can spam triple doomed drone ( think some immolite+feral warden stuff) is good. And ... it kinda is."
+        },
+        {
+          "id": "701457770636902450",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-19T16:42:44.975+01:00",
+          "content": "with 4 engineers you can get 4 doomed drones a turn"
+        },
+        {
+          "id": "701457792783089756",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2020-04-19T16:42:50.255+01:00",
+          "content": "how can that be bad?"
+        },
+        {
+          "id": "701457892171186197",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:43:13.951+01:00",
+          "content": "you still bought a 4th engi"
+        },
+        {
+          "id": "701457950216159253",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:43:27.79+01:00",
+          "content": "But it feels sub-optimal to me"
+        },
+        {
+          "id": "701457962002153472",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:43:30.6+01:00",
+          "content": "engineer is a bad unit if it doesn't buy you a doomed drone\nand there are only 10 doomed drones in supply"
+        },
+        {
+          "id": "701458143036571718",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:44:13.762+01:00",
+          "content": "Just against the bot (side note, the bot seems terrible at using Antima), but stuff like DE1/DDD/A111: unbAt-ZnUX2"
+        },
+        {
+          "id": "701458224649601025",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:44:33.22+01:00",
+          "content": "You can get four Doomed Drones per turn... For two turns."
+        },
+        {
+          "id": "701458244484464652",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:44:37.949+01:00",
+          "content": "And then you run out of Doomeds."
+        },
+        {
+          "id": "701458274905489529",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:44:45.202+01:00",
+          "content": "that's why it's sub-obtimal"
+        },
+        {
+          "id": "701458297911246858",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:44:50.687+01:00",
+          "content": "Also I dunno why the bot wasted its red there."
+        },
+        {
+          "id": "701458445265534988",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:45:25.819+01:00",
+          "content": "ahah, Masterbot is terrifying as a noob"
+        },
+        {
+          "id": "701458448361062491",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:45:26.557+01:00",
+          "content": "But the more you play..."
+        },
+        {
+          "id": "701458568397717584",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:45:55.176+01:00",
+          "content": "Ok so speaking of Antima, I really don't know how to use it well. Is there some Antima guide, showing how one would get high value from it, and not lose afterwards? I feel like, years ago, I saw a bunch of Antima games on stream. But I never had a good feel for using it myself."
+        },
+        {
+          "id": "701458644289454363",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:46:13.27+01:00",
+          "content": "And specifically, from that replay's set (though neither of us bought Electrovore), what're some good openings for Electrovore/Antima?"
+        },
+        {
+          "id": "701458649003851776",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:46:14.394+01:00",
+          "content": "I don't think so and I def would need one"
+        },
+        {
+          "id": "701458668566347846",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:46:19.058+01:00",
+          "content": "I'm pretty bad with antima"
+        },
+        {
+          "id": "701458720885833748",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:46:31.532+01:00",
+          "content": "Gimmicky units like Antima and Savior are the ones I least know how to use."
+        },
+        {
+          "id": "701458785016741900",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:46:46.822+01:00",
+          "content": "Even stuff like Centurion, Odin, Apollo I feel like I can grasp decently."
+        },
+        {
+          "id": "701458855913193602",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:47:03.725+01:00",
+          "content": "But Antima and Savior? Haven't a clue when to buy them and what to do."
+        },
+        {
+          "id": "701458886397263883",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:47:10.993+01:00",
+          "content": "Ahah, appolo isn't even that easy to get !"
+        },
+        {
+          "id": "701459176504688671",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:48:20.16+01:00",
+          "content": "It's like, if a set is \"default win con of Tarsiers and absorbers\", where I'm using some units from the random set (possibly a random set attacker in place of Tarsier), then I feel reasonably at home. And sometimes I feel like I understand when to go for e.g. a Venge Cannon tempo play. But anything beyond that?"
+        },
+        {
+          "id": "701459239750729758",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T16:48:35.239+01:00",
+          "content": "in most sets the simple apollo heurestic is"
+        },
+        {
+          "id": "701459473021009920",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:49:30.855+01:00",
+          "content": "Apple is very sexy, but pretty bad in practice"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T16:49:54.317+01:00",
+      "end_ts": "2020-04-19T17:22:11.01+01:00",
+      "participants": [
+        "flakmaniak",
+        "jeacaveo",
+        "megasupp",
+        "sano712",
+        "shadourow",
+        "siepu"
+      ],
+      "replay_codes": [],
+      "score": 21,
+      "formatted_text": "--- Thread (33 messages, 2020-04-19) ---\n[2020-04-19 16:49] flakmaniak: When making new units, is there some attention paid to the proportions of various things in the unit pool overall? As in, there should be \"enough good absorbers\" in the pool, such that some portion of sets tend to have a good absorber.\n[2020-04-19 16:50] flakmaniak: (Assuming the unit-picker for random sets is truly random.)\n[2020-04-19 16:50] megasupp (mega-supp): a better heuristic is \nif there is absorber not worse then Ematrix buy apollo\nelse don't\n[2020-04-19 16:50] flakmaniak: Or things like, imagine you designed a bunch of great units, really excellent in isolation, but they just happen to all be red rush units. Obviously that'd probably be bad for the game.\n[2020-04-19 16:50] siepu: we will answer when there will be new units :(\n[2020-04-19 16:50] jeacaveo (jeacaveo (#NeverBrowserer)): as far as I know, the set generator is 100% random\n[2020-04-19 16:51] sano712 (sano): I think the apollo hate is wildly out of proportion\n[2020-04-19 16:51] sano712 (sano): everyone says apollo sucks yet I see it being bought so often\n[2020-04-19 16:51] sano712 (sano): it's a pretty decent unit\n[2020-04-19 16:51] flakmaniak: Also, when SHOULDN'T I go for a cheesy Flame Animus rush, when Flame Animus is in the set? I keep mindlessly doing T2 Blastforge or whatever and it keeps working, and I feel like I'm not learning much. Or, not learning when to avoid Flanimus.\n[2020-04-19 16:52] sano712 (sano): also I will always buy apollo because I have the cool animated prismatic skin\n[2020-04-19 16:52] shadourow (Rando): Pew Pew, sniped your animus\n[2020-04-19 16:52] siepu: (and yeah hes obv fine in slower sets and good in slower sets with blue sinks)\n[2020-04-19 16:53] flakmaniak: It's like, if Flame Animus and either a good red unit or a 2-cost alt Drone is in the set (well as P2 anyway), I'm like... Hell yeah, time to go!\n[2020-04-19 16:53] megasupp (mega-supp): > Also, when SHOULDN'T I go for a cheesy Flame Animus rush, when Flame Animus is in the set? I keep mindlessly doing T2 Blastforge or whatever and it keeps working, and I feel like I'm not learning much. Or, not learning when to avoid Flanimus.\n@FlakManiak \nif there is a good enough reason you would want to go high econ.\n[2020-04-19 16:53] flakmaniak: I guess; I just feel like most of the time I try it, by the time the econ player gets off the ground, I have too much attack already.\n[2020-04-19 16:53] megasupp (mega-supp): centurion is one notable example\n[2020-04-19 16:53] flakmaniak: Yeah, Centurion might get me.\n[2020-04-19 16:55] megasupp (mega-supp): but it really is hard to judge  whether the payoff for going high econ is good enough without much experience\n[2020-04-19 16:56] siepu: prismata is really hard, even with tons of experience ;p\n[2020-04-19 16:57] siepu: got drunk yesterday played a first ranked game in 6 months\n[2020-04-19 16:57] siepu: opponent clearly had an idea what hes doing\n[2020-04-19 16:57] siepu: I didnt gg, prismata is hard\n[2020-04-19 16:57] shadourow (Rando): You make really bad decisions while drunk\n[2020-04-19 16:58] siepu: I think the positive effect of having something to blame for me being a shitty player\n[2020-04-19 16:58] siepu: outweights the slight loses in math speed\n[2020-04-19 17:05] flakmaniak: Also, man, the P2 opening of Doomed/Thorium, Thorium, Drone/Drone...\n[2020-04-19 17:07] megasupp (mega-supp): P1 galvani thorium is worse\n[2020-04-19 17:08] megasupp (mega-supp): but yeah rolling thorium+doomed/wild/galvani feels bad\n[2020-04-19 17:09] siepu: some sets 1 player just wins, cand do too much\n[2020-04-19 17:09] siepu: at least it feels about even which player has the autowin\n[2020-04-19 17:16] megasupp (mega-supp): I don't really see how the fact that it feels about even between p1 and p2 would help\n[2020-04-19 17:22] flakmaniak: Yeah, that doesn't help at all.",
+      "messages": [
+        {
+          "id": "701459571427770409",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:49:54.317+01:00",
+          "content": "When making new units, is there some attention paid to the proportions of various things in the unit pool overall? As in, there should be \"enough good absorbers\" in the pool, such that some portion of sets tend to have a good absorber."
+        },
+        {
+          "id": "701459602008440851",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:50:01.608+01:00",
+          "content": "(Assuming the unit-picker for random sets is truly random.)"
+        },
+        {
+          "id": "701459638138306590",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:50:10.222+01:00",
+          "content": "a better heuristic is \nif there is absorber not worse then Ematrix buy apollo\nelse don't"
+        },
+        {
+          "id": "701459741691609108",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:50:34.911+01:00",
+          "content": "Or things like, imagine you designed a bunch of great units, really excellent in isolation, but they just happen to all be red rush units. Obviously that'd probably be bad for the game."
+        },
+        {
+          "id": "701459751019610122",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T16:50:37.135+01:00",
+          "content": "we will answer when there will be new units :("
+        },
+        {
+          "id": "701459772980854864",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-19T16:50:42.371+01:00",
+          "content": "as far as I know, the set generator is 100% random"
+        },
+        {
+          "id": "701459931001258045",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T16:51:20.046+01:00",
+          "content": "I think the apollo hate is wildly out of proportion"
+        },
+        {
+          "id": "701460013012615168",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T16:51:39.599+01:00",
+          "content": "everyone says apollo sucks yet I see it being bought so often"
+        },
+        {
+          "id": "701460083090915330",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T16:51:56.307+01:00",
+          "content": "it's a pretty decent unit"
+        },
+        {
+          "id": "701460098480078930",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:51:59.976+01:00",
+          "content": "Also, when SHOULDN'T I go for a cheesy Flame Animus rush, when Flame Animus is in the set? I keep mindlessly doing T2 Blastforge or whatever and it keeps working, and I feel like I'm not learning much. Or, not learning when to avoid Flanimus."
+        },
+        {
+          "id": "701460156898345001",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T16:52:13.904+01:00",
+          "content": "also I will always buy apollo because I have the cool animated prismatic skin"
+        },
+        {
+          "id": "701460163298852926",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:52:15.43+01:00",
+          "content": "Pew Pew, sniped your animus"
+        },
+        {
+          "id": "701460207653486744",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T16:52:26.005+01:00",
+          "content": "(and yeah hes obv fine in slower sets and good in slower sets with blue sinks)"
+        },
+        {
+          "id": "701460357750980679",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:53:01.791+01:00",
+          "content": "It's like, if Flame Animus and either a good red unit or a 2-cost alt Drone is in the set (well as P2 anyway), I'm like... Hell yeah, time to go!"
+        },
+        {
+          "id": "701460363148787712",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:53:03.078+01:00",
+          "content": "> Also, when SHOULDN'T I go for a cheesy Flame Animus rush, when Flame Animus is in the set? I keep mindlessly doing T2 Blastforge or whatever and it keeps working, and I feel like I'm not learning much. Or, not learning when to avoid Flanimus.\n@FlakManiak \nif there is a good enough reason you would want to go high econ."
+        },
+        {
+          "id": "701460491456872619",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:53:33.669+01:00",
+          "content": "I guess; I just feel like most of the time I try it, by the time the econ player gets off the ground, I have too much attack already."
+        },
+        {
+          "id": "701460555516477511",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:53:48.942+01:00",
+          "content": "centurion is one notable example"
+        },
+        {
+          "id": "701460597425963079",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T16:53:58.934+01:00",
+          "content": "Yeah, Centurion might get me."
+        },
+        {
+          "id": "701460893686431804",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T16:55:09.568+01:00",
+          "content": "but it really is hard to judge  whether the payoff for going high econ is good enough without much experience"
+        },
+        {
+          "id": "701461285535088719",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T16:56:42.992+01:00",
+          "content": "prismata is really hard, even with tons of experience ;p"
+        },
+        {
+          "id": "701461469715365960",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T16:57:26.904+01:00",
+          "content": "got drunk yesterday played a first ranked game in 6 months"
+        },
+        {
+          "id": "701461515902910524",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T16:57:37.916+01:00",
+          "content": "opponent clearly had an idea what hes doing"
+        },
+        {
+          "id": "701461541072928798",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T16:57:43.917+01:00",
+          "content": "I didnt gg, prismata is hard"
+        },
+        {
+          "id": "701461543845494906",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-19T16:57:44.578+01:00",
+          "content": "You make really bad decisions while drunk"
+        },
+        {
+          "id": "701461643892359189",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T16:58:08.431+01:00",
+          "content": "I think the positive effect of having something to blame for me being a shitty player"
+        },
+        {
+          "id": "701461708572459088",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T16:58:23.852+01:00",
+          "content": "outweights the slight loses in math speed"
+        },
+        {
+          "id": "701463444972503080",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T17:05:17.842+01:00",
+          "content": "Also, man, the P2 opening of Doomed/Thorium, Thorium, Drone/Drone..."
+        },
+        {
+          "id": "701463980471746721",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T17:07:25.515+01:00",
+          "content": "P1 galvani thorium is worse"
+        },
+        {
+          "id": "701464241856577628",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T17:08:27.834+01:00",
+          "content": "but yeah rolling thorium+doomed/wild/galvani feels bad"
+        },
+        {
+          "id": "701464450070347867",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:09:17.476+01:00",
+          "content": "some sets 1 player just wins, cand do too much"
+        },
+        {
+          "id": "701464530517229659",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:09:36.656+01:00",
+          "content": "at least it feels about even which player has the autowin"
+        },
+        {
+          "id": "701466331450572940",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2020-04-19T17:16:46.032+01:00",
+          "content": "I don't really see how the fact that it feels about even between p1 and p2 would help"
+        },
+        {
+          "id": "701467694507229346",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T17:22:11.01+01:00",
+          "content": "Yeah, that doesn't help at all."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T17:41:59.257+01:00",
+      "end_ts": "2020-04-19T17:48:12.28+01:00",
+      "participants": [
+        "lyra1712",
+        "sano712",
+        "siepu"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (19 messages, 2020-04-19) ---\n[2020-04-19 17:41] sano712 (sano): I wouldn't say Prismata is particularly hard, especially when compared to other games/esports\n[2020-04-19 17:42] sano712 (sano): you can get to >2k in under a year if you play regularly, which is already a respectable rating. jamberine is one of the top players and he's benn playing for less than 2 years I think\n[2020-04-19 17:42] siepu: because there just arent enough players\n[2020-04-19 17:43] siepu: like im shit yet im masters that peaked at top100\n[2020-04-19 17:43] sano712 (sano): I don't think if we had 100 times more players the top players would be much better than they are (here I'm including the ones that aren't necessarily active at the moment like apooche, msven, arkanishu, redrame)\n[2020-04-19 17:44] siepu: I think they might as it means there would be an incentive to become better?\n[2020-04-19 17:44] siepu: like Msven Apooche and others are fantastic and supersmart in general\n[2020-04-19 17:44] siepu: but that doesnt mean better gameplay is impossible\n[2020-04-19 17:45] siepu: I agree that if somehow prismata became global and super popular we would have a ton of analysis of common sets / openings / etc\n[2020-04-19 17:45] siepu: and maybe we would actually get to the end of the decision tree\n[2020-04-19 17:45] sano712 (sano): I didn't say it's impossible, I just think they wouldn't be _substantially_ better, they might be a bit better\n[2020-04-19 17:45] sano712 (sano): the point is that you can get to a point where you're a profficient player in like 1 year\n[2020-04-19 17:46] sano712 (sano): that's basically impossible in chess, go, dota, league\n[2020-04-19 17:46] sano712 (sano): game has been around for over 6 years\n[2020-04-19 17:46] siepu: when league was 1year old you havd 'profficient players' playing it for a year ;p\n[2020-04-19 17:47] siepu: but how many people played it, I dont think the gameplay growth lasted longer than 2 years\n[2020-04-19 17:48] sano712 (sano): these players I mentioend have been playing since the early days of prismata, like apooche/arkanishu must have like 50k games played or something like that\n[2020-04-19 17:48] lyra1712 (Lyra): i mostly agree with sano's point on that\n[2020-04-19 17:48] sano712 (sano): still it is possible to reach _close_  to their status in reasonable time",
+      "messages": [
+        {
+          "id": "701472678376374412",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T17:41:59.257+01:00",
+          "content": "I wouldn't say Prismata is particularly hard, especially when compared to other games/esports"
+        },
+        {
+          "id": "701472852825604136",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T17:42:40.849+01:00",
+          "content": "you can get to >2k in under a year if you play regularly, which is already a respectable rating. jamberine is one of the top players and he's benn playing for less than 2 years I think"
+        },
+        {
+          "id": "701472899617521786",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:42:52.005+01:00",
+          "content": "because there just arent enough players"
+        },
+        {
+          "id": "701472937949003847",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:43:01.144+01:00",
+          "content": "like im shit yet im masters that peaked at top100"
+        },
+        {
+          "id": "701473097114452102",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T17:43:39.092+01:00",
+          "content": "I don't think if we had 100 times more players the top players would be much better than they are (here I'm including the ones that aren't necessarily active at the moment like apooche, msven, arkanishu, redrame)"
+        },
+        {
+          "id": "701473203830259784",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:44:04.535+01:00",
+          "content": "I think they might as it means there would be an incentive to become better?"
+        },
+        {
+          "id": "701473297795252284",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:44:26.938+01:00",
+          "content": "like Msven Apooche and others are fantastic and supersmart in general"
+        },
+        {
+          "id": "701473390544027720",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:44:49.051+01:00",
+          "content": "but that doesnt mean better gameplay is impossible"
+        },
+        {
+          "id": "701473512325644298",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:45:18.086+01:00",
+          "content": "I agree that if somehow prismata became global and super popular we would have a ton of analysis of common sets / openings / etc"
+        },
+        {
+          "id": "701473573344116757",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:45:32.634+01:00",
+          "content": "and maybe we would actually get to the end of the decision tree"
+        },
+        {
+          "id": "701473603157229638",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T17:45:39.742+01:00",
+          "content": "I didn't say it's impossible, I just think they wouldn't be _substantially_ better, they might be a bit better"
+        },
+        {
+          "id": "701473661575757905",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T17:45:53.67+01:00",
+          "content": "the point is that you can get to a point where you're a profficient player in like 1 year"
+        },
+        {
+          "id": "701473761559445574",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T17:46:17.508+01:00",
+          "content": "that's basically impossible in chess, go, dota, league"
+        },
+        {
+          "id": "701473824398639104",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T17:46:32.49+01:00",
+          "content": "game has been around for over 6 years"
+        },
+        {
+          "id": "701473876978171995",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:46:45.026+01:00",
+          "content": "when league was 1year old you havd 'profficient players' playing it for a year ;p"
+        },
+        {
+          "id": "701473987368058890",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2020-04-19T17:47:11.345+01:00",
+          "content": "but how many people played it, I dont think the gameplay growth lasted longer than 2 years"
+        },
+        {
+          "id": "701474197855273031",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T17:48:01.529+01:00",
+          "content": "these players I mentioend have been playing since the early days of prismata, like apooche/arkanishu must have like 50k games played or something like that"
+        },
+        {
+          "id": "701474219229184082",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-19T17:48:06.625+01:00",
+          "content": "i mostly agree with sano's point on that"
+        },
+        {
+          "id": "701474242948235344",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T17:48:12.28+01:00",
+          "content": "still it is possible to reach _close_  to their status in reasonable time"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T20:26:33.864+01:00",
+      "end_ts": "2020-04-19T20:32:36.73+01:00",
+      "participants": [
+        "sano712",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (6 messages, 2020-04-19) ---\n[2020-04-19 20:26] velizar_ (Name): I agree, I had played like 400 games up to at the point when I won a tournament game against 307th, and he said that I could have won another one out of our four games.\n[2020-04-19 20:26] velizar_ (Name): Plus the campaign and training missions\n[2020-04-19 20:27] velizar_ (Name): I'm terrible at chess and I must have played... 50 hours? But I think I'm laughably bad\n[2020-04-19 20:30] velizar_ (Name): My Prismata played time must have been 100-200 hours or so.\n[2020-04-19 20:32] sano712 (sano): I have played chess on and off for years, albeit always casually, but I'm 1250 and that's like super low\n[2020-04-19 20:32] sano712 (sano): you don't just improve in chess if you don't actually study the fuck out of the game",
+      "messages": [
+        {
+          "id": "701514095479750726",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T20:26:33.864+01:00",
+          "content": "I agree, I had played like 400 games up to at the point when I won a tournament game against 307th, and he said that I could have won another one out of our four games."
+        },
+        {
+          "id": "701514146751053854",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T20:26:46.088+01:00",
+          "content": "Plus the campaign and training missions"
+        },
+        {
+          "id": "701514229945204747",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T20:27:05.923+01:00",
+          "content": "I'm terrible at chess and I must have played... 50 hours? But I think I'm laughably bad"
+        },
+        {
+          "id": "701515065219743774",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-19T20:30:25.068+01:00",
+          "content": "My Prismata played time must have been 100-200 hours or so."
+        },
+        {
+          "id": "701515580238463056",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T20:32:27.858+01:00",
+          "content": "I have played chess on and off for years, albeit always casually, but I'm 1250 and that's like super low"
+        },
+        {
+          "id": "701515617450197082",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T20:32:36.73+01:00",
+          "content": "you don't just improve in chess if you don't actually study the fuck out of the game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-19T23:23:20.676+01:00",
+      "end_ts": "2020-04-19T23:29:47.827+01:00",
+      "participants": [
+        "flakmaniak",
+        "sano712"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (5 messages, 2020-04-19) ---\n[2020-04-19 23:23] flakmaniak: Xaetron is Baetron. I keep buying it and just blocking with it, and usually, that's enough to satisfy me.\n[2020-04-19 23:23] flakmaniak: An Energy Matrix that's impossible to exploit.\n[2020-04-19 23:23] flakmaniak: Or something like that.\n[2020-04-19 23:24] flakmaniak: A very expensive Energy Matrix.\n[2020-04-19 23:29] sano712 (sano): you should not absorb with xaetron on every turn generally",
+      "messages": [
+        {
+          "id": "701558583674011749",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T23:23:20.676+01:00",
+          "content": "Xaetron is Baetron. I keep buying it and just blocking with it, and usually, that's enough to satisfy me."
+        },
+        {
+          "id": "701558630490701964",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T23:23:31.838+01:00",
+          "content": "An Energy Matrix that's impossible to exploit."
+        },
+        {
+          "id": "701558653626482698",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T23:23:37.354+01:00",
+          "content": "Or something like that."
+        },
+        {
+          "id": "701558764100386866",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-19T23:24:03.693+01:00",
+          "content": "A very expensive Energy Matrix."
+        },
+        {
+          "id": "701560207502737428",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-19T23:29:47.827+01:00",
+          "content": "you should not absorb with xaetron on every turn generally"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-20T00:28:26.786+01:00",
+      "end_ts": "2020-04-20T00:29:57.804+01:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (3 messages, 2020-04-20) ---\n[2020-04-20 00:28] amalloy: @FlakManiak the idea is that you get 4 health value out of xaetron healing whether you block with it or not, so long as it's below 9 health. so you might as well also get 2 health value out of absorbing on a wall every other turn\n[2020-04-20 00:29] amalloy: only once it becomes very hard to defend do you fall back to using xaetron as your back-line defender every turn\n[2020-04-20 00:29] amalloy: obviously there are exceptions, but that's the general rule",
+      "messages": [
+        {
+          "id": "701574967086678057",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-04-20T00:28:26.786+01:00",
+          "content": "@FlakManiak the idea is that you get 4 health value out of xaetron healing whether you block with it or not, so long as it's below 9 health. so you might as well also get 2 health value out of absorbing on a wall every other turn"
+        },
+        {
+          "id": "701575165573595196",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-04-20T00:29:14.109+01:00",
+          "content": "only once it becomes very hard to defend do you fall back to using xaetron as your back-line defender every turn"
+        },
+        {
+          "id": "701575348843708467",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-04-20T00:29:57.804+01:00",
+          "content": "obviously there are exceptions, but that's the general rule"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-20T01:55:15.414+01:00",
+      "end_ts": "2020-04-20T01:55:15.414+01:00",
+      "participants": [
+        "flakmaniak"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2020-04-20) ---\n[2020-04-20 01:55] flakmaniak: Ok so, 1 = Doomed Drone, 2 = Flame Animus. What would you say about the following two openings, as P2:\nDD/DB1/DD2\nDE1/DDD/D11B/DDD2",
+      "messages": [
+        {
+          "id": "701596813655932938",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T01:55:15.414+01:00",
+          "content": "Ok so, 1 = Doomed Drone, 2 = Flame Animus. What would you say about the following two openings, as P2:\nDD/DB1/DD2\nDE1/DDD/D11B/DDD2"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-20T02:24:45.131+01:00",
+      "end_ts": "2020-04-20T02:26:21.801+01:00",
+      "participants": [
+        "flakmaniak"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (5 messages, 2020-04-20) ---\n[2020-04-20 02:24] flakmaniak: How would you contrast them, though?\n[2020-04-20 02:24] flakmaniak: What would push you towards one or the other?\n[2020-04-20 02:25] flakmaniak: (And what might dissuade you from a Flame Animus play, in such a set? What other units would convince you to do something else?)\n[2020-04-20 02:26] flakmaniak: Also, if Thorium + Doomed are in the set, and you're P2, are you really gonna do anything but Thorium + Doomed turn 1, Thorium turn 2, and then work from there?\n[2020-04-20 02:26] flakmaniak: Maaaybe a set with zero good green units would convince me to do otherwise? Maybe?",
+      "messages": [
+        {
+          "id": "701604236387024937",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T02:24:45.131+01:00",
+          "content": "How would you contrast them, though?"
+        },
+        {
+          "id": "701604270088388729",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T02:24:53.166+01:00",
+          "content": "What would push you towards one or the other?"
+        },
+        {
+          "id": "701604355266314240",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T02:25:13.474+01:00",
+          "content": "(And what might dissuade you from a Flame Animus play, in such a set? What other units would convince you to do something else?)"
+        },
+        {
+          "id": "701604587760517201",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T02:26:08.905+01:00",
+          "content": "Also, if Thorium + Doomed are in the set, and you're P2, are you really gonna do anything but Thorium + Doomed turn 1, Thorium turn 2, and then work from there?"
+        },
+        {
+          "id": "701604641850523838",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-20T02:26:21.801+01:00",
+          "content": "Maaaybe a set with zero good green units would convince me to do otherwise? Maybe?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-20T07:29:12.96+01:00",
+      "end_ts": "2020-04-20T07:29:12.96+01:00",
+      "participants": [
+        "amalloy"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-04-20) ---\n[2020-04-20 07:29] amalloy: t1 thorium+doomed is about economy, not green. i don't think i would even consider the number of green units in the set when deciding whether to do that",
+      "messages": [
+        {
+          "id": "701680857215270962",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-04-20T07:29:12.96+01:00",
+          "content": "t1 thorium+doomed is about economy, not green. i don't think i would even consider the number of green units in the set when deciding whether to do that"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-20T17:24:41.042+01:00",
+      "end_ts": "2020-04-20T17:24:41.042+01:00",
+      "participants": [
+        "stacko"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2020-04-20) ---\n[2020-04-20 17:24] stacko: Sorry for the vague answer. For those flame animus openings, the main thing I would consider is if it's a high econ set or not. If not, and there's a pretty good red unit like grimbotch or something, that turn 2 blastforge -> turn 3 flame animus seems good. If there's something like energy matrix in the set, you'd definitely want to get a decent bit of economy before starting to buy attackers, so the other line would be better. Obviously, consider what your opponent is doing, in case you need to pivot your build to counter them.\n\nThorium is almost a must-buy in most sets. The guideline is to try and not waste energy or gold when building your economy, and thorium lets you spend a bit more gold despite not having more energy. Having some green is never a problem, since it's the most flexible resource, especially if you can turn it back into gold. The only time I would consider skipping thorium entirely is if it opens me up to a red rush that I wouldn't be able to defend against.",
+      "messages": [
+        {
+          "id": "701830711652384791",
+          "author": "stacko",
+          "nickname": "Stacko",
+          "timestamp": "2020-04-20T17:24:41.042+01:00",
+          "content": "Sorry for the vague answer. For those flame animus openings, the main thing I would consider is if it's a high econ set or not. If not, and there's a pretty good red unit like grimbotch or something, that turn 2 blastforge -> turn 3 flame animus seems good. If there's something like energy matrix in the set, you'd definitely want to get a decent bit of economy before starting to buy attackers, so the other line would be better. Obviously, consider what your opponent is doing, in case you need to pivot your build to counter them.\n\nThorium is almost a must-buy in most sets. The guideline is to try and not waste energy or gold when building your economy, and thorium lets you spend a bit more gold despite not having more energy. Having some green is never a problem, since it's the most flexible resource, especially if you can turn it back into gold. The only time I would consider skipping thorium entirely is if it opens me up to a red rush that I wouldn't be able to defend against."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-21T00:26:41.782+01:00",
+      "end_ts": "2020-04-21T00:35:32.861+01:00",
+      "participants": [
+        "flakmaniak",
+        "iminabearsuit",
+        "jeacaveo",
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (7 messages, 2020-04-21) ---\n[2020-04-21 00:26] flakmaniak: My initial guess is that the one with the giant pile of Tarsiers and Bloodragers is better.\n[2020-04-21 00:31] shadourow (Rando): Yeah, Amporilla is a pretty good unit too\n[2020-04-21 00:32] shadourow (Rando): Amporilla should basically instantly close the game in 2\n[2020-04-21 00:32] shadourow (Rando): 1 is winning too, with Centurion, but it isn't as brutal\n[2020-04-21 00:33] jeacaveo (jeacaveo (#NeverBrowserer)): it did, i'm getting the feeling master bot sucks with Arka, or maybe doomed mech makes it cucu?\n[2020-04-21 00:34] iminabearsuit: Units that require planning or forethought.\n[2020-04-21 00:35] iminabearsuit: So, majority of alternate resource cost units and additional cost to activate.",
+      "messages": [
+        {
+          "id": "701936914533580871",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-21T00:26:41.782+01:00",
+          "content": "My initial guess is that the one with the giant pile of Tarsiers and Bloodragers is better."
+        },
+        {
+          "id": "701938181154537481",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-21T00:31:43.768+01:00",
+          "content": "Yeah, Amporilla is a pretty good unit too"
+        },
+        {
+          "id": "701938312314880140",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-21T00:32:15.039+01:00",
+          "content": "Amporilla should basically instantly close the game in 2"
+        },
+        {
+          "id": "701938415045836840",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-21T00:32:39.532+01:00",
+          "content": "1 is winning too, with Centurion, but it isn't as brutal"
+        },
+        {
+          "id": "701938532763041844",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-21T00:33:07.598+01:00",
+          "content": "it did, i'm getting the feeling master bot sucks with Arka, or maybe doomed mech makes it cucu?"
+        },
+        {
+          "id": "701938927732260904",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2020-04-21T00:34:41.766+01:00",
+          "content": "Units that require planning or forethought."
+        },
+        {
+          "id": "701939142040354927",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2020-04-21T00:35:32.861+01:00",
+          "content": "So, majority of alternate resource cost units and additional cost to activate."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-21T16:11:14.413+01:00",
+      "end_ts": "2020-04-21T16:15:26.655+01:00",
+      "participants": [
+        "iminabearsuit",
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2020-04-21) ---\n[2020-04-21 16:11] iminabearsuit: Sooo, to me, slow conduit would be P1 DD DD DDC. And while pretty bad, sometimes you need green on a mid econ.\n[2020-04-21 16:15] jeacaveo (jeacaveo (#NeverBrowserer)): p1 slow Conduit does feels sucky",
+      "messages": [
+        {
+          "id": "702174616776343642",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2020-04-21T16:11:14.413+01:00",
+          "content": "Sooo, to me, slow conduit would be P1 DD DD DDC. And while pretty bad, sometimes you need green on a mid econ."
+        },
+        {
+          "id": "702175674756235445",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-21T16:15:26.655+01:00",
+          "content": "p1 slow Conduit does feels sucky"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-21T17:12:08.288+01:00",
+      "end_ts": "2020-04-21T17:15:35.063+01:00",
+      "participants": [
+        "iminabearsuit",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2020-04-21) ---\n[2020-04-21 17:12] velizar_ (Name): I tend to feel bad about going for a line which my opponent also has, but better. Like if P2 also went for a conduit.\n[2020-04-21 17:15] iminabearsuit: Its pretty good if you want 14 drones and 3 conduits.",
+      "messages": [
+        {
+          "id": "702189942239133796",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-21T17:12:08.288+01:00",
+          "content": "I tend to feel bad about going for a line which my opponent also has, but better. Like if P2 also went for a conduit."
+        },
+        {
+          "id": "702190809516212305",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2020-04-21T17:15:35.063+01:00",
+          "content": "Its pretty good if you want 14 drones and 3 conduits."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-21T18:23:17.484+01:00",
+      "end_ts": "2020-04-21T18:24:31.742+01:00",
+      "participants": [
+        "amalloy",
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2020-04-21) ---\n[2020-04-21 18:23] amalloy: @Name it's not like p2's conduit line is strictly better than p1's. p2 gets the green sooner but has fewer drones. obviously this is often better, but sometimes it's not\n[2020-04-21 18:24] velizar_ (Name): It's not strictly better, only heuristically better",
+      "messages": [
+        {
+          "id": "702207848544731147",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-04-21T18:23:17.484+01:00",
+          "content": "@Name it's not like p2's conduit line is strictly better than p1's. p2 gets the green sooner but has fewer drones. obviously this is often better, but sometimes it's not"
+        },
+        {
+          "id": "702208160005357708",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-21T18:24:31.742+01:00",
+          "content": "It's not strictly better, only heuristically better"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-21T18:35:50.141+01:00",
+      "end_ts": "2020-04-21T18:48:19.55+01:00",
+      "participants": [
+        "sano712",
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (6 messages, 2020-04-21) ---\n[2020-04-21 18:35] sano712 (sano): by using a terrible heuristic, yes\n[2020-04-21 18:37] sano712 (sano): ah, it's not true I _never_ go slow conduit, I sometimes go for it in scorch sets\n[2020-04-21 18:37] sano712 (sano): p1 has the \"advantage\" of not having to cut drones if they go for this line\n[2020-04-21 18:40] shadourow (Rando): But.. isn't DD/DC/DA better as P1 in scorch sets ?\n[2020-04-21 18:40] sano712 (sano): really depends on the set\n[2020-04-21 18:48] shadourow (Rando): Yeah, it's pretty bad when scorch isn't there",
+      "messages": [
+        {
+          "id": "702211005416996934",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-21T18:35:50.141+01:00",
+          "content": "by using a terrible heuristic, yes"
+        },
+        {
+          "id": "702211383613194353",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-21T18:37:20.31+01:00",
+          "content": "ah, it's not true I _never_ go slow conduit, I sometimes go for it in scorch sets"
+        },
+        {
+          "id": "702211429675040768",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-21T18:37:31.292+01:00",
+          "content": "p1 has the \"advantage\" of not having to cut drones if they go for this line"
+        },
+        {
+          "id": "702212123664711753",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-21T18:40:16.752+01:00",
+          "content": "But.. isn't DD/DC/DA better as P1 in scorch sets ?"
+        },
+        {
+          "id": "702212175975940107",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2020-04-21T18:40:29.224+01:00",
+          "content": "really depends on the set"
+        },
+        {
+          "id": "702214148666163211",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-21T18:48:19.55+01:00",
+          "content": "Yeah, it's pretty bad when scorch isn't there"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T01:09:35.234+01:00",
+      "end_ts": "2020-04-22T01:19:33.985+01:00",
+      "participants": [
+        "cachotognax",
+        "jamberine",
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (6 messages, 2020-04-22) ---\n[2020-04-22 01:09] jamberine: not sure if it's best but turn 1 fuge seems interesting and I'd probably try it to see what happens\n[2020-04-22 01:17] jeacaveo (jeacaveo (#NeverBrowserer)): never thought of turn 1/2 fuge, I'll give that a go\n[2020-04-22 01:18] jeacaveo (jeacaveo (#NeverBrowserer)): going 3rd engi and natural animus,  I was able to win. trying to go for trinities faster than P2 is what Fed me over for a few games.\n[2020-04-22 01:18] cachotognax: what would you buy out of the fuge... a valkyrion+bloodhound?\nOr 2 bloodhounds and float green for tia?\n[2020-04-22 01:19] jeacaveo (jeacaveo (#NeverBrowserer)): that sounds super juicy\n[2020-04-22 01:19] cachotognax: both sound juicy yeah.",
+      "messages": [
+        {
+          "id": "702310096239329300",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T01:09:35.234+01:00",
+          "content": "not sure if it's best but turn 1 fuge seems interesting and I'd probably try it to see what happens"
+        },
+        {
+          "id": "702312047630745632",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T01:17:20.482+01:00",
+          "content": "never thought of turn 1/2 fuge, I'll give that a go"
+        },
+        {
+          "id": "702312216988352563",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T01:18:00.86+01:00",
+          "content": "going 3rd engi and natural animus,  I was able to win. trying to go for trinities faster than P2 is what Fed me over for a few games."
+        },
+        {
+          "id": "702312410085589063",
+          "author": "cachotognax",
+          "nickname": "CachoTognax",
+          "timestamp": "2020-04-22T01:18:46.898+01:00",
+          "content": "what would you buy out of the fuge... a valkyrion+bloodhound?\nOr 2 bloodhounds and float green for tia?"
+        },
+        {
+          "id": "702312537173131356",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T01:19:17.198+01:00",
+          "content": "that sounds super juicy"
+        },
+        {
+          "id": "702312607582912543",
+          "author": "cachotognax",
+          "nickname": "CachoTognax",
+          "timestamp": "2020-04-22T01:19:33.985+01:00",
+          "content": "both sound juicy yeah."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T01:58:54.775+01:00",
+      "end_ts": "2020-04-22T02:03:04.904+01:00",
+      "participants": [
+        "amalloy",
+        "flakmaniak",
+        "lyra1712"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (3 messages, 2020-04-22) ---\n[2020-04-22 01:58] flakmaniak: If P2 does turn 2 Conduit, turn 3 Animus, turn 5 Tia, can P1 handle it going third Engineer? I guess what I'm asking is, does the most basic Tia rush stop triple Engie builds in general?\n[2020-04-22 02:00] amalloy: i think you need t3 blastforge to defend tia in base set, so third engi is no good? i'm not an expert though\n[2020-04-22 02:03] lyra1712 (Lyra): tia rush is usually bad when there are no cheap attackers iirc",
+      "messages": [
+        {
+          "id": "702322509453852674",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-22T01:58:54.775+01:00",
+          "content": "If P2 does turn 2 Conduit, turn 3 Animus, turn 5 Tia, can P1 handle it going third Engineer? I guess what I'm asking is, does the most basic Tia rush stop triple Engie builds in general?"
+        },
+        {
+          "id": "702322946563244072",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2020-04-22T02:00:38.99+01:00",
+          "content": "i think you need t3 blastforge to defend tia in base set, so third engi is no good? i'm not an expert though"
+        },
+        {
+          "id": "702323558571049012",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2020-04-22T02:03:04.904+01:00",
+          "content": "tia rush is usually bad when there are no cheap attackers iirc"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T02:21:25.107+01:00",
+      "end_ts": "2020-04-22T02:21:25.107+01:00",
+      "participants": [
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2020-04-22) ---\n[2020-04-22 02:21] shadourow (Rando): If P2 go T2 Conduit, 2 engi and a blastforge T3 should be enough to stop Tia",
+      "messages": [
+        {
+          "id": "702328173156892692",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-22T02:21:25.107+01:00",
+          "content": "If P2 go T2 Conduit, 2 engi and a blastforge T3 should be enough to stop Tia"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T03:00:00.15+01:00",
+      "end_ts": "2020-04-22T03:02:59.167+01:00",
+      "participants": [
+        "jeacaveo",
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2020-04-22) ---\n[2020-04-22 03:00] shadourow (Rando): wait, for some reason, T2 conduit was crazuit to me\n[2020-04-22 03:02] jeacaveo (jeacaveo (#NeverBrowserer)): @jamberine very , interesting. thanks! ill have to analyze it in game because i can't se that far into the future",
+      "messages": [
+        {
+          "id": "702337883150876682",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2020-04-22T03:00:00.15+01:00",
+          "content": "wait, for some reason, T2 conduit was crazuit to me"
+        },
+        {
+          "id": "702338634002726923",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T03:02:59.167+01:00",
+          "content": "@jamberine very , interesting. thanks! ill have to analyze it in game because i can't se that far into the future"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T03:13:03.064+01:00",
+      "end_ts": "2020-04-22T03:23:52.966+01:00",
+      "participants": [
+        "jamberine"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (13 messages, 2020-04-22) ---\n[2020-04-22 03:13] jamberine: yeah it was in response to flakmaniak's question\n[2020-04-22 03:13] jamberine: for the broader set I'm thinking turn 2 fuge might still be ok\n[2020-04-22 03:13] jamberine: the problem with turn 1 fuge is you get your attackers walled immediately\n[2020-04-22 03:14] jamberine: by the very natural DDC/DDB\n[2020-04-22 03:15] jamberine: if you go turn 2 fuge they probably go DDC/DA + trinity/TTB or something\n[2020-04-22 03:16] jamberine: actually do they have gold for that\n[2020-04-22 03:19] jamberine: you probably set up valk+ hellhound against that\n[2020-04-22 03:19] jamberine: you should have the gold\n[2020-04-22 03:20] jamberine: and then they need WF to defend, so WFTT\n[2020-04-22 03:21] jamberine: then you maybe hold it and buy a blastforge and an animus?\n[2020-04-22 03:23] jamberine: I guess absorbing doesn't really matter\n[2020-04-22 03:23] jamberine: better to hold it next turn probably\n[2020-04-22 03:23] jamberine: losing 2 engis is no big deal",
+      "messages": [
+        {
+          "id": "702341166930067577",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:13:03.064+01:00",
+          "content": "yeah it was in response to flakmaniak's question"
+        },
+        {
+          "id": "702341307208826880",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:13:36.509+01:00",
+          "content": "for the broader set I'm thinking turn 2 fuge might still be ok"
+        },
+        {
+          "id": "702341355828936794",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:13:48.101+01:00",
+          "content": "the problem with turn 1 fuge is you get your attackers walled immediately"
+        },
+        {
+          "id": "702341529628573756",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:14:29.538+01:00",
+          "content": "by the very natural DDC/DDB"
+        },
+        {
+          "id": "702341904204824606",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:15:58.844+01:00",
+          "content": "if you go turn 2 fuge they probably go DDC/DA + trinity/TTB or something"
+        },
+        {
+          "id": "702341964754059274",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:16:13.28+01:00",
+          "content": "actually do they have gold for that"
+        },
+        {
+          "id": "702342733058277438",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:19:16.458+01:00",
+          "content": "you probably set up valk+ hellhound against that"
+        },
+        {
+          "id": "702342860183437363",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:19:46.767+01:00",
+          "content": "you should have the gold"
+        },
+        {
+          "id": "702343035215806484",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:20:28.498+01:00",
+          "content": "and then they need WF to defend, so WFTT"
+        },
+        {
+          "id": "702343275184521287",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:21:25.711+01:00",
+          "content": "then you maybe hold it and buy a blastforge and an animus?"
+        },
+        {
+          "id": "702343737614925905",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:23:15.963+01:00",
+          "content": "I guess absorbing doesn't really matter"
+        },
+        {
+          "id": "702343759542747167",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:23:21.191+01:00",
+          "content": "better to hold it next turn probably"
+        },
+        {
+          "id": "702343892816887818",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T03:23:52.966+01:00",
+          "content": "losing 2 engis is no big deal"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T13:38:10.09+01:00",
+      "end_ts": "2020-04-22T13:41:02.994+01:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (3 messages, 2020-04-22) ---\n[2020-04-22 13:38] velizar_ (Name): If it forces the opponent to hold a drone which gets killed, is it a good rhino tho?\n[2020-04-22 13:39] velizar_ (Name): Opponent could buy forcefield, which makes it harder to buy either Tia or further Valkyrions unless you also buy a second conduit, which... I guess you could do.\n[2020-04-22 13:41] velizar_ (Name): yeah I'm not sure why the Rhino.",
+      "messages": [
+        {
+          "id": "702498482799378464",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T13:38:10.09+01:00",
+          "content": "If it forces the opponent to hold a drone which gets killed, is it a good rhino tho?"
+        },
+        {
+          "id": "702498799280455731",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T13:39:25.545+01:00",
+          "content": "Opponent could buy forcefield, which makes it harder to buy either Tia or further Valkyrions unless you also buy a second conduit, which... I guess you could do."
+        },
+        {
+          "id": "702499208011448351",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T13:41:02.994+01:00",
+          "content": "yeah I'm not sure why the Rhino."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T17:49:10.672+01:00",
+      "end_ts": "2020-04-22T17:49:36.532+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [
+        "layer-favor"
+      ],
+      "score": 10,
+      "formatted_text": "--- Thread (3 messages, 2020-04-22) ---\n[2020-04-22 17:49] masn6811 (Masne98888): thats kinda a deceptive statement\n[2020-04-22 17:49] masn6811 (Masne98888): there's a lot of units that are way more player-favored than trinity\n[2020-04-22 17:49] masn6811 (Masne98888): just that half the sets its for p1, half the sets its for p2",
+      "messages": [
+        {
+          "id": "702561651458703372",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-04-22T17:49:10.672+01:00",
+          "content": "thats kinda a deceptive statement"
+        },
+        {
+          "id": "702561723957116988",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-04-22T17:49:27.957+01:00",
+          "content": "there's a lot of units that are way more player-favored than trinity"
+        },
+        {
+          "id": "702561759923404900",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-04-22T17:49:36.532+01:00",
+          "content": "just that half the sets its for p1, half the sets its for p2"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T18:57:51.315+01:00",
+      "end_ts": "2020-04-22T19:20:04.685+01:00",
+      "participants": [
+        "jamberine",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 33,
+      "formatted_text": "--- Thread (21 messages, 2020-04-22) ---\n[2020-04-22 18:57] jamberine: I find buying early rhinos is better than expected in hellhound sets because when you buy wall you also often end up floating red\n[2020-04-22 18:57] jamberine: the exact damage is also nice\n[2020-04-22 18:58] jamberine: buying an extra conduit for tia seems terrible\n[2020-04-22 18:58] jamberine: you just float it forever after tia\n[2020-04-22 19:07] jamberine: you dont' want to buy a trinity really\n[2020-04-22 19:07] jamberine: like you dont' want more drones\n[2020-04-22 19:07] jamberine: and then buying an extra drone and a green your'e converting to a drone\n[2020-04-22 19:07] jamberine: obviously that's better than floating it but ti's still not great\n[2020-04-22 19:08] jamberine: it denies good buys like hellhound sentinel\n[2020-04-22 19:10] jamberine: hold a drone hellhound sentinel I feel like is already good enough for the rhino normally\n[2020-04-22 19:11] jamberine: but you also get the value of the rhino body being more valuable than usual like I said before\n[2020-04-22 19:11] jamberine: and also it happens to make defense hard the following turn\n[2020-04-22 19:11] jamberine: when you want to click your valk\n[2020-04-22 19:12] jamberine: where with a tarsier they can buy two engis and defense works out better\n[2020-04-22 19:17] jamberine: oh speaking of sentinel you could just buy that\n[2020-04-22 19:17] jamberine: I just forgot to put it in\n[2020-04-22 19:17] jamberine: but I think getting the attacker there is good\n[2020-04-22 19:17] masn6811 (Masne98888): the other thing is whenever you buy wall you're not buying a hellhound\n[2020-04-22 19:18] masn6811 (Masne98888): and hellhound is a good unit\n[2020-04-22 19:19] jamberine: that was a better explanation than my floating red thing\n[2020-04-22 19:20] jamberine: it's not just that you're floating red, it's that you're buying wall over hellhound",
+      "messages": [
+        {
+          "id": "702578934688120872",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T18:57:51.315+01:00",
+          "content": "I find buying early rhinos is better than expected in hellhound sets because when you buy wall you also often end up floating red"
+        },
+        {
+          "id": "702578969274482718",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T18:57:59.561+01:00",
+          "content": "the exact damage is also nice"
+        },
+        {
+          "id": "702579053265289228",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T18:58:19.586+01:00",
+          "content": "buying an extra conduit for tia seems terrible"
+        },
+        {
+          "id": "702579101302653029",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T18:58:31.039+01:00",
+          "content": "you just float it forever after tia"
+        },
+        {
+          "id": "702581236417298548",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:07:00.09+01:00",
+          "content": "you dont' want to buy a trinity really"
+        },
+        {
+          "id": "702581276242215023",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:07:09.585+01:00",
+          "content": "like you dont' want more drones"
+        },
+        {
+          "id": "702581318399295560",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:07:19.636+01:00",
+          "content": "and then buying an extra drone and a green your'e converting to a drone"
+        },
+        {
+          "id": "702581460305051738",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:07:53.469+01:00",
+          "content": "obviously that's better than floating it but ti's still not great"
+        },
+        {
+          "id": "702581630522621992",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:08:34.052+01:00",
+          "content": "it denies good buys like hellhound sentinel"
+        },
+        {
+          "id": "702582140524691546",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:10:35.646+01:00",
+          "content": "hold a drone hellhound sentinel I feel like is already good enough for the rhino normally"
+        },
+        {
+          "id": "702582342325370881",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:11:23.759+01:00",
+          "content": "but you also get the value of the rhino body being more valuable than usual like I said before"
+        },
+        {
+          "id": "702582382162608321",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:11:33.257+01:00",
+          "content": "and also it happens to make defense hard the following turn"
+        },
+        {
+          "id": "702582423178707072",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:11:43.036+01:00",
+          "content": "when you want to click your valk"
+        },
+        {
+          "id": "702582497904558131",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:12:00.852+01:00",
+          "content": "where with a tarsier they can buy two engis and defense works out better"
+        },
+        {
+          "id": "702583842749284382",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:17:21.488+01:00",
+          "content": "oh speaking of sentinel you could just buy that"
+        },
+        {
+          "id": "702583904967852184",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:17:36.322+01:00",
+          "content": "I just forgot to put it in"
+        },
+        {
+          "id": "702583991357931662",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:17:56.919+01:00",
+          "content": "but I think getting the attacker there is good"
+        },
+        {
+          "id": "702583995279343646",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-04-22T19:17:57.854+01:00",
+          "content": "the other thing is whenever you buy wall you're not buying a hellhound"
+        },
+        {
+          "id": "702584016112451645",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2020-04-22T19:18:02.821+01:00",
+          "content": "and hellhound is a good unit"
+        },
+        {
+          "id": "702584459056119888",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:19:48.427+01:00",
+          "content": "that was a better explanation than my floating red thing"
+        },
+        {
+          "id": "702584527247376474",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:20:04.685+01:00",
+          "content": "it's not just that you're floating red, it's that you're buying wall over hellhound"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T19:40:23.324+01:00",
+      "end_ts": "2020-04-22T19:53:05.208+01:00",
+      "participants": [
+        "crash_overlord",
+        "jamberine",
+        "jeacaveo"
+      ],
+      "replay_codes": [],
+      "score": 19,
+      "formatted_text": "--- Thread (12 messages, 2020-04-22) ---\n[2020-04-22 19:40] jeacaveo (jeacaveo (#NeverBrowserer)): what's the indicator here that I shouldn't go for venges?\n[2020-04-22 19:40] jeacaveo (jeacaveo (#NeverBrowserer)): or did I just played it so bad venges sucked?\n[2020-04-22 19:48] crash_overlord: and youre already transforming your drones into dynamo\n[2020-04-22 19:48] crash_overlord: ie you need to buy drones solely for venge\n[2020-04-22 19:50] jeacaveo (jeacaveo (#NeverBrowserer)): yeah... I messed that bout the Venges. I thought I could counter Centurion with Vai, but got distracted and it was too late (not even sure it was actually possible to get Vai before Cent)\n[2020-04-22 19:50] jamberine: you would've been able to if you didn't buy the second venge\n[2020-04-22 19:50] jamberine: the second venge was much worse than the first in my opinion\n[2020-04-22 19:51] jeacaveo (jeacaveo (#NeverBrowserer)): looking at the replay again... it was a train wreck...\n[2020-04-22 19:52] jamberine: I'm not sure buying vai to counter cent is even better than setting up your own centurion though\n[2020-04-22 19:52] jamberine: your opponent's vai would be much sadder because they don't have phage\n[2020-04-22 19:52] jeacaveo (jeacaveo (#NeverBrowserer)): i would agree. tried to play against master bot (which sucks ass) and buying Cent seems to be the better play, even with Vai in the set\n[2020-04-22 19:53] jeacaveo (jeacaveo (#NeverBrowserer)): holy hell... the ABC meme is right!",
+      "messages": [
+        {
+          "id": "702589638589546537",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T19:40:23.324+01:00",
+          "content": "what's the indicator here that I shouldn't go for venges?"
+        },
+        {
+          "id": "702589693455368332",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T19:40:36.405+01:00",
+          "content": "or did I just played it so bad venges sucked?"
+        },
+        {
+          "id": "702591747993239602",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2020-04-22T19:48:46.245+01:00",
+          "content": "and youre already transforming your drones into dynamo"
+        },
+        {
+          "id": "702591788074139779",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2020-04-22T19:48:55.801+01:00",
+          "content": "ie you need to buy drones solely for venge"
+        },
+        {
+          "id": "702592064340361217",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T19:50:01.668+01:00",
+          "content": "yeah... I messed that bout the Venges. I thought I could counter Centurion with Vai, but got distracted and it was too late (not even sure it was actually possible to get Vai before Cent)"
+        },
+        {
+          "id": "702592208259252335",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:50:35.981+01:00",
+          "content": "you would've been able to if you didn't buy the second venge"
+        },
+        {
+          "id": "702592246314434560",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:50:45.054+01:00",
+          "content": "the second venge was much worse than the first in my opinion"
+        },
+        {
+          "id": "702592349053779989",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T19:51:09.549+01:00",
+          "content": "looking at the replay again... it was a train wreck..."
+        },
+        {
+          "id": "702592579648094238",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:52:04.527+01:00",
+          "content": "I'm not sure buying vai to counter cent is even better than setting up your own centurion though"
+        },
+        {
+          "id": "702592738750758923",
+          "author": "jamberine",
+          "nickname": "jamberine",
+          "timestamp": "2020-04-22T19:52:42.46+01:00",
+          "content": "your opponent's vai would be much sadder because they don't have phage"
+        },
+        {
+          "id": "702592793687883838",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T19:52:55.558+01:00",
+          "content": "i would agree. tried to play against master bot (which sucks ass) and buying Cent seems to be the better play, even with Vai in the set"
+        },
+        {
+          "id": "702592834162786334",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T19:53:05.208+01:00",
+          "content": "holy hell... the ABC meme is right!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T22:08:41.985+01:00",
+      "end_ts": "2020-04-22T22:15:04.437+01:00",
+      "participants": [
+        "jeacaveo",
+        "velizar_",
+        "zera777"
+      ],
+      "replay_codes": [],
+      "score": 26,
+      "formatted_text": "--- Thread (10 messages, 2020-04-22) ---\n[2020-04-22 22:08] zera777 (Zera): How would you play this set?\n[2020-04-22 22:09] velizar_ (Name): I have my eye on the Cynestra. It's the most cost-effective attacker after Shadowfang and the 4-attack 17RRRR ant girl.\n[2020-04-22 22:10] velizar_ (Name): Also you simultaneously threaten Tia, which forces your opponent into preparing defense which they won't need. So they'll probably have to buy a blastforge.\n[2020-04-22 22:11] velizar_ (Name): Bombarder is also strong tho.\n[2020-04-22 22:11] velizar_ (Name): Oooh, in fact going bombarder on low economy might be great.\n[2020-04-22 22:12] velizar_ (Name): on consecutive turns do those:\n1. animus\n2. smorcus\n3. click smorcus, buy double blastforge\n[2020-04-22 22:12] velizar_ (Name): since Cynestra needs a much higher economy (for walls)\n[2020-04-22 22:13] jeacaveo (jeacaveo (#NeverBrowserer)): that's one juice set. my gameplan would be:\n\n1. play the set and lose\n2. play it again an lose\n3. play it again an lose\n4. play ti again an lose\n5. ask me again\n[2020-04-22 22:14] velizar_ (Name): I wonder if Thunderhead would also screw up the Cynestra. Since the 4 attack per turn hurts!\n[2020-04-22 22:15] velizar_ (Name): There are many plays.",
+      "messages": [
+        {
+          "id": "702626962279235634",
+          "author": "zera777",
+          "nickname": "Zera",
+          "timestamp": "2020-04-22T22:08:41.985+01:00",
+          "content": "How would you play this set?"
+        },
+        {
+          "id": "702627244593381447",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T22:09:49.294+01:00",
+          "content": "I have my eye on the Cynestra. It's the most cost-effective attacker after Shadowfang and the 4-attack 17RRRR ant girl."
+        },
+        {
+          "id": "702627532733677588",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T22:10:57.992+01:00",
+          "content": "Also you simultaneously threaten Tia, which forces your opponent into preparing defense which they won't need. So they'll probably have to buy a blastforge."
+        },
+        {
+          "id": "702627565113704539",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T22:11:05.712+01:00",
+          "content": "Bombarder is also strong tho."
+        },
+        {
+          "id": "702627674304282644",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T22:11:31.745+01:00",
+          "content": "Oooh, in fact going bombarder on low economy might be great."
+        },
+        {
+          "id": "702627807519309824",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T22:12:03.506+01:00",
+          "content": "on consecutive turns do those:\n1. animus\n2. smorcus\n3. click smorcus, buy double blastforge"
+        },
+        {
+          "id": "702627992177868840",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T22:12:47.532+01:00",
+          "content": "since Cynestra needs a much higher economy (for walls)"
+        },
+        {
+          "id": "702628214639689779",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2020-04-22T22:13:40.571+01:00",
+          "content": "that's one juice set. my gameplan would be:\n\n1. play the set and lose\n2. play it again an lose\n3. play it again an lose\n4. play ti again an lose\n5. ask me again"
+        },
+        {
+          "id": "702628451084927106",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T22:14:36.944+01:00",
+          "content": "I wonder if Thunderhead would also screw up the Cynestra. Since the 4 attack per turn hurts!"
+        },
+        {
+          "id": "702628566399189063",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T22:15:04.437+01:00",
+          "content": "There are many plays."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T22:30:14.19+01:00",
+      "end_ts": "2020-04-22T22:33:09.508+01:00",
+      "participants": [
+        "iminabearsuit",
+        "stacko"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2020-04-22) ---\n[2020-04-22 22:30] stacko: Turn 1 animus, turn 2 smorcus, after that buy immolites when not attacking with smorcus, and get a blastforge if opponent threatens anything\n[2020-04-22 22:33] iminabearsuit: You open conduit and kill them with tia, or set up thunderhead with fission.",
+      "messages": [
+        {
+          "id": "702632382179704971",
+          "author": "stacko",
+          "nickname": "Stacko",
+          "timestamp": "2020-04-22T22:30:14.19+01:00",
+          "content": "Turn 1 animus, turn 2 smorcus, after that buy immolites when not attacking with smorcus, and get a blastforge if opponent threatens anything"
+        },
+        {
+          "id": "702633117516562532",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2020-04-22T22:33:09.508+01:00",
+          "content": "You open conduit and kill them with tia, or set up thunderhead with fission."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T23:32:07.184+01:00",
+      "end_ts": "2020-04-22T23:35:06.876+01:00",
+      "participants": [
+        "flakmaniak"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (5 messages, 2020-04-22) ---\n[2020-04-22 23:32] flakmaniak: What're some good Smorcus openings, anyway? I never got a good read on that unit. Sometimes I buy it when I don't have much gold and just want a persistent attacker. Sometimes it just fits in conveniently, when I don't have the gold for two Tarsiers or whatever. And it's clearly pretty good to be able to threaten it every turn, forcing them to overdefend constantly.\n[2020-04-22 23:32] flakmaniak: But... I guess I'm not sure it's a crazy rush unit; usually I think I'd force a Wall with it and then just, I dunno, build Tarsiers or whatever.\n[2020-04-22 23:34] flakmaniak: I mean, if I can't buy two Tarsiers because of gold limitations, then a single Smorcus is a Fast Tarsier with +1 threat. Which is nice!\n[2020-04-22 23:34] flakmaniak: But I never feel like I'm basing my strategy on it.\n[2020-04-22 23:35] flakmaniak: Once or twice I might have used a second Animus's output on one, but I got that second Animus for other reasons.",
+      "messages": [
+        {
+          "id": "702647955605422233",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-22T23:32:07.184+01:00",
+          "content": "What're some good Smorcus openings, anyway? I never got a good read on that unit. Sometimes I buy it when I don't have much gold and just want a persistent attacker. Sometimes it just fits in conveniently, when I don't have the gold for two Tarsiers or whatever. And it's clearly pretty good to be able to threaten it every turn, forcing them to overdefend constantly."
+        },
+        {
+          "id": "702648090557153354",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-22T23:32:39.359+01:00",
+          "content": "But... I guess I'm not sure it's a crazy rush unit; usually I think I'd force a Wall with it and then just, I dunno, build Tarsiers or whatever."
+        },
+        {
+          "id": "702648600387387412",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-22T23:34:40.912+01:00",
+          "content": "I mean, if I can't buy two Tarsiers because of gold limitations, then a single Smorcus is a Fast Tarsier with +1 threat. Which is nice!"
+        },
+        {
+          "id": "702648630531588156",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-22T23:34:48.099+01:00",
+          "content": "But I never feel like I'm basing my strategy on it."
+        },
+        {
+          "id": "702648709288165407",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-22T23:35:06.876+01:00",
+          "content": "Once or twice I might have used a second Animus's output on one, but I got that second Animus for other reasons."
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-22T23:52:48.604+01:00",
+      "end_ts": "2020-04-22T23:57:19.127+01:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 16,
+      "formatted_text": "--- Thread (5 messages, 2020-04-22) ---\n[2020-04-22 23:52] velizar_ (Name): Animus shines at early game, and it's the worst at lategame, where you're no longer buying attackers, just soak\n[2020-04-22 23:53] velizar_ (Name): I buy Smorcus when I want animus early, but something else late\n[2020-04-22 23:55] velizar_ (Name): It's also great if you want more than 1 animus. Like for a Lucina.\n[2020-04-22 23:55] velizar_ (Name): Oh and it's good to get it even before you'll need to click it, because then it will provide 2 threat.\n[2020-04-22 23:57] velizar_ (Name): Units like Wincer, Valkyrion, Colossus might leave you overteched, that's when smorc helps spend your red",
+      "messages": [
+        {
+          "id": "702653162498162738",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T23:52:48.604+01:00",
+          "content": "Animus shines at early game, and it's the worst at lategame, where you're no longer buying attackers, just soak"
+        },
+        {
+          "id": "702653343553683567",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T23:53:31.771+01:00",
+          "content": "I buy Smorcus when I want animus early, but something else late"
+        },
+        {
+          "id": "702653727403802634",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T23:55:03.288+01:00",
+          "content": "It's also great if you want more than 1 animus. Like for a Lucina."
+        },
+        {
+          "id": "702653937739628584",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T23:55:53.436+01:00",
+          "content": "Oh and it's good to get it even before you'll need to click it, because then it will provide 2 threat."
+        },
+        {
+          "id": "702654297153863821",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2020-04-22T23:57:19.127+01:00",
+          "content": "Units like Wincer, Valkyrion, Colossus might leave you overteched, that's when smorc helps spend your red"
+        }
+      ]
+    },
+    {
+      "start_ts": "2020-04-23T00:47:17.769+01:00",
+      "end_ts": "2020-04-23T00:50:37.84+01:00",
+      "participants": [
+        "archagent",
+        "flakmaniak"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (5 messages, 2020-04-23) ---\n[2020-04-23 00:47] flakmaniak: Really? That seems a bit much. But I guess if you do literal turn 2 Smorcus you almost certainly get to kill their Engineers.\n[2020-04-23 00:48] archagent (JackNoir): Smorcus is great for when your opponent is on the defensive and and extra 2 damage will truly cost them, but you also need to spend your gold elsewhere for whatever reason.\n\nIn this case you probably only activate him the turn he hits play\n[2020-04-23 00:49] flakmaniak: The extra 1 threat is really good in general.\n[2020-04-23 00:49] flakmaniak: Play it and then don't click it is just SO good.\n[2020-04-23 00:50] archagent (JackNoir): ~~also you can trick your opponent into thinking you have an extra 2 attack because you have 3 Smorci and only one Animus but they always go by the damage indicator~~",
+      "messages": [
+        {
+          "id": "702666874369867856",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-23T00:47:17.769+01:00",
+          "content": "Really? That seems a bit much. But I guess if you do literal turn 2 Smorcus you almost certainly get to kill their Engineers."
+        },
+        {
+          "id": "702667055958196224",
+          "author": "archagent",
+          "nickname": "JackNoir",
+          "timestamp": "2020-04-23T00:48:01.063+01:00",
+          "content": "Smorcus is great for when your opponent is on the defensive and and extra 2 damage will truly cost them, but you also need to spend your gold elsewhere for whatever reason.\n\nIn this case you probably only activate him the turn he hits play"
+        },
+        {
+          "id": "702667364663033956",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-23T00:49:14.664+01:00",
+          "content": "The extra 1 threat is really good in general."
+        },
+        {
+          "id": "702667394908422195",
+          "author": "flakmaniak",
+          "nickname": "FlakManiak",
+          "timestamp": "2020-04-23T00:49:21.875+01:00",
+          "content": "Play it and then don't click it is just SO good."
+        },
+        {
+          "id": "702667713528725594",
+          "author": "archagent",
+          "nickname": "JackNoir",
+          "timestamp": "2020-04-23T00:50:37.84+01:00",
+          "content": "~~also you can trick your opponent into thinking you have an extra 2 attack because you have 3 Smorci and only one Animus but they always go by the damage indicator~~"
+        }
+      ]
+    }
+  ]
+}

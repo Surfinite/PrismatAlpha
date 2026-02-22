@@ -1,0 +1,2854 @@
+{
+  "channel": "unit_and_game_design",
+  "date_range": "2018-04-13 to 2018-04-15",
+  "thread_count": 19,
+  "token_count": 14505,
+  "threads": [
+    {
+      "start_ts": "2018-04-13T20:41:33.932+01:00",
+      "end_ts": "2018-04-13T21:03:26.06+01:00",
+      "participants": [
+        "apooche",
+        "crash_overlord",
+        "darkeisbein",
+        "kaelii",
+        "tophwells"
+      ],
+      "replay_codes": [],
+      "score": 90,
+      "formatted_text": "--- Thread (50 messages, 2018-04-13) ---\n[2018-04-13 20:41] kaelii: Loki (13 :Gold: :Green: :Blue: :Red: :Red: , supply 1) 4 :Fragile: \n:Time: 2\n:Click:  :Chill:  target :Blocker: with 6 or less health, construct a :Lifespan: 1, (If :Stamina: , stamina = 0) copy of targeted unit. (Displays as a * on chill indicator, does not provide 6 :Chill: ) [Balancing consideration: :Exhaust: 2?]\n[2018-04-13 20:46] darkeisbein: seems a crazy strong\n[2018-04-13 20:47] darkeisbein: even on a wall this is basically 3 free absorb every turn + 3 threat\n[2018-04-13 20:47] kaelii: It is supposed to be, but also clowny mirror matches.\n[2018-04-13 20:48] darkeisbein: and basically might aswell remove any blocker with 4-6 health from the set\n[2018-04-13 20:49] crash_overlord: masn posted a cool unit\n[2018-04-13 20:49] crash_overlord: and I wanted a calcualtor to get value of it\n[2018-04-13 20:49] crash_overlord: cause it's too hard for my brain\n[2018-04-13 20:49] crash_overlord: and you and toothless are the only people I know have a calculator\n[2018-04-13 20:50] apooche: Mtanzer as well I think\n[2018-04-13 20:51] crash_overlord: It's :Red: :Attack: :Energy: ; 7:Time:  gain 2 :Attack:\n[2018-04-13 20:51] crash_overlord: Assuming :Attack: is free\n[2018-04-13 20:51] kaelii: Loki probably deserves exhaustion and maybe also a longer build time.\n[2018-04-13 20:52] tophwells (Toph): is Loki targeting a friendly unit?\n[2018-04-13 20:52] crash_overlord: I'm confused what loki even does\n[2018-04-13 20:52] kaelii: Targeting an opponent's unit, no point to targeting your own unit.\n[2018-04-13 20:53] darkeisbein: basically freezes your opponents centurion and gives you 6 barriers and two Gauss charges\n[2018-04-13 20:53] darkeisbein: a.k.a. removes centurion from the set\n[2018-04-13 20:53] kaelii: Loki freezes an enemy blocker, and gives you 'fake' copy of that blocker.\n[2018-04-13 20:53] tophwells (Toph): Targeting an opponent's unit is SDR breaking. Targeting a friendly unit would, I dunno, let you copy your Protoplasms to sacrifice them next turn.\n[2018-04-13 20:54] darkeisbein: oh right breaks SDR even\n[2018-04-13 20:54] tophwells (Toph): but OK I see the intention now\n[2018-04-13 20:54] crash_overlord: Cant chill own units\n[2018-04-13 20:55] darkeisbein: I mean I get it current engine limitations\n[2018-04-13 20:55] kaelii: I really only put the HP limit because of Dgrid, which I think is the only blocker that spawns something each turn and thus would have lead to an unbounded state.\n[2018-04-13 20:55] crash_overlord: Not really an engine limitation\n[2018-04-13 20:55] crash_overlord: But the \"chill\" keyword is enemy blocker specific\n[2018-04-13 20:55] crash_overlord: You could say \"chill ANY blocker\" but uh 🤔\n[2018-04-13 20:56] tophwells (Toph): but yeah chill doesn't work that way\n[2018-04-13 20:56] tophwells (Toph): would this also make the copied unit unclickable?\n[2018-04-13 20:56] tophwells (Toph): because if you click it, it's not a blocker any more\n[2018-04-13 20:56] apooche: If attack is free the unit is good at low inflation, even if energy isn’t free\n[2018-04-13 20:57] crash_overlord: Yeah but like, how good :monkaS:\n[2018-04-13 20:57] crash_overlord: Is it slightly better than tarsier good\n[2018-04-13 20:58] crash_overlord: I'd guess it's probably much worse than it shows in most games though huh\n[2018-04-13 20:58] crash_overlord: But it would make it quite degenerate in dgrid sets\n[2018-04-13 20:58] darkeisbein: like buying an animus and 2 engies a turn isn't that big of an econ disadvantagew\n[2018-04-13 20:58] darkeisbein: you should be able to defend with that\n[2018-04-13 20:58] apooche: If energy is free as well, it is still good at R = 1.47 (roughly 10 gold for 2 attackers)\n[2018-04-13 20:58] crash_overlord: Assuming the game lasts another 7 turns :clordSmart:\n[2018-04-13 20:58] apooche: So, probably just OP\n[2018-04-13 21:00] apooche: I mean, assume p2 A/TT/TD/11A I think game is going to turn 11\n[2018-04-13 21:00] crash_overlord: Yeah probably just op\n[2018-04-13 21:00] kaelii: Dat double animus line\n[2018-04-13 21:01] apooche: It is decent at low inflation still\n[2018-04-13 21:01] kaelii: I mean I guess you do get to jam 111TD or something.\n[2018-04-13 21:01] apooche: Oh it should be 11AE\n[2018-04-13 21:03] apooche: At low inflation, treating energy as half a gold, it is like 11 gold for 2 attack at bt8\n[2018-04-13 21:03] crash_overlord: That sounds pretty ok\n[2018-04-13 21:03] crash_overlord: I like the design :monkaS:",
+      "messages": [
+        {
+          "id": "434438013691625482",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T20:41:33.932+01:00",
+          "content": "Loki (13 :Gold: :Green: :Blue: :Red: :Red: , supply 1) 4 :Fragile: \n:Time: 2\n:Click:  :Chill:  target :Blocker: with 6 or less health, construct a :Lifespan: 1, (If :Stamina: , stamina = 0) copy of targeted unit. (Displays as a * on chill indicator, does not provide 6 :Chill: ) [Balancing consideration: :Exhaust: 2?]"
+        },
+        {
+          "id": "434439316144521240",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T20:46:44.461+01:00",
+          "content": "seems a crazy strong"
+        },
+        {
+          "id": "434439411220873216",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T20:47:07.129+01:00",
+          "content": "even on a wall this is basically 3 free absorb every turn + 3 threat"
+        },
+        {
+          "id": "434439603936690177",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T20:47:53.076+01:00",
+          "content": "It is supposed to be, but also clowny mirror matches."
+        },
+        {
+          "id": "434439635234455552",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T20:48:00.538+01:00",
+          "content": "and basically might aswell remove any blocker with 4-6 health from the set"
+        },
+        {
+          "id": "434439976583823371",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:49:21.922+01:00",
+          "content": "masn posted a cool unit"
+        },
+        {
+          "id": "434440007965736961",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:49:29.404+01:00",
+          "content": "and I wanted a calcualtor to get value of it"
+        },
+        {
+          "id": "434440024663130123",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:49:33.385+01:00",
+          "content": "cause it's too hard for my brain"
+        },
+        {
+          "id": "434440063632539656",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:49:42.676+01:00",
+          "content": "and you and toothless are the only people I know have a calculator"
+        },
+        {
+          "id": "434440267941150722",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T20:50:31.387+01:00",
+          "content": "Mtanzer as well I think"
+        },
+        {
+          "id": "434440485852151819",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:51:23.341+01:00",
+          "content": "It's :Red: :Attack: :Energy: ; 7:Time:  gain 2 :Attack:"
+        },
+        {
+          "id": "434440577552220160",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:51:45.204+01:00",
+          "content": "Assuming :Attack: is free"
+        },
+        {
+          "id": "434440586733289493",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T20:51:47.393+01:00",
+          "content": "Loki probably deserves exhaustion and maybe also a longer build time."
+        },
+        {
+          "id": "434440747639635968",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T20:52:25.756+01:00",
+          "content": "is Loki targeting a friendly unit?"
+        },
+        {
+          "id": "434440843739398146",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:52:48.668+01:00",
+          "content": "I'm confused what loki even does"
+        },
+        {
+          "id": "434440870893453323",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T20:52:55.142+01:00",
+          "content": "Targeting an opponent's unit, no point to targeting your own unit."
+        },
+        {
+          "id": "434440965114036234",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T20:53:17.606+01:00",
+          "content": "basically freezes your opponents centurion and gives you 6 barriers and two Gauss charges"
+        },
+        {
+          "id": "434441035205050368",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T20:53:34.317+01:00",
+          "content": "a.k.a. removes centurion from the set"
+        },
+        {
+          "id": "434441047397892140",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T20:53:37.224+01:00",
+          "content": "Loki freezes an enemy blocker, and gives you 'fake' copy of that blocker."
+        },
+        {
+          "id": "434441141841297409",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T20:53:59.741+01:00",
+          "content": "Targeting an opponent's unit is SDR breaking. Targeting a friendly unit would, I dunno, let you copy your Protoplasms to sacrifice them next turn."
+        },
+        {
+          "id": "434441282413133844",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T20:54:33.256+01:00",
+          "content": "oh right breaks SDR even"
+        },
+        {
+          "id": "434441287995883521",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T20:54:34.587+01:00",
+          "content": "but OK I see the intention now"
+        },
+        {
+          "id": "434441298993348649",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:54:37.209+01:00",
+          "content": "Cant chill own units"
+        },
+        {
+          "id": "434441444292427776",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T20:55:11.851+01:00",
+          "content": "I mean I get it current engine limitations"
+        },
+        {
+          "id": "434441500810805248",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T20:55:25.326+01:00",
+          "content": "I really only put the HP limit because of Dgrid, which I think is the only blocker that spawns something each turn and thus would have lead to an unbounded state."
+        },
+        {
+          "id": "434441535845564436",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:55:33.679+01:00",
+          "content": "Not really an engine limitation"
+        },
+        {
+          "id": "434441582402469888",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:55:44.779+01:00",
+          "content": "But the \"chill\" keyword is enemy blocker specific"
+        },
+        {
+          "id": "434441626686062612",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:55:55.337+01:00",
+          "content": "You could say \"chill ANY blocker\" but uh 🤔"
+        },
+        {
+          "id": "434441764212834319",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T20:56:28.126+01:00",
+          "content": "but yeah chill doesn't work that way"
+        },
+        {
+          "id": "434441812539604993",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T20:56:39.648+01:00",
+          "content": "would this also make the copied unit unclickable?"
+        },
+        {
+          "id": "434441853459496960",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T20:56:49.404+01:00",
+          "content": "because if you click it, it's not a blocker any more"
+        },
+        {
+          "id": "434441861642452993",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T20:56:51.355+01:00",
+          "content": "If attack is free the unit is good at low inflation, even if energy isn’t free"
+        },
+        {
+          "id": "434441913068945431",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:57:03.616+01:00",
+          "content": "Yeah but like, how good :monkaS:"
+        },
+        {
+          "id": "434441954517057536",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:57:13.498+01:00",
+          "content": "Is it slightly better than tarsier good"
+        },
+        {
+          "id": "434442152559509514",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:58:00.715+01:00",
+          "content": "I'd guess it's probably much worse than it shows in most games though huh"
+        },
+        {
+          "id": "434442206653448203",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:58:13.612+01:00",
+          "content": "But it would make it quite degenerate in dgrid sets"
+        },
+        {
+          "id": "434442241369440267",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T20:58:21.889+01:00",
+          "content": "like buying an animus and 2 engies a turn isn't that big of an econ disadvantagew"
+        },
+        {
+          "id": "434442271291736084",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T20:58:29.023+01:00",
+          "content": "you should be able to defend with that"
+        },
+        {
+          "id": "434442282398253056",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T20:58:31.671+01:00",
+          "content": "If energy is free as well, it is still good at R = 1.47 (roughly 10 gold for 2 attackers)"
+        },
+        {
+          "id": "434442351625240576",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T20:58:48.176+01:00",
+          "content": "Assuming the game lasts another 7 turns :clordSmart:"
+        },
+        {
+          "id": "434442361003573248",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T20:58:50.412+01:00",
+          "content": "So, probably just OP"
+        },
+        {
+          "id": "434442668890652682",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T21:00:03.818+01:00",
+          "content": "I mean, assume p2 A/TT/TD/11A I think game is going to turn 11"
+        },
+        {
+          "id": "434442682480459796",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T21:00:07.058+01:00",
+          "content": "Yeah probably just op"
+        },
+        {
+          "id": "434442866467799070",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T21:00:50.924+01:00",
+          "content": "Dat double animus line"
+        },
+        {
+          "id": "434442935530946574",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T21:01:07.39+01:00",
+          "content": "It is decent at low inflation still"
+        },
+        {
+          "id": "434442988207341581",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T21:01:19.949+01:00",
+          "content": "I mean I guess you do get to jam 111TD or something."
+        },
+        {
+          "id": "434443147905466368",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T21:01:58.024+01:00",
+          "content": "Oh it should be 11AE"
+        },
+        {
+          "id": "434443432270888960",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T21:03:05.822+01:00",
+          "content": "At low inflation, treating energy as half a gold, it is like 11 gold for 2 attack at bt8"
+        },
+        {
+          "id": "434443486553440266",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T21:03:18.764+01:00",
+          "content": "That sounds pretty ok"
+        },
+        {
+          "id": "434443517155213323",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T21:03:26.06+01:00",
+          "content": "I like the design :monkaS:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-13T21:03:32.121+01:00",
+      "end_ts": "2018-04-13T21:20:53.79+01:00",
+      "participants": [
+        "apooche",
+        "crash_overlord",
+        "darkeisbein",
+        "kaelii",
+        "tophwells"
+      ],
+      "replay_codes": [],
+      "score": 35,
+      "formatted_text": "--- Thread (29 messages, 2018-04-13) ---\n[2018-04-13 21:03] crash_overlord: I just don't want it being too strong\n[2018-04-13 21:03] tophwells (Toph): wait, Crash_overlord priced that at Buildtime 7 without a calculator and it turned out more-or-less balanced?\n[2018-04-13 21:04] crash_overlord: and bt7 is pretty op\n[2018-04-13 21:04] tophwells (Toph): That's some hecka intuition for balance calulators!\n[2018-04-13 21:04] crash_overlord: You kinda get there after thousands of games played :monkaS:\n[2018-04-13 21:05] apooche: He also might have just calculated\n[2018-04-13 21:05] crash_overlord: Buildtime makes everything way harder to price based on intuition though :NotLikeThis:\n[2018-04-13 21:06] kaelii: Assuming we allow an SDR violation from Loki (creating the temporary copy of enemy's unit), is there a value of health he COULD :Chill: and possibly some amount of :Exhaust: after use where he would be balanced?\n[2018-04-13 21:07] apooche: I didn’t do anything that fancy. Just multiplied by R^6 or R^7 to compare to normal bt1 attackers for various R in [1.33, 1.5]\n[2018-04-13 21:07] darkeisbein: probably? But I still don't like it because it just removes big absorbers from the set due to the sdr violations\n[2018-04-13 21:07] apooche: It isn’t sdr violating\n[2018-04-13 21:07] apooche: Oh never mind me then\n[2018-04-13 21:11] darkeisbein: like the biggest problem with Loki is, you can balance it around, let's say walls\n[2018-04-13 21:11] darkeisbein: and then it is just 3 bonus absorb\n[2018-04-13 21:12] darkeisbein: that also removes 4-6 health blockers from the set\n[2018-04-13 21:15] kaelii: I can see it removing one supply 4-6 health blockers, and only sort of? If your opponent mirrors loki and he freezes the doomed version he now has an actual blocker AND the doomed blocker. If you freeze the doomed blocker you get full absorb. If you freeze the real one, he gets to use a smaller absorber.\n[2018-04-13 21:16] darkeisbein: but then it just becomes a degnerate 10 absorb game if both players buy an E-matrix\n[2018-04-13 21:16] darkeisbein: well not really I guess\n[2018-04-13 21:16] darkeisbein: both just click the loki copies\n[2018-04-13 21:16] darkeisbein: so essentially they just cancel each other out\n[2018-04-13 21:17] kaelii: Defensively at least. Centurion would still contribute 2 attack.\n[2018-04-13 21:17] darkeisbein: I didn't really see the mirror loki just cancelling eachother out before\n[2018-04-13 21:18] darkeisbein: but that's also really weird...\n[2018-04-13 21:18] kaelii: If you're both freezing wall 'illusions', do I want to build an Ematrix?\n[2018-04-13 21:19] kaelii: Like, you can then freeze the Ematrix but I get value off the fake wall, while I freeze your ematrix fake.\n[2018-04-13 21:19] darkeisbein: you get 3 extra absorb by your wall not getting frozen\n[2018-04-13 21:19] darkeisbein: so I guess you get it\n[2018-04-13 21:20] darkeisbein: or more likely your opponent still freezes your wall clone and you get 2 extra absorb\n[2018-04-13 21:20] kaelii: Yeah, so it depends on how much bigger your absorber is? Going to Centurion means both are +3 absorb, but they get centurion damage for freezing it.",
+      "messages": [
+        {
+          "id": "434443542577020928",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T21:03:32.121+01:00",
+          "content": "I just don't want it being too strong"
+        },
+        {
+          "id": "434443635757416458",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T21:03:54.337+01:00",
+          "content": "wait, Crash_overlord priced that at Buildtime 7 without a calculator and it turned out more-or-less balanced?"
+        },
+        {
+          "id": "434443695958392832",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T21:04:08.69+01:00",
+          "content": "and bt7 is pretty op"
+        },
+        {
+          "id": "434443844570972170",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T21:04:44.122+01:00",
+          "content": "That's some hecka intuition for balance calulators!"
+        },
+        {
+          "id": "434443900305014807",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T21:04:57.41+01:00",
+          "content": "You kinda get there after thousands of games played :monkaS:"
+        },
+        {
+          "id": "434443964104310784",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T21:05:12.621+01:00",
+          "content": "He also might have just calculated"
+        },
+        {
+          "id": "434444032240910336",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-13T21:05:28.866+01:00",
+          "content": "Buildtime makes everything way harder to price based on intuition though :NotLikeThis:"
+        },
+        {
+          "id": "434444252307521537",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T21:06:21.334+01:00",
+          "content": "Assuming we allow an SDR violation from Loki (creating the temporary copy of enemy's unit), is there a value of health he COULD :Chill: and possibly some amount of :Exhaust: after use where he would be balanced?"
+        },
+        {
+          "id": "434444419660382218",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T21:07:01.234+01:00",
+          "content": "I didn’t do anything that fancy. Just multiplied by R^6 or R^7 to compare to normal bt1 attackers for various R in [1.33, 1.5]"
+        },
+        {
+          "id": "434444458189389834",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:07:10.42+01:00",
+          "content": "probably? But I still don't like it because it just removes big absorbers from the set due to the sdr violations"
+        },
+        {
+          "id": "434444540774973472",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T21:07:30.11+01:00",
+          "content": "It isn’t sdr violating"
+        },
+        {
+          "id": "434444625470554112",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-04-13T21:07:50.303+01:00",
+          "content": "Oh never mind me then"
+        },
+        {
+          "id": "434445521508106261",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:11:23.935+01:00",
+          "content": "like the biggest problem with Loki is, you can balance it around, let's say walls"
+        },
+        {
+          "id": "434445666173976576",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:11:58.426+01:00",
+          "content": "and then it is just 3 bonus absorb"
+        },
+        {
+          "id": "434445711405219840",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:12:09.21+01:00",
+          "content": "that also removes 4-6 health blockers from the set"
+        },
+        {
+          "id": "434446454669705236",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T21:15:06.418+01:00",
+          "content": "I can see it removing one supply 4-6 health blockers, and only sort of? If your opponent mirrors loki and he freezes the doomed version he now has an actual blocker AND the doomed blocker. If you freeze the doomed blocker you get full absorb. If you freeze the real one, he gets to use a smaller absorber."
+        },
+        {
+          "id": "434446713009209346",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:16:08.011+01:00",
+          "content": "but then it just becomes a degnerate 10 absorb game if both players buy an E-matrix"
+        },
+        {
+          "id": "434446753849278466",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:16:17.748+01:00",
+          "content": "well not really I guess"
+        },
+        {
+          "id": "434446789672960003",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:16:26.289+01:00",
+          "content": "both just click the loki copies"
+        },
+        {
+          "id": "434446841958891521",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:16:38.755+01:00",
+          "content": "so essentially they just cancel each other out"
+        },
+        {
+          "id": "434446934238035989",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T21:17:00.756+01:00",
+          "content": "Defensively at least. Centurion would still contribute 2 attack."
+        },
+        {
+          "id": "434447176857550848",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:17:58.601+01:00",
+          "content": "I didn't really see the mirror loki just cancelling eachother out before"
+        },
+        {
+          "id": "434447213360578561",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:18:07.304+01:00",
+          "content": "but that's also really weird..."
+        },
+        {
+          "id": "434447249498570753",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T21:18:15.92+01:00",
+          "content": "If you're both freezing wall 'illusions', do I want to build an Ematrix?"
+        },
+        {
+          "id": "434447475965689887",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T21:19:09.914+01:00",
+          "content": "Like, you can then freeze the Ematrix but I get value off the fake wall, while I freeze your ematrix fake."
+        },
+        {
+          "id": "434447493028380692",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:19:13.982+01:00",
+          "content": "you get 3 extra absorb by your wall not getting frozen"
+        },
+        {
+          "id": "434447560648949770",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:19:30.104+01:00",
+          "content": "so I guess you get it"
+        },
+        {
+          "id": "434447705553633280",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T21:20:04.652+01:00",
+          "content": "or more likely your opponent still freezes your wall clone and you get 2 extra absorb"
+        },
+        {
+          "id": "434447911653474325",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-13T21:20:53.79+01:00",
+          "content": "Yeah, so it depends on how much bigger your absorber is? Going to Centurion means both are +3 absorb, but they get centurion damage for freezing it."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-13T22:28:11.642+01:00",
+      "end_ts": "2018-04-13T22:37:40.549+01:00",
+      "participants": [
+        "masn6811",
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (4 messages, 2018-04-13) ---\n[2018-04-13 22:28] masn6811 (Masne98888): i did rough \"calculations\" if you want to call it that\n[2018-04-13 22:29] masn6811 (Masne98888): i just assumed that since r is about the square root of three, i could double the effect by adding three turns\n[2018-04-13 22:30] masn6811 (Masne98888): so i just workinged from tarsier/rager from there with two doublings\n[2018-04-13 22:37] randomflyingtaco (RiFT (#RIPBrowserers)): Wait, wouldn't that cube root of 2?",
+      "messages": [
+        {
+          "id": "434464847632138241",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-13T22:28:11.642+01:00",
+          "content": "i did rough \"calculations\" if you want to call it that"
+        },
+        {
+          "id": "434465193213558794",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-13T22:29:34.035+01:00",
+          "content": "i just assumed that since r is about the square root of three, i could double the effect by adding three turns"
+        },
+        {
+          "id": "434465328899162132",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-13T22:30:06.385+01:00",
+          "content": "so i just workinged from tarsier/rager from there with two doublings"
+        },
+        {
+          "id": "434467233800912906",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-04-13T22:37:40.549+01:00",
+          "content": "Wait, wouldn't that cube root of 2?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-13T23:11:26.99+01:00",
+      "end_ts": "2018-04-13T23:35:16.993+01:00",
+      "participants": [
+        "darkeisbein",
+        "strshplyr5046",
+        "tophwells"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (26 messages, 2018-04-13) ---\n[2018-04-13 23:11] strshplyr5046 (StrShPlyr): Forge Bastion: (4). 5:Gold: :Blue: :Blastforge:. :Health:5.\n:Time:2. :Blocker:. :Frontline:.\nTurn:  Get  1:Blue:, 1:Attack:.\n[2018-04-13 23:21] darkeisbein: I don't think this unit should attack\n[2018-04-13 23:23] darkeisbein: like the attacking is only really good in a situation where you rush this early on\n[2018-04-13 23:24] darkeisbein: cause otherwise it just get#s killed first turn aswell\n[2018-04-13 23:24] darkeisbein: and it definetley shouldn't have buildtime 2\n[2018-04-13 23:24] darkeisbein: yeah I get it's soak\n[2018-04-13 23:24] darkeisbein: it's not vigilant lol\n[2018-04-13 23:25] strshplyr5046 (StrShPlyr): And  you got X fffff for 10B.\n[2018-04-13 23:27] tophwells (Toph): This is very good until your opponent can assemble 5 attack (at which point it dies instantly). And it's an attacker. So... it's a blue rush unit?\n[2018-04-13 23:27] darkeisbein: I don't really like it as a blue rush unit\n[2018-04-13 23:29] darkeisbein: like it just seems very strong with good blue stuff like deadeye or  grenade mech ... I don't think it should have attack that makes it stronger in that situation, when the attack does nothing in other situations\n[2018-04-13 23:29] darkeisbein: seems like a good way to set up a big blue tech thing\n[2018-04-13 23:30] darkeisbein: you get the tech and soak for the turn where you just want to buy some slow thing\n[2018-04-13 23:30] tophwells (Toph): It doesn't really give you tech, does it?\n[2018-04-13 23:30] tophwells (Toph): Oh, right, you can sacrifice it on soak once you don't need 3 blue any more.\n[2018-04-13 23:32] tophwells (Toph): I only mean that because it costs a :Blastforge:,  it doesn't give you any :Blue: that you didn't already have.\n[2018-04-13 23:32] tophwells (Toph): so how does it help you get tech?\n[2018-04-13 23:32] darkeisbein: oh what it costs a B\n[2018-04-13 23:32] darkeisbein: you never build this\n[2018-04-13 23:33] strshplyr5046 (StrShPlyr): But can  use up the :Blastforge:.\n[2018-04-13 23:33] darkeisbein: it's just inefficient slow soak\n[2018-04-13 23:33] darkeisbein: that's not a good way to spend blasforges\n[2018-04-13 23:33] strshplyr5046 (StrShPlyr): You never go Hannibull or such is weak.\n[2018-04-13 23:34] darkeisbein: wasting blue every turn is more efficient then buying this\n[2018-04-13 23:34] tophwells (Toph): I like the idea of frontline tech though.\n[2018-04-13 23:35] strshplyr5046 (StrShPlyr): But that has 2 Attack.",
+      "messages": [
+        {
+          "id": "434475733310504961",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-13T23:11:26.99+01:00",
+          "content": "Forge Bastion: (4). 5:Gold: :Blue: :Blastforge:. :Health:5.\n:Time:2. :Blocker:. :Frontline:.\nTurn:  Get  1:Blue:, 1:Attack:."
+        },
+        {
+          "id": "434478214119817221",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:21:18.461+01:00",
+          "content": "I don't think this unit should attack"
+        },
+        {
+          "id": "434478865633509387",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:23:53.794+01:00",
+          "content": "like the attacking is only really good in a situation where you rush this early on"
+        },
+        {
+          "id": "434478917076647946",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:24:06.059+01:00",
+          "content": "cause otherwise it just get#s killed first turn aswell"
+        },
+        {
+          "id": "434478986177806356",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:24:22.534+01:00",
+          "content": "and it definetley shouldn't have buildtime 2"
+        },
+        {
+          "id": "434479051319541760",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:24:38.065+01:00",
+          "content": "yeah I get it's soak"
+        },
+        {
+          "id": "434479117023576064",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:24:53.73+01:00",
+          "content": "it's not vigilant lol"
+        },
+        {
+          "id": "434479362373582858",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-13T23:25:52.226+01:00",
+          "content": "And  you got X fffff for 10B."
+        },
+        {
+          "id": "434479666888441876",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T23:27:04.828+01:00",
+          "content": "This is very good until your opponent can assemble 5 attack (at which point it dies instantly). And it's an attacker. So... it's a blue rush unit?"
+        },
+        {
+          "id": "434479879690518548",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:27:55.564+01:00",
+          "content": "I don't really like it as a blue rush unit"
+        },
+        {
+          "id": "434480170443997196",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:29:04.885+01:00",
+          "content": "like it just seems very strong with good blue stuff like deadeye or  grenade mech ... I don't think it should have attack that makes it stronger in that situation, when the attack does nothing in other situations"
+        },
+        {
+          "id": "434480271950086146",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:29:29.086+01:00",
+          "content": "seems like a good way to set up a big blue tech thing"
+        },
+        {
+          "id": "434480423146618880",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:30:05.134+01:00",
+          "content": "you get the tech and soak for the turn where you just want to buy some slow thing"
+        },
+        {
+          "id": "434480561130569728",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T23:30:38.032+01:00",
+          "content": "It doesn't really give you tech, does it?"
+        },
+        {
+          "id": "434480637551050753",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T23:30:56.252+01:00",
+          "content": "Oh, right, you can sacrifice it on soak once you don't need 3 blue any more."
+        },
+        {
+          "id": "434480934214172704",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T23:32:06.982+01:00",
+          "content": "I only mean that because it costs a :Blastforge:,  it doesn't give you any :Blue: that you didn't already have."
+        },
+        {
+          "id": "434481085548855315",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T23:32:43.063+01:00",
+          "content": "so how does it help you get tech?"
+        },
+        {
+          "id": "434481105400365069",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:32:47.796+01:00",
+          "content": "oh what it costs a B"
+        },
+        {
+          "id": "434481148630925362",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:32:58.103+01:00",
+          "content": "you never build this"
+        },
+        {
+          "id": "434481183192252416",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-13T23:33:06.343+01:00",
+          "content": "But can  use up the :Blastforge:."
+        },
+        {
+          "id": "434481323156045825",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:33:39.713+01:00",
+          "content": "it's just inefficient slow soak"
+        },
+        {
+          "id": "434481362494423062",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:33:49.092+01:00",
+          "content": "that's not a good way to spend blasforges"
+        },
+        {
+          "id": "434481395948322825",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-13T23:33:57.068+01:00",
+          "content": "You never go Hannibull or such is weak."
+        },
+        {
+          "id": "434481408350879756",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-13T23:34:00.025+01:00",
+          "content": "wasting blue every turn is more efficient then buying this"
+        },
+        {
+          "id": "434481635292086276",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-13T23:34:54.132+01:00",
+          "content": "I like the idea of frontline tech though."
+        },
+        {
+          "id": "434481731178070016",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-13T23:35:16.993+01:00",
+          "content": "But that has 2 Attack."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-14T00:19:54.406+01:00",
+      "end_ts": "2018-04-14T00:25:02.35+01:00",
+      "participants": [
+        "masn6811",
+        "randomflyingtaco",
+        "tophwells"
+      ],
+      "replay_codes": [],
+      "score": 23,
+      "formatted_text": "--- Thread (9 messages, 2018-04-14) ---\n[2018-04-14 00:19] randomflyingtaco (RiFT (#RIPBrowserers)): I mean, a couple people thought that Mobile Animus was going to be that\n[2018-04-14 00:20] masn6811 (Masne98888): @Toph Seems very strong. Though probably still printable\n[2018-04-14 00:21] masn6811 (Masne98888): Since you kind of want your anime to die as you go into late game, it kind of lets you get half an animus without drawback\n[2018-04-14 00:21] masn6811 (Masne98888): that said, sometimes they kill it for just 1 damage, which is a drawback\n[2018-04-14 00:21] masn6811 (Masne98888): i like how clean the design is\n[2018-04-14 00:22] masn6811 (Masne98888): though i don't think :Prismata: has room for both that and mobile animus\n[2018-04-14 00:22] masn6811 (Masne98888): and i prefer the design of mobile animus. feels more pure. and the click ability gives so much depth\n[2018-04-14 00:23] tophwells (Toph): yeah Mobile Animus is a very good design\n[2018-04-14 00:25] tophwells (Toph): this is going on the bandwagon of <Modifier> Animus that produce R every turn, along with Flame and Mobile",
+      "messages": [
+        {
+          "id": "434492961061994506",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-04-14T00:19:54.406+01:00",
+          "content": "I mean, a couple people thought that Mobile Animus was going to be that"
+        },
+        {
+          "id": "434493214553014292",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T00:20:54.843+01:00",
+          "content": "@Toph Seems very strong. Though probably still printable"
+        },
+        {
+          "id": "434493324905152514",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T00:21:21.153+01:00",
+          "content": "Since you kind of want your anime to die as you go into late game, it kind of lets you get half an animus without drawback"
+        },
+        {
+          "id": "434493395512328194",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T00:21:37.987+01:00",
+          "content": "that said, sometimes they kill it for just 1 damage, which is a drawback"
+        },
+        {
+          "id": "434493453519421452",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T00:21:51.817+01:00",
+          "content": "i like how clean the design is"
+        },
+        {
+          "id": "434493524436844554",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T00:22:08.725+01:00",
+          "content": "though i don't think :Prismata: has room for both that and mobile animus"
+        },
+        {
+          "id": "434493630779097118",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T00:22:34.079+01:00",
+          "content": "and i prefer the design of mobile animus. feels more pure. and the click ability gives so much depth"
+        },
+        {
+          "id": "434493948040577025",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-14T00:23:49.72+01:00",
+          "content": "yeah Mobile Animus is a very good design"
+        },
+        {
+          "id": "434494252672876544",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-14T00:25:02.35+01:00",
+          "content": "this is going on the bandwagon of <Modifier> Animus that produce R every turn, along with Flame and Mobile"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-14T00:36:16.264+01:00",
+      "end_ts": "2018-04-14T00:37:38.467+01:00",
+      "participants": [
+        "f300xen",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-04-14) ---\n[2018-04-14 00:36] masn6811 (Masne98888): my latest centrifuge variant! It's a bit on the strong side, and has a worrying wincer rush, but here goes:\nColor Wheel (Supply 10) 3 :Gold: \n:Time: 2, 1 :Health: \nStart of Turn: Gain 1GBRE, and sacrifice this unit.\n[2018-04-14 00:37] f300xen (f0x): that either seems really good or really bad with comet",
+      "messages": [
+        {
+          "id": "434497079272800266",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T00:36:16.264+01:00",
+          "content": "my latest centrifuge variant! It's a bit on the strong side, and has a worrying wincer rush, but here goes:\nColor Wheel (Supply 10) 3 :Gold: \n:Time: 2, 1 :Health: \nStart of Turn: Gain 1GBRE, and sacrifice this unit."
+        },
+        {
+          "id": "434497424057434129",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-14T00:37:38.467+01:00",
+          "content": "that either seems really good or really bad with comet"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-14T00:48:46.181+01:00",
+      "end_ts": "2018-04-14T01:01:52.472+01:00",
+      "participants": [
+        "f300xen",
+        "kaelii",
+        "randomflyingtaco",
+        "xyotsuba"
+      ],
+      "replay_codes": [
+        "Wheel-Wheel"
+      ],
+      "score": 12,
+      "formatted_text": "--- Thread (12 messages, 2018-04-14) ---\n[2018-04-14 00:48] randomflyingtaco (RiFT (#RIPBrowserers)): hmm in galvani+wheel+antima p2 has 211E 1EEEE 311111E (E*8) 16 damage on turn 5 and you have 15 econ?  Also why is it 10 supply?\n[2018-04-14 00:52] xyotsuba: yeah 10 supply is way too much\n[2018-04-14 00:56] kaelii: Blastforge into Wheel-Wheel for Apollo/Odin turns.\n[2018-04-14 00:57] kaelii: Yeah you MIGHT waste red, but seems unlikely. Do you ever buy more than like, 4 of them though?\n[2018-04-14 00:57] kaelii: I guess maybe in some shenanigans Arms Race plan you might buy 4?\n[2018-04-14 00:58] f300xen (f0x): it turns 2 drones into cba\n[2018-04-14 00:59] kaelii: I only see one drone? Costs 3 no extra investments 2 turn build time and returns 1 gold?\n[2018-04-14 00:59] randomflyingtaco (RiFT (#RIPBrowserers)): but double wheel is worse than fuge, just having all that extra supply/flexibility is crazy\n[2018-04-14 01:00] kaelii: Double wheel is a turn faster than fuge though?\n[2018-04-14 01:00] randomflyingtaco (RiFT (#RIPBrowserers)): Fuge is 5->9 now right?\n[2018-04-14 01:01] kaelii: Double wheel less gold efficient but faster -- also more granular purchasing power.\n[2018-04-14 01:01] randomflyingtaco (RiFT (#RIPBrowserers)): hmmm it's almost like someone just said that",
+      "messages": [
+        {
+          "id": "434500224652935178",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-04-14T00:48:46.181+01:00",
+          "content": "hmm in galvani+wheel+antima p2 has 211E 1EEEE 311111E (E*8) 16 damage on turn 5 and you have 15 econ?  Also why is it 10 supply?"
+        },
+        {
+          "id": "434501039467659284",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-04-14T00:52:00.448+01:00",
+          "content": "yeah 10 supply is way too much"
+        },
+        {
+          "id": "434502100597342218",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-14T00:56:13.441+01:00",
+          "content": "Blastforge into Wheel-Wheel for Apollo/Odin turns."
+        },
+        {
+          "id": "434502355866746881",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-14T00:57:14.302+01:00",
+          "content": "Yeah you MIGHT waste red, but seems unlikely. Do you ever buy more than like, 4 of them though?"
+        },
+        {
+          "id": "434502536783986688",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-14T00:57:57.436+01:00",
+          "content": "I guess maybe in some shenanigans Arms Race plan you might buy 4?"
+        },
+        {
+          "id": "434502590676336649",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-14T00:58:10.285+01:00",
+          "content": "it turns 2 drones into cba"
+        },
+        {
+          "id": "434502837620441088",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-14T00:59:09.161+01:00",
+          "content": "I only see one drone? Costs 3 no extra investments 2 turn build time and returns 1 gold?"
+        },
+        {
+          "id": "434502989693321256",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-04-14T00:59:45.418+01:00",
+          "content": "but double wheel is worse than fuge, just having all that extra supply/flexibility is crazy"
+        },
+        {
+          "id": "434503118210990080",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-14T01:00:16.059+01:00",
+          "content": "Double wheel is a turn faster than fuge though?"
+        },
+        {
+          "id": "434503192156569601",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-04-14T01:00:33.689+01:00",
+          "content": "Fuge is 5->9 now right?"
+        },
+        {
+          "id": "434503431768768533",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-14T01:01:30.817+01:00",
+          "content": "Double wheel less gold efficient but faster -- also more granular purchasing power."
+        },
+        {
+          "id": "434503522596290561",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-04-14T01:01:52.472+01:00",
+          "content": "hmmm it's almost like someone just said that"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-14T20:30:34.257+01:00",
+      "end_ts": "2018-04-14T20:50:04.282+01:00",
+      "participants": [
+        ".jrkirby",
+        "f300xen",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 70,
+      "formatted_text": "--- Thread (23 messages, 2018-04-14) ---\n[2018-04-14 20:30] .jrkirby (jrkirby): If you had a 3R unit that gives 2 attack, what does it's build time have to be to be fair? 5? 6? 7?\n[2018-04-14 20:31] masn6811 (Masne98888): I'd venture 5, but it would be a bit strong at that. 6 might be too weak though.\n[2018-04-14 20:32] masn6811 (Masne98888): all of those alternate ways of getting red turning out to be too good with antima\n[2018-04-14 20:32] masn6811 (Masne98888): maybe it's antima that needs the change. 🤔\n[2018-04-14 20:32] masn6811 (Masne98888): 2 :Green: :Blue: :Red: :Red: ? 🤔\n[2018-04-14 20:33] masn6811 (Masne98888): i proposed 1 :Green: :Blue: :Red: :Energy: :Attack: before, but that was the melvin in me speaking\n[2018-04-14 20:34] masn6811 (Masne98888): because the problem with making it cost :Attack: is that you can set up antima, and your opponent isn't in a position to threaten antima, so you can wait a turn\n[2018-04-14 20:34] masn6811 (Masne98888): in fact, you might be able to wait a turn before even setting it up. might be opressive\n[2018-04-14 20:34] f300xen (f0x): It should consume :Conduit::Blastforge::Animus:  tbh\n[2018-04-14 20:36] masn6811 (Masne98888): :Green: :Blue: :Animus: is an interesting cost idea tbh\n[2018-04-14 20:40] masn6811 (Masne98888): but that makes it worse in sets without support\n[2018-04-14 20:40] masn6811 (Masne98888): i'm trying to propose a way where antima can still be a thing when there's less support for it, without becoming degenerate once you throw chrono filter into the mix\n[2018-04-14 20:41] masn6811 (Masne98888): antima is one of the few (not so few?) units that isn't a thing in BSO, for example\n[2018-04-14 20:42] masn6811 (Masne98888): and i think chrono isn't a think in bso either?\n[2018-04-14 20:43] masn6811 (Masne98888): DD/DD DD/DA DDC/DTT DDB/DTT DDWA?\n[2018-04-14 20:43] masn6811 (Masne98888): you might be right 🤔\n[2018-04-14 20:44] masn6811 (Masne98888): can someone give me a link to the b+1 analysis? I really don't want to do it myself\n[2018-04-14 20:46] masn6811 (Masne98888): but doesn't that lose to DD DDE DDDC DBA?\n[2018-04-14 20:46] masn6811 (Masne98888): any DDE line commits first\n[2018-04-14 20:48] masn6811 (Masne98888): have we decided who wins DD/DD DD/DA DDB/DTT?\n[2018-04-14 20:48] masn6811 (Masne98888): doesn't matter in BSO, but does matter in base+lucina\n[2018-04-14 20:49] masn6811 (Masne98888): im pretty sure it's the exact same line\n[2018-04-14 20:50] masn6811 (Masne98888): the nerf doesn't really change anything, since you don't use all 4 reds anyways",
+      "messages": [
+        {
+          "id": "434797634679603230",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-04-14T20:30:34.257+01:00",
+          "content": "If you had a 3R unit that gives 2 attack, what does it's build time have to be to be fair? 5? 6? 7?"
+        },
+        {
+          "id": "434797800719646720",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:31:13.844+01:00",
+          "content": "I'd venture 5, but it would be a bit strong at that. 6 might be too weak though."
+        },
+        {
+          "id": "434798107692236801",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:32:27.032+01:00",
+          "content": "all of those alternate ways of getting red turning out to be too good with antima"
+        },
+        {
+          "id": "434798149463310338",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:32:36.991+01:00",
+          "content": "maybe it's antima that needs the change. 🤔"
+        },
+        {
+          "id": "434798204375007234",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:32:50.083+01:00",
+          "content": "2 :Green: :Blue: :Red: :Red: ? 🤔"
+        },
+        {
+          "id": "434798337687027735",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:33:21.867+01:00",
+          "content": "i proposed 1 :Green: :Blue: :Red: :Energy: :Attack: before, but that was the melvin in me speaking"
+        },
+        {
+          "id": "434798535008059402",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:34:08.912+01:00",
+          "content": "because the problem with making it cost :Attack: is that you can set up antima, and your opponent isn't in a position to threaten antima, so you can wait a turn"
+        },
+        {
+          "id": "434798632470839307",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:34:32.149+01:00",
+          "content": "in fact, you might be able to wait a turn before even setting it up. might be opressive"
+        },
+        {
+          "id": "434798744500699146",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-14T20:34:58.859+01:00",
+          "content": "It should consume :Conduit::Blastforge::Animus:  tbh"
+        },
+        {
+          "id": "434799024609034255",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:36:05.642+01:00",
+          "content": ":Green: :Blue: :Animus: is an interesting cost idea tbh"
+        },
+        {
+          "id": "434800078436302855",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:40:16.894+01:00",
+          "content": "but that makes it worse in sets without support"
+        },
+        {
+          "id": "434800226872721408",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:40:52.284+01:00",
+          "content": "i'm trying to propose a way where antima can still be a thing when there's less support for it, without becoming degenerate once you throw chrono filter into the mix"
+        },
+        {
+          "id": "434800322075033600",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:41:14.982+01:00",
+          "content": "antima is one of the few (not so few?) units that isn't a thing in BSO, for example"
+        },
+        {
+          "id": "434800732164587531",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:42:52.755+01:00",
+          "content": "and i think chrono isn't a think in bso either?"
+        },
+        {
+          "id": "434800898729050112",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:43:32.467+01:00",
+          "content": "DD/DD DD/DA DDC/DTT DDB/DTT DDWA?"
+        },
+        {
+          "id": "434800963409149952",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:43:47.888+01:00",
+          "content": "you might be right 🤔"
+        },
+        {
+          "id": "434801199561179156",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:44:44.191+01:00",
+          "content": "can someone give me a link to the b+1 analysis? I really don't want to do it myself"
+        },
+        {
+          "id": "434801592034918400",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:46:17.764+01:00",
+          "content": "but doesn't that lose to DD DDE DDDC DBA?"
+        },
+        {
+          "id": "434801673739960330",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:46:37.244+01:00",
+          "content": "any DDE line commits first"
+        },
+        {
+          "id": "434802120005517313",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:48:23.642+01:00",
+          "content": "have we decided who wins DD/DD DD/DA DDB/DTT?"
+        },
+        {
+          "id": "434802205933961218",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:48:44.129+01:00",
+          "content": "doesn't matter in BSO, but does matter in base+lucina"
+        },
+        {
+          "id": "434802482498109440",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:49:50.067+01:00",
+          "content": "im pretty sure it's the exact same line"
+        },
+        {
+          "id": "434802542120009739",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T20:50:04.282+01:00",
+          "content": "the nerf doesn't really change anything, since you don't use all 4 reds anyways"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-14T21:02:57.525+01:00",
+      "end_ts": "2018-04-14T21:03:08.141+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-04-14) ---\n[2018-04-14 21:02] masn6811 (Masne98888): the more interesting case is when p2 tries to get the lucina before p1 does\n[2018-04-14 21:03] masn6811 (Masne98888): it ends up being close, but p1's GB strategy wins",
+      "messages": [
+        {
+          "id": "434805785336348683",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T21:02:57.525+01:00",
+          "content": "the more interesting case is when p2 tries to get the lucina before p1 does"
+        },
+        {
+          "id": "434805829862948889",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T21:03:08.141+01:00",
+          "content": "it ends up being close, but p1's GB strategy wins"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-14T23:13:48.888+01:00",
+      "end_ts": "2018-04-14T23:13:48.888+01:00",
+      "participants": [
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-14) ---\n[2018-04-14 23:13] randomflyingtaco (RiFT (#RIPBrowserers)): @jrkirby bt4 is 40% RoI, bt5 is 34%, bt6 is 30%.  For reference: Tarsier is 34% and 8RRR Fang is 40% if nothing is wasted",
+      "messages": [
+        {
+          "id": "434838716339716096",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-04-14T23:13:48.888+01:00",
+          "content": "@jrkirby bt4 is 40% RoI, bt5 is 34%, bt6 is 30%.  For reference: Tarsier is 34% and 8RRR Fang is 40% if nothing is wasted"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-14T23:40:17.921+01:00",
+      "end_ts": "2018-04-15T00:10:50.074+01:00",
+      "participants": [
+        "darkeisbein",
+        "extratricky",
+        "f300xen",
+        "masn6811",
+        "strshplyr5046"
+      ],
+      "replay_codes": [],
+      "score": 117,
+      "formatted_text": "--- Thread (50 messages, 2018-04-14 to 2018-04-15) ---\n[2018-04-14 23:40] masn6811 (Masne98888): bt5 seems like excellent balance then\n[2018-04-14 23:40] masn6811 (Masne98888): but i take it your model assumes constant inflation\n[2018-04-14 23:41] strshplyr5046 (StrShPlyr): Filter Module: (10). 4:Gold: 1:Blue:. 2:Health:. :Blocker:. :Lifespan:4.\nClick: Get 1⚔ for that Defense Phase.\n[2018-04-14 23:49] darkeisbein: why not make it construct barriers\n[2018-04-14 23:49] darkeisbein: instead of constructing an unnessecary new mechanic\n[2018-04-14 23:49] strshplyr5046 (StrShPlyr): Filter Module can Absorb 1  for 3 turns then Soak 2.\n[2018-04-14 23:50] masn6811 (Masne98888): Smashing Kit 6GGGG (Supply 4)\nSpell: Construct 5 Gauss Charges with :Time: 3, and 2 Nivo Charges with :Time: 3\n[2018-04-14 23:53] darkeisbein: yeah probably actually to weak?\n[2018-04-14 23:55] darkeisbein: that being said if you can sync multiple of these with some other stuff that could be scary\n[2018-04-14 23:55] masn6811 (Masne98888): was hoping that the lowered :Time: was enough compensation for the lower stuff gotten when compared to endo\n[2018-04-14 23:55] masn6811 (Masne98888): there's 4 supply, and good on your if you can sync them\n[2018-04-14 23:56] masn6811 (Masne98888): but it's kinda hard to do with that cost\n[2018-04-14 23:57] masn6811 (Masne98888): oh crap. forgot that frostbite has buildtime 2. that ruined my quick maffs\n[2018-04-14 23:58] masn6811 (Masne98888): 5GGG seems scary monkaS\n[2018-04-14 23:58] darkeisbein: also frostbites, cryo rays are both pretty efficient, nivo is pretty good aswell I guess\n[2018-04-14 23:58] darkeisbein: but gauss charge is kinda overcosted\n[2018-04-14 23:59] strshplyr5046 (StrShPlyr): Is the Filter Module weak.\n[2018-04-14 23:59] masn6811 (Masne98888): say since gauss charge is pretty inefficient, say you value the 5 of them at 4GGGG\n[2018-04-14 23:59] masn6811 (Masne98888): and say that you give nivo full value\n[2018-04-14 23:59] masn6811 (Masne98888): so its 8GGGGGG for the package, and you lose two turns on it\n[2018-04-14 23:59] darkeisbein: nah filter module is fine, except it should create barriers instead of using crossed_swords.emoji\n[2018-04-14 23:59] strshplyr5046 (StrShPlyr): Has the ⚔ middle Absorb ability.\n[2018-04-15 00:00] masn6811 (Masne98888): simple, you just add a nivo to it, and it was UP before, so it's balance now\n[2018-04-15 00:01] strshplyr5046 (StrShPlyr): Nivo lacks granularity.\n[2018-04-15 00:03] masn6811 (Masne98888): that gold:tech ratio :monkaS:\n[2018-04-15 00:03] masn6811 (Masne98888): that said, that looks REALLY strong\n[2018-04-15 00:04] masn6811 (Masne98888): like it seems playable at 4GGGG tbh\n[2018-04-15 00:04] masn6811 (Masne98888): but the ech cost is monkaS\n[2018-04-15 00:05] masn6811 (Masne98888): maybe that's enough to balance it. maybe 5GGG, but then that's SSP\n[2018-04-15 00:05] masn6811 (Masne98888): i like having a 4 green cost to make it clunky\n[2018-04-15 00:05] masn6811 (Masne98888): 7GGGG for 9 charges and 2 nivos?\n[2018-04-15 00:05] masn6811 (Masne98888): i think 3 nivos is a bit overboard :Lul:\n[2018-04-15 00:06] masn6811 (Masne98888): nivos are fun! so fun!\n[2018-04-15 00:07] masn6811 (Masne98888): hmm, 7GGGG for 90 charges and 20 nivos under buildtime 14? :LongNoseLiar:\n[2018-04-15 00:07] masn6811 (Masne98888): like, with units like this, the inflation formula for buildtime actually breaks down\n[2018-04-15 00:08] masn6811 (Masne98888): imagine the extreme case of 1 googol charges under buildtime 1 million (and imagine only one player is allowed to buy it)\n[2018-04-15 00:08] f300xen (f0x): 110 health for 7GGGG, clearly overpowered\n[2018-04-15 00:08] masn6811 (Masne98888): the inflation formula says that unit is ridiculously weak\n[2018-04-15 00:09] masn6811 (Masne98888): but in practice, you'll have your stuff wiped out, and their stuff wil be attack buildtime 1000000 goose charges, which is really bad value\n[2018-04-15 00:09] extratricky: that unit isn't weak under inflation because googol is too big\n[2018-04-15 00:09] masn6811 (Masne98888): in fact, there's no way to get a googol damage in a million turns\n[2018-04-15 00:09] f300xen (f0x): googol is way too large\n[2018-04-15 00:10] masn6811 (Masne98888): in practice, the second one would win, so it is a bad unit :Lul:\n[2018-04-15 00:10] extratricky: if you change it to 1.1^(1 million) then inflation says it's weak and I think it is actually weak\n[2018-04-15 00:10] masn6811 (Masne98888): also, a googol is not too large\n[2018-04-15 00:10] masn6811 (Masne98888): assume that the doubling time of a unit is 2.5 turns\n[2018-04-15 00:10] masn6811 (Masne98888): then buildtime a million means it should double 400000 times\n[2018-04-15 00:10] extratricky: oh yeah you're right\n[2018-04-15 00:10] masn6811 (Masne98888): a googol is way less than that\n[2018-04-15 00:10] extratricky: then yeah it's actually really weak in an infinite supply game",
+      "messages": [
+        {
+          "id": "434845381227184128",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:40:17.921+01:00",
+          "content": "bt5 seems like excellent balance then"
+        },
+        {
+          "id": "434845438655463434",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:40:31.613+01:00",
+          "content": "but i take it your model assumes constant inflation"
+        },
+        {
+          "id": "434845628686794762",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-14T23:41:16.92+01:00",
+          "content": "Filter Module: (10). 4:Gold: 1:Blue:. 2:Health:. :Blocker:. :Lifespan:4.\nClick: Get 1⚔ for that Defense Phase."
+        },
+        {
+          "id": "434847719379697664",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-14T23:49:35.38+01:00",
+          "content": "why not make it construct barriers"
+        },
+        {
+          "id": "434847776141213709",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-14T23:49:48.913+01:00",
+          "content": "instead of constructing an unnessecary new mechanic"
+        },
+        {
+          "id": "434847788971458590",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-14T23:49:51.972+01:00",
+          "content": "Filter Module can Absorb 1  for 3 turns then Soak 2."
+        },
+        {
+          "id": "434847826321735691",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:50:00.877+01:00",
+          "content": "Smashing Kit 6GGGG (Supply 4)\nSpell: Construct 5 Gauss Charges with :Time: 3, and 2 Nivo Charges with :Time: 3"
+        },
+        {
+          "id": "434848783478816798",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-14T23:53:49.081+01:00",
+          "content": "yeah probably actually to weak?"
+        },
+        {
+          "id": "434849213524869127",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-14T23:55:31.612+01:00",
+          "content": "that being said if you can sync multiple of these with some other stuff that could be scary"
+        },
+        {
+          "id": "434849282030567454",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:55:47.945+01:00",
+          "content": "was hoping that the lowered :Time: was enough compensation for the lower stuff gotten when compared to endo"
+        },
+        {
+          "id": "434849322580967424",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:55:57.613+01:00",
+          "content": "there's 4 supply, and good on your if you can sync them"
+        },
+        {
+          "id": "434849348887642114",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:56:03.885+01:00",
+          "content": "but it's kinda hard to do with that cost"
+        },
+        {
+          "id": "434849669747834880",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:57:20.384+01:00",
+          "content": "oh crap. forgot that frostbite has buildtime 2. that ruined my quick maffs"
+        },
+        {
+          "id": "434849993132736513",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:58:37.485+01:00",
+          "content": "5GGG seems scary monkaS"
+        },
+        {
+          "id": "434850039165091851",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-14T23:58:48.46+01:00",
+          "content": "also frostbites, cryo rays are both pretty efficient, nivo is pretty good aswell I guess"
+        },
+        {
+          "id": "434850065383948328",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-14T23:58:54.711+01:00",
+          "content": "but gauss charge is kinda overcosted"
+        },
+        {
+          "id": "434850116344610826",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-14T23:59:06.861+01:00",
+          "content": "Is the Filter Module weak."
+        },
+        {
+          "id": "434850136561156106",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:59:11.681+01:00",
+          "content": "say since gauss charge is pretty inefficient, say you value the 5 of them at 4GGGG"
+        },
+        {
+          "id": "434850178663448598",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:59:21.719+01:00",
+          "content": "and say that you give nivo full value"
+        },
+        {
+          "id": "434850249794650115",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-14T23:59:38.678+01:00",
+          "content": "so its 8GGGGGG for the package, and you lose two turns on it"
+        },
+        {
+          "id": "434850286713176085",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-14T23:59:47.48+01:00",
+          "content": "nah filter module is fine, except it should create barriers instead of using crossed_swords.emoji"
+        },
+        {
+          "id": "434850313288024075",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-14T23:59:53.816+01:00",
+          "content": "Has the ⚔ middle Absorb ability."
+        },
+        {
+          "id": "434850541961740288",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:00:48.336+01:00",
+          "content": "simple, you just add a nivo to it, and it was UP before, so it's balance now"
+        },
+        {
+          "id": "434850605559840791",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:01:03.499+01:00",
+          "content": "Nivo lacks granularity."
+        },
+        {
+          "id": "434851190589751306",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:03:22.981+01:00",
+          "content": "that gold:tech ratio :monkaS:"
+        },
+        {
+          "id": "434851226480410635",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:03:31.538+01:00",
+          "content": "that said, that looks REALLY strong"
+        },
+        {
+          "id": "434851477329149952",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:04:31.345+01:00",
+          "content": "like it seems playable at 4GGGG tbh"
+        },
+        {
+          "id": "434851512791859201",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:04:39.8+01:00",
+          "content": "but the ech cost is monkaS"
+        },
+        {
+          "id": "434851626822402050",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:05:06.987+01:00",
+          "content": "maybe that's enough to balance it. maybe 5GGG, but then that's SSP"
+        },
+        {
+          "id": "434851676046753793",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:05:18.723+01:00",
+          "content": "i like having a 4 green cost to make it clunky"
+        },
+        {
+          "id": "434851753536520194",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:05:37.198+01:00",
+          "content": "7GGGG for 9 charges and 2 nivos?"
+        },
+        {
+          "id": "434851795647594496",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:05:47.238+01:00",
+          "content": "i think 3 nivos is a bit overboard :Lul:"
+        },
+        {
+          "id": "434851971384737794",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:06:29.137+01:00",
+          "content": "nivos are fun! so fun!"
+        },
+        {
+          "id": "434852195138273285",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:07:22.484+01:00",
+          "content": "hmm, 7GGGG for 90 charges and 20 nivos under buildtime 14? :LongNoseLiar:"
+        },
+        {
+          "id": "434852283520647169",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:07:43.556+01:00",
+          "content": "like, with units like this, the inflation formula for buildtime actually breaks down"
+        },
+        {
+          "id": "434852450391031808",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:08:23.341+01:00",
+          "content": "imagine the extreme case of 1 googol charges under buildtime 1 million (and imagine only one player is allowed to buy it)"
+        },
+        {
+          "id": "434852457290661890",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T00:08:24.986+01:00",
+          "content": "110 health for 7GGGG, clearly overpowered"
+        },
+        {
+          "id": "434852492724011018",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:08:33.434+01:00",
+          "content": "the inflation formula says that unit is ridiculously weak"
+        },
+        {
+          "id": "434852608818151434",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:09:01.113+01:00",
+          "content": "but in practice, you'll have your stuff wiped out, and their stuff wil be attack buildtime 1000000 goose charges, which is really bad value"
+        },
+        {
+          "id": "434852729446334476",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-04-15T00:09:29.873+01:00",
+          "content": "that unit isn't weak under inflation because googol is too big"
+        },
+        {
+          "id": "434852736077398016",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:09:31.454+01:00",
+          "content": "in fact, there's no way to get a googol damage in a million turns"
+        },
+        {
+          "id": "434852763709603840",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T00:09:38.042+01:00",
+          "content": "googol is way too large"
+        },
+        {
+          "id": "434852857645367298",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:10:00.438+01:00",
+          "content": "in practice, the second one would win, so it is a bad unit :Lul:"
+        },
+        {
+          "id": "434852869481693185",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-04-15T00:10:03.26+01:00",
+          "content": "if you change it to 1.1^(1 million) then inflation says it's weak and I think it is actually weak"
+        },
+        {
+          "id": "434852890432241667",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:10:08.255+01:00",
+          "content": "also, a googol is not too large"
+        },
+        {
+          "id": "434852956987457548",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:10:24.123+01:00",
+          "content": "assume that the doubling time of a unit is 2.5 turns"
+        },
+        {
+          "id": "434853004030640129",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:10:35.339+01:00",
+          "content": "then buildtime a million means it should double 400000 times"
+        },
+        {
+          "id": "434853019805286400",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-04-15T00:10:39.1+01:00",
+          "content": "oh yeah you're right"
+        },
+        {
+          "id": "434853036356009986",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:10:43.046+01:00",
+          "content": "a googol is way less than that"
+        },
+        {
+          "id": "434853065833709568",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-04-15T00:10:50.074+01:00",
+          "content": "then yeah it's actually really weak in an infinite supply game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-15T00:11:02.851+01:00",
+      "end_ts": "2018-04-15T00:26:20.294+01:00",
+      "participants": [
+        ".jrkirby",
+        "darkeisbein",
+        "extratricky",
+        "f300xen",
+        "masn6811",
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 120,
+      "formatted_text": "--- Thread (50 messages, 2018-04-15) ---\n[2018-04-15 00:11] extratricky: it only wins due to finite supplies\n[2018-04-15 00:11] masn6811 (Masne98888): but it would also win if your opponent went breachproof, you killed all their drones, then snuck this out\n[2018-04-15 00:12] masn6811 (Masne98888): or they kileld all their drones for you, eg. a venge all in\n[2018-04-15 00:12] masn6811 (Masne98888): that's why if you want to make really big buildtime bombs, you should have them have buildtime of 1 less than they should, and have them sac themselves at the start of your turn to make gauss charges\n[2018-04-15 00:12] masn6811 (Masne98888): so they can be killed better when being breached\n[2018-04-15 00:13] masn6811 (Masne98888): alternatively, just make them have 1 hp during buildtime but do more than 1 damage\n[2018-04-15 00:13] masn6811 (Masne98888): the longer the buildtime discrpancy, the more lopsided the ratio should be\n[2018-04-15 00:13] masn6811 (Masne98888): but prismata isn't quite into that design territory yet 🤔\n[2018-04-15 00:13] .jrkirby (jrkirby): A couple weeks too late, I came up with a good idea for the keyword contest :(\n\nMass Production *alternate cost*: After purchasing this unit, additional copies can be purchased this turn for the Mass Production cost.\n[2018-04-15 00:13] masn6811 (Masne98888): isn't that just replicate?\n[2018-04-15 00:14] .jrkirby (jrkirby): Oh, did someone else do that?\n[2018-04-15 00:14] darkeisbein: kinda, except it doesn't extend supply\n[2018-04-15 00:14] masn6811 (Masne98888): except without the card advantage\n[2018-04-15 00:14] masn6811 (Masne98888): http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=97233\nShattering Spree (Guildpact) - Gatherer - Magic: The Gathering\nGatherer is the Magic Card Database. Search for the perfect addition to your deck. Browse through cards from Magic's entire history. See cards from the most recent sets and discover what players just like you are saying about them.\n[2018-04-15 00:14] darkeisbein: also replicate is only for sorceries and instants\n[2018-04-15 00:14] darkeisbein: and we don't have instants in Prismata\n[2018-04-15 00:15] masn6811 (Masne98888): well, there's X spells\n[2018-04-15 00:15] .jrkirby (jrkirby): Oh, mtg, not someone elses prismata design\n[2018-04-15 00:15] darkeisbein: So hey I just thought of a Keyword: Flash: you can play this unit during your opponents turn :LongNoseLiar:\n[2018-04-15 00:15] masn6811 (Masne98888): For example, one 4/4 angel with flying costs 2WWW and a card, but each one after that only costs 2\n[2018-04-15 00:16] masn6811 (Masne98888): well, the first angel only costs 1WW and a card, and the ones after that only cost 1 each, but sensei's divining top got banned\n[2018-04-15 00:16] darkeisbein: disable confirmphase to not allow opponent to flash 😄\n[2018-04-15 00:17] masn6811 (Masne98888): it's kind of an unfair comparison, because in mtg, each extra mana is worth so much more than the last\n[2018-04-15 00:18] masn6811 (Masne98888): if 2 mana is small, and 4 mana is medium, then 8:4 should have a WAY bigger difference than 4:2. 16:8 and 32:16 have a way smaller difference, mainly because you're at the point where you won't be paying the mana cost anyways\n[2018-04-15 00:18] masn6811 (Masne98888): and besides, an 8 drop often wins you the game\n[2018-04-15 00:18] masn6811 (Masne98888): on the spot, even. before your opponent's next turn\n[2018-04-15 00:19] darkeisbein: more like 8 drops don't get played because they don't actually win you the game :^)\n[2018-04-15 00:19] masn6811 (Masne98888): (though this is more true in older formats. an 8 drop that's used in standard is ...sandwurm convergence? garbage card)\n[2018-04-15 00:20] masn6811 (Masne98888): while in prismata, if odin is more efficient than omega, of course a 25BBB would be even more efficient\n[2018-04-15 00:20] masn6811 (Masne98888): like in mtg, a 30BBBB version of odin might could with 20 splitters\n[2018-04-15 00:21] masn6811 (Masne98888): just because it's ridiculously hard to get to the point where you can even cast it\n[2018-04-15 00:21] darkeisbein: in magic you also have kill everything buttons\n[2018-04-15 00:21] masn6811 (Masne98888): and there's also thoughtseize and counterspell to stop you even if you do\n[2018-04-15 00:21] darkeisbein: basically having great stats only matters if you are cheap\n[2018-04-15 00:21] darkeisbein: or have really good anti removal\n[2018-04-15 00:22] masn6811 (Masne98888): which is why so many of the best cards have etb effects\n[2018-04-15 00:22] f300xen (f0x): each mana in mtg doubles the card's cost\n[2018-04-15 00:22] darkeisbein: yeah removal means that anything 3 mana+ must be  a sorcery with a body attached\n[2018-04-15 00:22] mrguy888: Umm this isn't a mtg chat\n[2018-04-15 00:22] masn6811 (Masne98888): it's a game design chat\n[2018-04-15 00:23] masn6811 (Masne98888): we are talking about how the game design of mata contrasts with that of MtG\n[2018-04-15 00:23] mrguy888: prismata game design chat\n[2018-04-15 00:23] darkeisbein: uh here is a keyword suggestion: flying - can only be blocked by units with flying\n[2018-04-15 00:23] f300xen (f0x): pls print flying units to counter apollo\n[2018-04-15 00:23] darkeisbein: we're on topic again\n[2018-04-15 00:23] masn6811 (Masne98888): replicate is a great inspiration for a prismata ideas, but you have to understand the differences of the games to properly evaluate the strengths of the keywords\n[2018-04-15 00:24] masn6811 (Masne98888): @darkeisbein wait, that actually works as a keyword\n[2018-04-15 00:24] masn6811 (Masne98888): you literally get two damage phases in that case, flying damage phase, then non-flying damage phase\n[2018-04-15 00:25] masn6811 (Masne98888): how do you order it so you cover the case where flyers breach but ground units dont, and also ground units breach, but fliers dont?\n[2018-04-15 00:26] masn6811 (Masne98888): really, it would be technically \"flying units create a 7th resource: flying attack (the 6 current resources are gold, GBREX) flying attack works like normal attack, but only blockers with flying are considered blockers for this purpose\"",
+      "messages": [
+        {
+          "id": "434853119424462863",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-04-15T00:11:02.851+01:00",
+          "content": "it only wins due to finite supplies"
+        },
+        {
+          "id": "434853351109296129",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:11:58.089+01:00",
+          "content": "but it would also win if your opponent went breachproof, you killed all their drones, then snuck this out"
+        },
+        {
+          "id": "434853407120031754",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:12:11.443+01:00",
+          "content": "or they kileld all their drones for you, eg. a venge all in"
+        },
+        {
+          "id": "434853553098719233",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:12:46.247+01:00",
+          "content": "that's why if you want to make really big buildtime bombs, you should have them have buildtime of 1 less than they should, and have them sac themselves at the start of your turn to make gauss charges"
+        },
+        {
+          "id": "434853587911442434",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:12:54.547+01:00",
+          "content": "so they can be killed better when being breached"
+        },
+        {
+          "id": "434853644555517963",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:13:08.052+01:00",
+          "content": "alternatively, just make them have 1 hp during buildtime but do more than 1 damage"
+        },
+        {
+          "id": "434853704504442890",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:13:22.345+01:00",
+          "content": "the longer the buildtime discrpancy, the more lopsided the ratio should be"
+        },
+        {
+          "id": "434853748481982464",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:13:32.83+01:00",
+          "content": "but prismata isn't quite into that design territory yet 🤔"
+        },
+        {
+          "id": "434853789598613510",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-04-15T00:13:42.633+01:00",
+          "content": "A couple weeks too late, I came up with a good idea for the keyword contest :(\n\nMass Production *alternate cost*: After purchasing this unit, additional copies can be purchased this turn for the Mass Production cost."
+        },
+        {
+          "id": "434853845798092800",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:13:56.032+01:00",
+          "content": "isn't that just replicate?"
+        },
+        {
+          "id": "434853897706799104",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-04-15T00:14:08.408+01:00",
+          "content": "Oh, did someone else do that?"
+        },
+        {
+          "id": "434853911220846593",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:14:11.63+01:00",
+          "content": "kinda, except it doesn't extend supply"
+        },
+        {
+          "id": "434853921564000278",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:14:14.096+01:00",
+          "content": "except without the card advantage"
+        },
+        {
+          "id": "434853925234016259",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:14:14.971+01:00",
+          "content": "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=97233\nShattering Spree (Guildpact) - Gatherer - Magic: The Gathering\nGatherer is the Magic Card Database. Search for the perfect addition to your deck. Browse through cards from Magic's entire history. See cards from the most recent sets and discover what players just like you are saying about them."
+        },
+        {
+          "id": "434853999288647690",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:14:32.627+01:00",
+          "content": "also replicate is only for sorceries and instants"
+        },
+        {
+          "id": "434854028279545868",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:14:39.539+01:00",
+          "content": "and we don't have instants in Prismata"
+        },
+        {
+          "id": "434854125281214468",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:15:02.666+01:00",
+          "content": "well, there's X spells"
+        },
+        {
+          "id": "434854133267300388",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-04-15T00:15:04.57+01:00",
+          "content": "Oh, mtg, not someone elses prismata design"
+        },
+        {
+          "id": "434854167308402689",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:15:12.686+01:00",
+          "content": "So hey I just thought of a Keyword: Flash: you can play this unit during your opponents turn :LongNoseLiar:"
+        },
+        {
+          "id": "434854282945232906",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:15:40.256+01:00",
+          "content": "For example, one 4/4 angel with flying costs 2WWW and a card, but each one after that only costs 2"
+        },
+        {
+          "id": "434854477925842944",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:16:26.743+01:00",
+          "content": "well, the first angel only costs 1WW and a card, and the ones after that only cost 1 each, but sensei's divining top got banned"
+        },
+        {
+          "id": "434854527179423744",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:16:38.486+01:00",
+          "content": "disable confirmphase to not allow opponent to flash 😄"
+        },
+        {
+          "id": "434854656150339585",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:17:09.235+01:00",
+          "content": "it's kind of an unfair comparison, because in mtg, each extra mana is worth so much more than the last"
+        },
+        {
+          "id": "434854910413111298",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:18:09.856+01:00",
+          "content": "if 2 mana is small, and 4 mana is medium, then 8:4 should have a WAY bigger difference than 4:2. 16:8 and 32:16 have a way smaller difference, mainly because you're at the point where you won't be paying the mana cost anyways"
+        },
+        {
+          "id": "434855031486021633",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:18:38.722+01:00",
+          "content": "and besides, an 8 drop often wins you the game"
+        },
+        {
+          "id": "434855086238334976",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:18:51.776+01:00",
+          "content": "on the spot, even. before your opponent's next turn"
+        },
+        {
+          "id": "434855121491460106",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:19:00.181+01:00",
+          "content": "more like 8 drops don't get played because they don't actually win you the game :^)"
+        },
+        {
+          "id": "434855295630573568",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:19:41.699+01:00",
+          "content": "(though this is more true in older formats. an 8 drop that's used in standard is ...sandwurm convergence? garbage card)"
+        },
+        {
+          "id": "434855415537467393",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:20:10.287+01:00",
+          "content": "while in prismata, if odin is more efficient than omega, of course a 25BBB would be even more efficient"
+        },
+        {
+          "id": "434855576300945410",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:20:48.616+01:00",
+          "content": "like in mtg, a 30BBBB version of odin might could with 20 splitters"
+        },
+        {
+          "id": "434855636224966657",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:21:02.903+01:00",
+          "content": "just because it's ridiculously hard to get to the point where you can even cast it"
+        },
+        {
+          "id": "434855658400120882",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:21:08.19+01:00",
+          "content": "in magic you also have kill everything buttons"
+        },
+        {
+          "id": "434855690192945162",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:21:15.77+01:00",
+          "content": "and there's also thoughtseize and counterspell to stop you even if you do"
+        },
+        {
+          "id": "434855776843071498",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:21:36.429+01:00",
+          "content": "basically having great stats only matters if you are cheap"
+        },
+        {
+          "id": "434855841032568852",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:21:51.733+01:00",
+          "content": "or have really good anti removal"
+        },
+        {
+          "id": "434855876931616769",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:22:00.292+01:00",
+          "content": "which is why so many of the best cards have etb effects"
+        },
+        {
+          "id": "434855919411789824",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T00:22:10.42+01:00",
+          "content": "each mana in mtg doubles the card's cost"
+        },
+        {
+          "id": "434855933265444865",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:22:13.723+01:00",
+          "content": "yeah removal means that anything 3 mana+ must be  a sorcery with a body attached"
+        },
+        {
+          "id": "434856016946135040",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-15T00:22:33.674+01:00",
+          "content": "Umm this isn't a mtg chat"
+        },
+        {
+          "id": "434856124794011649",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:22:59.387+01:00",
+          "content": "it's a game design chat"
+        },
+        {
+          "id": "434856182235004928",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:23:13.082+01:00",
+          "content": "we are talking about how the game design of mata contrasts with that of MtG"
+        },
+        {
+          "id": "434856185976455168",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-15T00:23:13.974+01:00",
+          "content": "prismata game design chat"
+        },
+        {
+          "id": "434856240187965440",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:23:26.899+01:00",
+          "content": "uh here is a keyword suggestion: flying - can only be blocked by units with flying"
+        },
+        {
+          "id": "434856330722017281",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T00:23:48.484+01:00",
+          "content": "pls print flying units to counter apollo"
+        },
+        {
+          "id": "434856331632050176",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:23:48.701+01:00",
+          "content": "we're on topic again"
+        },
+        {
+          "id": "434856362560847892",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:23:56.075+01:00",
+          "content": "replicate is a great inspiration for a prismata ideas, but you have to understand the differences of the games to properly evaluate the strengths of the keywords"
+        },
+        {
+          "id": "434856435713835029",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:24:13.516+01:00",
+          "content": "@darkeisbein wait, that actually works as a keyword"
+        },
+        {
+          "id": "434856578643132417",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:24:47.593+01:00",
+          "content": "you literally get two damage phases in that case, flying damage phase, then non-flying damage phase"
+        },
+        {
+          "id": "434856724076429314",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:25:22.267+01:00",
+          "content": "how do you order it so you cover the case where flyers breach but ground units dont, and also ground units breach, but fliers dont?"
+        },
+        {
+          "id": "434856967459307540",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:26:20.294+01:00",
+          "content": "really, it would be technically \"flying units create a 7th resource: flying attack (the 6 current resources are gold, GBREX) flying attack works like normal attack, but only blockers with flying are considered blockers for this purpose\""
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-15T00:27:04.969+01:00",
+      "end_ts": "2018-04-15T00:45:08.223+01:00",
+      "participants": [
+        "darkeisbein",
+        "f300xen",
+        "masn6811",
+        "strshplyr5046"
+      ],
+      "replay_codes": [
+        "click-order"
+      ],
+      "score": 129,
+      "formatted_text": "--- Thread (50 messages, 2018-04-15) ---\n[2018-04-15 00:27] masn6811 (Masne98888): okay, i have an idea for a keyword: tramp- oh wait. okay, i have an idea for a keyword: non-trampling\n[2018-04-15 00:27] masn6811 (Masne98888): it's like your opponent has banding in a way\n[2018-04-15 00:27] masn6811 (Masne98888): all :Attack: dealt by a non-trampling unit must be assigned to the same unit\n[2018-04-15 00:28] masn6811 (Masne98888): that means, your opponent can also use it to overkill one of their units when defending\n[2018-04-15 00:28] darkeisbein: sadly non-trampling breaks SDR, since it makes blocker sometimes a bad keyword :/\n[2018-04-15 00:28] darkeisbein: I actually kinda like it\n[2018-04-15 00:28] masn6811 (Masne98888): while if you use it while breaching, you might be forced to overkill\n[2018-04-15 00:28] masn6811 (Masne98888): can i have an example where it breaks SDR?\n[2018-04-15 00:28] darkeisbein: oh w8 I thought non-trampling means can't breach 😄\n[2018-04-15 00:28] f300xen (f0x): can't you just use sniping for basically the same effect\n[2018-04-15 00:29] masn6811 (Masne98888): you breach if and only if your opponent has no way to assign the damage without losing defenses, in which case you assign damage at will\n[2018-04-15 00:29] masn6811 (Masne98888): @f0x can't. because it's a drawback mechanic, and your opponent can take advantage of it\n[2018-04-15 00:30] masn6811 (Masne98888): so to put non-trampling in perspective, splitter gives [1]. omega splitter gives [1][1][1]. a non-trampling omega splitter would give [3]\n[2018-04-15 00:30] masn6811 (Masne98888): so if you attack with omega against a stack of walls, he chooses a wall to defend on, and [1]s get assigned to it until they run out or it dies\n[2018-04-15 00:31] darkeisbein: seems to get countered by buying an engineer a turn :/\n[2018-04-15 00:31] masn6811 (Masne98888): well, here's where ordering is important\n[2018-04-15 00:31] masn6811 (Masne98888): say you have an non-trampling omega splitter and 2 normal splitters\n[2018-04-15 00:32] masn6811 (Masne98888): your opponent has a wall and 2 engineers\n[2018-04-15 00:32] masn6811 (Masne98888): if you order them [1][1][3], he can lose the wall for it\n[2018-04-15 00:32] strshplyr5046 (StrShPlyr): Single sounds better.\n[2018-04-15 00:32] masn6811 (Masne98888): while if you order them [3][1][1], he can sac an engi, then soak 2 on the wall\n[2018-04-15 00:33] masn6811 (Masne98888): (of course [1][1][1] is strictly better than [3], that's the point)\n[2018-04-15 00:33] masn6811 (Masne98888): while [3] is strictly better than [1]\n[2018-04-15 00:33] masn6811 (Masne98888): so the interation with auride. should auride eat 1 off the chunk, or the whole chunk?\n[2018-04-15 00:35] f300xen (f0x): this is why i think it should just be a sniping variant ability, but that's just my opinion\n[2018-04-15 00:35] f300xen (f0x): it's slightly different, but not enough to justify all these weird interactions\n[2018-04-15 00:36] masn6811 (Masne98888): really complex, yeah\n[2018-04-15 00:36] masn6811 (Masne98888): but trying to just show it could be done\n[2018-04-15 00:37] masn6811 (Masne98888): i guess the most consistent breaching behavior is you get whatever chunks remain of your ordering to assign as you choose after your opponent soaks as many chunks as possible with defending\n[2018-04-15 00:37] strshplyr5046 (StrShPlyr): But how's used in the UI.\n[2018-04-15 00:39] masn6811 (Masne98888): imagine gauss killer, a hypothetical unit that attacks for a single chunk of [5]\n[2018-04-15 00:39] masn6811 (Masne98888): now if you aren't breaching, you can imagine it really just attacking for 1 into an engineer\n[2018-04-15 00:39] strshplyr5046 (StrShPlyr): Spread the 1s, 2s, etc...\n[2018-04-15 00:39] masn6811 (Masne98888): however, if you are clever, you can end your attack on it\n[2018-04-15 00:39] masn6811 (Masne98888): which makes it really ahrd to absorb\n[2018-04-15 00:40] masn6811 (Masne98888): what they might want to do is absorb 2 on the wall, then let the gauss killer kill it\n[2018-04-15 00:40] masn6811 (Masne98888): however, if you end your attack on two chunks of [5], that's not an option\n[2018-04-15 00:41] masn6811 (Masne98888): however, fi you do that, they can do the wall trick on the previous chunk of [5], then lose the last [5] to an engi, for the same result\n[2018-04-15 00:41] masn6811 (Masne98888): if you want to stop yourself from getting cheesed by engis, what you shuld instead do is alternate, going [1] [5] [1] [5]...\n[2018-04-15 00:42] masn6811 (Masne98888): that way, they have to choose between only absorbing 1 on the walls, or saccing two engis to a [1] and a [5]\n[2018-04-15 00:42] masn6811 (Masne98888): and of course you can reorder your attack, just clustering them all together if they only have a stack of walls\n[2018-04-15 00:42] masn6811 (Masne98888): finally, by ending on a [5], it makes it really hard for them to get defense grid absorb\n[2018-04-15 00:42] strshplyr5046 (StrShPlyr): Say TTGaukSS vs EEEER, assign or breach.\n[2018-04-15 00:43] masn6811 (Masne98888): they would normally try to soak the 5 on an engi, then absorb what's after on the grid, but that doesn't work if you end on a [5]\n[2018-04-15 00:43] masn6811 (Masne98888): and of course they can take 6 on the grid and soak it there, but they ose the grid\n[2018-04-15 00:44] strshplyr5046 (StrShPlyr): So, it's click-order dependant?\n[2018-04-15 00:44] masn6811 (Masne98888): if you order it 11511 in that example, they can order their defense REEE, and keep an E\n[2018-04-15 00:44] masn6811 (Masne98888): you only breach if they have no way to defend\n[2018-04-15 00:44] masn6811 (Masne98888): and yes, it's click order dpeendant\n[2018-04-15 00:45] masn6811 (Masne98888): it also requires the prismata client to solve an NP-complete problem",
+      "messages": [
+        {
+          "id": "434857154839707648",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:27:04.969+01:00",
+          "content": "okay, i have an idea for a keyword: tramp- oh wait. okay, i have an idea for a keyword: non-trampling"
+        },
+        {
+          "id": "434857243939307520",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:27:26.212+01:00",
+          "content": "it's like your opponent has banding in a way"
+        },
+        {
+          "id": "434857347328901121",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:27:50.862+01:00",
+          "content": "all :Attack: dealt by a non-trampling unit must be assigned to the same unit"
+        },
+        {
+          "id": "434857410302181376",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:28:05.876+01:00",
+          "content": "that means, your opponent can also use it to overkill one of their units when defending"
+        },
+        {
+          "id": "434857425355669525",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:28:09.465+01:00",
+          "content": "sadly non-trampling breaks SDR, since it makes blocker sometimes a bad keyword :/"
+        },
+        {
+          "id": "434857493441675265",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:28:25.698+01:00",
+          "content": "I actually kinda like it"
+        },
+        {
+          "id": "434857506716647435",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:28:28.863+01:00",
+          "content": "while if you use it while breaching, you might be forced to overkill"
+        },
+        {
+          "id": "434857555110526986",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:28:40.401+01:00",
+          "content": "can i have an example where it breaks SDR?"
+        },
+        {
+          "id": "434857598727225354",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:28:50.8+01:00",
+          "content": "oh w8 I thought non-trampling means can't breach 😄"
+        },
+        {
+          "id": "434857609162391552",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T00:28:53.288+01:00",
+          "content": "can't you just use sniping for basically the same effect"
+        },
+        {
+          "id": "434857751307485196",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:29:27.178+01:00",
+          "content": "you breach if and only if your opponent has no way to assign the damage without losing defenses, in which case you assign damage at will"
+        },
+        {
+          "id": "434857820618358786",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:29:43.703+01:00",
+          "content": "@f0x can't. because it's a drawback mechanic, and your opponent can take advantage of it"
+        },
+        {
+          "id": "434857993310568468",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:30:24.876+01:00",
+          "content": "so to put non-trampling in perspective, splitter gives [1]. omega splitter gives [1][1][1]. a non-trampling omega splitter would give [3]"
+        },
+        {
+          "id": "434858128505307137",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:30:57.109+01:00",
+          "content": "so if you attack with omega against a stack of walls, he chooses a wall to defend on, and [1]s get assigned to it until they run out or it dies"
+        },
+        {
+          "id": "434858177864007681",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-15T00:31:08.877+01:00",
+          "content": "seems to get countered by buying an engineer a turn :/"
+        },
+        {
+          "id": "434858237880303656",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:31:23.186+01:00",
+          "content": "well, here's where ordering is important"
+        },
+        {
+          "id": "434858353227857950",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:31:50.687+01:00",
+          "content": "say you have an non-trampling omega splitter and 2 normal splitters"
+        },
+        {
+          "id": "434858403840393216",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:32:02.754+01:00",
+          "content": "your opponent has a wall and 2 engineers"
+        },
+        {
+          "id": "434858509994164227",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:32:28.063+01:00",
+          "content": "if you order them [1][1][3], he can lose the wall for it"
+        },
+        {
+          "id": "434858559826821132",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:32:39.944+01:00",
+          "content": "Single sounds better."
+        },
+        {
+          "id": "434858572443156482",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:32:42.952+01:00",
+          "content": "while if you order them [3][1][1], he can sac an engi, then soak 2 on the wall"
+        },
+        {
+          "id": "434858706006573056",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:33:14.796+01:00",
+          "content": "(of course [1][1][1] is strictly better than [3], that's the point)"
+        },
+        {
+          "id": "434858768212426752",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:33:29.627+01:00",
+          "content": "while [3] is strictly better than [1]"
+        },
+        {
+          "id": "434858875620163584",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:33:55.235+01:00",
+          "content": "so the interation with auride. should auride eat 1 off the chunk, or the whole chunk?"
+        },
+        {
+          "id": "434859186698977302",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T00:35:09.402+01:00",
+          "content": "this is why i think it should just be a sniping variant ability, but that's just my opinion"
+        },
+        {
+          "id": "434859262595039232",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T00:35:27.497+01:00",
+          "content": "it's slightly different, but not enough to justify all these weird interactions"
+        },
+        {
+          "id": "434859399069302785",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:36:00.035+01:00",
+          "content": "really complex, yeah"
+        },
+        {
+          "id": "434859470464483328",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:36:17.057+01:00",
+          "content": "but trying to just show it could be done"
+        },
+        {
+          "id": "434859681165344768",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:37:07.292+01:00",
+          "content": "i guess the most consistent breaching behavior is you get whatever chunks remain of your ordering to assign as you choose after your opponent soaks as many chunks as possible with defending"
+        },
+        {
+          "id": "434859797511143424",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:37:35.031+01:00",
+          "content": "But how's used in the UI."
+        },
+        {
+          "id": "434860208443883520",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:39:13.005+01:00",
+          "content": "imagine gauss killer, a hypothetical unit that attacks for a single chunk of [5]"
+        },
+        {
+          "id": "434860271341666307",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:39:28.001+01:00",
+          "content": "now if you aren't breaching, you can imagine it really just attacking for 1 into an engineer"
+        },
+        {
+          "id": "434860303633612800",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:39:35.7+01:00",
+          "content": "Spread the 1s, 2s, etc..."
+        },
+        {
+          "id": "434860307798556673",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:39:36.693+01:00",
+          "content": "however, if you are clever, you can end your attack on it"
+        },
+        {
+          "id": "434860353847951375",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:39:47.672+01:00",
+          "content": "which makes it really ahrd to absorb"
+        },
+        {
+          "id": "434860551806648322",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:40:34.869+01:00",
+          "content": "what they might want to do is absorb 2 on the wall, then let the gauss killer kill it"
+        },
+        {
+          "id": "434860620261752833",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:40:51.19+01:00",
+          "content": "however, if you end your attack on two chunks of [5], that's not an option"
+        },
+        {
+          "id": "434860719939256320",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:41:14.955+01:00",
+          "content": "however, fi you do that, they can do the wall trick on the previous chunk of [5], then lose the last [5] to an engi, for the same result"
+        },
+        {
+          "id": "434860811303911429",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:41:36.738+01:00",
+          "content": "if you want to stop yourself from getting cheesed by engis, what you shuld instead do is alternate, going [1] [5] [1] [5]..."
+        },
+        {
+          "id": "434860964563779595",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:42:13.278+01:00",
+          "content": "that way, they have to choose between only absorbing 1 on the walls, or saccing two engis to a [1] and a [5]"
+        },
+        {
+          "id": "434861045824356352",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:42:32.652+01:00",
+          "content": "and of course you can reorder your attack, just clustering them all together if they only have a stack of walls"
+        },
+        {
+          "id": "434861128711929877",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:42:52.414+01:00",
+          "content": "finally, by ending on a [5], it makes it really hard for them to get defense grid absorb"
+        },
+        {
+          "id": "434861130138255362",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:42:52.754+01:00",
+          "content": "Say TTGaukSS vs EEEER, assign or breach."
+        },
+        {
+          "id": "434861337177358336",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:43:42.116+01:00",
+          "content": "they would normally try to soak the 5 on an engi, then absorb what's after on the grid, but that doesn't work if you end on a [5]"
+        },
+        {
+          "id": "434861400054169611",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:43:57.107+01:00",
+          "content": "and of course they can take 6 on the grid and soak it there, but they ose the grid"
+        },
+        {
+          "id": "434861508699357184",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:44:23.01+01:00",
+          "content": "So, it's click-order dependant?"
+        },
+        {
+          "id": "434861552546611201",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:44:33.464+01:00",
+          "content": "if you order it 11511 in that example, they can order their defense REEE, and keep an E"
+        },
+        {
+          "id": "434861609463185408",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:44:47.034+01:00",
+          "content": "you only breach if they have no way to defend"
+        },
+        {
+          "id": "434861635480322048",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:44:53.237+01:00",
+          "content": "and yes, it's click order dpeendant"
+        },
+        {
+          "id": "434861698336161794",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:45:08.223+01:00",
+          "content": "it also requires the prismata client to solve an NP-complete problem"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-15T00:45:19.657+01:00",
+      "end_ts": "2018-04-15T00:55:45.768+01:00",
+      "participants": [
+        "masn6811",
+        "strshplyr5046"
+      ],
+      "replay_codes": [],
+      "score": 66,
+      "formatted_text": "--- Thread (26 messages, 2018-04-15) ---\n[2018-04-15 00:45] masn6811 (Masne98888): so not going to happen in the game.\n[2018-04-15 00:45] masn6811 (Masne98888): but fun thought exercise\n[2018-04-15 00:45] strshplyr5046 (StrShPlyr): And it would be EEEER.\n[2018-04-15 00:45] masn6811 (Masne98888): defenses are never ordered\n[2018-04-15 00:45] masn6811 (Masne98888): they order their defenses as they choose\n[2018-04-15 00:46] masn6811 (Masne98888): you have to give them what order you are attacking in\n[2018-04-15 00:46] masn6811 (Masne98888): but they don't have to order their defenses until you atually attack\n[2018-04-15 00:46] masn6811 (Masne98888): just like in the normal prismata game, where they don't have to tell you what order they defend in until you decide how much to attack for\n[2018-04-15 00:46] strshplyr5046 (StrShPlyr): what if 2 SoT chunk attackers.\n[2018-04-15 00:46] masn6811 (Masne98888): other wie there'd be sick spltiter exploit :Lul:\n[2018-04-15 00:47] masn6811 (Masne98888): the one you click first\n[2018-04-15 00:47] masn6811 (Masne98888): your attack is ordered\n[2018-04-15 00:48] masn6811 (Masne98888): don't make SoT chunk attackers 😃\n[2018-04-15 00:48] strshplyr5046 (StrShPlyr): and you don't want to click them.\n[2018-04-15 00:48] masn6811 (Masne98888): \"what if there's a start of turn apollo?\" 🤔\n[2018-04-15 00:49] masn6811 (Masne98888): \"what if there's a start of turn apollo and an A.R. groans? what happens first?\"\n[2018-04-15 00:49] strshplyr5046 (StrShPlyr): The best solution is...\n[2018-04-15 00:49] masn6811 (Masne98888): though if you want to make it more user friendly, you can just let people reorder their attack orders, and you wouldn't have that problem\n[2018-04-15 00:50] masn6811 (Masne98888): but there's still UI limiations for that\n[2018-04-15 00:50] masn6811 (Masne98888): which is why lunarch studios has never made a start of turn apollo or iceblade\n[2018-04-15 00:50] masn6811 (Masne98888): RNG? in my :Prismata: ? :OMEGALUL:\n[2018-04-15 00:51] strshplyr5046 (StrShPlyr): but that's not the best for this issue.\n[2018-04-15 00:54] masn6811 (Masne98888): there's some cool design space for this mechanic though\n[2018-04-15 00:54] masn6811 (Masne98888): imagine an alpha splitter that attacks for [2][2][2]\n[2018-04-15 00:55] masn6811 (Masne98888): or a rainbow lance gauss charge variant that attacks for [1][2][3][4]\n[2018-04-15 00:55] strshplyr5046 (StrShPlyr): Husk becomes OP vs this.",
+      "messages": [
+        {
+          "id": "434861746293833728",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:45:19.657+01:00",
+          "content": "so not going to happen in the game."
+        },
+        {
+          "id": "434861763503063050",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:45:23.76+01:00",
+          "content": "but fun thought exercise"
+        },
+        {
+          "id": "434861790652923915",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:45:30.233+01:00",
+          "content": "And it would be EEEER."
+        },
+        {
+          "id": "434861837306298368",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:45:41.356+01:00",
+          "content": "defenses are never ordered"
+        },
+        {
+          "id": "434861865709993985",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:45:48.128+01:00",
+          "content": "they order their defenses as they choose"
+        },
+        {
+          "id": "434861932001099786",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:46:03.933+01:00",
+          "content": "you have to give them what order you are attacking in"
+        },
+        {
+          "id": "434861980776529930",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:46:15.562+01:00",
+          "content": "but they don't have to order their defenses until you atually attack"
+        },
+        {
+          "id": "434862080923795467",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:46:39.439+01:00",
+          "content": "just like in the normal prismata game, where they don't have to tell you what order they defend in until you decide how much to attack for"
+        },
+        {
+          "id": "434862117896585227",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:46:48.254+01:00",
+          "content": "what if 2 SoT chunk attackers."
+        },
+        {
+          "id": "434862124725043231",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:46:49.882+01:00",
+          "content": "other wie there'd be sick spltiter exploit :Lul:"
+        },
+        {
+          "id": "434862277473075207",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:47:26.3+01:00",
+          "content": "the one you click first"
+        },
+        {
+          "id": "434862292929347585",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:47:29.985+01:00",
+          "content": "your attack is ordered"
+        },
+        {
+          "id": "434862461502488577",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:48:10.176+01:00",
+          "content": "don't make SoT chunk attackers 😃"
+        },
+        {
+          "id": "434862514237603840",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:48:22.749+01:00",
+          "content": "and you don't want to click them."
+        },
+        {
+          "id": "434862547275874305",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:48:30.626+01:00",
+          "content": "\"what if there's a start of turn apollo?\" 🤔"
+        },
+        {
+          "id": "434862709905817600",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:49:09.4+01:00",
+          "content": "\"what if there's a start of turn apollo and an A.R. groans? what happens first?\""
+        },
+        {
+          "id": "434862884452040734",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:49:51.015+01:00",
+          "content": "The best solution is..."
+        },
+        {
+          "id": "434862903544250380",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:49:55.567+01:00",
+          "content": "though if you want to make it more user friendly, you can just let people reorder their attack orders, and you wouldn't have that problem"
+        },
+        {
+          "id": "434862930975129600",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:50:02.107+01:00",
+          "content": "but there's still UI limiations for that"
+        },
+        {
+          "id": "434862994992660480",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:50:17.37+01:00",
+          "content": "which is why lunarch studios has never made a start of turn apollo or iceblade"
+        },
+        {
+          "id": "434863050173054976",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:50:30.526+01:00",
+          "content": "RNG? in my :Prismata: ? :OMEGALUL:"
+        },
+        {
+          "id": "434863377932615681",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:51:48.67+01:00",
+          "content": "but that's not the best for this issue."
+        },
+        {
+          "id": "434864068830953482",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:54:33.393+01:00",
+          "content": "there's some cool design space for this mechanic though"
+        },
+        {
+          "id": "434864115438190592",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:54:44.505+01:00",
+          "content": "imagine an alpha splitter that attacks for [2][2][2]"
+        },
+        {
+          "id": "434864195381493762",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-15T00:55:03.565+01:00",
+          "content": "or a rainbow lance gauss charge variant that attacks for [1][2][3][4]"
+        },
+        {
+          "id": "434864372393705485",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T00:55:45.768+01:00",
+          "content": "Husk becomes OP vs this."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-15T02:03:29.675+01:00",
+      "end_ts": "2018-04-15T02:21:55.156+01:00",
+      "participants": [
+        ".jrkirby",
+        "f300xen",
+        "mqp",
+        "strshplyr5046",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (11 messages, 2018-04-15) ---\n[2018-04-15 02:03] mqp: Chieftain should have 7:Fragile:.\n[2018-04-15 02:03] strshplyr5046 (StrShPlyr): Gatsu Nullifier (1.6): (1). 15:Gold: 3:Green: :Blue:. :Fragile:6. :Blocker:.\nTurn: Get 2:Attack:, heal 1:Fragile:.\nClick: Build a :Prompt: Plexo Cell, a Gauss Charge, get :Exhaust:2.\n[2018-04-15 02:12] .jrkirby (jrkirby): Chieftain should have 5 :Health:\n[2018-04-15 02:12] .jrkirby (jrkirby): And cost 9 :Blue: :Blue:\n[2018-04-15 02:15] f300xen (f0x): chieftain should have 1:Health: but no lifespan\n[2018-04-15 02:15] f300xen (f0x): and cost 8:Red::Red::Red:\n[2018-04-15 02:16] strshplyr5046 (StrShPlyr): Gatsu Nullifier (1.6) can Vigilant or Soak.\n[2018-04-15 02:17] wilson0862 (Wilson): All three sound like decent units. Why not have all three versions of chieftain?\n[2018-04-15 02:18] strshplyr5046 (StrShPlyr): Design: https://cdn.discordapp.com/attachments/377186995442679818/434154531534667778/Webp.net-gifmaker_1.gif\n[2018-04-15 02:18] wilson0862 (Wilson): Funny that all three were nerfed by one gold to current version.\n[2018-04-15 02:21] wilson0862 (Wilson): Now all three are unplayable. :LongNoseLiar:",
+      "messages": [
+        {
+          "id": "434881417655091212",
+          "author": "mqp",
+          "nickname": "mqp",
+          "timestamp": "2018-04-15T02:03:29.675+01:00",
+          "content": "Chieftain should have 7:Fragile:."
+        },
+        {
+          "id": "434881539910664193",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T02:03:58.823+01:00",
+          "content": "Gatsu Nullifier (1.6): (1). 15:Gold: 3:Green: :Blue:. :Fragile:6. :Blocker:.\nTurn: Get 2:Attack:, heal 1:Fragile:.\nClick: Build a :Prompt: Plexo Cell, a Gauss Charge, get :Exhaust:2."
+        },
+        {
+          "id": "434883605525692441",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-04-15T02:12:11.304+01:00",
+          "content": "Chieftain should have 5 :Health:"
+        },
+        {
+          "id": "434883678414438410",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-04-15T02:12:28.682+01:00",
+          "content": "And cost 9 :Blue: :Blue:"
+        },
+        {
+          "id": "434884393580888094",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T02:15:19.191+01:00",
+          "content": "chieftain should have 1:Health: but no lifespan"
+        },
+        {
+          "id": "434884449206009867",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T02:15:32.453+01:00",
+          "content": "and cost 8:Red::Red::Red:"
+        },
+        {
+          "id": "434884779268243466",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T02:16:51.146+01:00",
+          "content": "Gatsu Nullifier (1.6) can Vigilant or Soak."
+        },
+        {
+          "id": "434884911338618890",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-15T02:17:22.634+01:00",
+          "content": "All three sound like decent units. Why not have all three versions of chieftain?"
+        },
+        {
+          "id": "434885208441880576",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-15T02:18:33.469+01:00",
+          "content": "Design: https://cdn.discordapp.com/attachments/377186995442679818/434154531534667778/Webp.net-gifmaker_1.gif"
+        },
+        {
+          "id": "434885273029967872",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-15T02:18:48.868+01:00",
+          "content": "Funny that all three were nerfed by one gold to current version."
+        },
+        {
+          "id": "434886054378602507",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-04-15T02:21:55.156+01:00",
+          "content": "Now all three are unplayable. :LongNoseLiar:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-15T04:12:38.914+01:00",
+      "end_ts": "2018-04-15T04:22:55.415+01:00",
+      "participants": [
+        "f300xen",
+        "kaelii",
+        "liadahlia"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2018-04-15) ---\n[2018-04-15 04:12] kaelii: Crystal Resonator: ( 3 :Gold: :Conduit: , 4 supply ) 5 :Fragile: \nOn your turn: Gain :Green: :Green: \n:Click: :Gold: :Green: :Green: Consume a :Drone: , Construct 5 Gauss Charges with :Time: 1, 2, 3, 4, 5 (this is probably a trash click ability)\n[2018-04-15 04:22] f300xen (f0x): why not make it construct a fission turret\n[2018-04-15 04:22] liadahlia (Lia): I like that click ability because if you click it every turn it's like you are ramping up damage",
+      "messages": [
+        {
+          "id": "434913920319356928",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-15T04:12:38.914+01:00",
+          "content": "Crystal Resonator: ( 3 :Gold: :Conduit: , 4 supply ) 5 :Fragile: \nOn your turn: Gain :Green: :Green: \n:Click: :Gold: :Green: :Green: Consume a :Drone: , Construct 5 Gauss Charges with :Time: 1, 2, 3, 4, 5 (this is probably a trash click ability)"
+        },
+        {
+          "id": "434916435148406805",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-15T04:22:38.496+01:00",
+          "content": "why not make it construct a fission turret"
+        },
+        {
+          "id": "434916506112098304",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-15T04:22:55.415+01:00",
+          "content": "I like that click ability because if you click it every turn it's like you are ramping up damage"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-15T05:35:08.126+01:00",
+      "end_ts": "2018-04-15T05:57:57.845+01:00",
+      "participants": [
+        ".bky_1556",
+        "http404error",
+        "kaelii"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (11 messages, 2018-04-15) ---\n[2018-04-15 05:35] kaelii: I feel like constructing Goose would be really annoying for breachproof: Converting 1 health drones into 5 health goose cannons seems like a really strong breachproof thing, especially considering this uses conduits and green which don't get 'wasted' the same way blue can be and are cheaper to build.\n[2018-04-15 05:35] http404error: Is that intended as a submission?\n[2018-04-15 05:35] kaelii: Not unless you really like it. 😛\n[2018-04-15 05:39] kaelii: I think it's probably somewhere closer to clusterbolt in use -- you buy a couple conduits early on and later can swap over to resonators around the same time you have your goose cannons/etc stetup to slam charges out of your drones.\n[2018-04-15 05:43] kaelii: There might be some pressure lines where you buy drone+click 2-3 per turn or something.\n[2018-04-15 05:51] .bky_1556 (bky): \"Converting 1 health drones into 5 health goose cannons seems like a really strong breachproof thing\" -> Compare Steelforge; this is essentially a green Steelforge.\n[2018-04-15 05:52] .bky_1556 (bky): Which probably makes it stronger than Steelforge as a click threat, because GG- is cheaper than BB-.\n[2018-04-15 05:53] kaelii: It is: Green also doesn't get wasted at end of turn and goose cannons are stronger breachproof units than steel splitters. Downside is you can't use the cannons as makeshift walls to delay breaches like you might be able to with steelforge.\n[2018-04-15 05:54] .bky_1556 (bky): Steelforge compensates by building absorbers and making BBB units more playable, ofc.\n[2018-04-15 05:56] kaelii: Yeah, this 'just' makes extra conduits a bit cheaper and doesn't enable fairly easy access to 20-30 HP of attackers.\n[2018-04-15 05:57] kaelii: It notably doesn't really help you spend down an excess of green just allows you to sink what it produces.",
+      "messages": [
+        {
+          "id": "434934678819045386",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-15T05:35:08.126+01:00",
+          "content": "I feel like constructing Goose would be really annoying for breachproof: Converting 1 health drones into 5 health goose cannons seems like a really strong breachproof thing, especially considering this uses conduits and green which don't get 'wasted' the same way blue can be and are cheaper to build."
+        },
+        {
+          "id": "434934803150929931",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-15T05:35:37.769+01:00",
+          "content": "Is that intended as a submission?"
+        },
+        {
+          "id": "434934864496558104",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-15T05:35:52.395+01:00",
+          "content": "Not unless you really like it. 😛"
+        },
+        {
+          "id": "434935754641244201",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-15T05:39:24.622+01:00",
+          "content": "I think it's probably somewhere closer to clusterbolt in use -- you buy a couple conduits early on and later can swap over to resonators around the same time you have your goose cannons/etc stetup to slam charges out of your drones."
+        },
+        {
+          "id": "434936693708161024",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-15T05:43:08.513+01:00",
+          "content": "There might be some pressure lines where you buy drone+click 2-3 per turn or something."
+        },
+        {
+          "id": "434938787831873537",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-15T05:51:27.791+01:00",
+          "content": "\"Converting 1 health drones into 5 health goose cannons seems like a really strong breachproof thing\" -> Compare Steelforge; this is essentially a green Steelforge."
+        },
+        {
+          "id": "434939022536736789",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-15T05:52:23.749+01:00",
+          "content": "Which probably makes it stronger than Steelforge as a click threat, because GG- is cheaper than BB-."
+        },
+        {
+          "id": "434939328851083266",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-15T05:53:36.78+01:00",
+          "content": "It is: Green also doesn't get wasted at end of turn and goose cannons are stronger breachproof units than steel splitters. Downside is you can't use the cannons as makeshift walls to delay breaches like you might be able to with steelforge."
+        },
+        {
+          "id": "434939532203524096",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-15T05:54:25.263+01:00",
+          "content": "Steelforge compensates by building absorbers and making BBB units more playable, ofc."
+        },
+        {
+          "id": "434940098568781824",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-15T05:56:40.295+01:00",
+          "content": "Yeah, this 'just' makes extra conduits a bit cheaper and doesn't enable fairly easy access to 20-30 HP of attackers."
+        },
+        {
+          "id": "434940423837057034",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-15T05:57:57.845+01:00",
+          "content": "It notably doesn't really help you spend down an excess of green just allows you to sink what it produces."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-15T06:42:45.558+01:00",
+      "end_ts": "2018-04-15T06:45:40.762+01:00",
+      "participants": [
+        ".bky_1556",
+        ".jrkirby",
+        "http404error"
+      ],
+      "replay_codes": [
+        "nding-again"
+      ],
+      "score": 17,
+      "formatted_text": "--- Thread (6 messages, 2018-04-15) ---\n[2018-04-15 06:42] http404error: New challenge is up: https://www.reddit.com/r/Prismata/comments/8cday3/unit_design_challenge_8_tbh_edition/\nCongrats to /u/Chronophilia!\nThe new challenge is: **Design a unit that encourages players to gambit.** In Prismata, a gambit typically takes the form of intentionally allowing the opponent to exploit or breach you in order to gain an advantage. Frostbite is an example of a unit that frequently causes gambit positions, as described in this article: http://blog.prismata.net/2015/07/14/defending-against-frostbites-in-prismata/.\n[2018-04-15 06:44] http404error: Also I don't know if Chronophilia is on Discord... if so, someone let me know their Discord username so I can give proper tag credit\n[2018-04-15 06:44] .jrkirby (jrkirby): :Conduit: :Blastforge: :Animus: TBH\n[2018-04-15 06:44] .bky_1556 (bky): Waitasec, didn't I just do that?\n[2018-04-15 06:45] .bky_1556 (bky): Oh, different type of gambit.\n[2018-04-15 06:45] .bky_1556 (bky): \"Sac wall, tank on exploding barrier\" isn't what you have in mind.",
+      "messages": [
+        {
+          "id": "434951696922181632",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-15T06:42:45.558+01:00",
+          "content": "New challenge is up: https://www.reddit.com/r/Prismata/comments/8cday3/unit_design_challenge_8_tbh_edition/\nCongrats to /u/Chronophilia!\nThe new challenge is: **Design a unit that encourages players to gambit.** In Prismata, a gambit typically takes the form of intentionally allowing the opponent to exploit or breach you in order to gain an advantage. Frostbite is an example of a unit that frequently causes gambit positions, as described in this article: http://blog.prismata.net/2015/07/14/defending-against-frostbites-in-prismata/."
+        },
+        {
+          "id": "434952047876374528",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-15T06:44:09.232+01:00",
+          "content": "Also I don't know if Chronophilia is on Discord... if so, someone let me know their Discord username so I can give proper tag credit"
+        },
+        {
+          "id": "434952069632491550",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-04-15T06:44:14.419+01:00",
+          "content": ":Conduit: :Blastforge: :Animus: TBH"
+        },
+        {
+          "id": "434952233419931658",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-15T06:44:53.469+01:00",
+          "content": "Waitasec, didn't I just do that?"
+        },
+        {
+          "id": "434952300075679744",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-15T06:45:09.361+01:00",
+          "content": "Oh, different type of gambit."
+        },
+        {
+          "id": "434952431781281792",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-15T06:45:40.762+01:00",
+          "content": "\"Sac wall, tank on exploding barrier\" isn't what you have in mind."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-15T07:08:19.493+01:00",
+      "end_ts": "2018-04-15T07:12:24.452+01:00",
+      "participants": [
+        ".jrkirby",
+        "http404error"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-04-15) ---\n[2018-04-15 07:08] http404error: You're free to submit an old design though if you think it would fit, just for reference\n[2018-04-15 07:12] .jrkirby (jrkirby): I never put fearsome drone in a contest, I think it'd work well for this one, and I already did the art",
+      "messages": [
+        {
+          "id": "434958130712150027",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-15T07:08:19.493+01:00",
+          "content": "You're free to submit an old design though if you think it would fit, just for reference"
+        },
+        {
+          "id": "434959158144663552",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-04-15T07:12:24.452+01:00",
+          "content": "I never put fearsome drone in a contest, I think it'd work well for this one, and I already did the art"
+        }
+      ]
+    }
+  ]
+}

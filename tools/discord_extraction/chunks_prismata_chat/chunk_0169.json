@@ -1,0 +1,2727 @@
+{
+  "channel": "prismata_chat",
+  "date_range": "2024-11-29 to 2024-11-30",
+  "thread_count": 21,
+  "token_count": 14926,
+  "threads": [
+    {
+      "start_ts": "2024-11-29T00:29:50.798+00:00",
+      "end_ts": "2024-11-29T00:45:44.611+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 64,
+      "formatted_text": "--- Thread (50 messages, 2024-11-29) ---\n[2024-11-29 00:29] silentslayers: Ok but you get the defense + the attack\n[2024-11-29 00:30] silentslayers: you dont get the defense value for a long time but yeah :P\n[2024-11-29 00:30] .holyfire (Holy-Fire): Wall is in theory 2.222 BV, but since it doesn't have granularity it's probably more accurate to treat the average BV cost as 2.3\n[2024-11-29 00:30] lezaleas: The defense is 2.2g right now but you wont use it right now\n[2024-11-29 00:30] lezaleas: Each turn it gets multiplied by 3/4 until you use it\n[2024-11-29 00:30] lezaleas: So by the time you use the defense it's mostly all gone\n[2024-11-29 00:31] .holyfire (Holy-Fire): Of course, actual barrier is 2.333, and it doesn't have granularity either\n[2024-11-29 00:31] silentslayers: that's why antima is really good when your antima is so threatening that they can't do anything while you build it except prepare for the incoming damage.\n[2024-11-29 00:31] silentslayers: Then your engineers are worth a lot more, since they (the opponent) didn't grow during this period\n[2024-11-29 00:32] .holyfire (Holy-Fire): A conduit costs about 1.333 drones, so a green can be considered to be worth 1.333 gold. So an actual barrier costs 2.333.\n[2024-11-29 00:33] lezaleas: But id rather compare tarsiers to walls\n[2024-11-29 00:33] .holyfire (Holy-Fire): You could argue it's a bit less than that since drones also cost energy...\n[2024-11-29 00:33] lezaleas: I meant barrier value is 2.222 cuz walls\n[2024-11-29 00:33] silentslayers: Yeah people use 2.3~ usually because you have to buy engineers for granularity in real games.\n[2024-11-29 00:33] .holyfire (Holy-Fire): Ok, sure, you can use BV=2.222 as given by walls, but again, the fact that walls don't have granularity (and can't be partially built) means you will actually typically pay more than that for defense\n[2024-11-29 00:34] lezaleas: Thats for blocking though\n[2024-11-29 00:34] lezaleas: Here we are talking about soak\n[2024-11-29 00:34] silentslayers: I don't make a distinction\n[2024-11-29 00:34] .holyfire (Holy-Fire): It's assumed that you're absorbing the same either way, and need to figure out how much soak to build\n[2024-11-29 00:36] silentslayers: The question is:\n\nMy opponents have attack, which is generating value because I need to spend some amount of money on defense to survive it. The cost of this defense in the form of Walls + Engineers, which gives you a value of 2.3~ per 1 defense (soak).\n[2024-11-29 00:37] lezaleas: Yeah there's a loss of efficiency there you are right\n[2024-11-29 00:37] lezaleas: It seems to be inversely proportional to how much attack they have\n[2024-11-29 00:37] .holyfire (Holy-Fire): Yes, the more total attack, the greater the proportion of defense that is done efficiently\n[2024-11-29 00:39] .holyfire (Holy-Fire): Engineers have an effective barrier value of about 2.8, which is terrible value. With walls and engis at your disposal, it can be assumed you'll build an average of 1 engineer per turn. If we assume you also build about 1 wall per turn, then the BV is actually 2.375\n[2024-11-29 00:39] .holyfire (Holy-Fire): But if you build more walls or other kinds of defense, it can go down\n[2024-11-29 00:40] .holyfire (Holy-Fire): (The 2.8 is calculated by assuming r=1.4)\n[2024-11-29 00:40] lezaleas: I need to check this carefully because it could also be possible\n[2024-11-29 00:40] lezaleas: That you are paying all of the engi tax against their base attack\n[2024-11-29 00:41] lezaleas: And extra attackers dont add marginal tax\n[2024-11-29 00:41] lezaleas: Since the relatinship is that tax decreases proportionally to the attackers\n[2024-11-29 00:41] lezaleas: In fact that makes think they cancel out almost exactly?\n[2024-11-29 00:42] silentslayers: I don't know about you, but im buying engis in most of my games :P\n[2024-11-29 00:42] .holyfire (Holy-Fire): Yes, the marginal cost to defend against 3 extra tarsiers is exactly 1 wall, so 2.222 per BV\n[2024-11-29 00:42] lezaleas: Because think of it this way\n[2024-11-29 00:42] lezaleas: Against 4 dmg past block\n[2024-11-29 00:43] lezaleas: You get 1 engi and 1 wall\n[2024-11-29 00:43] lezaleas: So its 2.4g bvalue or whatever\n[2024-11-29 00:43] lezaleas: You get 1 engi and 133 walls\n[2024-11-29 00:43] lezaleas: So its almost exactly 2.222 bv\n[2024-11-29 00:43] lezaleas: You always had 1 engi of tax there\n[2024-11-29 00:44] lezaleas: So its easier to say you pay and engi-wall tax against their attack always\n[2024-11-29 00:44] lezaleas: Meaning its a base cost not a cost vs attack\n[2024-11-29 00:44] lezaleas: Your opponent buying more attack doesn't increase the cost\n[2024-11-29 00:44] .holyfire (Holy-Fire): Ok, I think I get what you're saying\n[2024-11-29 00:45] .holyfire (Holy-Fire): But there are some factors you're missing\n[2024-11-29 00:45] .holyfire (Holy-Fire): You can't actually pay 6.7 gold and get a wall. You need tech\n[2024-11-29 00:45] silentslayers: you can't really justify a second blast for *just* walls almost ever because of 10 wall supply, so there's always a huge portion of economy going into engineers in real games imo\n[2024-11-29 00:45] .holyfire (Holy-Fire): And you build some tech at the start and probably won't build more later\n[2024-11-29 00:45] .holyfire (Holy-Fire): So even if you want to buy more walls, you can't actually.\n[2024-11-29 00:45] lezaleas: Yeah but i can say that from attackers too",
+      "messages": [
+        {
+          "id": "1311851584623218729",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:29:50.798+00:00",
+          "content": "Ok but you get the defense + the attack"
+        },
+        {
+          "id": "1311851626553938000",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:30:00.795+00:00",
+          "content": "you dont get the defense value for a long time but yeah :P"
+        },
+        {
+          "id": "1311851685055959133",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:30:14.743+00:00",
+          "content": "Wall is in theory 2.222 BV, but since it doesn't have granularity it's probably more accurate to treat the average BV cost as 2.3"
+        },
+        {
+          "id": "1311851685781442572",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:30:14.916+00:00",
+          "content": "The defense is 2.2g right now but you wont use it right now"
+        },
+        {
+          "id": "1311851736260153447",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:30:26.951+00:00",
+          "content": "Each turn it gets multiplied by 3/4 until you use it"
+        },
+        {
+          "id": "1311851801028464752",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:30:42.393+00:00",
+          "content": "So by the time you use the defense it's mostly all gone"
+        },
+        {
+          "id": "1311851878245732453",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:31:00.803+00:00",
+          "content": "Of course, actual barrier is 2.333, and it doesn't have granularity either"
+        },
+        {
+          "id": "1311852023850733618",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:31:35.518+00:00",
+          "content": "that's why antima is really good when your antima is so threatening that they can't do anything while you build it except prepare for the incoming damage."
+        },
+        {
+          "id": "1311852058055544882",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:31:43.673+00:00",
+          "content": "Then your engineers are worth a lot more, since they (the opponent) didn't grow during this period"
+        },
+        {
+          "id": "1311852248002723870",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:32:28.96+00:00",
+          "content": "A conduit costs about 1.333 drones, so a green can be considered to be worth 1.333 gold. So an actual barrier costs 2.333."
+        },
+        {
+          "id": "1311852391942983721",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:33:03.278+00:00",
+          "content": "But id rather compare tarsiers to walls"
+        },
+        {
+          "id": "1311852392379187230",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:33:03.382+00:00",
+          "content": "You could argue it's a bit less than that since drones also cost energy..."
+        },
+        {
+          "id": "1311852518073962566",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:33:33.35+00:00",
+          "content": "I meant barrier value is 2.222 cuz walls"
+        },
+        {
+          "id": "1311852534813691954",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:33:37.341+00:00",
+          "content": "Yeah people use 2.3~ usually because you have to buy engineers for granularity in real games."
+        },
+        {
+          "id": "1311852601163120741",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:33:53.16+00:00",
+          "content": "Ok, sure, you can use BV=2.222 as given by walls, but again, the fact that walls don't have granularity (and can't be partially built) means you will actually typically pay more than that for defense"
+        },
+        {
+          "id": "1311852667005435974",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:34:08.858+00:00",
+          "content": "Thats for blocking though"
+        },
+        {
+          "id": "1311852692770914416",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:34:15.001+00:00",
+          "content": "Here we are talking about soak"
+        },
+        {
+          "id": "1311852748358160396",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:34:28.254+00:00",
+          "content": "I don't make a distinction"
+        },
+        {
+          "id": "1311852834785857578",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:34:48.86+00:00",
+          "content": "It's assumed that you're absorbing the same either way, and need to figure out how much soak to build"
+        },
+        {
+          "id": "1311853133592268861",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:36:00.101+00:00",
+          "content": "The question is:\n\nMy opponents have attack, which is generating value because I need to spend some amount of money on defense to survive it. The cost of this defense in the form of Walls + Engineers, which gives you a value of 2.3~ per 1 defense (soak)."
+        },
+        {
+          "id": "1311853388824313878",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:37:00.953+00:00",
+          "content": "Yeah there's a loss of efficiency there you are right"
+        },
+        {
+          "id": "1311853483548213321",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:37:23.537+00:00",
+          "content": "It seems to be inversely proportional to how much attack they have"
+        },
+        {
+          "id": "1311853596731506739",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:37:50.522+00:00",
+          "content": "Yes, the more total attack, the greater the proportion of defense that is done efficiently"
+        },
+        {
+          "id": "1311854028954537996",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:39:33.572+00:00",
+          "content": "Engineers have an effective barrier value of about 2.8, which is terrible value. With walls and engis at your disposal, it can be assumed you'll build an average of 1 engineer per turn. If we assume you also build about 1 wall per turn, then the BV is actually 2.375"
+        },
+        {
+          "id": "1311854129152524288",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:39:57.461+00:00",
+          "content": "But if you build more walls or other kinds of defense, it can go down"
+        },
+        {
+          "id": "1311854228993736704",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:40:21.265+00:00",
+          "content": "(The 2.8 is calculated by assuming r=1.4)"
+        },
+        {
+          "id": "1311854297901957170",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:40:37.694+00:00",
+          "content": "I need to check this carefully because it could also be possible"
+        },
+        {
+          "id": "1311854360191307807",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:40:52.545+00:00",
+          "content": "That you are paying all of the engi tax against their base attack"
+        },
+        {
+          "id": "1311854437957894165",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:41:11.086+00:00",
+          "content": "And extra attackers dont add marginal tax"
+        },
+        {
+          "id": "1311854503854604308",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:41:26.797+00:00",
+          "content": "Since the relatinship is that tax decreases proportionally to the attackers"
+        },
+        {
+          "id": "1311854608447963238",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:41:51.734+00:00",
+          "content": "In fact that makes think they cancel out almost exactly?"
+        },
+        {
+          "id": "1311854736357457941",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:42:22.23+00:00",
+          "content": "I don't know about you, but im buying engis in most of my games :P"
+        },
+        {
+          "id": "1311854777495195721",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:42:32.038+00:00",
+          "content": "Yes, the marginal cost to defend against 3 extra tarsiers is exactly 1 wall, so 2.222 per BV"
+        },
+        {
+          "id": "1311854845363228714",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:42:48.219+00:00",
+          "content": "Because think of it this way"
+        },
+        {
+          "id": "1311854885444128830",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:42:57.775+00:00",
+          "content": "Against 4 dmg past block"
+        },
+        {
+          "id": "1311854911683559455",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:43:04.031+00:00",
+          "content": "You get 1 engi and 1 wall"
+        },
+        {
+          "id": "1311854979442540584",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:43:20.186+00:00",
+          "content": "So its 2.4g bvalue or whatever"
+        },
+        {
+          "id": "1311855036594130945",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:43:33.812+00:00",
+          "content": "You get 1 engi and 133 walls"
+        },
+        {
+          "id": "1311855077585326162",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:43:43.585+00:00",
+          "content": "So its almost exactly 2.222 bv"
+        },
+        {
+          "id": "1311855122472763433",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:43:54.287+00:00",
+          "content": "You always had 1 engi of tax there"
+        },
+        {
+          "id": "1311855216383098930",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:44:16.677+00:00",
+          "content": "So its easier to say you pay and engi-wall tax against their attack always"
+        },
+        {
+          "id": "1311855263552245834",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:44:27.923+00:00",
+          "content": "Meaning its a base cost not a cost vs attack"
+        },
+        {
+          "id": "1311855361560547368",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:44:51.29+00:00",
+          "content": "Your opponent buying more attack doesn't increase the cost"
+        },
+        {
+          "id": "1311855376437870602",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:44:54.837+00:00",
+          "content": "Ok, I think I get what you're saying"
+        },
+        {
+          "id": "1311855425200586752",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:45:06.463+00:00",
+          "content": "But there are some factors you're missing"
+        },
+        {
+          "id": "1311855484306722877",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:45:20.555+00:00",
+          "content": "You can't actually pay 6.7 gold and get a wall. You need tech"
+        },
+        {
+          "id": "1311855518863855688",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:45:28.794+00:00",
+          "content": "you can't really justify a second blast for *just* walls almost ever because of 10 wall supply, so there's always a huge portion of economy going into engineers in real games imo"
+        },
+        {
+          "id": "1311855553525583903",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:45:37.058+00:00",
+          "content": "And you build some tech at the start and probably won't build more later"
+        },
+        {
+          "id": "1311855584990986251",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:45:44.56+00:00",
+          "content": "So even if you want to buy more walls, you can't actually."
+        },
+        {
+          "id": "1311855585205157969",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:45:44.611+00:00",
+          "content": "Yeah but i can say that from attackers too"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T00:46:05.094+00:00",
+      "end_ts": "2024-11-29T00:56:21.019+00:00",
+      "participants": [
+        ".bananasplit",
+        ".holyfire",
+        "lezaleas",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 53,
+      "formatted_text": "--- Thread (36 messages, 2024-11-29) ---\n[2024-11-29 00:46] .holyfire (Holy-Fire): But with 1 animus you get 2 extra attack per turn, per turn\n[2024-11-29 00:46] .bananasplit (Bananasplit): who is 'Hey\" already on prismata?\n[2024-11-29 00:46] .holyfire (Holy-Fire): Total attack from a tech building is quadratic, total defense is linear\n[2024-11-29 00:46] lezaleas: So we can think of the bvalue increasing as soon as you start to force your opponents to buy mass engis\n[2024-11-29 00:46] .holyfire (Holy-Fire): Opponent gets more and more attack-per-turn, while you're stuck with 1 wall per turn\n[2024-11-29 00:47] .holyfire (Holy-Fire): And you'll have to resort to FF or whatever, which is less efficient\n[2024-11-29 00:47] lezaleas: In a real game your blue would have some use somewhere or else it was a bad build\n[2024-11-29 00:48] lezaleas: Of course in a tarsier vs wall game tarsiers always win but thats out of context\n[2024-11-29 00:48] .holyfire (Holy-Fire): A lot can change depending on the set... But the fact remains that whatever you do, you can't actually defend everything with maximum theoretical efficiency\n[2024-11-29 00:48] lezaleas: If anything i would argue your first blue is cheaper because it buys 2 absorb\n[2024-11-29 00:48] lezaleas: I know but you also cant convert gold into at maximum efficiency\n[2024-11-29 00:49] .holyfire (Holy-Fire): That's actually much easier, for the reasons I mentioned.\n[2024-11-29 00:50] .holyfire (Holy-Fire): Suppose you have 13 drones, 1 blastforge, 1 animus. You build TTW every turn. The tarsiers will always be maximum theoretical efficiency for BSO. As for the walls, you can't build more than 1 per turn and keep the same efficiency\n[2024-11-29 00:51] lezaleas: Yeah if you come up with the perfect breakthroughs for it it will of course be perfect\n[2024-11-29 00:51] lezaleas: Whay if you have 14g\n[2024-11-29 00:51] lezaleas: Or 12g and there's husk and militia in the set\n[2024-11-29 00:51] .holyfire (Holy-Fire): With 1 tech building you can consistently churn more attack per turn. But with 1 tech building you cannot consistently defend against this ever-increasing attack.\n[2024-11-29 00:52] .holyfire (Holy-Fire): Having the exact number of drones is not the issue here.\n[2024-11-29 00:52] .holyfire (Holy-Fire): That's why as the game progresses, defense becomes harder and the r value increases.\n[2024-11-29 00:53] .holyfire (Holy-Fire): Quadratic attack, linear defense.\n[2024-11-29 00:53] lezaleas: I think the r value mainly increases when you get past the block treshold\n[2024-11-29 00:53] silentslayers: Just buy drones and a tech building for quadratic defense ;D\n[2024-11-29 00:53] silentslayers: But that's where supply comes in\n[2024-11-29 00:53] lezaleas: Before block treshold its 1.33 for drones\n[2024-11-29 00:53] lezaleas: And afterwards its 1.4 for tarsier vs walls\n[2024-11-29 00:54] .holyfire (Holy-Fire): Even with unlimited supply, drones and blastforges and walls can't cope with tarsiers\n[2024-11-29 00:54] .holyfire (Holy-Fire): Yes. It's about 1.4 in the midgame. In the lategame, where you're scrambling for any morsel of defense, r is even higher than 1.4.\n[2024-11-29 00:55] silentslayers: Probably something like Plexo can? Never really looked though. Maybe they can beat splitters if not tars\n[2024-11-29 00:55] .holyfire (Holy-Fire): I think I can try to calculate that\n[2024-11-29 00:55] silentslayers: I believe plexo is the best soak in the game\n[2024-11-29 00:55] lezaleas: Yeah they probably beat them\n[2024-11-29 00:55] lezaleas: But you run out of supply\n[2024-11-29 00:55] lezaleas: So it means build more drones\n[2024-11-29 00:55] .holyfire (Holy-Fire): Yeah, it's about 1.92 BV\n[2024-11-29 00:55] lezaleas: But not infinite drones\n[2024-11-29 00:56] .holyfire (Holy-Fire): But of course, plexo comes in big chunks and has lifespan",
+      "messages": [
+        {
+          "id": "1311855671116955759",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:46:05.094+00:00",
+          "content": "But with 1 animus you get 2 extra attack per turn, per turn"
+        },
+        {
+          "id": "1311855686363385916",
+          "author": ".bananasplit",
+          "nickname": "Bananasplit",
+          "timestamp": "2024-11-29T00:46:08.729+00:00",
+          "content": "who is 'Hey\" already on prismata?"
+        },
+        {
+          "id": "1311855778885271653",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:46:30.788+00:00",
+          "content": "Total attack from a tech building is quadratic, total defense is linear"
+        },
+        {
+          "id": "1311855857251647549",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:46:49.472+00:00",
+          "content": "So we can think of the bvalue increasing as soon as you start to force your opponents to buy mass engis"
+        },
+        {
+          "id": "1311855861508997202",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:46:50.487+00:00",
+          "content": "Opponent gets more and more attack-per-turn, while you're stuck with 1 wall per turn"
+        },
+        {
+          "id": "1311855926734487622",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:47:06.038+00:00",
+          "content": "And you'll have to resort to FF or whatever, which is less efficient"
+        },
+        {
+          "id": "1311856057210900502",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:47:37.146+00:00",
+          "content": "In a real game your blue would have some use somewhere or else it was a bad build"
+        },
+        {
+          "id": "1311856172734742558",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:48:04.689+00:00",
+          "content": "Of course in a tarsier vs wall game tarsiers always win but thats out of context"
+        },
+        {
+          "id": "1311856293002215464",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:48:33.363+00:00",
+          "content": "A lot can change depending on the set... But the fact remains that whatever you do, you can't actually defend everything with maximum theoretical efficiency"
+        },
+        {
+          "id": "1311856293274976286",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:48:33.428+00:00",
+          "content": "If anything i would argue your first blue is cheaper because it buys 2 absorb"
+        },
+        {
+          "id": "1311856394835857499",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:48:57.642+00:00",
+          "content": "I know but you also cant convert gold into at maximum efficiency"
+        },
+        {
+          "id": "1311856498061742112",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:49:22.253+00:00",
+          "content": "That's actually much easier, for the reasons I mentioned."
+        },
+        {
+          "id": "1311856705033736328",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:50:11.599+00:00",
+          "content": "Suppose you have 13 drones, 1 blastforge, 1 animus. You build TTW every turn. The tarsiers will always be maximum theoretical efficiency for BSO. As for the walls, you can't build more than 1 per turn and keep the same efficiency"
+        },
+        {
+          "id": "1311856914849730590",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:51:01.623+00:00",
+          "content": "Yeah if you come up with the perfect breakthroughs for it it will of course be perfect"
+        },
+        {
+          "id": "1311856952091082803",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:51:10.502+00:00",
+          "content": "Whay if you have 14g"
+        },
+        {
+          "id": "1311857052653719602",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:51:34.478+00:00",
+          "content": "Or 12g and there's husk and militia in the set"
+        },
+        {
+          "id": "1311857054599741451",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:51:34.942+00:00",
+          "content": "With 1 tech building you can consistently churn more attack per turn. But with 1 tech building you cannot consistently defend against this ever-increasing attack."
+        },
+        {
+          "id": "1311857189740089344",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:52:07.162+00:00",
+          "content": "Having the exact number of drones is not the issue here."
+        },
+        {
+          "id": "1311857362532962335",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:52:48.359+00:00",
+          "content": "That's why as the game progresses, defense becomes harder and the r value increases."
+        },
+        {
+          "id": "1311857455839313983",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:53:10.605+00:00",
+          "content": "Quadratic attack, linear defense."
+        },
+        {
+          "id": "1311857540040101911",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:53:30.68+00:00",
+          "content": "I think the r value mainly increases when you get past the block treshold"
+        },
+        {
+          "id": "1311857550777516054",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:53:33.24+00:00",
+          "content": "Just buy drones and a tech building for quadratic defense ;D"
+        },
+        {
+          "id": "1311857575540690944",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:53:39.144+00:00",
+          "content": "But that's where supply comes in"
+        },
+        {
+          "id": "1311857591185313864",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:53:42.874+00:00",
+          "content": "Before block treshold its 1.33 for drones"
+        },
+        {
+          "id": "1311857642544828519",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:53:55.119+00:00",
+          "content": "And afterwards its 1.4 for tarsier vs walls"
+        },
+        {
+          "id": "1311857713952718849",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:54:12.144+00:00",
+          "content": "Even with unlimited supply, drones and blastforges and walls can't cope with tarsiers"
+        },
+        {
+          "id": "1311857846652108810",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:54:43.782+00:00",
+          "content": "Yes. It's about 1.4 in the midgame. In the lategame, where you're scrambling for any morsel of defense, r is even higher than 1.4."
+        },
+        {
+          "id": "1311857918353604630",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:55:00.877+00:00",
+          "content": "Probably something like Plexo can? Never really looked though. Maybe they can beat splitters if not tars"
+        },
+        {
+          "id": "1311858006899818537",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:55:21.988+00:00",
+          "content": "I think I can try to calculate that"
+        },
+        {
+          "id": "1311858050642219048",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T00:55:32.417+00:00",
+          "content": "I believe plexo is the best soak in the game"
+        },
+        {
+          "id": "1311858086075564064",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:55:40.865+00:00",
+          "content": "Yeah they probably beat them"
+        },
+        {
+          "id": "1311858107705458778",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:55:46.022+00:00",
+          "content": "But you run out of supply"
+        },
+        {
+          "id": "1311858131143491655",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:55:51.61+00:00",
+          "content": "So it means build more drones"
+        },
+        {
+          "id": "1311858131181109269",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:55:51.619+00:00",
+          "content": "Yeah, it's about 1.92 BV"
+        },
+        {
+          "id": "1311858151452180574",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:55:56.452+00:00",
+          "content": "But not infinite drones"
+        },
+        {
+          "id": "1311858254493782078",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T00:56:21.019+00:00",
+          "content": "But of course, plexo comes in big chunks and has lifespan"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T00:59:59.751+00:00",
+      "end_ts": "2024-11-29T01:20:28.553+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 63,
+      "formatted_text": "--- Thread (39 messages, 2024-11-29) ---\n[2024-11-29 00:59] lezaleas: Also about the value of ryhnos\n[2024-11-29 01:01] lezaleas: Is it correct to say a rhyno gets 1 + 1d +2dd value if using all charges?\n[2024-11-29 01:03] lezaleas: Which is 2.19 bvalue\n[2024-11-29 01:03] silentslayers: Ignoring the prompt upsides (like playing around threat or something like that), they get:\n\n1 * b^0.5 + 1 \\* b^1.5 + 2 \\* b^2.0\n\nI think\n[2024-11-29 01:04] silentslayers: I didn't include d (we call this R btw)\n[2024-11-29 01:04] silentslayers: the 0.5 = half a turn\n[2024-11-29 01:04] silentslayers: 1.5 = One and a half turns later\n[2024-11-29 01:06] .holyfire (Holy-Fire): That's not quite right\n[2024-11-29 01:07] .holyfire (Holy-Fire): Or in total, it's b * (r^-0.5 + r^-1.5 + 2 * r^-2)\n[2024-11-29 01:09] .holyfire (Holy-Fire): So, I did some calculations on the plexo thing. It's very close.\n[2024-11-29 01:09] .holyfire (Holy-Fire): Suppose I'm building 4 tarsiers now, for a cost of 20 gold.\n[2024-11-29 01:09] silentslayers: Yeah I should have just included r, that was confusing sorry\n[2024-11-29 01:09] silentslayers: I just meant to show the pattern\n[2024-11-29 01:10] silentslayers: =1 * b * t^0.5 + (1 * b * t^1.5) + (2 * b * t^2)\n\nThat's what I put into xnors spreadsheet to get the result\n[2024-11-29 01:10] silentslayers: I dunno if negative exponents are just a different way of doing it or if the t handles that or something\n[2024-11-29 01:10] .holyfire (Holy-Fire): Probably t is the inverse of r\n[2024-11-29 01:11] .holyfire (Holy-Fire): So about t=0.71 if r=1.4\n[2024-11-29 01:11] silentslayers: Oh ok, so that's why I can do positive exponents on the sheet\n[2024-11-29 01:13] .holyfire (Holy-Fire): Back to plexo - The opponent will need, in 1.5 turns and every turn after, to spend 5 gold, 2 green and 1 energy to cope.\n\nWhich means that in 0.5 turns, they will need to buy 5 drones, 2 conduits and an engineer, for a cost of 25 gold and 5 energy.\n[2024-11-29 01:13] lezaleas: Why is there only a half jump between the last attack and the blocking?\n[2024-11-29 01:13] lezaleas: Wouldnt you need to idle it a turn to block after attacking\n[2024-11-29 01:13] .holyfire (Holy-Fire): Attack and defense are always offset by half a turn\n[2024-11-29 01:13] silentslayers: So the 0.5 means (My opponent half a turn later will need to defend 1 more)\nThe 1.5 means (My opponent one and a half turns later will need to defend 1 more (because more stamina left))\nThe 2.0 means (I receive 2 bv 2 turns later)\n[2024-11-29 01:14] lezaleas: I know i mean why not 1.5 turns\n[2024-11-29 01:14] .holyfire (Holy-Fire): If you think about when each player needs to build defense, it will make sense\n[2024-11-29 01:14] .holyfire (Holy-Fire): Relative to the turn you buy a rhino, the opponent will need to build a barrier 1.5 turns after. I will be spared the need to buy barriers 2 turns after.\n[2024-11-29 01:15] .holyfire (Holy-Fire): Wait, let me check that...\n[2024-11-29 01:16] .holyfire (Holy-Fire): Maybe you're right? Let me think\n[2024-11-29 01:16] lezaleas: So i buy the rhyno now and its turn 0, i dont use it to block\n\nOpp buys barrier on turn 0.5\n\nI dont block with rhyno turn 1\n\nOpp buys barrier on turn 1.5\n\nI dont block with rhyno turn 2\n\nI block turn 3\n[2024-11-29 01:16] silentslayers: Oh right, it's ^3.0 my bad\n[2024-11-29 01:16] lezaleas: Yeah i got some massive rhyno values lol\n[2024-11-29 01:17] .holyfire (Holy-Fire): That part of the formula isn't visible in the original screenshot 🙂\n[2024-11-29 01:17] .holyfire (Holy-Fire): Otherwise I would have noticed the discrepancy earlier\n[2024-11-29 01:17] lezaleas: So the final value is about 2.25 bvalue then\n[2024-11-29 01:17] lezaleas: Im really sad its r and not d\n[2024-11-29 01:18] lezaleas: I wanted my rhynos to have big b d\n[2024-11-29 01:19] lezaleas: Using this we can calculate the balue of attack as if it were prompt defense\n[2024-11-29 01:19] lezaleas: Is just that rhyno formula to the limit right?\n[2024-11-29 01:20] lezaleas: Assuming the game goes on for long i mean",
+      "messages": [
+        {
+          "id": "1311859171922153484",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T00:59:59.751+00:00",
+          "content": "Also about the value of ryhnos"
+        },
+        {
+          "id": "1311859438554054709",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:01:03.321+00:00",
+          "content": "Is it correct to say a rhyno gets 1 + 1d +2dd value if using all charges?"
+        },
+        {
+          "id": "1311859954075828294",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:03:06.231+00:00",
+          "content": "Which is 2.19 bvalue"
+        },
+        {
+          "id": "1311860031372787792",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:03:24.66+00:00",
+          "content": "Ignoring the prompt upsides (like playing around threat or something like that), they get:\n\n1 * b^0.5 + 1 \\* b^1.5 + 2 \\* b^2.0\n\nI think"
+        },
+        {
+          "id": "1311860268094980099",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:04:21.099+00:00",
+          "content": "I didn't include d (we call this R btw)"
+        },
+        {
+          "id": "1311860360596426912",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:04:43.153+00:00",
+          "content": "the 0.5 = half a turn"
+        },
+        {
+          "id": "1311860396985942027",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:04:51.829+00:00",
+          "content": "1.5 = One and a half turns later"
+        },
+        {
+          "id": "1311860863329632286",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:06:43.014+00:00",
+          "content": "That's not quite right"
+        },
+        {
+          "id": "1311861019374649414",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:07:20.218+00:00",
+          "content": "Or in total, it's b * (r^-0.5 + r^-1.5 + 2 * r^-2)"
+        },
+        {
+          "id": "1311861464461738015",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:09:06.335+00:00",
+          "content": "So, I did some calculations on the plexo thing. It's very close."
+        },
+        {
+          "id": "1311861523609550919",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:09:20.437+00:00",
+          "content": "Suppose I'm building 4 tarsiers now, for a cost of 20 gold."
+        },
+        {
+          "id": "1311861634628845589",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:09:46.906+00:00",
+          "content": "Yeah I should have just included r, that was confusing sorry"
+        },
+        {
+          "id": "1311861653607940146",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:09:51.431+00:00",
+          "content": "I just meant to show the pattern"
+        },
+        {
+          "id": "1311861736139391006",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:10:11.108+00:00",
+          "content": "=1 * b * t^0.5 + (1 * b * t^1.5) + (2 * b * t^2)\n\nThat's what I put into xnors spreadsheet to get the result"
+        },
+        {
+          "id": "1311861810919374868",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:10:28.937+00:00",
+          "content": "I dunno if negative exponents are just a different way of doing it or if the t handles that or something"
+        },
+        {
+          "id": "1311861861922242612",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:10:41.097+00:00",
+          "content": "Probably t is the inverse of r"
+        },
+        {
+          "id": "1311861999356870776",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:11:13.864+00:00",
+          "content": "So about t=0.71 if r=1.4"
+        },
+        {
+          "id": "1311862089001861161",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:11:35.237+00:00",
+          "content": "Oh ok, so that's why I can do positive exponents on the sheet"
+        },
+        {
+          "id": "1311862490438697051",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:13:10.947+00:00",
+          "content": "Back to plexo - The opponent will need, in 1.5 turns and every turn after, to spend 5 gold, 2 green and 1 energy to cope.\n\nWhich means that in 0.5 turns, they will need to buy 5 drones, 2 conduits and an engineer, for a cost of 25 gold and 5 energy."
+        },
+        {
+          "id": "1311862516925862058",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:13:17.262+00:00",
+          "content": "Why is there only a half jump between the last attack and the blocking?"
+        },
+        {
+          "id": "1311862576824582204",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:13:31.543+00:00",
+          "content": "Wouldnt you need to idle it a turn to block after attacking"
+        },
+        {
+          "id": "1311862634957766736",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:13:45.403+00:00",
+          "content": "Attack and defense are always offset by half a turn"
+        },
+        {
+          "id": "1311862689626062903",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:13:58.437+00:00",
+          "content": "So the 0.5 means (My opponent half a turn later will need to defend 1 more)\nThe 1.5 means (My opponent one and a half turns later will need to defend 1 more (because more stamina left))\nThe 2.0 means (I receive 2 bv 2 turns later)"
+        },
+        {
+          "id": "1311862703836631055",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:14:01.825+00:00",
+          "content": "I know i mean why not 1.5 turns"
+        },
+        {
+          "id": "1311862810803830834",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:14:27.328+00:00",
+          "content": "If you think about when each player needs to build defense, it will make sense"
+        },
+        {
+          "id": "1311862939975684136",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:14:58.125+00:00",
+          "content": "Relative to the turn you buy a rhino, the opponent will need to build a barrier 1.5 turns after. I will be spared the need to buy barriers 2 turns after."
+        },
+        {
+          "id": "1311863131949109361",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:15:43.895+00:00",
+          "content": "Wait, let me check that..."
+        },
+        {
+          "id": "1311863206813368320",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:16:01.744+00:00",
+          "content": "Maybe you're right? Let me think"
+        },
+        {
+          "id": "1311863237066752020",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:16:08.957+00:00",
+          "content": "So i buy the rhyno now and its turn 0, i dont use it to block\n\nOpp buys barrier on turn 0.5\n\nI dont block with rhyno turn 1\n\nOpp buys barrier on turn 1.5\n\nI dont block with rhyno turn 2\n\nI block turn 3"
+        },
+        {
+          "id": "1311863338418044980",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:16:33.121+00:00",
+          "content": "Oh right, it's ^3.0 my bad"
+        },
+        {
+          "id": "1311863428364898385",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:16:54.566+00:00",
+          "content": "Yeah i got some massive rhyno values lol"
+        },
+        {
+          "id": "1311863468705452183",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:17:04.184+00:00",
+          "content": "That part of the formula isn't visible in the original screenshot 🙂"
+        },
+        {
+          "id": "1311863508706791507",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:17:13.721+00:00",
+          "content": "Otherwise I would have noticed the discrepancy earlier"
+        },
+        {
+          "id": "1311863588058824715",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:17:32.64+00:00",
+          "content": "So the final value is about 2.25 bvalue then"
+        },
+        {
+          "id": "1311863683923578981",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:17:55.496+00:00",
+          "content": "Im really sad its r and not d"
+        },
+        {
+          "id": "1311863729700343869",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:18:06.41+00:00",
+          "content": "I wanted my rhynos to have big b d"
+        },
+        {
+          "id": "1311864029295153214",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:19:17.839+00:00",
+          "content": "Using this we can calculate the balue of attack as if it were prompt defense"
+        },
+        {
+          "id": "1311864122362564719",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:19:40.028+00:00",
+          "content": "Is just that rhyno formula to the limit right?"
+        },
+        {
+          "id": "1311864325891297382",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:20:28.553+00:00",
+          "content": "Assuming the game goes on for long i mean"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T01:25:59.999+00:00",
+      "end_ts": "2024-11-29T01:36:13.308+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas",
+        "silentslayers"
+      ],
+      "replay_codes": [
+        "89eQx-Zuocb"
+      ],
+      "score": 59,
+      "formatted_text": "--- Thread (30 messages, 2024-11-29) ---\n[2024-11-29 01:25] .holyfire (Holy-Fire): Actually, plexo isn't that close once you factor in energy costs\n[2024-11-29 01:26] .holyfire (Holy-Fire): You'll need a lot of energy, and energy is expensive since the defense engineers give is such bad value\n[2024-11-29 01:26] .holyfire (Holy-Fire): I get that each energy effectively costs 0.8 gold\n[2024-11-29 01:27] silentslayers: Aegis was calculated to lose to steelsplitters, and I assumed plexo was decently better than Aegis that it could maybe be enough, but I guess not?\n[2024-11-29 01:28] .holyfire (Holy-Fire): Oh yeah, Aegis is a thing too. I think it's even better efficiency than plexo\n[2024-11-29 01:28] silentslayers: I guess if you have to buy the drones and engineers plexo loses a lot of efficiency\n[2024-11-29 01:28] silentslayers: But I still thought it might be better\n[2024-11-29 01:28] .holyfire (Holy-Fire): I think plexo is 1.9 and aegis is 1.8\n[2024-11-29 01:29] silentslayers: I thought for sure Plexo is more efficient than aegis if you aren't rebuying the drones\n[2024-11-29 01:29] .holyfire (Holy-Fire): Oh, yeah, if you're not rebuying then it depends on how you value the drones\n[2024-11-29 01:29] silentslayers: Im valuing them as a thing that produces 1 gold forever\n[2024-11-29 01:30] .holyfire (Holy-Fire): In that case I think they're worth 2.5 gold\n[2024-11-29 01:30] silentslayers: (As opposed to 3 gold or some other weird metric)\n[2024-11-29 01:30] lezaleas: I would value them as 1.33/1.4 * 3g\n[2024-11-29 01:30] .holyfire (Holy-Fire): Then plexo is 1.775 vs Aegis 1.8. So yeah, plexo is better, but not by much.\n[2024-11-29 01:31] silentslayers: xnor's sheet has f (a drone) at 3.50\n[2024-11-29 01:31] .holyfire (Holy-Fire): I think it's because it's unspent\n[2024-11-29 01:31] silentslayers: At the given values there (R = 1.4 and b = 2.4)\n[2024-11-29 01:31] .holyfire (Holy-Fire): An unclicked drone is worth 3.5, a clicked drone 2.5\n[2024-11-29 01:31] .holyfire (Holy-Fire): And plexo costs a clicked drone\n[2024-11-29 01:32] silentslayers: https://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit?gid=1107959039#gid=1107959039\nPrismata unit efficiency\n[2024-11-29 01:33] .holyfire (Holy-Fire): Anyway, in our scenario of \"An animus that builds two tarsiers per turn, vs building more and more drones and conduits to be able to cope with plexo cells\", you do actually have to rebuy the drones, and then some\n[2024-11-29 01:33] .holyfire (Holy-Fire): So plexo definitely loses some efficiency\n[2024-11-29 01:34] lezaleas: I think supply wins that scenario even if plexos were better\n[2024-11-29 01:35] lezaleas: So its probably more interesting what happens in the real game scenario where you are not buying the drones\n[2024-11-29 01:35] silentslayers: we dont care about supply in example, it's just for mathematically fun reasons we are checking\n[2024-11-29 01:35] .holyfire (Holy-Fire): Yeah, it's more about understanding the fundamentals\n[2024-11-29 01:35] lezaleas: Yeah but thats what i mean\n[2024-11-29 01:35] lezaleas: The value of plexos comes at a point where drones are not bought\n[2024-11-29 01:36] lezaleas: So its more represetative to use that drone value",
+      "messages": [
+        {
+          "id": "1311865716076580925",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:25:59.999+00:00",
+          "content": "Actually, plexo isn't that close once you factor in energy costs"
+        },
+        {
+          "id": "1311865815645290518",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:26:23.738+00:00",
+          "content": "You'll need a lot of energy, and energy is expensive since the defense engineers give is such bad value"
+        },
+        {
+          "id": "1311865930292269086",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:26:51.072+00:00",
+          "content": "I get that each energy effectively costs 0.8 gold"
+        },
+        {
+          "id": "1311866072307339275",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:27:24.931+00:00",
+          "content": "Aegis was calculated to lose to steelsplitters, and I assumed plexo was decently better than Aegis that it could maybe be enough, but I guess not?"
+        },
+        {
+          "id": "1311866263404019753",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:28:10.492+00:00",
+          "content": "Oh yeah, Aegis is a thing too. I think it's even better efficiency than plexo"
+        },
+        {
+          "id": "1311866345478029392",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:28:30.06+00:00",
+          "content": "I guess if you have to buy the drones and engineers plexo loses a lot of efficiency"
+        },
+        {
+          "id": "1311866380152344617",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:28:38.327+00:00",
+          "content": "But I still thought it might be better"
+        },
+        {
+          "id": "1311866423349481545",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:28:48.626+00:00",
+          "content": "I think plexo is 1.9 and aegis is 1.8"
+        },
+        {
+          "id": "1311866489095192697",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:29:04.301+00:00",
+          "content": "I thought for sure Plexo is more efficient than aegis if you aren't rebuying the drones"
+        },
+        {
+          "id": "1311866556002861147",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:29:20.253+00:00",
+          "content": "Oh, yeah, if you're not rebuying then it depends on how you value the drones"
+        },
+        {
+          "id": "1311866633433780234",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:29:38.714+00:00",
+          "content": "Im valuing them as a thing that produces 1 gold forever"
+        },
+        {
+          "id": "1311866729265365064",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:30:01.562+00:00",
+          "content": "In that case I think they're worth 2.5 gold"
+        },
+        {
+          "id": "1311866729521217607",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:30:01.623+00:00",
+          "content": "(As opposed to 3 gold or some other weird metric)"
+        },
+        {
+          "id": "1311866739310465024",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:30:03.957+00:00",
+          "content": "I would value them as 1.33/1.4 * 3g"
+        },
+        {
+          "id": "1311866909259731005",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:30:44.476+00:00",
+          "content": "Then plexo is 1.775 vs Aegis 1.8. So yeah, plexo is better, but not by much."
+        },
+        {
+          "id": "1311867028931481651",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:31:13.008+00:00",
+          "content": "xnor's sheet has f (a drone) at 3.50"
+        },
+        {
+          "id": "1311867072543854733",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:31:23.406+00:00",
+          "content": "I think it's because it's unspent"
+        },
+        {
+          "id": "1311867083381801042",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:31:25.99+00:00",
+          "content": "At the given values there (R = 1.4 and b = 2.4)"
+        },
+        {
+          "id": "1311867110217220209",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:31:32.388+00:00",
+          "content": "An unclicked drone is worth 3.5, a clicked drone 2.5"
+        },
+        {
+          "id": "1311867126650245252",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:31:36.306+00:00",
+          "content": "And plexo costs a clicked drone"
+        },
+        {
+          "id": "1311867454011473982",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:32:54.355+00:00",
+          "content": "https://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit?gid=1107959039#gid=1107959039\nPrismata unit efficiency"
+        },
+        {
+          "id": "1311867646341414912",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:33:40.21+00:00",
+          "content": "Anyway, in our scenario of \"An animus that builds two tarsiers per turn, vs building more and more drones and conduits to be able to cope with plexo cells\", you do actually have to rebuy the drones, and then some"
+        },
+        {
+          "id": "1311867670009741312",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:33:45.853+00:00",
+          "content": "So plexo definitely loses some efficiency"
+        },
+        {
+          "id": "1311867964617789440",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:34:56.093+00:00",
+          "content": "I think supply wins that scenario even if plexos were better"
+        },
+        {
+          "id": "1311868042761736213",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:35:14.724+00:00",
+          "content": "So its probably more interesting what happens in the real game scenario where you are not buying the drones"
+        },
+        {
+          "id": "1311868072038109204",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T01:35:21.704+00:00",
+          "content": "we dont care about supply in example, it's just for mathematically fun reasons we are checking"
+        },
+        {
+          "id": "1311868128128667721",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:35:35.077+00:00",
+          "content": "Yeah, it's more about understanding the fundamentals"
+        },
+        {
+          "id": "1311868181056327752",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:35:47.696+00:00",
+          "content": "Yeah but thats what i mean"
+        },
+        {
+          "id": "1311868228930113597",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:35:59.11+00:00",
+          "content": "The value of plexos comes at a point where drones are not bought"
+        },
+        {
+          "id": "1311868288480837732",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:36:13.308+00:00",
+          "content": "So its more represetative to use that drone value"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T01:42:00.077+00:00",
+      "end_ts": "2024-11-29T01:51:24.534+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas"
+      ],
+      "replay_codes": [],
+      "score": 24,
+      "formatted_text": "--- Thread (14 messages, 2024-11-29) ---\n[2024-11-29 01:42] .holyfire (Holy-Fire): So here's my model. I build 5 tarsiers this turn.\nOpponent needs, starting 1.5 turns from now and every turn, to build a plexo and replacement drone, sacrifice an engineer on defense, and build an engineer to replace it. That's a total of 7 gold, 2 green, and 1 energy.\nSo 0.5 turns from now, they need to buy 7 drones, 2 conduits, and one engineer. That's a total of 31 gold and 7 energy.\nNow it depends on how you value energy. Let's say 0.67 (like I said, energy is expensive in this scenario). So total equivalent of 35.7 gold.\n\nSo it's my 25 gold now vs opponent's 35.7 gold in half a turn. With r=1.4, that's my 29.6 vs their 35.7.\n\nLike I said, accounting for energy cost, it's not even close.\n[2024-11-29 01:43] lezaleas: Shouldnt you give your opponent\n[2024-11-29 01:44] lezaleas: Half a turn of drone inflation?\n[2024-11-29 01:44] .holyfire (Holy-Fire): I've calculated half a turn of inflation, that's why my 25 gold becomes effectively 29.6.\n[2024-11-29 01:45] lezaleas: Yeah what i mean is that\n[2024-11-29 01:45] lezaleas: Shouldnt that use r 1.33\n[2024-11-29 01:45] lezaleas: Because they grow at drone rate not tarsier rate\n[2024-11-29 01:46] .holyfire (Holy-Fire): Well, I did use 1.33 to calculate energy cost (my previous estimate of 0.8 was with 1.4).\n\nBut for the final comparison, it doesn't matter much. With 1.33 it's actually a bigger advantage for the attacker.\n\nFor parity you'd need something like r=2 which is nuts.\n[2024-11-29 01:49] .holyfire (Holy-Fire): If it was a bit closer - say, I pay 25 gold now and the opponent pays 29 gold on their turn - it would be an interesting question which inflation value is more representative\n[2024-11-29 01:49] .holyfire (Holy-Fire): And figuring it out would require deeper modeling on how everyone got to their current situation\n[2024-11-29 01:50] .holyfire (Holy-Fire): But with such a large gap it's obvious the attacker is at an advantage no matter what\n[2024-11-29 01:50] lezaleas: Another thing is that you are using r which was calculated comparing tarsiers to walls\n[2024-11-29 01:50] lezaleas: If you are doing tarsiers vs plexo r would be different\n[2024-11-29 01:51] .holyfire (Holy-Fire): That is true, but even with different setups it should be close to 1.4. I don't expect it to be outside the range 1.3 to 1.5. And I've only used it at the very last step, and like I said, r=2 would be needed to give the defender an advantage, that's completely unrealistic.",
+      "messages": [
+        {
+          "id": "1311869742935707708",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:42:00.077+00:00",
+          "content": "So here's my model. I build 5 tarsiers this turn.\nOpponent needs, starting 1.5 turns from now and every turn, to build a plexo and replacement drone, sacrifice an engineer on defense, and build an engineer to replace it. That's a total of 7 gold, 2 green, and 1 energy.\nSo 0.5 turns from now, they need to buy 7 drones, 2 conduits, and one engineer. That's a total of 31 gold and 7 energy.\nNow it depends on how you value energy. Let's say 0.67 (like I said, energy is expensive in this scenario). So total equivalent of 35.7 gold.\n\nSo it's my 25 gold now vs opponent's 35.7 gold in half a turn. With r=1.4, that's my 29.6 vs their 35.7.\n\nLike I said, accounting for energy cost, it's not even close."
+        },
+        {
+          "id": "1311870211271426131",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:43:51.737+00:00",
+          "content": "Shouldnt you give your opponent"
+        },
+        {
+          "id": "1311870248835612764",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:44:00.693+00:00",
+          "content": "Half a turn of drone inflation?"
+        },
+        {
+          "id": "1311870427664224286",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:44:43.329+00:00",
+          "content": "I've calculated half a turn of inflation, that's why my 25 gold becomes effectively 29.6."
+        },
+        {
+          "id": "1311870563001831424",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:45:15.596+00:00",
+          "content": "Yeah what i mean is that"
+        },
+        {
+          "id": "1311870589715218502",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:45:21.965+00:00",
+          "content": "Shouldnt that use r 1.33"
+        },
+        {
+          "id": "1311870626419576952",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:45:30.716+00:00",
+          "content": "Because they grow at drone rate not tarsier rate"
+        },
+        {
+          "id": "1311870973678587915",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:46:53.509+00:00",
+          "content": "Well, I did use 1.33 to calculate energy cost (my previous estimate of 0.8 was with 1.4).\n\nBut for the final comparison, it doesn't matter much. With 1.33 it's actually a bigger advantage for the attacker.\n\nFor parity you'd need something like r=2 which is nuts."
+        },
+        {
+          "id": "1311871649154338819",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:49:34.555+00:00",
+          "content": "If it was a bit closer - say, I pay 25 gold now and the opponent pays 29 gold on their turn - it would be an interesting question which inflation value is more representative"
+        },
+        {
+          "id": "1311871710194172026",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:49:49.108+00:00",
+          "content": "And figuring it out would require deeper modeling on how everyone got to their current situation"
+        },
+        {
+          "id": "1311871760743792671",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:50:01.16+00:00",
+          "content": "But with such a large gap it's obvious the attacker is at an advantage no matter what"
+        },
+        {
+          "id": "1311871772920119307",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:50:04.063+00:00",
+          "content": "Another thing is that you are using r which was calculated comparing tarsiers to walls"
+        },
+        {
+          "id": "1311871828876197950",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:50:17.404+00:00",
+          "content": "If you are doing tarsiers vs plexo r would be different"
+        },
+        {
+          "id": "1311872110439825460",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:51:24.534+00:00",
+          "content": "That is true, but even with different setups it should be close to 1.4. I don't expect it to be outside the range 1.3 to 1.5. And I've only used it at the very last step, and like I said, r=2 would be needed to give the defender an advantage, that's completely unrealistic."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T01:55:02.677+00:00",
+      "end_ts": "2024-11-29T01:59:20.282+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (7 messages, 2024-11-29) ---\n[2024-11-29 01:55] .holyfire (Holy-Fire): Another thing that puts the defender in further disadvantage is that I've assumed I buy a number of tarsiers that lets the opponent defend neatly with plexo+engineer every turn\n\nWith tarsiers per turn which is not a nice multiple of plexos, it will be even less efficient to defend\n[2024-11-29 01:57] .holyfire (Holy-Fire): Tarsier vs. the theoretical minimum BV=1.775 gives r=1.31\n[2024-11-29 01:57] .holyfire (Holy-Fire): And plexo in practice is nowhere near that\n[2024-11-29 01:59] lezaleas: Im looking at the spreadsheet\n[2024-11-29 01:59] lezaleas: And deadeyes are -24% eff\n[2024-11-29 01:59] lezaleas: Vs drones that lose 12\n[2024-11-29 01:59] lezaleas: Whats going on there",
+      "messages": [
+        {
+          "id": "1311873025398013984",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:55:02.677+00:00",
+          "content": "Another thing that puts the defender in further disadvantage is that I've assumed I buy a number of tarsiers that lets the opponent defend neatly with plexo+engineer every turn\n\nWith tarsiers per turn which is not a nice multiple of plexos, it will be even less efficient to defend"
+        },
+        {
+          "id": "1311873673564786718",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:57:37.212+00:00",
+          "content": "Tarsier vs. the theoretical minimum BV=1.775 gives r=1.31"
+        },
+        {
+          "id": "1311873727608131637",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T01:57:50.097+00:00",
+          "content": "And plexo in practice is nowhere near that"
+        },
+        {
+          "id": "1311874032273981483",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:59:02.735+00:00",
+          "content": "Im looking at the spreadsheet"
+        },
+        {
+          "id": "1311874070949789737",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:59:11.956+00:00",
+          "content": "And deadeyes are -24% eff"
+        },
+        {
+          "id": "1311874088519598081",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:59:16.145+00:00",
+          "content": "Vs drones that lose 12"
+        },
+        {
+          "id": "1311874105871437865",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T01:59:20.282+00:00",
+          "content": "Whats going on there"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T02:08:05.71+00:00",
+      "end_ts": "2024-11-29T02:10:00.463+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (7 messages, 2024-11-29) ---\n[2024-11-29 02:08] .holyfire (Holy-Fire): Hmm... I did another calculation\n\nIf you could magically buy a drone for just 3 gold and no energy\n\nThen plexo defense would actually be remarkably close in efficiency to tarsier attack, with a very slight advantage to the defender\n\nBut that's only if attacker has attack exactly divisible by 4. If not, defense efficiency drops and defender loses.\n\nAnd of course, energy is, in fact, a thing.\n[2024-11-29 02:08] lezaleas: Like i said before the dibivisibility doesnt matter\n[2024-11-29 02:09] .holyfire (Holy-Fire): Doesn't matter for what purpose?\n[2024-11-29 02:09] lezaleas: You need the same amount of engis vs few than vs many tarsiers\n[2024-11-29 02:09] lezaleas: Each extra tarsier doesnt add more need to buy engis\n[2024-11-29 02:09] lezaleas: Its a base cost that you are paying to be able to absorb\n[2024-11-29 02:10] lezaleas: So you should think of it as a base maintenance cost you pay to absorb",
+      "messages": [
+        {
+          "id": "1311876309676458045",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:08:05.71+00:00",
+          "content": "Hmm... I did another calculation\n\nIf you could magically buy a drone for just 3 gold and no energy\n\nThen plexo defense would actually be remarkably close in efficiency to tarsier attack, with a very slight advantage to the defender\n\nBut that's only if attacker has attack exactly divisible by 4. If not, defense efficiency drops and defender loses.\n\nAnd of course, energy is, in fact, a thing."
+        },
+        {
+          "id": "1311876483584888862",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:08:47.173+00:00",
+          "content": "Like i said before the dibivisibility doesnt matter"
+        },
+        {
+          "id": "1311876546578874380",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:09:02.192+00:00",
+          "content": "Doesn't matter for what purpose?"
+        },
+        {
+          "id": "1311876564065189939",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:09:06.361+00:00",
+          "content": "You need the same amount of engis vs few than vs many tarsiers"
+        },
+        {
+          "id": "1311876644541300887",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:09:25.548+00:00",
+          "content": "Each extra tarsier doesnt add more need to buy engis"
+        },
+        {
+          "id": "1311876725613002864",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:09:44.877+00:00",
+          "content": "Its a base cost that you are paying to be able to absorb"
+        },
+        {
+          "id": "1311876790985429043",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:10:00.463+00:00",
+          "content": "So you should think of it as a base maintenance cost you pay to absorb"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T02:13:54.156+00:00",
+      "end_ts": "2024-11-29T02:37:56.907+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas",
+        "silentslayers"
+      ],
+      "replay_codes": [
+        "ttack-absor"
+      ],
+      "score": 69,
+      "formatted_text": "--- Thread (50 messages, 2024-11-29) ---\n[2024-11-29 02:13] lezaleas: Unless you are literally trying to solve a tarsier vs plexo kind of game scenario\n[2024-11-29 02:14] .holyfire (Holy-Fire): That's not quite right. The *average* number of engineers, when the attack changes unpredictably, doesn't change as the attack increases. (And that average is (n-1)/2 where n is the defense value of your defender).\n\nThe *actual* number of engineers very much depends on the exact value of the attack, and what it's divisible by. In the plexo scenario - if attack (minus absorb) is 0, 4, 8, 12 etc., you'll need exactly zero engineers. If it's 1,5,9,..., you'll need exactly 1 engineer per turn. 2, 6, 10, you'll need 2. etc.\n\nIn my calculation I was charitable for the defender and assumed they don't need to waste efficiency on engineers. Which happens when attack-absorb is divisible by 4. If that's not guaranteed to be the case, defender is in an even worse position.\n[2024-11-29 02:15] lezaleas: Right but thats all just considerations youd have to make in a game scenario thats literally tarsiers vs plexos and engis\n[2024-11-29 02:15] lezaleas: Right but thats all just considerations youd have to make in a game scenario thats literally tarsiers vs plexos and engis\n[2024-11-29 02:15] lezaleas: Its more interesting to figure out the value of idealized soak on plexos in a scenario that resembles their real game usage\n[2024-11-29 02:16] .holyfire (Holy-Fire): Well, yes. Like I said, it's a hypothetical scenario designed to better understand the fundamental mechanics of the game.\n\nOf course in an actual game many things would be very different.\n[2024-11-29 02:16] lezaleas: Yeah and one thing different would be that both players would be paying the engi tax to absorb not just the plexo spammer\n[2024-11-29 02:17] lezaleas: So the engi tax can be ignored\n[2024-11-29 02:18] lezaleas: Actually this is interesting for another reason\n[2024-11-29 02:18] .holyfire (Holy-Fire): Well the definition of the scenario is that the players start on equal terms, one only attacks and one only defends. To figure out if soak can cope with attack.\n\nWhich, as we see, it very clearly cannot.\n[2024-11-29 02:18] lezaleas: Say you fix the numbers so that tarsier is exactly equal in value to soak\n[2024-11-29 02:19] lezaleas: Then you allow the defender to buy a wall and starting absorbing\n[2024-11-29 02:19] lezaleas: Then you figure out how many extra gold the tarsier player needs to beat the defender now\n[2024-11-29 02:19] lezaleas: What would that value represent?\n[2024-11-29 02:23] .holyfire (Holy-Fire): Without absorb, tarsiers are exactly matched by soak if bv = 1.9245\n\nAdding absorb to the issue complicates things, because to make things fair we need to consider how the player got to have absorb\n[2024-11-29 02:23] .holyfire (Holy-Fire): And what the attacker was doing in the meantime\n[2024-11-29 02:24] lezaleas: We could assume the attacker was building drones\n[2024-11-29 02:24] lezaleas: I think if we have it build tarsiers\n[2024-11-29 02:25] lezaleas: We can get the value to be dependent on how much starting gold the players have\n[2024-11-29 02:25] lezaleas: Which would then could get a formula for when switching from drones to attackers wins the game\n[2024-11-29 02:26] lezaleas: Keep in mind that while against absorb r is equal to 1\n[2024-11-29 02:27] .holyfire (Holy-Fire): Against absorb r is 1.33 since you can build drones\n[2024-11-29 02:27] .holyfire (Holy-Fire): Or maybe that was what you're saying\n[2024-11-29 02:27] lezaleas: Yeah i mean the turns where you start building tarsiers\n[2024-11-29 02:28] lezaleas: So if you build 0.5 tarsiers per turn\n[2024-11-29 02:28] lezaleas: You are growing by 1 during those turns\n[2024-11-29 02:28] lezaleas: The more gold both players have\n[2024-11-29 02:28] lezaleas: The less turns you lose to absorb\n[2024-11-29 02:28] lezaleas: So the better the game becomes for tarsiers\n[2024-11-29 02:30] silentslayers: I was more interested in the question if the game goes infinity turns, just which set of units creates more value per turn per turn in which case the 2 extra absorb becomes nothing\n[2024-11-29 02:31] silentslayers: Both players can buy drones and engineers that buy tech that then buys the unit\n[2024-11-29 02:31] .holyfire (Holy-Fire): I think a reasonable question is - players start as usual with 6/7 D, 2E. One player has an unlimited supply of drones, engineers, animus and tarsiers. The other has an unlimited supply of drones, engineers, blastforge, conduit, wall and plexo. (No other units are allowed).\n\nCan the defender prolong the game indefinitely?\n\nI'm pretty sure they can't. But proving that would require analyzing all the different ways the players could play, that's more than a simple mathematical model.\n[2024-11-29 02:32] silentslayers: thats interesting to me too\n[2024-11-29 02:32] .holyfire (Holy-Fire): Throw FF to the mix to for more flexibility\n[2024-11-29 02:33] lezaleas: So 1 absorb per turn is about 7.5g value right?\n[2024-11-29 02:33] .holyfire (Holy-Fire): Depends on when you calculate the value...\n[2024-11-29 02:34] .holyfire (Holy-Fire): With the basic model of tarsiers vs 2.3 BV, getting a permanent attacker next turn is worth 7 gold now\n[2024-11-29 02:34] .holyfire (Holy-Fire): (1.4 * the cost of tarsier which is a turn slower)\n[2024-11-29 02:35] lezaleas: Yeah can i just say that in an idealized model 1 absorb is 2.33 drones then?\n[2024-11-29 02:35] .holyfire (Holy-Fire): At the turn of building the absorber? I'm not sure\n[2024-11-29 02:35] .holyfire (Holy-Fire): Let's say you don't intend to be breached\n[2024-11-29 02:36] .holyfire (Holy-Fire): The only absorber considered is a wall\n[2024-11-29 02:36] lezaleas: Breaching is game over yes\n[2024-11-29 02:36] .holyfire (Holy-Fire): So you build a wall now, it will do nothing other than counteract 2 attack of your opponent\n[2024-11-29 02:36] .holyfire (Holy-Fire): Basically killing 2 permanent attackers\n[2024-11-29 02:37] .holyfire (Holy-Fire): To counteract that, opponent needs to buy 2 permanent attacker 0.5 turns earlier\n[2024-11-29 02:37] lezaleas: Wait cant you compare wall vs 2 barriers plus drones?\n[2024-11-29 02:37] .holyfire (Holy-Fire): He paid 14 gold for those then\n[2024-11-29 02:37] .holyfire (Holy-Fire): Maybe... I'l try that later\n[2024-11-29 02:37] .holyfire (Holy-Fire): It's basically a difference between 1.33 and 1.4",
+      "messages": [
+        {
+          "id": "1311877771164778576",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:13:54.156+00:00",
+          "content": "Unless you are literally trying to solve a tarsier vs plexo kind of game scenario"
+        },
+        {
+          "id": "1311877829650153524",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:14:08.1+00:00",
+          "content": "That's not quite right. The *average* number of engineers, when the attack changes unpredictably, doesn't change as the attack increases. (And that average is (n-1)/2 where n is the defense value of your defender).\n\nThe *actual* number of engineers very much depends on the exact value of the attack, and what it's divisible by. In the plexo scenario - if attack (minus absorb) is 0, 4, 8, 12 etc., you'll need exactly zero engineers. If it's 1,5,9,..., you'll need exactly 1 engineer per turn. 2, 6, 10, you'll need 2. etc.\n\nIn my calculation I was charitable for the defender and assumed they don't need to waste efficiency on engineers. Which happens when attack-absorb is divisible by 4. If that's not guaranteed to be the case, defender is in an even worse position."
+        },
+        {
+          "id": "1311878133359841401",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:15:20.51+00:00",
+          "content": "Right but thats all just considerations youd have to make in a game scenario thats literally tarsiers vs plexos and engis"
+        },
+        {
+          "id": "1311878135427633163",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:15:21.003+00:00",
+          "content": "Right but thats all just considerations youd have to make in a game scenario thats literally tarsiers vs plexos and engis"
+        },
+        {
+          "id": "1311878272581107804",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:15:53.703+00:00",
+          "content": "Its more interesting to figure out the value of idealized soak on plexos in a scenario that resembles their real game usage"
+        },
+        {
+          "id": "1311878401614811176",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:16:24.467+00:00",
+          "content": "Well, yes. Like I said, it's a hypothetical scenario designed to better understand the fundamental mechanics of the game.\n\nOf course in an actual game many things would be very different."
+        },
+        {
+          "id": "1311878541154979920",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:16:57.736+00:00",
+          "content": "Yeah and one thing different would be that both players would be paying the engi tax to absorb not just the plexo spammer"
+        },
+        {
+          "id": "1311878591746670624",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:17:09.798+00:00",
+          "content": "So the engi tax can be ignored"
+        },
+        {
+          "id": "1311878870852567050",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:18:16.342+00:00",
+          "content": "Actually this is interesting for another reason"
+        },
+        {
+          "id": "1311878960904273961",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:18:37.812+00:00",
+          "content": "Well the definition of the scenario is that the players start on equal terms, one only attacks and one only defends. To figure out if soak can cope with attack.\n\nWhich, as we see, it very clearly cannot."
+        },
+        {
+          "id": "1311879043792240763",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:18:57.574+00:00",
+          "content": "Say you fix the numbers so that tarsier is exactly equal in value to soak"
+        },
+        {
+          "id": "1311879110741463091",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:19:13.536+00:00",
+          "content": "Then you allow the defender to buy a wall and starting absorbing"
+        },
+        {
+          "id": "1311879204173774958",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:19:35.812+00:00",
+          "content": "Then you figure out how many extra gold the tarsier player needs to beat the defender now"
+        },
+        {
+          "id": "1311879253259849789",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:19:47.515+00:00",
+          "content": "What would that value represent?"
+        },
+        {
+          "id": "1311880218834898974",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:23:37.726+00:00",
+          "content": "Without absorb, tarsiers are exactly matched by soak if bv = 1.9245\n\nAdding absorb to the issue complicates things, because to make things fair we need to consider how the player got to have absorb"
+        },
+        {
+          "id": "1311880253551018055",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:23:46.003+00:00",
+          "content": "And what the attacker was doing in the meantime"
+        },
+        {
+          "id": "1311880364284973097",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:24:12.404+00:00",
+          "content": "We could assume the attacker was building drones"
+        },
+        {
+          "id": "1311880507872514100",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:24:46.638+00:00",
+          "content": "I think if we have it build tarsiers"
+        },
+        {
+          "id": "1311880592266104852",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:25:06.759+00:00",
+          "content": "We can get the value to be dependent on how much starting gold the players have"
+        },
+        {
+          "id": "1311880723451351051",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:25:38.036+00:00",
+          "content": "Which would then could get a formula for when switching from drones to attackers wins the game"
+        },
+        {
+          "id": "1311880937273036862",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:26:29.015+00:00",
+          "content": "Keep in mind that while against absorb r is equal to 1"
+        },
+        {
+          "id": "1311881156844847144",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:27:21.365+00:00",
+          "content": "Against absorb r is 1.33 since you can build drones"
+        },
+        {
+          "id": "1311881233533374526",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:27:39.649+00:00",
+          "content": "Or maybe that was what you're saying"
+        },
+        {
+          "id": "1311881293184892949",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:27:53.871+00:00",
+          "content": "Yeah i mean the turns where you start building tarsiers"
+        },
+        {
+          "id": "1311881362508087337",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:28:10.399+00:00",
+          "content": "So if you build 0.5 tarsiers per turn"
+        },
+        {
+          "id": "1311881425318056017",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:28:25.374+00:00",
+          "content": "You are growing by 1 during those turns"
+        },
+        {
+          "id": "1311881483719282688",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:28:39.298+00:00",
+          "content": "The more gold both players have"
+        },
+        {
+          "id": "1311881516879712287",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:28:47.204+00:00",
+          "content": "The less turns you lose to absorb"
+        },
+        {
+          "id": "1311881564241657916",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:28:58.496+00:00",
+          "content": "So the better the game becomes for tarsiers"
+        },
+        {
+          "id": "1311881838738018406",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T02:30:03.941+00:00",
+          "content": "I was more interested in the question if the game goes infinity turns, just which set of units creates more value per turn per turn in which case the 2 extra absorb becomes nothing"
+        },
+        {
+          "id": "1311882199125069836",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T02:31:29.864+00:00",
+          "content": "Both players can buy drones and engineers that buy tech that then buys the unit"
+        },
+        {
+          "id": "1311882278074454099",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:31:48.687+00:00",
+          "content": "I think a reasonable question is - players start as usual with 6/7 D, 2E. One player has an unlimited supply of drones, engineers, animus and tarsiers. The other has an unlimited supply of drones, engineers, blastforge, conduit, wall and plexo. (No other units are allowed).\n\nCan the defender prolong the game indefinitely?\n\nI'm pretty sure they can't. But proving that would require analyzing all the different ways the players could play, that's more than a simple mathematical model."
+        },
+        {
+          "id": "1311882354272501801",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2024-11-29T02:32:06.854+00:00",
+          "content": "thats interesting to me too"
+        },
+        {
+          "id": "1311882396706275329",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:32:16.971+00:00",
+          "content": "Throw FF to the mix to for more flexibility"
+        },
+        {
+          "id": "1311882619612565524",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:33:10.116+00:00",
+          "content": "So 1 absorb per turn is about 7.5g value right?"
+        },
+        {
+          "id": "1311882704576315495",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:33:30.373+00:00",
+          "content": "Depends on when you calculate the value..."
+        },
+        {
+          "id": "1311882867759910964",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:34:09.279+00:00",
+          "content": "With the basic model of tarsiers vs 2.3 BV, getting a permanent attacker next turn is worth 7 gold now"
+        },
+        {
+          "id": "1311882919324684359",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:34:21.573+00:00",
+          "content": "(1.4 * the cost of tarsier which is a turn slower)"
+        },
+        {
+          "id": "1311883096710185000",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:35:03.865+00:00",
+          "content": "Yeah can i just say that in an idealized model 1 absorb is 2.33 drones then?"
+        },
+        {
+          "id": "1311883184006365284",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:35:24.678+00:00",
+          "content": "At the turn of building the absorber? I'm not sure"
+        },
+        {
+          "id": "1311883303443501100",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:35:53.154+00:00",
+          "content": "Let's say you don't intend to be breached"
+        },
+        {
+          "id": "1311883373727322173",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:36:09.911+00:00",
+          "content": "The only absorber considered is a wall"
+        },
+        {
+          "id": "1311883381318881383",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:36:11.721+00:00",
+          "content": "Breaching is game over yes"
+        },
+        {
+          "id": "1311883474436755536",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:36:33.922+00:00",
+          "content": "So you build a wall now, it will do nothing other than counteract 2 attack of your opponent"
+        },
+        {
+          "id": "1311883525301207171",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:36:46.049+00:00",
+          "content": "Basically killing 2 permanent attackers"
+        },
+        {
+          "id": "1311883618888712292",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:37:08.362+00:00",
+          "content": "To counteract that, opponent needs to buy 2 permanent attacker 0.5 turns earlier"
+        },
+        {
+          "id": "1311883702216953991",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:37:28.229+00:00",
+          "content": "Wait cant you compare wall vs 2 barriers plus drones?"
+        },
+        {
+          "id": "1311883715785392200",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:37:31.464+00:00",
+          "content": "He paid 14 gold for those then"
+        },
+        {
+          "id": "1311883779626766407",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:37:46.685+00:00",
+          "content": "Maybe... I'l try that later"
+        },
+        {
+          "id": "1311883822501068881",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:37:56.907+00:00",
+          "content": "It's basically a difference between 1.33 and 1.4"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T02:38:11.967+00:00",
+      "end_ts": "2024-11-29T02:48:43.378+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas"
+      ],
+      "replay_codes": [],
+      "score": 22,
+      "formatted_text": "--- Thread (12 messages, 2024-11-29) ---\n[2024-11-29 02:38] .holyfire (Holy-Fire): And I think at the point we're building an absorber we're at 1.4 territory\n[2024-11-29 02:39] .holyfire (Holy-Fire): So assuming r=1.4, 1 block is worth 7 gold 0.5 turns ago, meaning 8.28 gold now\n[2024-11-29 02:40] .holyfire (Holy-Fire): If we assume r=1.33, then yes, 1 prompt absorb now is equivalent to 1 barrier, plus drone and conduit to build a barrier every turn after, so 8.3\n[2024-11-29 02:42] .holyfire (Holy-Fire): That's assuming bv = 2.333 (actual barrier). With bv = 2.3, it's 9.17\n[2024-11-29 02:42] lezaleas: But if a player is on plexos and the other one is on tarsiers\n[2024-11-29 02:42] lezaleas: The plexo guy grows at 1.33\n[2024-11-29 02:43] lezaleas: And the tarsier one grows at 1.4\n[2024-11-29 02:43] lezaleas: Shouldnt tarsier always win regardless of initial gold?\n[2024-11-29 02:43] lezaleas: I gtg have dinner btw bye\n[2024-11-29 02:45] .holyfire (Holy-Fire): Ok. At tarsier-soak parity, which is bv = 1.92 and r=1.333, you have absorb worth 7.68\n[2024-11-29 02:46] .holyfire (Holy-Fire): No. With enough gold for defender, they can build enough drones and engineers to be able to buy, every turn, the drones, conduits and engineers to buy enough plexos per turn per turn\n[2024-11-29 02:48] .holyfire (Holy-Fire): Even if we let the attacker build more drones and animuses, with enough gold for defender he can buy enough of everything to be able to buy every turn the things they need to buy economy every turn to buy economy every turn to deal with the animuses bought every turn",
+      "messages": [
+        {
+          "id": "1311883885667156049",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:38:11.967+00:00",
+          "content": "And I think at the point we're building an absorber we're at 1.4 territory"
+        },
+        {
+          "id": "1311884186751078471",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:39:23.751+00:00",
+          "content": "So assuming r=1.4, 1 block is worth 7 gold 0.5 turns ago, meaning 8.28 gold now"
+        },
+        {
+          "id": "1311884460777537578",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:40:29.084+00:00",
+          "content": "If we assume r=1.33, then yes, 1 prompt absorb now is equivalent to 1 barrier, plus drone and conduit to build a barrier every turn after, so 8.3"
+        },
+        {
+          "id": "1311884890291044393",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:42:11.488+00:00",
+          "content": "That's assuming bv = 2.333 (actual barrier). With bv = 2.3, it's 9.17"
+        },
+        {
+          "id": "1311885033224536114",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:42:45.566+00:00",
+          "content": "But if a player is on plexos and the other one is on tarsiers"
+        },
+        {
+          "id": "1311885064593739830",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:42:53.045+00:00",
+          "content": "The plexo guy grows at 1.33"
+        },
+        {
+          "id": "1311885105505243137",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:43:02.799+00:00",
+          "content": "And the tarsier one grows at 1.4"
+        },
+        {
+          "id": "1311885159250788424",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:43:15.613+00:00",
+          "content": "Shouldnt tarsier always win regardless of initial gold?"
+        },
+        {
+          "id": "1311885227156574260",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T02:43:31.803+00:00",
+          "content": "I gtg have dinner btw bye"
+        },
+        {
+          "id": "1311885632641171538",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:45:08.478+00:00",
+          "content": "Ok. At tarsier-soak parity, which is bv = 1.92 and r=1.333, you have absorb worth 7.68"
+        },
+        {
+          "id": "1311886049810710528",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:46:47.939+00:00",
+          "content": "No. With enough gold for defender, they can build enough drones and engineers to be able to buy, every turn, the drones, conduits and engineers to buy enough plexos per turn per turn"
+        },
+        {
+          "id": "1311886533996970037",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:48:43.378+00:00",
+          "content": "Even if we let the attacker build more drones and animuses, with enough gold for defender he can buy enough of everything to be able to buy every turn the things they need to buy economy every turn to buy economy every turn to deal with the animuses bought every turn"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T02:52:36.618+00:00",
+      "end_ts": "2024-11-29T03:05:43.198+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 37,
+      "formatted_text": "--- Thread (16 messages, 2024-11-29) ---\n[2024-11-29 02:52] .holyfire (Holy-Fire): Let's put it this way: Every turn, the defender needs to spend some of their economy on immediate defense, and some on growth. With enough starting gold, he can spend more economy on growth, approaching the theoretical growth rate.\n\nAnd note that in the parity scenario, r is not actually 1.4 for the attacker. It's the same as for the defender. So attacker can either attack, and then the defender defends and grows, and the attacker can't keep up; or they can grow, and then the defender spends more on growth, and attacker still can't keep up.\n[2024-11-29 02:52] .holyfire (Holy-Fire): Anyway, I actually made a mistake, since I didn't consider energy costs\n[2024-11-29 02:53] .holyfire (Holy-Fire): With energy costs, r is actually less than 1.333\n[2024-11-29 02:53] .holyfire (Holy-Fire): And in a parity scenario, it's the same r for attacker and defender\n[2024-11-29 02:55] .holyfire (Holy-Fire): With energy costs, r=1.2808\n[2024-11-29 02:55] .holyfire (Holy-Fire): And then parity is at bv = 1.58894\n[2024-11-29 02:56] .holyfire (Holy-Fire): Which explains why plexo failed spectacularly after introducing energy cost... Since there's no way to get close to such a bv\n[2024-11-29 02:57] .holyfire (Holy-Fire): So if you do nothing but economy, you can multiply yourself by 1.2808 each turn\n[2024-11-29 02:58] .holyfire (Holy-Fire): But if you spend on attack or defense, your growth rate decreases.\n[2024-11-29 02:58] .holyfire (Holy-Fire): A player that starts with more gold will be closer to this maximal growth rate, and eventually outpace the opponent. That goes for both attacker and defender.\n[2024-11-29 03:01] .holyfire (Holy-Fire): I'm pretty sure even with more realistic bv, defender wins if they start with enough gold.\n[2024-11-29 03:01] .holyfire (Holy-Fire): Attacker spends resources on either attack or economy.\n[2024-11-29 03:02] .holyfire (Holy-Fire): If attack, defender uses gold for 2nd-order economy and deflect the attack.\n[2024-11-29 03:02] .holyfire (Holy-Fire): If economy, they can't grow faster than 1.2808, and then defender will also grow at 1.2808 and maintain an advantage.\n[2024-11-29 03:03] .holyfire (Holy-Fire): Attacker can win if defender starts with some more gold, but not much.\n[2024-11-29 03:05] .holyfire (Holy-Fire): BTW in economy-only mode, energy is worth 0.562 gold",
+      "messages": [
+        {
+          "id": "1311887512276570112",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:52:36.618+00:00",
+          "content": "Let's put it this way: Every turn, the defender needs to spend some of their economy on immediate defense, and some on growth. With enough starting gold, he can spend more economy on growth, approaching the theoretical growth rate.\n\nAnd note that in the parity scenario, r is not actually 1.4 for the attacker. It's the same as for the defender. So attacker can either attack, and then the defender defends and grows, and the attacker can't keep up; or they can grow, and then the defender spends more on growth, and attacker still can't keep up."
+        },
+        {
+          "id": "1311887600931307591",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:52:57.755+00:00",
+          "content": "Anyway, I actually made a mistake, since I didn't consider energy costs"
+        },
+        {
+          "id": "1311887630782173246",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:53:04.872+00:00",
+          "content": "With energy costs, r is actually less than 1.333"
+        },
+        {
+          "id": "1311887685261983876",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:53:17.861+00:00",
+          "content": "And in a parity scenario, it's the same r for attacker and defender"
+        },
+        {
+          "id": "1311888132399956019",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:55:04.467+00:00",
+          "content": "With energy costs, r=1.2808"
+        },
+        {
+          "id": "1311888323584987247",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:55:50.049+00:00",
+          "content": "And then parity is at bv = 1.58894"
+        },
+        {
+          "id": "1311888447891574847",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:56:19.686+00:00",
+          "content": "Which explains why plexo failed spectacularly after introducing energy cost... Since there's no way to get close to such a bv"
+        },
+        {
+          "id": "1311888781619626045",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:57:39.253+00:00",
+          "content": "So if you do nothing but economy, you can multiply yourself by 1.2808 each turn"
+        },
+        {
+          "id": "1311888954647121960",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:58:20.506+00:00",
+          "content": "But if you spend on attack or defense, your growth rate decreases."
+        },
+        {
+          "id": "1311889073811619891",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T02:58:48.917+00:00",
+          "content": "A player that starts with more gold will be closer to this maximal growth rate, and eventually outpace the opponent. That goes for both attacker and defender."
+        },
+        {
+          "id": "1311889718681669672",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:01:22.666+00:00",
+          "content": "I'm pretty sure even with more realistic bv, defender wins if they start with enough gold."
+        },
+        {
+          "id": "1311889779511529582",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:01:37.169+00:00",
+          "content": "Attacker spends resources on either attack or economy."
+        },
+        {
+          "id": "1311889880703565896",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:02:01.295+00:00",
+          "content": "If attack, defender uses gold for 2nd-order economy and deflect the attack."
+        },
+        {
+          "id": "1311889984474714212",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:02:26.036+00:00",
+          "content": "If economy, they can't grow faster than 1.2808, and then defender will also grow at 1.2808 and maintain an advantage."
+        },
+        {
+          "id": "1311890181858656318",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:03:13.096+00:00",
+          "content": "Attacker can win if defender starts with some more gold, but not much."
+        },
+        {
+          "id": "1311890811432075274",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:05:43.198+00:00",
+          "content": "BTW in economy-only mode, energy is worth 0.562 gold"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T03:09:11.109+00:00",
+      "end_ts": "2024-11-29T03:09:11.109+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [
+        "nimus-tarsi"
+      ],
+      "score": 8,
+      "formatted_text": "--- Thread (1 messages, 2024-11-29) ---\n[2024-11-29 03:09] .holyfire (Holy-Fire): Arguably, absorb being a thing gives the defender enough value to get a head start on the attacker. But I don't think it's enough.\n\nIn that light, better absorbers help. So with good enough absorbers, it might be possible for defender to win from starting position.\n\nBut I doubt even infinite supply of all defenders in the game is enough to beat Drone-engi-animus-tarsier attacker.",
+      "messages": [
+        {
+          "id": "1311891683473887372",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:09:11.109+00:00",
+          "content": "Arguably, absorb being a thing gives the defender enough value to get a head start on the attacker. But I don't think it's enough.\n\nIn that light, better absorbers help. So with good enough absorbers, it might be possible for defender to win from starting position.\n\nBut I doubt even infinite supply of all defenders in the game is enough to beat Drone-engi-animus-tarsier attacker."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T03:14:34.301+00:00",
+      "end_ts": "2024-11-29T03:32:37.398+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas"
+      ],
+      "replay_codes": [],
+      "score": 41,
+      "formatted_text": "--- Thread (39 messages, 2024-11-29) ---\n[2024-11-29 03:14] lezaleas: the defender is losing 29g to 35g\n[2024-11-29 03:14] lezaleas: if we assume the value of absorb is 7g\n[2024-11-29 03:15] lezaleas: can we say that giving the defender 1 absorb would let it win the game?\n[2024-11-29 03:17] .holyfire (Holy-Fire): Well, no, because that is the marginal cost per turn.\n\nNext turn I will also pay an effective 29g for more attack, and the defender will need to pay 35g to cope.\n\nI think to get ahead, they need to get the drones required to match that. So they get 6 drones now, worth about 18g. 1 absorb worth 7g is not enough.\n\nAnd I'm not even sure 18 is enough, I'd need to think if this is how it works\n[2024-11-29 03:18] lezaleas: no in this case i mean giving them permanent absorb\n[2024-11-29 03:18] lezaleas: so it would be 7g per turn\n[2024-11-29 03:19] .holyfire (Holy-Fire): No, permanent absorb is worth 7g now, not every turn.\n\nCompared to one-time soak which is about 2g\n[2024-11-29 03:20] lezaleas: ah yeah i can see that\n[2024-11-29 03:20] .holyfire (Holy-Fire): Eg, defender gets a free wall, and that will be his absorber for the rest of the game. It's worth 14 g over not having absorbers at all\n[2024-11-29 03:21] .holyfire (Holy-Fire): Anyway, I think I was right. Opponent gets 6 drones, worth 18g, on their turn. These will be enough to get the extra 6g per turn they need to match my attack.\n[2024-11-29 03:21] lezaleas: absorb value is actually bvalue times the sum of the series 1.4 to the -n right?\n[2024-11-29 03:21] lezaleas: so if we give the defender 3 absorb he should be able to win the game in your exmaple?\n[2024-11-29 03:22] .holyfire (Holy-Fire): With a half turn offset, yes.\n[2024-11-29 03:22] .holyfire (Holy-Fire): But of course, absorb is not given for free, it needs to be bought, even if cheaper than its value.\n[2024-11-29 03:22] lezaleas: ok but then we have all we need to solve for the exact moment where building tarsiers beats drones\n[2024-11-29 03:23] lezaleas: you used 25 starting gold to buy tarsiers?\n[2024-11-29 03:23] lezaleas: and the defender needs 3 absorb to win\n[2024-11-29 03:23] lezaleas: plus some value to build the initial wall i guess\n[2024-11-29 03:23] .holyfire (Holy-Fire): Basically I'm assuming in this scenario that I have 2.5 animus and 20 drones, and can buy 5 tarsiers every turn\n[2024-11-29 03:23] lezaleas: there's a starting amount of gold where the defender has exactly enough to buy the wall and go even\n[2024-11-29 03:24] .holyfire (Holy-Fire): So let's say I start with a value of 75 gold\n[2024-11-29 03:24] lezaleas: then the advantage would be triple for tarsier\n[2024-11-29 03:25] lezaleas: and wall guy would need like 9 absorb\n[2024-11-29 03:25] lezaleas: in other words, never build drones if you have 75 income\n[2024-11-29 03:25] .holyfire (Holy-Fire): I think if defender has, on their next turn, a value of 105 gold, they can win\n[2024-11-29 03:26] .holyfire (Holy-Fire): And they can decide how to compose that value\n[2024-11-29 03:26] .holyfire (Holy-Fire): Could be absorb, could be econ\n[2024-11-29 03:26] lezaleas: ok but let's say we start the game at 6g\n[2024-11-29 03:26] lezaleas: then tarsiers would have like 1.5g advantage to win\n[2024-11-29 03:27] lezaleas: if the game has enough absorb to pay for 1.5 drones and itself, then wall guy wins?\n[2024-11-29 03:28] lezaleas: so a wall costs 6.67 and gives 2 absorb, around 14g, the remaining 7g can buy more than 2 drones so walls would let plexos win that game?\n[2024-11-29 03:28] .holyfire (Holy-Fire): Well from starting position you need to figure out how to open and get to have tech and whatever\n[2024-11-29 03:28] lezaleas: yeah of course in a real game you would solve granularit issues in some other way\n[2024-11-29 03:29] .holyfire (Holy-Fire): Though if you want, we can assume gold and tech is interchangeable, and fractions can be bought\n[2024-11-29 03:30] .holyfire (Holy-Fire): So let's assume they all start without engineers. Just 6 drones. Proportionally speaking, P2 defender needs to start with 8.4 drones to win.\n[2024-11-29 03:30] .holyfire (Holy-Fire): (Of course, \"winning\" here is surviving indefinitely, since they can't actually attack and win)\n[2024-11-29 03:31] lezaleas: winning is running out of infinite supply yes\n[2024-11-29 03:32] lezaleas: say xt is the starting drones that would be required for tarsier to go even against plexos if plexos can buy one wall\n[2024-11-29 03:32] lezaleas: is xt then the moment where you should switch from building econ to tarsiers in this game?",
+      "messages": [
+        {
+          "id": "1311893039039381577",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:14:34.301+00:00",
+          "content": "the defender is losing 29g to 35g"
+        },
+        {
+          "id": "1311893093427052676",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:14:47.268+00:00",
+          "content": "if we assume the value of absorb is 7g"
+        },
+        {
+          "id": "1311893219558162513",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:15:17.34+00:00",
+          "content": "can we say that giving the defender 1 absorb would let it win the game?"
+        },
+        {
+          "id": "1311893803820515389",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:17:36.639+00:00",
+          "content": "Well, no, because that is the marginal cost per turn.\n\nNext turn I will also pay an effective 29g for more attack, and the defender will need to pay 35g to cope.\n\nI think to get ahead, they need to get the drones required to match that. So they get 6 drones now, worth about 18g. 1 absorb worth 7g is not enough.\n\nAnd I'm not even sure 18 is enough, I'd need to think if this is how it works"
+        },
+        {
+          "id": "1311894096599584859",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:18:46.443+00:00",
+          "content": "no in this case i mean giving them permanent absorb"
+        },
+        {
+          "id": "1311894118556893205",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:18:51.678+00:00",
+          "content": "so it would be 7g per turn"
+        },
+        {
+          "id": "1311894310677123165",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:19:37.483+00:00",
+          "content": "No, permanent absorb is worth 7g now, not every turn.\n\nCompared to one-time soak which is about 2g"
+        },
+        {
+          "id": "1311894411528896563",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:20:01.528+00:00",
+          "content": "ah yeah i can see that"
+        },
+        {
+          "id": "1311894452817629245",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:20:11.372+00:00",
+          "content": "Eg, defender gets a free wall, and that will be his absorber for the rest of the game. It's worth 14 g over not having absorbers at all"
+        },
+        {
+          "id": "1311894745429184512",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:21:21.136+00:00",
+          "content": "Anyway, I think I was right. Opponent gets 6 drones, worth 18g, on their turn. These will be enough to get the extra 6g per turn they need to match my attack."
+        },
+        {
+          "id": "1311894765171769355",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:21:25.843+00:00",
+          "content": "absorb value is actually bvalue times the sum of the series 1.4 to the -n right?"
+        },
+        {
+          "id": "1311894878606721114",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:21:52.888+00:00",
+          "content": "so if we give the defender 3 absorb he should be able to win the game in your exmaple?"
+        },
+        {
+          "id": "1311894909850226719",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:22:00.337+00:00",
+          "content": "With a half turn offset, yes."
+        },
+        {
+          "id": "1311895009959743489",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:22:24.205+00:00",
+          "content": "But of course, absorb is not given for free, it needs to be bought, even if cheaper than its value."
+        },
+        {
+          "id": "1311895047595229215",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:22:33.178+00:00",
+          "content": "ok but then we have all we need to solve for the exact moment where building tarsiers beats drones"
+        },
+        {
+          "id": "1311895203212165210",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:23:10.28+00:00",
+          "content": "you used 25 starting gold to buy tarsiers?"
+        },
+        {
+          "id": "1311895231150686210",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:23:16.941+00:00",
+          "content": "and the defender needs 3 absorb to win"
+        },
+        {
+          "id": "1311895291485622342",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:23:31.326+00:00",
+          "content": "plus some value to build the initial wall i guess"
+        },
+        {
+          "id": "1311895380744474645",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:23:52.607+00:00",
+          "content": "Basically I'm assuming in this scenario that I have 2.5 animus and 20 drones, and can buy 5 tarsiers every turn"
+        },
+        {
+          "id": "1311895381910618112",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:23:52.885+00:00",
+          "content": "there's a starting amount of gold where the defender has exactly enough to buy the wall and go even"
+        },
+        {
+          "id": "1311895486709628944",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:24:17.871+00:00",
+          "content": "So let's say I start with a value of 75 gold"
+        },
+        {
+          "id": "1311895634667638816",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:24:53.147+00:00",
+          "content": "then the advantage would be triple for tarsier"
+        },
+        {
+          "id": "1311895663818309682",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:25:00.097+00:00",
+          "content": "and wall guy would need like 9 absorb"
+        },
+        {
+          "id": "1311895715844198420",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:25:12.501+00:00",
+          "content": "in other words, never build drones if you have 75 income"
+        },
+        {
+          "id": "1311895767971139664",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:25:24.929+00:00",
+          "content": "I think if defender has, on their next turn, a value of 105 gold, they can win"
+        },
+        {
+          "id": "1311895950943584319",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:26:08.553+00:00",
+          "content": "And they can decide how to compose that value"
+        },
+        {
+          "id": "1311895969377554442",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:26:12.948+00:00",
+          "content": "Could be absorb, could be econ"
+        },
+        {
+          "id": "1311896097198964778",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:26:43.423+00:00",
+          "content": "ok but let's say we start the game at 6g"
+        },
+        {
+          "id": "1311896161753239635",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:26:58.814+00:00",
+          "content": "then tarsiers would have like 1.5g advantage to win"
+        },
+        {
+          "id": "1311896284994736199",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:27:28.197+00:00",
+          "content": "if the game has enough absorb to pay for 1.5 drones and itself, then wall guy wins?"
+        },
+        {
+          "id": "1311896489429307452",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:28:16.938+00:00",
+          "content": "so a wall costs 6.67 and gives 2 absorb, around 14g, the remaining 7g can buy more than 2 drones so walls would let plexos win that game?"
+        },
+        {
+          "id": "1311896570777829468",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:28:36.333+00:00",
+          "content": "Well from starting position you need to figure out how to open and get to have tech and whatever"
+        },
+        {
+          "id": "1311896662238695425",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:28:58.139+00:00",
+          "content": "yeah of course in a real game you would solve granularit issues in some other way"
+        },
+        {
+          "id": "1311896676302327851",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:29:01.492+00:00",
+          "content": "Though if you want, we can assume gold and tech is interchangeable, and fractions can be bought"
+        },
+        {
+          "id": "1311896973996982292",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:30:12.468+00:00",
+          "content": "So let's assume they all start without engineers. Just 6 drones. Proportionally speaking, P2 defender needs to start with 8.4 drones to win."
+        },
+        {
+          "id": "1311897056058544148",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:30:32.033+00:00",
+          "content": "(Of course, \"winning\" here is surviving indefinitely, since they can't actually attack and win)"
+        },
+        {
+          "id": "1311897189613572098",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:31:03.875+00:00",
+          "content": "winning is running out of infinite supply yes"
+        },
+        {
+          "id": "1311897489330405473",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:32:15.333+00:00",
+          "content": "say xt is the starting drones that would be required for tarsier to go even against plexos if plexos can buy one wall"
+        },
+        {
+          "id": "1311897581877727273",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:32:37.398+00:00",
+          "content": "is xt then the moment where you should switch from building econ to tarsiers in this game?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T03:41:45.341+00:00",
+      "end_ts": "2024-11-29T03:45:38.247+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas"
+      ],
+      "replay_codes": [],
+      "score": 12,
+      "formatted_text": "--- Thread (5 messages, 2024-11-29) ---\n[2024-11-29 03:41] .holyfire (Holy-Fire): Let's review the model.\n\nGold, energy, and tech is interchangeable, at exchange rates given by the pure economy model.\n\nenergy = 0.56, red = 0.84, green = 1.12, blue = 1.40.\n\nFractional units can be bought.\n\nAttacker can build tarsier for 4.84 gold.\n\ndefender can buy plexo for 2 gold, 2 green, and drone, total of 7.8. So BV = 1.95.\n\nIn addition, defender can, whenever they choose, buy absorb, at a cost of 3.2, up to a total of 2 absorb.\n[2024-11-29 03:43] .holyfire (Holy-Fire): Attacker starts with x drones. Defender starts with y drones. We want to understand what (x,y) values give equality.\n[2024-11-29 03:44] lezaleas: yeah something like that\n[2024-11-29 03:45] lezaleas: i can see that absorb existing in that game is giving the defender 2.33 drones of advantage\n[2024-11-29 03:45] .holyfire (Holy-Fire): A simple starting point is that x=8, and starts buying 2 tarsiers per turn. Defender spends 1st turn on growth, 2nd turn on absorb and growth, following turns on defense and growth.",
+      "messages": [
+        {
+          "id": "1311899880117243985",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:41:45.341+00:00",
+          "content": "Let's review the model.\n\nGold, energy, and tech is interchangeable, at exchange rates given by the pure economy model.\n\nenergy = 0.56, red = 0.84, green = 1.12, blue = 1.40.\n\nFractional units can be bought.\n\nAttacker can build tarsier for 4.84 gold.\n\ndefender can buy plexo for 2 gold, 2 green, and drone, total of 7.8. So BV = 1.95.\n\nIn addition, defender can, whenever they choose, buy absorb, at a cost of 3.2, up to a total of 2 absorb."
+        },
+        {
+          "id": "1311900291578466314",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:43:23.441+00:00",
+          "content": "Attacker starts with x drones. Defender starts with y drones. We want to understand what (x,y) values give equality."
+        },
+        {
+          "id": "1311900488664485988",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:44:10.43+00:00",
+          "content": "yeah something like that"
+        },
+        {
+          "id": "1311900716918636628",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:45:04.85+00:00",
+          "content": "i can see that absorb existing in that game is giving the defender 2.33 drones of advantage"
+        },
+        {
+          "id": "1311900856995680297",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:45:38.247+00:00",
+          "content": "A simple starting point is that x=8, and starts buying 2 tarsiers per turn. Defender spends 1st turn on growth, 2nd turn on absorb and growth, following turns on defense and growth."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T03:51:58.119+00:00",
+      "end_ts": "2024-11-29T04:07:25.99+00:00",
+      "participants": [
+        ".holyfire",
+        "lezaleas"
+      ],
+      "replay_codes": [],
+      "score": 43,
+      "formatted_text": "--- Thread (28 messages, 2024-11-29) ---\n[2024-11-29 03:51] .holyfire (Holy-Fire): So at T+0.5 (half a turn after the attacker starts), defender has y drones. At T+1.5, 1.28y drones. 6.4 gold spent on absorb, the rest on growth. At T+2.5, 1.6384y - 1.792 drones, and defender spends 3.9 on defense, and the defense expenditure per turn increase by 3.9 per turn. Which means they need to buy 3.9 drones that turn. A total of 3.9*3.56+3.9 = 17.784. This needs to be equal to 1.6384y - 1.792, giving y=11.95.\n[2024-11-29 03:52] .holyfire (Holy-Fire): So against 8 attacker starting drones, defender needs to start with 12 drones.\n[2024-11-29 03:52] lezaleas: i got almost the same number using rounded values everywhere\n[2024-11-29 03:53] .holyfire (Holy-Fire): 12 drones is odd, it's higher than I expected\n[2024-11-29 03:54] lezaleas: however your plexos are worse than real ones because you buy engis\n[2024-11-29 03:54] .holyfire (Holy-Fire): Earlier I mentioned a ratio of 75 to 105 drones. That's x1.4.\n\nThe availability of absorb should lower that.\n\nBut instead it's higher, 1.5.\n[2024-11-29 03:54] .holyfire (Holy-Fire): But then again, in the calculation that resulted in 105 I used very different exchange rates.\n[2024-11-29 03:55] .holyfire (Holy-Fire): Everything changes when you include energy costs\n[2024-11-29 03:55] .holyfire (Holy-Fire): Which you should when you're talking about infinite growth\n[2024-11-29 03:55] lezaleas: yeah but im not interested in infinite growth\n[2024-11-29 03:55] lezaleas: im interested in if the model can represent xt accurately enough when compared to a real game\n[2024-11-29 03:56] lezaleas: it does seem to give numbers that make sense\n[2024-11-29 03:56] lezaleas: 12 drones seems ok with engi plexo wall defense\n[2024-11-29 03:56] lezaleas: and it increases with better soak as expected\n[2024-11-29 03:56] lezaleas: and increases even more with more absorb\n[2024-11-29 03:57] .holyfire (Holy-Fire): Well, my model is for the defender trying to grow infinitely to cope with the attacker.\n[2024-11-29 03:57] .holyfire (Holy-Fire): Relevance to a real game is not entirely clear\n[2024-11-29 03:59] .holyfire (Holy-Fire): Anyway, it's getting very late here and I don't know how many mistakes I've made in the calculations.\n[2024-11-29 04:01] .holyfire (Holy-Fire): It's possible that better results can be obtained programmatically than with pure math\n[2024-11-29 04:01] .holyfire (Holy-Fire): That is, simulate what happens in the game, with some simple rules\n[2024-11-29 04:01] lezaleas: it's why i'm interested mainly in if the game does represent xt\n[2024-11-29 04:03] .holyfire (Holy-Fire): To clarify, you're interested in knowing, in a real game, how long to grow economy and when to start building attackers?\n[2024-11-29 04:03] .holyfire (Holy-Fire): Because I'm not sure all these calculations will give a very good answer to that\n[2024-11-29 04:04] lezaleas: they wont give me the exact answer but if i get a formula that can represent it i can toy with it and see what it does\n[2024-11-29 04:04] lezaleas: so i can answer things like should i buy more drones on a plexo wall game or a matrix husk game\n[2024-11-29 04:06] .holyfire (Holy-Fire): I guess that to find a good answer, we'd need to model both sides attacking\n\nI think reasonably good ballpark formulae can be obtained in a model where not only resources are interchangeable and fractional units are a thing, time is continuous\n[2024-11-29 04:06] .holyfire (Holy-Fire): BTW, I've always thought that continuous-time prismata could be interesting\n[2024-11-29 04:07] lezaleas: i think that if you give the defender half a turn of advantage and abstract some things the result is good enough",
+      "messages": [
+        {
+          "id": "1311902450294456321",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:51:58.119+00:00",
+          "content": "So at T+0.5 (half a turn after the attacker starts), defender has y drones. At T+1.5, 1.28y drones. 6.4 gold spent on absorb, the rest on growth. At T+2.5, 1.6384y - 1.792 drones, and defender spends 3.9 on defense, and the defense expenditure per turn increase by 3.9 per turn. Which means they need to buy 3.9 drones that turn. A total of 3.9*3.56+3.9 = 17.784. This needs to be equal to 1.6384y - 1.792, giving y=11.95."
+        },
+        {
+          "id": "1311902521123536968",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:52:15.006+00:00",
+          "content": "So against 8 attacker starting drones, defender needs to start with 12 drones."
+        },
+        {
+          "id": "1311902636345266206",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:52:42.477+00:00",
+          "content": "i got almost the same number using rounded values everywhere"
+        },
+        {
+          "id": "1311902842185056327",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:53:31.553+00:00",
+          "content": "12 drones is odd, it's higher than I expected"
+        },
+        {
+          "id": "1311903010644955198",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:54:11.717+00:00",
+          "content": "however your plexos are worse than real ones because you buy engis"
+        },
+        {
+          "id": "1311903093994033182",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:54:31.589+00:00",
+          "content": "Earlier I mentioned a ratio of 75 to 105 drones. That's x1.4.\n\nThe availability of absorb should lower that.\n\nBut instead it's higher, 1.5."
+        },
+        {
+          "id": "1311903178421305354",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:54:51.718+00:00",
+          "content": "But then again, in the calculation that resulted in 105 I used very different exchange rates."
+        },
+        {
+          "id": "1311903220720996452",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:55:01.803+00:00",
+          "content": "Everything changes when you include energy costs"
+        },
+        {
+          "id": "1311903255802019911",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:55:10.167+00:00",
+          "content": "Which you should when you're talking about infinite growth"
+        },
+        {
+          "id": "1311903350597488670",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:55:32.768+00:00",
+          "content": "yeah but im not interested in infinite growth"
+        },
+        {
+          "id": "1311903435683008523",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:55:53.054+00:00",
+          "content": "im interested in if the model can represent xt accurately enough when compared to a real game"
+        },
+        {
+          "id": "1311903584786579456",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:56:28.603+00:00",
+          "content": "it does seem to give numbers that make sense"
+        },
+        {
+          "id": "1311903642915442708",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:56:42.462+00:00",
+          "content": "12 drones seems ok with engi plexo wall defense"
+        },
+        {
+          "id": "1311903691342614641",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:56:54.008+00:00",
+          "content": "and it increases with better soak as expected"
+        },
+        {
+          "id": "1311903713304248360",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T03:56:59.244+00:00",
+          "content": "and increases even more with more absorb"
+        },
+        {
+          "id": "1311903762033672274",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:57:10.862+00:00",
+          "content": "Well, my model is for the defender trying to grow infinitely to cope with the attacker."
+        },
+        {
+          "id": "1311903888437280818",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:57:40.999+00:00",
+          "content": "Relevance to a real game is not entirely clear"
+        },
+        {
+          "id": "1311904298204135545",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T03:59:18.695+00:00",
+          "content": "Anyway, it's getting very late here and I don't know how many mistakes I've made in the calculations."
+        },
+        {
+          "id": "1311904792536158238",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T04:01:16.553+00:00",
+          "content": "It's possible that better results can be obtained programmatically than with pure math"
+        },
+        {
+          "id": "1311904854771240980",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T04:01:31.391+00:00",
+          "content": "That is, simulate what happens in the game, with some simple rules"
+        },
+        {
+          "id": "1311904962044760104",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T04:01:56.967+00:00",
+          "content": "it's why i'm interested mainly in if the game does represent xt"
+        },
+        {
+          "id": "1311905253129588816",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T04:03:06.367+00:00",
+          "content": "To clarify, you're interested in knowing, in a real game, how long to grow economy and when to start building attackers?"
+        },
+        {
+          "id": "1311905440690475018",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T04:03:51.085+00:00",
+          "content": "Because I'm not sure all these calculations will give a very good answer to that"
+        },
+        {
+          "id": "1311905550685966358",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T04:04:17.31+00:00",
+          "content": "they wont give me the exact answer but if i get a formula that can represent it i can toy with it and see what it does"
+        },
+        {
+          "id": "1311905701295034409",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T04:04:53.218+00:00",
+          "content": "so i can answer things like should i buy more drones on a plexo wall game or a matrix husk game"
+        },
+        {
+          "id": "1311906118171361301",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T04:06:32.609+00:00",
+          "content": "I guess that to find a good answer, we'd need to model both sides attacking\n\nI think reasonably good ballpark formulae can be obtained in a model where not only resources are interchangeable and fractional units are a thing, time is continuous"
+        },
+        {
+          "id": "1311906181408624714",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T04:06:47.686+00:00",
+          "content": "BTW, I've always thought that continuous-time prismata could be interesting"
+        },
+        {
+          "id": "1311906342067503135",
+          "author": "lezaleas",
+          "nickname": "Lezaleas",
+          "timestamp": "2024-11-29T04:07:25.99+00:00",
+          "content": "i think that if you give the defender half a turn of advantage and abstract some things the result is good enough"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T04:11:01.368+00:00",
+      "end_ts": "2024-11-29T04:11:01.368+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2024-11-29) ---\n[2024-11-29 04:11] .holyfire (Holy-Fire): I'll try to work on a simplified continuous model, and then maybe work from that to make it more realistic. But that won't be today.",
+      "messages": [
+        {
+          "id": "1311907245428310017",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T04:11:01.368+00:00",
+          "content": "I'll try to work on a simplified continuous model, and then maybe work from that to make it more realistic. But that won't be today."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T11:04:43.064+00:00",
+      "end_ts": "2024-11-29T11:04:43.064+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2024-11-29) ---\n[2024-11-29 11:04] .holyfire (Holy-Fire): Started to think about the model... I'll need to recall how to solve multivariate linear differential equations",
+      "messages": [
+        {
+          "id": "1312011355166998599",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-29T11:04:43.064+00:00",
+          "content": "Started to think about the model... I'll need to recall how to solve multivariate linear differential equations"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-29T23:49:03.616+00:00",
+      "end_ts": "2024-11-29T23:51:30.513+00:00",
+      "participants": [
+        "pikachumemes."
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2024-11-29) ---\n[2024-11-29 23:49] pikachumemes. (Pikachu Memes): i mean, the first calc would be to see if the tarsiers outpace drone + plexo/wall etc long-term\n[2024-11-29 23:49] pikachumemes. (Pikachu Memes): the second calc would be to see if the tarsiers can use breakpoitns to be more efficeint/exploit\n[2024-11-29 23:51] pikachumemes. (Pikachu Memes): i dont think the starting # of drones/tarsiers matters for the first calc--if you outpace it will outpace given any number of starting drones",
+      "messages": [
+        {
+          "id": "1312203708263567531",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2024-11-29T23:49:03.616+00:00",
+          "content": "i mean, the first calc would be to see if the tarsiers outpace drone + plexo/wall etc long-term"
+        },
+        {
+          "id": "1312203777712984195",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2024-11-29T23:49:20.174+00:00",
+          "content": "the second calc would be to see if the tarsiers can use breakpoitns to be more efficeint/exploit"
+        },
+        {
+          "id": "1312204324394504285",
+          "author": "pikachumemes.",
+          "nickname": "Pikachu Memes",
+          "timestamp": "2024-11-29T23:51:30.513+00:00",
+          "content": "i dont think the starting # of drones/tarsiers matters for the first calc--if you outpace it will outpace given any number of starting drones"
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-30T17:34:20.265+00:00",
+      "end_ts": "2024-11-30T17:35:50.986+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (3 messages, 2024-11-30) ---\n[2024-11-30 17:34] .holyfire (Holy-Fire): No, that is incorrect, for the reasons I mentioned. (Again, assuming infinite supplies - with finite supplies, the attacker will always beat the defender).\n[2024-11-30 17:35] .holyfire (Holy-Fire): Defense is linear, attack is quadratic, economy is exponential. Given a good enough headstart, you can grow exponentially and do whatever you want.\n[2024-11-30 17:35] .holyfire (Holy-Fire): Of course, without a headstart, you'll be killed before you get to grow anything.",
+      "messages": [
+        {
+          "id": "1312471794120261632",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T17:34:20.265+00:00",
+          "content": "No, that is incorrect, for the reasons I mentioned. (Again, assuming infinite supplies - with finite supplies, the attacker will always beat the defender)."
+        },
+        {
+          "id": "1312472084290732042",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T17:35:29.447+00:00",
+          "content": "Defense is linear, attack is quadratic, economy is exponential. Given a good enough headstart, you can grow exponentially and do whatever you want."
+        },
+        {
+          "id": "1312472174631850047",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T17:35:50.986+00:00",
+          "content": "Of course, without a headstart, you'll be killed before you get to grow anything."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-30T17:39:06.12+00:00",
+      "end_ts": "2024-11-30T17:40:55.975+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (3 messages, 2024-11-30) ---\n[2024-11-30 17:39] .holyfire (Holy-Fire): If they start with 4 engis and 12 drones - build, every turn, 4 drones and 2*n engineers.\n[2024-11-30 17:40] .holyfire (Holy-Fire): So it will look something like\n\nDD, DDDD\nA, DDDDEE\nTT, DDDDEEEE\nTT, DDDDEEEEEE\nTT, DDDDEEEEEEEE\n\nThere's nothing the attacker can do in this scenario.\n[2024-11-30 17:40] .holyfire (Holy-Fire): I think actually defender can start one turn later in this scenario. Not that it matters.",
+      "messages": [
+        {
+          "id": "1312472993083031674",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T17:39:06.12+00:00",
+          "content": "If they start with 4 engis and 12 drones - build, every turn, 4 drones and 2*n engineers."
+        },
+        {
+          "id": "1312473325984809051",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T17:40:25.49+00:00",
+          "content": "So it will look something like\n\nDD, DDDD\nA, DDDDEE\nTT, DDDDEEEE\nTT, DDDDEEEEEE\nTT, DDDDEEEEEEEE\n\nThere's nothing the attacker can do in this scenario."
+        },
+        {
+          "id": "1312473453848428746",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T17:40:55.975+00:00",
+          "content": "I think actually defender can start one turn later in this scenario. Not that it matters."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-30T17:44:22.307+00:00",
+      "end_ts": "2024-11-30T17:49:32.542+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (3 messages, 2024-11-30) ---\n[2024-11-30 17:44] .holyfire (Holy-Fire): If P1 attacker starts with 6D, 2E normally, and P2 defender starts with 10D, 2E, they can hold off indefinitely with just engineers.\n\nDD, DDEE\nA, DDDD\nTT, DDDDEE\nTT, DDDDEEEE\nTT, DDDDEEEEEE\n[2024-11-30 17:46] .holyfire (Holy-Fire): With different attacker strat, defender will need a different strat, but I believe it should be possible with the same 10D, 2E start. And it is mathematically guaranteed there is some starting amount of drones for which there is no attacker strat that will beat the defender. (Not sure if 10D is that amount, but it shouldn't be much more).\n[2024-11-30 17:49] .holyfire (Holy-Fire): I mean, even if attacker has access to amporilla, then with a given level of economy, they can deal a cubic amount of total damage. But exponential still beats cubic.",
+      "messages": [
+        {
+          "id": "1312474319267303456",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T17:44:22.307+00:00",
+          "content": "If P1 attacker starts with 6D, 2E normally, and P2 defender starts with 10D, 2E, they can hold off indefinitely with just engineers.\n\nDD, DDEE\nA, DDDD\nTT, DDDDEE\nTT, DDDDEEEE\nTT, DDDDEEEEEE"
+        },
+        {
+          "id": "1312474907950448640",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T17:46:42.66+00:00",
+          "content": "With different attacker strat, defender will need a different strat, but I believe it should be possible with the same 10D, 2E start. And it is mathematically guaranteed there is some starting amount of drones for which there is no attacker strat that will beat the defender. (Not sure if 10D is that amount, but it shouldn't be much more)."
+        },
+        {
+          "id": "1312475620487462912",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T17:49:32.542+00:00",
+          "content": "I mean, even if attacker has access to amporilla, then with a given level of economy, they can deal a cubic amount of total damage. But exponential still beats cubic."
+        }
+      ]
+    },
+    {
+      "start_ts": "2024-11-30T21:57:58.321+00:00",
+      "end_ts": "2024-11-30T21:57:58.321+00:00",
+      "participants": [
+        ".holyfire"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2024-11-30) ---\n[2024-11-30 21:57] .holyfire (Holy-Fire): Well, I'm not entirely sure what @Pikachu Memes meant.\n\nI assumed we're talking about a scenario where P1 is the attacker and has a given starting condition, and P2 is the defender and has an unspecified starting condition.\n\nIt's clear that in a normal game, a player starting with an advantage wins. I don't know how clear that is when one player is forbidden from buying attackers. I think Lezaleas also expressed doubt about it. So I was saying that enough starting advantage trumps being pacifist.\n\nIf we do try to make it even, it's not clear what \"even\" means. Of course P2 will need to start with more for it to be fair, but how much more is open to debate. It's known from experience that P1 6D 2E is fairly balanced against P2 7D 2E. But what if P1 starts with, say, 10D 2E. How much does P2 need for it to be balanced? In a normal game, or in a hypothetical attacker vs defender scenario?\n\nEssentially I'm not sure what Pikachu meant by \"i dont think the starting # of drones/tarsiers matters for the first calc\". Of course it matters.",
+      "messages": [
+        {
+          "id": "1312538139855949836",
+          "author": ".holyfire",
+          "nickname": "Holy-Fire",
+          "timestamp": "2024-11-30T21:57:58.321+00:00",
+          "content": "Well, I'm not entirely sure what @Pikachu Memes meant.\n\nI assumed we're talking about a scenario where P1 is the attacker and has a given starting condition, and P2 is the defender and has an unspecified starting condition.\n\nIt's clear that in a normal game, a player starting with an advantage wins. I don't know how clear that is when one player is forbidden from buying attackers. I think Lezaleas also expressed doubt about it. So I was saying that enough starting advantage trumps being pacifist.\n\nIf we do try to make it even, it's not clear what \"even\" means. Of course P2 will need to start with more for it to be fair, but how much more is open to debate. It's known from experience that P1 6D 2E is fairly balanced against P2 7D 2E. But what if P1 starts with, say, 10D 2E. How much does P2 need for it to be balanced? In a normal game, or in a hypothetical attacker vs defender scenario?\n\nEssentially I'm not sure what Pikachu meant by \"i dont think the starting # of drones/tarsiers matters for the first calc\". Of course it matters."
+        }
+      ]
+    }
+  ]
+}

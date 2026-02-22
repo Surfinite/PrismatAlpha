@@ -1,0 +1,2973 @@
+{
+  "channel": "unit_and_game_design",
+  "date_range": "2018-04-17 to 2018-04-18",
+  "thread_count": 14,
+  "token_count": 14504,
+  "threads": [
+    {
+      "start_ts": "2018-04-17T22:28:44.651+01:00",
+      "end_ts": "2018-04-17T23:03:29.458+01:00",
+      "participants": [
+        "1000mh",
+        "darkeisbein",
+        "f300xen",
+        "kaiasky",
+        "strshplyr5046",
+        "tophwells"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (50 messages, 2018-04-17) ---\n[2018-04-17 22:28] kaiasky (kaia): A weird rhino thing:\nReconstitution Plant (3 :Gold: :Green: supply 4) 3 :Fragile:\n:Click: pay :Energy: and sacrifice a rhino with Stamina 0 to construct a prompt rhino.\n\nThe basic idea being that for 13GRR you can have two steelsplitters, but also essentially a flat extra 2 block because you can click a rhino and reconstitute it on the same turn. Plus, faster to get up and running but in the late game, running out of E means you can't attack with them for long\n[2018-04-17 22:35] kaiasky (kaia): One issue I have with it right now is it sorta causes a dominance rule violation, because there are cases where you might want to have a 0 stamina rhino rather than a 1 stamina rhino so you can reconstitute\n[2018-04-17 22:36] kaiasky (kaia): But letting the player click which rhino they want seems annoying and I can't find a good way to say like \"a 0 stamina rhino or a 1 stamina rhino if no 0 stamina rhinos exist or a 2..\" etc that feels prismata-y\n[2018-04-17 22:42] strshplyr5046 (StrShPlyr): Breaks SDR, but fine.\n[2018-04-17 22:45] strshplyr5046 (StrShPlyr): It's weak, you want to Click on the last Attack turn.\n[2018-04-17 22:45] kaiasky (kaia): I'm confused on that last message?\n[2018-04-17 22:47] strshplyr5046 (StrShPlyr): Also, it's more Parasitic than Synergy.\n[2018-04-17 22:48] strshplyr5046 (StrShPlyr): And shouldn't it have Red?\n[2018-04-17 22:49] f300xen (f0x): ignore SSP's feedback\n[2018-04-17 22:50] kaiasky (kaia): Yeah I thought about giving it red, ultimately I just chose green because the image in my mind was that it was like \"changing the battery\" on a rhino and green feels like a weird energy source even though I know rhino's aren't powered by it because they aren't green\n[2018-04-17 22:50] 1000mh (Henry): Everyone is entitled to say their opinion on units and game design in this channel. Don't belittle others.\n[2018-04-17 22:50] kaiasky (kaia): It was an arbitrary call\n[2018-04-17 22:50] kaiasky (kaia): I'm not sure why you say it's parasitic, it allows rhinos to keep attacking after their normal two click limit.\n[2018-04-17 22:51] darkeisbein: the unit is really weird and I don't quite know what to make of it\n[2018-04-17 22:51] f300xen (f0x): saying it's parasitic is like saying resophore is parasitic\n[2018-04-17 22:51] 1000mh (Henry): I've seen a few designs where they instead \"recharge\" a Rhino by adding 1 or 2 charges back to it. What made you decide to go with sacrifice instead of the recharge idea?\n[2018-04-17 22:51] darkeisbein: having synergies with base set is a good place to have synergies cause they are relevant every game\n[2018-04-17 22:51] 1000mh (Henry): @f0x Thats better, thanks\n[2018-04-17 22:52] kaiasky (kaia): Recharge isn't an existing keyword, right?\n[2018-04-17 22:52] kaiasky (kaia): I just wanted to implement the same idea without adding a keyword\n[2018-04-17 22:52] darkeisbein: I like the sacrifice solution\n[2018-04-17 22:52] 1000mh (Henry): It is not a keyword, no\n[2018-04-17 22:53] darkeisbein: I think it could just say sacrifice a rhino\n[2018-04-17 22:53] darkeisbein: and just automatically sacrifice the weakest rhino\n[2018-04-17 22:53] darkeisbein: that way it doesn't violate SDR\n[2018-04-17 22:53] kaiasky (kaia): Yeah that's a good call\n[2018-04-17 22:53] darkeisbein: well it kinda get's into weird ordering issues I guess\n[2018-04-17 22:54] darkeisbein: sacrificed units get clicked automatically\n[2018-04-17 22:55] darkeisbein: or no it actually does\n[2018-04-17 22:55] darkeisbein: cause if you have a 1 stamina rhino and a 0 stamina rhino lying around\n[2018-04-17 22:56] darkeisbein: you might want to click the 1 stamina rhino and then sac it\n[2018-04-17 22:56] darkeisbein: or you might want to sac the 0 stamina rhino and keep the 1 stamina rhino\n[2018-04-17 22:56] darkeisbein: the first is better if you want to sac the rhino on defense anyways\n[2018-04-17 22:56] kaiasky (kaia): Isn't that the same as clicking the 1 stamina and sacrificing either of the now-0 stamina?\n[2018-04-17 22:56] strshplyr5046 (StrShPlyr): Galvani Biofield is good.\n[2018-04-17 22:57] darkeisbein: the first option gives you 1 attack and 2 stamina and a 0 stamina rhino\n[2018-04-17 22:57] darkeisbein: the second option gives you 0 attack, a 2 stamina and a 1 stamina rhino\n[2018-04-17 22:57] kaiasky (kaia): Sorry yeah I agree with that\n[2018-04-17 22:58] tophwells (Toph): why the :Energy: cost in the click ability?\n[2018-04-17 22:58] 1000mh (Henry): You are \"recharging\" it c:\n[2018-04-17 22:58] 1000mh (Henry): Or as Keon put it, \"changing the battery\"\n[2018-04-17 22:58] tophwells (Toph): plug your rhino into the power socket\n[2018-04-17 22:58] darkeisbein: correct rhino battery staple :^)\n[2018-04-17 22:59] tophwells (Toph): How do you stop a rhino from charging? Destroy your opponent's Engineer.\n[2018-04-17 22:59] strshplyr5046 (StrShPlyr): I made something like this before.\n[2018-04-17 23:01] kaiasky (kaia): StrShPlyr If you can find it I'd love to see it, I think there's a lot of interesting possibilities with rhino synergy c:\n[2018-04-17 23:01] strshplyr5046 (StrShPlyr): Resting Dynamo (1.1)\n[2018-04-17 23:02] tophwells (Toph): Cost-wise, very interesting. Under ideal situations it's effectively producing 2 attack per turn. But you need exhausted Rhinos to activate it, so it's way cheaper than a plain 2-attacker would be.\n[2018-04-17 23:02] kaiasky (kaia): \"sacrifice the rhino with the least remaining stamina\" or something to fix the problem you talked about darkisbein? I don't think there's any situation where you'd want to sacrifice a 1-stamina over a 0stamina, right?\n[2018-04-17 23:03] tophwells (Toph): sacrificing a 1-stamina allows you to produce 1 attack this turn",
+      "messages": [
+        {
+          "id": "435914537544450059",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:28:44.651+01:00",
+          "content": "A weird rhino thing:\nReconstitution Plant (3 :Gold: :Green: supply 4) 3 :Fragile:\n:Click: pay :Energy: and sacrifice a rhino with Stamina 0 to construct a prompt rhino.\n\nThe basic idea being that for 13GRR you can have two steelsplitters, but also essentially a flat extra 2 block because you can click a rhino and reconstitute it on the same turn. Plus, faster to get up and running but in the late game, running out of E means you can't attack with them for long"
+        },
+        {
+          "id": "435916180927283231",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:35:16.464+01:00",
+          "content": "One issue I have with it right now is it sorta causes a dominance rule violation, because there are cases where you might want to have a 0 stamina rhino rather than a 1 stamina rhino so you can reconstitute"
+        },
+        {
+          "id": "435916614299287564",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:36:59.788+01:00",
+          "content": "But letting the player click which rhino they want seems annoying and I can't find a good way to say like \"a 0 stamina rhino or a 1 stamina rhino if no 0 stamina rhinos exist or a 2..\" etc that feels prismata-y"
+        },
+        {
+          "id": "435917912046567424",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T22:42:09.195+01:00",
+          "content": "Breaks SDR, but fine."
+        },
+        {
+          "id": "435918680283676672",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T22:45:12.357+01:00",
+          "content": "It's weak, you want to Click on the last Attack turn."
+        },
+        {
+          "id": "435918834617286657",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:45:49.153+01:00",
+          "content": "I'm confused on that last message?"
+        },
+        {
+          "id": "435919202893692931",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T22:47:16.957+01:00",
+          "content": "Also, it's more Parasitic than Synergy."
+        },
+        {
+          "id": "435919461686575104",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T22:48:18.658+01:00",
+          "content": "And shouldn't it have Red?"
+        },
+        {
+          "id": "435919746307981312",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-17T22:49:26.517+01:00",
+          "content": "ignore SSP's feedback"
+        },
+        {
+          "id": "435919965648846849",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:50:18.812+01:00",
+          "content": "Yeah I thought about giving it red, ultimately I just chose green because the image in my mind was that it was like \"changing the battery\" on a rhino and green feels like a weird energy source even though I know rhino's aren't powered by it because they aren't green"
+        },
+        {
+          "id": "435919988616855554",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T22:50:24.288+01:00",
+          "content": "Everyone is entitled to say their opinion on units and game design in this channel. Don't belittle others."
+        },
+        {
+          "id": "435919998213423105",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:50:26.576+01:00",
+          "content": "It was an arbitrary call"
+        },
+        {
+          "id": "435920133387714561",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:50:58.804+01:00",
+          "content": "I'm not sure why you say it's parasitic, it allows rhinos to keep attacking after their normal two click limit."
+        },
+        {
+          "id": "435920161539883018",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:51:05.516+01:00",
+          "content": "the unit is really weird and I don't quite know what to make of it"
+        },
+        {
+          "id": "435920214937436160",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-17T22:51:18.247+01:00",
+          "content": "saying it's parasitic is like saying resophore is parasitic"
+        },
+        {
+          "id": "435920319698436096",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T22:51:43.224+01:00",
+          "content": "I've seen a few designs where they instead \"recharge\" a Rhino by adding 1 or 2 charges back to it. What made you decide to go with sacrifice instead of the recharge idea?"
+        },
+        {
+          "id": "435920347733426177",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:51:49.908+01:00",
+          "content": "having synergies with base set is a good place to have synergies cause they are relevant every game"
+        },
+        {
+          "id": "435920378536394763",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T22:51:57.252+01:00",
+          "content": "@f0x Thats better, thanks"
+        },
+        {
+          "id": "435920532202979341",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:52:33.889+01:00",
+          "content": "Recharge isn't an existing keyword, right?"
+        },
+        {
+          "id": "435920584854077470",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:52:46.442+01:00",
+          "content": "I just wanted to implement the same idea without adding a keyword"
+        },
+        {
+          "id": "435920586145923083",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:52:46.75+01:00",
+          "content": "I like the sacrifice solution"
+        },
+        {
+          "id": "435920640743309324",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T22:52:59.767+01:00",
+          "content": "It is not a keyword, no"
+        },
+        {
+          "id": "435920670724063232",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:53:06.915+01:00",
+          "content": "I think it could just say sacrifice a rhino"
+        },
+        {
+          "id": "435920713090859008",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:53:17.016+01:00",
+          "content": "and just automatically sacrifice the weakest rhino"
+        },
+        {
+          "id": "435920742438404097",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:53:24.013+01:00",
+          "content": "that way it doesn't violate SDR"
+        },
+        {
+          "id": "435920805948293125",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:53:39.155+01:00",
+          "content": "Yeah that's a good call"
+        },
+        {
+          "id": "435920877910097921",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:53:56.312+01:00",
+          "content": "well it kinda get's into weird ordering issues I guess"
+        },
+        {
+          "id": "435920973909458954",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:54:19.2+01:00",
+          "content": "sacrificed units get clicked automatically"
+        },
+        {
+          "id": "435921292873564164",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:55:35.247+01:00",
+          "content": "or no it actually does"
+        },
+        {
+          "id": "435921366173220864",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:55:52.723+01:00",
+          "content": "cause if you have a 1 stamina rhino and a 0 stamina rhino lying around"
+        },
+        {
+          "id": "435921418102898688",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:56:05.104+01:00",
+          "content": "you might want to click the 1 stamina rhino and then sac it"
+        },
+        {
+          "id": "435921488130998273",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:56:21.8+01:00",
+          "content": "or you might want to sac the 0 stamina rhino and keep the 1 stamina rhino"
+        },
+        {
+          "id": "435921571115171861",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:56:41.585+01:00",
+          "content": "the first is better if you want to sac the rhino on defense anyways"
+        },
+        {
+          "id": "435921584738271244",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:56:44.833+01:00",
+          "content": "Isn't that the same as clicking the 1 stamina and sacrificing either of the now-0 stamina?"
+        },
+        {
+          "id": "435921622537469962",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T22:56:53.845+01:00",
+          "content": "Galvani Biofield is good."
+        },
+        {
+          "id": "435921734655410206",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:57:20.576+01:00",
+          "content": "the first option gives you 1 attack and 2 stamina and a 0 stamina rhino"
+        },
+        {
+          "id": "435921789244276736",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:57:33.591+01:00",
+          "content": "the second option gives you 0 attack, a 2 stamina and a 1 stamina rhino"
+        },
+        {
+          "id": "435921873121968138",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T22:57:53.589+01:00",
+          "content": "Sorry yeah I agree with that"
+        },
+        {
+          "id": "435921923776577546",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T22:58:05.666+01:00",
+          "content": "why the :Energy: cost in the click ability?"
+        },
+        {
+          "id": "435921953572782091",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T22:58:12.77+01:00",
+          "content": "You are \"recharging\" it c:"
+        },
+        {
+          "id": "435922018026651649",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T22:58:28.137+01:00",
+          "content": "Or as Keon put it, \"changing the battery\""
+        },
+        {
+          "id": "435922043050000397",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T22:58:34.103+01:00",
+          "content": "plug your rhino into the power socket"
+        },
+        {
+          "id": "435922105708707840",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T22:58:49.042+01:00",
+          "content": "correct rhino battery staple :^)"
+        },
+        {
+          "id": "435922331521515530",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T22:59:42.88+01:00",
+          "content": "How do you stop a rhino from charging? Destroy your opponent's Engineer."
+        },
+        {
+          "id": "435922361662046209",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T22:59:50.066+01:00",
+          "content": "I made something like this before."
+        },
+        {
+          "id": "435922679581900802",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T23:01:05.864+01:00",
+          "content": "StrShPlyr If you can find it I'd love to see it, I think there's a lot of interesting possibilities with rhino synergy c:"
+        },
+        {
+          "id": "435922868329644043",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:01:50.865+01:00",
+          "content": "Resting Dynamo (1.1)"
+        },
+        {
+          "id": "435922930174656512",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:02:05.61+01:00",
+          "content": "Cost-wise, very interesting. Under ideal situations it's effectively producing 2 attack per turn. But you need exhausted Rhinos to activate it, so it's way cheaper than a plain 2-attacker would be."
+        },
+        {
+          "id": "435923109598724096",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T23:02:48.388+01:00",
+          "content": "\"sacrifice the rhino with the least remaining stamina\" or something to fix the problem you talked about darkisbein? I don't think there's any situation where you'd want to sacrifice a 1-stamina over a 0stamina, right?"
+        },
+        {
+          "id": "435923281858789377",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:03:29.458+01:00",
+          "content": "sacrificing a 1-stamina allows you to produce 1 attack this turn"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-17T23:03:50.849+01:00",
+      "end_ts": "2018-04-17T23:14:56.724+01:00",
+      "participants": [
+        "1000mh",
+        "darkeisbein",
+        "http404error",
+        "kaiasky",
+        "mrguy888",
+        "strshplyr5046",
+        "tophwells"
+      ],
+      "replay_codes": [],
+      "score": 28,
+      "formatted_text": "--- Thread (50 messages, 2018-04-17) ---\n[2018-04-17 23:03] tophwells (Toph): since sacrificed units get clicked automatically\n[2018-04-17 23:04] darkeisbein: there are two kinds 0 stamina rhinos\n[2018-04-17 23:04] kaiasky (kaia): Equivalent to clicking that one and then sacrificing it or any other 0 stamina\n[2018-04-17 23:04] darkeisbein: clicked and unlciked\n[2018-04-17 23:04] strshplyr5046 (StrShPlyr): even when pay click?\n[2018-04-17 23:05] kaiasky (kaia): Huh that makes that hard :/\n[2018-04-17 23:05] tophwells (Toph): would producing a non-Prompt rhino work?\n[2018-04-17 23:05] darkeisbein: that produces the same problems\n[2018-04-17 23:06] darkeisbein: no matter what you produce that is always going to be the same\n[2018-04-17 23:06] darkeisbein: you can't fix the problem at that end\n[2018-04-17 23:06] http404error: Just have it sacrifice any Rhino\n[2018-04-17 23:07] http404error: (the game engine will pick the one with the least stamina)\n[2018-04-17 23:07] darkeisbein: the problem is that this will lead to different results\n[2018-04-17 23:07] darkeisbein: say you have a 1 stamina and a 0 stamina rhino\n[2018-04-17 23:07] tophwells (Toph): So is the only solution to have the player target a rhino?\n[2018-04-17 23:07] darkeisbein: if you don't cflick the 1 stamina rhino it sacs the old 0 stamina rhino\n[2018-04-17 23:08] http404error: Oh, I see, you have clicked status to reckon with also\n[2018-04-17 23:08] darkeisbein: if you click the 1 stamina rhino then do the sacrificing it sacrifices the new 0 stamina rhino\n[2018-04-17 23:08] http404error: Sorry, didn't pick that up previously\n[2018-04-17 23:08] darkeisbein: yeah one variant gives you 1 attack and a 0 stamina rhino\n[2018-04-17 23:08] darkeisbein: the other gives you 0 attack and a 1 stamina rhino\n[2018-04-17 23:10] kaiasky (kaia): I think yeah the only solution is targeting a rhino or having weird timing issues of which you click first determining what rhino gets sacrificed\n[2018-04-17 23:11] tophwells (Toph): But it's fixable with a UI change, and even if it isn't then a small SDR violation isn't too bad. The idea is sound.\n[2018-04-17 23:11] darkeisbein: Thermite Nest: 7 :Gold: :Red: :Red: (Supply 4):\n2:Health: :Blocker: :Prompt:\nWhen Thermite Nest is bought construct 3 nitrocybes with :Time: 1\n:Click:, Sacrifice 2 Nitrocybes: construct 3 nitrocybes with :Prompt: (The sacrificed Nitrocybes don't produce attack from their own :Click: ability)\n[2018-04-17 23:12] darkeisbein: this is inspired by the gambit contest\n[2018-04-17 23:12] darkeisbein: made a version of it earlier but this one has a lot of changes and no one commented on the old one anyways\n[2018-04-17 23:12] darkeisbein: basically it gives you cybes but you don't want to use them cause keeping them means this can generate value\n[2018-04-17 23:12] http404error: Sacrifice 2 to build 3 seems just really clunky\n[2018-04-17 23:12] mrguy888: Can you make the rhino unit snipe a rhino like kinetic driver or apollo?\n[2018-04-17 23:13] mrguy888: that would be an easy fix that is satisfying in all cases\n[2018-04-17 23:13] http404error: I don't think it captures the concept super well because you only need two to keep it running\n[2018-04-17 23:13] 1000mh (Henry): Sniping your own unit feels weird\n[2018-04-17 23:13] tophwells (Toph): It's a bit clunky, yeah. You're in trouble if you accidentally use the Nitros on defence.\n[2018-04-17 23:13] 1000mh (Henry): Even if it isn't *really* sniping\n[2018-04-17 23:13] mrguy888: Well it is sniping right?\n[2018-04-17 23:13] mrguy888: you are killing that rhino\n[2018-04-17 23:13] 1000mh (Henry): Dont snipe your own rhino :c\n[2018-04-17 23:13] mrguy888: and also making a new rhino\n[2018-04-17 23:13] http404error: @mrguy888 yeah that works, it's just a little weird compared to the smoothness of other sacrifice effects\n[2018-04-17 23:13] darkeisbein: I mean that is kinda the point you have the cybes but you kinda don't want to use all of them\n[2018-04-17 23:14] kaiasky (kaia): Also it's just slow to do, it would be nicer if you didn't have to micromanage your rhinocycling\n[2018-04-17 23:14] mrguy888: Rhinos are not smooth though\n[2018-04-17 23:14] darkeisbein: you always want to keep 2 for generating value\n[2018-04-17 23:14] kaiasky (kaia): I like the nest idea though\n[2018-04-17 23:14] mrguy888: Rhinos have 5 possible states\n[2018-04-17 23:14] darkeisbein: also you can reactivate a nest by buying new ones\n[2018-04-17 23:14] http404error: When a mommy cybe and a daddy cybe love each other very much...\n[2018-04-17 23:14] mrguy888: every other sac unit deals with 1 state units\n[2018-04-17 23:14] mrguy888: Cause clicks are forced\n[2018-04-17 23:14] http404error: Drones have two states! They have a really simple fix though",
+      "messages": [
+        {
+          "id": "435923371578884107",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:03:50.849+01:00",
+          "content": "since sacrificed units get clicked automatically"
+        },
+        {
+          "id": "435923448855003137",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:04:09.273+01:00",
+          "content": "there are two kinds 0 stamina rhinos"
+        },
+        {
+          "id": "435923449119113249",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T23:04:09.336+01:00",
+          "content": "Equivalent to clicking that one and then sacrificing it or any other 0 stamina"
+        },
+        {
+          "id": "435923463639662592",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:04:12.798+01:00",
+          "content": "clicked and unlciked"
+        },
+        {
+          "id": "435923535978954763",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:04:30.045+01:00",
+          "content": "even when pay click?"
+        },
+        {
+          "id": "435923735908843520",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T23:05:17.712+01:00",
+          "content": "Huh that makes that hard :/"
+        },
+        {
+          "id": "435923775893012480",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:05:27.245+01:00",
+          "content": "would producing a non-Prompt rhino work?"
+        },
+        {
+          "id": "435923852053184514",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:05:45.403+01:00",
+          "content": "that produces the same problems"
+        },
+        {
+          "id": "435923950028193796",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:06:08.762+01:00",
+          "content": "no matter what you produce that is always going to be the same"
+        },
+        {
+          "id": "435923978587078657",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:06:15.571+01:00",
+          "content": "you can't fix the problem at that end"
+        },
+        {
+          "id": "435924140642402305",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-17T23:06:54.208+01:00",
+          "content": "Just have it sacrifice any Rhino"
+        },
+        {
+          "id": "435924173659832321",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-17T23:07:02.08+01:00",
+          "content": "(the game engine will pick the one with the least stamina)"
+        },
+        {
+          "id": "435924261471911971",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:07:23.016+01:00",
+          "content": "the problem is that this will lead to different results"
+        },
+        {
+          "id": "435924314219610112",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:07:35.592+01:00",
+          "content": "say you have a 1 stamina and a 0 stamina rhino"
+        },
+        {
+          "id": "435924330166353950",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:07:39.394+01:00",
+          "content": "So is the only solution to have the player target a rhino?"
+        },
+        {
+          "id": "435924375934599169",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:07:50.306+01:00",
+          "content": "if you don't cflick the 1 stamina rhino it sacs the old 0 stamina rhino"
+        },
+        {
+          "id": "435924436575584256",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-17T23:08:04.764+01:00",
+          "content": "Oh, I see, you have clicked status to reckon with also"
+        },
+        {
+          "id": "435924448504446978",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:08:07.608+01:00",
+          "content": "if you click the 1 stamina rhino then do the sacrificing it sacrifices the new 0 stamina rhino"
+        },
+        {
+          "id": "435924462391525377",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-17T23:08:10.919+01:00",
+          "content": "Sorry, didn't pick that up previously"
+        },
+        {
+          "id": "435924542259593217",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:08:29.961+01:00",
+          "content": "yeah one variant gives you 1 attack and a 0 stamina rhino"
+        },
+        {
+          "id": "435924581262295050",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:08:39.26+01:00",
+          "content": "the other gives you 0 attack and a 1 stamina rhino"
+        },
+        {
+          "id": "435925117395009536",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T23:10:47.084+01:00",
+          "content": "I think yeah the only solution is targeting a rhino or having weird timing issues of which you click first determining what rhino gets sacrificed"
+        },
+        {
+          "id": "435925226375741451",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:11:13.067+01:00",
+          "content": "But it's fixable with a UI change, and even if it isn't then a small SDR violation isn't too bad. The idea is sound."
+        },
+        {
+          "id": "435925330377703424",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:11:37.863+01:00",
+          "content": "Thermite Nest: 7 :Gold: :Red: :Red: (Supply 4):\n2:Health: :Blocker: :Prompt:\nWhen Thermite Nest is bought construct 3 nitrocybes with :Time: 1\n:Click:, Sacrifice 2 Nitrocybes: construct 3 nitrocybes with :Prompt: (The sacrificed Nitrocybes don't produce attack from their own :Click: ability)"
+        },
+        {
+          "id": "435925424548216832",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:12:00.315+01:00",
+          "content": "this is inspired by the gambit contest"
+        },
+        {
+          "id": "435925505146093580",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:12:19.531+01:00",
+          "content": "made a version of it earlier but this one has a lot of changes and no one commented on the old one anyways"
+        },
+        {
+          "id": "435925613027524619",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:12:45.252+01:00",
+          "content": "basically it gives you cybes but you don't want to use them cause keeping them means this can generate value"
+        },
+        {
+          "id": "435925619801456650",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-17T23:12:46.867+01:00",
+          "content": "Sacrifice 2 to build 3 seems just really clunky"
+        },
+        {
+          "id": "435925652919549953",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:12:54.763+01:00",
+          "content": "Can you make the rhino unit snipe a rhino like kinetic driver or apollo?"
+        },
+        {
+          "id": "435925717591785482",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:13:10.182+01:00",
+          "content": "that would be an easy fix that is satisfying in all cases"
+        },
+        {
+          "id": "435925742572929037",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-17T23:13:16.138+01:00",
+          "content": "I don't think it captures the concept super well because you only need two to keep it running"
+        },
+        {
+          "id": "435925784289476608",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:13:26.084+01:00",
+          "content": "Sniping your own unit feels weird"
+        },
+        {
+          "id": "435925802564190218",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:13:30.441+01:00",
+          "content": "It's a bit clunky, yeah. You're in trouble if you accidentally use the Nitros on defence."
+        },
+        {
+          "id": "435925814844981249",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:13:33.369+01:00",
+          "content": "Even if it isn't *really* sniping"
+        },
+        {
+          "id": "435925842774851585",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:13:40.028+01:00",
+          "content": "Well it is sniping right?"
+        },
+        {
+          "id": "435925867353473024",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:13:45.888+01:00",
+          "content": "you are killing that rhino"
+        },
+        {
+          "id": "435925883316862977",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:13:49.694+01:00",
+          "content": "Dont snipe your own rhino :c"
+        },
+        {
+          "id": "435925897720234017",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:13:53.128+01:00",
+          "content": "and also making a new rhino"
+        },
+        {
+          "id": "435925914140934147",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-17T23:13:57.043+01:00",
+          "content": "@mrguy888 yeah that works, it's just a little weird compared to the smoothness of other sacrifice effects"
+        },
+        {
+          "id": "435925921481097227",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:13:58.793+01:00",
+          "content": "I mean that is kinda the point you have the cybes but you kinda don't want to use all of them"
+        },
+        {
+          "id": "435925941026291752",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T23:14:03.453+01:00",
+          "content": "Also it's just slow to do, it would be nicer if you didn't have to micromanage your rhinocycling"
+        },
+        {
+          "id": "435925962971021323",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:14:08.685+01:00",
+          "content": "Rhinos are not smooth though"
+        },
+        {
+          "id": "435925979668414485",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:14:12.666+01:00",
+          "content": "you always want to keep 2 for generating value"
+        },
+        {
+          "id": "435925983812517918",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T23:14:13.654+01:00",
+          "content": "I like the nest idea though"
+        },
+        {
+          "id": "435926028246974464",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:14:24.248+01:00",
+          "content": "Rhinos have 5 possible states"
+        },
+        {
+          "id": "435926067652591626",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:14:33.643+01:00",
+          "content": "also you can reactivate a nest by buying new ones"
+        },
+        {
+          "id": "435926076284338178",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-17T23:14:35.701+01:00",
+          "content": "When a mommy cybe and a daddy cybe love each other very much..."
+        },
+        {
+          "id": "435926080306806785",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:14:36.66+01:00",
+          "content": "every other sac unit deals with 1 state units"
+        },
+        {
+          "id": "435926147725787157",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:14:52.734+01:00",
+          "content": "Cause clicks are forced"
+        },
+        {
+          "id": "435926164461322260",
+          "author": "http404error",
+          "nickname": "http404error",
+          "timestamp": "2018-04-17T23:14:56.724+01:00",
+          "content": "Drones have two states! They have a really simple fix though"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-17T23:14:57.104+01:00",
+      "end_ts": "2018-04-17T23:27:50.372+01:00",
+      "participants": [
+        "darkeisbein",
+        "f300xen",
+        "kaiasky",
+        "masn6811",
+        "mrguy888",
+        "randomflyingtaco",
+        "strshplyr5046",
+        "tophwells"
+      ],
+      "replay_codes": [],
+      "score": 25,
+      "formatted_text": "--- Thread (50 messages, 2018-04-17) ---\n[2018-04-17 23:14] darkeisbein: well originally I made this unit create a new unit called Termite\n[2018-04-17 23:15] darkeisbein: and then I noticed Termite was just Nitrocybe 😄\n[2018-04-17 23:15] mrguy888: You can't sacrifice a non clicked drone http\n[2018-04-17 23:15] tophwells (Toph): can it maybe do something useful when you don't have any Nitrocybes left?\n[2018-04-17 23:15] strshplyr5046 (StrShPlyr): Fast Tarsier: (10) 6:Gold: :Red: . :Health:1.\nTurn: Get 1:Attack:.\n3:Stamina::Click:: Get 1:Time:.\n[2018-04-17 23:15] tophwells (Toph): oh wait it's a blocker\n[2018-04-17 23:16] darkeisbein: also you can reactivate it\n[2018-04-17 23:16] tophwells (Toph): @StrShPlyr Click: Get Buildtime 1?\n[2018-04-17 23:16] darkeisbein: buying two nests gives you enough cybes to power 3\n[2018-04-17 23:17] darkeisbein: or buying one and clicking it once gives you enough to power 2 on the next turn\n[2018-04-17 23:17] tophwells (Toph): @darkeisbein ah, I was assuming you couldn't sacrifice the cybes on the same turn they were bought\n[2018-04-17 23:17] darkeisbein: let's give red a bp unit cause that is so in flavor ... I really dislike fast tarsier\n[2018-04-17 23:18] darkeisbein: you can't sacrifice them on the turn they are bought\n[2018-04-17 23:18] darkeisbein: but if you w8 a turn you can sacrifice them\n[2018-04-17 23:18] tophwells (Toph): Is that ri- ok good I understood.\n[2018-04-17 23:18] randomflyingtaco (RiFT (#RIPBrowserers)): 4 nest bad. Free clicks = +4 red absorb.\n[2018-04-17 23:18] tophwells (Toph): oh yeah crud, infinite units\n[2018-04-17 23:18] darkeisbein: yeah that is kinda an issue :/\n[2018-04-17 23:19] strshplyr5046 (StrShPlyr): It's not BP, just last.\n[2018-04-17 23:19] darkeisbein: it is a pretty good defender for being red\n[2018-04-17 23:20] darkeisbein: I don't think it leads to any draws\n[2018-04-17 23:20] strshplyr5046 (StrShPlyr): when it runs out, it's 1 HP.\n[2018-04-17 23:20] darkeisbein: it's just a pretty good defender in red that is kinda an issue\n[2018-04-17 23:20] mrguy888: Infinite units has to be avoided\n[2018-04-17 23:20] tophwells (Toph): I don't think it can lead to draws; nitrocybes can be attackers\n[2018-04-17 23:21] darkeisbein: I mean it leads to draws in the same way absorb leads to draws\n[2018-04-17 23:21] darkeisbein: since it kinda is 1 absorb but only if both players have it\n[2018-04-17 23:21] darkeisbein: if only one player has it it just wins cause it denies absorb\n[2018-04-17 23:22] tophwells (Toph): defensive flexbility! very red.\n[2018-04-17 23:22] darkeisbein: but yeah if the infinite units is an issue giving it a moderatley long :Lifespan: like 8 is probably a good fix\n[2018-04-17 23:23] tophwells (Toph): with lifespan, it reminds me of Oxide Mixer\n[2018-04-17 23:23] darkeisbein: it's somewhat like a tricky oxide mixer\n[2018-04-17 23:23] mrguy888: The nitro thing should make opponent 2 husks rather than not do the damage\n[2018-04-17 23:24] mrguy888: just cause it is too confusing to have them not do damage\n[2018-04-17 23:24] darkeisbein: hm that might work aswell\n[2018-04-17 23:24] mrguy888: or you have to pay 2 attack\n[2018-04-17 23:24] darkeisbein: I like paying 2 attack\n[2018-04-17 23:24] darkeisbein: means you need some tarsiers to beat your termites into mating\n[2018-04-17 23:25] darkeisbein: also means you can't just deny absorb with this\n[2018-04-17 23:25] kaiasky (kaia): Wait StrShPlyr I'm really confused what the incentive is to click it? How does getting build time help the player who clicked it?\n[2018-04-17 23:25] darkeisbein: basically it's a red bp unit\n[2018-04-17 23:25] f300xen (f0x): golden armor is only from unit purchases\n[2018-04-17 23:26] darkeisbein: :Time: is only from unit purchases\n[2018-04-17 23:26] strshplyr5046 (StrShPlyr): Invincibility Frames.\n[2018-04-17 23:26] darkeisbein: red bp unit is extremley out of flavor\n[2018-04-17 23:26] darkeisbein: being unkillable counts as bp in my books\n[2018-04-17 23:27] masn6811 (Masne98888): i can't see what people are talking about, so I'm just going to dump a unit here. how you guys enjoy!\n[2018-04-17 23:27] strshplyr5046 (StrShPlyr): Just temporal dodge.\n[2018-04-17 23:27] masn6811 (Masne98888): Manufacturing Surge (Supply 4) 3 :Blue: :Energy:  :Attack: :Attack: :Attack: :Attack: \nSpell: Construct 4 drones\n[2018-04-17 23:27] darkeisbein: 3 turns of complete invincibility sounds pretty bp to me",
+      "messages": [
+        {
+          "id": "435926166054895626",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:14:57.104+01:00",
+          "content": "well originally I made this unit create a new unit called Termite"
+        },
+        {
+          "id": "435926210552528916",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:15:07.713+01:00",
+          "content": "and then I noticed Termite was just Nitrocybe 😄"
+        },
+        {
+          "id": "435926243116843026",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:15:15.477+01:00",
+          "content": "You can't sacrifice a non clicked drone http"
+        },
+        {
+          "id": "435926289925275649",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:15:26.637+01:00",
+          "content": "can it maybe do something useful when you don't have any Nitrocybes left?"
+        },
+        {
+          "id": "435926334880088064",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:15:37.355+01:00",
+          "content": "Fast Tarsier: (10) 6:Gold: :Red: . :Health:1.\nTurn: Get 1:Attack:.\n3:Stamina::Click:: Get 1:Time:."
+        },
+        {
+          "id": "435926344740765707",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:15:39.706+01:00",
+          "content": "oh wait it's a blocker"
+        },
+        {
+          "id": "435926591432949770",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:16:38.522+01:00",
+          "content": "also you can reactivate it"
+        },
+        {
+          "id": "435926618196803584",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:16:44.903+01:00",
+          "content": "@StrShPlyr Click: Get Buildtime 1?"
+        },
+        {
+          "id": "435926665609347072",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:16:56.207+01:00",
+          "content": "buying two nests gives you enough cybes to power 3"
+        },
+        {
+          "id": "435926739890339840",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:17:13.917+01:00",
+          "content": "or buying one and clicking it once gives you enough to power 2 on the next turn"
+        },
+        {
+          "id": "435926857553149983",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:17:41.97+01:00",
+          "content": "@darkeisbein ah, I was assuming you couldn't sacrifice the cybes on the same turn they were bought"
+        },
+        {
+          "id": "435926904265244676",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:17:53.107+01:00",
+          "content": "let's give red a bp unit cause that is so in flavor ... I really dislike fast tarsier"
+        },
+        {
+          "id": "435926965137047552",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:18:07.62+01:00",
+          "content": "you can't sacrifice them on the turn they are bought"
+        },
+        {
+          "id": "435927013614682133",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:18:19.178+01:00",
+          "content": "but if you w8 a turn you can sacrifice them"
+        },
+        {
+          "id": "435927023412576256",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:18:21.514+01:00",
+          "content": "Is that ri- ok good I understood."
+        },
+        {
+          "id": "435927053897039885",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-04-17T23:18:28.782+01:00",
+          "content": "4 nest bad. Free clicks = +4 red absorb."
+        },
+        {
+          "id": "435927156359430146",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:18:53.211+01:00",
+          "content": "oh yeah crud, infinite units"
+        },
+        {
+          "id": "435927157412331530",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:18:53.462+01:00",
+          "content": "yeah that is kinda an issue :/"
+        },
+        {
+          "id": "435927214966702080",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:19:07.184+01:00",
+          "content": "It's not BP, just last."
+        },
+        {
+          "id": "435927239381483520",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:19:13.005+01:00",
+          "content": "it is a pretty good defender for being red"
+        },
+        {
+          "id": "435927479945920532",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:20:10.36+01:00",
+          "content": "I don't think it leads to any draws"
+        },
+        {
+          "id": "435927523503898624",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:20:20.745+01:00",
+          "content": "when it runs out, it's 1 HP."
+        },
+        {
+          "id": "435927534647902246",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:20:23.402+01:00",
+          "content": "it's just a pretty good defender in red that is kinda an issue"
+        },
+        {
+          "id": "435927539404374022",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:20:24.536+01:00",
+          "content": "Infinite units has to be avoided"
+        },
+        {
+          "id": "435927608379834368",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:20:40.981+01:00",
+          "content": "I don't think it can lead to draws; nitrocybes can be attackers"
+        },
+        {
+          "id": "435927701686190095",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:21:03.227+01:00",
+          "content": "I mean it leads to draws in the same way absorb leads to draws"
+        },
+        {
+          "id": "435927822029029377",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:21:31.919+01:00",
+          "content": "since it kinda is 1 absorb but only if both players have it"
+        },
+        {
+          "id": "435927881512910849",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:21:46.101+01:00",
+          "content": "if only one player has it it just wins cause it denies absorb"
+        },
+        {
+          "id": "435928044079808512",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:22:24.86+01:00",
+          "content": "defensive flexbility! very red."
+        },
+        {
+          "id": "435928062580883456",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:22:29.271+01:00",
+          "content": "but yeah if the infinite units is an issue giving it a moderatley long :Lifespan: like 8 is probably a good fix"
+        },
+        {
+          "id": "435928295805157377",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:23:24.876+01:00",
+          "content": "with lifespan, it reminds me of Oxide Mixer"
+        },
+        {
+          "id": "435928354479276062",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:23:38.865+01:00",
+          "content": "it's somewhat like a tricky oxide mixer"
+        },
+        {
+          "id": "435928402973949954",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:23:50.427+01:00",
+          "content": "The nitro thing should make opponent 2 husks rather than not do the damage"
+        },
+        {
+          "id": "435928469206204437",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:24:06.218+01:00",
+          "content": "just cause it is too confusing to have them not do damage"
+        },
+        {
+          "id": "435928476726329347",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:24:08.011+01:00",
+          "content": "hm that might work aswell"
+        },
+        {
+          "id": "435928498662670336",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-17T23:24:13.241+01:00",
+          "content": "or you have to pay 2 attack"
+        },
+        {
+          "id": "435928536910659584",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:24:22.36+01:00",
+          "content": "I like paying 2 attack"
+        },
+        {
+          "id": "435928690019270656",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:24:58.864+01:00",
+          "content": "means you need some tarsiers to beat your termites into mating"
+        },
+        {
+          "id": "435928728527437825",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:25:08.045+01:00",
+          "content": "also means you can't just deny absorb with this"
+        },
+        {
+          "id": "435928769295810581",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-17T23:25:17.765+01:00",
+          "content": "Wait StrShPlyr I'm really confused what the incentive is to click it? How does getting build time help the player who clicked it?"
+        },
+        {
+          "id": "435928860756803596",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:25:39.571+01:00",
+          "content": "basically it's a red bp unit"
+        },
+        {
+          "id": "435928875403575296",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-17T23:25:43.063+01:00",
+          "content": "golden armor is only from unit purchases"
+        },
+        {
+          "id": "435928956919873578",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:26:02.498+01:00",
+          "content": ":Time: is only from unit purchases"
+        },
+        {
+          "id": "435928963265855538",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:26:04.011+01:00",
+          "content": "Invincibility Frames."
+        },
+        {
+          "id": "435929035516936193",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:26:21.237+01:00",
+          "content": "red bp unit is extremley out of flavor"
+        },
+        {
+          "id": "435929189712134146",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:26:58+01:00",
+          "content": "being unkillable counts as bp in my books"
+        },
+        {
+          "id": "435929261635797009",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:27:15.148+01:00",
+          "content": "i can't see what people are talking about, so I'm just going to dump a unit here. how you guys enjoy!"
+        },
+        {
+          "id": "435929273115869184",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:27:17.885+01:00",
+          "content": "Just temporal dodge."
+        },
+        {
+          "id": "435929408185040906",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:27:50.088+01:00",
+          "content": "Manufacturing Surge (Supply 4) 3 :Blue: :Energy:  :Attack: :Attack: :Attack: :Attack: \nSpell: Construct 4 drones"
+        },
+        {
+          "id": "435929409376223233",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:27:50.372+01:00",
+          "content": "3 turns of complete invincibility sounds pretty bp to me"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-17T23:28:02.623+01:00",
+      "end_ts": "2018-04-17T23:38:04.911+01:00",
+      "participants": [
+        "1000mh",
+        "darkeisbein",
+        "f300xen",
+        "liadahlia",
+        "masn6811",
+        "strshplyr5046",
+        "tophwells"
+      ],
+      "replay_codes": [],
+      "score": 97,
+      "formatted_text": "--- Thread (50 messages, 2018-04-17) ---\n[2018-04-17 23:28] tophwells (Toph): i don't think Buildtime is the right keyword. Making a new keyword would be clearer.\n[2018-04-17 23:28] strshplyr5046 (StrShPlyr): You don't spend more attack.\n[2018-04-17 23:28] masn6811 (Masne98888): So it's like buying a drone, but you are paying BXXXX for three more.\n[2018-04-17 23:28] darkeisbein: BXXXX seems a bit cheap\n[2018-04-17 23:29] tophwells (Toph): @Masne98888 Fun! Get to 4 attack, force your opponent to build absorb, and then suddenly you're in a high-econ game.\n[2018-04-17 23:29] masn6811 (Masne98888): That seems like a good deal because it can deny abosrb, and using 4 attack is really good for that, but the problem is once you have 4 attack, you are already in midgame, and usually don't want to be buying drones.\n[2018-04-17 23:29] liadahlia (Lia): Plasmifier: 12GGGB construct 3 drones every turn\n[2018-04-17 23:29] f300xen (f0x): yet another valk synergy unit :Lul:\n[2018-04-17 23:29] tophwells (Toph): @darkeisbein you mean 3BXXXX\n[2018-04-17 23:29] masn6811 (Masne98888): i think the problem at this point is valk tbh XD\n[2018-04-17 23:30] tophwells (Toph): I dunno, buying drones *really fast* and at a low effective price could be worth -\nyeah valk\n[2018-04-17 23:30] liadahlia (Lia): I don't really have a problem with valk synergy\n[2018-04-17 23:30] darkeisbein: next design challenge should be: design a valkyrion synergy unit 😄\n[2018-04-17 23:30] masn6811 (Masne98888): i double this is more opressive with valk than say cryo, or thermite\n[2018-04-17 23:30] tophwells (Toph): well, synergy with intermittent attack in general? maybe?\n[2018-04-17 23:31] liadahlia (Lia): It's just any good ol absorb deniol\n[2018-04-17 23:31] masn6811 (Masne98888): you could argue that welding kit also has synergy with valk\n[2018-04-17 23:31] liadahlia (Lia): It's just thermite core if it was double'd again >.>\n[2018-04-17 23:31] masn6811 (Masne98888): valk has awkward tech, so tech fixing is good. spending attack, or freezing barriers, or cyclic attack, these also synergize with valk\n[2018-04-17 23:32] strshplyr5046 (StrShPlyr): :Tarsier: :Blue: :Health: .\n[2018-04-17 23:32] masn6811 (Masne98888): did you know: iso's original name was \"cyclic attacker\"?\n[2018-04-17 23:32] tophwells (Toph): anyway the conventional wisdom is not to buy drones in the midgame, but if you can go from a 12-drone build to a 20-drone in 2 turns, leveraging the early-game pressure you've already bought, I think that might be worth the price.\n[2018-04-17 23:32] tophwells (Toph): would be fun to find out anyway!\n[2018-04-17 23:32] masn6811 (Masne98888): i think it could be interesting to analyse\n[2018-04-17 23:32] masn6811 (Masne98888): i want my units to be interesting\n[2018-04-17 23:33] masn6811 (Masne98888): i don't want tarsier/electrovore permuation #5 (cough urban sentry cough)\n[2018-04-17 23:33] darkeisbein: drones generate vaue and attackers generate value\n[2018-04-17 23:33] darkeisbein: you just get attackers over drones in midgame because they are more efficient at that point\n[2018-04-17 23:33] darkeisbein: if you make a crazy efficient drone that changes\n[2018-04-17 23:33] masn6811 (Masne98888): welding kit was never a unit, because the devs found it too good in combination with cynestra\n[2018-04-17 23:33] darkeisbein: like you still by doomed drones in midgame\n[2018-04-17 23:33] darkeisbein: because it's just that efficient\n[2018-04-17 23:34] masn6811 (Masne98888): in case you are curious, it was an auric that turned 2E into GR\n[2018-04-17 23:34] tophwells (Toph): efficient drone that's only accessible/cost effective once you're over the midgame.\n[2018-04-17 23:34] masn6811 (Masne98888): but cynestra's tech was GRRR at that time, so that may have been a factor as well\n[2018-04-17 23:35] masn6811 (Masne98888): interesting comment on doomed drone. though I think this unit isn't that agressively costed. might still be good in some scanrios, but i think it's interesting\n[2018-04-17 23:35] tophwells (Toph): well if it isn't aggressively costed, it should be!\n[2018-04-17 23:35] liadahlia (Lia): I think valk is a very well design unit\n[2018-04-17 23:35] liadahlia (Lia): Sentry feels a bit filler\n[2018-04-17 23:35] masn6811 (Masne98888): depends on how 'agressively' you mean\n[2018-04-17 23:36] masn6811 (Masne98888): if you end up denying 2 absorb and paying 3EBXX for 4 drones, that's not bad\n[2018-04-17 23:36] masn6811 (Masne98888): still not as good as rager, but red is supposed to be better at that type of stuff\n[2018-04-17 23:36] masn6811 (Masne98888): the same reason rager is intentionally more efficient than tooth\n[2018-04-17 23:36] liadahlia (Lia): I think the problem is drones aren't nearly as efficient as attackers\n[2018-04-17 23:37] 1000mh (Henry): Sword economy > Gold economy\n[2018-04-17 23:37] tophwells (Toph): well no, not after you're over the absorb barrier\n[2018-04-17 23:37] tophwells (Toph): somebody having access to 4 attack usually means you're in the midgame\n[2018-04-17 23:37] masn6811 (Masne98888): @Henry I'm a sword economy main 😃\n[2018-04-17 23:38] 1000mh (Henry): Thats why I said it ;)\n[2018-04-17 23:38] liadahlia (Lia): No, you're denying 2 swords still",
+      "messages": [
+        {
+          "id": "435929460760641536",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:28:02.623+01:00",
+          "content": "i don't think Buildtime is the right keyword. Making a new keyword would be clearer."
+        },
+        {
+          "id": "435929462735896576",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:28:03.094+01:00",
+          "content": "You don't spend more attack."
+        },
+        {
+          "id": "435929575881703424",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:28:30.07+01:00",
+          "content": "So it's like buying a drone, but you are paying BXXXX for three more."
+        },
+        {
+          "id": "435929695461310465",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:28:58.58+01:00",
+          "content": "BXXXX seems a bit cheap"
+        },
+        {
+          "id": "435929728931725314",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:29:06.56+01:00",
+          "content": "@Masne98888 Fun! Get to 4 attack, force your opponent to build absorb, and then suddenly you're in a high-econ game."
+        },
+        {
+          "id": "435929764138844161",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:29:14.954+01:00",
+          "content": "That seems like a good deal because it can deny abosrb, and using 4 attack is really good for that, but the problem is once you have 4 attack, you are already in midgame, and usually don't want to be buying drones."
+        },
+        {
+          "id": "435929804890701845",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:29:24.67+01:00",
+          "content": "Plasmifier: 12GGGB construct 3 drones every turn"
+        },
+        {
+          "id": "435929821667786763",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-17T23:29:28.67+01:00",
+          "content": "yet another valk synergy unit :Lul:"
+        },
+        {
+          "id": "435929832979955712",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:29:31.367+01:00",
+          "content": "@darkeisbein you mean 3BXXXX"
+        },
+        {
+          "id": "435929903624486933",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:29:48.21+01:00",
+          "content": "i think the problem at this point is valk tbh XD"
+        },
+        {
+          "id": "435930013473439744",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:30:14.4+01:00",
+          "content": "I dunno, buying drones *really fast* and at a low effective price could be worth -\nyeah valk"
+        },
+        {
+          "id": "435930028824592395",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:30:18.06+01:00",
+          "content": "I don't really have a problem with valk synergy"
+        },
+        {
+          "id": "435930081160855572",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:30:30.538+01:00",
+          "content": "next design challenge should be: design a valkyrion synergy unit 😄"
+        },
+        {
+          "id": "435930089000271883",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:30:32.407+01:00",
+          "content": "i double this is more opressive with valk than say cryo, or thermite"
+        },
+        {
+          "id": "435930143609978941",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:30:45.427+01:00",
+          "content": "well, synergy with intermittent attack in general? maybe?"
+        },
+        {
+          "id": "435930265886654464",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:31:14.58+01:00",
+          "content": "It's just any good ol absorb deniol"
+        },
+        {
+          "id": "435930310874628097",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:31:25.306+01:00",
+          "content": "you could argue that welding kit also has synergy with valk"
+        },
+        {
+          "id": "435930344882044960",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:31:33.414+01:00",
+          "content": "It's just thermite core if it was double'd again >.>"
+        },
+        {
+          "id": "435930443553177602",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:31:56.939+01:00",
+          "content": "valk has awkward tech, so tech fixing is good. spending attack, or freezing barriers, or cyclic attack, these also synergize with valk"
+        },
+        {
+          "id": "435930470832799745",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:32:03.443+01:00",
+          "content": ":Tarsier: :Blue: :Health: ."
+        },
+        {
+          "id": "435930521609043978",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:32:15.549+01:00",
+          "content": "did you know: iso's original name was \"cyclic attacker\"?"
+        },
+        {
+          "id": "435930543998238782",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:32:20.887+01:00",
+          "content": "anyway the conventional wisdom is not to buy drones in the midgame, but if you can go from a 12-drone build to a 20-drone in 2 turns, leveraging the early-game pressure you've already bought, I think that might be worth the price."
+        },
+        {
+          "id": "435930594770288650",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:32:32.992+01:00",
+          "content": "would be fun to find out anyway!"
+        },
+        {
+          "id": "435930615557259266",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:32:37.948+01:00",
+          "content": "i think it could be interesting to analyse"
+        },
+        {
+          "id": "435930645366308884",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:32:45.055+01:00",
+          "content": "i want my units to be interesting"
+        },
+        {
+          "id": "435930726807109633",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:33:04.472+01:00",
+          "content": "i don't want tarsier/electrovore permuation #5 (cough urban sentry cough)"
+        },
+        {
+          "id": "435930728275116032",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:33:04.822+01:00",
+          "content": "drones generate vaue and attackers generate value"
+        },
+        {
+          "id": "435930804645003275",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:33:23.03+01:00",
+          "content": "you just get attackers over drones in midgame because they are more efficient at that point"
+        },
+        {
+          "id": "435930836047626240",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:33:30.517+01:00",
+          "content": "if you make a crazy efficient drone that changes"
+        },
+        {
+          "id": "435930868469596160",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:33:38.247+01:00",
+          "content": "welding kit was never a unit, because the devs found it too good in combination with cynestra"
+        },
+        {
+          "id": "435930884018012190",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:33:41.954+01:00",
+          "content": "like you still by doomed drones in midgame"
+        },
+        {
+          "id": "435930904377032715",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-17T23:33:46.808+01:00",
+          "content": "because it's just that efficient"
+        },
+        {
+          "id": "435931039613976587",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:34:19.051+01:00",
+          "content": "in case you are curious, it was an auric that turned 2E into GR"
+        },
+        {
+          "id": "435931075345383433",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:34:27.57+01:00",
+          "content": "efficient drone that's only accessible/cost effective once you're over the midgame."
+        },
+        {
+          "id": "435931092311212044",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:34:31.615+01:00",
+          "content": "but cynestra's tech was GRRR at that time, so that may have been a factor as well"
+        },
+        {
+          "id": "435931239778615306",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:35:06.774+01:00",
+          "content": "interesting comment on doomed drone. though I think this unit isn't that agressively costed. might still be good in some scanrios, but i think it's interesting"
+        },
+        {
+          "id": "435931320330223638",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:35:25.979+01:00",
+          "content": "well if it isn't aggressively costed, it should be!"
+        },
+        {
+          "id": "435931367587577866",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:35:37.246+01:00",
+          "content": "I think valk is a very well design unit"
+        },
+        {
+          "id": "435931391419613185",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:35:42.928+01:00",
+          "content": "Sentry feels a bit filler"
+        },
+        {
+          "id": "435931395282436106",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:35:43.849+01:00",
+          "content": "depends on how 'agressively' you mean"
+        },
+        {
+          "id": "435931497871048706",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:36:08.308+01:00",
+          "content": "if you end up denying 2 absorb and paying 3EBXX for 4 drones, that's not bad"
+        },
+        {
+          "id": "435931571518832640",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:36:25.867+01:00",
+          "content": "still not as good as rager, but red is supposed to be better at that type of stuff"
+        },
+        {
+          "id": "435931622949519370",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:36:38.129+01:00",
+          "content": "the same reason rager is intentionally more efficient than tooth"
+        },
+        {
+          "id": "435931697524244488",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:36:55.909+01:00",
+          "content": "I think the problem is drones aren't nearly as efficient as attackers"
+        },
+        {
+          "id": "435931808308396052",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:37:22.322+01:00",
+          "content": "Sword economy > Gold economy"
+        },
+        {
+          "id": "435931849341141003",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:37:32.105+01:00",
+          "content": "well no, not after you're over the absorb barrier"
+        },
+        {
+          "id": "435931924364787715",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:37:49.992+01:00",
+          "content": "somebody having access to 4 attack usually means you're in the midgame"
+        },
+        {
+          "id": "435931947223744534",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:37:55.442+01:00",
+          "content": "@Henry I'm a sword economy main 😃"
+        },
+        {
+          "id": "435931983852339220",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:38:04.175+01:00",
+          "content": "Thats why I said it ;)"
+        },
+        {
+          "id": "435931986939346945",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:38:04.911+01:00",
+          "content": "No, you're denying 2 swords still"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-17T23:38:14.966+01:00",
+      "end_ts": "2018-04-17T23:49:07.008+01:00",
+      "participants": [
+        "1000mh",
+        "crash_overlord",
+        "f300xen",
+        "liadahlia",
+        "masn6811",
+        "strshplyr5046",
+        "tophwells"
+      ],
+      "replay_codes": [],
+      "score": 107,
+      "formatted_text": "--- Thread (50 messages, 2018-04-17) ---\n[2018-04-17 23:38] 1000mh (Henry): You are the one who coined the term, correct?\n[2018-04-17 23:38] tophwells (Toph): Swords Drone: EXXX\nBlocker, 1HP\nClick: Gain X\n(oops, I used my last unit post today on a bad joke)\n[2018-04-17 23:38] masn6811 (Masne98888): @Henry I'm not. I think it may have been aetherlamma or someone else. I don't know.\n[2018-04-17 23:38] liadahlia (Lia): This unit is much better on a high absorb set\n[2018-04-17 23:38] liadahlia (Lia): When you have more use for high economy and more absorb to deny\n[2018-04-17 23:39] 1000mh (Henry): Oh for some reason I had it in my head that you came up with it :s\n[2018-04-17 23:39] 1000mh (Henry): @Toph I'm watching you for the rest of the day ;)\n[2018-04-17 23:40] liadahlia (Lia): In an dgrid set you can get 49 drones :POGGERS:\n[2018-04-17 23:40] masn6811 (Masne98888): @Toph If SSP doesn't follow the rules... 🤔\n[2018-04-17 23:40] 1000mh (Henry): Get a savior while youre at it c:\n[2018-04-17 23:41] masn6811 (Masne98888): oh man, didn't realize how sweet my unit was with savior\n[2018-04-17 23:41] 1000mh (Henry): @Masne98888 Don't do that, he is posting at the right frequency\n[2018-04-17 23:41] liadahlia (Lia): 86 gold per turn :POGGERS: :POGGERS:\n[2018-04-17 23:41] masn6811 (Masne98888): i think defense grid is the only unit in the game that makes drones?\n[2018-04-17 23:41] tophwells (Toph): actually that was my first unit today\n[2018-04-17 23:41] 1000mh (Henry): Normal drones. Ossifier makes ossifier\n[2018-04-17 23:41] masn6811 (Masne98888): @Mod Team When does one day start and another day end?\n[2018-04-17 23:42] 1000mh (Henry): Its a 24-hour sliding window\n[2018-04-17 23:42] liadahlia (Lia): It tracks from last post\n[2018-04-17 23:42] 1000mh (Henry): You dont need to ping them all, Im hanging out in here right now\n[2018-04-17 23:42] tophwells (Toph): Green Drone: EGGG\nBlocker, 1HP\nClick: Gain G\n(ok, now it's 2 units)\n[2018-04-17 23:42] masn6811 (Masne98888): that is an expensive conduit 🤔\n[2018-04-17 23:42] tophwells (Toph): an expensive conduit without breachproof, no less!\n[2018-04-17 23:43] tophwells (Toph): play it in Zemora sets when you need 8 conduits\n[2018-04-17 23:43] crash_overlord: Thats a really cheap conduit when you're floating green :POGGERS:\n[2018-04-17 23:44] masn6811 (Masne98888): we need a new emote 🤔\n[2018-04-17 23:44] 1000mh (Henry): Stop bullying Crash with the Egg emote guys :LongNoseLiar:\n[2018-04-17 23:44] f300xen (f0x): natural skin egg turbine when\n[2018-04-17 23:44] strshplyr5046 (StrShPlyr): Preferently :Breach:.\n[2018-04-17 23:44] masn6811 (Masne98888): which came first: the goose or the egg?\n[2018-04-17 23:45] liadahlia (Lia): Omega vigil: \n11BBB \nBlocker, 4HP \nTurn: 3 attack \n\nOr alternatively \n20BBB \nBlocker, 4hp \nTurn: 3 attack \nClick: gain 4 attacks\n[2018-04-17 23:45] liadahlia (Lia): What you think about my unit :LongNoseLiar:\n[2018-04-17 23:45] masn6811 (Masne98888): you could have the egg turbine sell a drone to lay a goose 🤔\n[2018-04-17 23:45] masn6811 (Masne98888): except it doesn't cost a splitter 🤔\n[2018-04-17 23:45] masn6811 (Masne98888): both of these are stupidly pushed lmao\n[2018-04-17 23:45] liadahlia (Lia): True, just forget about the second version\n[2018-04-17 23:46] liadahlia (Lia): Isn't the first version busted?\n[2018-04-17 23:46] masn6811 (Masne98888): the first version is still more broken than 14BBB omega, which got axed\n[2018-04-17 23:46] liadahlia (Lia): But that's just odin\n[2018-04-17 23:46] liadahlia (Lia): The 4 threat forces your opponent to spend ~9 gold on overdefend\n[2018-04-17 23:47] masn6811 (Masne98888): it makes it significantly harder to buy, and you can rhino it\n[2018-04-17 23:47] masn6811 (Masne98888): besides, the way you wrote it, it looks like a 4 supply unit\n[2018-04-17 23:47] tophwells (Toph): 4HP isn't that much absorb. And you shouldn't be soaking with these. So the HP isn't too useful compared to Omega.\n[2018-04-17 23:47] masn6811 (Masne98888): the problem with odin is that you need to get 20 gold at a time, which is hard to get\n[2018-04-17 23:48] masn6811 (Masne98888): getting to 11 gold is far easier, even if you don't force your opponent to spend 9\n[2018-04-17 23:48] masn6811 (Masne98888): for example, DD DD DDB DBB gets it out\n[2018-04-17 23:48] crash_overlord: 🥚 :POGGERS: :EGGERS:\n[2018-04-17 23:48] masn6811 (Masne98888): @Crash_overlord WHAT HAVE YOU DONE? Has science gone too far?\n[2018-04-17 23:48] masn6811 (Masne98888): Which emote did you remove for this? 😮\n[2018-04-17 23:49] crash_overlord: New unit btw :LongNoseLiar:",
+      "messages": [
+        {
+          "id": "435932029113204757",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:38:14.966+01:00",
+          "content": "You are the one who coined the term, correct?"
+        },
+        {
+          "id": "435932107844616194",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:38:33.737+01:00",
+          "content": "Swords Drone: EXXX\nBlocker, 1HP\nClick: Gain X\n(oops, I used my last unit post today on a bad joke)"
+        },
+        {
+          "id": "435932121882951680",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:38:37.084+01:00",
+          "content": "@Henry I'm not. I think it may have been aetherlamma or someone else. I don't know."
+        },
+        {
+          "id": "435932133429739520",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:38:39.837+01:00",
+          "content": "This unit is much better on a high absorb set"
+        },
+        {
+          "id": "435932203084677120",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:38:56.444+01:00",
+          "content": "When you have more use for high economy and more absorb to deny"
+        },
+        {
+          "id": "435932305064984577",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:39:20.758+01:00",
+          "content": "Oh for some reason I had it in my head that you came up with it :s"
+        },
+        {
+          "id": "435932420072669184",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:39:48.178+01:00",
+          "content": "@Toph I'm watching you for the rest of the day ;)"
+        },
+        {
+          "id": "435932603502166017",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:40:31.911+01:00",
+          "content": "In an dgrid set you can get 49 drones :POGGERS:"
+        },
+        {
+          "id": "435932692123746305",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:40:53.04+01:00",
+          "content": "@Toph If SSP doesn't follow the rules... 🤔"
+        },
+        {
+          "id": "435932697542787082",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:40:54.332+01:00",
+          "content": "Get a savior while youre at it c:"
+        },
+        {
+          "id": "435932754530533396",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:41:07.919+01:00",
+          "content": "oh man, didn't realize how sweet my unit was with savior"
+        },
+        {
+          "id": "435932782313603073",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:41:14.543+01:00",
+          "content": "@Masne98888 Don't do that, he is posting at the right frequency"
+        },
+        {
+          "id": "435932807156727818",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:41:20.466+01:00",
+          "content": "86 gold per turn :POGGERS: :POGGERS:"
+        },
+        {
+          "id": "435932842422304768",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:41:28.874+01:00",
+          "content": "i think defense grid is the only unit in the game that makes drones?"
+        },
+        {
+          "id": "435932889645973504",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:41:40.133+01:00",
+          "content": "actually that was my first unit today"
+        },
+        {
+          "id": "435932930154692608",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:41:49.791+01:00",
+          "content": "Normal drones. Ossifier makes ossifier"
+        },
+        {
+          "id": "435932972714164225",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:41:59.938+01:00",
+          "content": "@Mod Team When does one day start and another day end?"
+        },
+        {
+          "id": "435933004851052555",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:42:07.6+01:00",
+          "content": "Its a 24-hour sliding window"
+        },
+        {
+          "id": "435933021439393802",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:42:11.555+01:00",
+          "content": "It tracks from last post"
+        },
+        {
+          "id": "435933038774321175",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:42:15.688+01:00",
+          "content": "You dont need to ping them all, Im hanging out in here right now"
+        },
+        {
+          "id": "435933048463294464",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:42:17.998+01:00",
+          "content": "Green Drone: EGGG\nBlocker, 1HP\nClick: Gain G\n(ok, now it's 2 units)"
+        },
+        {
+          "id": "435933114175455234",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:42:33.665+01:00",
+          "content": "that is an expensive conduit 🤔"
+        },
+        {
+          "id": "435933203295895553",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:42:54.913+01:00",
+          "content": "an expensive conduit without breachproof, no less!"
+        },
+        {
+          "id": "435933319411138561",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:43:22.597+01:00",
+          "content": "play it in Zemora sets when you need 8 conduits"
+        },
+        {
+          "id": "435933395051085825",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-17T23:43:40.631+01:00",
+          "content": "Thats a really cheap conduit when you're floating green :POGGERS:"
+        },
+        {
+          "id": "435933553339924484",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:44:18.37+01:00",
+          "content": "we need a new emote 🤔"
+        },
+        {
+          "id": "435933644914425866",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:44:40.203+01:00",
+          "content": "Stop bullying Crash with the Egg emote guys :LongNoseLiar:"
+        },
+        {
+          "id": "435933648798089216",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-17T23:44:41.129+01:00",
+          "content": "natural skin egg turbine when"
+        },
+        {
+          "id": "435933725772218389",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:44:59.481+01:00",
+          "content": "Preferently :Breach:."
+        },
+        {
+          "id": "435933727109939200",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:44:59.8+01:00",
+          "content": "which came first: the goose or the egg?"
+        },
+        {
+          "id": "435933734739640330",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:45:01.619+01:00",
+          "content": "Omega vigil: \n11BBB \nBlocker, 4HP \nTurn: 3 attack \n\nOr alternatively \n20BBB \nBlocker, 4hp \nTurn: 3 attack \nClick: gain 4 attacks"
+        },
+        {
+          "id": "435933765647466517",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:45:08.988+01:00",
+          "content": "What you think about my unit :LongNoseLiar:"
+        },
+        {
+          "id": "435933781791342604",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:45:12.837+01:00",
+          "content": "you could have the egg turbine sell a drone to lay a goose 🤔"
+        },
+        {
+          "id": "435933888175669249",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:45:38.201+01:00",
+          "content": "except it doesn't cost a splitter 🤔"
+        },
+        {
+          "id": "435933922422030346",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:45:46.366+01:00",
+          "content": "both of these are stupidly pushed lmao"
+        },
+        {
+          "id": "435933966349107210",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:45:56.839+01:00",
+          "content": "True, just forget about the second version"
+        },
+        {
+          "id": "435934026864263178",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:46:11.267+01:00",
+          "content": "Isn't the first version busted?"
+        },
+        {
+          "id": "435934065108058133",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:46:20.385+01:00",
+          "content": "the first version is still more broken than 14BBB omega, which got axed"
+        },
+        {
+          "id": "435934112381927435",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:46:31.656+01:00",
+          "content": "But that's just odin"
+        },
+        {
+          "id": "435934174713741315",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:46:46.517+01:00",
+          "content": "The 4 threat forces your opponent to spend ~9 gold on overdefend"
+        },
+        {
+          "id": "435934239243108353",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:47:01.902+01:00",
+          "content": "it makes it significantly harder to buy, and you can rhino it"
+        },
+        {
+          "id": "435934301339779082",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:47:16.707+01:00",
+          "content": "besides, the way you wrote it, it looks like a 4 supply unit"
+        },
+        {
+          "id": "435934333883383834",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-17T23:47:24.466+01:00",
+          "content": "4HP isn't that much absorb. And you shouldn't be soaking with these. So the HP isn't too useful compared to Omega."
+        },
+        {
+          "id": "435934442373120001",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:47:50.332+01:00",
+          "content": "the problem with odin is that you need to get 20 gold at a time, which is hard to get"
+        },
+        {
+          "id": "435934495837913110",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:48:03.079+01:00",
+          "content": "getting to 11 gold is far easier, even if you don't force your opponent to spend 9"
+        },
+        {
+          "id": "435934532072374291",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:48:11.718+01:00",
+          "content": "for example, DD DD DDB DBB gets it out"
+        },
+        {
+          "id": "435934583758913536",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-17T23:48:24.041+01:00",
+          "content": "🥚 :POGGERS: :EGGERS:"
+        },
+        {
+          "id": "435934614633316352",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:48:31.402+01:00",
+          "content": "@Crash_overlord WHAT HAVE YOU DONE? Has science gone too far?"
+        },
+        {
+          "id": "435934702487076901",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:48:52.348+01:00",
+          "content": "Which emote did you remove for this? 😮"
+        },
+        {
+          "id": "435934763975442433",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-17T23:49:07.008+01:00",
+          "content": "New unit btw :LongNoseLiar:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-17T23:49:52.301+01:00",
+      "end_ts": "2018-04-17T23:51:29.068+01:00",
+      "participants": [
+        "1000mh",
+        "f300xen",
+        "liadahlia",
+        "masn6811",
+        "strshplyr5046"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (6 messages, 2018-04-17) ---\n[2018-04-17 23:49] 1000mh (Henry): Let's keep this train on track, guys\n[2018-04-17 23:50] f300xen (f0x): we should all make custom unit designs for :EGGERS:\n[2018-04-17 23:50] liadahlia (Lia): I love offtopic in my #unit_and_game_design\n[2018-04-17 23:50] 1000mh (Henry): Let's try to avoid that\n[2018-04-17 23:50] strshplyr5046 (StrShPlyr): Massive shiposting nobody bats an eye.\nI post an unit everybody loses their minds.\n[2018-04-17 23:51] masn6811 (Masne98888): it was a mod that started it! MOD ABUSE REEEEEEEEEE",
+      "messages": [
+        {
+          "id": "435934953948184576",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:49:52.301+01:00",
+          "content": "Let's keep this train on track, guys"
+        },
+        {
+          "id": "435934997074149376",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-17T23:50:02.583+01:00",
+          "content": "we should all make custom unit designs for :EGGERS:"
+        },
+        {
+          "id": "435935017256878080",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-04-17T23:50:07.395+01:00",
+          "content": "I love offtopic in my #unit_and_game_design"
+        },
+        {
+          "id": "435935068226322443",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-17T23:50:19.547+01:00",
+          "content": "Let's try to avoid that"
+        },
+        {
+          "id": "435935108839637002",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-17T23:50:29.23+01:00",
+          "content": "Massive shiposting nobody bats an eye.\nI post an unit everybody loses their minds."
+        },
+        {
+          "id": "435935359818268672",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-04-17T23:51:29.068+01:00",
+          "content": "it was a mod that started it! MOD ABUSE REEEEEEEEEE"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-18T00:09:36.012+01:00",
+      "end_ts": "2018-04-18T00:26:29.535+01:00",
+      "participants": [
+        "1000mh",
+        "Deleted User",
+        "crash_overlord",
+        "f300xen",
+        "kaiasky",
+        "mountebank",
+        "mrguy888",
+        "steel0229e",
+        "strshplyr5046",
+        "tophwells"
+      ],
+      "replay_codes": [
+        "total-attac"
+      ],
+      "score": 27,
+      "formatted_text": "--- Thread (20 messages, 2018-04-18) ---\n[2018-04-18 00:09] kaiasky (kaia): Btw I like the Resting Dynamo that StrShPlyr mentioned. Especially paying red to get 3 attack, but having to not click the rhino to get it which is interesting, essentially gives rhinos a cool burst attack to breach. I'm not sure about balance but it's a more versatile version than mine imo which means interesting play?\n[2018-04-18 00:14] steel0229e (Steel): why have I been summoned to this swamp? DansGame\n[2018-04-18 00:15] strshplyr5046 (StrShPlyr): It avoids SDR issues by Rhino click, 2 beats 1 since it can be 1, etc. But 2 vs 0 case is odd.\n[2018-04-18 00:17] strshplyr5046 (StrShPlyr): Since X x3, exh2 vs Recharge 2, get X.\n[2018-04-18 00:21] tophwells (Toph): by the way, how much do we care about units that confuse the total-attack estimator?\n[2018-04-18 00:21] mrguy888: Confusing the attack estimate is irrelevant.\n[2018-04-18 00:21] crash_overlord: Too confusing is no go\n[2018-04-18 00:21] f300xen (f0x): don't make vai effects because they make calculation too hard, iirc\n[2018-04-18 00:22] crash_overlord: like 10 mini vais is pretty poor\n[2018-04-18 00:22] crash_overlord: Would rather avoid cause the math is annoying.\n[2018-04-18 00:22] 1000mh (Henry): Multiple Apollo's would be weird too.\n[2018-04-18 00:22] mrguy888: Multiple Apollos existed and were fine.\n[2018-04-18 00:22] mountebank: Anything with chill kinda does that already\n[2018-04-18 00:22] mrguy888: Well they weren't fine but for other reasons.\n[2018-04-18 00:23] f300xen (f0x): 20 supply apollo is the objectively best apollo\n[2018-04-18 00:23] mrguy888: If your unit can be simpler it should be but if it can't be then it should be fine.\n[2018-04-18 00:24] mrguy888: If a unit has too much going on it would probably be best as multiple units that highlight each mechanic.\n[2018-04-18 00:24] tophwells (Toph): got it. (The unit that prompted this question has other flaws anyway.)\n[2018-04-18 00:26] Deleted User (Deleted User): did multipollo have accurate breach indicators\n[2018-04-18 00:26] mrguy888: Yes. Just as accurate as current apollo.",
+      "messages": [
+        {
+          "id": "435939918791835669",
+          "author": "kaiasky",
+          "nickname": "kaia",
+          "timestamp": "2018-04-18T00:09:36.012+01:00",
+          "content": "Btw I like the Resting Dynamo that StrShPlyr mentioned. Especially paying red to get 3 attack, but having to not click the rhino to get it which is interesting, essentially gives rhinos a cool burst attack to breach. I'm not sure about balance but it's a more versatile version than mine imo which means interesting play?"
+        },
+        {
+          "id": "435941145206325250",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2018-04-18T00:14:28.412+01:00",
+          "content": "why have I been summoned to this swamp? DansGame"
+        },
+        {
+          "id": "435941320163590154",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-18T00:15:10.125+01:00",
+          "content": "It avoids SDR issues by Rhino click, 2 beats 1 since it can be 1, etc. But 2 vs 0 case is odd."
+        },
+        {
+          "id": "435941919726501889",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-18T00:17:33.072+01:00",
+          "content": "Since X x3, exh2 vs Recharge 2, get X."
+        },
+        {
+          "id": "435942846982389780",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-18T00:21:14.147+01:00",
+          "content": "by the way, how much do we care about units that confuse the total-attack estimator?"
+        },
+        {
+          "id": "435942982919782401",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-18T00:21:46.557+01:00",
+          "content": "Confusing the attack estimate is irrelevant."
+        },
+        {
+          "id": "435943036925509643",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T00:21:59.433+01:00",
+          "content": "Too confusing is no go"
+        },
+        {
+          "id": "435943037064052736",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-18T00:21:59.466+01:00",
+          "content": "don't make vai effects because they make calculation too hard, iirc"
+        },
+        {
+          "id": "435943077589417984",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T00:22:09.128+01:00",
+          "content": "like 10 mini vais is pretty poor"
+        },
+        {
+          "id": "435943149945225217",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T00:22:26.379+01:00",
+          "content": "Would rather avoid cause the math is annoying."
+        },
+        {
+          "id": "435943162272415744",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-18T00:22:29.318+01:00",
+          "content": "Multiple Apollo's would be weird too."
+        },
+        {
+          "id": "435943228391555073",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-18T00:22:45.082+01:00",
+          "content": "Multiple Apollos existed and were fine."
+        },
+        {
+          "id": "435943263199952926",
+          "author": "mountebank",
+          "nickname": "Mountebank",
+          "timestamp": "2018-04-18T00:22:53.381+01:00",
+          "content": "Anything with chill kinda does that already"
+        },
+        {
+          "id": "435943279985557516",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-18T00:22:57.383+01:00",
+          "content": "Well they weren't fine but for other reasons."
+        },
+        {
+          "id": "435943350227566603",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-18T00:23:14.13+01:00",
+          "content": "20 supply apollo is the objectively best apollo"
+        },
+        {
+          "id": "435943503688892427",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-18T00:23:50.718+01:00",
+          "content": "If your unit can be simpler it should be but if it can't be then it should be fine."
+        },
+        {
+          "id": "435943685671092235",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-18T00:24:34.106+01:00",
+          "content": "If a unit has too much going on it would probably be best as multiple units that highlight each mechanic."
+        },
+        {
+          "id": "435943712103858187",
+          "author": "tophwells",
+          "nickname": "Toph",
+          "timestamp": "2018-04-18T00:24:40.408+01:00",
+          "content": "got it. (The unit that prompted this question has other flaws anyway.)"
+        },
+        {
+          "id": "435944088747900938",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-18T00:26:10.207+01:00",
+          "content": "did multipollo have accurate breach indicators"
+        },
+        {
+          "id": "435944169815539741",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-04-18T00:26:29.535+01:00",
+          "content": "Yes. Just as accurate as current apollo."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-18T06:53:36.253+01:00",
+      "end_ts": "2018-04-18T06:53:36.253+01:00",
+      "participants": [
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-04-18) ---\n[2018-04-18 06:53] randomflyingtaco (RiFT (#RIPBrowserers)): Novenity Drone (3 :Gold: :Green: :Green: :Green:  :Energy: :Energy: :Energy:  , Supply 9)  18 :Fragile: \nAs an additional cost to buy Novenity Drone, consume 2 Trinity Drones.\nAt the start of your turn, gain 9 :Gold: .\n:Click: , pay 3 :Gold: :Green: :Green: :Green: , and consume a Conduit: construct a Trinity Drone",
+      "messages": [
+        {
+          "id": "436041589731622922",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-04-18T06:53:36.253+01:00",
+          "content": "Novenity Drone (3 :Gold: :Green: :Green: :Green:  :Energy: :Energy: :Energy:  , Supply 9)  18 :Fragile: \nAs an additional cost to buy Novenity Drone, consume 2 Trinity Drones.\nAt the start of your turn, gain 9 :Gold: .\n:Click: , pay 3 :Gold: :Green: :Green: :Green: , and consume a Conduit: construct a Trinity Drone"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-18T07:04:00.812+01:00",
+      "end_ts": "2018-04-18T07:14:35.528+01:00",
+      "participants": [
+        ".bky_1556",
+        "1000mh",
+        "f300xen"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (6 messages, 2018-04-18) ---\n[2018-04-18 07:04] .bky_1556 (bky): Only in the set if TDrone is?\n[2018-04-18 07:05] .bky_1556 (bky): Should have more health IMO.\n[2018-04-18 07:06] 1000mh (Henry): Because it constructs a Trinity Drone, I guess it doesn't need to be in the advanced set\n[2018-04-18 07:06] .bky_1556 (bky): Your 2 trinities should not lose total health from the merge.\n[2018-04-18 07:06] f300xen (f0x): yeah it's a breachproof downgrade\n[2018-04-18 07:14] 1000mh (Henry): Oh wait, youre right",
+      "messages": [
+        {
+          "id": "436044209322196993",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-18T07:04:00.812+01:00",
+          "content": "Only in the set if TDrone is?"
+        },
+        {
+          "id": "436044579423125504",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-18T07:05:29.051+01:00",
+          "content": "Should have more health IMO."
+        },
+        {
+          "id": "436044724428865536",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-18T07:06:03.623+01:00",
+          "content": "Because it constructs a Trinity Drone, I guess it doesn't need to be in the advanced set"
+        },
+        {
+          "id": "436044727926784011",
+          "author": ".bky_1556",
+          "nickname": "bky",
+          "timestamp": "2018-04-18T07:06:04.457+01:00",
+          "content": "Your 2 trinities should not lose total health from the merge."
+        },
+        {
+          "id": "436044820834942977",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-04-18T07:06:26.608+01:00",
+          "content": "yeah it's a breachproof downgrade"
+        },
+        {
+          "id": "436046871513792532",
+          "author": "1000mh",
+          "nickname": "Henry",
+          "timestamp": "2018-04-18T07:14:35.528+01:00",
+          "content": "Oh wait, youre right"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-18T12:16:13.369+01:00",
+      "end_ts": "2018-04-18T12:16:13.369+01:00",
+      "participants": [
+        "strshplyr5046"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-04-18) ---\n[2018-04-18 12:16] strshplyr5046 (StrShPlyr): Guerrilla Droid: 2:Gold: :Engineer:. :Health:1. :Blocker:.\nTurn: Get 2:Energy:.\nClick: Pay 1:Gold:, 2:Energy:, get Energy Charge*.\n*2:Gold: 2:Energy: Gauss Charge.",
+      "messages": [
+        {
+          "id": "436122779360821249",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-18T12:16:13.369+01:00",
+          "content": "Guerrilla Droid: 2:Gold: :Engineer:. :Health:1. :Blocker:.\nTurn: Get 2:Energy:.\nClick: Pay 1:Gold:, 2:Energy:, get Energy Charge*.\n*2:Gold: 2:Energy: Gauss Charge."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-18T12:32:10.171+01:00",
+      "end_ts": "2018-04-18T12:33:55.794+01:00",
+      "participants": [
+        "mqp",
+        "strshplyr5046"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (3 messages, 2018-04-18) ---\n[2018-04-18 12:32] mqp: Workshop (1, 1 Supply)\nSpell: Construct a Blastforge for both yourself and your opponent.\n[2018-04-18 12:32] mqp: note that opponent gets the blue first\n[2018-04-18 12:33] strshplyr5046 (StrShPlyr): You should get 2:Gold:.",
+      "messages": [
+        {
+          "id": "436126792479277056",
+          "author": "mqp",
+          "nickname": "mqp",
+          "timestamp": "2018-04-18T12:32:10.171+01:00",
+          "content": "Workshop (1, 1 Supply)\nSpell: Construct a Blastforge for both yourself and your opponent."
+        },
+        {
+          "id": "436126940722757634",
+          "author": "mqp",
+          "nickname": "mqp",
+          "timestamp": "2018-04-18T12:32:45.515+01:00",
+          "content": "note that opponent gets the blue first"
+        },
+        {
+          "id": "436127235494379522",
+          "author": "strshplyr5046",
+          "nickname": "StrShPlyr",
+          "timestamp": "2018-04-18T12:33:55.794+01:00",
+          "content": "You should get 2:Gold:."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-18T14:31:55.427+01:00",
+      "end_ts": "2018-04-18T14:42:18.602+01:00",
+      "participants": [
+        ".jrkirby",
+        "redrame"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (4 messages, 2018-04-18) ---\n[2018-04-18 14:31] redrame: Workshop is only 1 supply 😦\n[2018-04-18 14:32] redrame: I wanted to meme people with the 4x drake 10x workshop strats\n[2018-04-18 14:32] redrame: “Here, have a blastforge”\n[2018-04-18 14:42] .jrkirby (jrkirby): If you can drake, likely the could too. Drake/Gmech sets are actually where workshop would be the worst buy - in other sets you can force your opponent into being overteched if you play it right.",
+      "messages": [
+        {
+          "id": "436156929627127809",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-04-18T14:31:55.427+01:00",
+          "content": "Workshop is only 1 supply 😦"
+        },
+        {
+          "id": "436157034405036034",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-04-18T14:32:20.408+01:00",
+          "content": "I wanted to meme people with the 4x drake 10x workshop strats"
+        },
+        {
+          "id": "436157104600907787",
+          "author": "redrame",
+          "nickname": "Redrame",
+          "timestamp": "2018-04-18T14:32:37.144+01:00",
+          "content": "“Here, have a blastforge”"
+        },
+        {
+          "id": "436159543412523030",
+          "author": ".jrkirby",
+          "nickname": "jrkirby",
+          "timestamp": "2018-04-18T14:42:18.602+01:00",
+          "content": "If you can drake, likely the could too. Drake/Gmech sets are actually where workshop would be the worst buy - in other sets you can force your opponent into being overteched if you play it right."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-18T15:00:29.453+01:00",
+      "end_ts": "2018-04-18T15:31:59.184+01:00",
+      "participants": [
+        "Deleted User",
+        "crash_overlord",
+        "darkeisbein",
+        "jeacaveo",
+        "kaelii",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 31,
+      "formatted_text": "--- Thread (50 messages, 2018-04-18) ---\n[2018-04-18 15:00] supergreyman (Greyman): I think the best play would be for both players to try to delay buying Blastforge for as long as possible, for fear of workshop. 😓\n[2018-04-18 15:01] supergreyman (Greyman): aka trying to get 2 damage to force Blastforge.\n[2018-04-18 15:11] jeacaveo (jeacaveo (#NeverBrowserer)): Reeve (3 :Gold:  :Green: , 4 supply) 1 :Fragile: \n\nAll units cost 1 extra :Gold:  to purchase (for everyone).\n\n3 :Lifespan:\n\n-----\n[2018-04-18 15:11] jeacaveo (jeacaveo (#NeverBrowserer)): Not a fan of custom units, but haven't been able to play for a few days and my head landed here. Templating might need work, open to suggestions.\n[2018-04-18 15:12] darkeisbein: sometimes you don't want to kill this\n[2018-04-18 15:15] jeacaveo (jeacaveo (#NeverBrowserer)): crap, forgot about the part where it dies after a few turns, one sec\n[2018-04-18 15:15] supergreyman (Greyman): Make it \"Your opponent must pay an extra :Gold: to purchase\". And then maybe give it high :Health: and a Frontline.\n[2018-04-18 15:16] darkeisbein: but then you get an ordering problem\n[2018-04-18 15:16] darkeisbein: where killing it before purchases is better\n[2018-04-18 15:16] darkeisbein: well you get that problem anyways\n[2018-04-18 15:16] darkeisbein: because you always have the option to breach\n[2018-04-18 15:17] supergreyman (Greyman): Start of Turn: Your opponent must pay an extra :Gold: to purchase during their next turn.\n[2018-04-18 15:17] darkeisbein: also has the design problem that it makes certain units unplayably bad (like engineer or barrier) while barely influencing others\n[2018-04-18 15:18] darkeisbein: leading to a worse game with less descicions\n[2018-04-18 15:18] jeacaveo (jeacaveo (#NeverBrowserer)): Making it frontline and like 4 :Health: crossed my mind.\n[2018-04-18 15:18] darkeisbein: really not liking it\n[2018-04-18 15:18] darkeisbein: the game doesn't get any better when you remove half the options\n[2018-04-18 15:19] supergreyman (Greyman): Yeah, good point. It would restrict game decisions rather than expand.\n[2018-04-18 15:19] jeacaveo (jeacaveo (#NeverBrowserer)): It's fun/interesting to play on low/limited resources. Just a thought. Thanks for the feedback guys!\n[2018-04-18 15:19] darkeisbein: it's not fun to have a game with little decicions\n[2018-04-18 15:20] kaelii: If you really wanted to make it a thing it would end up being a dork that constructs ':Lifespan: dorky effect unit #1' similar to how valky produces barriers.\n[2018-04-18 15:20] jeacaveo (jeacaveo (#NeverBrowserer)): Maybe making it only 1 or 2 :Lifespan: can be a thing? just to disrupt tempo\n[2018-04-18 15:20] darkeisbein: this just limits the decicions because engineer, barrier etc become non decicions\n[2018-04-18 15:21] kaelii: Sad thing would be if you accidentally miscost the unit, the first person to buy said unit might be denying the ability of their opponent to buy said unit.\n[2018-04-18 15:22] jeacaveo (jeacaveo (#NeverBrowserer)): I would like it to be at least 2 :Lifespan:, so you can be affected by it at least once.\n[2018-04-18 15:23] jeacaveo (jeacaveo (#NeverBrowserer)): maybe forcing it to be your first purchase might be too complicated?\n[2018-04-18 15:24] supergreyman (Greyman): Give it a higher tech cost or something.\n[2018-04-18 15:24] supergreyman (Greyman): Depending on which phase of the game you want it to be purchased.\n[2018-04-18 15:25] darkeisbein: this just hardcounters antima :/\n[2018-04-18 15:25] supergreyman (Greyman): A single green can make it purchase on turn 3, while giving it a GBR would make it more of a midgame unit.\n[2018-04-18 15:25] crash_overlord: Antima is too strong anyways 🤢\n[2018-04-18 15:25] jeacaveo (jeacaveo (#NeverBrowserer)): 😊 it's my first time posting here, don't know the dynamic. do we do like official submisions that Lunarch takes under consideration?\n[2018-04-18 15:26] jeacaveo (jeacaveo (#NeverBrowserer)): Hard countering antima was not the initial plan, but that would actually be a plus 😛\n[2018-04-18 15:26] darkeisbein: we are bored nerds who post stuff for fun\n[2018-04-18 15:27] jeacaveo (jeacaveo (#NeverBrowserer)): LOL, fine by me! Would actually love to see something similar to this at some point.\n[2018-04-18 15:27] supergreyman (Greyman): Or hardcore nerd striving to become a Prismata dev. 😛\n[2018-04-18 15:28] darkeisbein: I think your better of making your own Prismta-like tbh\n[2018-04-18 15:28] supergreyman (Greyman): Maybe I should compete with Prismata? 🤔\n[2018-04-18 15:28] jeacaveo (jeacaveo (#NeverBrowserer)): The effect is something normal in other games, I wouldn't be surprised if it actually ended up in the game. Prismata is perfect as it is, no need to fork it right now.\n[2018-04-18 15:29] Deleted User (Deleted User): i see too little creations with new mechanics being submitted here, most consist of current mechanics with varying costs and numbers, does prismata have a design space problem\n[2018-04-18 15:29] darkeisbein: yeah other games also suck\n[2018-04-18 15:29] darkeisbein: like ccgs have many horrible designs\n[2018-04-18 15:30] darkeisbein: or disallowing your opponent to do anything (floodgates)\n[2018-04-18 15:30] supergreyman (Greyman): You can still make a lot of different types of effect with the current mechanics.\n[2018-04-18 15:31] jeacaveo (jeacaveo (#NeverBrowserer)): that depends on how you look at it. most of my experience is with MTG. Boardwipes wouldn't make sense in a game like Prismata (it being more of an RTS), but resource denial/taxing is one of my favorites things about Magic.\n[2018-04-18 15:31] Deleted User (Deleted User): well as long as playable killspells are varied, then i dont have a problem with them, boardwipes are only played in control decks so i have even less of an issue with them\n[2018-04-18 15:31] darkeisbein: I mean we have apollo and kinetic driver\n[2018-04-18 15:31] darkeisbein: killspells just lead to no creatures getting played\n[2018-04-18 15:31] darkeisbein: creatures that actually get played are all sorceries with a body basically\n[2018-04-18 15:31] darkeisbein: the whole dies-to-removal meme",
+      "messages": [
+        {
+          "id": "436164118773235713",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:00:29.453+01:00",
+          "content": "I think the best play would be for both players to try to delay buying Blastforge for as long as possible, for fear of workshop. 😓"
+        },
+        {
+          "id": "436164444532244481",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:01:47.12+01:00",
+          "content": "aka trying to get 2 damage to force Blastforge."
+        },
+        {
+          "id": "436166772807172106",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:11:02.224+01:00",
+          "content": "Reeve (3 :Gold:  :Green: , 4 supply) 1 :Fragile: \n\nAll units cost 1 extra :Gold:  to purchase (for everyone).\n\n3 :Lifespan:\n\n-----"
+        },
+        {
+          "id": "436166786749038602",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:11:05.548+01:00",
+          "content": "Not a fan of custom units, but haven't been able to play for a few days and my head landed here. Templating might need work, open to suggestions."
+        },
+        {
+          "id": "436167097622593537",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:12:19.666+01:00",
+          "content": "sometimes you don't want to kill this"
+        },
+        {
+          "id": "436167997413916677",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:15:54.193+01:00",
+          "content": "crap, forgot about the part where it dies after a few turns, one sec"
+        },
+        {
+          "id": "436168013285294091",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:15:57.977+01:00",
+          "content": "Make it \"Your opponent must pay an extra :Gold: to purchase\". And then maybe give it high :Health: and a Frontline."
+        },
+        {
+          "id": "436168144025812993",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:16:29.148+01:00",
+          "content": "but then you get an ordering problem"
+        },
+        {
+          "id": "436168172345753602",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:16:35.9+01:00",
+          "content": "where killing it before purchases is better"
+        },
+        {
+          "id": "436168197969018881",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:16:42.009+01:00",
+          "content": "well you get that problem anyways"
+        },
+        {
+          "id": "436168243879608320",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:16:52.955+01:00",
+          "content": "because you always have the option to breach"
+        },
+        {
+          "id": "436168459416502282",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:17:44.343+01:00",
+          "content": "Start of Turn: Your opponent must pay an extra :Gold: to purchase during their next turn."
+        },
+        {
+          "id": "436168491859705857",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:17:52.078+01:00",
+          "content": "also has the design problem that it makes certain units unplayably bad (like engineer or barrier) while barely influencing others"
+        },
+        {
+          "id": "436168526534017034",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:18:00.345+01:00",
+          "content": "leading to a worse game with less descicions"
+        },
+        {
+          "id": "436168546763014148",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:18:05.168+01:00",
+          "content": "Making it frontline and like 4 :Health: crossed my mind."
+        },
+        {
+          "id": "436168587254956044",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:18:14.822+01:00",
+          "content": "really not liking it"
+        },
+        {
+          "id": "436168633769787392",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:18:25.912+01:00",
+          "content": "the game doesn't get any better when you remove half the options"
+        },
+        {
+          "id": "436168823184293896",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:19:11.072+01:00",
+          "content": "Yeah, good point. It would restrict game decisions rather than expand."
+        },
+        {
+          "id": "436168834173370388",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:19:13.692+01:00",
+          "content": "It's fun/interesting to play on low/limited resources. Just a thought. Thanks for the feedback guys!"
+        },
+        {
+          "id": "436169007150661633",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:19:54.933+01:00",
+          "content": "it's not fun to have a game with little decicions"
+        },
+        {
+          "id": "436169030437699594",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-18T15:20:00.485+01:00",
+          "content": "If you really wanted to make it a thing it would end up being a dork that constructs ':Lifespan: dorky effect unit #1' similar to how valky produces barriers."
+        },
+        {
+          "id": "436169064075755521",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:20:08.505+01:00",
+          "content": "Maybe making it only 1 or 2 :Lifespan: can be a thing? just to disrupt tempo"
+        },
+        {
+          "id": "436169084212871169",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:20:13.306+01:00",
+          "content": "this just limits the decicions because engineer, barrier etc become non decicions"
+        },
+        {
+          "id": "436169359619129356",
+          "author": "kaelii",
+          "nickname": "Kaelii",
+          "timestamp": "2018-04-18T15:21:18.968+01:00",
+          "content": "Sad thing would be if you accidentally miscost the unit, the first person to buy said unit might be denying the ability of their opponent to buy said unit."
+        },
+        {
+          "id": "436169586065276928",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:22:12.957+01:00",
+          "content": "I would like it to be at least 2 :Lifespan:, so you can be affected by it at least once."
+        },
+        {
+          "id": "436169913573310464",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:23:31.041+01:00",
+          "content": "maybe forcing it to be your first purchase might be too complicated?"
+        },
+        {
+          "id": "436170148794073098",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:24:27.122+01:00",
+          "content": "Give it a higher tech cost or something."
+        },
+        {
+          "id": "436170282974314505",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:24:59.113+01:00",
+          "content": "Depending on which phase of the game you want it to be purchased."
+        },
+        {
+          "id": "436170364884615178",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:25:18.642+01:00",
+          "content": "this just hardcounters antima :/"
+        },
+        {
+          "id": "436170471860469771",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:25:44.147+01:00",
+          "content": "A single green can make it purchase on turn 3, while giving it a GBR would make it more of a midgame unit."
+        },
+        {
+          "id": "436170493876502561",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:25:49.396+01:00",
+          "content": "Antima is too strong anyways 🤢"
+        },
+        {
+          "id": "436170511328870410",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:25:53.557+01:00",
+          "content": "😊 it's my first time posting here, don't know the dynamic. do we do like official submisions that Lunarch takes under consideration?"
+        },
+        {
+          "id": "436170607797993483",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:26:16.557+01:00",
+          "content": "Hard countering antima was not the initial plan, but that would actually be a plus 😛"
+        },
+        {
+          "id": "436170628072996864",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:26:21.391+01:00",
+          "content": "we are bored nerds who post stuff for fun"
+        },
+        {
+          "id": "436170900094844939",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:27:26.246+01:00",
+          "content": "LOL, fine by me! Would actually love to see something similar to this at some point."
+        },
+        {
+          "id": "436170937071566858",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:27:35.062+01:00",
+          "content": "Or hardcore nerd striving to become a Prismata dev. 😛"
+        },
+        {
+          "id": "436171043741106176",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:28:00.494+01:00",
+          "content": "I think your better of making your own Prismta-like tbh"
+        },
+        {
+          "id": "436171282652856320",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:28:57.455+01:00",
+          "content": "Maybe I should compete with Prismata? 🤔"
+        },
+        {
+          "id": "436171293168107530",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:28:59.962+01:00",
+          "content": "The effect is something normal in other games, I wouldn't be surprised if it actually ended up in the game. Prismata is perfect as it is, no need to fork it right now."
+        },
+        {
+          "id": "436171362009350145",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-18T15:29:16.375+01:00",
+          "content": "i see too little creations with new mechanics being submitted here, most consist of current mechanics with varying costs and numbers, does prismata have a design space problem"
+        },
+        {
+          "id": "436171363049406464",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:29:16.623+01:00",
+          "content": "yeah other games also suck"
+        },
+        {
+          "id": "436171399099449367",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:29:25.218+01:00",
+          "content": "like ccgs have many horrible designs"
+        },
+        {
+          "id": "436171568079568908",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:30:05.506+01:00",
+          "content": "or disallowing your opponent to do anything (floodgates)"
+        },
+        {
+          "id": "436171769318211584",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:30:53.485+01:00",
+          "content": "You can still make a lot of different types of effect with the current mechanics."
+        },
+        {
+          "id": "436171812725063681",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:31:03.834+01:00",
+          "content": "that depends on how you look at it. most of my experience is with MTG. Boardwipes wouldn't make sense in a game like Prismata (it being more of an RTS), but resource denial/taxing is one of my favorites things about Magic."
+        },
+        {
+          "id": "436171901967269889",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-18T15:31:25.111+01:00",
+          "content": "well as long as playable killspells are varied, then i dont have a problem with them, boardwipes are only played in control decks so i have even less of an issue with them"
+        },
+        {
+          "id": "436171913857859584",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:31:27.946+01:00",
+          "content": "I mean we have apollo and kinetic driver"
+        },
+        {
+          "id": "436171965053665301",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:31:40.152+01:00",
+          "content": "killspells just lead to no creatures getting played"
+        },
+        {
+          "id": "436172013405732864",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:31:51.68+01:00",
+          "content": "creatures that actually get played are all sorceries with a body basically"
+        },
+        {
+          "id": "436172044879527936",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:31:59.184+01:00",
+          "content": "the whole dies-to-removal meme"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-04-18T15:32:42.568+01:00",
+      "end_ts": "2018-04-18T15:51:11.27+01:00",
+      "participants": [
+        "Deleted User",
+        "crash_overlord",
+        "darkeisbein",
+        "jeacaveo",
+        "kristian1103",
+        "supergreyman",
+        "vanitascabal6962"
+      ],
+      "replay_codes": [],
+      "score": 64,
+      "formatted_text": "--- Thread (50 messages, 2018-04-18) ---\n[2018-04-18 15:32] Deleted User (Deleted User): people prefer playing creatures with abilities to those without\n[2018-04-18 15:32] darkeisbein: and just trading threat/answer till one player runs out of either isn't all that interactive tbh\n[2018-04-18 15:33] darkeisbein: I'm not against abilities\n[2018-04-18 15:33] darkeisbein: but there are a lot of abilities that don't really do much for playability because they aren't etb effects\n[2018-04-18 15:33] darkeisbein: etb aren't even real abilities of creatures\n[2018-04-18 15:34] darkeisbein: they are just a sorcery tacked onto some basic creature\n[2018-04-18 15:34] Deleted User (Deleted User): in mtg, no decks play enough killspells to be able to use them liberally, it is important to consider if a threat is worth using a killspell on or not\n[2018-04-18 15:35] darkeisbein: sure you don't use your killspell on a 1/1 gobbo\n[2018-04-18 15:35] Deleted User (Deleted User): also if killspells were that important, decks would be playing much more than they do\n[2018-04-18 15:36] jeacaveo (jeacaveo (#NeverBrowserer)): Apollo and Kinetic Driver are two of my favorite units in the game (along anything that freezes), maybe I'm weird like that...\n[2018-04-18 15:36] darkeisbein: I mean people don't play much that is super vulnerable to kill spells so there is a balance\n[2018-04-18 15:37] supergreyman (Greyman): I personally don't like Apollo. Kinetic Driver is interesting though.\n[2018-04-18 15:37] jeacaveo (jeacaveo (#NeverBrowserer)): Did I say Apollo? I meant Deadeye Operative.\n[2018-04-18 15:37] vanitascabal6962 (VanitasCabal): kinetic driver makes for some fun rushes\n[2018-04-18 15:38] darkeisbein: apollo leads to some great games but sometimes it just denies options out of a set and is really annoying that way\n[2018-04-18 15:38] jeacaveo (jeacaveo (#NeverBrowserer)): Hahaha, it's the resource denial thing I mentioned I love (Deadeye).\n[2018-04-18 15:39] jeacaveo (jeacaveo (#NeverBrowserer)): Ok, you guys got my inspiration juices flowing. I'm gonna do my second submission of the day.\n[2018-04-18 15:40] supergreyman (Greyman): We got Drone and tech denial 😛\n[2018-04-18 15:42] jeacaveo (jeacaveo (#NeverBrowserer)): Leech (4 :Gold:  :Green: :Green: , 1 supply) 2 :Fragile: \n\n:Click:, lose 1 :Fragile:  : Remove 2 :Gold: or 2 :Green: from your opponent's bank.\n\n2 :Time:\n[2018-04-18 15:42] darkeisbein: because now banking resources is not good\n[2018-04-18 15:42] jeacaveo (jeacaveo (#NeverBrowserer)): crap... i really need to read that article. the tab has been open since forever.\n[2018-04-18 15:42] supergreyman (Greyman): It removes, not steal\n[2018-04-18 15:42] darkeisbein: well depends on how you define that domination rule\n[2018-04-18 15:42] crash_overlord: Also techincally breaking SDR can be fine\n[2018-04-18 15:43] crash_overlord: It's just that it becomes a hell of a lot more complex and hard to balance if you break it\n[2018-04-18 15:43] supergreyman (Greyman): I don't think it's SDR breaking\n[2018-04-18 15:43] crash_overlord: It doesnt have to steal\n[2018-04-18 15:43] jeacaveo (jeacaveo (#NeverBrowserer)): Changed it to 1 supply, don't know if that makes a difference\n[2018-04-18 15:43] crash_overlord: You banking 2 gold is worse than you using 2 gold\n[2018-04-18 15:44] crash_overlord: That is sdr breaking. Because youd rather have gold than not have gold\n[2018-04-18 15:44] crash_overlord: but not having gold is better\n[2018-04-18 15:44] crash_overlord: that probably shows it better\n[2018-04-18 15:44] crash_overlord: Having 2 green in supply is worse for you that not having 2 green in supply, because your opponent can then use their thingy\n[2018-04-18 15:44] jeacaveo (jeacaveo (#NeverBrowserer)): also, made it construction time 2.\n[2018-04-18 15:45] darkeisbein: I mean that doesn't really change the fundamental problem\n[2018-04-18 15:46] darkeisbein: honestly if you want to steal gold from your opponent just make your unit produce :Attack:\n[2018-04-18 15:46] jeacaveo (jeacaveo (#NeverBrowserer)): Making it :Blue: :Blue:, 2 :Time: and 3 :Lifespan: might fix it. But I'll come back tomorrow after I read that SDR article.\n[2018-04-18 15:46] crash_overlord: Doesnt wanna steal, wants to reduce 🤷\n[2018-04-18 15:46] jeacaveo (jeacaveo (#NeverBrowserer)): it wouldn't be steal\n[2018-04-18 15:46] crash_overlord: The problem isn't balance jeacaveo\n[2018-04-18 15:47] crash_overlord: I guess the problem is design but not in the \"cost or flavour\" department\n[2018-04-18 15:48] crash_overlord: SDR is kinda like simple design rules that shalev a prismata dev came up with to make balancing the game and making new units a lot easier. One of the core principles is that having something is better than not having it\n[2018-04-18 15:48] crash_overlord: you'd never want to have fewer tarsiers than you currently have\n[2018-04-18 15:48] supergreyman (Greyman): To me, SDR means the result of having X resource is strictly better than the result of not having X resource (aka dominating). But in this case, having 2 gold is the same result as having 0 gold.\n[2018-04-18 15:49] supergreyman (Greyman): It's the same case as sniping units like Apollo.\n[2018-04-18 15:49] crash_overlord: True it's like edge case sdr breaking kinda. It's not like you'd rather have less green, you'd rather still have more. But ye\n[2018-04-18 15:49] supergreyman (Greyman): Sure, you don't want Lucina when there's Apollo, but it doesn't mean Apollo is SDR breaking.\n[2018-04-18 15:50] supergreyman (Greyman): Whether it's a good unit or not would be another discussion.\n[2018-04-18 15:50] kristian1103 (Arkanishu): You still rather have a lucina in the board than no lucina\n[2018-04-18 15:51] jeacaveo (jeacaveo (#NeverBrowserer)): Thanks for the feedback guys.",
+      "messages": [
+        {
+          "id": "436172226845212683",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-18T15:32:42.568+01:00",
+          "content": "people prefer playing creatures with abilities to those without"
+        },
+        {
+          "id": "436172246852173835",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:32:47.338+01:00",
+          "content": "and just trading threat/answer till one player runs out of either isn't all that interactive tbh"
+        },
+        {
+          "id": "436172336169877524",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:33:08.633+01:00",
+          "content": "I'm not against abilities"
+        },
+        {
+          "id": "436172429526695947",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:33:30.891+01:00",
+          "content": "but there are a lot of abilities that don't really do much for playability because they aren't etb effects"
+        },
+        {
+          "id": "436172470974676995",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:33:40.773+01:00",
+          "content": "etb aren't even real abilities of creatures"
+        },
+        {
+          "id": "436172569893273610",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:34:04.357+01:00",
+          "content": "they are just a sorcery tacked onto some basic creature"
+        },
+        {
+          "id": "436172670418026496",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-18T15:34:28.324+01:00",
+          "content": "in mtg, no decks play enough killspells to be able to use them liberally, it is important to consider if a threat is worth using a killspell on or not"
+        },
+        {
+          "id": "436172834537078799",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:35:07.453+01:00",
+          "content": "sure you don't use your killspell on a 1/1 gobbo"
+        },
+        {
+          "id": "436172967794180096",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-04-18T15:35:39.224+01:00",
+          "content": "also if killspells were that important, decks would be playing much more than they do"
+        },
+        {
+          "id": "436173151156568064",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:36:22.941+01:00",
+          "content": "Apollo and Kinetic Driver are two of my favorite units in the game (along anything that freezes), maybe I'm weird like that..."
+        },
+        {
+          "id": "436173223533740033",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:36:40.197+01:00",
+          "content": "I mean people don't play much that is super vulnerable to kill spells so there is a balance"
+        },
+        {
+          "id": "436173355801116682",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:37:11.732+01:00",
+          "content": "I personally don't like Apollo. Kinetic Driver is interesting though."
+        },
+        {
+          "id": "436173406883414017",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:37:23.911+01:00",
+          "content": "Did I say Apollo? I meant Deadeye Operative."
+        },
+        {
+          "id": "436173414777094154",
+          "author": "vanitascabal6962",
+          "nickname": "VanitasCabal",
+          "timestamp": "2018-04-18T15:37:25.793+01:00",
+          "content": "kinetic driver makes for some fun rushes"
+        },
+        {
+          "id": "436173582746386432",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:38:05.84+01:00",
+          "content": "apollo leads to some great games but sometimes it just denies options out of a set and is really annoying that way"
+        },
+        {
+          "id": "436173590904438785",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:38:07.785+01:00",
+          "content": "Hahaha, it's the resource denial thing I mentioned I love (Deadeye)."
+        },
+        {
+          "id": "436173943922229250",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:39:31.951+01:00",
+          "content": "Ok, you guys got my inspiration juices flowing. I'm gonna do my second submission of the day."
+        },
+        {
+          "id": "436174299435368452",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:40:56.712+01:00",
+          "content": "We got Drone and tech denial 😛"
+        },
+        {
+          "id": "436174585453477889",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:42:04.904+01:00",
+          "content": "Leech (4 :Gold:  :Green: :Green: , 1 supply) 2 :Fragile: \n\n:Click:, lose 1 :Fragile:  : Remove 2 :Gold: or 2 :Green: from your opponent's bank.\n\n2 :Time:"
+        },
+        {
+          "id": "436174665539387392",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:42:23.998+01:00",
+          "content": "because now banking resources is not good"
+        },
+        {
+          "id": "436174679573659648",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:42:27.344+01:00",
+          "content": "crap... i really need to read that article. the tab has been open since forever."
+        },
+        {
+          "id": "436174748947447818",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:42:43.884+01:00",
+          "content": "It removes, not steal"
+        },
+        {
+          "id": "436174755402350593",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:42:45.423+01:00",
+          "content": "well depends on how you define that domination rule"
+        },
+        {
+          "id": "436174762595713034",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:42:47.138+01:00",
+          "content": "Also techincally breaking SDR can be fine"
+        },
+        {
+          "id": "436174833693491210",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:43:04.089+01:00",
+          "content": "It's just that it becomes a hell of a lot more complex and hard to balance if you break it"
+        },
+        {
+          "id": "436174947719708672",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:43:31.275+01:00",
+          "content": "I don't think it's SDR breaking"
+        },
+        {
+          "id": "436174956787793930",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:43:33.437+01:00",
+          "content": "It doesnt have to steal"
+        },
+        {
+          "id": "436174967646978048",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:43:36.026+01:00",
+          "content": "Changed it to 1 supply, don't know if that makes a difference"
+        },
+        {
+          "id": "436174992380526596",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:43:41.923+01:00",
+          "content": "You banking 2 gold is worse than you using 2 gold"
+        },
+        {
+          "id": "436175069027368971",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:44:00.197+01:00",
+          "content": "That is sdr breaking. Because youd rather have gold than not have gold"
+        },
+        {
+          "id": "436175087582838784",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:44:04.621+01:00",
+          "content": "but not having gold is better"
+        },
+        {
+          "id": "436175173536972840",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:44:25.114+01:00",
+          "content": "that probably shows it better"
+        },
+        {
+          "id": "436175261222830083",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:44:46.02+01:00",
+          "content": "Having 2 green in supply is worse for you that not having 2 green in supply, because your opponent can then use their thingy"
+        },
+        {
+          "id": "436175271981481986",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:44:48.585+01:00",
+          "content": "also, made it construction time 2."
+        },
+        {
+          "id": "436175368001683478",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:45:11.478+01:00",
+          "content": "I mean that doesn't really change the fundamental problem"
+        },
+        {
+          "id": "436175589859131392",
+          "author": "darkeisbein",
+          "nickname": "darkeisbein",
+          "timestamp": "2018-04-18T15:46:04.373+01:00",
+          "content": "honestly if you want to steal gold from your opponent just make your unit produce :Attack:"
+        },
+        {
+          "id": "436175690333683712",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:46:28.328+01:00",
+          "content": "Making it :Blue: :Blue:, 2 :Time: and 3 :Lifespan: might fix it. But I'll come back tomorrow after I read that SDR article."
+        },
+        {
+          "id": "436175726023016449",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:46:36.837+01:00",
+          "content": "Doesnt wanna steal, wants to reduce 🤷"
+        },
+        {
+          "id": "436175752929476619",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:46:43.252+01:00",
+          "content": "it wouldn't be steal"
+        },
+        {
+          "id": "436175781048352769",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:46:49.956+01:00",
+          "content": "The problem isn't balance jeacaveo"
+        },
+        {
+          "id": "436175915685249024",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:47:22.056+01:00",
+          "content": "I guess the problem is design but not in the \"cost or flavour\" department"
+        },
+        {
+          "id": "436176081595138060",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:48:01.612+01:00",
+          "content": "SDR is kinda like simple design rules that shalev a prismata dev came up with to make balancing the game and making new units a lot easier. One of the core principles is that having something is better than not having it"
+        },
+        {
+          "id": "436176131377463297",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:48:13.481+01:00",
+          "content": "you'd never want to have fewer tarsiers than you currently have"
+        },
+        {
+          "id": "436176158539907112",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:48:19.957+01:00",
+          "content": "To me, SDR means the result of having X resource is strictly better than the result of not having X resource (aka dominating). But in this case, having 2 gold is the same result as having 0 gold."
+        },
+        {
+          "id": "436176356045225985",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:49:07.046+01:00",
+          "content": "It's the same case as sniping units like Apollo."
+        },
+        {
+          "id": "436176460806488082",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-04-18T15:49:32.023+01:00",
+          "content": "True it's like edge case sdr breaking kinda. It's not like you'd rather have less green, you'd rather still have more. But ye"
+        },
+        {
+          "id": "436176479915737088",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:49:36.579+01:00",
+          "content": "Sure, you don't want Lucina when there's Apollo, but it doesn't mean Apollo is SDR breaking."
+        },
+        {
+          "id": "436176670861426690",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-04-18T15:50:22.104+01:00",
+          "content": "Whether it's a good unit or not would be another discussion."
+        },
+        {
+          "id": "436176678235013122",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-04-18T15:50:23.862+01:00",
+          "content": "You still rather have a lucina in the board than no lucina"
+        },
+        {
+          "id": "436176877078577152",
+          "author": "jeacaveo",
+          "nickname": "jeacaveo (#NeverBrowserer)",
+          "timestamp": "2018-04-18T15:51:11.27+01:00",
+          "content": "Thanks for the feedback guys."
+        }
+      ]
+    }
+  ]
+}

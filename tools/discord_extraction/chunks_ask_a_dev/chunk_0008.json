@@ -1,0 +1,2957 @@
+{
+  "channel": "ask_a_dev",
+  "date_range": "2018-05-23 to 2018-06-28",
+  "thread_count": 88,
+  "token_count": 14962,
+  "threads": [
+    {
+      "start_ts": "2018-05-23T17:06:02.238+01:00",
+      "end_ts": "2018-05-23T17:30:21.305+01:00",
+      "participants": [
+        "drevoed",
+        "elyot",
+        "supergreyman",
+        "wiwiweb"
+      ],
+      "replay_codes": [],
+      "score": 48,
+      "formatted_text": "--- Thread (13 messages, 2018-05-23) ---\n[2018-05-23 17:06] elyot: @Drevoed I think different units on both sides will happen\n[2018-05-23 17:06] elyot: maybe we can do it for friday's event ^_^\n[2018-05-23 17:08] elyot: @Suitcaser The black lab is actually a DFGKHJ@#UDFVJIVQI#HG$L:EKRJGI$% ----------- REDACTED -------------------- #$KJ%@$DFSGSDIFGJSKDFGJ and there's a hint about this in mission SKLDFJ@#$GSDIFHJ ---- REDACTED ---- DKFGJH#$TID\n[2018-05-23 17:08] drevoed: It's not possible to play events with a friend, is it?\n[2018-05-23 17:09] elyot: events are our testing ground for new stuff before it goes into the game\n[2018-05-23 17:14] wiwiweb: @Elyot Not sure if you saw this event idea from twitch chat up there: An event where enemy moves are invisible for the first 3 turns to simulate RTS fog of war.\n[2018-05-23 17:15] supergreyman (Greyman): New stuff? *What new stuff??*\n[2018-05-23 17:18] elyot: @Wiwiweb yeah we tested it a long time ago, it was not so interesting because usually your opponent just did exactly what you'd expect\n[2018-05-23 17:19] elyot: implementing it is also nontrivial because there's so much stuff... units, sound, mana bars, supplies\n[2018-05-23 17:19] elyot: that all would have to be programmed to not leak data\n[2018-05-23 17:21] elyot: @Drevoed To be clear, right now there is a mode where you can play vs bot with different random sets, and there's really no reason not to also support this in vs friend\n[2018-05-23 17:26] drevoed: Have you given the problem of skill gap between friends much thought, in general? Would be interesting to see your thoughts on it and possible resolutions.\n[2018-05-23 17:30] drevoed: I brought up asymmetric sets mode just as a possible solution.",
+      "messages": [
+        {
+          "id": "448879288859623424",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T17:06:02.238+01:00",
+          "content": "@Drevoed I think different units on both sides will happen"
+        },
+        {
+          "id": "448879314092556289",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T17:06:08.254+01:00",
+          "content": "maybe we can do it for friday's event ^_^"
+        },
+        {
+          "id": "448879905623638017",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T17:08:29.286+01:00",
+          "content": "@Suitcaser The black lab is actually a DFGKHJ@#UDFVJIVQI#HG$L:EKRJGI$% ----------- REDACTED -------------------- #$KJ%@$DFSGSDIFGJSKDFGJ and there's a hint about this in mission SKLDFJ@#$GSDIFHJ ---- REDACTED ---- DKFGJH#$TID"
+        },
+        {
+          "id": "448879970744401931",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-05-23T17:08:44.812+01:00",
+          "content": "It's not possible to play events with a friend, is it?"
+        },
+        {
+          "id": "448880154048200705",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T17:09:28.515+01:00",
+          "content": "events are our testing ground for new stuff before it goes into the game"
+        },
+        {
+          "id": "448881293196001281",
+          "author": "wiwiweb",
+          "nickname": "Wiwiweb",
+          "timestamp": "2018-05-23T17:14:00.109+01:00",
+          "content": "@Elyot Not sure if you saw this event idea from twitch chat up there: An event where enemy moves are invisible for the first 3 turns to simulate RTS fog of war."
+        },
+        {
+          "id": "448881714454855710",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-05-23T17:15:40.545+01:00",
+          "content": "New stuff? *What new stuff??*"
+        },
+        {
+          "id": "448882504292761620",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T17:18:48.857+01:00",
+          "content": "@Wiwiweb yeah we tested it a long time ago, it was not so interesting because usually your opponent just did exactly what you'd expect"
+        },
+        {
+          "id": "448882573523943424",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T17:19:05.363+01:00",
+          "content": "implementing it is also nontrivial because there's so much stuff... units, sound, mana bars, supplies"
+        },
+        {
+          "id": "448882618444939264",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T17:19:16.073+01:00",
+          "content": "that all would have to be programmed to not leak data"
+        },
+        {
+          "id": "448883072075694095",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T17:21:04.227+01:00",
+          "content": "@Drevoed To be clear, right now there is a mode where you can play vs bot with different random sets, and there's really no reason not to also support this in vs friend"
+        },
+        {
+          "id": "448884480115998720",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-05-23T17:26:39.93+01:00",
+          "content": "Have you given the problem of skill gap between friends much thought, in general? Would be interesting to see your thoughts on it and possible resolutions."
+        },
+        {
+          "id": "448885408630308869",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-05-23T17:30:21.305+01:00",
+          "content": "I brought up asymmetric sets mode just as a possible solution."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-23T20:26:32.088+01:00",
+      "end_ts": "2018-05-23T20:30:29.092+01:00",
+      "participants": [
+        "kristian1103",
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (3 messages, 2018-05-23) ---\n[2018-05-23 20:26] kristian1103 (Arkanishu): there would be no good way of doing that, you´d have to change and balance pretty much all units.\n[2018-05-23 20:27] kristian1103 (Arkanishu): Also I don´t see the need, the game is in a great state and even t1 animus is correct sometimes\n[2018-05-23 20:30] xyotsuba: That’s like asking to buff normally bad strategies like buying too many drones",
+      "messages": [
+        {
+          "id": "448929745707597825",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-05-23T20:26:32.088+01:00",
+          "content": "there would be no good way of doing that, you´d have to change and balance pretty much all units."
+        },
+        {
+          "id": "448929873117839370",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-05-23T20:27:02.465+01:00",
+          "content": "Also I don´t see the need, the game is in a great state and even t1 animus is correct sometimes"
+        },
+        {
+          "id": "448930739774423041",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-05-23T20:30:29.092+01:00",
+          "content": "That’s like asking to buff normally bad strategies like buying too many drones"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-23T21:05:26.659+01:00",
+      "end_ts": "2018-05-23T21:18:28.762+01:00",
+      "participants": [
+        "elyot",
+        "p0lari",
+        "phin8459"
+      ],
+      "replay_codes": [],
+      "score": 32,
+      "formatted_text": "--- Thread (7 messages, 2018-05-23) ---\n[2018-05-23 21:05] phin8459 (Phin): its just boring that most games first 2 turns are DD DD\n[2018-05-23 21:09] elyot: @Phin We actually like that most, but not all, games start with DD/DD\n[2018-05-23 21:09] elyot: it feels like the right amount of balance between easy and tough decisions early on\n[2018-05-23 21:10] elyot: like if it was 99% it would be bad, if it was 0% it would be bad, but it's probably 80% and that seems OK\n[2018-05-23 21:14] elyot: @Drevoed Games like Magic need to balance for 20-person friday night tourneys so that new players can win games, but we have online matchmaking so we don't have that as a design requirement. Our goal is to make a game with the highest possible skill ceiling. With friends who play dozens of games, usually one just teaches the other until end up near the same skill level. Prismata isn't really the type of game where you should expect to have a balanced competitive game with somebody who's just playing for the first time.\n[2018-05-23 21:15] elyot: The best we can do is offer handicaps or allow players to make their own (e.g. not working with drones for a turn, etc.)\n[2018-05-23 21:18] p0lari (Polari): are there currently plans for event time rotation?",
+      "messages": [
+        {
+          "id": "448939537608081411",
+          "author": "phin8459",
+          "nickname": "Phin",
+          "timestamp": "2018-05-23T21:05:26.659+01:00",
+          "content": "its just boring that most games first 2 turns are DD DD"
+        },
+        {
+          "id": "448940539484700694",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T21:09:25.525+01:00",
+          "content": "@Phin We actually like that most, but not all, games start with DD/DD"
+        },
+        {
+          "id": "448940588855853057",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T21:09:37.296+01:00",
+          "content": "it feels like the right amount of balance between easy and tough decisions early on"
+        },
+        {
+          "id": "448940685849001995",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T21:10:00.421+01:00",
+          "content": "like if it was 99% it would be bad, if it was 0% it would be bad, but it's probably 80% and that seems OK"
+        },
+        {
+          "id": "448941888255295490",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T21:14:47.097+01:00",
+          "content": "@Drevoed Games like Magic need to balance for 20-person friday night tourneys so that new players can win games, but we have online matchmaking so we don't have that as a design requirement. Our goal is to make a game with the highest possible skill ceiling. With friends who play dozens of games, usually one just teaches the other until end up near the same skill level. Prismata isn't really the type of game where you should expect to have a balanced competitive game with somebody who's just playing for the first time."
+        },
+        {
+          "id": "448942016035028994",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-23T21:15:17.562+01:00",
+          "content": "The best we can do is offer handicaps or allow players to make their own (e.g. not working with drones for a turn, etc.)"
+        },
+        {
+          "id": "448942817985822720",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-23T21:18:28.762+01:00",
+          "content": "are there currently plans for event time rotation?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-23T21:46:08.273+01:00",
+      "end_ts": "2018-05-23T21:54:37.807+01:00",
+      "participants": [
+        "jamesa7171",
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2018-05-23) ---\n[2018-05-23 21:46] jamesa7171: There used to be un-implemented steam achievements for \"elite master\", \"grandmaster\" and \"super grandmaster\" (which would have been unlocked at 1800/2000/2200 rating respectively), but those have since been removed with you saying you might not implement them after all. Have you made a final decision on those, and could you offer some insight into your thought process?\n[2018-05-23 21:54] supergreyman (Greyman): One of the perks for paying customers is that they get unlimited access to higher-tier tickets (e.g. Golden Pass) which allow them to contribute more bonus units in each game. Although it's not a P2W feature at all, it does create a different ranked game experience that F2P players don't have (e.g. having more chance to play with Base+11 games). I'm curious about the reasoning behind this decision.\n\nWhy not give every player the same ranked game experience in contributing equal number of bonus units?",
+      "messages": [
+        {
+          "id": "448949778479448097",
+          "author": "jamesa7171",
+          "nickname": "jamesa7171",
+          "timestamp": "2018-05-23T21:46:08.273+01:00",
+          "content": "There used to be un-implemented steam achievements for \"elite master\", \"grandmaster\" and \"super grandmaster\" (which would have been unlocked at 1800/2000/2200 rating respectively), but those have since been removed with you saying you might not implement them after all. Have you made a final decision on those, and could you offer some insight into your thought process?"
+        },
+        {
+          "id": "448951915619811338",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-05-23T21:54:37.807+01:00",
+          "content": "One of the perks for paying customers is that they get unlimited access to higher-tier tickets (e.g. Golden Pass) which allow them to contribute more bonus units in each game. Although it's not a P2W feature at all, it does create a different ranked game experience that F2P players don't have (e.g. having more chance to play with Base+11 games). I'm curious about the reasoning behind this decision.\n\nWhy not give every player the same ranked game experience in contributing equal number of bonus units?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-23T22:18:05.717+01:00",
+      "end_ts": "2018-05-23T22:18:05.717+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-05-23) ---\n[2018-05-23 22:18] masn6811 (Masne98888): @Elyot Full campaign release schedule? and plans after that?",
+      "messages": [
+        {
+          "id": "448957820822487040",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-23T22:18:05.717+01:00",
+          "content": "@Elyot Full campaign release schedule? and plans after that?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-24T11:18:06.931+01:00",
+      "end_ts": "2018-05-24T11:21:36.609+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 25,
+      "formatted_text": "--- Thread (4 messages, 2018-05-24) ---\n[2018-05-24 11:18] elyot: @jamesa7171 We didn't want to create achievements that are unachievable by most players, and we also were nervous about allowing people to equip badges that might intimidate their opponents, already we have complaints about people who get matched to an opponent with the master badge\n[2018-05-24 11:19] elyot: @Greyman We try to find ways of rewarding our supporters without compromising the competitive experience, and this is one such way. We've not really had any complaints that it was unfair, though I also don't really know if it contributes to any sales\n[2018-05-24 11:21] elyot: @Masne98888 Campaign chapters will be released when we feel they are ready, we're aiming for an update every 3-4 weeks with units and campaign updates alternating\n[2018-05-24 11:21] elyot: sometimes it might be more or less, we don't really have a schedule",
+      "messages": [
+        {
+          "id": "449154119341441044",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-24T11:18:06.931+01:00",
+          "content": "@jamesa7171 We didn't want to create achievements that are unachievable by most players, and we also were nervous about allowing people to equip badges that might intimidate their opponents, already we have complaints about people who get matched to an opponent with the master badge"
+        },
+        {
+          "id": "449154589435101186",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-24T11:19:59.01+01:00",
+          "content": "@Greyman We try to find ways of rewarding our supporters without compromising the competitive experience, and this is one such way. We've not really had any complaints that it was unfair, though I also don't really know if it contributes to any sales"
+        },
+        {
+          "id": "449154872936235011",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-24T11:21:06.602+01:00",
+          "content": "@Masne98888 Campaign chapters will be released when we feel they are ready, we're aiming for an update every 3-4 weeks with units and campaign updates alternating"
+        },
+        {
+          "id": "449154998794846208",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-24T11:21:36.609+01:00",
+          "content": "sometimes it might be more or less, we don't really have a schedule"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-24T12:51:04.41+01:00",
+      "end_ts": "2018-05-24T12:51:04.41+01:00",
+      "participants": [
+        "supergreyman"
+      ],
+      "replay_codes": [
+        "ingle-playe"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-05-24) ---\n[2018-05-24 12:51] supergreyman (Greyman): I personally didn't consider buying Engineer tier for having more skill cards; they've never come up in my mind. I think a lot of people don't realize it because: 1) This type of information isn't explicitly mentioned in the shop, 2) People generally have been preaching that the bundle contains only \"cosmetics and single-player content\" without mentioning the gameplay value of the golden/platinum ticket.\n\nThis makes me wonder about another question: How many paying customers actually bought the bundle for more skill cards? I know at least 1 player who was a bit upset when he found out about this, but it's not a major concern for most people.",
+      "messages": [
+        {
+          "id": "449177512984182784",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-05-24T12:51:04.41+01:00",
+          "content": "I personally didn't consider buying Engineer tier for having more skill cards; they've never come up in my mind. I think a lot of people don't realize it because: 1) This type of information isn't explicitly mentioned in the shop, 2) People generally have been preaching that the bundle contains only \"cosmetics and single-player content\" without mentioning the gameplay value of the golden/platinum ticket.\n\nThis makes me wonder about another question: How many paying customers actually bought the bundle for more skill cards? I know at least 1 player who was a bit upset when he found out about this, but it's not a major concern for most people."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-25T03:00:36.936+01:00",
+      "end_ts": "2018-05-25T03:00:36.936+01:00",
+      "participants": [
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-05-25) ---\n[2018-05-25 03:00] xyotsuba: When you click to spectate a game multiple and it just ended, the message keeps coming up over and over again for each time you clicked it. could this possibly be changed to only come up once per click every 3 seconds?",
+      "messages": [
+        {
+          "id": "449391307253612544",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-05-25T03:00:36.936+01:00",
+          "content": "When you click to spectate a game multiple and it just ended, the message keeps coming up over and over again for each time you clicked it. could this possibly be changed to only come up once per click every 3 seconds?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-25T03:14:05.556+01:00",
+      "end_ts": "2018-05-25T03:14:05.556+01:00",
+      "participants": [
+        "crash_overlord"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-05-25) ---\n[2018-05-25 03:14] crash_overlord: Yo elyot, I wonder, but did the reddit post cause a spike in purchases and if so how big is it?",
+      "messages": [
+        {
+          "id": "449394698851713034",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-05-25T03:14:05.556+01:00",
+          "content": "Yo elyot, I wonder, but did the reddit post cause a spike in purchases and if so how big is it?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-25T03:28:53.57+01:00",
+      "end_ts": "2018-05-25T03:28:53.57+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-05-25) ---\n[2018-05-25 03:28] masn6811 (Masne98888): @Elyot Any way to analyse an arbitrary set of units without having to generate a replay for it first?",
+      "messages": [
+        {
+          "id": "449398423452385288",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-25T03:28:53.57+01:00",
+          "content": "@Elyot Any way to analyse an arbitrary set of units without having to generate a replay for it first?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-25T14:29:00.598+01:00",
+      "end_ts": "2018-05-25T14:32:46.529+01:00",
+      "participants": [
+        "scythius"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (4 messages, 2018-05-25) ---\n[2018-05-25 14:29] scythius: Hi, I bought the Engineer founder pack 5 hours ago through the website and paid through PayPal\n[2018-05-25 14:30] scythius: How will I get the engineer pack added to my account? Will I get a code or something through Email at some point?\n[2018-05-25 14:31] scythius: I chose to purchase the pack through the website rather than steam, because I know that steam takes a 30% cut, and I wanted the devs to get a larger share 😃\n[2018-05-25 14:32] scythius: Is the PayPal payment option now obsolete?",
+      "messages": [
+        {
+          "id": "449564547368484864",
+          "author": "scythius",
+          "nickname": "Scythius",
+          "timestamp": "2018-05-25T14:29:00.598+01:00",
+          "content": "Hi, I bought the Engineer founder pack 5 hours ago through the website and paid through PayPal"
+        },
+        {
+          "id": "449565015410999307",
+          "author": "scythius",
+          "nickname": "Scythius",
+          "timestamp": "2018-05-25T14:30:52.188+01:00",
+          "content": "How will I get the engineer pack added to my account? Will I get a code or something through Email at some point?"
+        },
+        {
+          "id": "449565245128835073",
+          "author": "scythius",
+          "nickname": "Scythius",
+          "timestamp": "2018-05-25T14:31:46.957+01:00",
+          "content": "I chose to purchase the pack through the website rather than steam, because I know that steam takes a 30% cut, and I wanted the devs to get a larger share 😃"
+        },
+        {
+          "id": "449565494991912960",
+          "author": "scythius",
+          "nickname": "Scythius",
+          "timestamp": "2018-05-25T14:32:46.529+01:00",
+          "content": "Is the PayPal payment option now obsolete?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-25T22:16:56.673+01:00",
+      "end_ts": "2018-05-25T22:16:56.673+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-05-25) ---\n[2018-05-25 22:16] apooche: #ask_a_dev :NotLikeThis:  this should be in #questions_and_help",
+      "messages": [
+        {
+          "id": "449682306962292737",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-25T22:16:56.673+01:00",
+          "content": "#ask_a_dev :NotLikeThis:  this should be in #questions_and_help"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-26T01:37:33.712+01:00",
+      "end_ts": "2018-05-26T01:37:33.712+01:00",
+      "participants": [
+        "apooche"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-05-26) ---\n[2018-05-26 01:37] apooche: @Qay  90x90 jpg, you have to buy one of the bundles that has custom avatar as a perk, send it to Elyot",
+      "messages": [
+        {
+          "id": "449732793963118622",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-05-26T01:37:33.712+01:00",
+          "content": "@Qay  90x90 jpg, you have to buy one of the bundles that has custom avatar as a perk, send it to Elyot"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-27T06:43:15.88+01:00",
+      "end_ts": "2018-05-27T06:56:38.628+01:00",
+      "participants": [
+        "elyot",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 27,
+      "formatted_text": "--- Thread (5 messages, 2018-05-27) ---\n[2018-05-27 06:43] masn6811 (Masne98888): @Elyot Do you think this game is great, and if so, what makes it great?\n[2018-05-27 06:43] masn6811 (Masne98888): @Elyot Also, how do you feel when players constantly discover new things?\n[2018-05-27 06:50] elyot: @Greyman Nobody's ever really made much of a deal about those skill cards, other than some people want them in base+5 or wish they could never play with 9+ units. I think we should add them to base+5 tbh. Been thinking about it.\n@Inasyn Probably no to the flavour text, and definitely no to the mathmatically solving. Prismata has way too much state complexity for a computer to exhaustively search everything. Our AI developer thinks it's significantly harder to solve than chess, but some simple subgames are probably solveable.\n@xYotsuba I guess we could throttle those server messages, but why are you clicking so much?\n@Crash_overlord Not a significant increase, but I was contacted by 2 journalists about it so we'll see... ;)\n@Scythius I think I filled your order, if not then I will do so in the next hour or two before bed\n[2018-05-27 06:53] elyot: @xYotsuba You can kill Prismata from windows task manager and restart without resigning.\n@Qay Prismata should have emailed you instructions for the custom avatar when you redeemed your DLC or reward code. If not, it's a bug (let me know) but it seems to be working for other people. 90x90 jpg is correct\n@Deleted User <6s in a ranked queue? I guess we could try... it's really only been requested as a troll.\n@Deleted User Priority list in black lab sounds OK, but would be annoying to implement. Maybe later.\n@Phin I think a prismata match with every card available would probably crash the graphics because there's not enough vram to load all their infopanel art? I don't know tbh. I don't even know how the interface would work; you'd need 10 tabs\n[2018-05-27 06:56] elyot: @twodey Campaign will be paid, though we may make a few more missions free at some point. We've been thinking about adding 2-3 missions from chapter 2 as a free trial once more chapters come out\n@Phuf tickets expire to prevent hoarding behaviour (people might go \"oh I don't wanna use the ticket until I'm better at the game\" or something). Honestly it's a lot less important now that rewards aren't really a function of how well you keep the ticket alive\n@Masne98888 Prismata's mostly great because of our community, especially people like you, Yujiri, and Punf\n@Masne98888 Regarding players discovering new things... it's alright I guess",
+      "messages": [
+        {
+          "id": "450172114457329674",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-27T06:43:15.88+01:00",
+          "content": "@Elyot Do you think this game is great, and if so, what makes it great?"
+        },
+        {
+          "id": "450172194086191104",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-27T06:43:34.865+01:00",
+          "content": "@Elyot Also, how do you feel when players constantly discover new things?"
+        },
+        {
+          "id": "450173940975796255",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-27T06:50:31.356+01:00",
+          "content": "@Greyman Nobody's ever really made much of a deal about those skill cards, other than some people want them in base+5 or wish they could never play with 9+ units. I think we should add them to base+5 tbh. Been thinking about it.\n@Inasyn Probably no to the flavour text, and definitely no to the mathmatically solving. Prismata has way too much state complexity for a computer to exhaustively search everything. Our AI developer thinks it's significantly harder to solve than chess, but some simple subgames are probably solveable.\n@xYotsuba I guess we could throttle those server messages, but why are you clicking so much?\n@Crash_overlord Not a significant increase, but I was contacted by 2 journalists about it so we'll see... ;)\n@Scythius I think I filled your order, if not then I will do so in the next hour or two before bed"
+        },
+        {
+          "id": "450174699381456906",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-27T06:53:32.174+01:00",
+          "content": "@xYotsuba You can kill Prismata from windows task manager and restart without resigning.\n@Qay Prismata should have emailed you instructions for the custom avatar when you redeemed your DLC or reward code. If not, it's a bug (let me know) but it seems to be working for other people. 90x90 jpg is correct\n@Deleted User <6s in a ranked queue? I guess we could try... it's really only been requested as a troll.\n@Deleted User Priority list in black lab sounds OK, but would be annoying to implement. Maybe later.\n@Phin I think a prismata match with every card available would probably crash the graphics because there's not enough vram to load all their infopanel art? I don't know tbh. I don't even know how the interface would work; you'd need 10 tabs"
+        },
+        {
+          "id": "450175481426345985",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-27T06:56:38.628+01:00",
+          "content": "@twodey Campaign will be paid, though we may make a few more missions free at some point. We've been thinking about adding 2-3 missions from chapter 2 as a free trial once more chapters come out\n@Phuf tickets expire to prevent hoarding behaviour (people might go \"oh I don't wanna use the ticket until I'm better at the game\" or something). Honestly it's a lot less important now that rewards aren't really a function of how well you keep the ticket alive\n@Masne98888 Prismata's mostly great because of our community, especially people like you, Yujiri, and Punf\n@Masne98888 Regarding players discovering new things... it's alright I guess"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-27T16:00:01.1+01:00",
+      "end_ts": "2018-05-27T16:00:30.785+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2018-05-27) ---\n[2018-05-27 16:00] elyot: @Drevoed yes we don't rig tickets at all with respect to losing streaks etc\n[2018-05-27 16:00] elyot: @Plato I think your inactivity should be removed... 😛",
+      "messages": [
+        {
+          "id": "450312226104934421",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-27T16:00:01.1+01:00",
+          "content": "@Drevoed yes we don't rig tickets at all with respect to losing streaks etc"
+        },
+        {
+          "id": "450312350613110785",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-27T16:00:30.785+01:00",
+          "content": "@Plato I think your inactivity should be removed... 😛"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-27T21:09:58.722+01:00",
+      "end_ts": "2018-05-27T21:09:58.722+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-05-27) ---\n[2018-05-27 21:09] masn6811 (Masne98888): @Elyot On a scale of 1 to 10, how savage would you say your #ask_a_dev responses have been as of late?",
+      "messages": [
+        {
+          "id": "450390230185279488",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-27T21:09:58.722+01:00",
+          "content": "@Elyot On a scale of 1 to 10, how savage would you say your #ask_a_dev responses have been as of late?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-28T02:07:20.613+01:00",
+      "end_ts": "2018-05-28T02:09:38.865+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 22,
+      "formatted_text": "--- Thread (4 messages, 2018-05-28) ---\n[2018-05-28 02:07] elyot: @Plato I think it makes sense for the inactivity penalty and the platinum ticket expiry to be similar\n[2018-05-28 02:07] elyot: I actually think maybe we give too many plats\n[2018-05-28 02:08] elyot: I don't really wanna nerf it tho\n[2018-05-28 02:09] elyot: @Masne98888 idunno, I'm too afraid of actually hurting somebody's feelings, so I'm only savage when I know the person won't be offended",
+      "messages": [
+        {
+          "id": "450465064500199424",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T02:07:20.613+01:00",
+          "content": "@Plato I think it makes sense for the inactivity penalty and the platinum ticket expiry to be similar"
+        },
+        {
+          "id": "450465121332887553",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T02:07:34.163+01:00",
+          "content": "I actually think maybe we give too many plats"
+        },
+        {
+          "id": "450465248835796993",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T02:08:04.562+01:00",
+          "content": "I don't really wanna nerf it tho"
+        },
+        {
+          "id": "450465644371116044",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T02:09:38.865+01:00",
+          "content": "@Masne98888 idunno, I'm too afraid of actually hurting somebody's feelings, so I'm only savage when I know the person won't be offended"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-28T19:03:27.258+01:00",
+      "end_ts": "2018-05-28T19:07:15.609+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 23,
+      "formatted_text": "--- Thread (4 messages, 2018-05-28) ---\n[2018-05-28 19:03] elyot: @Thrar We don't have any official API, but we have /getReplays which is a command that returns a lot of replay IDs, and then we have the amazon S3 files which contain the actual zipped replays\n[2018-05-28 19:06] elyot: @Deleted User For Prismata Beta World Championship, we'll see. Nothing crazy planned for the planetary mega brawl on Sunday\n[2018-05-28 19:07] elyot: @Xujhan We actually have soooo many top players who have been casting tournaments like master's league and golden cup\n[2018-05-28 19:07] elyot: but if you have some special casting experience or talent, let me know 😛",
+      "messages": [
+        {
+          "id": "450720777143189545",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T19:03:27.258+01:00",
+          "content": "@Thrar We don't have any official API, but we have /getReplays which is a command that returns a lot of replay IDs, and then we have the amazon S3 files which contain the actual zipped replays"
+        },
+        {
+          "id": "450721566775312384",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T19:06:35.521+01:00",
+          "content": "@Deleted User For Prismata Beta World Championship, we'll see. Nothing crazy planned for the planetary mega brawl on Sunday"
+        },
+        {
+          "id": "450721669565382657",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T19:07:00.028+01:00",
+          "content": "@Xujhan We actually have soooo many top players who have been casting tournaments like master's league and golden cup"
+        },
+        {
+          "id": "450721734916702219",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T19:07:15.609+01:00",
+          "content": "but if you have some special casting experience or talent, let me know 😛"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-28T20:30:07.516+01:00",
+      "end_ts": "2018-05-28T20:31:29.117+01:00",
+      "participants": [
+        "killeroid356",
+        "kristian1103",
+        "masn6811",
+        "miuna6933"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (5 messages, 2018-05-28) ---\n[2018-05-28 20:30] killeroid356: then you could cheese the daily rewards\n[2018-05-28 20:30] masn6811 (Masne98888): @Elyot Isn't it already possible to cheese the daily rewards by putting in specific units and setting yourself as the favored player?\n[2018-05-28 20:31] miuna6933 (Aka): there are already options in vs computer that disable honorable mode\n[2018-05-28 20:31] kristian1103 (Arkanishu): you can also use /rotatinginferno units, they break the bot and turn it into wacky bot so you have easy wins\n[2018-05-28 20:31] kristian1103 (Arkanishu): and it´s still honorable",
+      "messages": [
+        {
+          "id": "450742588605988865",
+          "author": "killeroid356",
+          "nickname": "killeroid356",
+          "timestamp": "2018-05-28T20:30:07.516+01:00",
+          "content": "then you could cheese the daily rewards"
+        },
+        {
+          "id": "450742741790621696",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-28T20:30:44.038+01:00",
+          "content": "@Elyot Isn't it already possible to cheese the daily rewards by putting in specific units and setting yourself as the favored player?"
+        },
+        {
+          "id": "450742826100326419",
+          "author": "miuna6933",
+          "nickname": "Aka",
+          "timestamp": "2018-05-28T20:31:04.139+01:00",
+          "content": "there are already options in vs computer that disable honorable mode"
+        },
+        {
+          "id": "450742894442315807",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-05-28T20:31:20.433+01:00",
+          "content": "you can also use /rotatinginferno units, they break the bot and turn it into wacky bot so you have easy wins"
+        },
+        {
+          "id": "450742930865520650",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-05-28T20:31:29.117+01:00",
+          "content": "and it´s still honorable"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-28T22:57:49.681+01:00",
+      "end_ts": "2018-05-28T23:20:57.802+01:00",
+      "participants": [
+        "elyot",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 55,
+      "formatted_text": "--- Thread (10 messages, 2018-05-28) ---\n[2018-05-28 22:57] elyot: @Aka There are 2 types of games... ones that run locally and allow undo (missions, analysis), and ones that can be observed and generate replays but do not allow undo past turn boundary\n[2018-05-28 22:59] elyot: vs computer is the latter type\n[2018-05-28 23:06] elyot: @Masne98888 If people really care so much about Prismata skins that they want to grind rigged matches against our bots 3 times a day for them, I don't really think it's a high priority for us to stop them\n[2018-05-28 23:07] elyot: If we had tradeable items or the game was pay-to-win, it would be a different matter, but our collectibles are just supposed to be a fun reward for our players, I don't think it's important for us to take a restrictive attitude toward people who find a way to earn them more easily by making the game boring for themselves\n[2018-05-28 23:15] wilson0862 (Wilson): Any thoughts on rating inflation and how it affects the ladder? 2K would be #28ish right now. Anecdotally, this is the very low for 2K historically. I don't know shit about rating ecosystems.\n[2018-05-28 23:17] elyot: I expect a bit more inflation before it fully settles out tbh\n[2018-05-28 23:18] elyot: basically there was a long period where people got better without a large number of new people entering the system, so alpha players were underrated relative to the casual match folks who are currently getting started with ranked\n[2018-05-28 23:18] elyot: quite dramatically in fact\n[2018-05-28 23:20] elyot: Another way to think about it is, there was strong *deflation* in 2015-2017 where a 1900-player in early 2015 might only be 1700 now because people just got so much better over those 3 years\n[2018-05-28 23:20] elyot: and now a lot of new players are entering, which undoes the deflation and brings that 1700 player back up to 1900",
+      "messages": [
+        {
+          "id": "450779759220228114",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T22:57:49.681+01:00",
+          "content": "@Aka There are 2 types of games... ones that run locally and allow undo (missions, analysis), and ones that can be observed and generate replays but do not allow undo past turn boundary"
+        },
+        {
+          "id": "450780060564062217",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T22:59:01.527+01:00",
+          "content": "vs computer is the latter type"
+        },
+        {
+          "id": "450781954288386078",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T23:06:33.026+01:00",
+          "content": "@Masne98888 If people really care so much about Prismata skins that they want to grind rigged matches against our bots 3 times a day for them, I don't really think it's a high priority for us to stop them"
+        },
+        {
+          "id": "450782222463533086",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T23:07:36.964+01:00",
+          "content": "If we had tradeable items or the game was pay-to-win, it would be a different matter, but our collectibles are just supposed to be a fun reward for our players, I don't think it's important for us to take a restrictive attitude toward people who find a way to earn them more easily by making the game boring for themselves"
+        },
+        {
+          "id": "450784125767385089",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-28T23:15:10.747+01:00",
+          "content": "Any thoughts on rating inflation and how it affects the ladder? 2K would be #28ish right now. Anecdotally, this is the very low for 2K historically. I don't know shit about rating ecosystems."
+        },
+        {
+          "id": "450784720628875285",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T23:17:32.573+01:00",
+          "content": "I expect a bit more inflation before it fully settles out tbh"
+        },
+        {
+          "id": "450784910937161729",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T23:18:17.946+01:00",
+          "content": "basically there was a long period where people got better without a large number of new people entering the system, so alpha players were underrated relative to the casual match folks who are currently getting started with ranked"
+        },
+        {
+          "id": "450784960383549471",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T23:18:29.735+01:00",
+          "content": "quite dramatically in fact"
+        },
+        {
+          "id": "450785512710602752",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T23:20:41.42+01:00",
+          "content": "Another way to think about it is, there was strong *deflation* in 2015-2017 where a 1900-player in early 2015 might only be 1700 now because people just got so much better over those 3 years"
+        },
+        {
+          "id": "450785581421821962",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-28T23:20:57.802+01:00",
+          "content": "and now a lot of new players are entering, which undoes the deflation and brings that 1700 player back up to 1900"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-29T08:16:42.381+01:00",
+      "end_ts": "2018-05-29T08:16:42.381+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [
+        "smata-stats"
+      ],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-05-29) ---\n[2018-05-29 08:16] masn6811 (Masne98888): @Elyot Looking at the top of the ladder: http://www.prismata-stats.com/players All of them have a higher wr as p2. Is this a concern, and if so, do you have plans to change this?\nPlayers\nPrismata Stats",
+      "messages": [
+        {
+          "id": "450920405557837825",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-29T08:16:42.381+01:00",
+          "content": "@Elyot Looking at the top of the ladder: http://www.prismata-stats.com/players All of them have a higher wr as p2. Is this a concern, and if so, do you have plans to change this?\nPlayers\nPrismata Stats"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-29T22:50:05.027+01:00",
+      "end_ts": "2018-05-29T22:50:11.204+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (2 messages, 2018-05-29) ---\n[2018-05-29 22:50] elyot: @Masne98888 Not a concern, over thousands of games it would actually be surprising if any of them had a higher winrate as p1\n[2018-05-29 22:50] elyot: cuz law of large numbers",
+      "messages": [
+        {
+          "id": "451140198185697291",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-29T22:50:05.027+01:00",
+          "content": "@Masne98888 Not a concern, over thousands of games it would actually be surprising if any of them had a higher winrate as p1"
+        },
+        {
+          "id": "451140224094044161",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-29T22:50:11.204+01:00",
+          "content": "cuz law of large numbers"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-29T23:09:24.936+01:00",
+      "end_ts": "2018-05-29T23:09:24.936+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-05-29) ---\n[2018-05-29 23:09] masn6811 (Masne98888): yeah, it makes sense, but it just means that p2 is inherent favored by 4ish %",
+      "messages": [
+        {
+          "id": "451145063196524544",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-29T23:09:24.936+01:00",
+          "content": "yeah, it makes sense, but it just means that p2 is inherent favored by 4ish %"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-30T03:00:45.647+01:00",
+      "end_ts": "2018-05-30T03:00:54.723+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2018-05-30) ---\n[2018-05-30 03:00] elyot: do you know the email or username you used?\n[2018-05-30 03:00] elyot: you can go \"recover password\" if you know either",
+      "messages": [
+        {
+          "id": "451203283118194689",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-30T03:00:45.647+01:00",
+          "content": "do you know the email or username you used?"
+        },
+        {
+          "id": "451203321185828864",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-05-30T03:00:54.723+01:00",
+          "content": "you can go \"recover password\" if you know either"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-30T18:44:16.65+01:00",
+      "end_ts": "2018-05-30T18:56:45.259+01:00",
+      "participants": [
+        "masn6811",
+        "p0lari",
+        "shadourow"
+      ],
+      "replay_codes": [
+        "ghest-prior"
+      ],
+      "score": 20,
+      "formatted_text": "--- Thread (4 messages, 2018-05-30) ---\n[2018-05-30 18:44] masn6811 (Masne98888): to go further, any plans for a hot key to click all non-targetting units except for your highest-priority absorber? (eg, if i have 3 omega splitters and 2 S, it'd click two omegas and 2 S)\n[2018-05-30 18:48] shadourow (Rando): You mean, click all your attackers, except bigger absorber and the one which have an additional cost, as Drake, Perforator, immolite, Rhino ? I don't think that's really usefull to have an \"autoclick all attackers\" button\n[2018-05-30 18:56] p0lari (Polari): any plans for a hot key to click all units on board, all units in bank, global chat, sound options, and all emotes?\n[2018-05-30 18:56] shadourow (Rando): No, that would auto win the emote war, which is unfair",
+      "messages": [
+        {
+          "id": "451440726874783755",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-05-30T18:44:16.65+01:00",
+          "content": "to go further, any plans for a hot key to click all non-targetting units except for your highest-priority absorber? (eg, if i have 3 omega splitters and 2 S, it'd click two omegas and 2 S)"
+        },
+        {
+          "id": "451441886268358695",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-05-30T18:48:53.071+01:00",
+          "content": "You mean, click all your attackers, except bigger absorber and the one which have an additional cost, as Drake, Perforator, immolite, Rhino ? I don't think that's really usefull to have an \"autoclick all attackers\" button"
+        },
+        {
+          "id": "451443704838881301",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-05-30T18:56:06.652+01:00",
+          "content": "any plans for a hot key to click all units on board, all units in bank, global chat, sound options, and all emotes?"
+        },
+        {
+          "id": "451443866768244776",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-05-30T18:56:45.259+01:00",
+          "content": "No, that would auto win the emote war, which is unfair"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-31T20:09:51.285+01:00",
+      "end_ts": "2018-05-31T20:09:51.285+01:00",
+      "participants": [
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-05-31) ---\n[2018-05-31 20:09] shadourow (Rando): I'm sure that this would be great to let players create puzzles an let others people plays them in game. But maybe their is a reason not to ? (some \"Extended tutorial pack\" would be great imo.",
+      "messages": [
+        {
+          "id": "451824650960502785",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-05-31T20:09:51.285+01:00",
+          "content": "I'm sure that this would be great to let players create puzzles an let others people plays them in game. But maybe their is a reason not to ? (some \"Extended tutorial pack\" would be great imo."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-31T21:00:01.188+01:00",
+      "end_ts": "2018-05-31T21:03:47.51+01:00",
+      "participants": [
+        "amalloy",
+        "liadahlia",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (4 messages, 2018-05-31) ---\n[2018-05-31 21:00] liadahlia (Lia): we should have a channel for faqs\n[2018-05-31 21:02] amalloy: really, people should just default to asking questions in #questions_and_help, and only escalate to #ask_a_dev if someone agrees it's really something only a developer can answer (usually, it's not). but sadly it's not easy to change how new people expect the channels to work\n[2018-05-31 21:03] wilson0862 (Wilson): I did say this then pin my message but pins seem to go unread. It's not immediately obvious that they are the place to start.\n[2018-05-31 21:03] wilson0862 (Wilson): In any case, let's move this meta discussion elsewhere please. :)",
+      "messages": [
+        {
+          "id": "451837275408433165",
+          "author": "liadahlia",
+          "nickname": "Lia",
+          "timestamp": "2018-05-31T21:00:01.188+01:00",
+          "content": "we should have a channel for faqs"
+        },
+        {
+          "id": "451837805233045514",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2018-05-31T21:02:07.508+01:00",
+          "content": "really, people should just default to asking questions in #questions_and_help, and only escalate to #ask_a_dev if someone agrees it's really something only a developer can answer (usually, it's not). but sadly it's not easy to change how new people expect the channels to work"
+        },
+        {
+          "id": "451838195756171274",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-31T21:03:40.616+01:00",
+          "content": "I did say this then pin my message but pins seem to go unread. It's not immediately obvious that they are the place to start."
+        },
+        {
+          "id": "451838224671834115",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-05-31T21:03:47.51+01:00",
+          "content": "In any case, let's move this meta discussion elsewhere please. :)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-05-31T23:34:38.987+01:00",
+      "end_ts": "2018-05-31T23:35:47.397+01:00",
+      "participants": [
+        "ruinedshadows"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (5 messages, 2018-05-31) ---\n[2018-05-31 23:34] ruinedshadows: in view of the above comments I hope this goes here, I'm pretty sure it's just something Elyot would have info on anyways:\n[2018-05-31 23:34] ruinedshadows: I'm just curious, do you know how many players have been retained as daily/weekly reccuring users\n[2018-05-31 23:35] ruinedshadows: since the free weekend\n[2018-05-31 23:35] ruinedshadows: it seems like the game has grown a bit but it'd be cool to have some numbers to put to it\n[2018-05-31 23:35] ruinedshadows: maybe an update video or reddit post? If you have time of course and it's something you want to share. No worries if not",
+      "messages": [
+        {
+          "id": "451876189318021121",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-05-31T23:34:38.987+01:00",
+          "content": "in view of the above comments I hope this goes here, I'm pretty sure it's just something Elyot would have info on anyways:"
+        },
+        {
+          "id": "451876269882081290",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-05-31T23:34:58.195+01:00",
+          "content": "I'm just curious, do you know how many players have been retained as daily/weekly reccuring users"
+        },
+        {
+          "id": "451876296264384512",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-05-31T23:35:04.485+01:00",
+          "content": "since the free weekend"
+        },
+        {
+          "id": "451876356830003210",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-05-31T23:35:18.925+01:00",
+          "content": "it seems like the game has grown a bit but it'd be cool to have some numbers to put to it"
+        },
+        {
+          "id": "451876476250488834",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-05-31T23:35:47.397+01:00",
+          "content": "maybe an update video or reddit post? If you have time of course and it's something you want to share. No worries if not"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-01T00:26:08.516+01:00",
+      "end_ts": "2018-06-01T00:35:09.441+01:00",
+      "participants": [
+        "ruinedshadows",
+        "xujhan"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (6 messages, 2018-06-01) ---\n[2018-06-01 00:26] ruinedshadows: yeah I noticed that too which is why I'm curious\n[2018-06-01 00:26] ruinedshadows: still that's more than there were online usually 2 months ago\n[2018-06-01 00:26] ruinedshadows: so at least some have stayed\n[2018-06-01 00:26] ruinedshadows: and it's higher on the weekends I think\n[2018-06-01 00:34] xujhan: I'm sorry, I'll get back online as soon as I'm home!\n[2018-06-01 00:35] xujhan: Gotta pump those numbers up.",
+      "messages": [
+        {
+          "id": "451889147741732864",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-06-01T00:26:08.516+01:00",
+          "content": "yeah I noticed that too which is why I'm curious"
+        },
+        {
+          "id": "451889270303621141",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-06-01T00:26:37.737+01:00",
+          "content": "still that's more than there were online usually 2 months ago"
+        },
+        {
+          "id": "451889316080123914",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-06-01T00:26:48.651+01:00",
+          "content": "so at least some have stayed"
+        },
+        {
+          "id": "451889352193212426",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-06-01T00:26:57.261+01:00",
+          "content": "and it's higher on the weekends I think"
+        },
+        {
+          "id": "451891353664880640",
+          "author": "xujhan",
+          "nickname": "Xujhan",
+          "timestamp": "2018-06-01T00:34:54.449+01:00",
+          "content": "I'm sorry, I'll get back online as soon as I'm home!"
+        },
+        {
+          "id": "451891416545886218",
+          "author": "xujhan",
+          "nickname": "Xujhan",
+          "timestamp": "2018-06-01T00:35:09.441+01:00",
+          "content": "Gotta pump those numbers up."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-01T06:00:39.183+01:00",
+      "end_ts": "2018-06-01T06:00:39.183+01:00",
+      "participants": [
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-01) ---\n[2018-06-01 06:00] xyotsuba: Perhaps there is some way to make it clearer that you can buy skins directly with shards? I had a hard time finding it and had to ask on here. I think people will be more likely to buy shard bundles if they realize u can spend shards directly on skins instead of flipping cards. I know i am.",
+      "messages": [
+        {
+          "id": "451973330220613644",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-01T06:00:39.183+01:00",
+          "content": "Perhaps there is some way to make it clearer that you can buy skins directly with shards? I had a hard time finding it and had to ask on here. I think people will be more likely to buy shard bundles if they realize u can spend shards directly on skins instead of flipping cards. I know i am."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-01T15:27:33.378+01:00",
+      "end_ts": "2018-06-01T15:38:25.26+01:00",
+      "participants": [
+        "elyot",
+        "kristian1103",
+        "masn6811",
+        "shadourow"
+      ],
+      "replay_codes": [
+        "layer-creat",
+        "irect-buyin",
+        "layer-conte",
+        "layer-creat"
+      ],
+      "score": 58,
+      "formatted_text": "--- Thread (11 messages, 2018-06-01) ---\n[2018-06-01 15:27] elyot: @jaihu: yes, upgrading tiers gives the difference in rewards\n@Phin It's a bit tricky because of some units like drake, vore, zemora. Everyone has an idea of which units they would \"want\" to get autoattcked. We actually had a test implementation of it and we thought it was a little clunky. We might try again in the future though if it's something that a lot of people want. Not sure about @Masne98888's idea of an even more convoluted/advanced auto-click.\n@winterfroststorm I think it might be a cookie thing? Web client should load your options regarding display preferences, but maybe it doesn't work if you play in Steam instead of web.\n@Rando We've thought a lot about player-created puzzles, and every game that's tried to do them (portal 2, crashmo, etc.) has ended up with a lot of garbage content and the most successful stuff is just memes. I have some ideas of how to solve this problem but I think I will save them for the next game, not Prismata... 😉\n[2018-06-01 15:28] elyot: @ruinedshadows yeah an update vid is due, maybe will record one today\n[2018-06-01 15:28] kristian1103 (Arkanishu): Next game? :ReigeRage:\n[2018-06-01 15:32] elyot: @xYotsuba We thought about it, we also thought about tucking it even further, direct-buying skins is a feature that only a small fraction of players ever use or care about\n[2018-06-01 15:33] shadourow (Rando): Mmmh... What about regulated player-content ? Some mod-player who reject the obvious troll and choose what should be in the frontpage ? I don't think that the fact that most player-created puzzles would be bad is an argument against the idea, and which matters is the possibilities that some great content is created. I'm sure that I'm too optimist because I don't have any experience of game creation, nor have bein involve in those creator communities of Portal 2 or other games, but it feels so bad to don't allow players to be creative and create some puzzles in a puzzle game 😐\n[2018-06-01 15:33] masn6811 (Masne98888): @Elyot Do you have an idea of what your next game will be?\n[2018-06-01 15:35] elyot: @Masne98888 I have like 15 ideas, some are small in scope and some quite big. I don't know yet. Don't even know yet if next game will be a Lunarch game or my own game (if Prismata makes a lot of money, it will almost certainly be a Lunarch game).\n[2018-06-01 15:35] masn6811 (Masne98888): @Elyot How long would it take to code a gaussite pivot that can be turned on in friendly matches for testing purposes\n[2018-06-01 15:36] elyot: @Rando I've seen people do it using analysis mode before, where they just post a link to a rep and you go to turn x and then analyze and it's a puzzle. If there were hundreds of people doing that then we would consider doing something to support their efforts, but there have been like 5 posts in the entire history of Prismata\n[2018-06-01 15:37] elyot: @Masne98888 I don't know what a gaussite pivot is\n[2018-06-01 15:38] masn6811 (Masne98888): it lets p1, once per game, turn 1 :Gold: into :Green: , but only from turn X or later (unlike vendium scrap, which both players can use)",
+      "messages": [
+        {
+          "id": "452115996094889994",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-01T15:27:33.378+01:00",
+          "content": "@jaihu: yes, upgrading tiers gives the difference in rewards\n@Phin It's a bit tricky because of some units like drake, vore, zemora. Everyone has an idea of which units they would \"want\" to get autoattcked. We actually had a test implementation of it and we thought it was a little clunky. We might try again in the future though if it's something that a lot of people want. Not sure about @Masne98888's idea of an even more convoluted/advanced auto-click.\n@winterfroststorm I think it might be a cookie thing? Web client should load your options regarding display preferences, but maybe it doesn't work if you play in Steam instead of web.\n@Rando We've thought a lot about player-created puzzles, and every game that's tried to do them (portal 2, crashmo, etc.) has ended up with a lot of garbage content and the most successful stuff is just memes. I have some ideas of how to solve this problem but I think I will save them for the next game, not Prismata... 😉"
+        },
+        {
+          "id": "452116270385463297",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-01T15:28:38.774+01:00",
+          "content": "@ruinedshadows yeah an update vid is due, maybe will record one today"
+        },
+        {
+          "id": "452116291550052354",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-06-01T15:28:43.82+01:00",
+          "content": "Next game? :ReigeRage:"
+        },
+        {
+          "id": "452117290440196098",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-01T15:32:41.974+01:00",
+          "content": "@xYotsuba We thought about it, we also thought about tucking it even further, direct-buying skins is a feature that only a small fraction of players ever use or care about"
+        },
+        {
+          "id": "452117509017960478",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-01T15:33:34.087+01:00",
+          "content": "Mmmh... What about regulated player-content ? Some mod-player who reject the obvious troll and choose what should be in the frontpage ? I don't think that the fact that most player-created puzzles would be bad is an argument against the idea, and which matters is the possibilities that some great content is created. I'm sure that I'm too optimist because I don't have any experience of game creation, nor have bein involve in those creator communities of Portal 2 or other games, but it feels so bad to don't allow players to be creative and create some puzzles in a puzzle game 😐"
+        },
+        {
+          "id": "452117509936513024",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-01T15:33:34.306+01:00",
+          "content": "@Elyot Do you have an idea of what your next game will be?"
+        },
+        {
+          "id": "452117910257926155",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-01T15:35:09.75+01:00",
+          "content": "@Masne98888 I have like 15 ideas, some are small in scope and some quite big. I don't know yet. Don't even know yet if next game will be a Lunarch game or my own game (if Prismata makes a lot of money, it will almost certainly be a Lunarch game)."
+        },
+        {
+          "id": "452118009155289092",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-01T15:35:33.329+01:00",
+          "content": "@Elyot How long would it take to code a gaussite pivot that can be turned on in friendly matches for testing purposes"
+        },
+        {
+          "id": "452118320536354816",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-01T15:36:47.568+01:00",
+          "content": "@Rando I've seen people do it using analysis mode before, where they just post a link to a rep and you go to turn x and then analyze and it's a puzzle. If there were hundreds of people doing that then we would consider doing something to support their efforts, but there have been like 5 posts in the entire history of Prismata"
+        },
+        {
+          "id": "452118389222146048",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-01T15:37:03.944+01:00",
+          "content": "@Masne98888 I don't know what a gaussite pivot is"
+        },
+        {
+          "id": "452118730286301194",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-01T15:38:25.26+01:00",
+          "content": "it lets p1, once per game, turn 1 :Gold: into :Green: , but only from turn X or later (unlike vendium scrap, which both players can use)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-01T15:57:17.55+01:00",
+      "end_ts": "2018-06-01T16:05:01.214+01:00",
+      "participants": [
+        "cachotognax",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2018-06-01) ---\n[2018-06-01 15:57] elyot: @Masne98888 adding it to the game is <60 seconds probably. adding an option to enable it is more complicated\n[2018-06-01 16:05] cachotognax: if testing stuff is that interesting wile you are adding the customization option make it easily expandable.",
+      "messages": [
+        {
+          "id": "452123479454777345",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-01T15:57:17.55+01:00",
+          "content": "@Masne98888 adding it to the game is <60 seconds probably. adding an option to enable it is more complicated"
+        },
+        {
+          "id": "452125424202285067",
+          "author": "cachotognax",
+          "nickname": "CachoTognax",
+          "timestamp": "2018-06-01T16:05:01.214+01:00",
+          "content": "if testing stuff is that interesting wile you are adding the customization option make it easily expandable."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-03T08:45:30.391+01:00",
+      "end_ts": "2018-06-03T08:45:30.391+01:00",
+      "participants": [
+        "kristian1103"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-03) ---\n[2018-06-03 08:45] kristian1103 (Arkanishu): @Elyot is it allowed to t1 resign games in the mega brawl today, and if not would you track the games of the winner to see if he did it and disqualify him? Seems like there is some concern about fair play and wanting to win since resigning a dgrid/tons of soak/no good attack set t1 is just better value than playing it out for 20 minutes the way the point system works",
+      "messages": [
+        {
+          "id": "452739592685223936",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-06-03T08:45:30.391+01:00",
+          "content": "@Elyot is it allowed to t1 resign games in the mega brawl today, and if not would you track the games of the winner to see if he did it and disqualify him? Seems like there is some concern about fair play and wanting to win since resigning a dgrid/tons of soak/no good attack set t1 is just better value than playing it out for 20 minutes the way the point system works"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-03T17:03:26.457+01:00",
+      "end_ts": "2018-06-03T17:09:30.865+01:00",
+      "participants": [
+        "masn6811",
+        "unearthly"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-06-03) ---\n[2018-06-03 17:03] unearthly: @Elyot We were looking over the TOS and there were a number of things that are outlined in the community guidelines but not the TOS, but are implied to be in there. Some examples are harassment, exploting bugs without outside software (TOS section 6 only covers what distributed software might do), abusing the ladder by win trading or sandbagging.\nAs they are under the \"Terms of Use\" section, are these supposed to be in the TOS (and thus bannable offenses)?\n[2018-06-03 17:09] masn6811 (Masne98888): @Elyot Where do you draw the line between playing normally, playing badly, playing drunk, intentionally throwing, resigning turn 1?",
+      "messages": [
+        {
+          "id": "452864901988483082",
+          "author": "unearthly",
+          "nickname": "Unearthly",
+          "timestamp": "2018-06-03T17:03:26.457+01:00",
+          "content": "@Elyot We were looking over the TOS and there were a number of things that are outlined in the community guidelines but not the TOS, but are implied to be in there. Some examples are harassment, exploting bugs without outside software (TOS section 6 only covers what distributed software might do), abusing the ladder by win trading or sandbagging.\nAs they are under the \"Terms of Use\" section, are these supposed to be in the TOS (and thus bannable offenses)?"
+        },
+        {
+          "id": "452866430426284032",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-03T17:09:30.865+01:00",
+          "content": "@Elyot Where do you draw the line between playing normally, playing badly, playing drunk, intentionally throwing, resigning turn 1?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-03T19:15:54.642+01:00",
+      "end_ts": "2018-06-03T19:22:56.704+01:00",
+      "participants": [
+        "elyot",
+        "masn6811"
+      ],
+      "replay_codes": [
+        "insta-resig",
+        "insta-resig"
+      ],
+      "score": 48,
+      "formatted_text": "--- Thread (8 messages, 2018-06-03) ---\n[2018-06-03 19:15] elyot: @Arkanishu If you're insta-resigning to wintrade with another person or farm the first 10 points without playing games, it would be against the rules\n[2018-06-03 19:17] elyot: If you're insta-resigning because you feel it's in your own self-interest to do so, I guess you can try, but my guess is that the person who wins will ultimately not do this and will just want to play quick games. Moreover, why not pass and let your opponent resign instead? 😛\n[2018-06-03 19:17] elyot: @Lenz I don't think we did anything recently that should cause blackscreening, do you have any other information about what the problem might be?\n[2018-06-03 19:20] elyot: @Unearthly well I mean when we say \"bring prismata into disrepute\" we could mean basically anything that harms the community or other players. But generally we would not remove things you've paid for from your account for like, being a jerk in chat, we would just ban you from chat\n[2018-06-03 19:20] elyot: @Masne98888 if your actions violate the integrity of the tournament then they may result in a DQ, playing drunk is fine\n[2018-06-03 19:22] masn6811 (Masne98888): @Elyot I was referring more to in laddering, because I believe to go for rewards it might be +EV to tank all the way to 1500, get matched there for easy games and get rewards that way, compared to playing nornally\n[2018-06-03 19:22] masn6811 (Masne98888): @Elyot Instead of playing 20 games at 2100, and having a 60% winrate and 15 minute games, I could lose 20 games within 30s each going down, and win 20 with the normal time going up.\n[2018-06-03 19:22] elyot: yeah that would be a violation of the community guidelines",
+      "messages": [
+        {
+          "id": "452898239092359188",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-03T19:15:54.642+01:00",
+          "content": "@Arkanishu If you're insta-resigning to wintrade with another person or farm the first 10 points without playing games, it would be against the rules"
+        },
+        {
+          "id": "452898516969324554",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-03T19:17:00.893+01:00",
+          "content": "If you're insta-resigning because you feel it's in your own self-interest to do so, I guess you can try, but my guess is that the person who wins will ultimately not do this and will just want to play quick games. Moreover, why not pass and let your opponent resign instead? 😛"
+        },
+        {
+          "id": "452898643020873738",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-03T19:17:30.946+01:00",
+          "content": "@Lenz I don't think we did anything recently that should cause blackscreening, do you have any other information about what the problem might be?"
+        },
+        {
+          "id": "452899270568443904",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-03T19:20:00.565+01:00",
+          "content": "@Unearthly well I mean when we say \"bring prismata into disrepute\" we could mean basically anything that harms the community or other players. But generally we would not remove things you've paid for from your account for like, being a jerk in chat, we would just ban you from chat"
+        },
+        {
+          "id": "452899426629976064",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-03T19:20:37.773+01:00",
+          "content": "@Masne98888 if your actions violate the integrity of the tournament then they may result in a DQ, playing drunk is fine"
+        },
+        {
+          "id": "452899777525448704",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-03T19:22:01.433+01:00",
+          "content": "@Elyot I was referring more to in laddering, because I believe to go for rewards it might be +EV to tank all the way to 1500, get matched there for easy games and get rewards that way, compared to playing nornally"
+        },
+        {
+          "id": "452899987647496192",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-03T19:22:51.53+01:00",
+          "content": "@Elyot Instead of playing 20 games at 2100, and having a 60% winrate and 15 minute games, I could lose 20 games within 30s each going down, and win 20 with the normal time going up."
+        },
+        {
+          "id": "452900009348825088",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-03T19:22:56.704+01:00",
+          "content": "yeah that would be a violation of the community guidelines"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-04T02:31:25.115+01:00",
+      "end_ts": "2018-06-04T02:36:49.794+01:00",
+      "participants": [
+        "elyot",
+        "thatsnotfeels",
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (3 messages, 2018-06-04) ---\n[2018-06-04 02:31] elyot: @Feels late summer we will start translation, but maybe we can try some community translations sooner than that... we've had offers\n[2018-06-04 02:35] xyotsuba: Are we gonna get more new units (Mega Drone???) before chapter 3?\n[2018-06-04 02:36] thatsnotfeels (Feels): @Elyot Thanks a lot man 😄",
+      "messages": [
+        {
+          "id": "453007838239784961",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-04T02:31:25.115+01:00",
+          "content": "@Feels late summer we will start translation, but maybe we can try some community translations sooner than that... we've had offers"
+        },
+        {
+          "id": "453008983393959946",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2018-06-04T02:35:58.141+01:00",
+          "content": "Are we gonna get more new units (Mega Drone???) before chapter 3?"
+        },
+        {
+          "id": "453009200042213378",
+          "author": "thatsnotfeels",
+          "nickname": "Feels",
+          "timestamp": "2018-06-04T02:36:49.794+01:00",
+          "content": "@Elyot Thanks a lot man 😄"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-04T16:23:45.504+01:00",
+      "end_ts": "2018-06-04T16:23:45.504+01:00",
+      "participants": [
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-04) ---\n[2018-06-04 16:23] masn6811 (Masne98888): Do the devs have some kind of watchlist for which units might be changed?",
+      "messages": [
+        {
+          "id": "453217303413391380",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-04T16:23:45.504+01:00",
+          "content": "Do the devs have some kind of watchlist for which units might be changed?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-04T17:15:39.976+01:00",
+      "end_ts": "2018-06-04T17:22:24.778+01:00",
+      "participants": [
+        "shadourow",
+        "sorawotobu"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-06-04) ---\n[2018-06-04 17:15] sorawotobu: How does the game determine where units go within their row?\n[2018-06-04 17:22] shadourow (Rando): Defender/frontline on front\nClick unit (exept frontline) middle\nStart of turn unit back",
+      "messages": [
+        {
+          "id": "453230366455758850",
+          "author": "sorawotobu",
+          "nickname": "sorawotobu",
+          "timestamp": "2018-06-04T17:15:39.976+01:00",
+          "content": "How does the game determine where units go within their row?"
+        },
+        {
+          "id": "453232064318406656",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-04T17:22:24.778+01:00",
+          "content": "Defender/frontline on front\nClick unit (exept frontline) middle\nStart of turn unit back"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-04T17:41:36.51+01:00",
+      "end_ts": "2018-06-04T17:53:33.719+01:00",
+      "participants": [
+        "awaclus",
+        "elyot",
+        "masn6811"
+      ],
+      "replay_codes": [],
+      "score": 26,
+      "formatted_text": "--- Thread (7 messages, 2018-06-04) ---\n[2018-06-04 17:41] masn6811 (Masne98888): first one put on the table = first one in UI\n[2018-06-04 17:41] masn6811 (Masne98888): due to this, sometimes spectators get different ordering than the actual player\n[2018-06-04 17:42] masn6811 (Masne98888): for example, the players always have the engis first, but not always the spec\n[2018-06-04 17:42] masn6811 (Masne98888): though frontline units are always at the right\n[2018-06-04 17:43] awaclus: And drones at the left\n[2018-06-04 17:53] elyot: @xYotsuba new units very soon, we will do balance adjustments around the same time, currently we might make 0 changes in that regard but not sure yet\n[2018-06-04 17:53] elyot: @Masne98888 yes we have a watchlist",
+      "messages": [
+        {
+          "id": "453236895032279040",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-04T17:41:36.51+01:00",
+          "content": "first one put on the table = first one in UI"
+        },
+        {
+          "id": "453236942386233354",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-04T17:41:47.8+01:00",
+          "content": "due to this, sometimes spectators get different ordering than the actual player"
+        },
+        {
+          "id": "453237005627686914",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-04T17:42:02.878+01:00",
+          "content": "for example, the players always have the engis first, but not always the spec"
+        },
+        {
+          "id": "453237052499034112",
+          "author": "masn6811",
+          "nickname": "Masne98888",
+          "timestamp": "2018-06-04T17:42:14.053+01:00",
+          "content": "though frontline units are always at the right"
+        },
+        {
+          "id": "453237454867136512",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2018-06-04T17:43:49.985+01:00",
+          "content": "And drones at the left"
+        },
+        {
+          "id": "453239868718579714",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-04T17:53:25.492+01:00",
+          "content": "@xYotsuba new units very soon, we will do balance adjustments around the same time, currently we might make 0 changes in that regard but not sure yet"
+        },
+        {
+          "id": "453239903224987659",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-04T17:53:33.719+01:00",
+          "content": "@Masne98888 yes we have a watchlist"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-04T18:28:30.239+01:00",
+      "end_ts": "2018-06-04T18:28:30.239+01:00",
+      "participants": [
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-04) ---\n[2018-06-04 18:28] randomflyingtaco (RiFT (#RIPBrowserers)): Is there a list of rejected unit ideas that you've saved somewhere?  There were some in past blog articles, like the SDR one, but I was hoping for \"this seemed like a good idea but turned out to not be fun\" to get a better list of considerations for myself.",
+      "messages": [
+        {
+          "id": "453248696667340800",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-06-04T18:28:30.239+01:00",
+          "content": "Is there a list of rejected unit ideas that you've saved somewhere?  There were some in past blog articles, like the SDR one, but I was hoping for \"this seemed like a good idea but turned out to not be fun\" to get a better list of considerations for myself."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-04T19:45:11.523+01:00",
+      "end_ts": "2018-06-04T19:50:13.017+01:00",
+      "participants": [
+        "elyot",
+        "randomflyingtaco"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2018-06-04) ---\n[2018-06-04 19:45] elyot: @sorawotobu front/middle/back are based on simple rules (blockers, clickable units, etc.) though we have been considering some changes to this\n[2018-06-04 19:50] randomflyingtaco (RiFT (#RIPBrowserers)): He's asking about left to right.",
+      "messages": [
+        {
+          "id": "453267995851096084",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-04T19:45:11.523+01:00",
+          "content": "@sorawotobu front/middle/back are based on simple rules (blockers, clickable units, etc.) though we have been considering some changes to this"
+        },
+        {
+          "id": "453269260408717312",
+          "author": "randomflyingtaco",
+          "nickname": "RiFT (#RIPBrowserers)",
+          "timestamp": "2018-06-04T19:50:13.017+01:00",
+          "content": "He's asking about left to right."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-05T07:02:36.657+01:00",
+      "end_ts": "2018-06-05T07:02:36.657+01:00",
+      "participants": [
+        "Deleted User"
+      ],
+      "replay_codes": [
+        "ining-popul",
+        "arity-prism",
+        "ibles-using"
+      ],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-05) ---\n[2018-06-05 07:02] Deleted User (Deleted User): was just reading this http://blog.prismata.net/2016/08/26/determining-popularity-prismata-collectibles-using-elo-system/\n\nThoughts on releasing an updated/comprehensive list of collectible ELO scores?\nDetermining the Popularity of Prismata Collectibles using the Elo ...\nLike many competitive online games, Prismata has a variety of unlockable in-game collectible cosmetic items: unit skins, equippable emotes, and more. However, Prismata differs from many other games in that these items are not obtained randomly through pack-opening. Instead, ...",
+      "messages": [
+        {
+          "id": "453438473899081730",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-06-05T07:02:36.657+01:00",
+          "content": "was just reading this http://blog.prismata.net/2016/08/26/determining-popularity-prismata-collectibles-using-elo-system/\n\nThoughts on releasing an updated/comprehensive list of collectible ELO scores?\nDetermining the Popularity of Prismata Collectibles using the Elo ...\nLike many competitive online games, Prismata has a variety of unlockable in-game collectible cosmetic items: unit skins, equippable emotes, and more. However, Prismata differs from many other games in that these items are not obtained randomly through pack-opening. Instead, ..."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-06T07:53:43.245+01:00",
+      "end_ts": "2018-06-06T07:59:36.133+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (4 messages, 2018-06-06) ---\n[2018-06-06 07:53] elyot: @RiFT (#RIPBrowserers) Yes we have a big list of rejected unit ideas, mostly just mechanics we cut from the game because their complexity was too large relative to how interesting they were\n[2018-06-06 07:56] elyot: @jonshea We discovered many years ago that Prismata is a game where new players sometimes feel like they're losing when they're in an even position, especially if they're used to CCGs, but we don't necessarily think it's a bad thing because sometimes it makes victories feel really magical and makes people want to understand more\n[2018-06-06 07:57] elyot: @Deleted User Uhhh we could update that but honestly it's not a priority right now, I wonder if there is a way to make an article on that topic and get it on reddit or facebook or something\n[2018-06-06 07:59] Deleted User (Deleted User): Yes! if you make an update on that topic i'd so enjoy it",
+      "messages": [
+        {
+          "id": "453813723967127552",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T07:53:43.245+01:00",
+          "content": "@RiFT (#RIPBrowserers) Yes we have a big list of rejected unit ideas, mostly just mechanics we cut from the game because their complexity was too large relative to how interesting they were"
+        },
+        {
+          "id": "453814346477469696",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T07:56:11.663+01:00",
+          "content": "@jonshea We discovered many years ago that Prismata is a game where new players sometimes feel like they're losing when they're in an even position, especially if they're used to CCGs, but we don't necessarily think it's a bad thing because sometimes it makes victories feel really magical and makes people want to understand more"
+        },
+        {
+          "id": "453814729526345730",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T07:57:42.989+01:00",
+          "content": "@Deleted User Uhhh we could update that but honestly it's not a priority right now, I wonder if there is a way to make an article on that topic and get it on reddit or facebook or something"
+        },
+        {
+          "id": "453815204086677504",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-06-06T07:59:36.133+01:00",
+          "content": "Yes! if you make an update on that topic i'd so enjoy it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-06T08:14:20.137+01:00",
+      "end_ts": "2018-06-06T08:15:26.285+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 17,
+      "formatted_text": "--- Thread (3 messages, 2018-06-06) ---\n[2018-06-06 08:14] elyot: @Aka It's not easy to get the code for a replay that you're currently in, but I could get the game to just remember the last replay you started watching and maybe have a command to print it or a place to display it\n[2018-06-06 08:14] elyot: not sure what would be a good place for it\n[2018-06-06 08:15] elyot: @Coscott Will never programmed snipe to work with overkill, it seemed unnecessary",
+      "messages": [
+        {
+          "id": "453818911868321792",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T08:14:20.137+01:00",
+          "content": "@Aka It's not easy to get the code for a replay that you're currently in, but I could get the game to just remember the last replay you started watching and maybe have a command to print it or a place to display it"
+        },
+        {
+          "id": "453819072270958614",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T08:14:58.38+01:00",
+          "content": "not sure what would be a good place for it"
+        },
+        {
+          "id": "453819189313011712",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T08:15:26.285+01:00",
+          "content": "@Coscott Will never programmed snipe to work with overkill, it seemed unnecessary"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-06T08:26:27.884+01:00",
+      "end_ts": "2018-06-06T08:30:57.752+01:00",
+      "participants": [
+        "elyot",
+        "nvlx"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (4 messages, 2018-06-06) ---\n[2018-06-06 08:26] elyot: @Wilson I didn't get any bug report regarding no progress for ranked wins. [nevermind, I found it!] We tested all that stuff quite a bit before deploying the updates to ratings and matchmaking, but I'd be interested to see what happened, was it in global chat? I could probably find them if it was\n[2018-06-06 08:27] elyot: @Miccull don't think we've ever tried soemthing like that, generally for events we avoid doing stuff that requires us to program new functionality into the game\n[2018-06-06 08:27] elyot: If we did it for a single player mission or something then we might also use it for an event\n[2018-06-06 08:30] nvlx (Fate): some very weird unit that gains 1 atk for each floated gold 🤔",
+      "messages": [
+        {
+          "id": "453821964260343809",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T08:26:27.884+01:00",
+          "content": "@Wilson I didn't get any bug report regarding no progress for ranked wins. [nevermind, I found it!] We tested all that stuff quite a bit before deploying the updates to ratings and matchmaking, but I'd be interested to see what happened, was it in global chat? I could probably find them if it was"
+        },
+        {
+          "id": "453822117885247488",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T08:27:04.511+01:00",
+          "content": "@Miccull don't think we've ever tried soemthing like that, generally for events we avoid doing stuff that requires us to program new functionality into the game"
+        },
+        {
+          "id": "453822171584921622",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T08:27:17.314+01:00",
+          "content": "If we did it for a single player mission or something then we might also use it for an event"
+        },
+        {
+          "id": "453823096168906763",
+          "author": "nvlx",
+          "nickname": "Fate",
+          "timestamp": "2018-06-06T08:30:57.752+01:00",
+          "content": "some very weird unit that gains 1 atk for each floated gold 🤔"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-06T08:51:26.1+01:00",
+      "end_ts": "2018-06-06T08:58:52.204+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 18,
+      "formatted_text": "--- Thread (3 messages, 2018-06-06) ---\n[2018-06-06 08:51] elyot: Mystery solved regarding the guy whose tier was stuck, seems it was a genuine bug relating to the modifications we made for new user ladder variance (the person's variance was actually negative, for a complex reason!)\n[2018-06-06 08:56] elyot: I'll have to restart server for the fix\n[2018-06-06 08:58] elyot: It's pretty obscure so I don't think that many users would be affected, but it should still be fixed asap",
+      "messages": [
+        {
+          "id": "453828248233574400",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T08:51:26.1+01:00",
+          "content": "Mystery solved regarding the guy whose tier was stuck, seems it was a genuine bug relating to the modifications we made for new user ladder variance (the person's variance was actually negative, for a complex reason!)"
+        },
+        {
+          "id": "453829596350119949",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T08:56:47.516+01:00",
+          "content": "I'll have to restart server for the fix"
+        },
+        {
+          "id": "453830119329628160",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-06T08:58:52.204+01:00",
+          "content": "It's pretty obscure so I don't think that many users would be affected, but it should still be fixed asap"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-06T19:45:49.411+01:00",
+      "end_ts": "2018-06-06T19:58:16.32+01:00",
+      "participants": [
+        "extratricky",
+        "unearthly",
+        "zyphdoz"
+      ],
+      "replay_codes": [],
+      "score": 21,
+      "formatted_text": "--- Thread (7 messages, 2018-06-06) ---\n[2018-06-06 19:45] zyphdoz: Is the free upgrade to founders edition available to anyone who has the game on steam during early access regardless of how they obtained it or do you have to purchase the game as in you wont get the free upgrade if you used a key?\n[2018-06-06 19:48] unearthly: There's no free upgrade AFAIK, if you pay $25 you are effectively buying the founders edition\n[2018-06-06 19:52] extratricky: On steam you can buy just the game or the game + founder's edition for the same price. The intention was that you just buy the bundle. If you bought the game and not the bundle then send a message to Elyot.\n[2018-06-06 19:55] zyphdoz: Let me rephrase the question.\nsteam page says:\n```\nFREE UPGRADE TO THE FOUNDER'S EDITION!\nAll players who purchase Prismata during our Early Access period are eligible for a free upgrade to our Founder's Edition, which includes the complete 5-episode single player story campaign and a load of other perks. Just grab the \"Prismata: Founder's Edition\" bundle to claim your upgrade!\n```\ndoes that mean if i unlock the game with a steam key i can grab the founder's edition for no cost?\n[2018-06-06 19:57] extratricky: No, that's specifically for if you buy it\n[2018-06-06 19:57] extratricky: Free keys are intended to be just the content that will be eventually free for everyone\n[2018-06-06 19:58] extratricky: (The latest update on that as far as I know is that they need to do more server work before a free launch)",
+      "messages": [
+        {
+          "id": "453992930496217088",
+          "author": "zyphdoz",
+          "nickname": "ZyphDoz",
+          "timestamp": "2018-06-06T19:45:49.411+01:00",
+          "content": "Is the free upgrade to founders edition available to anyone who has the game on steam during early access regardless of how they obtained it or do you have to purchase the game as in you wont get the free upgrade if you used a key?"
+        },
+        {
+          "id": "453993572450959364",
+          "author": "unearthly",
+          "nickname": "Unearthly",
+          "timestamp": "2018-06-06T19:48:22.465+01:00",
+          "content": "There's no free upgrade AFAIK, if you pay $25 you are effectively buying the founders edition"
+        },
+        {
+          "id": "453994553461047308",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-06-06T19:52:16.356+01:00",
+          "content": "On steam you can buy just the game or the game + founder's edition for the same price. The intention was that you just buy the bundle. If you bought the game and not the bundle then send a message to Elyot."
+        },
+        {
+          "id": "453995413121531916",
+          "author": "zyphdoz",
+          "nickname": "ZyphDoz",
+          "timestamp": "2018-06-06T19:55:41.315+01:00",
+          "content": "Let me rephrase the question.\nsteam page says:\n```\nFREE UPGRADE TO THE FOUNDER'S EDITION!\nAll players who purchase Prismata during our Early Access period are eligible for a free upgrade to our Founder's Edition, which includes the complete 5-episode single player story campaign and a load of other perks. Just grab the \"Prismata: Founder's Edition\" bundle to claim your upgrade!\n```\ndoes that mean if i unlock the game with a steam key i can grab the founder's edition for no cost?"
+        },
+        {
+          "id": "453995767770906624",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-06-06T19:57:05.87+01:00",
+          "content": "No, that's specifically for if you buy it"
+        },
+        {
+          "id": "453995856639688705",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-06-06T19:57:27.058+01:00",
+          "content": "Free keys are intended to be just the content that will be eventually free for everyone"
+        },
+        {
+          "id": "453996063259492363",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-06-06T19:58:16.32+01:00",
+          "content": "(The latest update on that as far as I know is that they need to do more server work before a free launch)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-06T20:28:07.621+01:00",
+      "end_ts": "2018-06-06T20:28:07.621+01:00",
+      "participants": [
+        "extratricky"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-06-06) ---\n[2018-06-06 20:28] extratricky: (also just realized which channel this was. I am not a dev. Elyot should correct me if I gave any incorrect information)",
+      "messages": [
+        {
+          "id": "454003576520310784",
+          "author": "extratricky",
+          "nickname": "ExtraTricky",
+          "timestamp": "2018-06-06T20:28:07.621+01:00",
+          "content": "(also just realized which channel this was. I am not a dev. Elyot should correct me if I gave any incorrect information)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-07T12:32:47.471+01:00",
+      "end_ts": "2018-06-07T12:32:47.471+01:00",
+      "participants": [
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2018-06-07) ---\n[2018-06-07 12:32] shadourow (Rando): I just watched the SidAlpha YT video and I think that there is something wrong with the chapter 1 of the campaign.\nI think it would be really really better if when you're launching for the first time the campaign, you have a disclaimer which explain that chapter 1 of the campaign its intended to be a simple tutorial and the real game is PvP.\nAlso, if the campaign bore the player, he should immediately go to \"combat training\" to get more complex tutorials.\n\nAlso, an indication that the 25$ chapter 2-5 campaign isn't a tutorial therefore are not needed to fully enjoy the game.\n\nI think that the campaign is fine for players who wants to like the game, the problem is, all players don't want to, and it would be better to be more explicit with them.",
+      "messages": [
+        {
+          "id": "454246342206947329",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-07T12:32:47.471+01:00",
+          "content": "I just watched the SidAlpha YT video and I think that there is something wrong with the chapter 1 of the campaign.\nI think it would be really really better if when you're launching for the first time the campaign, you have a disclaimer which explain that chapter 1 of the campaign its intended to be a simple tutorial and the real game is PvP.\nAlso, if the campaign bore the player, he should immediately go to \"combat training\" to get more complex tutorials.\n\nAlso, an indication that the 25$ chapter 2-5 campaign isn't a tutorial therefore are not needed to fully enjoy the game.\n\nI think that the campaign is fine for players who wants to like the game, the problem is, all players don't want to, and it would be better to be more explicit with them."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-07T18:33:18.942+01:00",
+      "end_ts": "2018-06-07T18:39:57.852+01:00",
+      "participants": [
+        "bounty_v",
+        "mtanzer"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-06-07) ---\n[2018-06-07 18:33] bounty_v (Jon (Bounty_V)): Streamer options question: are there plans to add left corner options for the webcam/overlay element locations? I have my webcam in the bottom left corner and I'd love to use the streamer options. It doesn't cover up units, but it cuts off the dialog when I play through the episodes, and you can't see my currency etc. Also, the ability to just freely move the location of where overlay stuff is would be a superb feature, though I'm aware it'd take a lot of work 😅\n[2018-06-07 18:39] mtanzer: I noticed in the patch notes a change to k-factor in the June 3rd update.  Can you explain in more detail what the change was?",
+      "messages": [
+        {
+          "id": "454337071172157441",
+          "author": "bounty_v",
+          "nickname": "Jon (Bounty_V)",
+          "timestamp": "2018-06-07T18:33:18.942+01:00",
+          "content": "Streamer options question: are there plans to add left corner options for the webcam/overlay element locations? I have my webcam in the bottom left corner and I'd love to use the streamer options. It doesn't cover up units, but it cuts off the dialog when I play through the episodes, and you can't see my currency etc. Also, the ability to just freely move the location of where overlay stuff is would be a superb feature, though I'm aware it'd take a lot of work 😅"
+        },
+        {
+          "id": "454338744321966080",
+          "author": "mtanzer",
+          "nickname": "mtanzer",
+          "timestamp": "2018-06-07T18:39:57.852+01:00",
+          "content": "I noticed in the patch notes a change to k-factor in the June 3rd update.  Can you explain in more detail what the change was?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-09T07:33:10.142+01:00",
+      "end_ts": "2018-06-09T07:33:10.142+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (1 messages, 2018-06-09) ---\n[2018-06-09 07:33] elyot: @wickedcossack You can click out of the queue once you're in a game, we always figure it's better to give people more options than to restrict them.\n@ZyphDoz The upgrade to founder's edition is for people who bought the game, we have never given away the $25 version for free.\n@Rando We're adding a new welcome splash to the game and we'll be incorporating those kind of aspects.\n@ruinedshadows gifting shards has been requested but it opens up a lot of problems, we would only allow you to buy shards for another person with real money, but never to give shards you already own.",
+      "messages": [
+        {
+          "id": "454895715554951179",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-09T07:33:10.142+01:00",
+          "content": "@wickedcossack You can click out of the queue once you're in a game, we always figure it's better to give people more options than to restrict them.\n@ZyphDoz The upgrade to founder's edition is for people who bought the game, we have never given away the $25 version for free.\n@Rando We're adding a new welcome splash to the game and we'll be incorporating those kind of aspects.\n@ruinedshadows gifting shards has been requested but it opens up a lot of problems, we would only allow you to buy shards for another person with real money, but never to give shards you already own."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-10T04:45:35.295+01:00",
+      "end_ts": "2018-06-10T04:45:42.617+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2018-06-10) ---\n[2018-06-10 04:45] elyot: no, we want people to have to play the game to earn rewards\n[2018-06-10 04:45] elyot: you can buy the skins/emotes directly tho",
+      "messages": [
+        {
+          "id": "455215930335690752",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-10T04:45:35.295+01:00",
+          "content": "no, we want people to have to play the game to earn rewards"
+        },
+        {
+          "id": "455215961046253568",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-10T04:45:42.617+01:00",
+          "content": "you can buy the skins/emotes directly tho"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-10T10:18:20.064+01:00",
+      "end_ts": "2018-06-10T10:20:09.004+01:00",
+      "participants": [
+        "f300xen",
+        "kristian1103"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2018-06-10) ---\n[2018-06-10 10:18] kristian1103 (Arkanishu): @Elyot  could you make an event where you can purchase Giselle that does stuff like in campaign:\nGiselle (supply 1, 2hp, buildtime 3, cost ???)\nAt the start of your turn, take over half of the enemy units.\n\nwould be pretty fun I´d think\n[2018-06-10 10:20] f300xen (f0x): owo drone skin when :owo:",
+      "messages": [
+        {
+          "id": "455299668646297607",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-06-10T10:18:20.064+01:00",
+          "content": "@Elyot  could you make an event where you can purchase Giselle that does stuff like in campaign:\nGiselle (supply 1, 2hp, buildtime 3, cost ???)\nAt the start of your turn, take over half of the enemy units.\n\nwould be pretty fun I´d think"
+        },
+        {
+          "id": "455300125573775360",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-10T10:20:09.004+01:00",
+          "content": "owo drone skin when :owo:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-10T21:57:14.355+01:00",
+      "end_ts": "2018-06-10T22:00:25.464+01:00",
+      "participants": [
+        "elyot",
+        "nvlx"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (3 messages, 2018-06-10) ---\n[2018-06-10 21:57] elyot: known bug, happens when people hit tier X for the first time\n[2018-06-10 22:00] nvlx (Fate): i had like rating -80\n[2018-06-10 22:00] nvlx (Fate): then i lost the next game",
+      "messages": [
+        {
+          "id": "455475553810513920",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-10T21:57:14.355+01:00",
+          "content": "known bug, happens when people hit tier X for the first time"
+        },
+        {
+          "id": "455476344638144522",
+          "author": "nvlx",
+          "nickname": "Fate",
+          "timestamp": "2018-06-10T22:00:22.903+01:00",
+          "content": "i had like rating -80"
+        },
+        {
+          "id": "455476355379888169",
+          "author": "nvlx",
+          "nickname": "Fate",
+          "timestamp": "2018-06-10T22:00:25.464+01:00",
+          "content": "then i lost the next game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-11T08:24:57.98+01:00",
+      "end_ts": "2018-06-11T08:33:20.483+01:00",
+      "participants": [
+        "apooche",
+        "jugornot"
+      ],
+      "replay_codes": [
+        "smata-stats",
+        "smata-stats"
+      ],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-06-11) ---\n[2018-06-11 08:24] jugornot (Jug Or Not 👺): Can you make prismata-stats show stats like winrate depending how many units are in a set? i think i can do better in base+5 sets than in base+8 sets or when there are more units\n[2018-06-11 08:33] apooche: (prismata-stats is a fan site, also statsforge has winrate by number of units in set)",
+      "messages": [
+        {
+          "id": "455633526503636992",
+          "author": "jugornot",
+          "nickname": "Jug Or Not 👺",
+          "timestamp": "2018-06-11T08:24:57.98+01:00",
+          "content": "Can you make prismata-stats show stats like winrate depending how many units are in a set? i think i can do better in base+5 sets than in base+8 sets or when there are more units"
+        },
+        {
+          "id": "455635634153848833",
+          "author": "apooche",
+          "nickname": "Apooche",
+          "timestamp": "2018-06-11T08:33:20.483+01:00",
+          "content": "(prismata-stats is a fan site, also statsforge has winrate by number of units in set)"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-11T15:23:30.197+01:00",
+      "end_ts": "2018-06-11T15:30:20.788+01:00",
+      "participants": [
+        "leary93",
+        "miccull.",
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (4 messages, 2018-06-11) ---\n[2018-06-11 15:23] miccull. (Miccull): @Elyot any plans to add Romania drone? My inner nazi feels offended by seeing Hungarian drones\n[2018-06-11 15:27] leary93: Maybe romania flag has copyright? 😛\n[2018-06-11 15:30] p0lari (Polari): any plans to fix Finnish drone's proportions?\n[2018-06-11 15:30] miccull. (Miccull): nah, i think we are very few so we didnt get any attention . FeelsBadMan",
+      "messages": [
+        {
+          "id": "455738854775848980",
+          "author": "miccull.",
+          "nickname": "Miccull",
+          "timestamp": "2018-06-11T15:23:30.197+01:00",
+          "content": "@Elyot any plans to add Romania drone? My inner nazi feels offended by seeing Hungarian drones"
+        },
+        {
+          "id": "455739811710631938",
+          "author": "leary93",
+          "nickname": "Leary93",
+          "timestamp": "2018-06-11T15:27:18.348+01:00",
+          "content": "Maybe romania flag has copyright? 😛"
+        },
+        {
+          "id": "455740555956191250",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-06-11T15:30:15.79+01:00",
+          "content": "any plans to fix Finnish drone's proportions?"
+        },
+        {
+          "id": "455740576919453696",
+          "author": "miccull.",
+          "nickname": "Miccull",
+          "timestamp": "2018-06-11T15:30:20.788+01:00",
+          "content": "nah, i think we are very few so we didnt get any attention . FeelsBadMan"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-11T22:30:00.708+01:00",
+      "end_ts": "2018-06-11T22:32:53.884+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [
+        "smata-stats"
+      ],
+      "score": 24,
+      "formatted_text": "--- Thread (4 messages, 2018-06-11) ---\n[2018-06-11 22:30] elyot: @Drevoed Offline mode might happen but not anytime soon. May be more toward the end of the year when we approach final release and look to get Prismata on as many stores as possible\n[2018-06-11 22:30] elyot: @Jug Or Not 👺 We don't operate prismata-stats\n[2018-06-11 22:30] elyot: @Miccull We added Drones that were represented in our Kickstarter users, maybe it's time to get another round done for countries we missed! Not sure though, skins are a low priority for us right now\n[2018-06-11 22:32] elyot: @Polari Not sure what you're asking, you think the placement of the nordic cross is wrong on the flag?",
+      "messages": [
+        {
+          "id": "455846189158629378",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-11T22:30:00.708+01:00",
+          "content": "@Drevoed Offline mode might happen but not anytime soon. May be more toward the end of the year when we approach final release and look to get Prismata on as many stores as possible"
+        },
+        {
+          "id": "455846260054949938",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-11T22:30:17.611+01:00",
+          "content": "@Jug Or Not 👺 We don't operate prismata-stats"
+        },
+        {
+          "id": "455846407685799950",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-11T22:30:52.809+01:00",
+          "content": "@Miccull We added Drones that were represented in our Kickstarter users, maybe it's time to get another round done for countries we missed! Not sure though, skins are a low priority for us right now"
+        },
+        {
+          "id": "455846915511287812",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-11T22:32:53.884+01:00",
+          "content": "@Polari Not sure what you're asking, you think the placement of the nordic cross is wrong on the flag?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-12T07:20:10.378+01:00",
+      "end_ts": "2018-06-12T07:20:52.76+01:00",
+      "participants": [
+        "p0lari"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-06-12) ---\n[2018-06-12 07:20] p0lari (Polari): The cross in the Finnish flag is wider than Sweden's or Denmark's\n[2018-06-12 07:20] p0lari (Polari): In the game it's the same for all and if anything looks even thinner than on anyone's flags",
+      "messages": [
+        {
+          "id": "455979608584486913",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-06-12T07:20:10.378+01:00",
+          "content": "The cross in the Finnish flag is wider than Sweden's or Denmark's"
+        },
+        {
+          "id": "455979786347741184",
+          "author": "p0lari",
+          "nickname": "Polari",
+          "timestamp": "2018-06-12T07:20:52.76+01:00",
+          "content": "In the game it's the same for all and if anything looks even thinner than on anyone's flags"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-13T01:34:53.473+01:00",
+      "end_ts": "2018-06-13T01:35:56.732+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2018-06-13) ---\n[2018-06-13 01:34] elyot: We'll do something about that, it's on the list\n[2018-06-13 01:35] elyot: @Polari I see, I'll make a note of it",
+      "messages": [
+        {
+          "id": "456255103452577803",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-13T01:34:53.473+01:00",
+          "content": "We'll do something about that, it's on the list"
+        },
+        {
+          "id": "456255368780054529",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-13T01:35:56.732+01:00",
+          "content": "@Polari I see, I'll make a note of it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-13T20:01:36.093+01:00",
+      "end_ts": "2018-06-13T20:02:12.371+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 13,
+      "formatted_text": "--- Thread (2 messages, 2018-06-13) ---\n[2018-06-13 20:01] elyot: @Greyman Yes but we would need some kind of UI for selecting a subset of the base set. We can probably make it work but it's not super easy.\n[2018-06-13 20:02] elyot: @Leary93 Yes but again, having a UI for it is non-trivial. We can do random quite easily though. One small issue is that with a lot of animated skins, having 32 units in a game can blow past the memory limits for some people",
+      "messages": [
+        {
+          "id": "456533616227254274",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-13T20:01:36.093+01:00",
+          "content": "@Greyman Yes but we would need some kind of UI for selecting a subset of the base set. We can probably make it work but it's not super easy."
+        },
+        {
+          "id": "456533768388476979",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-13T20:02:12.371+01:00",
+          "content": "@Leary93 Yes but again, having a UI for it is non-trivial. We can do random quite easily though. One small issue is that with a lot of animated skins, having 32 units in a game can blow past the memory limits for some people"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T02:46:54.783+01:00",
+      "end_ts": "2018-06-14T02:47:04.071+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (2 messages, 2018-06-14) ---\n[2018-06-14 02:46] elyot: @Arkanishu regarding the giselle event, it might be poossible but my guess is it will be buggy as hell\n[2018-06-14 02:47] elyot: maybe we can try sometime tho!",
+      "messages": [
+        {
+          "id": "456635616205996042",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-14T02:46:54.783+01:00",
+          "content": "@Arkanishu regarding the giselle event, it might be poossible but my guess is it will be buggy as hell"
+        },
+        {
+          "id": "456635655162822667",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-14T02:47:04.071+01:00",
+          "content": "maybe we can try sometime tho!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T18:06:56.223+01:00",
+      "end_ts": "2018-06-14T18:06:56.223+01:00",
+      "participants": [
+        "drevoed"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-14) ---\n[2018-06-14 18:06] drevoed: ~~If it's literally never right to soak with engies when your opponent isn't over the absorb barrier yet, why do we have the option to? Seems like a possible QoL improvement, considering you weren't planning on adding deathrattle units anytime soon, as I heard.~~ nvm",
+      "messages": [
+        {
+          "id": "456867147826593792",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-06-14T18:06:56.223+01:00",
+          "content": "~~If it's literally never right to soak with engies when your opponent isn't over the absorb barrier yet, why do we have the option to? Seems like a possible QoL improvement, considering you weren't planning on adding deathrattle units anytime soon, as I heard.~~ nvm"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T20:03:53.36+01:00",
+      "end_ts": "2018-06-14T20:04:35.828+01:00",
+      "participants": [
+        "asymat",
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-06-14) ---\n[2018-06-14 20:03] asymat: @Elyot seems like your https certificate is not valid (anymore?)\n[2018-06-14 20:04] elyot: I know, the chron job to auto renew seems to have failed",
+      "messages": [
+        {
+          "id": "456896579832512523",
+          "author": "asymat",
+          "nickname": "Asymat",
+          "timestamp": "2018-06-14T20:03:53.36+01:00",
+          "content": "@Elyot seems like your https certificate is not valid (anymore?)"
+        },
+        {
+          "id": "456896757956083722",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-14T20:04:35.828+01:00",
+          "content": "I know, the chron job to auto renew seems to have failed"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-14T23:51:24.175+01:00",
+      "end_ts": "2018-06-14T23:54:01.17+01:00",
+      "participants": [
+        "zezetel"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2018-06-14) ---\n[2018-06-14 23:51] zezetel: elyot how do you get giselle in your discord?\n[2018-06-14 23:51] zezetel: do I have to ask her out?\n[2018-06-14 23:54] zezetel: asking her out doesn't work 😦",
+      "messages": [
+        {
+          "id": "456953835500470273",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-06-14T23:51:24.175+01:00",
+          "content": "elyot how do you get giselle in your discord?"
+        },
+        {
+          "id": "456953860385406997",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-06-14T23:51:30.108+01:00",
+          "content": "do I have to ask her out?"
+        },
+        {
+          "id": "456954493985357855",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2018-06-14T23:54:01.17+01:00",
+          "content": "asking her out doesn't work 😦"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-15T03:45:43.749+01:00",
+      "end_ts": "2018-06-15T03:52:24.647+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 33,
+      "formatted_text": "--- Thread (6 messages, 2018-06-15) ---\n[2018-06-15 03:45] elyot: @Dunkoro you can just buy it in the game in the shop, or if you buy it from the website then we'll send you a code\n[2018-06-15 03:50] elyot: @sorawotobu new units are coming, we're actually still trying to fix one of the new ones and make sure we're happy with the balance\n[2018-06-15 03:50] elyot: We're pretty happy with the current units\n[2018-06-15 03:50] elyot: There aren't really any that stand out as desperately needing nerfs/changes\n[2018-06-15 03:51] elyot: @zezetel I didn't write giselle, it's a fan-made bot\n[2018-06-15 03:52] elyot: @xYotsuba we're still testing new units, probably next week or so they'll be finalized and we'll hype em up and give them to streamers to spoil ^_^",
+      "messages": [
+        {
+          "id": "457012805627805706",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-15T03:45:43.749+01:00",
+          "content": "@Dunkoro you can just buy it in the game in the shop, or if you buy it from the website then we'll send you a code"
+        },
+        {
+          "id": "457013923204431884",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-15T03:50:10.2+01:00",
+          "content": "@sorawotobu new units are coming, we're actually still trying to fix one of the new ones and make sure we're happy with the balance"
+        },
+        {
+          "id": "457013965072105482",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-15T03:50:20.182+01:00",
+          "content": "We're pretty happy with the current units"
+        },
+        {
+          "id": "457014054150733836",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-15T03:50:41.42+01:00",
+          "content": "There aren't really any that stand out as desperately needing nerfs/changes"
+        },
+        {
+          "id": "457014337597341697",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-15T03:51:48.999+01:00",
+          "content": "@zezetel I didn't write giselle, it's a fan-made bot"
+        },
+        {
+          "id": "457014487116021782",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-15T03:52:24.647+01:00",
+          "content": "@xYotsuba we're still testing new units, probably next week or so they'll be finalized and we'll hype em up and give them to streamers to spoil ^_^"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-15T05:47:08.878+01:00",
+      "end_ts": "2018-06-15T05:47:08.878+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-06-15) ---\n[2018-06-15 05:47] elyot: Get super high on this list 😛 https://sullygnome.com/game/Prismata/30/watched\nPrismata - most watched Twitch channels - SullyGnome\nMost watched channel statistics for Prismata on Twitch",
+      "messages": [
+        {
+          "id": "457043361673641984",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-15T05:47:08.878+01:00",
+          "content": "Get super high on this list 😛 https://sullygnome.com/game/Prismata/30/watched\nPrismata - most watched Twitch channels - SullyGnome\nMost watched channel statistics for Prismata on Twitch"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-16T01:51:59.703+01:00",
+      "end_ts": "2018-06-16T01:51:59.703+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-06-16) ---\n[2018-06-16 01:51] elyot: It's the ultimate blue fantasy, having impenetrable defense and a huge economy",
+      "messages": [
+        {
+          "id": "457346571370233859",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-16T01:51:59.703+01:00",
+          "content": "It's the ultimate blue fantasy, having impenetrable defense and a huge economy"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-16T21:48:01.049+01:00",
+      "end_ts": "2018-06-16T21:51:32.73+01:00",
+      "participants": [
+        "miccull.",
+        "wilson0862"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2018-06-16) ---\n[2018-06-16 21:48] miccull. (Miccull): @Elyot in a friendly game , before it starts can we see what units were banned/chosen to not be/be part of the set ? otherwise we might have a problem in the league\n[2018-06-16 21:50] miccull. (Miccull): i know the league is based on trust and fairplay , but i think its a issue worth looking into for the future of competitive prismata\n[2018-06-16 21:51] wilson0862 (Wilson): To elaborate, as a test, I banned all except 8 units in a friendly match against @Lyra and got the exact same B+8 game 2/2 times. Lyra couldn't tell I had units banned.",
+      "messages": [
+        {
+          "id": "457647560270807040",
+          "author": "miccull.",
+          "nickname": "Miccull",
+          "timestamp": "2018-06-16T21:48:01.049+01:00",
+          "content": "@Elyot in a friendly game , before it starts can we see what units were banned/chosen to not be/be part of the set ? otherwise we might have a problem in the league"
+        },
+        {
+          "id": "457648162484781068",
+          "author": "miccull.",
+          "nickname": "Miccull",
+          "timestamp": "2018-06-16T21:50:24.628+01:00",
+          "content": "i know the league is based on trust and fairplay , but i think its a issue worth looking into for the future of competitive prismata"
+        },
+        {
+          "id": "457648448125272075",
+          "author": "wilson0862",
+          "nickname": "Wilson",
+          "timestamp": "2018-06-16T21:51:32.73+01:00",
+          "content": "To elaborate, as a test, I banned all except 8 units in a friendly match against @Lyra and got the exact same B+8 game 2/2 times. Lyra couldn't tell I had units banned."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-16T22:32:43.43+01:00",
+      "end_ts": "2018-06-16T22:32:59.16+01:00",
+      "participants": [
+        "elyot",
+        "lyra1712"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2018-06-16) ---\n[2018-06-16 22:32] elyot: Uhhh we can probably work something out, is it OK if it's very simple?\n[2018-06-16 22:32] lyra1712 (Lyra): anything that would let us spot cheaters would do",
+      "messages": [
+        {
+          "id": "457658810992164895",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-16T22:32:43.43+01:00",
+          "content": "Uhhh we can probably work something out, is it OK if it's very simple?"
+        },
+        {
+          "id": "457658876968304661",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2018-06-16T22:32:59.16+01:00",
+          "content": "anything that would let us spot cheaters would do"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-16T22:45:34.028+01:00",
+      "end_ts": "2018-06-16T22:46:51.331+01:00",
+      "participants": [
+        "kristian1103",
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (2 messages, 2018-06-16) ---\n[2018-06-16 22:45] mrguy888: I have posted a solution to the problem in the league's discord.\n[2018-06-16 22:46] kristian1103 (Arkanishu): Why can't we just trust each other.. :PepeHands:",
+      "messages": [
+        {
+          "id": "457662043114438658",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-06-16T22:45:34.028+01:00",
+          "content": "I have posted a solution to the problem in the league's discord."
+        },
+        {
+          "id": "457662367346589716",
+          "author": "kristian1103",
+          "nickname": "Arkanishu",
+          "timestamp": "2018-06-16T22:46:51.331+01:00",
+          "content": "Why can't we just trust each other.. :PepeHands:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-16T22:58:32.123+01:00",
+      "end_ts": "2018-06-16T23:06:32.438+01:00",
+      "participants": [
+        "Deleted User",
+        "elyot",
+        "iminabearsuit",
+        "wickedcossack"
+      ],
+      "replay_codes": [],
+      "score": 9,
+      "formatted_text": "--- Thread (5 messages, 2018-06-16) ---\n[2018-06-16 22:58] wickedcossack: @Elyot when are these on sale: https://cdn.discordapp.com/attachments/409476942945976323/457659002206158858/unknown.png\n[2018-06-16 23:04] elyot: Later, we just printed a bunch ourselves and sent them to people\n[2018-06-16 23:05] Deleted User (Deleted User): if you're making them, you should make a conduit blastforge animus tarsier blastforge hannibull version\n[2018-06-16 23:06] Deleted User (Deleted User): Idk it would be funny/cool for me\n[2018-06-16 23:06] iminabearsuit: Elyot not following the latest memes, I guess he cba tbh",
+      "messages": [
+        {
+          "id": "457665306681409548",
+          "author": "wickedcossack",
+          "nickname": "wickedcossack",
+          "timestamp": "2018-06-16T22:58:32.123+01:00",
+          "content": "@Elyot when are these on sale: https://cdn.discordapp.com/attachments/409476942945976323/457659002206158858/unknown.png"
+        },
+        {
+          "id": "457666784758071307",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-16T23:04:24.524+01:00",
+          "content": "Later, we just printed a bunch ourselves and sent them to people"
+        },
+        {
+          "id": "457666954505748491",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-06-16T23:05:04.995+01:00",
+          "content": "if you're making them, you should make a conduit blastforge animus tarsier blastforge hannibull version"
+        },
+        {
+          "id": "457667268352933908",
+          "author": "Deleted User",
+          "nickname": "Deleted User",
+          "timestamp": "2018-06-16T23:06:19.822+01:00",
+          "content": "Idk it would be funny/cool for me"
+        },
+        {
+          "id": "457667321268273152",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2018-06-16T23:06:32.438+01:00",
+          "content": "Elyot not following the latest memes, I guess he cba tbh"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-18T12:54:58.661+01:00",
+      "end_ts": "2018-06-18T12:54:58.661+01:00",
+      "participants": [
+        "ruinedshadows"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-18) ---\n[2018-06-18 12:54] ruinedshadows: @Elyot can the unit panel for valk be updated to have a full description of exhaust that applies to the barriers rather than just the symbol like is done for other exhaust units (wincer, immolites, etc.). Some new players have been confused since barriers are prompt and I think having the full sentence in parentheses will help with this rather than just the symbol.",
+      "messages": [
+        {
+          "id": "458238192143826944",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-06-18T12:54:58.661+01:00",
+          "content": "@Elyot can the unit panel for valk be updated to have a full description of exhaust that applies to the barriers rather than just the symbol like is done for other exhaust units (wincer, immolites, etc.). Some new players have been confused since barriers are prompt and I think having the full sentence in parentheses will help with this rather than just the symbol."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-18T13:55:25.118+01:00",
+      "end_ts": "2018-06-18T13:55:55.832+01:00",
+      "participants": [
+        "sorawotobu"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2018-06-18) ---\n[2018-06-18 13:55] sorawotobu: what's the method for ordering units in the my replays tab? it's neither by cost nor by name apparently\n[2018-06-18 13:55] sorawotobu: can the ? thing in ranked that tells me there are 10 tiers and how they work go away after you hit master tier?",
+      "messages": [
+        {
+          "id": "458253402607190016",
+          "author": "sorawotobu",
+          "nickname": "sorawotobu",
+          "timestamp": "2018-06-18T13:55:25.118+01:00",
+          "content": "what's the method for ordering units in the my replays tab? it's neither by cost nor by name apparently"
+        },
+        {
+          "id": "458253531430780958",
+          "author": "sorawotobu",
+          "nickname": "sorawotobu",
+          "timestamp": "2018-06-18T13:55:55.832+01:00",
+          "content": "can the ? thing in ranked that tells me there are 10 tiers and how they work go away after you hit master tier?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-18T23:18:08.022+01:00",
+      "end_ts": "2018-06-18T23:18:28.964+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 13,
+      "formatted_text": "--- Thread (2 messages, 2018-06-18) ---\n[2018-06-18 23:18] elyot: @dkni The reason we don't have replay search by unit or opponent is that we would have to change the way our replay database works to support that, so it's a bit of work. Maybe in the future when we have some more time for those kind of projects. ^_^\n[2018-06-18 23:18] elyot: @jrkirby I don't think they do, though I've heard the requests for Prismata league and we'll find a better solution for that",
+      "messages": [
+        {
+          "id": "458395014490226733",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-18T23:18:08.022+01:00",
+          "content": "@dkni The reason we don't have replay search by unit or opponent is that we would have to change the way our replay database works to support that, so it's a bit of work. Maybe in the future when we have some more time for those kind of projects. ^_^"
+        },
+        {
+          "id": "458395102327341076",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-18T23:18:28.964+01:00",
+          "content": "@jrkirby I don't think they do, though I've heard the requests for Prismata league and we'll find a better solution for that"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-18T23:28:30.904+01:00",
+      "end_ts": "2018-06-18T23:28:30.904+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-06-18) ---\n[2018-06-18 23:28] elyot: @SwapGo I don't know what you mean by blacklisting skins. We will be adding more skins but I'm not sure when, it's not very important for our free-to-play launch so it's a lower priority",
+      "messages": [
+        {
+          "id": "458397627046821898",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-18T23:28:30.904+01:00",
+          "content": "@SwapGo I don't know what you mean by blacklisting skins. We will be adding more skins but I'm not sure when, it's not very important for our free-to-play launch so it's a lower priority"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-19T01:04:58.693+01:00",
+      "end_ts": "2018-06-19T01:05:14.993+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (2 messages, 2018-06-19) ---\n[2018-06-19 01:04] elyot: @sorawotobu I just looked at replay unit ordering, turns out it was just arbitrary, I changed it to alphabetical\n[2018-06-19 01:05] elyot: regarding the master tier (?), I don't see any reason to remove it",
+      "messages": [
+        {
+          "id": "458421902793244682",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-19T01:04:58.693+01:00",
+          "content": "@sorawotobu I just looked at replay unit ordering, turns out it was just arbitrary, I changed it to alphabetical"
+        },
+        {
+          "id": "458421971160399882",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-19T01:05:14.993+01:00",
+          "content": "regarding the master tier (?), I don't see any reason to remove it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-20T00:43:11.767+01:00",
+      "end_ts": "2018-06-20T00:43:11.767+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (1 messages, 2018-06-20) ---\n[2018-06-20 00:43] elyot: @zezetel I think it's about 64 with our distribution, it depends on whether normal or logistic curve is used",
+      "messages": [
+        {
+          "id": "458778809013895189",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-20T00:43:11.767+01:00",
+          "content": "@zezetel I think it's about 64 with our distribution, it depends on whether normal or logistic curve is used"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-20T09:03:43.524+01:00",
+      "end_ts": "2018-06-20T09:14:10.618+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 24,
+      "formatted_text": "--- Thread (4 messages, 2018-06-20) ---\n[2018-06-20 09:03] elyot: Yeah these things are cool. I think if the goal is to evaluate frequent players as best as possible then that's a fine system to use, but we also want a system that's fun for players\n[2018-06-20 09:03] elyot: Like it's important that players see some movement when they have a good day\n[2018-06-20 09:13] elyot: @Asymat Sure, I'll fix it. The checkmate one is just the way our text formatter works, it's annoying to fix but it's listed in our backlog.\n[2018-06-20 09:14] elyot: @Drevoed We thought about that many years ago and decided not to do anything about it because the feeling of playing with a human is more important. If people want to not put their move on the board then they're free to do so.",
+      "messages": [
+        {
+          "id": "458904771332669440",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-20T09:03:43.524+01:00",
+          "content": "Yeah these things are cool. I think if the goal is to evaluate frequent players as best as possible then that's a fine system to use, but we also want a system that's fun for players"
+        },
+        {
+          "id": "458904833563426816",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-20T09:03:58.361+01:00",
+          "content": "Like it's important that players see some movement when they have a good day"
+        },
+        {
+          "id": "458907216343203850",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-20T09:13:26.46+01:00",
+          "content": "@Asymat Sure, I'll fix it. The checkmate one is just the way our text formatter works, it's annoying to fix but it's listed in our backlog."
+        },
+        {
+          "id": "458907401555542037",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-20T09:14:10.618+01:00",
+          "content": "@Drevoed We thought about that many years ago and decided not to do anything about it because the feeling of playing with a human is more important. If people want to not put their move on the board then they're free to do so."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-21T00:40:31.829+01:00",
+      "end_ts": "2018-06-21T00:49:29.923+01:00",
+      "participants": [
+        "drevoed",
+        "mrguy888"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (2 messages, 2018-06-21) ---\n[2018-06-21 00:40] drevoed: Thematically speaking, why Sentinel builds engineers? I can understand Cauteriser and Tesla Coil, even Hellhound coming with a dog master, but Sentinel makes no sense to me.\n[2018-06-21 00:49] mrguy888: ```Abandoned by most branches of the military as unnecessary during peacetime, the Conduit employs powerful electrochemical technology to grow crystalline Gaussite—a dangerous, but powerful material that has been banned from all major urban centers on Beacon due to its high levels of toxicity and reactivity.``` \n\nThematically speaking, why do they make URBAN sentries with the materal banned from all urban major urban centers?\n\nThematically speaking, why does strapping a little gun on a squishy drone make it more tanky than a military grade combat mech?",
+      "messages": [
+        {
+          "id": "459140526051164160",
+          "author": "drevoed",
+          "nickname": "Drevoed",
+          "timestamp": "2018-06-21T00:40:31.829+01:00",
+          "content": "Thematically speaking, why Sentinel builds engineers? I can understand Cauteriser and Tesla Coil, even Hellhound coming with a dog master, but Sentinel makes no sense to me."
+        },
+        {
+          "id": "459142782980980739",
+          "author": "mrguy888",
+          "nickname": "mrguy888",
+          "timestamp": "2018-06-21T00:49:29.923+01:00",
+          "content": "```Abandoned by most branches of the military as unnecessary during peacetime, the Conduit employs powerful electrochemical technology to grow crystalline Gaussite—a dangerous, but powerful material that has been banned from all major urban centers on Beacon due to its high levels of toxicity and reactivity.``` \n\nThematically speaking, why do they make URBAN sentries with the materal banned from all urban major urban centers?\n\nThematically speaking, why does strapping a little gun on a squishy drone make it more tanky than a military grade combat mech?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-24T22:36:53.729+01:00",
+      "end_ts": "2018-06-24T22:47:39.339+01:00",
+      "participants": [
+        "cactus_wren",
+        "elyot",
+        "supergreyman"
+      ],
+      "replay_codes": [
+        "ghtly-alter"
+      ],
+      "score": 13,
+      "formatted_text": "--- Thread (7 messages, 2018-06-24) ---\n[2018-06-24 22:36] elyot: @Drevoed Sentinel was just kinda designed as this generic protective unit and we debated between husks and engineers and eventually just went with engineer because it enabled more combos. It's a case of spike winning over melvin/vorthos.\n\n@mrguy888 Yeah the urban sentries don't cost gaussite in the story, but it's implied that some robots might still use gaussite power cells for fuel\n\n@ZzZombo Prismata on Linux is web-only because Adobe doesn't support Stage3D in the Linux version of AIR so we don't have any GPU-accelerated graphics and it runs like shit.\n\n@Miccull If you want to boost people's position on the ladder then that would not be allowed. If you just want to get accounts to higher levels then we wouldn't care. \n\n@UndefeatedOrca Megabrawl was just an event with some slightly-altered parameters. Community members can't really run them.\n\n@Deleted User Campaign all missions done, cutscenes done but still editing, art/etc. 90% done, testing still ongoing. We'll enable public testing in the next few days we think.\n\n@MrNewt Avatars broke for a brief period on saturday because a cat accidentally stepped on the keyboard while we were adding some new custom avatars.\n\n@jonshea Yes, buying from the website gives a code that you can share/send to somebody\n\n@cactus well, you might just be bad. In theory every Prismata set is a theoretical win for p1 or p2 (or a draw), but in practice even the very best players seldom play the best strategy, especially when they're just seeing a set for the first time (and there are almost always lines for both players that challenge/complicate the position). If you think Perforator is too good for one side or the other, you probably just need to try more things (e.g. turn 2 animus)\n[2018-06-24 22:41] cactus_wren (cactus): do the devs play chess?\n[2018-06-24 22:41] cactus_wren (cactus): y'all made a turn based game that's easy to notate and refer to things like \"positions\" and \"complications\"\n[2018-06-24 22:42] cactus_wren (cactus): like as a chess player this game is really easy to grok\n[2018-06-24 22:42] supergreyman (Greyman): Yes, they play chess, as well as Magic, Starcraft, Dominion.\n[2018-06-24 22:42] cactus_wren (cactus): they straight up just fused all 4 of those games didn't they\n[2018-06-24 22:47] cactus_wren (cactus): @Elyot y'all killin it",
+      "messages": [
+        {
+          "id": "460558963746930698",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-24T22:36:53.729+01:00",
+          "content": "@Drevoed Sentinel was just kinda designed as this generic protective unit and we debated between husks and engineers and eventually just went with engineer because it enabled more combos. It's a case of spike winning over melvin/vorthos.\n\n@mrguy888 Yeah the urban sentries don't cost gaussite in the story, but it's implied that some robots might still use gaussite power cells for fuel\n\n@ZzZombo Prismata on Linux is web-only because Adobe doesn't support Stage3D in the Linux version of AIR so we don't have any GPU-accelerated graphics and it runs like shit.\n\n@Miccull If you want to boost people's position on the ladder then that would not be allowed. If you just want to get accounts to higher levels then we wouldn't care. \n\n@UndefeatedOrca Megabrawl was just an event with some slightly-altered parameters. Community members can't really run them.\n\n@Deleted User Campaign all missions done, cutscenes done but still editing, art/etc. 90% done, testing still ongoing. We'll enable public testing in the next few days we think.\n\n@MrNewt Avatars broke for a brief period on saturday because a cat accidentally stepped on the keyboard while we were adding some new custom avatars.\n\n@jonshea Yes, buying from the website gives a code that you can share/send to somebody\n\n@cactus well, you might just be bad. In theory every Prismata set is a theoretical win for p1 or p2 (or a draw), but in practice even the very best players seldom play the best strategy, especially when they're just seeing a set for the first time (and there are almost always lines for both players that challenge/complicate the position). If you think Perforator is too good for one side or the other, you probably just need to try more things (e.g. turn 2 animus)"
+        },
+        {
+          "id": "460560076411764756",
+          "author": "cactus_wren",
+          "nickname": "cactus",
+          "timestamp": "2018-06-24T22:41:19.009+01:00",
+          "content": "do the devs play chess?"
+        },
+        {
+          "id": "460560170938793995",
+          "author": "cactus_wren",
+          "nickname": "cactus",
+          "timestamp": "2018-06-24T22:41:41.546+01:00",
+          "content": "y'all made a turn based game that's easy to notate and refer to things like \"positions\" and \"complications\""
+        },
+        {
+          "id": "460560259329687552",
+          "author": "cactus_wren",
+          "nickname": "cactus",
+          "timestamp": "2018-06-24T22:42:02.62+01:00",
+          "content": "like as a chess player this game is really easy to grok"
+        },
+        {
+          "id": "460560287343575040",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-24T22:42:09.299+01:00",
+          "content": "Yes, they play chess, as well as Magic, Starcraft, Dominion."
+        },
+        {
+          "id": "460560404339359764",
+          "author": "cactus_wren",
+          "nickname": "cactus",
+          "timestamp": "2018-06-24T22:42:37.193+01:00",
+          "content": "they straight up just fused all 4 of those games didn't they"
+        },
+        {
+          "id": "460561671631405056",
+          "author": "cactus_wren",
+          "nickname": "cactus",
+          "timestamp": "2018-06-24T22:47:39.339+01:00",
+          "content": "@Elyot y'all killin it"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-25T00:12:40.6+01:00",
+      "end_ts": "2018-06-25T00:20:16.426+01:00",
+      "participants": [
+        "f300xen",
+        "sorawotobu"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2018-06-25) ---\n[2018-06-25 00:12] f300xen (f0x): Will Mega Drone be clicked with Q?\n[2018-06-25 00:20] sorawotobu: did you read my suggestion about indicating supply in the infopanel? we just had more questions about supply of the new units pop up",
+      "messages": [
+        {
+          "id": "460583067871084544",
+          "author": "f300xen",
+          "nickname": "f0x",
+          "timestamp": "2018-06-25T00:12:40.6+01:00",
+          "content": "Will Mega Drone be clicked with Q?"
+        },
+        {
+          "id": "460584979743899648",
+          "author": "sorawotobu",
+          "nickname": "sorawotobu",
+          "timestamp": "2018-06-25T00:20:16.426+01:00",
+          "content": "did you read my suggestion about indicating supply in the infopanel? we just had more questions about supply of the new units pop up"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-25T03:10:10.136+01:00",
+      "end_ts": "2018-06-25T03:25:12.87+01:00",
+      "participants": [
+        "cactus_wren",
+        "elyot",
+        "shadourow"
+      ],
+      "replay_codes": [],
+      "score": 34,
+      "formatted_text": "--- Thread (8 messages, 2018-06-25) ---\n[2018-06-25 03:10] elyot: @cactus Timex and I were both captains of our respective high school chess teams and I actually met Will for the first time at a chess tournament\n[2018-06-25 03:10] elyot: @f0x mega drone gets Qed\n[2018-06-25 03:11] elyot: @sorawotobu yeah we did, we've thought about it a bit... I basically want a solution that will *not* seem \"informational\"\n[2018-06-25 03:11] elyot: like I don't wanna add yet another thing to infopanels that will make them more complex and harder to read for new players\n[2018-06-25 03:11] elyot: I would rather add some subtle way to tell that new players aren't even aware of\n[2018-06-25 03:17] cactus_wren (cactus): what oppenings do you play\n[2018-06-25 03:17] cactus_wren (cactus): answer correctly or i refund the game\n[2018-06-25 03:25] shadourow (Rando): Troll question in #ask_a_dev :ThinkTank: \nAnd the answer is simple : Elyot obviously plays Elyot animus (DD/A as P1)\n\nEdit : oops, that was about Chess :c",
+      "messages": [
+        {
+          "id": "460627735262396446",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-25T03:10:10.136+01:00",
+          "content": "@cactus Timex and I were both captains of our respective high school chess teams and I actually met Will for the first time at a chess tournament"
+        },
+        {
+          "id": "460627800773099530",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-25T03:10:25.755+01:00",
+          "content": "@f0x mega drone gets Qed"
+        },
+        {
+          "id": "460627997402333189",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-25T03:11:12.635+01:00",
+          "content": "@sorawotobu yeah we did, we've thought about it a bit... I basically want a solution that will *not* seem \"informational\""
+        },
+        {
+          "id": "460628075328045058",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-25T03:11:31.214+01:00",
+          "content": "like I don't wanna add yet another thing to infopanels that will make them more complex and harder to read for new players"
+        },
+        {
+          "id": "460628126381375493",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-25T03:11:43.386+01:00",
+          "content": "I would rather add some subtle way to tell that new players aren't even aware of"
+        },
+        {
+          "id": "460629577392324608",
+          "author": "cactus_wren",
+          "nickname": "cactus",
+          "timestamp": "2018-06-25T03:17:29.334+01:00",
+          "content": "what oppenings do you play"
+        },
+        {
+          "id": "460629608014938112",
+          "author": "cactus_wren",
+          "nickname": "cactus",
+          "timestamp": "2018-06-25T03:17:36.635+01:00",
+          "content": "answer correctly or i refund the game"
+        },
+        {
+          "id": "460631521603223553",
+          "author": "shadourow",
+          "nickname": "Rando",
+          "timestamp": "2018-06-25T03:25:12.87+01:00",
+          "content": "Troll question in #ask_a_dev :ThinkTank: \nAnd the answer is simple : Elyot obviously plays Elyot animus (DD/A as P1)\n\nEdit : oops, that was about Chess :c"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-25T03:53:54.268+01:00",
+      "end_ts": "2018-06-25T03:55:18.827+01:00",
+      "participants": [
+        "cactus_wren",
+        "elyot"
+      ],
+      "replay_codes": [
+        "nimzo-india"
+      ],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2018-06-25) ---\n[2018-06-25 03:53] elyot: @cactus as white usually Nf3 into reti or reverse sicilian, as black usually sicilian or nimzo-indian or petrov when I'm seeking draw\n[2018-06-25 03:55] cactus_wren (cactus): the correct answer is 1.e4 2.Ke2",
+      "messages": [
+        {
+          "id": "460638741669740544",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-25T03:53:54.268+01:00",
+          "content": "@cactus as white usually Nf3 into reti or reverse sicilian, as black usually sicilian or nimzo-indian or petrov when I'm seeking draw"
+        },
+        {
+          "id": "460639096335761430",
+          "author": "cactus_wren",
+          "nickname": "cactus",
+          "timestamp": "2018-06-25T03:55:18.827+01:00",
+          "content": "the correct answer is 1.e4 2.Ke2"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-25T09:08:59.544+01:00",
+      "end_ts": "2018-06-25T09:08:59.544+01:00",
+      "participants": [
+        "ruinedshadows"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-25) ---\n[2018-06-25 09:08] ruinedshadows: can the unit panel for valk be updated to have a full description of exhaust that applies to the barriers rather than just the symbol like is done for other exhaust units (wincer, immolites, etc.). Some new players have been confused since barriers are prompt and I think having the full sentence in parentheses will help with this rather than just the symbol.",
+      "messages": [
+        {
+          "id": "460718036144488448",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2018-06-25T09:08:59.544+01:00",
+          "content": "can the unit panel for valk be updated to have a full description of exhaust that applies to the barriers rather than just the symbol like is done for other exhaust units (wincer, immolites, etc.). Some new players have been confused since barriers are prompt and I think having the full sentence in parentheses will help with this rather than just the symbol."
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-25T16:43:13.506+01:00",
+      "end_ts": "2018-06-25T16:43:13.506+01:00",
+      "participants": [
+        "supergreyman"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2018-06-25) ---\n[2018-06-25 16:43] supergreyman (Greyman): Photonic Fibroid is fragile which is a meaningless keyword (since it gets sacrificed next turn) and only clutters the infopanel. Don't you want to unclutter the infopanel, like how you did for Savior? If it's for flavor only, why isn't Plexo Cell cluttered?",
+      "messages": [
+        {
+          "id": "460832347546189839",
+          "author": "supergreyman",
+          "nickname": "Greyman",
+          "timestamp": "2018-06-25T16:43:13.506+01:00",
+          "content": "Photonic Fibroid is fragile which is a meaningless keyword (since it gets sacrificed next turn) and only clutters the infopanel. Don't you want to unclutter the infopanel, like how you did for Savior? If it's for flavor only, why isn't Plexo Cell cluttered?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-26T08:35:54.486+01:00",
+      "end_ts": "2018-06-26T08:35:54.486+01:00",
+      "participants": [
+        "crash_overlord"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2018-06-26) ---\n[2018-06-26 08:35] crash_overlord: Can we have an Egg turbine skins 🙏 🥚 :EGGERS:",
+      "messages": [
+        {
+          "id": "461072098073509889",
+          "author": "crash_overlord",
+          "nickname": "Crash_overlord",
+          "timestamp": "2018-06-26T08:35:54.486+01:00",
+          "content": "Can we have an Egg turbine skins 🙏 🥚 :EGGERS:"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-26T23:53:13.482+01:00",
+      "end_ts": "2018-06-26T23:56:43.772+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 24,
+      "formatted_text": "--- Thread (4 messages, 2018-06-26) ---\n[2018-06-26 23:53] elyot: @ruinedshadows Yes, we're adding a tip for valk\n@killeroid356 It depends which game development discipline you mean and which type of game you're working on... somebody doing writing for an interactive narrative game requires a completely different skillset from somebody doing combat design for an RPG or art for a fighting game\n[2018-06-26 23:54] elyot: @Arkanishu which post? My mods are usually not nazis but reddit has some auto-mod stuff that can sometimes kick in\n[2018-06-26 23:56] elyot: @niilzon ep3 announcement is forthcoming, we might do what we did last time where we put a password on it for a few days\n[2018-06-26 23:56] elyot: or maybe we'll just silently enable it 😛",
+      "messages": [
+        {
+          "id": "461302948354588682",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-26T23:53:13.482+01:00",
+          "content": "@ruinedshadows Yes, we're adding a tip for valk\n@killeroid356 It depends which game development discipline you mean and which type of game you're working on... somebody doing writing for an interactive narrative game requires a completely different skillset from somebody doing combat design for an RPG or art for a fighting game"
+        },
+        {
+          "id": "461303150322647064",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-26T23:54:01.635+01:00",
+          "content": "@Arkanishu which post? My mods are usually not nazis but reddit has some auto-mod stuff that can sometimes kick in"
+        },
+        {
+          "id": "461303769670484007",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-26T23:56:29.299+01:00",
+          "content": "@niilzon ep3 announcement is forthcoming, we might do what we did last time where we put a password on it for a few days"
+        },
+        {
+          "id": "461303830374776853",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-26T23:56:43.772+01:00",
+          "content": "or maybe we'll just silently enable it 😛"
+        }
+      ]
+    },
+    {
+      "start_ts": "2018-06-28T08:44:04.289+01:00",
+      "end_ts": "2018-06-28T08:44:20.438+01:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 11,
+      "formatted_text": "--- Thread (2 messages, 2018-06-28) ---\n[2018-06-28 08:44] elyot: @Plato regarding high score, is there a reason for that suggestion? We don't really feel that it's necessary to add more difficulty and we like that 30 turns enables the easter egg\n[2018-06-28 08:44] elyot: regarding tandem... uhhhhhh that might be a bug lol",
+      "messages": [
+        {
+          "id": "461798928187260929",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-28T08:44:04.289+01:00",
+          "content": "@Plato regarding high score, is there a reason for that suggestion? We don't really feel that it's necessary to add more difficulty and we like that 30 turns enables the easter egg"
+        },
+        {
+          "id": "461798995921207316",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2018-06-28T08:44:20.438+01:00",
+          "content": "regarding tandem... uhhhhhh that might be a bug lol"
+        }
+      ]
+    }
+  ]
+}

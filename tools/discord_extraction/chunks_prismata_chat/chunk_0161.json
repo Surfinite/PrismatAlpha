@@ -1,0 +1,3506 @@
+{
+  "channel": "prismata_chat",
+  "date_range": "2023-03-20 to 2023-04-03",
+  "thread_count": 46,
+  "token_count": 14928,
+  "threads": [
+    {
+      "start_ts": "2023-03-20T16:06:47.76+00:00",
+      "end_ts": "2023-03-20T16:24:01.537+00:00",
+      "participants": [
+        "lyra1712",
+        "ruinedshadows",
+        "silentslayers",
+        "spiritfryer",
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 91,
+      "formatted_text": "--- Thread (50 messages, 2023-03-20) ---\n[2023-03-20 16:06] lyra1712 (Lyra): i love spreadsheets, you crunsh the numbers, then throw them away and go with your guts\n[2023-03-20 16:07] silentslayers: Speak for yourself madge\n[2023-03-20 16:07] steel0229e (Steel): the best use case is to be a virtual assistant and throw random numbers at people while they are hanging out on voice\n[2023-03-20 16:07] silentslayers: So anytime I buy a tech building, I try and think about how much value it gives me per turn. So, if I buy a conduit, I would like to at least make 4 back at some point\n[2023-03-20 16:08] silentslayers: engineer makes 1.64 value\n[2023-03-20 16:08] silentslayers: so the delta is Conduit costs 4 and gives ? value\n[2023-03-20 16:08] silentslayers: and 2 engis gives 3.28\n[2023-03-20 16:08] lyra1712 (Lyra): what if we assume C buys F forever\n[2023-03-20 16:09] lyra1712 (Lyra): although unrealistic, i think the maths should come out in favor of C in this case ?\n[2023-03-20 16:09] silentslayers: So basically u need a number of forcefields to make back the 3.28 engis make\n[2023-03-20 16:10] steel0229e (Steel): at r=1.4 f is already equal to double ee\n[2023-03-20 16:10] silentslayers: this F is costing a green\n[2023-03-20 16:10] silentslayers: but you can subtract that right\n[2023-03-20 16:10] lyra1712 (Lyra): (also assume you don't rebuy the drones you lose)\n[2023-03-20 16:10] silentslayers: So you make like 1.1 per turn\n[2023-03-20 16:11] silentslayers: i guess its good in like 3 turns, not bad\n[2023-03-20 16:11] silentslayers: i have inflation high atm\n[2023-03-20 16:13] lyra1712 (Lyra): tldr, if you think you're gonna F 3 times with it (and not get fked over for some other reason), C is decent ?\n[2023-03-20 16:13] ruinedshadows: nah fab OP, always a buy, just ask Flop about our game yesterday\n[2023-03-20 16:13] silentslayers: better than i thought\n[2023-03-20 16:13] lyra1712 (Lyra): that makes intuitive sense to me\n[2023-03-20 16:13] silentslayers: i pepegaed earlier when i analyzed\n[2023-03-20 16:13] silentslayers: this time i did it right\n[2023-03-20 16:14] lyra1712 (Lyra): keeping in mind we threw away some things that favor engis\n[2023-03-20 16:15] lyra1712 (Lyra): tbf, you'd rather bank green than gold, if say you are defending against synced isos\n[2023-03-20 16:15] silentslayers: yea i know what u mean tho\n[2023-03-20 16:16] silentslayers: tbf i think those engis should just be valued at 2*b and not 2\\*b\\*t tho\n[2023-03-20 16:16] silentslayers: because u dont need them prompt if ur buying them now\n[2023-03-20 16:16] silentslayers: or is that faulty logic, not sure\n[2023-03-20 16:17] silentslayers: maybe just value them at 2\n[2023-03-20 16:17] lyra1712 (Lyra): depends what you're trying to model exactly\n[2023-03-20 16:17] silentslayers: 1.68 makes no sense i think\n[2023-03-20 16:18] silentslayers: Like the force field that you’re getting next turn is randomly getting rewarded for being prompt when the engineers are also prompt\n[2023-03-20 16:18] lyra1712 (Lyra): 2*b\\*t seems like the thing we want, if we're ignoring gran\n[2023-03-20 16:19] lyra1712 (Lyra): ah but, when you're calculating the C value, surely the value is (value_of_F)*t\\*forever\n[2023-03-20 16:19] lyra1712 (Lyra): theres a t in there aswell\n[2023-03-20 16:20] silentslayers: They both cost the same so it’s easier to just look at the 2 benefits they give, and engis benefit is given as a delay, and the f isn’t\n[2023-03-20 16:20] silentslayers: They need to be consistent\n[2023-03-20 16:20] lyra1712 (Lyra): are we comparing Es to F, or Es to C ?\n[2023-03-20 16:21] lyra1712 (Lyra): the benefit of C is also delayed\n[2023-03-20 16:21] silentslayers: Es to F is what I did. I get what you’re saying, though, I could’ve just done it the proper way with C. I kind of short formed It\n[2023-03-20 16:22] lyra1712 (Lyra): surely Es to F favor F alot because it assumes you have access to green if you need it\n[2023-03-20 16:22] lyra1712 (Lyra): Es to C is a more interesting comparison imo\n[2023-03-20 16:22] silentslayers: If I just did my way properly, with that one difference, I pointed out, they will come out the same\n[2023-03-20 16:22] spiritfryer (Spyrfyr): Are you floating the F gold?\n[2023-03-20 16:22] spiritfryer (Spyrfyr): If you aren't floating the F gold then you must reward its promptness\n[2023-03-20 16:22] lyra1712 (Lyra): like, i don't get to say \"i have some amount of gold, ill use part of it as green\"\n[2023-03-20 16:23] lyra1712 (Lyra): but thats what the calculations usually assume implicitly\n[2023-03-20 16:23] silentslayers: I think we probably all understand it the same way, it’s just something hard to explain\n[2023-03-20 16:24] silentslayers: I wasn’t really clear with my screenshots or explanation either probably",
+      "messages": [
+        {
+          "id": "1087406898980065402",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:06:47.76+00:00",
+          "content": "i love spreadsheets, you crunsh the numbers, then throw them away and go with your guts"
+        },
+        {
+          "id": "1087407017108459671",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:07:15.924+00:00",
+          "content": "Speak for yourself madge"
+        },
+        {
+          "id": "1087407149090615416",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-20T16:07:47.391+00:00",
+          "content": "the best use case is to be a virtual assistant and throw random numbers at people while they are hanging out on voice"
+        },
+        {
+          "id": "1087407182909288468",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:07:55.454+00:00",
+          "content": "So anytime I buy a tech building, I try and think about how much value it gives me per turn. So, if I buy a conduit, I would like to at least make 4 back at some point"
+        },
+        {
+          "id": "1087407301238984854",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:08:23.666+00:00",
+          "content": "engineer makes 1.64 value"
+        },
+        {
+          "id": "1087407343425294376",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:08:33.724+00:00",
+          "content": "so the delta is Conduit costs 4 and gives ? value"
+        },
+        {
+          "id": "1087407363063033927",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:08:38.406+00:00",
+          "content": "and 2 engis gives 3.28"
+        },
+        {
+          "id": "1087407422936719380",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:08:52.681+00:00",
+          "content": "what if we assume C buys F forever"
+        },
+        {
+          "id": "1087407587542171689",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:09:31.926+00:00",
+          "content": "although unrealistic, i think the maths should come out in favor of C in this case ?"
+        },
+        {
+          "id": "1087407667489800192",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:09:50.987+00:00",
+          "content": "So basically u need a number of forcefields to make back the 3.28 engis make"
+        },
+        {
+          "id": "1087407756656508948",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-20T16:10:12.246+00:00",
+          "content": "at r=1.4 f is already equal to double ee"
+        },
+        {
+          "id": "1087407769935675463",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:10:15.412+00:00",
+          "content": "this F is costing a green"
+        },
+        {
+          "id": "1087407784443785297",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:10:18.871+00:00",
+          "content": "but you can subtract that right"
+        },
+        {
+          "id": "1087407869047099553",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:10:39.042+00:00",
+          "content": "(also assume you don't rebuy the drones you lose)"
+        },
+        {
+          "id": "1087407936101425264",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:10:55.029+00:00",
+          "content": "So you make like 1.1 per turn"
+        },
+        {
+          "id": "1087407970712821932",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:11:03.281+00:00",
+          "content": "i guess its good in like 3 turns, not bad"
+        },
+        {
+          "id": "1087408041038708756",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:11:20.048+00:00",
+          "content": "i have inflation high atm"
+        },
+        {
+          "id": "1087408482506002593",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:13:05.302+00:00",
+          "content": "tldr, if you think you're gonna F 3 times with it (and not get fked over for some other reason), C is decent ?"
+        },
+        {
+          "id": "1087408496074575944",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:13:08.537+00:00",
+          "content": "nah fab OP, always a buy, just ask Flop about our game yesterday"
+        },
+        {
+          "id": "1087408614068736111",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:13:36.669+00:00",
+          "content": "better than i thought"
+        },
+        {
+          "id": "1087408634281078815",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:13:41.488+00:00",
+          "content": "that makes intuitive sense to me"
+        },
+        {
+          "id": "1087408675330723901",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:13:51.275+00:00",
+          "content": "i pepegaed earlier when i analyzed"
+        },
+        {
+          "id": "1087408696407105597",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:13:56.3+00:00",
+          "content": "this time i did it right"
+        },
+        {
+          "id": "1087408744406720613",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:14:07.744+00:00",
+          "content": "keeping in mind we threw away some things that favor engis"
+        },
+        {
+          "id": "1087408969477271612",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:15:01.405+00:00",
+          "content": "tbf, you'd rather bank green than gold, if say you are defending against synced isos"
+        },
+        {
+          "id": "1087409039069171834",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:15:17.997+00:00",
+          "content": "yea i know what u mean tho"
+        },
+        {
+          "id": "1087409339410686032",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:16:29.604+00:00",
+          "content": "tbf i think those engis should just be valued at 2*b and not 2\\*b\\*t tho"
+        },
+        {
+          "id": "1087409403172487299",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:16:44.806+00:00",
+          "content": "because u dont need them prompt if ur buying them now"
+        },
+        {
+          "id": "1087409452099051621",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:16:56.471+00:00",
+          "content": "or is that faulty logic, not sure"
+        },
+        {
+          "id": "1087409509359693955",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:17:10.123+00:00",
+          "content": "maybe just value them at 2"
+        },
+        {
+          "id": "1087409512027263047",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:17:10.759+00:00",
+          "content": "depends what you're trying to model exactly"
+        },
+        {
+          "id": "1087409547544641567",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:17:19.227+00:00",
+          "content": "1.68 makes no sense i think"
+        },
+        {
+          "id": "1087409891867631666",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:18:41.32+00:00",
+          "content": "Like the force field that you’re getting next turn is randomly getting rewarded for being prompt when the engineers are also prompt"
+        },
+        {
+          "id": "1087409896150024244",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:18:42.341+00:00",
+          "content": "2*b\\*t seems like the thing we want, if we're ignoring gran"
+        },
+        {
+          "id": "1087410036197818498",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:19:15.731+00:00",
+          "content": "ah but, when you're calculating the C value, surely the value is (value_of_F)*t\\*forever"
+        },
+        {
+          "id": "1087410096134443058",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:19:30.021+00:00",
+          "content": "theres a t in there aswell"
+        },
+        {
+          "id": "1087410319145586758",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:20:23.191+00:00",
+          "content": "They both cost the same so it’s easier to just look at the 2 benefits they give, and engis benefit is given as a delay, and the f isn’t"
+        },
+        {
+          "id": "1087410337403371621",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:20:27.544+00:00",
+          "content": "They need to be consistent"
+        },
+        {
+          "id": "1087410440679727205",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:20:52.167+00:00",
+          "content": "are we comparing Es to F, or Es to C ?"
+        },
+        {
+          "id": "1087410487727235107",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:21:03.384+00:00",
+          "content": "the benefit of C is also delayed"
+        },
+        {
+          "id": "1087410585496461382",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:21:26.694+00:00",
+          "content": "Es to F is what I did. I get what you’re saying, though, I could’ve just done it the proper way with C. I kind of short formed It"
+        },
+        {
+          "id": "1087410747446927380",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:22:05.306+00:00",
+          "content": "surely Es to F favor F alot because it assumes you have access to green if you need it"
+        },
+        {
+          "id": "1087410820465565746",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:22:22.715+00:00",
+          "content": "Es to C is a more interesting comparison imo"
+        },
+        {
+          "id": "1087410911167397948",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:22:44.34+00:00",
+          "content": "If I just did my way properly, with that one difference, I pointed out, they will come out the same"
+        },
+        {
+          "id": "1087410911553269770",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:22:44.432+00:00",
+          "content": "Are you floating the F gold?"
+        },
+        {
+          "id": "1087410955736064100",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:22:54.966+00:00",
+          "content": "If you aren't floating the F gold then you must reward its promptness"
+        },
+        {
+          "id": "1087410969770213446",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:22:58.312+00:00",
+          "content": "like, i don't get to say \"i have some amount of gold, ill use part of it as green\""
+        },
+        {
+          "id": "1087411055472423078",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:23:18.745+00:00",
+          "content": "but thats what the calculations usually assume implicitly"
+        },
+        {
+          "id": "1087411172778717244",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:23:46.713+00:00",
+          "content": "I think we probably all understand it the same way, it’s just something hard to explain"
+        },
+        {
+          "id": "1087411234955075664",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:24:01.537+00:00",
+          "content": "I wasn’t really clear with my screenshots or explanation either probably"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-20T16:24:29.849+00:00",
+      "end_ts": "2023-03-20T16:36:24.772+00:00",
+      "participants": [
+        "lyra1712",
+        "ruinedshadows",
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 120,
+      "formatted_text": "--- Thread (50 messages, 2023-03-20) ---\n[2023-03-20 16:24] lyra1712 (Lyra): the initial discussion was about C that buys Fs, instead of EE\n[2023-03-20 16:24] lyra1712 (Lyra): asking about F vs Es in a vacuum doesn't answer that\n[2023-03-20 16:24] lyra1712 (Lyra): at least not straightforwadly\n[2023-03-20 16:25] lyra1712 (Lyra): (possibly im just confused about those calculations tbf)\n[2023-03-20 16:25] silentslayers: Yes, I think so, it’s my fault though. I will try doing it your way verbatim though. Hopefully works\n[2023-03-20 16:26] spiritfryer (Spyrfyr): Delta of E vs F tells us how many times we need to do the F vs E to breakeven with the C investment no?\n[2023-03-20 16:26] lyra1712 (Lyra): maybe your way turns out the same as mine, at least if done correctly the 2 results should be the same ?\n[2023-03-20 16:26] spiritfryer (Spyrfyr): well, with 1 green per turn as free\n[2023-03-20 16:27] spiritfryer (Spyrfyr): if you have 6 gold to spend on engis now\n[2023-03-20 16:27] spiritfryer (Spyrfyr): you can't use the calculation of 1 C\n[2023-03-20 16:27] spiritfryer (Spyrfyr): because it won't give you X green to do the F vs E X times\n[2023-03-20 16:27] silentslayers: yeah thats what ive been saying\n[2023-03-20 16:27] silentslayers: but i think my way had an innacuracy\n[2023-03-20 16:27] silentslayers: that i pointed out above\n[2023-03-20 16:28] silentslayers: with the timing of the F vs E\n[2023-03-20 16:28] silentslayers: will still try the verbatim\n[2023-03-20 16:28] silentslayers: like C that buys f forever\n[2023-03-20 16:28] spiritfryer (Spyrfyr): also there's some discrete issues\n[2023-03-20 16:28] spiritfryer (Spyrfyr): like F forever means 4 gold to C now, and 1 gold per turn to F forever\n[2023-03-20 16:28] lyra1712 (Lyra): discreteness is fake news, we're in math territory here\n[2023-03-20 16:28] spiritfryer (Spyrfyr): but the E version is 2E now (4 gold) and E forever is E every 2 turns (to match the 1 gold per turn of F)\n[2023-03-20 16:28] silentslayers: I don’t really care about that yea\n[2023-03-20 16:29] spiritfryer (Spyrfyr): or do you just assume half an engi per turn?\n[2023-03-20 16:29] spiritfryer (Spyrfyr): surely that leads to inaccuracy when applied in practice\n[2023-03-20 16:30] lyra1712 (Lyra): continuous prismata is what we need, i wanna gambit for e-sqrt(2) pls\n[2023-03-20 16:31] spiritfryer (Spyrfyr): how difficult would cPrismata be to solve?\n[2023-03-20 16:31] lyra1712 (Lyra): about 90-93% of the difficulty is already there in discrete mata\n[2023-03-20 16:32] spiritfryer (Spyrfyr): I woulda thunk it'd be easier than dPrismata\n[2023-03-20 16:32] silentslayers: look at cost and benefit\n[2023-03-20 16:32] spiritfryer (Spyrfyr): cos in cMata you can actually use maths without complication (presumably?)\n[2023-03-20 16:32] silentslayers: Conduit makes 2 more value\n[2023-03-20 16:32] silentslayers: ill post my formulae\n[2023-03-20 16:33] lyra1712 (Lyra): that doesn't sound right ?\n[2023-03-20 16:33] spiritfryer (Spyrfyr): is the minus the drone loss?\n[2023-03-20 16:34] silentslayers: t^2 because u dont really lose the drone until 2 turns after you buy the C\n[2023-03-20 16:34] ruinedshadows: do these calculations serve as a baseline comparison between units? which you then modify based on situational factors while in game? so you can use them as a heuristic? or is this more just a math exercise that's less relevant in actual games?\n[2023-03-20 16:34] silentslayers: yes RS to all of the above\n[2023-03-20 16:35] silentslayers: its relevant and also not relevant\n[2023-03-20 16:35] spiritfryer (Spyrfyr): btw what's with the negative efficiencies\n[2023-03-20 16:35] spiritfryer (Spyrfyr): Relevant. NoRelevant.\n[2023-03-20 16:35] spiritfryer (Spyrfyr): what's in the 2 engi calc?\n[2023-03-20 16:35] spiritfryer (Spyrfyr): just 2 engis and that's it?\n[2023-03-20 16:35] spiritfryer (Spyrfyr): no engi per 2 turns?\n[2023-03-20 16:35] spiritfryer (Spyrfyr): also the engi line doesn't lose drones\n[2023-03-20 16:36] ruinedshadows: is the engi producing energy relevant? or is this a discussion where, since you are comparing buying engis for defense vs force fields, you probably are past the point of caring about energy?\n[2023-03-20 16:36] spiritfryer (Spyrfyr): the engi line must hold drones\n[2023-03-20 16:36] silentslayers: oh maybe order of operations is fucking the energy there lawl\n[2023-03-20 16:36] spiritfryer (Spyrfyr): to achieve the same defense\n[2023-03-20 16:36] ruinedshadows: also how do you account for differences in granularity? doesn't that add some value to engis theoretically?\n[2023-03-20 16:36] spiritfryer (Spyrfyr): you need to add drone holds in the engi line to match same defense as C for F",
+      "messages": [
+        {
+          "id": "1087411353704214570",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:24:29.849+00:00",
+          "content": "the initial discussion was about C that buys Fs, instead of EE"
+        },
+        {
+          "id": "1087411408637010001",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:24:42.946+00:00",
+          "content": "asking about F vs Es in a vacuum doesn't answer that"
+        },
+        {
+          "id": "1087411452769484831",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:24:53.468+00:00",
+          "content": "at least not straightforwadly"
+        },
+        {
+          "id": "1087411573829664799",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:25:22.331+00:00",
+          "content": "(possibly im just confused about those calculations tbf)"
+        },
+        {
+          "id": "1087411701672067153",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:25:52.811+00:00",
+          "content": "Yes, I think so, it’s my fault though. I will try doing it your way verbatim though. Hopefully works"
+        },
+        {
+          "id": "1087411735272640592",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:26:00.822+00:00",
+          "content": "Delta of E vs F tells us how many times we need to do the F vs E to breakeven with the C investment no?"
+        },
+        {
+          "id": "1087411920694415480",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:26:45.03+00:00",
+          "content": "maybe your way turns out the same as mine, at least if done correctly the 2 results should be the same ?"
+        },
+        {
+          "id": "1087411931045957642",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:26:47.498+00:00",
+          "content": "well, with 1 green per turn as free"
+        },
+        {
+          "id": "1087411994275086486",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:27:02.573+00:00",
+          "content": "if you have 6 gold to spend on engis now"
+        },
+        {
+          "id": "1087412015447937124",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:27:07.621+00:00",
+          "content": "you can't use the calculation of 1 C"
+        },
+        {
+          "id": "1087412062554177678",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:27:18.852+00:00",
+          "content": "because it won't give you X green to do the F vs E X times"
+        },
+        {
+          "id": "1087412152912064562",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:27:40.395+00:00",
+          "content": "yeah thats what ive been saying"
+        },
+        {
+          "id": "1087412211821068418",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:27:54.44+00:00",
+          "content": "but i think my way had an innacuracy"
+        },
+        {
+          "id": "1087412230976446514",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:27:59.007+00:00",
+          "content": "that i pointed out above"
+        },
+        {
+          "id": "1087412258042302464",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:28:05.46+00:00",
+          "content": "with the timing of the F vs E"
+        },
+        {
+          "id": "1087412318981333012",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:28:19.989+00:00",
+          "content": "will still try the verbatim"
+        },
+        {
+          "id": "1087412346135261294",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:28:26.463+00:00",
+          "content": "like C that buys f forever"
+        },
+        {
+          "id": "1087412389277868074",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:28:36.749+00:00",
+          "content": "also there's some discrete issues"
+        },
+        {
+          "id": "1087412433347416134",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:28:47.256+00:00",
+          "content": "like F forever means 4 gold to C now, and 1 gold per turn to F forever"
+        },
+        {
+          "id": "1087412446332985433",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:28:50.352+00:00",
+          "content": "discreteness is fake news, we're in math territory here"
+        },
+        {
+          "id": "1087412465945559294",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:28:55.028+00:00",
+          "content": "but the E version is 2E now (4 gold) and E forever is E every 2 turns (to match the 1 gold per turn of F)"
+        },
+        {
+          "id": "1087412467661021255",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:28:55.437+00:00",
+          "content": "I don’t really care about that yea"
+        },
+        {
+          "id": "1087412693754990623",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:29:49.342+00:00",
+          "content": "or do you just assume half an engi per turn?"
+        },
+        {
+          "id": "1087412736411062382",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:29:59.512+00:00",
+          "content": "surely that leads to inaccuracy when applied in practice"
+        },
+        {
+          "id": "1087412807231864832",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:30:16.397+00:00",
+          "content": "continuous prismata is what we need, i wanna gambit for e-sqrt(2) pls"
+        },
+        {
+          "id": "1087413032323391498",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:31:10.063+00:00",
+          "content": "how difficult would cPrismata be to solve?"
+        },
+        {
+          "id": "1087413217267036260",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:31:54.157+00:00",
+          "content": "about 90-93% of the difficulty is already there in discrete mata"
+        },
+        {
+          "id": "1087413314805583912",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:32:17.412+00:00",
+          "content": "I woulda thunk it'd be easier than dPrismata"
+        },
+        {
+          "id": "1087413410968391771",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:32:40.339+00:00",
+          "content": "look at cost and benefit"
+        },
+        {
+          "id": "1087413413153607801",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:32:40.86+00:00",
+          "content": "cos in cMata you can actually use maths without complication (presumably?)"
+        },
+        {
+          "id": "1087413435177910272",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:32:46.111+00:00",
+          "content": "Conduit makes 2 more value"
+        },
+        {
+          "id": "1087413492291751977",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:32:59.728+00:00",
+          "content": "ill post my formulae"
+        },
+        {
+          "id": "1087413709443440682",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:33:51.501+00:00",
+          "content": "that doesn't sound right ?"
+        },
+        {
+          "id": "1087413717165146202",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:33:53.342+00:00",
+          "content": "is the minus the drone loss?"
+        },
+        {
+          "id": "1087413748865716284",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:34:00.9+00:00",
+          "content": "t^2 because u dont really lose the drone until 2 turns after you buy the C"
+        },
+        {
+          "id": "1087413909658550342",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:34:39.236+00:00",
+          "content": "do these calculations serve as a baseline comparison between units? which you then modify based on situational factors while in game? so you can use them as a heuristic? or is this more just a math exercise that's less relevant in actual games?"
+        },
+        {
+          "id": "1087413952750821437",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:34:49.51+00:00",
+          "content": "yes RS to all of the above"
+        },
+        {
+          "id": "1087414000637198369",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:35:00.927+00:00",
+          "content": "its relevant and also not relevant"
+        },
+        {
+          "id": "1087414014721671229",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:35:04.285+00:00",
+          "content": "btw what's with the negative efficiencies"
+        },
+        {
+          "id": "1087414049794441306",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:35:12.647+00:00",
+          "content": "Relevant. NoRelevant."
+        },
+        {
+          "id": "1087414153393750066",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:35:37.347+00:00",
+          "content": "what's in the 2 engi calc?"
+        },
+        {
+          "id": "1087414173325086880",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:35:42.099+00:00",
+          "content": "just 2 engis and that's it?"
+        },
+        {
+          "id": "1087414191499006033",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:35:46.432+00:00",
+          "content": "no engi per 2 turns?"
+        },
+        {
+          "id": "1087414244796026972",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:35:59.139+00:00",
+          "content": "also the engi line doesn't lose drones"
+        },
+        {
+          "id": "1087414253918638080",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:36:01.314+00:00",
+          "content": "is the engi producing energy relevant? or is this a discussion where, since you are comparing buying engis for defense vs force fields, you probably are past the point of caring about energy?"
+        },
+        {
+          "id": "1087414278769881088",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:36:07.239+00:00",
+          "content": "the engi line must hold drones"
+        },
+        {
+          "id": "1087414289540857877",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:36:09.807+00:00",
+          "content": "oh maybe order of operations is fucking the energy there lawl"
+        },
+        {
+          "id": "1087414299032567838",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:36:12.07+00:00",
+          "content": "to achieve the same defense"
+        },
+        {
+          "id": "1087414344121335868",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:36:22.82+00:00",
+          "content": "also how do you account for differences in granularity? doesn't that add some value to engis theoretically?"
+        },
+        {
+          "id": "1087414352308600952",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:36:24.772+00:00",
+          "content": "you need to add drone holds in the engi line to match same defense as C for F"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-20T16:36:35.134+00:00",
+      "end_ts": "2023-03-20T16:53:39.739+00:00",
+      "participants": [
+        "lyra1712",
+        "ruinedshadows",
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 97,
+      "formatted_text": "--- Thread (50 messages, 2023-03-20) ---\n[2023-03-20 16:36] silentslayers: but u just ignore it\n[2023-03-20 16:36] lyra1712 (Lyra): i think i agree with the formulae, but have no idea what to infer from the results\n[2023-03-20 16:36] silentslayers: you infer C makes value over time\n[2023-03-20 16:37] silentslayers: like our first result\n[2023-03-20 16:37] silentslayers: (although i messed up my first result a bit)\n[2023-03-20 16:37] silentslayers: i know im a troll lyra\n[2023-03-20 16:38] ruinedshadows: is this somewhere in the \"Prismata unit efficiency\" spreadsheet?\n[2023-03-20 16:38] lyra1712 (Lyra): do the maths -> get unusable results -> ??? -> make up an explanation of what you already knew using the results\n[2023-03-20 16:38] silentslayers: I made my own copy and added this rs\n[2023-03-20 16:38] ruinedshadows: also, Colossus is not listed under the \"Soak\" tab of that spreadsheet 😠\n[2023-03-20 16:39] silentslayers: when in doubt inflation blah blah\n[2023-03-20 16:39] lyra1712 (Lyra): neither is conduit, very relevant in zemora bp\n[2023-03-20 16:40] silentslayers: but yeah its like 3-4 F i'd say lyra\n[2023-03-20 16:40] silentslayers: cause i made engis seem worse than they are\n[2023-03-20 16:40] lyra1712 (Lyra): how do you get that from there\n[2023-03-20 16:41] ruinedshadows: if e is set to 0 in this spreadsheet, then is it not used? isn't a 0 factor going to be rough to deal with? should it be 1 or something since we're multiplying mostly?\n[2023-03-20 16:41] ruinedshadows: or is energy generally not really looked at in any calculations\n[2023-03-20 16:42] silentslayers: 2\\*b\\*t + 2\\*b\\*t^2 + 2\\*b\\*t^3 + 2\\*b\\*t^4\n\ninstead of\n\n2\\*b\\*t\\*f\n[2023-03-20 16:42] silentslayers: if i wanna see 4 force fields\n[2023-03-20 16:42] lyra1712 (Lyra): sure, but i assume it wouldnt be a big deal\n[2023-03-20 16:42] silentslayers: Energy is pretty relevant when you look at buying drones to infinity\n[2023-03-20 16:42] lyra1712 (Lyra): like, 3 turns is almost forever already\n[2023-03-20 16:42] silentslayers: Wild drone is actually the best drone in the game towards infinity\n[2023-03-20 16:43] ruinedshadows: lol just realized the first sheet answers nearly all the questions I've asked so far, I'll just shut up now until I have an actually relevant question haha\n[2023-03-20 16:43] lyra1712 (Lyra): what im reading is benefit/cost is worse for C, even when we use forever, so i don't get how it gets better over time 🤔\n[2023-03-20 16:44] silentslayers: equalish value at 3 forcefields\n[2023-03-20 16:44] lyra1712 (Lyra): surely it's even worse when we stop at 3-4 turns\n[2023-03-20 16:44] lyra1712 (Lyra): oh, last column is value, not benefit !\n[2023-03-20 16:45] lyra1712 (Lyra): now that makes sense\n[2023-03-20 16:45] lyra1712 (Lyra): at least i think it does\n[2023-03-20 16:45] silentslayers: gains another 0.5 value\n[2023-03-20 16:45] silentslayers: nice profit at that point\n[2023-03-20 16:45] spiritfryer (Spyrfyr): Doesn't it go like this?\n\n```C for F:\n0. -4 gold to C  (-4 gold total)\n1. -1 gold, -1 drone to F = 2 defense (-5 gold, -1 drone total)\n2. -1 gold, -1 drone to F = 2 defense (-6 gold, -2 drones total)\n3. -1 gold, -1 drone to F = 2 defense (-7 gold, -3 drones total)\n4. -1 gold, -1 drone to F = 2 defense (-8 gold, -4 drones total)\n5. -1 gold, -1 drone to F = 2 defense (-9 gold, -5 drones total)\n```\n\n```Es:\n0. -4 gold to EE (-4 gold total)\n1. 2 defense, no F to buy = +1 gold. No drone loss = +1 gold next turn (-3 gold total)\n2. 0 defense, so hold 2 drones for 2 defense = -2 gold. But we had +1 last turn, and +1 this turn, so paid for (-4 gold, -2 drones total)\n3. 0 defense, so hold 2 drones for 2 defense = -2 gold. (-6 gold, -4 drones total)\n4. 0 defense, so hold 2 drones for 2 defense = -2 gold. (-8 gold, -6 drones total)\n5. 0 defense, so hold 2 drones for 2 defense = -2 gold. (-10 gold, -8 drones total)\n```\n[2023-03-20 16:46] silentslayers: if ur holding drones everything changes\n[2023-03-20 16:47] silentslayers: C is the best unit in game (kinda kappa) when u hold drones\n[2023-03-20 16:47] spiritfryer (Spyrfyr): how else would it be a fair comparison\n[2023-03-20 16:47] spiritfryer (Spyrfyr): if the E line doesn't match the C line's defense\n[2023-03-20 16:47] lyra1712 (Lyra): you'd assume something like buy EE every turn\n[2023-03-20 16:47] lyra1712 (Lyra): thats a much fairer comparison\n[2023-03-20 16:47] silentslayers: you assume ur buying whatever you set b to Kappa\n[2023-03-20 16:47] spiritfryer (Spyrfyr): so then you must add to the C line the cheaper cost as a benefit by multiplying the difference by standard roi or something\n[2023-03-20 16:48] silentslayers: I don’t think what i have done is perfect but it’s close enough for me\n[2023-03-20 16:49] lyra1712 (Lyra): not sure what you're trying to do, we have a neat column labeled \"benefit\", nothing else to see :LongNoseLiar:\n[2023-03-20 16:49] spiritfryer (Spyrfyr): I guess also in the EE line you aren't losing drones then, so there's that too\n[2023-03-20 16:50] lyra1712 (Lyra): C -> FD and EE->C is a transposition, so nothing matters in the end\n[2023-03-20 16:50] silentslayers: holy shit the REAL unknown is online\n[2023-03-20 16:51] lyra1712 (Lyra): C kinda commits you to buy C now instead of next turn, whereas EE kinda commits you to buy D next turn\n[2023-03-20 16:52] ruinedshadows: why is vivid drone not on the econ sheet?\n[2023-03-20 16:53] silentslayers: bcuz xnor didnt finish everything\n[2023-03-20 16:53] silentslayers: the template is very valuable",
+      "messages": [
+        {
+          "id": "1087414395769999470",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:36:35.134+00:00",
+          "content": "but u just ignore it"
+        },
+        {
+          "id": "1087414429118906479",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:36:43.085+00:00",
+          "content": "i think i agree with the formulae, but have no idea what to infer from the results"
+        },
+        {
+          "id": "1087414474333507725",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:36:53.865+00:00",
+          "content": "you infer C makes value over time"
+        },
+        {
+          "id": "1087414510517760050",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:37:02.492+00:00",
+          "content": "like our first result"
+        },
+        {
+          "id": "1087414537239666810",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:37:08.863+00:00",
+          "content": "(although i messed up my first result a bit)"
+        },
+        {
+          "id": "1087414592285716551",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:37:21.987+00:00",
+          "content": "i know im a troll lyra"
+        },
+        {
+          "id": "1087414839695130724",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:38:20.974+00:00",
+          "content": "is this somewhere in the \"Prismata unit efficiency\" spreadsheet?"
+        },
+        {
+          "id": "1087414872733655163",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:38:28.851+00:00",
+          "content": "do the maths -> get unusable results -> ??? -> make up an explanation of what you already knew using the results"
+        },
+        {
+          "id": "1087414922494877726",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:38:40.715+00:00",
+          "content": "I made my own copy and added this rs"
+        },
+        {
+          "id": "1087414958532333730",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:38:49.307+00:00",
+          "content": "also, Colossus is not listed under the \"Soak\" tab of that spreadsheet 😠"
+        },
+        {
+          "id": "1087415056423198732",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:39:12.646+00:00",
+          "content": "when in doubt inflation blah blah"
+        },
+        {
+          "id": "1087415069693984921",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:39:15.81+00:00",
+          "content": "neither is conduit, very relevant in zemora bp"
+        },
+        {
+          "id": "1087415421411536947",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:40:39.666+00:00",
+          "content": "but yeah its like 3-4 F i'd say lyra"
+        },
+        {
+          "id": "1087415479657832568",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:40:53.553+00:00",
+          "content": "cause i made engis seem worse than they are"
+        },
+        {
+          "id": "1087415487916425216",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:40:55.522+00:00",
+          "content": "how do you get that from there"
+        },
+        {
+          "id": "1087415641243394119",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:41:32.078+00:00",
+          "content": "if e is set to 0 in this spreadsheet, then is it not used? isn't a 0 factor going to be rough to deal with? should it be 1 or something since we're multiplying mostly?"
+        },
+        {
+          "id": "1087415715893616650",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:41:49.876+00:00",
+          "content": "or is energy generally not really looked at in any calculations"
+        },
+        {
+          "id": "1087415760625860728",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:42:00.541+00:00",
+          "content": "2\\*b\\*t + 2\\*b\\*t^2 + 2\\*b\\*t^3 + 2\\*b\\*t^4\n\ninstead of\n\n2\\*b\\*t\\*f"
+        },
+        {
+          "id": "1087415780745936978",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:42:05.338+00:00",
+          "content": "if i wanna see 4 force fields"
+        },
+        {
+          "id": "1087415851919093871",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:42:22.307+00:00",
+          "content": "sure, but i assume it wouldnt be a big deal"
+        },
+        {
+          "id": "1087415897209184299",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:42:33.105+00:00",
+          "content": "Energy is pretty relevant when you look at buying drones to infinity"
+        },
+        {
+          "id": "1087415905207713944",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:42:35.012+00:00",
+          "content": "like, 3 turns is almost forever already"
+        },
+        {
+          "id": "1087415933561208922",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:42:41.772+00:00",
+          "content": "Wild drone is actually the best drone in the game towards infinity"
+        },
+        {
+          "id": "1087416180739952770",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:43:40.704+00:00",
+          "content": "lol just realized the first sheet answers nearly all the questions I've asked so far, I'll just shut up now until I have an actually relevant question haha"
+        },
+        {
+          "id": "1087416254765219871",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:43:58.353+00:00",
+          "content": "what im reading is benefit/cost is worse for C, even when we use forever, so i don't get how it gets better over time 🤔"
+        },
+        {
+          "id": "1087416354073739385",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:44:22.03+00:00",
+          "content": "equalish value at 3 forcefields"
+        },
+        {
+          "id": "1087416354732257413",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:44:22.187+00:00",
+          "content": "surely it's even worse when we stop at 3-4 turns"
+        },
+        {
+          "id": "1087416437393596476",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:44:41.895+00:00",
+          "content": "oh, last column is value, not benefit !"
+        },
+        {
+          "id": "1087416531945799780",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:45:04.438+00:00",
+          "content": "now that makes sense"
+        },
+        {
+          "id": "1087416582994665512",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:45:16.609+00:00",
+          "content": "at least i think it does"
+        },
+        {
+          "id": "1087416693162250321",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:45:42.875+00:00",
+          "content": "gains another 0.5 value"
+        },
+        {
+          "id": "1087416723780673546",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:45:50.175+00:00",
+          "content": "nice profit at that point"
+        },
+        {
+          "id": "1087416740352360518",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:45:54.126+00:00",
+          "content": "Doesn't it go like this?\n\n```C for F:\n0. -4 gold to C  (-4 gold total)\n1. -1 gold, -1 drone to F = 2 defense (-5 gold, -1 drone total)\n2. -1 gold, -1 drone to F = 2 defense (-6 gold, -2 drones total)\n3. -1 gold, -1 drone to F = 2 defense (-7 gold, -3 drones total)\n4. -1 gold, -1 drone to F = 2 defense (-8 gold, -4 drones total)\n5. -1 gold, -1 drone to F = 2 defense (-9 gold, -5 drones total)\n```\n\n```Es:\n0. -4 gold to EE (-4 gold total)\n1. 2 defense, no F to buy = +1 gold. No drone loss = +1 gold next turn (-3 gold total)\n2. 0 defense, so hold 2 drones for 2 defense = -2 gold. But we had +1 last turn, and +1 this turn, so paid for (-4 gold, -2 drones total)\n3. 0 defense, so hold 2 drones for 2 defense = -2 gold. (-6 gold, -4 drones total)\n4. 0 defense, so hold 2 drones for 2 defense = -2 gold. (-8 gold, -6 drones total)\n5. 0 defense, so hold 2 drones for 2 defense = -2 gold. (-10 gold, -8 drones total)\n```"
+        },
+        {
+          "id": "1087417005117812808",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:46:57.251+00:00",
+          "content": "if ur holding drones everything changes"
+        },
+        {
+          "id": "1087417036260511794",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:47:04.676+00:00",
+          "content": "C is the best unit in game (kinda kappa) when u hold drones"
+        },
+        {
+          "id": "1087417045362147419",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:47:06.846+00:00",
+          "content": "how else would it be a fair comparison"
+        },
+        {
+          "id": "1087417078413271092",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:47:14.726+00:00",
+          "content": "if the E line doesn't match the C line's defense"
+        },
+        {
+          "id": "1087417131194404976",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:47:27.31+00:00",
+          "content": "you'd assume something like buy EE every turn"
+        },
+        {
+          "id": "1087417161666019349",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:47:34.575+00:00",
+          "content": "thats a much fairer comparison"
+        },
+        {
+          "id": "1087417211746001038",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:47:46.515+00:00",
+          "content": "you assume ur buying whatever you set b to Kappa"
+        },
+        {
+          "id": "1087417264795570236",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:47:59.163+00:00",
+          "content": "so then you must add to the C line the cheaper cost as a benefit by multiplying the difference by standard roi or something"
+        },
+        {
+          "id": "1087417454520713226",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:48:44.397+00:00",
+          "content": "I don’t think what i have done is perfect but it’s close enough for me"
+        },
+        {
+          "id": "1087417580240765018",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:49:14.371+00:00",
+          "content": "not sure what you're trying to do, we have a neat column labeled \"benefit\", nothing else to see :LongNoseLiar:"
+        },
+        {
+          "id": "1087417637874716672",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:49:28.112+00:00",
+          "content": "I guess also in the EE line you aren't losing drones then, so there's that too"
+        },
+        {
+          "id": "1087417901709008896",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:50:31.015+00:00",
+          "content": "C -> FD and EE->C is a transposition, so nothing matters in the end"
+        },
+        {
+          "id": "1087417928351236136",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:50:37.367+00:00",
+          "content": "holy shit the REAL unknown is online"
+        },
+        {
+          "id": "1087418185575309424",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:51:38.694+00:00",
+          "content": "C kinda commits you to buy C now instead of next turn, whereas EE kinda commits you to buy D next turn"
+        },
+        {
+          "id": "1087418505722343584",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:52:55.023+00:00",
+          "content": "why is vivid drone not on the econ sheet?"
+        },
+        {
+          "id": "1087418583077883974",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:53:13.466+00:00",
+          "content": "bcuz xnor didnt finish everything"
+        },
+        {
+          "id": "1087418693274845255",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:53:39.739+00:00",
+          "content": "the template is very valuable"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-20T16:53:58.878+00:00",
+      "end_ts": "2023-03-20T17:11:15.285+00:00",
+      "participants": [
+        "awaclus",
+        "lyra1712",
+        "ruinedshadows",
+        "siepu",
+        "silentslayers",
+        "spiritfryer",
+        "steel0229e"
+      ],
+      "replay_codes": [
+        "89eQx-Zuocb",
+        "89eQx-Zuocb"
+      ],
+      "score": 114,
+      "formatted_text": "--- Thread (50 messages, 2023-03-20) ---\n[2023-03-20 16:53] ruinedshadows: yeah, it's super cool, very valueable\n[2023-03-20 16:56] steel0229e (Steel): imagine a new player reading this channel\n[2023-03-20 16:57] spiritfryer (Spyrfyr): what do you mean? what's special about new players? are you implying we are corrupting their chaste innocence?\n[2023-03-20 16:57] spiritfryer (Spyrfyr): the poor pure new players\n[2023-03-20 16:58] steel0229e (Steel): the maths nerdy kreygasm that is going on\n[2023-03-20 16:58] spiritfryer (Spyrfyr): there's nothing mathematical about my love of buying the D\n[2023-03-20 16:58] steel0229e (Steel): im straight i dislike the D.\n[2023-03-20 16:58] spiritfryer (Spyrfyr): I have hundreds of replays that prove otherwise\n[2023-03-20 16:58] spiritfryer (Spyrfyr): you absolutely love the D\n[2023-03-20 16:59] lyra1712 (Lyra): whats the maths on soak protoplasm if it has full threat value ?\n[2023-03-20 16:59] lyra1712 (Lyra): absolute random question, ik\n[2023-03-20 16:59] silentslayers: are u ok with R=1.4 and BV = 2.3?\n[2023-03-20 16:59] lyra1712 (Lyra): maybe you can send me the sheet, so that i stop bothering you with everything ?\n[2023-03-20 16:59] ruinedshadows: drone is W for me so idk what this D nonsense is\n[2023-03-20 16:59] siepu: Id pay to watch prismata players playing this game https://www.gamesfanatic.pl/wp-content/uploads/2023/03/20230320_142650.jpg\n[2023-03-20 17:00] spiritfryer (Spyrfyr): you rebound drone to W?\n[2023-03-20 17:00] silentslayers: https://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit#gid=1107959039\nPrismata unit efficiency\nInfo\n\nhttps://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit?usp=sharing\nClick the tabs at the bottom to view each sheet.\nThe goal is to give a roug...\n[2023-03-20 17:01] siepu: (you roll the dice and draw the cards, you realtime do math from the cards that result with the dice value, take used cards as points)\n[2023-03-20 17:01] spiritfryer (Spyrfyr): can I use my own maths\n[2023-03-20 17:01] ruinedshadows: yeah I use grid keybinding layout cause it's easier\n[2023-03-20 17:01] lyra1712 (Lyra): holy hell, it's not even that bad\n[2023-03-20 17:01] siepu: no it's game for children\n[2023-03-20 17:01] awaclus: how many maths do you have?\n[2023-03-20 17:01] ruinedshadows: and cause it's from RTS days\n[2023-03-20 17:01] spiritfryer (Spyrfyr): how does that work though\n[2023-03-20 17:01] lyra1712 (Lyra): it's already there in the soak tab\n[2023-03-20 17:01] spiritfryer (Spyrfyr): I use grid in RTS too\n[2023-03-20 17:02] spiritfryer (Spyrfyr): but in Mata there are 2 columns\n[2023-03-20 17:02] spiritfryer (Spyrfyr): one for each thing I need maths for\n[2023-03-20 17:02] ruinedshadows: 1st columns is QWERTASDFGZ, 2nd columns is number keys\n[2023-03-20 17:02] lyra1712 (Lyra): you forgot a t^0.5 : opponent defends the threat on the next half turn\n[2023-03-20 17:02] spiritfryer (Spyrfyr): when buying D, I have maths that maximizes my ability to purchase the D\n[2023-03-20 17:04] ruinedshadows: how else would you do it?\n[2023-03-20 17:04] spiritfryer (Spyrfyr): fun cat: every Prismata W starts with a D\n[2023-03-20 17:05] silentslayers: lyra never trust me :LongNoseLiar:\n[2023-03-20 17:05] lyra1712 (Lyra): how do you input R ? you have to compute the corresponding \" i \" i assume ? whats the formula ?\n[2023-03-20 17:07] spiritfryer (Spyrfyr): show me a game you win where you don't touch the D\n[2023-03-20 17:07] spiritfryer (Spyrfyr): yea it starts with the D\n[2023-03-20 17:08] lyra1712 (Lyra): ive won a game before without spending a single energy\n[2023-03-20 17:08] spiritfryer (Spyrfyr): I didn't specify what you do with the D\n[2023-03-20 17:08] spiritfryer (Spyrfyr): just that you start with it\n[2023-03-20 17:08] spiritfryer (Spyrfyr): well you have to touch the D to get the fuge\n[2023-03-20 17:08] spiritfryer (Spyrfyr): the D works hard and builds the fuge for you\n[2023-03-20 17:08] spiritfryer (Spyrfyr): show me a game where you buy fuge without touching the D\n[2023-03-20 17:08] spiritfryer (Spyrfyr): how do you do those things without touching the D first\n[2023-03-20 17:09] silentslayers: you dont touch it then\n[2023-03-20 17:09] spiritfryer (Spyrfyr): ya'll need to stop being in denial, and recognize that we are all D touchers\n[2023-03-20 17:09] spiritfryer (Spyrfyr): afk now, take time to reflect on that\n[2023-03-20 17:10] spiritfryer (Spyrfyr): there is a way to touch the D without touching the D?\n[2023-03-20 17:11] silentslayers: yeah you can even do it without any hands",
+      "messages": [
+        {
+          "id": "1087418773549625434",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:53:58.878+00:00",
+          "content": "yeah, it's super cool, very valueable"
+        },
+        {
+          "id": "1087419338392342599",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-20T16:56:13.547+00:00",
+          "content": "imagine a new player reading this channel"
+        },
+        {
+          "id": "1087419699429638244",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:57:39.625+00:00",
+          "content": "what do you mean? what's special about new players? are you implying we are corrupting their chaste innocence?"
+        },
+        {
+          "id": "1087419748314271884",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:57:51.28+00:00",
+          "content": "the poor pure new players"
+        },
+        {
+          "id": "1087419814039011348",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-20T16:58:06.95+00:00",
+          "content": "the maths nerdy kreygasm that is going on"
+        },
+        {
+          "id": "1087419887095390278",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:58:24.368+00:00",
+          "content": "there's nothing mathematical about my love of buying the D"
+        },
+        {
+          "id": "1087419954497859614",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-20T16:58:40.438+00:00",
+          "content": "im straight i dislike the D."
+        },
+        {
+          "id": "1087419994406658219",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:58:49.953+00:00",
+          "content": "I have hundreds of replays that prove otherwise"
+        },
+        {
+          "id": "1087420030515433522",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T16:58:58.562+00:00",
+          "content": "you absolutely love the D"
+        },
+        {
+          "id": "1087420041718411335",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:59:01.233+00:00",
+          "content": "whats the maths on soak protoplasm if it has full threat value ?"
+        },
+        {
+          "id": "1087420079139999784",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:59:10.155+00:00",
+          "content": "absolute random question, ik"
+        },
+        {
+          "id": "1087420169963454514",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T16:59:31.809+00:00",
+          "content": "are u ok with R=1.4 and BV = 2.3?"
+        },
+        {
+          "id": "1087420210576891957",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T16:59:41.492+00:00",
+          "content": "maybe you can send me the sheet, so that i stop bothering you with everything ?"
+        },
+        {
+          "id": "1087420261369917490",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T16:59:53.602+00:00",
+          "content": "drone is W for me so idk what this D nonsense is"
+        },
+        {
+          "id": "1087420276100313188",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2023-03-20T16:59:57.114+00:00",
+          "content": "Id pay to watch prismata players playing this game https://www.gamesfanatic.pl/wp-content/uploads/2023/03/20230320_142650.jpg"
+        },
+        {
+          "id": "1087420338423476264",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:00:11.973+00:00",
+          "content": "you rebound drone to W?"
+        },
+        {
+          "id": "1087420369268379710",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T17:00:19.327+00:00",
+          "content": "https://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit#gid=1107959039\nPrismata unit efficiency\nInfo\n\nhttps://docs.google.com/spreadsheets/d/1D3axuk489eQx-ZuocbeLnKcknczGCr8M0SPQ_gJXs80/edit?usp=sharing\nClick the tabs at the bottom to view each sheet.\nThe goal is to give a roug..."
+        },
+        {
+          "id": "1087420559773675651",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2023-03-20T17:01:04.747+00:00",
+          "content": "(you roll the dice and draw the cards, you realtime do math from the cards that result with the dice value, take used cards as points)"
+        },
+        {
+          "id": "1087420638928568351",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:01:23.619+00:00",
+          "content": "can I use my own maths"
+        },
+        {
+          "id": "1087420653361180722",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T17:01:27.06+00:00",
+          "content": "yeah I use grid keybinding layout cause it's easier"
+        },
+        {
+          "id": "1087420673946816544",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T17:01:31.968+00:00",
+          "content": "holy hell, it's not even that bad"
+        },
+        {
+          "id": "1087420679336509451",
+          "author": "siepu",
+          "nickname": "siepu",
+          "timestamp": "2023-03-20T17:01:33.253+00:00",
+          "content": "no it's game for children"
+        },
+        {
+          "id": "1087420692246564864",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-03-20T17:01:36.331+00:00",
+          "content": "how many maths do you have?"
+        },
+        {
+          "id": "1087420746583777383",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T17:01:49.286+00:00",
+          "content": "and cause it's from RTS days"
+        },
+        {
+          "id": "1087420751960887387",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:01:50.568+00:00",
+          "content": "how does that work though"
+        },
+        {
+          "id": "1087420767655964815",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T17:01:54.31+00:00",
+          "content": "it's already there in the soak tab"
+        },
+        {
+          "id": "1087420772311633980",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:01:55.42+00:00",
+          "content": "I use grid in RTS too"
+        },
+        {
+          "id": "1087420797091598376",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:02:01.328+00:00",
+          "content": "but in Mata there are 2 columns"
+        },
+        {
+          "id": "1087420947063128096",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:02:37.084+00:00",
+          "content": "one for each thing I need maths for"
+        },
+        {
+          "id": "1087420965832638618",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T17:02:41.559+00:00",
+          "content": "1st columns is QWERTASDFGZ, 2nd columns is number keys"
+        },
+        {
+          "id": "1087421011579916348",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T17:02:52.466+00:00",
+          "content": "you forgot a t^0.5 : opponent defends the threat on the next half turn"
+        },
+        {
+          "id": "1087421025286897805",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:02:55.734+00:00",
+          "content": "when buying D, I have maths that maximizes my ability to purchase the D"
+        },
+        {
+          "id": "1087421375427391579",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-20T17:04:19.214+00:00",
+          "content": "how else would you do it?"
+        },
+        {
+          "id": "1087421508080635954",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:04:50.841+00:00",
+          "content": "fun cat: every Prismata W starts with a D"
+        },
+        {
+          "id": "1087421588934250628",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T17:05:10.118+00:00",
+          "content": "lyra never trust me :LongNoseLiar:"
+        },
+        {
+          "id": "1087421635121922149",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T17:05:21.13+00:00",
+          "content": "how do you input R ? you have to compute the corresponding \" i \" i assume ? whats the formula ?"
+        },
+        {
+          "id": "1087422232638267443",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:07:43.589+00:00",
+          "content": "show me a game you win where you don't touch the D"
+        },
+        {
+          "id": "1087422291786338365",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:07:57.691+00:00",
+          "content": "yea it starts with the D"
+        },
+        {
+          "id": "1087422325235920968",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-20T17:08:05.666+00:00",
+          "content": "ive won a game before without spending a single energy"
+        },
+        {
+          "id": "1087422327941238875",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:08:06.311+00:00",
+          "content": "I didn't specify what you do with the D"
+        },
+        {
+          "id": "1087422352654077952",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:08:12.203+00:00",
+          "content": "just that you start with it"
+        },
+        {
+          "id": "1087422400280416286",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:08:23.558+00:00",
+          "content": "well you have to touch the D to get the fuge"
+        },
+        {
+          "id": "1087422431859331114",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:08:31.087+00:00",
+          "content": "the D works hard and builds the fuge for you"
+        },
+        {
+          "id": "1087422476574806016",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:08:41.748+00:00",
+          "content": "show me a game where you buy fuge without touching the D"
+        },
+        {
+          "id": "1087422538012967022",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:08:56.396+00:00",
+          "content": "how do you do those things without touching the D first"
+        },
+        {
+          "id": "1087422653888995428",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T17:09:24.023+00:00",
+          "content": "you dont touch it then"
+        },
+        {
+          "id": "1087422659601633312",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:09:25.385+00:00",
+          "content": "ya'll need to stop being in denial, and recognize that we are all D touchers"
+        },
+        {
+          "id": "1087422769060392971",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:09:51.482+00:00",
+          "content": "afk now, take time to reflect on that"
+        },
+        {
+          "id": "1087422958676475996",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:10:36.69+00:00",
+          "content": "there is a way to touch the D without touching the D?"
+        },
+        {
+          "id": "1087423120555655190",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T17:11:15.285+00:00",
+          "content": "yeah you can even do it without any hands"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-20T17:11:38.466+00:00",
+      "end_ts": "2023-03-20T17:12:13.064+00:00",
+      "participants": [
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 8,
+      "formatted_text": "--- Thread (3 messages, 2023-03-20) ---\n[2023-03-20 17:11] spiritfryer (Spyrfyr): do you brag about that?\n[2023-03-20 17:11] spiritfryer (Spyrfyr): look mom! I just harvested my drones with no hands!\n[2023-03-20 17:12] silentslayers: mom was right, i am special",
+      "messages": [
+        {
+          "id": "1087423217783799828",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:11:38.466+00:00",
+          "content": "do you brag about that?"
+        },
+        {
+          "id": "1087423263463972905",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-20T17:11:49.357+00:00",
+          "content": "look mom! I just harvested my drones with no hands!"
+        },
+        {
+          "id": "1087423362898337802",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-20T17:12:13.064+00:00",
+          "content": "mom was right, i am special"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-22T03:10:54.689+00:00",
+      "end_ts": "2023-03-22T03:10:54.689+00:00",
+      "participants": [
+        "elyot"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (1 messages, 2023-03-22) ---\n[2023-03-22 03:10] elyot: So sorry about that. I was still in queue and it popped 😦",
+      "messages": [
+        {
+          "id": "1087936416979374172",
+          "author": "elyot",
+          "nickname": "Elyot",
+          "timestamp": "2023-03-22T03:10:54.689+00:00",
+          "content": "So sorry about that. I was still in queue and it popped 😦"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-23T06:37:55.606+00:00",
+      "end_ts": "2023-03-23T06:37:55.606+00:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "Ox99g-brLP4"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-03-23) ---\n[2023-03-23 06:37] spiritfryer (Spyrfyr): rollercoaster:\n```Ox99g-brLP4```",
+      "messages": [
+        {
+          "id": "1088350901946814464",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-23T06:37:55.606+00:00",
+          "content": "rollercoaster:\n```Ox99g-brLP4```"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-23T15:07:31.603+00:00",
+      "end_ts": "2023-03-23T15:07:31.603+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-23) ---\n[2023-03-23 15:07] silentslayers: Would people in the voice chat mind if I stream our hangout to Twitch sometime? Might later today. I’d warn ppl before turning it on.",
+      "messages": [
+        {
+          "id": "1088479146973343794",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-23T15:07:31.603+00:00",
+          "content": "Would people in the voice chat mind if I stream our hangout to Twitch sometime? Might later today. I’d warn ppl before turning it on."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-23T15:23:48.266+00:00",
+      "end_ts": "2023-03-23T15:24:12.58+00:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2023-03-23) ---\n[2023-03-23 15:23] steel0229e (Steel): me neither, if anything it'd help to grow the community\n[2023-03-23 15:24] steel0229e (Steel): just pick an episode without spreadsheets to not be so scary 😉",
+      "messages": [
+        {
+          "id": "1088483243394875472",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-23T15:23:48.266+00:00",
+          "content": "me neither, if anything it'd help to grow the community"
+        },
+        {
+          "id": "1088483345375174768",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-23T15:24:12.58+00:00",
+          "content": "just pick an episode without spreadsheets to not be so scary 😉"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-23T16:09:26.605+00:00",
+      "end_ts": "2023-03-23T16:09:26.605+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-23) ---\n[2023-03-23 16:09] silentslayers: I'm live on twitch:\n\nhttps://www.twitch.tv/wonderboat\n\nFeel free to come hangout on the voice call!\nWonderboat - Twitch\nPrismata!!!",
+      "messages": [
+        {
+          "id": "1088494728821084303",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-23T16:09:26.605+00:00",
+          "content": "I'm live on twitch:\n\nhttps://www.twitch.tv/wonderboat\n\nFeel free to come hangout on the voice call!\nWonderboat - Twitch\nPrismata!!!"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-23T18:56:48.113+00:00",
+      "end_ts": "2023-03-23T18:56:48.113+00:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-03-23) ---\n[2023-03-23 18:56] silentslayers: https://www.twitch.tv/videos/1773347764\n\nVOD of stream if anyone's interested. Thx for hanging out!\nPrismata!!! - wonderboat on Twitch\nwonderboat went live on Twitch. Catch up on their Prismata VOD now.",
+      "messages": [
+        {
+          "id": "1088536845958258688",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-23T18:56:48.113+00:00",
+          "content": "https://www.twitch.tv/videos/1773347764\n\nVOD of stream if anyone's interested. Thx for hanging out!\nPrismata!!! - wonderboat on Twitch\nwonderboat went live on Twitch. Catch up on their Prismata VOD now."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-27T02:53:29.555+01:00",
+      "end_ts": "2023-03-27T02:56:00.312+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2023-03-27) ---\n[2023-03-27 02:53] silentslayers: @amalloy can you hook him up pls?\n[2023-03-27 02:54] silentslayers: maybe set up a bot where we react to add/remove the role?\n[2023-03-27 02:56] silentslayers: this bot is standard i think",
+      "messages": [
+        {
+          "id": "1089728873203245197",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-27T02:53:29.555+01:00",
+          "content": "@amalloy can you hook him up pls?"
+        },
+        {
+          "id": "1089729120985956372",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-27T02:54:28.631+01:00",
+          "content": "maybe set up a bot where we react to add/remove the role?"
+        },
+        {
+          "id": "1089729505523929208",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-27T02:56:00.312+01:00",
+          "content": "this bot is standard i think"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-27T03:01:43.322+01:00",
+      "end_ts": "2023-03-27T03:02:30.319+01:00",
+      "participants": [
+        "amalloy",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (4 messages, 2023-03-27) ---\n[2023-03-27 03:01] amalloy: yeah, MEE6 is very popular. but i'm not excited to figure out how to set it up, to save us one manual role assignment every six months\n[2023-03-27 03:02] silentslayers: i mean ppl might want role but too shy to ask or dont know how to get\n[2023-03-27 03:02] silentslayers: so thats an arguement for bot\n[2023-03-27 03:02] silentslayers: but yeah its all good",
+      "messages": [
+        {
+          "id": "1089730944212144281",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-03-27T03:01:43.322+01:00",
+          "content": "yeah, MEE6 is very popular. but i'm not excited to figure out how to set it up, to save us one manual role assignment every six months"
+        },
+        {
+          "id": "1089731099569168404",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-27T03:02:20.362+01:00",
+          "content": "i mean ppl might want role but too shy to ask or dont know how to get"
+        },
+        {
+          "id": "1089731127566143589",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-27T03:02:27.037+01:00",
+          "content": "so thats an arguement for bot"
+        },
+        {
+          "id": "1089731141331865671",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-27T03:02:30.319+01:00",
+          "content": "but yeah its all good"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-27T15:29:58.167+01:00",
+      "end_ts": "2023-03-27T16:16:34.74+01:00",
+      "participants": [
+        "amalloy",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (2 messages, 2023-03-27) ---\n[2023-03-27 15:29] spiritfryer (Spyrfyr): triple lifespan perfection\n[2023-03-27 16:16] amalloy: not much absorb value there. should you be clicking xaetron and holding a mech?",
+      "messages": [
+        {
+          "id": "1089919246840123485",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T15:29:58.167+01:00",
+          "content": "triple lifespan perfection"
+        },
+        {
+          "id": "1089930976517431306",
+          "author": "amalloy",
+          "nickname": "amalloy",
+          "timestamp": "2023-03-27T16:16:34.74+01:00",
+          "content": "not much absorb value there. should you be clicking xaetron and holding a mech?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-27T16:20:25.211+01:00",
+      "end_ts": "2023-03-27T16:28:26.95+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "perma-absor"
+      ],
+      "score": 42,
+      "formatted_text": "--- Thread (13 messages, 2023-03-27) ---\n[2023-03-27 16:20] spiritfryer (Spyrfyr): perhaps, not sure\n\nI was alternating xae and dmech\n[2023-03-27 16:21] spiritfryer (Spyrfyr): I had no walls left so wanted to play it safe with soak\n[2023-03-27 16:21] spiritfryer (Spyrfyr): not clear to me that forgoing xae soak in favor of perma-absorbing on dmech is better than alternating\n[2023-03-27 16:23] spiritfryer (Spyrfyr): doesn't alternating in essence raise my average absorb to 6?\n[2023-03-27 16:23] spiritfryer (Spyrfyr): so do I want +2 avg absorb or +~3 avg attack?\n[2023-03-27 16:23] spiritfryer (Spyrfyr): I wanted the soak cos had no walls left\n[2023-03-27 16:23] spiritfryer (Spyrfyr): also it's not +3 avg attack because the dmech gets to attack every other turn\n[2023-03-27 16:24] spiritfryer (Spyrfyr): so it's +~2 avg attack\n[2023-03-27 16:24] spiritfryer (Spyrfyr): +2 avg absorb should be better than that considering it takes effect half a turn sooner\n[2023-03-27 16:24] spiritfryer (Spyrfyr): so in a continuous system I assume alternating is better\n[2023-03-27 16:26] spiritfryer (Spyrfyr): also it's lower than +2 avg attack, it's more like 1.85 = 5 / (7/4) - 1\n[2023-03-27 16:28] spiritfryer (Spyrfyr): but yea it's close enough that it's defo worth keeping an eye on what the xae +3 attack burst would do\n[2023-03-27 16:28] spiritfryer (Spyrfyr): and deciding if it does enough to be worth",
+      "messages": [
+        {
+          "id": "1089931943182880789",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:20:25.211+01:00",
+          "content": "perhaps, not sure\n\nI was alternating xae and dmech"
+        },
+        {
+          "id": "1089932223530139728",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:21:32.051+01:00",
+          "content": "I had no walls left so wanted to play it safe with soak"
+        },
+        {
+          "id": "1089932309525962794",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:21:52.554+01:00",
+          "content": "not clear to me that forgoing xae soak in favor of perma-absorbing on dmech is better than alternating"
+        },
+        {
+          "id": "1089932628699910288",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:23:08.651+01:00",
+          "content": "doesn't alternating in essence raise my average absorb to 6?"
+        },
+        {
+          "id": "1089932717623361577",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:23:29.852+01:00",
+          "content": "so do I want +2 avg absorb or +~3 avg attack?"
+        },
+        {
+          "id": "1089932737034600499",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:23:34.48+01:00",
+          "content": "I wanted the soak cos had no walls left"
+        },
+        {
+          "id": "1089932825442127984",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:23:55.558+01:00",
+          "content": "also it's not +3 avg attack because the dmech gets to attack every other turn"
+        },
+        {
+          "id": "1089932855574024192",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:24:02.742+01:00",
+          "content": "so it's +~2 avg attack"
+        },
+        {
+          "id": "1089932921512656916",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:24:18.463+01:00",
+          "content": "+2 avg absorb should be better than that considering it takes effect half a turn sooner"
+        },
+        {
+          "id": "1089933004119490707",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:24:38.158+01:00",
+          "content": "so in a continuous system I assume alternating is better"
+        },
+        {
+          "id": "1089933517179330620",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:26:40.481+01:00",
+          "content": "also it's lower than +2 avg attack, it's more like 1.85 = 5 / (7/4) - 1"
+        },
+        {
+          "id": "1089933926904115301",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:28:18.167+01:00",
+          "content": "but yea it's close enough that it's defo worth keeping an eye on what the xae +3 attack burst would do"
+        },
+        {
+          "id": "1089933963742674994",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T16:28:26.95+01:00",
+          "content": "and deciding if it does enough to be worth"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-27T18:26:25.937+01:00",
+      "end_ts": "2023-03-27T18:26:47.962+01:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2023-03-27) ---\n[2023-03-27 18:26] steel0229e (Steel): im sometimes tempted to do this to quickly use the health\n[2023-03-27 18:26] steel0229e (Steel): but then i always choose to hold the threat\n[2023-03-27 18:26] steel0229e (Steel): no idea when this is better",
+      "messages": [
+        {
+          "id": "1089963655166169231",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-27T18:26:25.937+01:00",
+          "content": "im sometimes tempted to do this to quickly use the health"
+        },
+        {
+          "id": "1089963718810533909",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-27T18:26:41.111+01:00",
+          "content": "but then i always choose to hold the threat"
+        },
+        {
+          "id": "1089963747545726986",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-27T18:26:47.962+01:00",
+          "content": "no idea when this is better"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-27T18:41:24.386+01:00",
+      "end_ts": "2023-03-27T18:41:40.035+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2023-03-27) ---\n[2023-03-27 18:41] silentslayers: It’s better to alternate with doomed mech and similar units, like omega, and arka\n[2023-03-27 18:41] silentslayers: Matrix is where it gets more even and becomes a choice",
+      "messages": [
+        {
+          "id": "1089967423534399588",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-27T18:41:24.386+01:00",
+          "content": "It’s better to alternate with doomed mech and similar units, like omega, and arka"
+        },
+        {
+          "id": "1089967489171066900",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-27T18:41:40.035+01:00",
+          "content": "Matrix is where it gets more even and becomes a choice"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-27T20:06:54.811+01:00",
+      "end_ts": "2023-03-27T20:11:41.562+01:00",
+      "participants": [
+        "silentslayers",
+        "vanilvanil",
+        "zezetel"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (8 messages, 2023-03-27) ---\n[2023-03-27 20:06] silentslayers: https://www.youtube.com/watch?v=a-kTdZFm2qE\nPrismata Commentary - Mega-supp (1860) vs Dusk (2043)\n[2023-03-27 20:09] vanilvanil (Vanil - Ваніль): Okay I'm fucking back\n[2023-03-27 20:09] vanilvanil (Vanil - Ваніль): Does this game have a draft mode?\n[2023-03-27 20:09] zezetel: kind a for friendlies\n[2023-03-27 20:10] zezetel: you can do custom sets\n[2023-03-27 20:10] zezetel: so you can set up draft\n[2023-03-27 20:11] vanilvanil (Vanil - Ваніль): Hm. Is there a standard for doing it?\n[2023-03-27 20:11] vanilvanil (Vanil - Ваніль): Like 1-2-2...and so on?",
+      "messages": [
+        {
+          "id": "1089988942096511096",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-27T20:06:54.811+01:00",
+          "content": "https://www.youtube.com/watch?v=a-kTdZFm2qE\nPrismata Commentary - Mega-supp (1860) vs Dusk (2043)"
+        },
+        {
+          "id": "1089989476555702404",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-03-27T20:09:02.236+01:00",
+          "content": "Okay I'm fucking back"
+        },
+        {
+          "id": "1089989632176955422",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-03-27T20:09:39.339+01:00",
+          "content": "Does this game have a draft mode?"
+        },
+        {
+          "id": "1089989689248854087",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2023-03-27T20:09:52.946+01:00",
+          "content": "kind a for friendlies"
+        },
+        {
+          "id": "1089989720555147326",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2023-03-27T20:10:00.41+01:00",
+          "content": "you can do custom sets"
+        },
+        {
+          "id": "1089989753073578014",
+          "author": "zezetel",
+          "nickname": "zezetel",
+          "timestamp": "2023-03-27T20:10:08.163+01:00",
+          "content": "so you can set up draft"
+        },
+        {
+          "id": "1089990065930903666",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-03-27T20:11:22.754+01:00",
+          "content": "Hm. Is there a standard for doing it?"
+        },
+        {
+          "id": "1089990144817377471",
+          "author": "vanilvanil",
+          "nickname": "Vanil - Ваніль",
+          "timestamp": "2023-03-27T20:11:41.562+01:00",
+          "content": "Like 1-2-2...and so on?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-27T20:38:50.876+01:00",
+      "end_ts": "2023-03-27T20:38:50.876+01:00",
+      "participants": [
+        "iminabearsuit"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-27) ---\n[2023-03-27 20:38] iminabearsuit: There have been some attempts, like:\nhttps://www.reddit.com/r/Prismata/comments/3ljct0/join_the_upcoming_half_draft_prismata_tournament/\n\nBut theres no standard, just agree with your opponent\nr/Prismata - Join the upcoming Half Draft Prismata Tournament with ...\n13 votes and 11 comments so far on Reddit",
+      "messages": [
+        {
+          "id": "1089996978655608912",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2023-03-27T20:38:50.876+01:00",
+          "content": "There have been some attempts, like:\nhttps://www.reddit.com/r/Prismata/comments/3ljct0/join_the_upcoming_half_draft_prismata_tournament/\n\nBut theres no standard, just agree with your opponent\nr/Prismata - Join the upcoming Half Draft Prismata Tournament with ...\n13 votes and 11 comments so far on Reddit"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-27T21:33:37.183+01:00",
+      "end_ts": "2023-03-27T21:33:37.183+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-27) ---\n[2023-03-27 21:33] spiritfryer (Spyrfyr): was it off the cuff?",
+      "messages": [
+        {
+          "id": "1090010762426187868",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-27T21:33:37.183+01:00",
+          "content": "was it off the cuff?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-28T09:10:16.005+01:00",
+      "end_ts": "2023-03-28T09:26:46.097+01:00",
+      "participants": [
+        "megasupp",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 21,
+      "formatted_text": "--- Thread (15 messages, 2023-03-28) ---\n[2023-03-28 09:10] megasupp (mega-supp): Oh no, not my blunders exposed to the whole prismata community!\n[2023-03-28 09:11] silentslayers: Lol don’t worry everyone’s pretty rusty. You had some nice ideas on that one\n[2023-03-28 09:14] megasupp (mega-supp): The turn where I was 1 short of my preferred defense was brutal\n[2023-03-28 09:16] megasupp (mega-supp): The logic behind holding both bomb and Tesla was that I force him to click everything, I thought that would force him to buy a wall instead of bomb, and the Tesla actually only gives 2 atk bc absorb barrier\n[2023-03-28 09:18] silentslayers: Makes sense. Sorry for any inaccuracies during my commentary. 😄\n[2023-03-28 09:18] megasupp (mega-supp): And I wanted to see if being forced to rebuild drones would somehow give me some opportunities, but nope\n[2023-03-28 09:19] silentslayers: But yeah, it really comes down to opening coil I think\n[2023-03-28 09:19] megasupp (mega-supp): That set was definitely more complicated than I cared to think about at that time\n[2023-03-28 09:19] silentslayers: Even in base+1 you don’t do it\n[2023-03-28 09:19] megasupp (mega-supp): Yeah coil was a mistake\n[2023-03-28 09:21] megasupp (mega-supp): I thought maybe vivid would make it work, but I should have just built a splitter like a normal person\n[2023-03-28 09:22] silentslayers: Coil+Vivid is actually a kinda cute semi-real synergy. Enjoyed seeing that. If for example you can do that against red so they can’t wall, that’s pretty sick\n[2023-03-28 09:24] silentslayers: Actually I’d just do BADD probably and get wincer\n[2023-03-28 09:24] silentslayers: But yeah, if your goal was to build up attack, it would be splitter indeed\n[2023-03-28 09:26] megasupp (mega-supp): Yea wasting blue is also an option",
+      "messages": [
+        {
+          "id": "1090186079392497684",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2023-03-28T09:10:16.005+01:00",
+          "content": "Oh no, not my blunders exposed to the whole prismata community!"
+        },
+        {
+          "id": "1090186415054270574",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:11:36.033+01:00",
+          "content": "Lol don’t worry everyone’s pretty rusty. You had some nice ideas on that one"
+        },
+        {
+          "id": "1090187123971325952",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2023-03-28T09:14:25.052+01:00",
+          "content": "The turn where I was 1 short of my preferred defense was brutal"
+        },
+        {
+          "id": "1090187707277393920",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2023-03-28T09:16:44.123+01:00",
+          "content": "The logic behind holding both bomb and Tesla was that I force him to click everything, I thought that would force him to buy a wall instead of bomb, and the Tesla actually only gives 2 atk bc absorb barrier"
+        },
+        {
+          "id": "1090188087419731978",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:18:14.756+01:00",
+          "content": "Makes sense. Sorry for any inaccuracies during my commentary. 😄"
+        },
+        {
+          "id": "1090188245876355084",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2023-03-28T09:18:52.535+01:00",
+          "content": "And I wanted to see if being forced to rebuild drones would somehow give me some opportunities, but nope"
+        },
+        {
+          "id": "1090188351035932682",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:19:17.607+01:00",
+          "content": "But yeah, it really comes down to opening coil I think"
+        },
+        {
+          "id": "1090188447601410118",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2023-03-28T09:19:40.63+01:00",
+          "content": "That set was definitely more complicated than I cared to think about at that time"
+        },
+        {
+          "id": "1090188456241676349",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:19:42.69+01:00",
+          "content": "Even in base+1 you don’t do it"
+        },
+        {
+          "id": "1090188521739911279",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2023-03-28T09:19:58.306+01:00",
+          "content": "Yeah coil was a mistake"
+        },
+        {
+          "id": "1090188790947119134",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2023-03-28T09:21:02.49+01:00",
+          "content": "I thought maybe vivid would make it work, but I should have just built a splitter like a normal person"
+        },
+        {
+          "id": "1090189114315382855",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:22:19.587+01:00",
+          "content": "Coil+Vivid is actually a kinda cute semi-real synergy. Enjoyed seeing that. If for example you can do that against red so they can’t wall, that’s pretty sick"
+        },
+        {
+          "id": "1090189628268609576",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:24:22.123+01:00",
+          "content": "Actually I’d just do BADD probably and get wincer"
+        },
+        {
+          "id": "1090189694152740998",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:24:37.831+01:00",
+          "content": "But yeah, if your goal was to build up attack, it would be splitter indeed"
+        },
+        {
+          "id": "1090190232139345920",
+          "author": "megasupp",
+          "nickname": "mega-supp",
+          "timestamp": "2023-03-28T09:26:46.097+01:00",
+          "content": "Yea wasting blue is also an option"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-28T09:34:06.093+01:00",
+      "end_ts": "2023-03-28T09:40:47.197+01:00",
+      "participants": [
+        "silentslayers",
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 21,
+      "formatted_text": "--- Thread (8 messages, 2023-03-28) ---\n[2023-03-28 09:34] steel0229e (Steel): I was surprised by the coil setup, not sure it is more efficient than just the normal triple drone into forge/c play. You sac econ to rebuy it later with tesla engineers which is less efficient than not cutting the drones. \nSo you basically undercut drones to then transition into too many drones. Managing econ/tempo is I think the most important aspect in swingy sets like this.\n[2023-03-28 09:35] silentslayers: Just depends how fast you wanna go\n[2023-03-28 09:36] silentslayers: Yeah true to your last point\n[2023-03-28 09:36] steel0229e (Steel): in very swingy sets like wincer/bombard my usual strategy is to prioritise droning first and then immediately switch to the swing play.\n[2023-03-28 09:37] steel0229e (Steel): Not try to do a mix, or some pressure first. Usually you don't want to buy any damage that runs into absorb.\n[2023-03-28 09:38] steel0229e (Steel): I enjoyed the commentary and especially your nice English.\n[2023-03-28 09:39] steel0229e (Steel): You have a soothing voice, ever considered reading audio books? 🙂\n[2023-03-28 09:40] silentslayers: Never considered myself having a nice voice, but thank you 😊",
+      "messages": [
+        {
+          "id": "1090192077616328725",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-28T09:34:06.093+01:00",
+          "content": "I was surprised by the coil setup, not sure it is more efficient than just the normal triple drone into forge/c play. You sac econ to rebuy it later with tesla engineers which is less efficient than not cutting the drones. \nSo you basically undercut drones to then transition into too many drones. Managing econ/tempo is I think the most important aspect in swingy sets like this."
+        },
+        {
+          "id": "1090192549366481006",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:35:58.567+01:00",
+          "content": "Just depends how fast you wanna go"
+        },
+        {
+          "id": "1090192661891252324",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:36:25.395+01:00",
+          "content": "Yeah true to your last point"
+        },
+        {
+          "id": "1090192764521676850",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-28T09:36:49.864+01:00",
+          "content": "in very swingy sets like wincer/bombard my usual strategy is to prioritise droning first and then immediately switch to the swing play."
+        },
+        {
+          "id": "1090192874819293188",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-28T09:37:16.161+01:00",
+          "content": "Not try to do a mix, or some pressure first. Usually you don't want to buy any damage that runs into absorb."
+        },
+        {
+          "id": "1090193267154501652",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-28T09:38:49.701+01:00",
+          "content": "I enjoyed the commentary and especially your nice English."
+        },
+        {
+          "id": "1090193460612583444",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-28T09:39:35.825+01:00",
+          "content": "You have a soothing voice, ever considered reading audio books? 🙂"
+        },
+        {
+          "id": "1090193759968448552",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-28T09:40:47.197+01:00",
+          "content": "Never considered myself having a nice voice, but thank you 😊"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-29T03:43:17.819+01:00",
+      "end_ts": "2023-03-29T03:48:51.264+01:00",
+      "participants": [
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "x0x8M-SHqz9"
+      ],
+      "score": 35,
+      "formatted_text": "--- Thread (12 messages, 2023-03-29) ---\n[2023-03-29 03:43] spiritfryer (Spyrfyr): Hey, where are we submitting replays to?\n[2023-03-29 03:43] spiritfryer (Spyrfyr): Had a cool Iceblade game\n```x0x8M-SHqz9```\n[2023-03-29 03:44] silentslayers: DMs I guess. I saw some of that game so I probably won’t be commentating that one 😛\n[2023-03-29 03:46] silentslayers: Just fast forwarded through it, but it seemed like a pretty standard defence with nothing crazy happening to me. Maybe the decisions that led up to both players choices were interesting though\n[2023-03-29 03:46] spiritfryer (Spyrfyr): idk, I thought I would die, not sure if I ever defended an iceblade all-in\n[2023-03-29 03:47] silentslayers: You probably should have bought smorc over 2 perfs to save a gold, since you never needed to hold them. But maybe it wasn’t clear when you would need to hold them.\n[2023-03-29 03:47] spiritfryer (Spyrfyr): mm, I bought them to hold them eventually\n[2023-03-29 03:47] spiritfryer (Spyrfyr): but I guess it took a while\n[2023-03-29 03:48] spiritfryer (Spyrfyr): so maybe saving a gold would've paid off by then\n[2023-03-29 03:48] spiritfryer (Spyrfyr): idk if I should've held splitter to get absorb\n[2023-03-29 03:48] silentslayers: But yea blades are very beatable when you’re already in blue.\n[2023-03-29 03:48] silentslayers: well, then he would kill the galv so idk either, just depends who cares more about the health and stuff",
+      "messages": [
+        {
+          "id": "1090466182622097408",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T03:43:17.819+01:00",
+          "content": "Hey, where are we submitting replays to?"
+        },
+        {
+          "id": "1090466304248512563",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T03:43:46.817+01:00",
+          "content": "Had a cool Iceblade game\n```x0x8M-SHqz9```"
+        },
+        {
+          "id": "1090466511702995034",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T03:44:36.278+01:00",
+          "content": "DMs I guess. I saw some of that game so I probably won’t be commentating that one 😛"
+        },
+        {
+          "id": "1090466990684123207",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T03:46:30.476+01:00",
+          "content": "Just fast forwarded through it, but it seemed like a pretty standard defence with nothing crazy happening to me. Maybe the decisions that led up to both players choices were interesting though"
+        },
+        {
+          "id": "1090467100595867688",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T03:46:56.681+01:00",
+          "content": "idk, I thought I would die, not sure if I ever defended an iceblade all-in"
+        },
+        {
+          "id": "1090467180342169640",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T03:47:15.694+01:00",
+          "content": "You probably should have bought smorc over 2 perfs to save a gold, since you never needed to hold them. But maybe it wasn’t clear when you would need to hold them."
+        },
+        {
+          "id": "1090467283605930044",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T03:47:40.314+01:00",
+          "content": "mm, I bought them to hold them eventually"
+        },
+        {
+          "id": "1090467327050530866",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T03:47:50.672+01:00",
+          "content": "but I guess it took a while"
+        },
+        {
+          "id": "1090467376065150986",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T03:48:02.358+01:00",
+          "content": "so maybe saving a gold would've paid off by then"
+        },
+        {
+          "id": "1090467485666521108",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T03:48:28.489+01:00",
+          "content": "idk if I should've held splitter to get absorb"
+        },
+        {
+          "id": "1090467504939339828",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T03:48:33.084+01:00",
+          "content": "But yea blades are very beatable when you’re already in blue."
+        },
+        {
+          "id": "1090467581191790622",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T03:48:51.264+01:00",
+          "content": "well, then he would kill the galv so idk either, just depends who cares more about the health and stuff"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-29T19:09:30.41+01:00",
+      "end_ts": "2023-03-29T19:29:03.132+01:00",
+      "participants": [
+        "lyra1712",
+        "ruinedshadows",
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 40,
+      "formatted_text": "--- Thread (23 messages, 2023-03-29) ---\n[2023-03-29 19:09] ruinedshadows: if you use the api to get your full replay data for your replay codes and then either look for the rating field in the json or put your replay history into statsforge or a similar tool you can look at your rating\n[2023-03-29 19:09] ruinedshadows: http://www.aimbooster.com/prismata/\nStatsforge\nA tool for calculating stats of your Prismata games from their replay codes.\n[2023-03-29 19:10] ruinedshadows: you can use /getReplays <x> where x is a number, by default it will do 100 if you don't provide x but you can use a different number if you want\n[2023-03-29 19:10] ruinedshadows: to get a list of your codes\n[2023-03-29 19:10] silentslayers: how to get after 5k then?\n[2023-03-29 19:10] ruinedshadows: yeah I think so, I don't remember exactly\n[2023-03-29 19:11] ruinedshadows: hmmm, well for me I've saved them incrementally to a text file...\n[2023-03-29 19:11] ruinedshadows: I also just barely have 5k games total lol\n[2023-03-29 19:11] ruinedshadows: how many do you have?\n[2023-03-29 19:13] silentslayers: between all games maybe 7-8k will check later\n[2023-03-29 19:13] silentslayers: trying to wake up and commentate a game\n[2023-03-29 19:13] silentslayers: would commentate u vs 307th rn but soo tired\n[2023-03-29 19:14] lyra1712 (Lyra): i have >12k, but an ungodly amount of them are against master bot :FeelsBadMan:\n[2023-03-29 19:17] ruinedshadows: did i rush too hard to wincer? idk with urban..no other absorbe or soak really tho so idk\n[2023-03-29 19:18] ruinedshadows: second wincer feels bad tho idk\n[2023-03-29 19:18] lyra1712 (Lyra): i hope you did, otherwise the unit is very bullshit indeed\n[2023-03-29 19:18] silentslayers: he totally did tho imo\n[2023-03-29 19:26] spiritfryer (Spyrfyr): same but I have a gap of 40 replays missing 😭\n[2023-03-29 19:27] spiritfryer (Spyrfyr): it was my 40-win streak\n[2023-03-29 19:27] spiritfryer (Spyrfyr): forever lost to the sands of time\n[2023-03-29 19:28] ruinedshadows: I feel like if I go urban dd that one turn tho then opponet gets a good wincer? maybe not I guess I should analyze\n[2023-03-29 19:28] lyra1712 (Lyra): turn 7 you bought wall feral, it shouldve been feral sentry\n[2023-03-29 19:29] lyra1712 (Lyra): not sure it would change the outcome tho",
+      "messages": [
+        {
+          "id": "1090699270962815067",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:09:30.41+01:00",
+          "content": "if you use the api to get your full replay data for your replay codes and then either look for the rating field in the json or put your replay history into statsforge or a similar tool you can look at your rating"
+        },
+        {
+          "id": "1090699393952395384",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:09:59.733+01:00",
+          "content": "http://www.aimbooster.com/prismata/\nStatsforge\nA tool for calculating stats of your Prismata games from their replay codes."
+        },
+        {
+          "id": "1090699513028694027",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:10:28.123+01:00",
+          "content": "you can use /getReplays <x> where x is a number, by default it will do 100 if you don't provide x but you can use a different number if you want"
+        },
+        {
+          "id": "1090699576190709791",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:10:43.182+01:00",
+          "content": "to get a list of your codes"
+        },
+        {
+          "id": "1090699631782019202",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T19:10:56.436+01:00",
+          "content": "how to get after 5k then?"
+        },
+        {
+          "id": "1090699643228266537",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:10:59.165+01:00",
+          "content": "yeah I think so, I don't remember exactly"
+        },
+        {
+          "id": "1090699719438770246",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:11:17.335+01:00",
+          "content": "hmmm, well for me I've saved them incrementally to a text file..."
+        },
+        {
+          "id": "1090699790653853899",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:11:34.314+01:00",
+          "content": "I also just barely have 5k games total lol"
+        },
+        {
+          "id": "1090699891614957640",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:11:58.385+01:00",
+          "content": "how many do you have?"
+        },
+        {
+          "id": "1090700234008559616",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T19:13:20.018+01:00",
+          "content": "between all games maybe 7-8k will check later"
+        },
+        {
+          "id": "1090700256255168643",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T19:13:25.322+01:00",
+          "content": "trying to wake up and commentate a game"
+        },
+        {
+          "id": "1090700295685799936",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T19:13:34.723+01:00",
+          "content": "would commentate u vs 307th rn but soo tired"
+        },
+        {
+          "id": "1090700620459155477",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-29T19:14:52.155+01:00",
+          "content": "i have >12k, but an ungodly amount of them are against master bot :FeelsBadMan:"
+        },
+        {
+          "id": "1090701306022330399",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:17:35.606+01:00",
+          "content": "did i rush too hard to wincer? idk with urban..no other absorbe or soak really tho so idk"
+        },
+        {
+          "id": "1090701415393021972",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:18:01.682+01:00",
+          "content": "second wincer feels bad tho idk"
+        },
+        {
+          "id": "1090701445491331172",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-29T19:18:08.858+01:00",
+          "content": "i hope you did, otherwise the unit is very bullshit indeed"
+        },
+        {
+          "id": "1090701554568413214",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T19:18:34.864+01:00",
+          "content": "he totally did tho imo"
+        },
+        {
+          "id": "1090703634402136204",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T19:26:50.735+01:00",
+          "content": "same but I have a gap of 40 replays missing 😭"
+        },
+        {
+          "id": "1090703682196226150",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T19:27:02.13+01:00",
+          "content": "it was my 40-win streak"
+        },
+        {
+          "id": "1090703712453939260",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-29T19:27:09.344+01:00",
+          "content": "forever lost to the sands of time"
+        },
+        {
+          "id": "1090704021075009717",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T19:28:22.925+01:00",
+          "content": "I feel like if I go urban dd that one turn tho then opponet gets a good wincer? maybe not I guess I should analyze"
+        },
+        {
+          "id": "1090704154617462784",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-29T19:28:54.764+01:00",
+          "content": "turn 7 you bought wall feral, it shouldve been feral sentry"
+        },
+        {
+          "id": "1090704189715390504",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-29T19:29:03.132+01:00",
+          "content": "not sure it would change the outcome tho"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-29T20:01:36.566+01:00",
+      "end_ts": "2023-03-29T20:04:44.694+01:00",
+      "participants": [
+        "ruinedshadows",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (4 messages, 2023-03-29) ---\n[2023-03-29 20:01] ruinedshadows: if I let opponent get wincer first I don't see a great way for me to defend it by shot two\n[2023-03-29 20:01] ruinedshadows: getting second wincer also seems to lose\n[2023-03-29 20:02] ruinedshadows: maybe I can try a later timing\n[2023-03-29 20:04] silentslayers: did u try elyot animus into 2x ferri 2x drone?",
+      "messages": [
+        {
+          "id": "1090712383011422288",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T20:01:36.566+01:00",
+          "content": "if I let opponent get wincer first I don't see a great way for me to defend it by shot two"
+        },
+        {
+          "id": "1090712456797630504",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T20:01:54.158+01:00",
+          "content": "getting second wincer also seems to lose"
+        },
+        {
+          "id": "1090712498610651249",
+          "author": "ruinedshadows",
+          "nickname": "ruinedshadows",
+          "timestamp": "2023-03-29T20:02:04.127+01:00",
+          "content": "maybe I can try a later timing"
+        },
+        {
+          "id": "1090713172077457489",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T20:04:44.694+01:00",
+          "content": "did u try elyot animus into 2x ferri 2x drone?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-29T20:20:10.737+01:00",
+      "end_ts": "2023-03-29T20:21:51.345+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2023-03-29) ---\n[2023-03-29 20:20] silentslayers: https://www.youtube.com/watch?v=FWo9hEfq_hM\n\nNew commentary up! 307th playing??? 😱 😱\nPrismata Commentary - 307th (2214) vs Dusk (2112)\n[2023-03-29 20:21] silentslayers: Going to move mic away from mouth a bit next time sorry if it’s a bit loud or clippy.",
+      "messages": [
+        {
+          "id": "1090717056183324732",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T20:20:10.737+01:00",
+          "content": "https://www.youtube.com/watch?v=FWo9hEfq_hM\n\nNew commentary up! 307th playing??? 😱 😱\nPrismata Commentary - 307th (2214) vs Dusk (2112)"
+        },
+        {
+          "id": "1090717478163853353",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T20:21:51.345+01:00",
+          "content": "Going to move mic away from mouth a bit next time sorry if it’s a bit loud or clippy."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-29T21:15:25.417+01:00",
+      "end_ts": "2023-03-29T21:20:18.35+01:00",
+      "participants": [
+        "lyra1712",
+        "silentslayers",
+        "steel0229e",
+        "xyotsuba"
+      ],
+      "replay_codes": [],
+      "score": 14,
+      "formatted_text": "--- Thread (8 messages, 2023-03-29) ---\n[2023-03-29 21:15] xyotsuba: Code for that game? Seems like 307th could just die to botch spam\n[2023-03-29 21:16] steel0229e (Steel): i liked the float by Dusk but i'd have bought cct (edit:on turn 5)\n[2023-03-29 21:16] steel0229e (Steel): some questionable decisions\n[2023-03-29 21:17] lyra1712 (Lyra): maybe you should consider adding the replay code in the description of the vid wonderboat ?\n[2023-03-29 21:17] steel0229e (Steel): but yeah probably best to go nat c\n[2023-03-29 21:19] silentslayers: ye lyra i keep forgetting lmao\n[2023-03-29 21:20] silentslayers: Maybe i can still get them through dusk/mega-supp\n[2023-03-29 21:20] silentslayers: cause dusk was in both games lol",
+      "messages": [
+        {
+          "id": "1090730958958895154",
+          "author": "xyotsuba",
+          "nickname": "xYotsuba",
+          "timestamp": "2023-03-29T21:15:25.417+01:00",
+          "content": "Code for that game? Seems like 307th could just die to botch spam"
+        },
+        {
+          "id": "1090731236642795560",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-29T21:16:31.622+01:00",
+          "content": "i liked the float by Dusk but i'd have bought cct (edit:on turn 5)"
+        },
+        {
+          "id": "1090731297179181149",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-29T21:16:46.055+01:00",
+          "content": "some questionable decisions"
+        },
+        {
+          "id": "1090731502343553094",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-03-29T21:17:34.97+01:00",
+          "content": "maybe you should consider adding the replay code in the description of the vid wonderboat ?"
+        },
+        {
+          "id": "1090731604021878934",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-29T21:17:59.212+01:00",
+          "content": "but yeah probably best to go nat c"
+        },
+        {
+          "id": "1090731962538406010",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T21:19:24.689+01:00",
+          "content": "ye lyra i keep forgetting lmao"
+        },
+        {
+          "id": "1090732149201698846",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T21:20:09.193+01:00",
+          "content": "Maybe i can still get them through dusk/mega-supp"
+        },
+        {
+          "id": "1090732187608961034",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T21:20:18.35+01:00",
+          "content": "cause dusk was in both games lol"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-29T21:24:41.925+01:00",
+      "end_ts": "2023-03-29T21:26:15.285+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2023-03-29) ---\n[2023-03-29 21:24] silentslayers: Codes up on both games\n[2023-03-29 21:26] silentslayers: Yes. Most people know it by now but it’s not like public public. Probably they don’t care by now tho.",
+      "messages": [
+        {
+          "id": "1090733293122617474",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T21:24:41.925+01:00",
+          "content": "Codes up on both games"
+        },
+        {
+          "id": "1090733684702859275",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-03-29T21:26:15.285+01:00",
+          "content": "Yes. Most people know it by now but it’s not like public public. Probably they don’t care by now tho."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-30T18:31:15.77+01:00",
+      "end_ts": "2023-03-30T18:32:19.1+01:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2023-03-30) ---\n[2023-03-30 18:31] steel0229e (Steel): this is an even better edit\n[2023-03-30 18:32] steel0229e (Steel): this game had many flaws especially late game",
+      "messages": [
+        {
+          "id": "1091052034410688562",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-30T18:31:15.77+01:00",
+          "content": "this is an even better edit"
+        },
+        {
+          "id": "1091052300035952741",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-03-30T18:32:19.1+01:00",
+          "content": "this game had many flaws especially late game"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-31T17:59:13.311+01:00",
+      "end_ts": "2023-03-31T17:59:13.311+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [
+        "2LP29-@8NPo"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-03-31) ---\n[2023-03-31 17:59] spiritfryer (Spyrfyr): funny game\n```2LP29-@8NPo```",
+      "messages": [
+        {
+          "id": "1091406358898819123",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-31T17:59:13.311+01:00",
+          "content": "funny game\n```2LP29-@8NPo```"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-03-31T23:29:07.7+01:00",
+      "end_ts": "2023-03-31T23:29:07.7+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-03-31) ---\n[2023-03-31 23:29] spiritfryer (Spyrfyr): eloyot is trying to tell me something",
+      "messages": [
+        {
+          "id": "1091489382583771156",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-03-31T23:29:07.7+01:00",
+          "content": "eloyot is trying to tell me something"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-01T00:15:59.634+01:00",
+      "end_ts": "2023-04-01T00:16:21.735+01:00",
+      "participants": [
+        "lyra1712",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (3 messages, 2023-04-01) ---\n[2023-04-01 00:15] silentslayers: oh you mean like, alive game\n[2023-04-01 00:16] silentslayers: not live games, got it\n[2023-04-01 00:16] lyra1712 (Lyra): i think both words deserve a plural at this point, LIVE**S** GAME**S**",
+      "messages": [
+        {
+          "id": "1091501176689799248",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-01T00:15:59.634+01:00",
+          "content": "oh you mean like, alive game"
+        },
+        {
+          "id": "1091501200387620955",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-01T00:16:05.284+01:00",
+          "content": "not live games, got it"
+        },
+        {
+          "id": "1091501269388120084",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-04-01T00:16:21.735+01:00",
+          "content": "i think both words deserve a plural at this point, LIVE**S** GAME**S**"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-01T21:22:58.347+01:00",
+      "end_ts": "2023-04-01T21:23:41.691+01:00",
+      "participants": [
+        "liquideggproduct"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (3 messages, 2023-04-01) ---\n[2023-04-01 21:22] liquideggproduct (Liquid Egg Product): Oooh, googly eyes work in the Black Lab\n[2023-04-01 21:23] liquideggproduct (Liquid Egg Product): Prismata team is so awesome\n[2023-04-01 21:23] liquideggproduct (Liquid Egg Product): actually, I take that back",
+      "messages": [
+        {
+          "id": "1091820022281810000",
+          "author": "liquideggproduct",
+          "nickname": "Liquid Egg Product",
+          "timestamp": "2023-04-01T21:22:58.347+01:00",
+          "content": "Oooh, googly eyes work in the Black Lab"
+        },
+        {
+          "id": "1091820155346112512",
+          "author": "liquideggproduct",
+          "nickname": "Liquid Egg Product",
+          "timestamp": "2023-04-01T21:23:30.072+01:00",
+          "content": "Prismata team is so awesome"
+        },
+        {
+          "id": "1091820204079714454",
+          "author": "liquideggproduct",
+          "nickname": "Liquid Egg Product",
+          "timestamp": "2023-04-01T21:23:41.691+01:00",
+          "content": "actually, I take that back"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-02T00:18:36.842+01:00",
+      "end_ts": "2023-04-02T00:18:57.721+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2023-04-02) ---\n[2023-04-02 00:18] silentslayers: msven entered the chatroom\n[2023-04-02 00:18] silentslayers: any pris stream best stream tbh lol",
+      "messages": [
+        {
+          "id": "1091864223933550593",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-02T00:18:36.842+01:00",
+          "content": "msven entered the chatroom"
+        },
+        {
+          "id": "1091864311506419742",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-02T00:18:57.721+01:00",
+          "content": "any pris stream best stream tbh lol"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-02T09:10:16.202+01:00",
+      "end_ts": "2023-04-02T10:12:13.982+01:00",
+      "participants": [
+        "iminabearsuit",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (4 messages, 2023-04-02) ---\n[2023-04-02 09:10] iminabearsuit: Just start your own stream and click it. ez\n[2023-04-02 10:12] spiritfryer (Spyrfyr): apooche was streaming\n[2023-04-02 10:12] spiritfryer (Spyrfyr): and it didn't show up in the list\n[2023-04-02 10:12] spiritfryer (Spyrfyr): so the achievement can never be achieved anymore",
+      "messages": [
+        {
+          "id": "1091998019546775622",
+          "author": "iminabearsuit",
+          "nickname": "iminaBearSuit",
+          "timestamp": "2023-04-02T09:10:16.202+01:00",
+          "content": "Just start your own stream and click it. ez"
+        },
+        {
+          "id": "1092013568834154586",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-02T10:12:03.441+01:00",
+          "content": "apooche was streaming"
+        },
+        {
+          "id": "1092013579638689802",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-02T10:12:06.017+01:00",
+          "content": "and it didn't show up in the list"
+        },
+        {
+          "id": "1092013613046313030",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-02T10:12:13.982+01:00",
+          "content": "so the achievement can never be achieved anymore"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-02T14:39:43.681+01:00",
+      "end_ts": "2023-04-02T14:39:55.983+01:00",
+      "participants": [
+        "velizar_"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (2 messages, 2023-04-02) ---\n[2023-04-02 14:39] velizar_ (Name): the bot uses this strat ^\n[2023-04-02 14:39] velizar_ (Name): it's the \"freeze you to death\" strategy",
+      "messages": [
+        {
+          "id": "1092080930363031712",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2023-04-02T14:39:43.681+01:00",
+          "content": "the bot uses this strat ^"
+        },
+        {
+          "id": "1092080981961347083",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2023-04-02T14:39:55.983+01:00",
+          "content": "it's the \"freeze you to death\" strategy"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-02T16:02:42.608+01:00",
+      "end_ts": "2023-04-02T16:03:29.923+01:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (3 messages, 2023-04-02) ---\n[2023-04-02 16:02] steel0229e (Steel): we are at the bidding phase\n[2023-04-02 16:03] steel0229e (Steel): we couldn't find a good contract\n[2023-04-02 16:03] steel0229e (Steel): Hopefully there are some bridge players here.",
+      "messages": [
+        {
+          "id": "1092101813496467497",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-04-02T16:02:42.608+01:00",
+          "content": "we are at the bidding phase"
+        },
+        {
+          "id": "1092101888452861978",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-04-02T16:03:00.479+01:00",
+          "content": "we couldn't find a good contract"
+        },
+        {
+          "id": "1092102011949953135",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-04-02T16:03:29.923+01:00",
+          "content": "Hopefully there are some bridge players here."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-02T16:09:18.901+01:00",
+      "end_ts": "2023-04-02T16:09:35.616+01:00",
+      "participants": [
+        "awaclus"
+      ],
+      "replay_codes": [],
+      "score": 6,
+      "formatted_text": "--- Thread (2 messages, 2023-04-02) ---\n[2023-04-02 16:09] awaclus: I guess you could say I'm a bridge player\n[2023-04-02 16:09] awaclus: usually when Bridge is in the kingdom, I buy at least a few of them",
+      "messages": [
+        {
+          "id": "1092103475669766144",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-04-02T16:09:18.901+01:00",
+          "content": "I guess you could say I'm a bridge player"
+        },
+        {
+          "id": "1092103545777565826",
+          "author": "awaclus",
+          "nickname": "Awaclus",
+          "timestamp": "2023-04-02T16:09:35.616+01:00",
+          "content": "usually when Bridge is in the kingdom, I buy at least a few of them"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-02T16:24:23.892+01:00",
+      "end_ts": "2023-04-02T16:26:38.184+01:00",
+      "participants": [
+        "sano712",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 4,
+      "formatted_text": "--- Thread (3 messages, 2023-04-02) ---\n[2023-04-02 16:24] silentslayers: econ should be valuable\n[2023-04-02 16:24] silentslayers: after arkas out econ becomes king\n[2023-04-02 16:26] sano712 (sano): if you go higher econ how do you hold against arka + bombs + hounds?",
+      "messages": [
+        {
+          "id": "1092107271477149696",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-02T16:24:23.892+01:00",
+          "content": "econ should be valuable"
+        },
+        {
+          "id": "1092107314976276521",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-02T16:24:34.263+01:00",
+          "content": "after arkas out econ becomes king"
+        },
+        {
+          "id": "1092107834738610358",
+          "author": "sano712",
+          "nickname": "sano",
+          "timestamp": "2023-04-02T16:26:38.184+01:00",
+          "content": "if you go higher econ how do you hold against arka + bombs + hounds?"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-02T16:57:48.67+01:00",
+      "end_ts": "2023-04-02T16:58:44.387+01:00",
+      "participants": [
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 10,
+      "formatted_text": "--- Thread (5 messages, 2023-04-02) ---\n[2023-04-02 16:57] silentslayers: dont go too high, just a tad slower\n[2023-04-02 16:58] silentslayers: if he gets uncountered its not necessarily losing\n[2023-04-02 16:58] silentslayers: a big rager isnt back breaking\n[2023-04-02 16:58] silentslayers: u just arka when u can\n[2023-04-02 16:58] silentslayers: not sure tho didnt analyze anything",
+      "messages": [
+        {
+          "id": "1092115680125517874",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-02T16:57:48.67+01:00",
+          "content": "dont go too high, just a tad slower"
+        },
+        {
+          "id": "1092115728079011870",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-02T16:58:00.103+01:00",
+          "content": "if he gets uncountered its not necessarily losing"
+        },
+        {
+          "id": "1092115784635006976",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-02T16:58:13.587+01:00",
+          "content": "a big rager isnt back breaking"
+        },
+        {
+          "id": "1092115864746209300",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-02T16:58:32.687+01:00",
+          "content": "u just arka when u can"
+        },
+        {
+          "id": "1092115913819570318",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-02T16:58:44.387+01:00",
+          "content": "not sure tho didnt analyze anything"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-02T17:30:47.635+01:00",
+      "end_ts": "2023-04-02T17:31:35.477+01:00",
+      "participants": [
+        "steel0229e"
+      ],
+      "replay_codes": [],
+      "score": 7,
+      "formatted_text": "--- Thread (3 messages, 2023-04-02) ---\n[2023-04-02 17:30] steel0229e (Steel): sano on turn 3 i'd ddb\n[2023-04-02 17:30] steel0229e (Steel): you undercut too much\n[2023-04-02 17:31] steel0229e (Steel): just wall of the first attack",
+      "messages": [
+        {
+          "id": "1092123980506349582",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-04-02T17:30:47.635+01:00",
+          "content": "sano on turn 3 i'd ddb"
+        },
+        {
+          "id": "1092124000815173653",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-04-02T17:30:52.477+01:00",
+          "content": "you undercut too much"
+        },
+        {
+          "id": "1092124181170229248",
+          "author": "steel0229e",
+          "nickname": "Steel",
+          "timestamp": "2023-04-02T17:31:35.477+01:00",
+          "content": "just wall of the first attack"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-03T13:45:58.705+01:00",
+      "end_ts": "2023-04-03T13:45:58.705+01:00",
+      "participants": [
+        "307th"
+      ],
+      "replay_codes": [
+        "CrAHv-NDa@S"
+      ],
+      "score": 4,
+      "formatted_text": "--- Thread (1 messages, 2023-04-03) ---\n[2023-04-03 13:45] 307th: anyone have thoughts on what i should have done differently in this game? CrAHv-NDa@S",
+      "messages": [
+        {
+          "id": "1092429791698886696",
+          "author": "307th",
+          "nickname": "307th",
+          "timestamp": "2023-04-03T13:45:58.705+01:00",
+          "content": "anyone have thoughts on what i should have done differently in this game? CrAHv-NDa@S"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-03T13:51:01.737+01:00",
+      "end_ts": "2023-04-03T14:01:43.684+01:00",
+      "participants": [
+        "307th",
+        "lyra1712",
+        "silentslayers"
+      ],
+      "replay_codes": [],
+      "score": 43,
+      "formatted_text": "--- Thread (19 messages, 2023-04-03) ---\n[2023-04-03 13:51] lyra1712 (Lyra): turn 13 you allow a breach, you could instead click rhino hold splitter, and i think you're winning then ? could be mistaken\n[2023-04-03 13:51] 307th: nah by this point i'm lost i'm pretty sure\n[2023-04-03 13:52] lyra1712 (Lyra): feels non obvious to me\n[2023-04-03 13:54] 307th: maybe i underestimated having the thermites\n[2023-04-03 13:55] 307th: i saw how easily he defended if i didn't gambit and assumed i was dead\n[2023-04-03 13:55] lyra1712 (Lyra): i seems to get to a standoff, i have no clue who's winning\n[2023-04-03 13:56] silentslayers: I don't think offering the breach was good (maybe obvious but w/e :P). Also, I thought whoever fired Wincer and just went in gets the better deal overall. Even though you get breached badly back. I tried going in for you and it lost by a bit, so you probably were a bit behind indeed. \n\nMaybe like Lyra's saying you could grind it out with the thermite but I'm not sure. I didn't look.\n\nIn my opinion the mega drone wasn't needed. Maybe there's a better moment because he had a rectifier coming in, or something about doomies and arka. You are giving him a bit of tempo for your incoming first Wincer afterall.\n[2023-04-03 13:56] 307th: yeah i thought turn 7 where i set up mega was maybe where it went wrong too\n[2023-04-03 13:58] lyra1712 (Lyra): i assume at some point someone should go in in the standoff case, but i have no clue when\n[2023-04-03 13:58] 307th: going in seems bad? you get absorbed for 6 then get mega-breached in return\n[2023-04-03 13:59] lyra1712 (Lyra): but you get to click your stack of ferals\n[2023-04-03 13:59] silentslayers: I don't think it's bad but I didn't analyze not doing it\n[2023-04-03 13:59] silentslayers: I think they (the person who fires wincer) get the better end of the deal tbh\n[2023-04-03 13:59] silentslayers: Like I went in for you 307th and you only lost by a tiny bit\n[2023-04-03 14:00] silentslayers: And like you said, you thought you were losing\n[2023-04-03 14:00] lyra1712 (Lyra): like, sure you get absorbed for 6, but maybe if you kill >6 ferals it's worth ?\n[2023-04-03 14:00] silentslayers: But yeah not 100% sure, I only analyzed it once with you going in\n[2023-04-03 14:01] silentslayers: It's this turn I tried going in\n[2023-04-03 14:01] silentslayers: I just wanted to get a feeling for how bad it is, because it's an interesting decision.",
+      "messages": [
+        {
+          "id": "1092431062707224626",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-04-03T13:51:01.737+01:00",
+          "content": "turn 13 you allow a breach, you could instead click rhino hold splitter, and i think you're winning then ? could be mistaken"
+        },
+        {
+          "id": "1092431121360359495",
+          "author": "307th",
+          "nickname": "307th",
+          "timestamp": "2023-04-03T13:51:15.721+01:00",
+          "content": "nah by this point i'm lost i'm pretty sure"
+        },
+        {
+          "id": "1092431528992194592",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-04-03T13:52:52.908+01:00",
+          "content": "feels non obvious to me"
+        },
+        {
+          "id": "1092431998586474506",
+          "author": "307th",
+          "nickname": "307th",
+          "timestamp": "2023-04-03T13:54:44.868+01:00",
+          "content": "maybe i underestimated having the thermites"
+        },
+        {
+          "id": "1092432083584024706",
+          "author": "307th",
+          "nickname": "307th",
+          "timestamp": "2023-04-03T13:55:05.133+01:00",
+          "content": "i saw how easily he defended if i didn't gambit and assumed i was dead"
+        },
+        {
+          "id": "1092432312614002709",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-04-03T13:55:59.738+01:00",
+          "content": "i seems to get to a standoff, i have no clue who's winning"
+        },
+        {
+          "id": "1092432375817961483",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T13:56:14.807+01:00",
+          "content": "I don't think offering the breach was good (maybe obvious but w/e :P). Also, I thought whoever fired Wincer and just went in gets the better deal overall. Even though you get breached badly back. I tried going in for you and it lost by a bit, so you probably were a bit behind indeed. \n\nMaybe like Lyra's saying you could grind it out with the thermite but I'm not sure. I didn't look.\n\nIn my opinion the mega drone wasn't needed. Maybe there's a better moment because he had a rectifier coming in, or something about doomies and arka. You are giving him a bit of tempo for your incoming first Wincer afterall."
+        },
+        {
+          "id": "1092432527765028904",
+          "author": "307th",
+          "nickname": "307th",
+          "timestamp": "2023-04-03T13:56:51.034+01:00",
+          "content": "yeah i thought turn 7 where i set up mega was maybe where it went wrong too"
+        },
+        {
+          "id": "1092432980577890315",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-04-03T13:58:38.993+01:00",
+          "content": "i assume at some point someone should go in in the standoff case, but i have no clue when"
+        },
+        {
+          "id": "1092433046520741948",
+          "author": "307th",
+          "nickname": "307th",
+          "timestamp": "2023-04-03T13:58:54.715+01:00",
+          "content": "going in seems bad? you get absorbed for 6 then get mega-breached in return"
+        },
+        {
+          "id": "1092433205346439271",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-04-03T13:59:32.582+01:00",
+          "content": "but you get to click your stack of ferals"
+        },
+        {
+          "id": "1092433214167076978",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T13:59:34.685+01:00",
+          "content": "I don't think it's bad but I didn't analyze not doing it"
+        },
+        {
+          "id": "1092433244563189810",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T13:59:41.932+01:00",
+          "content": "I think they (the person who fires wincer) get the better end of the deal tbh"
+        },
+        {
+          "id": "1092433317862854696",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T13:59:59.408+01:00",
+          "content": "Like I went in for you 307th and you only lost by a tiny bit"
+        },
+        {
+          "id": "1092433343703941180",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:00:05.569+01:00",
+          "content": "And like you said, you thought you were losing"
+        },
+        {
+          "id": "1092433394593448026",
+          "author": "lyra1712",
+          "nickname": "Lyra",
+          "timestamp": "2023-04-03T14:00:17.702+01:00",
+          "content": "like, sure you get absorbed for 6, but maybe if you kill >6 ferals it's worth ?"
+        },
+        {
+          "id": "1092433570099888219",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:00:59.546+01:00",
+          "content": "But yeah not 100% sure, I only analyzed it once with you going in"
+        },
+        {
+          "id": "1092433670184390717",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:01:23.408+01:00",
+          "content": "It's this turn I tried going in"
+        },
+        {
+          "id": "1092433755228082196",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:01:43.684+01:00",
+          "content": "I just wanted to get a feeling for how bad it is, because it's an interesting decision."
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-03T14:17:08.137+01:00",
+      "end_ts": "2023-04-03T14:39:21.366+01:00",
+      "participants": [
+        "silentslayers",
+        "spiritfryer",
+        "velizar_"
+      ],
+      "replay_codes": [
+        "aster-botti",
+        "rings-power"
+      ],
+      "score": 104,
+      "formatted_text": "--- Thread (35 messages, 2023-04-03) ---\n[2023-04-03 14:17] spiritfryer (Spyrfyr): I've been a mega fan but lately it's been often feeling underwhelming vs wall\n\nin that game's case it wasn't even vs a wall, it was vs a feral that later soaked\n[2023-04-03 14:17] spiritfryer (Spyrfyr): but I'm saying this without any analysis of alternative lines\n[2023-04-03 14:19] spiritfryer (Spyrfyr): also mega held the turn after\n[2023-04-03 14:19] spiritfryer (Spyrfyr): so paying 5 gold, dealing 4 less damage (no absorb denied), getting +4 tempo the next turn\n[2023-04-03 14:19] spiritfryer (Spyrfyr): so oppo got the 4 tempo earlier, in exchange for you getting 4 tempo for 5 gold, within the context of just those 2 turns\n[2023-04-03 14:19] spiritfryer (Spyrfyr): ofc it later mines but\n[2023-04-03 14:21] velizar_ (Name): I've been and still am a mega fan of Prismata\n[2023-04-03 14:22] velizar_ (Name): what do you expect, giga fan? tera? to be fair mega drone isn't a million drones, it's just exaggerating\n[2023-04-03 14:23] spiritfryer (Spyrfyr): wouldn't have had to grind this out over eons\n[2023-04-03 14:26] spiritfryer (Spyrfyr): is that the last missing achievo?\n[2023-04-03 14:26] velizar_ (Name): like some hard puzzles and stuff\n[2023-04-03 14:26] velizar_ (Name): idk, I'm master-botting rn\n[2023-04-03 14:26] velizar_ (Name): can't go to achievements menu\n[2023-04-03 14:27] spiritfryer (Spyrfyr): inb4 ui disappears after game\n[2023-04-03 14:27] silentslayers: smurf making progress lul\n[2023-04-03 14:28] silentslayers: this achievement takes so long jeez\n[2023-04-03 14:28] silentslayers: this account has lots of games\n[2023-04-03 14:28] spiritfryer (Spyrfyr): we can grind it out in a savior game if you want xd\n[2023-04-03 14:28] spiritfryer (Spyrfyr): ah but you gotta press q for that\n[2023-04-03 14:28] silentslayers: but we cant break the cap sadge\n[2023-04-03 14:28] spiritfryer (Spyrfyr): prolly better to grind it in a vivid game\n[2023-04-03 14:29] spiritfryer (Spyrfyr): yea but if you disable end of turn confirm, and we both hold space, I think it does turns ultra fast no?\n[2023-04-03 14:30] silentslayers: @ mods this guy is dangerous\n[2023-04-03 14:30] spiritfryer (Spyrfyr): it's ok mods can't reset my gold produced pogress :LongNoseLiar:\n[2023-04-03 14:30] silentslayers: https://tenor.com/view/abraxas-lotr-lord-of-the-rings-power-rohan-king-gif-14050384\n[2023-04-03 14:33] spiritfryer (Spyrfyr): in analysis space hold does like 5 turns per sec or so\n[2023-04-03 14:33] velizar_ (Name): the only one which I \"cheated\" was the one which required me to attack with 20 Gauss cannons in a single turn\n[2023-04-03 14:34] velizar_ (Name): oh also maybe one or two more which were also about very rare situations\n[2023-04-03 14:34] spiritfryer (Spyrfyr): lazy 9 vivids = 135 gold per sec\n\n= 1KK gold in about 2 hours\n[2023-04-03 14:35] spiritfryer (Spyrfyr): dang, even (The Witness spoilers): ||eclipse takes half as long||\n[2023-04-03 14:37] spiritfryer (Spyrfyr): what does a 10K turn game do to the replay file xd\n[2023-04-03 14:38] silentslayers: Not our problem :LongNoseLiar:\n[2023-04-03 14:38] spiritfryer (Spyrfyr): surely there is a cut-off of some kind\n[2023-04-03 14:38] spiritfryer (Spyrfyr): beyond amazon emailing about full storage\n[2023-04-03 14:39] spiritfryer (Spyrfyr): grimbotch infestation spawns in the middle of the board and kills both sides",
+      "messages": [
+        {
+          "id": "1092437632665006211",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:17:08.137+01:00",
+          "content": "I've been a mega fan but lately it's been often feeling underwhelming vs wall\n\nin that game's case it wasn't even vs a wall, it was vs a feral that later soaked"
+        },
+        {
+          "id": "1092437826785788015",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:17:54.419+01:00",
+          "content": "but I'm saying this without any analysis of alternative lines"
+        },
+        {
+          "id": "1092438125999050893",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:19:05.757+01:00",
+          "content": "also mega held the turn after"
+        },
+        {
+          "id": "1092438182420828171",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:19:19.209+01:00",
+          "content": "so paying 5 gold, dealing 4 less damage (no absorb denied), getting +4 tempo the next turn"
+        },
+        {
+          "id": "1092438258018951178",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:19:37.233+01:00",
+          "content": "so oppo got the 4 tempo earlier, in exchange for you getting 4 tempo for 5 gold, within the context of just those 2 turns"
+        },
+        {
+          "id": "1092438308883288145",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:19:49.36+01:00",
+          "content": "ofc it later mines but"
+        },
+        {
+          "id": "1092438790234194001",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2023-04-03T14:21:44.123+01:00",
+          "content": "I've been and still am a mega fan of Prismata"
+        },
+        {
+          "id": "1092439090647027742",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2023-04-03T14:22:55.747+01:00",
+          "content": "what do you expect, giga fan? tera? to be fair mega drone isn't a million drones, it's just exaggerating"
+        },
+        {
+          "id": "1092439280779022406",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:23:41.078+01:00",
+          "content": "wouldn't have had to grind this out over eons"
+        },
+        {
+          "id": "1092439866509381714",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:26:00.727+01:00",
+          "content": "is that the last missing achievo?"
+        },
+        {
+          "id": "1092439936269037669",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2023-04-03T14:26:17.359+01:00",
+          "content": "like some hard puzzles and stuff"
+        },
+        {
+          "id": "1092439959186710538",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2023-04-03T14:26:22.823+01:00",
+          "content": "idk, I'm master-botting rn"
+        },
+        {
+          "id": "1092440012781539408",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2023-04-03T14:26:35.601+01:00",
+          "content": "can't go to achievements menu"
+        },
+        {
+          "id": "1092440244353245285",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:27:30.812+01:00",
+          "content": "inb4 ui disappears after game"
+        },
+        {
+          "id": "1092440248824373338",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:27:31.878+01:00",
+          "content": "smurf making progress lul"
+        },
+        {
+          "id": "1092440407775911987",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:28:09.775+01:00",
+          "content": "this achievement takes so long jeez"
+        },
+        {
+          "id": "1092440439157694605",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:28:17.257+01:00",
+          "content": "this account has lots of games"
+        },
+        {
+          "id": "1092440507973632080",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:28:33.664+01:00",
+          "content": "we can grind it out in a savior game if you want xd"
+        },
+        {
+          "id": "1092440576244318358",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:28:49.941+01:00",
+          "content": "ah but you gotta press q for that"
+        },
+        {
+          "id": "1092440595013841007",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:28:54.416+01:00",
+          "content": "but we cant break the cap sadge"
+        },
+        {
+          "id": "1092440601208819852",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:28:55.893+01:00",
+          "content": "prolly better to grind it in a vivid game"
+        },
+        {
+          "id": "1092440760999219322",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:29:33.99+01:00",
+          "content": "yea but if you disable end of turn confirm, and we both hold space, I think it does turns ultra fast no?"
+        },
+        {
+          "id": "1092440883573571605",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:30:03.214+01:00",
+          "content": "@ mods this guy is dangerous"
+        },
+        {
+          "id": "1092441033251487844",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:30:38.9+01:00",
+          "content": "it's ok mods can't reset my gold produced pogress :LongNoseLiar:"
+        },
+        {
+          "id": "1092441092064038932",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:30:52.922+01:00",
+          "content": "https://tenor.com/view/abraxas-lotr-lord-of-the-rings-power-rohan-king-gif-14050384"
+        },
+        {
+          "id": "1092441626535792801",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:33:00.35+01:00",
+          "content": "in analysis space hold does like 5 turns per sec or so"
+        },
+        {
+          "id": "1092441797432713237",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2023-04-03T14:33:41.095+01:00",
+          "content": "the only one which I \"cheated\" was the one which required me to attack with 20 Gauss cannons in a single turn"
+        },
+        {
+          "id": "1092442005130453032",
+          "author": "velizar_",
+          "nickname": "Name",
+          "timestamp": "2023-04-03T14:34:30.614+01:00",
+          "content": "oh also maybe one or two more which were also about very rare situations"
+        },
+        {
+          "id": "1092442063485804584",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:34:44.527+01:00",
+          "content": "lazy 9 vivids = 135 gold per sec\n\n= 1KK gold in about 2 hours"
+        },
+        {
+          "id": "1092442335448678470",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:35:49.368+01:00",
+          "content": "dang, even (The Witness spoilers): ||eclipse takes half as long||"
+        },
+        {
+          "id": "1092442807089774674",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:37:41.816+01:00",
+          "content": "what does a 10K turn game do to the replay file xd"
+        },
+        {
+          "id": "1092442918792482946",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:38:08.448+01:00",
+          "content": "Not our problem :LongNoseLiar:"
+        },
+        {
+          "id": "1092442959674351768",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:38:18.195+01:00",
+          "content": "surely there is a cut-off of some kind"
+        },
+        {
+          "id": "1092442999893524480",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:38:27.784+01:00",
+          "content": "beyond amazon emailing about full storage"
+        },
+        {
+          "id": "1092443224632737945",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:39:21.366+01:00",
+          "content": "grimbotch infestation spawns in the middle of the board and kills both sides"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-03T14:51:59.47+01:00",
+      "end_ts": "2023-04-03T14:52:36.125+01:00",
+      "participants": [
+        "silentslayers",
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 5,
+      "formatted_text": "--- Thread (2 messages, 2023-04-03) ---\n[2023-04-03 14:51] spiritfryer (Spyrfyr): I'd disinfect the needles before though\n[2023-04-03 14:52] silentslayers: https://tenor.com/view/lotr-gollum-gif-27434633",
+      "messages": [
+        {
+          "id": "1092446404351365160",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T14:51:59.47+01:00",
+          "content": "I'd disinfect the needles before though"
+        },
+        {
+          "id": "1092446558093582406",
+          "author": "silentslayers",
+          "nickname": "SilentSlayers",
+          "timestamp": "2023-04-03T14:52:36.125+01:00",
+          "content": "https://tenor.com/view/lotr-gollum-gif-27434633"
+        }
+      ]
+    },
+    {
+      "start_ts": "2023-04-03T15:57:11.296+01:00",
+      "end_ts": "2023-04-03T15:57:11.296+01:00",
+      "participants": [
+        "spiritfryer"
+      ],
+      "replay_codes": [],
+      "score": 3,
+      "formatted_text": "--- Thread (1 messages, 2023-04-03) ---\n[2023-04-03 15:57] spiritfryer (Spyrfyr): it would seem I have inadvertently spoiled ||a video that was in the making||, rip",
+      "messages": [
+        {
+          "id": "1092462811738812536",
+          "author": "spiritfryer",
+          "nickname": "Spyrfyr",
+          "timestamp": "2023-04-03T15:57:11.296+01:00",
+          "content": "it would seem I have inadvertently spoiled ||a video that was in the making||, rip"
+        }
+      ]
+    }
+  ]
+}
