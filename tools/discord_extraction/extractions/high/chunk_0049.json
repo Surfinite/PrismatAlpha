@@ -1,0 +1,449 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When buying a Drone and Forcefield in the same sequence, the Drone does not reduce the Forcefield's cost to 3G on the same turn; the gold cost is always 4G for Forcefield (3G) plus 1G for Drone, totaling a 5G swing in resources the turn they are bought.",
+    "units": [
+      "Drone",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "mrguy888, spiritfryer",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "Discussion clarifying a common misconception about unit purchasing mechanics and resource timing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-12-13 20:10",
+      "2018-12-13 20:14",
+      "2018-12-13 20:19"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Pixies should prioritize attacking 1-health defenders (primarily Engineers) rather than Walls, because destroying 1-health units denies opponent granularity and forces them to reserve units for future pixie attacks, improving your position.",
+    "units": [
+      "Pixie",
+      "Engineer",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "Discussion of optimal damage allocation strategy when using modular damage units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-12-31 17:28",
+      "2018-12-31 17:32"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Savior has a strong turn 3 window: P2 can achieve turn 3 Savior with the sequence DD/DD/DDD1, making early Savior a threatening pressure point that P1 must respect.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-12",
+    "replay_code": "2ZuT@-6FD3V",
+    "context": "Analysis of optimal Savior timing and early game pressure in a specific set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-12-16 22:49",
+      "2018-12-16 22:52"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "With Thorium Dynamo and Zemora Voidbringer in set, P2 can execute a line like 1.DC 2.D1 3.DD 4.D12 5.C11 (where 1=Dynamo, 2=Zemora), gaining flexibility by transposing the turn 1 Conduit with turn 2 Drone to trade 1 health for 1 extra green, which is spent clicking Dynamo for an additional Conduit.",
+    "units": [
+      "Thorium Dynamo",
+      "Zemora Voidbringer",
+      "Conduit",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "Expert explanation of an advanced opening sequence maximizing economy flexibility.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-12-30 00:20"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "P2 Zemora/Dynamo opening: 1...DC 2...DC 3...Zemora+Dynamo is a potential early pressure line that may be strong, discovered during analysis of Dynamo economy plays.",
+    "units": [
+      "Zemora Voidbringer",
+      "Thorium Dynamo",
+      "Conduit",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "Discovery of an alternative early Zemora/Dynamo opening for P2.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-12-30 00:22"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When deciding whether to destroy walls vs. Engineers with attack: destroying Engineers denies opponent granularity and forces them to buy replacement defense, while destroying walls makes them buy Walls again but can result in opponent needing fewer resources overall if they shift to Engineer defense. The decision depends on whether you can exploit opponent non-granularity next turn.",
+    "units": [
+      "Engineer",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "jamberine, subido",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "In-depth analysis of damage allocation strategy with Pixies and other modular damage sources.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-12-31 17:28",
+      "2018-12-31 17:32",
+      "2018-12-31 19:05",
+      "2018-12-31 19:07"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "With Rhino and modular damage sources, consider that soaking Rhino next turn after dealing damage trades off permanent attack for soak, making the evaluation complex: soaking an Engineer to force opponent to buy granular defense is usually better than soaking Rhino unless you need to exploit non-granularity immediately.",
+    "units": [
+      "Rhino",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2018-12",
+    "replay_code": null,
+    "context": "Analysis of defense unit priorities when using Rhinos with modular damage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-12-31 17:57",
+      "2018-12-31 18:58"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Plexo Cell is the best soak in a given set; if there is no unit to counter it effectively, Blue sinks like Electrovore become less valuable because opponent defense is extremely efficient, making Red attack strategies significantly worse in those matchups.",
+    "units": [
+      "Plexo Cell",
+      "Electrovore",
+      "Tesla Coil",
+      "Drake"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": "4Hl6m-t+uSU",
+    "context": "Analysis of why Red failed in a set with strong Blue defense and no counters.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-06 22:06"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When evaluating attacking units (e.g., Splitter hold vs. Rhino as defense), in a vacuum with perfect resource efficiency and ignoring granularity, Rhino soak is roughly 5R equivalent, while Splitter hold forces opponent to spend 5R-6B+ on attackers, making Rhino the superior defensive value in most scenarios unless opponent has high-efficiency attackers.",
+    "units": [
+      "Splitter",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "drevoed",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Mathematical analysis of defense unit efficiency comparing Rhino vs. Splitter hold.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-01-11 10:49"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against Iceblades pressure, Arms Race is effective because it avoids giving Engineers value (Engineers would block Iceblades shots), whereas switching from Arms Race to Ampo after Iceblades are destroyed is typically too late because Arms Race is a very slow unit that must be bought early or not at all.",
+    "units": [
+      "Iceblades",
+      "Arms Race",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Explanation of Arms Race timing and strategy against Iceblades.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-22 18:05",
+      "2019-01-22 18:06"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "With Wild Drone in set, D1E DD1 (third Engineer opening) for P2 is a natural way to spend floating gold that would otherwise be wasted, though it feels awkward because actual tech units are delayed.",
+    "units": [
+      "Wild Drone",
+      "Drone",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Discussion of P2 opening options with Wild Drone available.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-23 01:13"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Wild Drone creates a trade-off: spamming Wild Drones means you delay absorb, but each Wild killed by opponent is roughly half a point of absorb value, making Wild less extreme than previous iterations because opponent kills them at worse ratio.",
+    "units": [
+      "Wild Drone"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Analysis of Wild Drone economy trade-off in high-econ sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-23 01:27",
+      "2019-01-23 01:31",
+      "2019-01-23 01:32"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Defensive Defense Grid rush: DD/DDE/DDD/DDDB/WBB is the most defensive variant of the Defense Grid rush, useful when P1 wants to secure early blue without committing too heavily to attack.",
+    "units": [
+      "Defense Grid",
+      "Drone",
+      "Engineer",
+      "Wall",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Specific Defense Grid opening sequence identified as most conservative.",
+    "temporal_validity": "historical",
+    "source_message_ids": [
+      "2019-01-23 02:44"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Defense Grid is often better than Lucina in Blue mirrors because Omega Splitter and Grenade Mech make it hard to justify both; if forced to choose, Defense Grid is higher priority.",
+    "units": [
+      "Defense Grid",
+      "Lucina",
+      "Omega Splitter",
+      "Grenade Mech"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Analysis of unit priority in Blue mirror sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-23 03:01"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Master Bot is predictable and not good practice because: it builds absorb anyway regardless of absorb denial strategy, its defense prioritizes sacrificing Rhino over Wall, it fails to pressure Savior adequately, and it buys second Animus reactively rather than proactively, leading to overvaluation of certain strategies against it.",
+    "units": [
+      "Rhino",
+      "Wall",
+      "Savior",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "masn6811, amalloy",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Discussion of Master Bot's limitations as a practice opponent.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-01-23 03:12",
+      "2019-01-23 03:13",
+      "2019-01-23 03:15",
+      "2019-01-23 03:16"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Odin's recent nerf (increased cost) has reduced its must-buy status; it is now primarily justified as a Blue sink when you have limited other options, and the value of clicking it has not increased while the value of not-clicking (absorbing with it) has decreased significantly.",
+    "units": [
+      "Odin"
+    ],
+    "confidence": "high",
+    "author": "sano712, amalloy, masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Analysis of Odin's role post-balance patch.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-24 18:04",
+      "2019-01-24 18:13",
+      "2019-01-24 18:14",
+      "2019-01-25 19:46"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Odin click generates roughly 3 attack and 4 threat for 20BBB cost; the opponent must buy 3 soak next turn in exchange for an attack, making the trade roughly equivalent to forcing opponent to pay 3 soak cost for 1 attack value—a trade that appeared better before Odin's recent cost increase.",
+    "units": [
+      "Odin"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Mathematical analysis of Odin click efficiency.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-24 19:26",
+      "2019-01-24 19:44"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "The Odin nerf (cost increase from 14BBB to 20BBB) was very large and now makes Odin worse than Omega, which was already considered weak; ideally Odin should cost around 14.5BBB to be more justifiable.",
+    "units": [
+      "Odin",
+      "Omega Splitter"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Expert assessment of Odin balance after recent patch.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-25 19:46",
+      "2019-01-26 16:28"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When using Plasmafier, the goal is to convert all Drones into damage as quickly as possible; the longer the game extends, the harder Plasmafier is to win with, so holding Plasmafier for defense is very costly and third+ Plasmafiers are often overkill compared to buying Forcefields and Walls/Boreholes for defense.",
+    "units": [
+      "Plasmafier",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-01",
+    "replay_code": "dJSuI-9K8JC",
+    "context": "Analysis of Plasmafier strategy emphasizing speed and tempo.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-31 02:37",
+      "2019-01-31 02:38",
+      "2019-01-31 02:40"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Against fast Animus (fastimus), Natural Conduit opening (DDB turn 3 with Conduit) is now more convincing than Elyot Animus (DD/DA) in base+1 sets, representing a shift in established P1 responses to fastimus pressure.",
+    "units": [
+      "Animus",
+      "Conduit",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Update to Base+1 meta theory regarding anti-fastimus lines.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-31 02:55"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Base+1 fast Animus mirrors, established P2 winning lines include: DD/DD/DDB/DTT and DD/DD/DDA/DTT, both considered convincing P2 wins. DD/DD/DDB/DTT requires very tight play.",
+    "units": [
+      "Animus",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Known P2 winning sequences against fast Animus in Base+1 sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-31 02:57"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Elyot Animus (DD/DA/DDD line) is only viable with small Red units like Immolite, Nitrocybe, or Electrovore to justify the economy sacrifice; without them, it is too weak and gets refuted by opponent's fastimus.",
+    "units": [
+      "Animus",
+      "Immolite",
+      "Nitrocybe",
+      "Electrovore"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Analysis of Elyot Animus viability conditions.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-31 01:54"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Chieftain has excellent soak and attack efficiency; its strength is such that even though Chill beats Lifespan, Chieftain can still dominate a game due to superior unit efficiency.",
+    "units": [
+      "Chieftain",
+      "Chill",
+      "Lifespan"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2018-12",
+    "replay_code": "D@J6v-Nhhla",
+    "context": "Observation of Chieftain's strong unit economy despite type disadvantage.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-12-16 20:54"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When evaluating strategy viability: P2's strong economy lines (e.g., DD/DDC/DA/TT/CynR with Cynestra) can force P1 to go early Animus to pressure fast enough, but if no concrete early Animus line refutes P2's strategy, P1 may need higher-econ plays (e.g., Bloodrager or other damage sources) to outscale.",
+    "units": [
+      "Animus",
+      "Cynestra",
+      "Bloodrager"
+    ],
+    "confidence": "medium",
+    "author": "zera777, amalloy",
+    "date": "2019-01",
+    "replay_code": null,
+    "context": "Discussion of P1 options against strong P2 economy setups.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-01-31 01:47",
+      "2019-01-31 02:11"
+    ]
+  }
+]

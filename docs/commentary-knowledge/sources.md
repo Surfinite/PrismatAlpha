@@ -290,3 +290,9 @@ Downloaded MP4 files, transcribed locally with faster-whisper (small model, CPU)
 - **Pass 3**: 9 recovered Wayback Machine sources integrated (Yujiri analyses 2-9 + Punf guest article). All were already in `docs/recovered-sources/` but had not been extracted into the knowledge base files. Added to 03-advanced-units.md (unit insights + Punf assessments), 04-strategy-concepts.md (attacker framework, pseudo-bp, RPS sets), 06-meta-expert.md (8 set reading examples + Punf strategy guide).
 - **Pass 4 (Feb 20, 2026)**: Massive content harvesting sweep. 148 YouTube transcripts pulled (Msven 17, argeiphontes 40, amalloy 41, Wonderboat 5, Lunarch 44, Jean Ventura 1). 45 Lunarch blog articles recovered via Wayback Machine. 629 Reddit posts collected via PullPush API. Content extracted via 5 parallel extraction agents, merged via 5 parallel merge agents. All 7 KB files significantly expanded. Twitch VOD transcription via faster-whisper (in progress).
 - Many irrelevant search results filtered: Cosmoteer ("Ultimate Guide to Prisms"), Banner Saga ("Combat Strategy Primer"), Slime Rancher 2 ("Prisma Plorts"), military defense articles, Reddit business strategy posts
+
+
+### Tier 4: Discord Community Discussion
+~222,854 messages from Prismata Discord (2015-2026) -- general_chat excluded.
+Channels: strategy_advice, unit_and_game_design, ask_a_dev, alpha_player_lounge,
+prismata_chat, questions_and_help, dev_seeking_feedback, Prismata League general.

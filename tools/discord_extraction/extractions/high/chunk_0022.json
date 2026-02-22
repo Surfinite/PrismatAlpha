@@ -1,0 +1,356 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Unit evaluation via math should consider how value changes across different resource ratios (R values), particularly for units like Zemora Voidbringer that depend heavily on build time. Simple single-number rankings miss critical context; graphs or multiple data points at different R values provide better strategic information.",
+    "units": [
+      "Zemora Voidbringer"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion on mathematical unit evaluation methodologies and limitations of single-value rankings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-04-28_04:22",
+      "2018-04-28_04:23",
+      "2018-04-28_04:24"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Omega Splitter should be held (not clicked) when the tempo, absorb, and damage you gain collectively outweigh the damage cost of holding. In completely granular positions, holding is typically correct, but the decision depends heavily on the specific board state.",
+    "units": [
+      "Omega Splitter"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Explanation of why mathematical analysis of unit value can mislead players into always holding Omega without considering position-specific factors.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-04-28_05:33"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Standard Chrono Filter + Wincer openings: P1 fastest rush is dd dc b1, P2 fastest is dd ddc b1. However, both extreme no-drone-first lines are usually bad and lose to Gauss Cannon spam; P2's fastest possible (no t1 drone) fails because P2 only has 21 gold on turn 1 but needs 22 for Conduit tech + Wincer.",
+    "units": [
+      "Chrono Filter",
+      "Wincer",
+      "Gauss Cannon"
+    ],
+    "confidence": "high",
+    "author": "kristian1103",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Discussion of Chrono Filter + Wincer opening lines and why the fastest theoretical rushes don't work in practice.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-04-28_13:27",
+      "2018-04-28_13:29",
+      "2018-04-28_13:30",
+      "2018-04-28_13:33",
+      "2018-04-28_13:34"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Resophore is weak when both good attackers and good soak are present, because soak counters the large absorber that Resophore builds. However, if soak is present without strong attackers, Resophore's long build time actually mitigates the downside of soak by the time it fires. Train units (lifespan attackers) are theoretically good against Resophore but hard to set up early enough.",
+    "units": [
+      "Resophore"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Analysis of Resophore matchups against soak and train units, with discussion of when Resophore is favored.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-04-30_13:52",
+      "2018-04-30_13:53",
+      "2018-04-30_20:16",
+      "2018-04-30_20:17",
+      "2018-04-30_22:08",
+      "2018-04-30_22:09"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Green soak (Infusion Grid) specifically helps Resophore more than other soak types, because the Resophore player's economy goes down naturally with a large unit, and using green on soak to save Forcefields is better than buying additional Forcefields or losing economy.",
+    "units": [
+      "Resophore",
+      "Infusion Grid"
+    ],
+    "confidence": "medium",
+    "author": "kristian1103",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Specific analysis of how different soak types interact with Resophore.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-04-30_22:08",
+      "2018-04-30_22:09"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Barrier is better than Forcefield when you have the choice while absorbing (you keep the drone instead of losing future health). Forcefield is better when you will definitely be breached, as it forces the opponent to kill a drone instead of giving them the option to kill something else. Barrier is exploitable by attackers that deal odd damage (e.g., Pixie).",
+    "units": [
+      "Barrier",
+      "Forcefield",
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Detailed comparison of Barrier vs Forcefield in different game situations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-01_18:02"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In Deadeye Operative setups, building Infusion Grid over Wall early often improves the line because you lose one Engineer but gain immediate health and extra absorb for future turns, allowing more drones instead of walls. This is particularly strong when the opponent is attacking for low damage (1-2).",
+    "units": [
+      "Deadeye Operative",
+      "Infusion Grid",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": "eR8ap-A0ktX",
+    "context": "Set analysis and opening optimization for Deadeye Operative strategy.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-01_07:52",
+      "2018-05-01_08:05"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Building a second Blastforge in a Deadeye setup is inefficient when Infusion Grid is available, because you only need one Blastforge for Deadeye and can free up resources by using Grid instead.",
+    "units": [
+      "Deadeye Operative",
+      "Blastforge",
+      "Infusion Grid"
+    ],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2018-05",
+    "replay_code": "eR8ap-A0ktX",
+    "context": "Optimization of Deadeye Operative opening lines.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-01_07:52"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Killing Engineers with granular attackers (like Pixie) is worth more than killing Walls, because it reduces the opponent's future economy more severely than destroying absorb.",
+    "units": [
+      "Pixie",
+      "Engineer",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of defensive prioritization and targeting in Pixie-based attacks.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-01_20:48",
+      "2018-05-01_20:49"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In high-Engineer sets (3+ Engineers), if both Blastforge first and Conduit first are bad, standard P1 opening is dd dde ddd ddde dddda. Natural Animus (dd dde ddd ddda) can be better than forcing a second Engineer, especially if the set has strong unit synergies like Lancetooth + Manticore that benefit from Animus.",
+    "units": [
+      "Animus",
+      "Blastforge",
+      "Conduit",
+      "Engineer",
+      "Lancetooth",
+      "Manticore"
+    ],
+    "confidence": "medium",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": "IKFa3-j1+m2",
+    "context": "Discussion of opening strategy in Engineer-heavy sets where standard tech choices are suboptimal.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-01_21:48",
+      "2018-05-01_21:51",
+      "2018-05-01_21:53",
+      "2018-05-01_21:56",
+      "2018-05-01_22:03"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Delayed attack (slow units like Tarsier) is significantly worse than fast attack because exponential economy growth makes the earliest turns most important. A fast attacker applying pressure one turn earlier forces the opponent to defend instead of building economy, snowballing advantage. Four-turn-plus damage is \"virtually irrelevant\" compared to immediate threats.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": "adByh-U194q",
+    "context": "Explanation to new player of why Tarsier underperforms relative to fast attackers despite appearing cheap and infinite.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-05_09:48",
+      "2018-05-05_09:52",
+      "2018-05-05_09:53",
+      "2018-05-05_09:54"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Grimbotch is best held at 1 lifespan rather than clicked away, as holding provides more value. Attacking with Grimbotch costs 2 life to deal 1 damage; this is only worth it if you are breaching to kill a key unit like Shadowfang.",
+    "units": [
+      "Grimbotch",
+      "Shadowfang"
+    ],
+    "confidence": "high",
+    "author": "itsotter",
+    "date": "2018-05",
+    "replay_code": "adByh-U194q",
+    "context": "Analysis of how to properly value and use Grimbotch in offensive and defensive contexts.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-05_09:45",
+      "2018-05-05_09:46"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Fast attacking units (like Grimbotch or Asteri) are generally better than slow units (Tarsier) because attacking one turn earlier to apply pressure is worth far more than additional delayed damage, even when the fast unit is more expensive.",
+    "units": [
+      "Grimbotch",
+      "Asteri",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-05",
+    "replay_code": "adByh-U194q",
+    "context": "Explanation of why the opponent built Grimbotch and Asteri instead of Tarsier, and why it won.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-05_09:40",
+      "2018-05-05_09:42"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Arms Race is best bought early when the opponent cannot immediately get value from the Engineers you give them. Late in the game, opponents appreciate the extra Engineers more because of high pressure and inflation, making Arms Race less efficient relative to better attackers. Arms Race should typically only be purchased 1-2 times unless no other attackers are available.",
+    "units": [
+      "Arms Race",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "msven",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Analysis of Arms Race's timing dependency and why it's not a good buy in large quantities even as early attackers.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-06_04:08",
+      "2018-05-06_04:09"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Arms Race is often undervalued by mathematical analysis that ignores context. It functions as a bigger, slower Tarsier, but should not be called 'total trash' because it is frequently bought in many pools and has strong long-term value, especially in sets where it forces early pressure.",
+    "units": [
+      "Arms Race",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "p0lari",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Debate about Arms Race's strength and why percentile-based rankings can mislead about unit viability.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-06_07:19",
+      "2018-05-06_07:48",
+      "2018-05-06_07:54"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When an Arms Race is bought on you, you should use the extra Engineers to buy attack (which typically has high inflation value) rather than additional defense, because pressure rises and attack becomes more efficient than defense at absorbing the threat.",
+    "units": [
+      "Arms Race",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of economic dynamics when Arms Race is played against you.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-06_07:08"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Low-economy red mirrors are difficult to execute correctly in time pressure (45 seconds) because there are many optimal decisions per turn; 60-90 seconds is more comfortable for accurate play in these positions.",
+    "units": [],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-04",
+    "replay_code": null,
+    "context": "Personal reflection on time management in specific game types.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-04-28_14:13"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In rush-heavy sets with units like Vore, buying Engineers is necessary to avoid being exploited, and Vore naturally synergizes with Engineers anyway.",
+    "units": [
+      "Vore",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2018-04",
+    "replay_code": "rJ@tm-8tuLu",
+    "context": "Tactical feedback on a replay where the player neglected Engineers in a rush scenario.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-04-28_13:42",
+      "2018-04-28_13:43"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Setting up Arkanide before the opponent can counter-Arkanide is generally bad in rushy sets. The correct approach is to be ready to defend against or counter Arkanide if the opponent plays it, rather than forcing your own Arkanide setup.",
+    "units": [
+      "Arkanide"
+    ],
+    "confidence": "medium",
+    "author": "kristian1103",
+    "date": "2018-04",
+    "replay_code": "rJ@tm-8tuLu",
+    "context": "Discussion of Arkanide timing and setup in aggressive sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-04-28_13:51",
+      "2018-04-28_13:52",
+      "2018-04-28_13:55"
+    ]
+  }
+]

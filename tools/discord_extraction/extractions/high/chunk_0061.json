@@ -1,0 +1,222 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Interest rate (cost of delaying purchases) varies significantly by context: ~28% when buying Engineers and Drones, ~33% for drone economy, and ~40% for efficient attackers like Tarsier. The choice of interest rate affects valuation of all future decisions.",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "anesotericman, mtanzer, xnor_gate",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion of how to value future gold and when different interest rates apply to unit analysis.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-15_23:01_anesotericman",
+      "2020-09-15_23:02_xnor_gate",
+      "2020-09-16_06:45_mtanzer"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Absorb denial significantly skews attacker valuations upward compared to raw damage calculations. Burst attackers like Grenade Mech and Scorchilla appear weak on paper but force opponent to buy less efficient defensive units.",
+    "units": [
+      "Grenade Mech",
+      "Scorchilla",
+      "Shadowfang"
+    ],
+    "confidence": "high",
+    "author": "jamberine, xnor_gate, mtanzer",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Explanation of why mathematical efficiency models underrate burst damage and its pressure value.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-15_23:06_jamberine",
+      "2020-09-15_23:07_xnor_gate",
+      "2020-09-16_07:01_mtanzer"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Holding Lancetooth for one turn to absorb damage yields +4 health now but causes you to lose 3 health next turn and 2 damage threat, netting approximately +3 tempo equivalent after factoring in opportunity cost of the absorbed damage.",
+    "units": [
+      "Lancetooth"
+    ],
+    "confidence": "high",
+    "author": "xnor_gate, jamberine, silentslayers",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Mathematical breakdown of the tradeoff of holding Lancetooth versus clicking it immediately.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-15_23:56_jamberine",
+      "2020-09-15_23:58_xnor_gate",
+      "2020-09-16_00:01_xnor_gate"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Holding Mega Drone for defense (instead of buying a Wall) is mathematically favorable by default in Wall absorb sets, but practically overdefends that turn and wastes Blastforge resources that would better be spent on Walls.",
+    "units": [
+      "Mega Drone",
+      "Wall",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "xnor_gate, jamberine, anesotericman",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Explanation of why mathematical efficiency and practical decision-making diverge for Mega Drone holds.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-16_00:16_xnor_gate",
+      "2020-09-16_00:17_jamberine",
+      "2020-09-16_00:18_anesotericman"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Holding Scorch to absorb damage instead of buying a Wall appears favorable on paper by default, but in practice requires pre-emptive defense like Cauterizer or Infusion to justify the 1-health durability loss and delayed damage.",
+    "units": [
+      "Scorch",
+      "Wall",
+      "Cauterizer",
+      "Infusion"
+    ],
+    "confidence": "medium",
+    "author": "xnor_gate, jamberine, silentslayers",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion of why mathematical holds of Scorch don't match practical game situations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-16_00:21_xnor_gate",
+      "2020-09-16_00:25_silentslayers",
+      "2020-09-16_00:26_silentslayers"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Present value of delayed attacks must account for half-turn delays in Prismata's sequential turn structure. A turn-2 attack (opponent builds defense on their turn before it hits) has an effective ~1.5-turn delay, not 2 turns, reducing its present value significantly.",
+    "units": [],
+    "confidence": "high",
+    "author": "xnor_gate",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Explanation of how to calculate present value of delayed Gauss Cannon charges accounting for defense-building windows.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-15_23:33_xnor_gate",
+      "2020-09-15_23:36_xnor_gate"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Barrier value (cost to opponent to defend against a unit) and Attack Value can be combined using decay formulas (p^turns where p≈0.75) to calculate present value of defensive units and multi-turn threats. Formula: BV or AV multiplied by (1.33)^-n for n turns in future.",
+    "units": [],
+    "confidence": "high",
+    "author": "anesotericman, xnor_gate, mtanzer",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Mathematical framework for valuing future defense and attack using present value concepts.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-15_23:34_anesotericman",
+      "2020-09-15_23:39_anesotericman",
+      "2020-09-16_01:10_xnor_gate"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Gaussite Symbiote's click is mathematically weak (~10-11 efficiency) because it requires floating green for multiple turns. The unit is more valuable for the Conduit component than the attacker component, and the click should only be used if it forces opponent into inefficient soak purchases.",
+    "units": [
+      "Gaussite Symbiote",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "xnor_gate, mtanzer, anesotericman",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Analysis of why Symbiote's click efficiency is lower than expected despite Symbiote being a reasonable unit purchase.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-16_06:57_mtanzer",
+      "2020-09-16_06:59_mtanzer",
+      "2020-09-16_07:00_anesotericman"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Units with delayed or limited-turn value (like Savior with unknown drone count) cannot be accurately valued using 'clicks forever' assumptions. A more useful approach is counting cumulative resources at decision points and comparing raw economic output rather than deriving single efficiency numbers.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "anesotericman, jamberine",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Discussion of limitations of inflation-based analysis for units whose value depends heavily on game state.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-16_00:43_anesotericman",
+      "2020-09-16_00:45_anesotericman",
+      "2020-09-16_00:51_jamberine"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Inflation-based math is most useful as a cross-check on intuition for identifying where you are 'way off', not as a replacement for context-aware decision-making. The 33-40% interest rate framework is helpful for caching generic comparisons (e.g., 'Lancetooth hold is generally neutral in Wall absorb'), then modifying based on specific game situations.",
+    "units": [
+      "Lancetooth"
+    ],
+    "confidence": "high",
+    "author": "anesotericman, silentslayers, xnor_gate",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Meta-discussion of how to actually use mathematical analysis in game decision-making.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-16_00:28_anesotericman",
+      "2020-09-16_00:30_silentslayers",
+      "2020-09-16_00:31_anesotericman"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Comparing unit efficiency requires choosing what interest rate and assumptions to use consistently. Common conventions: 33% interest for econ-heavy decisions, 38-40% for mixed econ/attack, with explicit statement of whether calculations assume 'clicks forever', specific turn limits, or absorb denial effects.",
+    "units": [],
+    "confidence": "high",
+    "author": "mtanzer, xnor_gate, extratricky, anesotericman",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Consensus on best practices for setting up and communicating efficiency calculations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-16_06:45_mtanzer",
+      "2020-09--16_02:09_extratricky",
+      "2020-09-16_02:08_anesotericman"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Tantalum Ray appears overrated by 33% interest rate; it should be valued at 40% interest rate or higher (around 3 clicks in typical scenarios) rather than its naive value. Asteroid (Asteri) is notably more efficient than Tantalum Ray (~5 clicks vs ~3 clicks).",
+    "units": [
+      "Tantalum Ray",
+      "Asteri"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer, xnor_gate, jamberine",
+    "date": "2020-09",
+    "replay_code": null,
+    "context": "Comparison of relative efficiency of two red-based attackers at different interest rates.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-09-16_07:05_mtanzer",
+      "2020-09-16_07:07_xnor_gate",
+      "2020-09-16_07:23_mtanzer"
+    ]
+  }
+]

@@ -45,3 +45,6 @@ February 20, 2026. Based on 12+ source categories (~5,090 lines across 7 KB file
 - 45 Lunarch Studios blog articles (recovered via Wayback Machine CDX API)
 - 629 Reddit r/Prismata posts (retrieved via PullPush API)
 - 24 Twitch VODs transcribed via faster-whisper: 7 Apooche tournament commentary (24h33m total) + 17 Msven replay analysis/commentary/gameplay (11h55m total). ~36,000 segments across 36.5 hours of audio.
+
+### Discord Extractions
+- `discord/` -- 1,426 insights extracted from #strategy_advice via Claude Haiku (67 chunks). Integrated into commentary KB.

@@ -1,0 +1,536 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Base+5 sets tend to devolve toward solved states where top players converge on the same strategy, creating 'non-games' despite technical complexity. However, the set is not truly solved—skilled players can find hard-to-spot counters that most miss.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion of why experienced players dislike Base+5 despite it being available in ranked.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-05-21 20:54",
+      "2020-05-21 20:56"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tarsiers are more cost-effective than Splitters and Militia when opponents commit to those attackers early, particularly when the opponent has wasted economy on units that time out (like Doomed Drones).",
+    "units": [
+      "Tarsier",
+      "Splitter",
+      "Militia",
+      "Doomed Mech"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": "+vij9-XFYQz",
+    "context": "Analysis of a game replay where the player won despite feeling behind due to superior Tarsier value.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-05-23 04:05"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Bloodrager can often be bought for only one real damage cost if timed correctly to deny some opponent absorb, making it a high-value early purchase in the right context.",
+    "units": [
+      "Bloodrager"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": "+vij9-XFYQz",
+    "context": "Explanation of Bloodrager efficiency in a specific game position.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-05-23 04:05"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Xaetron (a unit with regeneration) must be kept alive, and losing it without immediately breaching back in response is usually game-losing.",
+    "units": [
+      "Xaetron"
+    ],
+    "confidence": "high",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Explanation of Xaetron value and why sacrificing it is critical.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-05-23 19:28"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When facing Gauss Cannons and Walls, sometimes holding a second Gauss Cannon to accelerate Gauss Fabricator is better than immediately ramming it into the Wall, because you can purchase the Cannon afterward when it deals real damage.",
+    "units": [
+      "Gauss Cannon",
+      "Gauss Fabricator",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Strategic advice on sequencing Gauss Cannon purchases relative to Fabricator.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-05-23 19:48"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Double Thorium Dynamo opening can support double Gauss Cannon on turn 5 in the mirror matchup to cut off opponent drone production before they acquire another Dynamo.",
+    "units": [
+      "Thorium Dynamo",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Discussion of advanced Thorium Dynamo mirror strategies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-05-23 20:19"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Learning a set by playing it multiple times (even losing on the same set) is more valuable than playing five different sets, because you can compare your execution to the bot or opponent's execution of the same strategy.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-05",
+    "replay_code": null,
+    "context": "Advice on effective practice methods for improving play in random sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-05-23 04:16",
+      "2020-05-23 04:51"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Arka Sodara is usually better left on defense than used to attack, because attacking breaks even on value (gain 4 attack, lose 4 absorb) but wastes tempo by forcing you to buy 7 defense immediately while the opponent buys their 4 defense later. Exception: when paired with Energy Matrix (large enough absorber), or mandatory-alive absorbers like Centurion.",
+    "units": [
+      "Arka Sodara",
+      "Wall",
+      "Infusion Grid",
+      "Energy Matrix",
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Community consensus on Arka Sodara defense vs. attack tradeoffs, with caveats about absorber quality.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-06-15 19:59",
+      "2020-06-15 20:13"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When defending with Xaetron and a strong absorber (like Arka or Energy Matrix), alternating Arka attack and Arka absorb is more efficient than always defending.",
+    "units": [
+      "Xaetron",
+      "Arka Sodara",
+      "Energy Matrix"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Discussion of advanced Arka defense patterns with Xaetron.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-06-15 20:13"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Vivid Drone + Conduit opening with Trinity Drone can provide flexibility (optionally clicking the Trinity for econ or pivoting to early green/Fission Turret) compared to standard DD/DDE, but is worse than better high-econ openings like 1EE 11 DDDD if the game calls for pure econ.",
+    "units": [
+      "Vivid Drone",
+      "Conduit",
+      "Trinity Drone",
+      "Fission Turret"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2020-06",
+    "replay_code": null,
+    "context": "Analysis of unconventional P1 opening with Vivid + Conduit + Trinity.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-06-28 19:35"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Fundamental strategy layers: (1) absorb and buy enough defense; (2) buy efficient attackers without forcing inefficient defense; (3) avoid floating or wasting blue, red, and green; (4) advanced: deny opponent absorb, exploit tech, counter opponent plans.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Comprehensive framework for strategic decision-making in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-02 19:32",
+      "2020-07-02 19:33"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Most beginner players stop buying drones much slower than optimal; once you have the tech you need, transition to attack is usually the correct timing.",
+    "units": [],
+    "confidence": "high",
+    "author": "siepu",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Common beginner mistake: over-investment in economy before committing to attack.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-02 19:57"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When already over the absorb barrier, Rhinos are usually better than continuing to buy Tarsiers.",
+    "units": [
+      "Rhino",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "siepu",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Unit efficiency comparison for post-barrier attack building.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-02 19:58"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tactical decision-making requires (1) understanding opponent's next-turn threat and whether you can prevent it cheaply, and (2) planning your own next turn while checking if opponent can disrupt it cheaply. Example: don't buy a second Animus for Amporilla if opponent can pressure you out of it.",
+    "units": [
+      "Animus",
+      "Amporilla"
+    ],
+    "confidence": "high",
+    "author": "lyra1712",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Framework for turn-by-turn threat assessment and counter-planning.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-02 21:23",
+      "2020-07-02 21:24"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Endotherm Kit is not viable in Base+1 and performs even worse against breachproof attackers. Iso Kronus becomes stronger when facing bigger absorbers and matters more in absorb-denial scenarios.",
+    "units": [
+      "Endotherm Kit",
+      "Iso Kronus"
+    ],
+    "confidence": "medium",
+    "author": "lyra1712",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Analysis of unit viability in limited sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-07-02 23:40",
+      "2020-07-02 23:43"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Cluster Bolt provides critical green sink for sets lacking other green spending outlets, enabling higher unit counts in defense chains.",
+    "units": [
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Discussion of Cluster Bolt's role in enabling unit-heavy defense strategies.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-02 23:51"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In sets with Infusion and green units, buying multiple Conduits early can be inefficient without a strong green sink like Cluster Bolt to justify the density.",
+    "units": [
+      "Conduit",
+      "Cluster Bolt",
+      "Infusion Grid"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Discussion of Conduit density and green sink requirements.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-02 23:52"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When stopping drone growth, you spend all gold on A, B, and C each turn, causing attack per turn to grow—an extra derivative for planning purposes.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Mathematical perspective on attack scaling during non-econ phases.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-24 22:15"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Antima Comet is a very efficient unit in the right set context.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-07",
+    "replay_code": "jK1lP-7Z9g7",
+    "context": "Brief mention of Antima Comet strength in mode-of-the-week game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-25 02:45"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Venge Cannon loses value when the set has abundant defense tools available to both players.",
+    "units": [
+      "Venge Cannon"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-07",
+    "replay_code": "RBkYs-Ojuv2",
+    "context": "Observation that Venge Cannon effectiveness depends on defensive scarcity.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-25 02:46"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying Tia Threnody should follow a principle: buy it if and only if doing so results in winning the game. There is no simple shortcut to determining when Tia is good; it requires evaluating the specific set context.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Community discussion on when to purchase Tia—no universal heuristic exists.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-26 23:25",
+      "2020-07-26 23:39"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Counter-Tia (buying Tia after opponent buys it) is usually awful; proactive Tia purchases are stronger.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Brief strong claim about reactive vs. proactive Tia strategies.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-26 23:26"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Base+Centrifuge and Vai Mauronax sets can be opened aggressively with early Centrifuge/Vai + Wall on both players, getting very early access to Vai and early defense.",
+    "units": [
+      "Centrifuge",
+      "Vai Mauronax",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Suggested aggressive opening strategies for specific unit combinations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-03 22:22"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Value math systems (like Yujiri's) are approximations useful for rough efficiency comparisons, but all single-value systems will be incorrect in some cases. A 33.3% interest rate model can serve as an alternative framework.",
+    "units": [],
+    "confidence": "high",
+    "author": "anesotericman",
+    "date": "2020-07",
+    "replay_code": null,
+    "context": "Discussion of limitations of unit value math and alternative approaches.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-07-15 00:50",
+      "2020-07-15 00:53"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Base+Gauss Fabricator sets, P2 can win with the fabricator line (natural Gauss Fabricator opening) OR by completely ignoring it and going fastimus, making it a versatile set for P2.",
+    "units": [
+      "Gauss Fabricator",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Analysis of P2's strategic flexibility in Base+Gauss Fabricator.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-08-14 05:44"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Base+1 Centurion, P1 wins with both natural Animus and third Engineer openings, but the game is very P1-favorable overall.",
+    "units": [
+      "Centurion",
+      "Animus",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Expert testing result for Base+Centurion opening theory.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-08-14 09:00"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Base+1 Energy Matrix, P1 can win with both 2-Engineer and 3-Engineer openings, though the relative strength may vary.",
+    "units": [
+      "Energy Matrix",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "mtanzer",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Expert testing of Base+Energy Matrix openings.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-08-14 09:20"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Base+1 knowledge is highly relevant to Base+8 strategy because many Base+5 sets degenerate toward Base+2, and some Base+8 sets near-degenerate to smaller sets. However, some Base+1 sets are memes with limited applicability.",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Explanation of why studying Base+1 is useful despite the set's reputation.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-08-16 08:18",
+      "2020-08-16 08:23"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Four-Engineer openings are justified in very specific contexts: either (1) the soak is overwhelmingly better than attack, or (2) the optimal tech base requires very high gold throughput. Most sets do not justify four engineers.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Framework for determining when 4-Engineer is correct.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-08-17 19:12",
+      "2020-08-17 19:13"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Sentinel is often the most efficient unit in 3-color games with good soak (Infusion Grid, Xeno, similar absorbers), justifying higher engineer counts to generate gold for Sentinels.",
+    "units": [
+      "Sentinel",
+      "Infusion Grid"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Analysis of Sentinel efficiency in soak-heavy game contexts.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-08-17 19:06"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Three-Engineer is often correct when the best absorber is Energy Matrix level (not exceptionally strong), soak supply is varied, and no tech requires exceptional throughput.",
+    "units": [
+      "Engineer",
+      "Energy Matrix"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "General guidance on 3-Engineer justification.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-08-17 19:06"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Spender supply (available absorbers and tech options in all three colors) indicates when lower engineer counts might be playable because you won't lack gold sinks.",
+    "units": [],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-08",
+    "replay_code": null,
+    "context": "Discussion of how unit availability affects engineer count decisions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-08-17 19:14"
+    ]
+  }
+]

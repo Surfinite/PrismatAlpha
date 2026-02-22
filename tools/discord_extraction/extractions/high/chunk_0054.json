@@ -1,0 +1,294 @@
+[
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Lucina's cost-effectiveness is higher than Tarsier despite similar attack output—Lucina costs ~5 more gold but attacks immediately and provides a powerful click ability for red sinking, making it nearly 4 attack for 17 gold compared to Tarsier's 1 attack per 2 turns.",
+    "units": [
+      "Lucina Threnody",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "consensus (siepu, amalloy, velizar_)",
+    "date": "2019-09",
+    "replay_code": "eX902-KBleN",
+    "context": "Replay analysis of Lucina efficiency misestimation by opponent.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-04 22:06",
+      "2019-09-04 22:10",
+      "2019-09-04 22:11"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against Lucina, you must either rush Lucina yourself or apply enough early pressure to prevent opponent from buying it efficiently; a passive response allows opponent to stabilize with Lucina's soak and click ability.",
+    "units": [
+      "Lucina Threnody"
+    ],
+    "confidence": "high",
+    "author": "siepu",
+    "date": "2019-09",
+    "replay_code": "eX902-KBleN",
+    "context": "Discussing why third Engineer line lost to Lucina.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-04 22:01",
+      "2019-09-04 22:04"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Vai freezing Centurion forces opponent to click Vai each turn, reducing Vai's effective damage output by 1 per turn, but Centurion is still worth buying because it provides 2 attack, absorption, and defense tempo denial.",
+    "units": [
+      "Vai Mauronax",
+      "Centurion"
+    ],
+    "confidence": "high",
+    "author": "mrguy888, 307th",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Analysis of Centurion viability when opponent can purchase Vai as counter.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-05 20:47",
+      "2019-09-05 20:48",
+      "2019-09-10 00:40"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When calculating unit threat against absorbers, damage dealt counts toward threat ceiling; if a unit deals X damage, it has (total_threat - X) additional non-damage threat, preventing double-counting of defensive value.",
+    "units": [
+      "Vai Mauronax",
+      "Centurion"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Explanation of threat calculation when Centurion absorbs Vai's freeze attack.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-09-10 00:44",
+      "2019-09-10 00:45",
+      "2019-09-10 00:49"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tia Threnody is a high-econ unit that naturally opposes Animus, forcing defenders to build more defense when opponent goes Animus opening, making Tia a centerpiece unit that warps set dynamics.",
+    "units": [
+      "Tia Threnody",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "consensus (f300xen, mrguy888)",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Multiple discussions about Tia Threnody's economic role and Animus matchups.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-07 23:06",
+      "2019-09-08 22:55",
+      "2019-09-09 01:25"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tia Threnody hard-counters natural Animus because Animus is built for long-term attack production but weak at defense; Tia forces opponent to generate defense faster than Animus naturally allows.",
+    "units": [
+      "Tia Threnody",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "307th",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Explaining why natural Animus opening loses to Tia Threnody.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-09 01:25"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When building economy in Vai/Matrix sets, aim for ~20 drones by default; adjust higher if strong red sinks exist to allow faster spending of tech resources.",
+    "units": [
+      "Vai Mauronax",
+      "Energy Matrix"
+    ],
+    "confidence": "high",
+    "author": "307th",
+    "date": "2019-09",
+    "replay_code": "aYtEr-7rBSY",
+    "context": "Response to question about appropriate economy size in Vai/Matrix set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-10 21:11"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Mahir Rectifier is especially strong in Scorch sets because it can be clicked to eliminate rotting absorber, providing clean defense against 0 attack; easy to obtain since it costs green like Scorchillas.",
+    "units": [
+      "Mahir Rectifier",
+      "Scorchilla"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Analysis of missed unit synergy in Scorch game replay.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-11 18:09",
+      "2019-09-11 18:10"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Thunderhead timing matters significantly: buy Thunderhead only when opponent reaches 4-5 attack, balancing maximized absorb value against risk of early death, which generates tempo advantage.",
+    "units": [
+      "Thunderhead"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Discussing optimal Thunderhead purchase timing.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-11 17:57"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Opening principles: avoid wasting blue resources, avoid over-teching, avoid floating large gold amounts; lines should minimize these inefficiencies, and understanding why standard opening timings work makes exceptions obvious.",
+    "units": [],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Fundamental principles for evaluating opening lines.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-09-10 00:30",
+      "2019-09-09 19:39"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tatsu Rush (buying multiple Animus early for Tatsu Nullifier support) requires uncontested econ; opponent buying defensive units like Xaetron makes the rush vulnerable.",
+    "units": [
+      "Tatsu Nullifier",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "siepu",
+    "date": "2019-09",
+    "replay_code": "aYtEr-7rBSY",
+    "context": "Analysis of Tatsu Rush strategy viability.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-10 21:08"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Big units tend to be more cost-efficient than small units because they are harder to obtain; if a plausible excuse to purchase a legendary exists, it is usually not a bad idea.",
+    "units": [],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "General principle about unit efficiency scaling.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-09-04 22:10"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "In Base + Centurion, P1 natural Animus beats P1 DDE, but both 2-Engineer and 3-Engineer lines have merit; whether P1 DDE also wins against P2 defenses requires separate testing.",
+    "units": [
+      "Centurion",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "masn6811, mtanzer",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Testing results for Base+Centurion matchup analysis.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-17 03:52",
+      "2019-09-17 02:48"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Choosing between Gauss Cannon and Iso Kronus depends on the rate of inflation; when not overdefended, inflation is usually high enough that both work, but efficiency differences matter in close games.",
+    "units": [
+      "Gauss Cannon",
+      "Iso Kronus"
+    ],
+    "confidence": "medium",
+    "author": "masn6811, jamberine",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Comparison of two ranged attacker units in mid-game.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-15 18:34",
+      "2019-09-15 20:56"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Iso Kronus is slightly more cost-effective than Gauss Cannon but creates easier preemptive defense opportunities for opponent; float efficiency also favors one over the other depending on resources available.",
+    "units": [
+      "Iso Kronus",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "velizar_, f300xen",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Detailed comparison of Iso Kronus vs Gauss Cannon.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-15 18:36",
+      "2019-09-15 18:37"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Endotherm Kit is not a low-econ unit; sets containing it often do not qualify as low-econ due to the unit's economic requirements.",
+    "units": [
+      "Endotherm Kit"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2019-09",
+    "replay_code": "iVByP-hQShX",
+    "context": "Replay observation correcting misconception about Endotherm Kit's econ impact.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-14 00:04"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Base+1 testing ('base+centurion', 'base+lucina') reveals important matchups but is distinct from full set analysis; whether a unit is 'viable' depends on the criterion used (asymmetric winning lines vs. unilateral permission to remove).",
+    "units": [],
+    "confidence": "high",
+    "author": "masn6811, mrguy888",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Discussion of Base+1 testing methodology and viability definitions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-09-17 02:39",
+      "2019-09-17 02:45"
+    ]
+  }
+]
