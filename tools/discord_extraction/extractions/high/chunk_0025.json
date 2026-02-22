@@ -1,0 +1,514 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When deciding between holding Lancetooth to buy additional attackers versus attacking with it immediately, the key consideration is whether you can realistically defend those additional attackers next turn while still attacking with Lancetooth. In most games, if you have enough defense to do so, you can also defend Lancetooth this turn and buy some attack, making holding largely unnecessary. Holding Lancetooth is generally only correct when you cannot defend it and must either let it die or hold it back.",
+    "units": [
+      "Lancetooth"
+    ],
+    "confidence": "high",
+    "author": "amalloy, extratricky",
+    "date": "2018-05-13",
+    "replay_code": "vIdMt-9wDnB",
+    "context": "Discussion of when to hold Lancetooth for future attack versus swinging with it immediately in an existing game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-13_11:06",
+      "2018-05-13_11:12",
+      "2018-05-13_11:15",
+      "2018-05-13_11:20"
+    ],
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Absorbing on Lancetooth (rather than on Wall) costs 3 defensive tempo since you lose the wall's prompt soak. If inflation is high enough that you cannot defend with both the original attackers and new attackers next turn, holding Lancetooth is worse than buying Wall and accepting lower attack output this turn.",
+    "units": [
+      "Lancetooth",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "extratricky",
+    "date": "2018-05-13",
+    "replay_code": null,
+    "context": "Analysis of defensive tempo cost when choosing which unit to absorb on.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-13_11:20"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Amporilla games with 2 Animus available, buying 4 Tarsiers then Ampo (instead of Ampo then 2nd Ampo) deals more total damage but slower. The tradeoff depends on inflation: high inflation favors the faster Ampo line, while lower inflation may favor Tarsier acceleration. The decision is context-dependent and not obvious.",
+    "units": [
+      "Animus",
+      "Tarsier",
+      "Amporilla"
+    ],
+    "confidence": "medium",
+    "author": "elyot (cited play), liadahlia, amalloy",
+    "date": "2018-05-11",
+    "replay_code": null,
+    "context": "Discussion of Elyot's decision to buy 4 Tarsiers instead of immediately buying 2nd Ampo in a high-econ game.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-11_08:27",
+      "2018-05-11_08:38",
+      "2018-05-11_08:40"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Wincer is weak against Breachproof strategies because its damage is not efficient at breaking through burst absorb. Wincer should only be committed to if your opponent is still vulnerable by the time it fires, or if you have strong Wincer support in the set. In sets where Breachproof is easily accessible (e.g., Trinity Drone), Wincer is risky without early setup.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "high",
+    "author": "awaclus, VanitasCabal",
+    "date": "2018-05-11",
+    "replay_code": null,
+    "context": "Advice on when to avoid Wincer in sets with Breachproof potential.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-11_15:06",
+      "2018-05-11_15:09",
+      "2018-05-11_15:11"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying a Drone and letting it block immediately is effectively paying 3E (or 3 + inflation cost) for a Prompt Engineer. This is generally bad value. You should rarely replace Drones that are used for defense unless you have very specific reasons (e.g., replacing Drones with Forcefield when you have excess Green that you will never use elsewhere).",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "amalloy, liadahlia, supergreyman",
+    "date": "2018-05-11",
+    "replay_code": null,
+    "context": "Discussion of the opportunity cost of buying Drones to use as blockers versus buying dedicated defense.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-11_19:40",
+      "2018-05-11_19:44",
+      "2018-05-11_19:58"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Replacing Drones with Forcefield provides roughly 2.66 Block Value per 4 Gold invested (2 prompt defense), compared to Wall's ~2.22 BV. This makes Drone-to-Forcefield replacement worth considering only if you have Green that would otherwise be wasted.",
+    "units": [
+      "Drone",
+      "Forcefield",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05-11",
+    "replay_code": null,
+    "context": "Calculation of the block value efficiency of replacing Drones with Forcefield.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-11_20:03"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Drones bought for blocking should almost never be replaced because they become extremely expensive defenses (equivalent to ~4E per unit when accounting for opportunity cost). Only in specific situations (such as replacing for Forcefield when Green is excess) is replacement correct.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05-11",
+    "replay_code": null,
+    "context": "Clarification that defending with drones is a last resort, and replacing them is inefficient.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-11_19:58"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Venge Cannon is difficult to use effectively in sets with multiple strong defenders like Perforator and Infusion Grid. You should commit to Venge early to exploit opponent's red commitment before they establish strong defensive infrastructure, not after they've already teched into defenses.",
+    "units": [
+      "Venge Cannon",
+      "Perforator",
+      "Infusion Grid"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05-15",
+    "replay_code": "xYDZr-9kRnJ",
+    "context": "Analysis of a game where Venge was bought too slowly, by which time opponent had established strong defensive tech.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-15_02:51",
+      "2018-05-15_02:52"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tatsu is effective against big attackers that you want to hold back to defend with. If your opponent gets 2 Tatsu units, large attackers like Colossus become significantly worse because you cannot hold them for defense.",
+    "units": [
+      "Tatsu Nullifier",
+      "Colossus"
+    ],
+    "confidence": "high",
+    "author": "p0lari",
+    "date": "2018-05-15",
+    "replay_code": null,
+    "context": "Discussion of why Colossus struggles against multiple Tatsu units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-15_10:09"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When both Defense Grid and Colossus are in the same set, they compete for the absorber role. You should buy Colossus early and stockpile multiple copies to use after Defense Grid expires, rather than waiting to buy a single Colossus late in the game when it's too expensive.",
+    "units": [
+      "Colossus",
+      "Defense Grid"
+    ],
+    "confidence": "medium",
+    "author": "apooche",
+    "date": "2018-05-15",
+    "replay_code": null,
+    "context": "Advice on sequencing Colossus purchases in Defense Grid games.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-15_02:57"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Tia Threnody is not a rushy attacker in the traditional sense; the fastest Tia opening does not win by itself. You typically buy Tia after establishing other attackers, similar to how you'd add a utility piece. However, Tia becomes a threat to rush if your opponent heavily commits to Red, and 1-Conduit Tia is substantially better than 2-Conduit Tia (unless there's a specific sink for the extra Red).",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord, masn6811, amalloy",
+    "date": "2018-05-16",
+    "replay_code": null,
+    "context": "Clarification that Tia is a threat to leverage rather than a unit to rush, except in specific scenarios.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-16_21:55",
+      "2018-05-16_21:56",
+      "2018-05-16_22:01",
+      "2018-05-16_22:22"
+    ],
+    "_flagged": [
+      "insight_too_long"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tia Threnody should generally be threatened rather than bought early. The threat of Tia restricts your opponent's options. When you do buy Tia, it's often because your opponent underestimated the threat and you are cashing in a winning position.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2018-05-16",
+    "replay_code": null,
+    "context": "Strategic principle about using Tia as a threat rather than committing to it early.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-16_22:22"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In sets with Tia Threnody, Iso Kronus is a good combo enabler that works well alongside Tia's defensive pressure. Early Conduit or Chrono (instead of Animus) often better supports a Tia-focused strategy than greedy economy plays.",
+    "units": [
+      "Tia Threnody",
+      "Iso Kronus",
+      "Conduit",
+      "Chrono Filter"
+    ],
+    "confidence": "medium",
+    "author": "leary93, supergreyman",
+    "date": "2018-05-16",
+    "replay_code": "mkeXS-UZQdA",
+    "context": "Analysis of unit synergies in a Tia-heavy set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-16_16:20",
+      "2018-05-16_16:27"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tia Threnody becomes a major threat if it can destroy 7+ Drones worth of value; anything beyond that is often game-winning. A set without strong defensive options or economy boosts allows Tia to threaten too many drones too quickly.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "leary93",
+    "date": "2018-05-16",
+    "replay_code": null,
+    "context": "Analysis of Tia's threat level based on defensive options available.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-16_16:30"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Savior is best bought when there is good soak available (many blockers) and the opponent has no fast attack options that force you to defend urgently. It's a utility unit for extending the game when you have defensive infrastructure.",
+    "units": [
+      "Savior"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05-17",
+    "replay_code": null,
+    "context": "Discussion of when Savior is a valid purchase.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-17_20:27"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Savior and Polywall together form a strong defensive combo that is worth committing to when both are available in the set. The combination provides flexible and durable absorb.",
+    "units": [
+      "Savior",
+      "Polywall"
+    ],
+    "confidence": "medium",
+    "author": "liadahlia",
+    "date": "2018-05-17",
+    "replay_code": null,
+    "context": "Brief note on a synergistic unit combination.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-17_19:21"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Fast Blastforge (before Conduit) is almost never correct (~99% of the time Conduit into Forge is superior). The only exceptions are sets where Manticore is present and can be exploited, or possibly in Master Bot matchups.",
+    "units": [
+      "Blastforge",
+      "Conduit"
+    ],
+    "confidence": "high",
+    "author": "f300xen, xyotsuba",
+    "date": "2018-05-18",
+    "replay_code": null,
+    "context": "Consensus on Blastforge opening efficiency.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-18_02:10",
+      "2018-05-18_02:11"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The rule of thumb for drone count is approximately 4 times the absorber's health value (e.g., 12 drones with Wall, 16 with Infusion Grid). However, the correct drone count depends on having efficient mid-game spending patterns with your chosen tech pieces, not just raw math. You should target a drone count that enables you to spend all your tech efficiently each turn.",
+    "units": [
+      "Drone",
+      "Wall",
+      "Infusion Grid"
+    ],
+    "confidence": "high",
+    "author": "apooche, crash_overlord, darkeisbein",
+    "date": "2018-05-14",
+    "replay_code": null,
+    "context": "Multiple experts describing heuristics for calculating appropriate drone economy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-14_15:34",
+      "2018-05-14_19:01"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When determining drone count, think about what defenders and attackers you want to buy, what technology you need for them, and how many drones are required to spend all that tech each turn. This goal-oriented approach is more intuitive than pure math formulas.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "crash_overlord",
+    "date": "2018-05-14",
+    "replay_code": null,
+    "context": "Explanation of a practical framework for drone economy planning.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-14_19:01"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In sets where Green is bad (e.g., no valuable Conduit synergies), Player 2 sometimes has to cut a drone early to buy early Blue or Red tech. Floating 4 Gold is generally worse than cutting a drone for necessary tech. The decision depends on how bad Green really is and what tech is available.",
+    "units": [
+      "Conduit",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "leary93, p0lari",
+    "date": "2018-05-18",
+    "replay_code": null,
+    "context": "Discussion of Player 2's tech options when Green economy is weak.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-18_02:09",
+      "2018-05-18_08:56"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Player 2's third Engineer opening (DD/DD/ABD) is only viable if Green is bad, Blue and Red are both useful, floating 4 Gold is acceptable (low inflation), and fast Red rushes (like Blood Phage) are not possible. Most of the time, Fastimus is superior.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "leary93",
+    "date": "2018-05-18",
+    "replay_code": null,
+    "context": "Analysis of conditions under which Player 2 can skip Green for early Blue/Red tech.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-18_09:10"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Doomed Drone creates situations where early Player 1 Conduit openings (e.g., DD/11C) become viable, giving Player 1 a tempo boost. However, this does not necessarily flip P2-favored Conduit sets to P1-favored, as the tradeoff involves lower permanent economy for Player 1.",
+    "units": [
+      "Doomed Drone",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "amalloy, VanitasCabal",
+    "date": "2018-05-16",
+    "replay_code": null,
+    "context": "Discussion of whether Doomed Drone changes Player 1 versus Player 2 matchups in Conduit sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-16_08:50",
+      "2018-05-16_09:04"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "There is no such thing as a true 0% winrate matchup (an 'autowin') in Prismata. While some sets may be heavily favored for one player, the other player always has a non-zero chance to win through superior play. Assuming an autowin prevents you from learning how to outplay your opponent.",
+    "units": [],
+    "confidence": "high",
+    "author": "liadahlia, mtanzer, consensus",
+    "date": "2018-05-11",
+    "replay_code": null,
+    "context": "Meta-discussion about how to approach highly imbalanced sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-11_23:48",
+      "2018-05-12_00:00"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Win conditions in Prismata differ from asymmetric card games; both players usually share the same win condition (having more damage than opponent can defend). Specific units become win conditions when they are so impactful that successfully activating them results in a very high win probability.",
+    "units": [
+      "Amporilla",
+      "Zemora Voidbringer",
+      "Shadowfang"
+    ],
+    "confidence": "high",
+    "author": "xyotsuba, liadahlia, consensus",
+    "date": "2018-05-12",
+    "replay_code": null,
+    "context": "Clarification of what 'win condition' means in Prismata's symmetric game structure.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-12_00:30",
+      "2018-05-12_00:39",
+      "2018-05-12_00:42"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Amporilla and Lucina are primary examples of win conditions: large units whose successful activation often guarantees victory. Shadowfang is a win condition to a lesser extent. The emphasis is on achieving the conditions for these units to operate effectively (e.g., 4+ Tarsiers for Ampo) rather than just buying the unit.",
+    "units": [
+      "Amporilla",
+      "Lucina Spellweaver",
+      "Shadowfang"
+    ],
+    "confidence": "high",
+    "author": "liadahlia, xyotsuba",
+    "date": "2018-05-12",
+    "replay_code": null,
+    "context": "Examples of impactful units that serve as win conditions.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-12_00:47"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Inflation is a key economic concept: the rate at which resources earn returns. In Prismata, using resources inefficiently (e.g., holding a Drone for defense instead of buying Wall) incurs an inflation cost equivalent to the returns that resource would have generated.",
+    "units": [],
+    "confidence": "high",
+    "author": "liadahlia, amalloy, consensus",
+    "date": "2018-05-11",
+    "replay_code": null,
+    "context": "Foundational economic principle discussed in context of Drone defense.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-11_19:44",
+      "2018-05-11_20:03"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In low-inflation games (where you have excess defense and resources), you should prioritize buying permanent attack (Drones, Engineers) over temporary defense. In high-inflation games (where you're constantly defending), buying permanent units becomes inefficient, and you should focus on immediate defense.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus from multiple threads",
+    "date": "2018-05-11",
+    "replay_code": null,
+    "context": "General principle about econ spending at different game stages.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-11_08:40",
+      "2018-05-13_11:20"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The 'Standard Style' is the foundational opening theory for new players, emphasizing disciplined drone economy and safe early-game play. It's sufficient for intermediate play while still being grounded in high-level strategy.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "consensus, .andrees",
+    "date": "2018-05-11",
+    "replay_code": null,
+    "context": "Recommendation of a beginner strategy guide.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-11_18:47"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Xaetron is an exceptionally strong absorber that beats Tarsiers defensively. In sets with Xaetron, you should prioritize getting it quickly rather than trying to build economically. Xaetron is worth committing to an early Conduit.",
+    "units": [
+      "Xaetron",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05-14",
+    "replay_code": null,
+    "context": "Advice on Xaetron prioritization in opening decisions.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-14_20:16"
+    ]
+  }
+]

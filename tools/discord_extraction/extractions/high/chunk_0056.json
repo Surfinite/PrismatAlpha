@@ -1,0 +1,405 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In pure monocolor base-set play, the color matchups follow a rock-paper-scissors pattern: Green beats Red, Red beats Blue, Blue beats Green. This is because Gauss Cannons are expensive and Blue's absorb cancels them out; Steelsplitters are too expensive to breach Red's Rhino defense; and Red's Tarsiers can't effectively breach Green's Forcefields.",
+    "units": [
+      "Gauss Cannon",
+      "Steelsplitter",
+      "Tarsier",
+      "Rhino",
+      "Forcefield"
+    ],
+    "confidence": "medium",
+    "author": "hyreon, velizar_, jamberine",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of monocolor base-set forced play outcomes and matchup theory.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-27 19:49",
+      "2019-10-27 20:50",
+      "2019-10-27 21:16"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In pure Green vs Green base-set play, the optimal strategy is T1 Conduit for both players, then buy only one Conduit total, prioritizing Gauss Cannons over Drones and Engineers, buying Forcefield only when unable to afford Gauss. P2 wins with a 2hp Gauss Cannon alive because attackers are more efficient than economy when there is no absorb to neutralize early attackers.",
+    "units": [
+      "Conduit",
+      "Gauss Cannon",
+      "Drone",
+      "Engineer",
+      "Forcefield"
+    ],
+    "confidence": "high",
+    "author": "velizar_, amalloy",
+    "date": "2019-10-27",
+    "replay_code": null,
+    "context": "Analysis of optimal play in Green-only monocolor base set constraint.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-27 20:50",
+      "2019-10-27 20:56"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Defensive Engineers never make sense when going pure Green, because you never hold Drones, and if you buy a Drone and click it, it costs only 2 resources. This simplifies Green play significantly.",
+    "units": [
+      "Engineer",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2019-10-27",
+    "replay_code": null,
+    "context": "Explanation of why Engineers are poor choices in pure Green monocolor play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-27 20:06"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Forcefields in base set are rarely worth buying because if Conduit costs 3 (making Green equal cost to Gold), you are paying 1 Gold + 1 Green = 2 resources to gain 1 HP, which at best saves one Drone. The efficiency is poor even at favorable cost ratios.",
+    "units": [
+      "Forcefield",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2019-10-27",
+    "replay_code": null,
+    "context": "Cost-benefit analysis of Forcefield purchases in base-set play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-27 20:08"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In P1 T1 Animus builds with Cauterizer in the set, the DDEE opening is superior to DBE because it avoids needing to buy Steelsplitter, and allows efficient Cauterizer cycling with Engineers rather than floating Blue. The extra economy flexibility outweighs Blastforge's raw value.",
+    "units": [
+      "Animus",
+      "Cauterizer",
+      "Steelsplitter",
+      "Blastforge"
+    ],
+    "confidence": "high",
+    "author": "masn6811, megasupp",
+    "date": "2019-11-10",
+    "replay_code": null,
+    "context": "Discussion of optimal response lines to P1 T1 Animus in sets with Cauterizer and Plexo Cell.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-11-10 05:51",
+      "2019-11-10 05:56",
+      "2019-11-11 02:02"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Engineer cycling defense is superior to Cauterizer spam as a defensive strategy because Engineer cycling gains defense faster (saving ~half a sword worth of value via inflation), has more flexibility in unit choices, and allows better granularity in spending. Cauterizer is an all-or-nothing defense that lacks this adaptability.",
+    "units": [
+      "Engineer",
+      "Cauterizer"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-11-10",
+    "replay_code": null,
+    "context": "Detailed tactical comparison of two defensive strategies in small Red sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-11-10 05:59",
+      "2019-11-10 06:00",
+      "2019-11-10 06:01"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "P1 T1 Animus is extremely vulnerable to exploitation via granularity. A typical P1 T1 Animus player reaches ~6 Drones with Forge and Animus, and cannot afford both a Wall (5 gold) and Steelsplitter (6 gold) while maintaining Engineer count for granular defense, leaving them open to 1-damage exploits.",
+    "units": [
+      "Animus",
+      "Wall",
+      "Steelsplitter",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2019-11-10",
+    "replay_code": null,
+    "context": "Explanation of why P1 T1 Animus can be beaten by exploiting resource constraints.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-11-10 06:07",
+      "2019-11-10 06:08",
+      "2019-11-10 06:09"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When two players face off with only Tarsiers as units, the outcome is determined by the Fibonacci sequence: if one player has at least φ (golden ratio ≈ 1.618) times as many Tarsiers as the opponent, they win. The matchup follows Fibonacci numbers because of how Tarsier combat works with the doubling-down subtraction pattern.",
+    "units": [
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "masn6811, amalloy, hyreon",
+    "date": "2019-11-12",
+    "replay_code": null,
+    "context": "Mathematical analysis of pure Tarsier vs Tarsier combat outcomes.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-11-12 04:56",
+      "2019-11-12 04:57",
+      "2019-11-12 09:34"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "When facing Amporilla, it is usually not correct to destroy a Bloodrager over a Tarsier, because the Bloodrager generates less immediate damage output. However, if your future damage will decrease significantly, it may become correct to kill the Rager while you can deal the extra damage.",
+    "units": [
+      "Amporilla",
+      "Bloodrager",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-10-31",
+    "replay_code": null,
+    "context": "Tactical prioritization discussion in Amporilla sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-31 01:40",
+      "2019-10-31 01:41"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Breachproof with Gauss Cannons is only situational, played roughly 10% of the time in base set play. The low prevalence of its utility makes Gauss Cannons very situational units.",
+    "units": [
+      "Gauss Cannon",
+      "Forcefield"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2019-10-27",
+    "replay_code": null,
+    "context": "Discussion of how rarely breachproof defense is needed.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-27 21:29",
+      "2019-10-27 21:30"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Wincer, going for Wincer on 13 Drones leaves you overteched. Also, buying Reso on the turn you fire Wincer with only 8 Drones left is a mistake, as is buying Arms Race on Wincer's buildtime turn. Vigilant units like Xeno Guardian and Infusion Grid are excellent counters to Wincer.",
+    "units": [
+      "Wincer",
+      "Xeno Guardian",
+      "Infusion Grid"
+    ],
+    "confidence": "medium",
+    "author": "megasupp, shadourow",
+    "date": "2019-11-28",
+    "replay_code": null,
+    "context": "Tactical analysis of Wincer play and its counters.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-11-28 04:59",
+      "2019-11-28 08:02"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Drake sets, the Flame Animus opening and Drake rush are mutually exclusive strategies due to tech requirements. Flame Animus is easier to play as P2 but less reactive; a DD/DD/DBB opening is more reactive and harder to punish despite floating resources.",
+    "units": [
+      "Drake",
+      "Flame Animus",
+      "Deadeye Operative"
+    ],
+    "confidence": "medium",
+    "author": "jamberine, shadourow, masn6811",
+    "date": "2020-02-25",
+    "replay_code": null,
+    "context": "Strategy discussion for P2 play in sets containing Drake.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-02-25 20:38",
+      "2020-02-25 21:01",
+      "2020-02-26 21:25"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "The DD/DD/DBB opening telegraphs your next turn too clearly, making you vulnerable to punishment. In Drake sets, this line is weaker than alternatives that allow for more reactive play.",
+    "units": [
+      "Drake"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-02-26",
+    "replay_code": null,
+    "context": "Critique of a standard opening in Drake-containing sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-02-26 21:25"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Deadeye and Vivid, you should avoid buying Deadeyes because the opponent can convert Drones to Vivids, making Deadeye completely useless. Centurion is almost always worth buying. Shadowfang is the primary attacker but is held back by red sinking requirements once opponent applies pressure.",
+    "units": [
+      "Deadeye Operative",
+      "Vivid Drone",
+      "Centurion",
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2020-04-11",
+    "replay_code": null,
+    "context": "Set analysis and unit interaction discussion.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-04-11 04:16"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Brooder is exceptionally good against Centurion because 2 Brooders can freeze Centurion every turn, denying its absorb value. However, buying Centurion is still worth it even in Brooder sets.",
+    "units": [
+      "Brooder",
+      "Centurion"
+    ],
+    "confidence": "medium",
+    "author": "megasupp, masn6811",
+    "date": "2020-04-11",
+    "replay_code": null,
+    "context": "Unit interaction and counter-unit analysis in Centurion sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-04-11 04:16",
+      "2020-04-12 01:40"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In weak 5-unit sets, the base+1 strategy of buying Tarsiers early and switching to Protoplasm when the opponent threatens attack is likely near-optimal because the other available units are too weak to justify tech investment.",
+    "units": [
+      "Tarsier",
+      "Protoplasm"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-04-15",
+    "replay_code": null,
+    "context": "Analysis of minimal unit set strategy.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-04-15 03:13"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Protoplasm is not good unless it is actively absorbing or threatening to absorb. In sets without absorb supporters, Protoplasm loses most of its value.",
+    "units": [
+      "Protoplasm"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-04-15",
+    "replay_code": null,
+    "context": "Explanation of Protoplasm's dependence on absorb mechanics.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-15 03:12",
+      "2020-04-15 03:14"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Apollo and Arms Race are weak units that should only be bought when there is an absorber in the set to enable slow games. Without absorb, these units lack sufficient value.",
+    "units": [
+      "Apollo",
+      "Arms Race"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-04-15",
+    "replay_code": null,
+    "context": "Analysis of when slow-game enabling units are viable.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-15 03:14"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Arms Race is so weak that it is not worth buying over Tarsier even if you have to set up tech to buy Tarsiers. The unit efficiency gap is significant.",
+    "units": [
+      "Arms Race",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2020-04-15",
+    "replay_code": null,
+    "context": "Unit efficiency comparison in minimal sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-15 07:51"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "P1 wins Base + Centurion whether opening with a natural 3rd Engineer or natural Animus. Both strategies are viable at high level play.",
+    "units": [
+      "Centurion",
+      "Engineer",
+      "Animus"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2019-11-14",
+    "replay_code": null,
+    "context": "Confirmation of Base + Centurion set analysis after testing.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-11-14 07:34"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Plexo Cell is the best soak unit in the game. It provides efficient damage absorption comparable to or better than Rhino in many contexts, without requiring absorb mechanics.",
+    "units": [
+      "Plexo Cell",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2019-10-27",
+    "replay_code": null,
+    "context": "Comparison of soak unit efficiency.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-27 20:57"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Prismata, you can easily prove that holding multiple copies of the same unit on early turns is strictly inferior—not just to a human, but computationally provable. This dramatically reduces the effective game tree below what raw state-space analysis suggests.",
+    "units": [],
+    "confidence": "medium",
+    "author": "velizar_, siepu",
+    "date": "2020-04-18",
+    "replay_code": null,
+    "context": "Discussion of game-tree complexity and pruning in Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-18 18:42",
+      "2020-04-18 18:52"
+    ]
+  }
+]

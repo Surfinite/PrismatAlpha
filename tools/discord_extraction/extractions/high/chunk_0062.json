@@ -1,0 +1,305 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "When holding Colossus for soak absorption versus rebuying Wall, the temporary soak gain on that turn (8 soak) differs from long-term efficiency; rebuying Wall the next turn costs 3 soak, so net long-run gain is only 5 soak despite the 8 soak temporary value.",
+    "units": [
+      "Colossus",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2020-09-16",
+    "replay_code": null,
+    "context": "Discussion of absorption mechanics and soak efficiency calculations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-16 08:46"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Savior is difficult to model for inflation calculations because its value depends heavily on game-specific variables: number of drones bought, which turns they're bought, number of Plasmafiers made, which turns Plasmafiers are clicked, and how many are used for soak. Each game requires separate analysis rather than a universal metric.",
+    "units": [
+      "Savior",
+      "Plasmafier"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2020-09-16",
+    "replay_code": null,
+    "context": "Discussion of whether Savior can be compared to other slow strategies like Zemora using inflation metrics.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-09-16 16:56"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In a Drone-Drone-Conduit/Drone-Drone-Blastforge opening, avoiding giving opponent early absorb by buying Tantalum Ray or Kinetic (for later Conduit sniping) is preferable to certain alternatives.",
+    "units": [
+      "Tantalum Ray",
+      "Kinetic"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2020-09-17",
+    "replay_code": null,
+    "context": "Opening analysis regarding early unit choices to avoid opponent advantage.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-09-17 10:39",
+      "2020-09-17 10:40",
+      "2020-09-17 10:41"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Redeemer is viable in base set P2 response to P1 asymmetric access. P1 line DD DD DDB SDC wins on turn 5 against P2's TTD by using Redeemer effectively, and also beats P2's TTE with WGE line.",
+    "units": [
+      "Redeemer"
+    ],
+    "confidence": "high",
+    "author": "mtanzer, silentslayers",
+    "date": "2020-09-26",
+    "replay_code": null,
+    "context": "Testing Redeemer viability in base set mirror with asymmetric access.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-09-26 15:46",
+      "2020-09-26 15:50",
+      "2020-09-26 15:51"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against Venge Cannon all-in strategies, mono green with good soak and good absorbers (like Energy Matrix) provides sustainable defensive options. Quick expensive damage (like Tesla) forces Venge player to build Venges rather than continue droning, which may or may not be advantageous.",
+    "units": [
+      "Venge Cannon",
+      "Energy Matrix",
+      "Tesla"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-10-01",
+    "replay_code": null,
+    "context": "Discussion of counterplay to Venge Cannon all-in rush strategies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-10-01 23:48",
+      "2020-10-01 23:49",
+      "2020-10-02 04:51",
+      "2020-10-02 04:54"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Going breach-proof forfeits the right to an absorber; if the set has a strong absorber (e.g., Energy Matrix), this loss is significant. Breach-proof becomes stronger with Freeze (especially Nivo), breach-proof drones, and breach-proof attackers (especially Cluster Bolt).",
+    "units": [
+      "Energy Matrix",
+      "Nivo",
+      "Cluster Bolt"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-10-02",
+    "replay_code": null,
+    "context": "Analysis of breach-proof strategy tradeoffs and synergies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-10-02 10:55",
+      "2020-10-02 10:58",
+      "2020-10-02 11:03"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Zemora Voidbringer can survive against Chrono + Wincer if bought early enough that only one Wincer shot lands before Zemora is online, combined with good soak like Doomed Wall and Doomed Drone. After surviving two shots, Zemora player likely wins.",
+    "units": [
+      "Zemora Voidbringer",
+      "Chrono Filter",
+      "Wincer",
+      "Doomed Wall",
+      "Doomed Drone"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2020-11-24",
+    "replay_code": null,
+    "context": "Post-game analysis of asymmetric Zemora versus Chrono Wincer matchup.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-11-24 13:05"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with good absorbers like Omega Splitter (with blue sink), buying extra economy is often correct. However, holding clickable absorbers instead of clicking them provides more value than clicking them; comparing Omega Splitter held versus clicked shows holding generates more total defense benefit via better defensive unit purchases.",
+    "units": [
+      "Omega Splitter",
+      "Infusion Grid",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2020-12-09",
+    "replay_code": null,
+    "context": "Discussion of absorber mechanics and economy tradeoffs in defensive positioning.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-12-09 01:56",
+      "2020-12-09 03:17",
+      "2020-12-09 03:24",
+      "2020-12-09 03:28"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "High-quality soak units (like Aegis) come in large chunks requiring significant opponent attack (e.g., 7+ attack) before providing value, making it difficult to efficiently use multiple copies. This limits the economy-boosting effect of strong soak compared to strong absorbers.",
+    "units": [
+      "Aegis"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2020-12-09",
+    "replay_code": null,
+    "context": "Analysis of why strong soak doesn't encourage high economy as much as strong absorbers do.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-12-09 03:10",
+      "2020-12-09 03:12",
+      "2020-12-09 03:13"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Master Bot has difficulty holding Drones late-game when Attackers are already built, often buying Drones when Attackers or other units would be stronger. In specific endgame positions, Drone purchases can still be optimal over Tarsier (e.g., Splitter + Husk > Tarsier + Husk), but Master Bot applies this heuristic incorrectly.",
+    "units": [
+      "Drone",
+      "Tarsier",
+      "Splitter",
+      "Husk"
+    ],
+    "confidence": "medium",
+    "author": "masn6811, velizar_",
+    "date": "2020-12-08",
+    "replay_code": "eUfkH-nBFhd",
+    "context": "Analysis of Master Bot endgame errors in unit purchasing priorities.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-12-08 00:39",
+      "2020-12-08 00:48",
+      "2020-12-08 00:49",
+      "2020-12-08 00:50"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Felid is strong even as a first attacker when Animus is available; the Bombarder rule (buy some permanent attack before Bombarder) suggests buying all available Felid supply when paired with Animus.",
+    "units": [
+      "Felid",
+      "Animus",
+      "Bombarder"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-12-11",
+    "replay_code": null,
+    "context": "Discussion of Felid's strength relative to other early attackers.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-12-11 21:40"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Evis requires Red mana to click and this cost is easy to forget during gameplay; proper costing analysis must account for the click cost in addition to purchase cost.",
+    "units": [
+      "Evis"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-12-11",
+    "replay_code": null,
+    "context": "Brief note on Evis mechanics to avoid missed opportunities.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-12-11 21:40"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Old Grenade Mech with 0 click cost would enable spam-clicking similar to Drake spam, but required building up economy to sustain Blastforge cycling. The 2-gold cost difference (Grenade Mech vs Drake) plus 1 extra damage per click (3 vs 2) made it significantly stronger than Drake spam strategies.",
+    "units": [
+      "Grenade Mech",
+      "Blastforge",
+      "Drake",
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "masn6811",
+    "date": "2020-12-15",
+    "replay_code": null,
+    "context": "Historical discussion of Grenade Mech balance changes and why 0 click cost was overpowered.",
+    "temporal_validity": "historical",
+    "source_message_ids": [
+      "2020-12-15 19:56",
+      "2020-12-15 19:59",
+      "2020-12-15 20:00",
+      "2020-12-15 20:02"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Perforator can be used efficiently as an early attacker paired with economy like Animus; the ability to sell Red later allows flexibility to stop spending Red and pivot to defense or other priorities.",
+    "units": [
+      "Perforator",
+      "Rhino",
+      "Animus",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2020-12-17",
+    "replay_code": null,
+    "context": "Discussion of Perforator's versatility as both attacker and economic outlet.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-12-17 11:37"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Infusion Grid is a soft counter to Wincer strategies; buying at least one Plexo Cell (with Conduit for Green) provides a minimum defense floor that limits Wincer's exploitability, even though multiple Plexos can be exploited more heavily.",
+    "units": [
+      "Infusion Grid",
+      "Wincer",
+      "Plexo Cell",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-12-21",
+    "replay_code": null,
+    "context": "Analysis of defensive options against Wincer rush strategies.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-12-21 11:05"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "In Black Lab, the probability of flipping a color you don't have (like White with only Blue unlocked) is very low (~1 in 30), making it extremely expensive to convert shards into lab tickets for color-specific farming unless you specifically want Infusions.",
+    "units": [],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2020-12-26",
+    "replay_code": null,
+    "context": "Discussion of Black Lab shard efficiency and color unlocking probabilities.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-12-26 19:36",
+      "2020-12-26 19:37",
+      "2020-12-26 19:38"
+    ]
+  }
+]

@@ -1,0 +1,440 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "\"Shock\" units are defined as units that immediately threaten more damage than their tech cost upon purchase, not units that deal high damage over time. Antima Comet does not qualify as a shock unit because it threatens 0 damage when first bought.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "high",
+    "author": "mrguy888",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Discussion of unit classification and counterplay to high-damage units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-09-18 01:37"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In a deterministic game with perfect information, the player on the losing side should ideally want to delay their loss as long as possible. Buying Antima first (the aggressive play) often loses when the opponent correctly reads they are winning and can defend with Blastforge/Conduit, then build their own Antima later.",
+    "units": [
+      "Antima Comet",
+      "Blastforge",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888, masn6811",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Theoretical analysis of Antima Comet equilibrium play and first-move advantage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-09-18 01:41",
+      "2019-09-18 01:50"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In sets with Chrono Filter and Galvani Drone and Antima Comet combo, the fastest possible Antima opening (1. 11E 2. C12 3. 7EEE 4. EEEEE) can be defended by P2 with Blastforge tech, after which P2 can build a larger Antima later and often win. However, P2 matching P1's Antima timing on the same turn is generally a losing strategy.",
+    "units": [
+      "Chrono Filter",
+      "Galvani Drone",
+      "Antima Comet",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Analysis of fastest Antima rush lines and counterplay in Chrono/Galvani/Antima sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-18 19:39",
+      "2019-09-18 19:40"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Chrono Filter, not Antima Comet, should be blamed for the degeneracy of sets containing both units, as the frontloaded tech generation from Chrono enables the Antima combo to come online too quickly.",
+    "units": [
+      "Chrono Filter",
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "mrguy888",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Discussion of which unit causes degenerate gameplay in Chrono/Galvani/Antima sets.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-18 19:47"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When deciding whether to buy Antima Comet, you must balance getting the first Antima (tempo) against building a sufficiently large one (power). The critical size threshold at which a delayed larger Antima beats an earlier smaller one is highly dependent on the rest of the unit set.",
+    "units": [
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "ruinedshadows",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Strategic framework for evaluating Antima timing decisions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-09-20 22:10",
+      "2019-09-20 22:11"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Arms Race Titan is an effective counter to Antima Comet if built after P1's Antima, because the accumulated soak from Arms Race becomes increasingly valuable over time while the opponent's soak from defending early remains static.",
+    "units": [
+      "Arms Race Titan",
+      "Antima Comet"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2019-09",
+    "replay_code": null,
+    "context": "Discussion of dynamic defensive units as Antima counters.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-21 09:55"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying two Bloodragers to deny one absorb is inefficient—you effectively pay 12 gold per Bloodrager, which is no better value than buying Steelsplitters for pure attack.",
+    "units": [
+      "Bloodrager",
+      "Steelsplitter"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2019-09",
+    "replay_code": "slEZF-xGstj",
+    "context": "Analysis of Bloodrager math for absorb denial versus raw attack value.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-28 00:21"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Mahar is commonly bought in sets where it is available due to efficient cost, but buying multiple Mahars for absorb denial alongside other red attackers can be suboptimal. The first Mahar effectively acts like a 7GG Energy Matrix (forcing over-defense by 2), while subsequent Mahars are just solid attackers.",
+    "units": [
+      "Mahar",
+      "Energy Matrix"
+    ],
+    "confidence": "medium",
+    "author": "zera777",
+    "date": "2019-09",
+    "replay_code": "bNsdI-8o2m2",
+    "context": "Discussion of Mahar value and over-commitment to absorb denial.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-09-28 04:52"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "A unit should only be considered truly overpowered if it has all three properties: high generality (buyable in many sets), high raw power (gives a large advantage to the player with access), and high set dictation (forces the rest of set strategy around it). Few units meet all three criteria simultaneously.",
+    "units": [],
+    "confidence": "high",
+    "author": "junkmail",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Framework for evaluating unit balance and power level across the game.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-03 05:08",
+      "2019-10-03 05:09",
+      "2019-10-03 05:10",
+      "2019-10-03 05:11",
+      "2019-10-03 05:12",
+      "2019-10-03 05:13"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Legendary single-supply units like Tia Threnody are intentionally designed to be game-changing and overpowered in most situations. Set reading revolves around deciding whether and when to play them, which is the intended design rather than a balance problem.",
+    "units": [
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "rus079760",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of legendary unit design philosophy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-04 00:05",
+      "2019-10-04 00:16"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "In sets with natural Conduit, player 2 has an advantage in obtaining green tech for units like Tia Threnody, because Conduit produces green at the start of P2's turn naturally.",
+    "units": [
+      "Conduit",
+      "Tia Threnody"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Analysis of turn order advantage with natural blue tech producers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-04 01:12",
+      "2019-10-04 01:13"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Flame Animus synergizes with Smorcus/Perfector because both want red production and benefit from buying blue attackers at the same time, making the combination significantly more powerful than simply comparing individual unit efficiency numbers.",
+    "units": [
+      "Flame Animus",
+      "Smorcus",
+      "Perfector"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of unit synergies and why raw cost-efficiency comparisons miss interaction value.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-10-05 15:35",
+      "2019-10-05 15:39",
+      "2019-10-05 15:41",
+      "2019-10-05 15:44",
+      "2019-10-05 15:45"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When holding an optional-click unit like Thermite Core, you should follow through on clicking it if you built it intentionally. Leaving it unclicked suggests your initial plan was sound but you abandoned it mid-game, which is usually worse than committing to the original strategy.",
+    "units": [
+      "Thermite Core"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Strategic advice on decision commitment and avoiding second-guessing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-06 02:04",
+      "2019-10-06 02:05"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Thermite Core saves attack perfectly and is always good to click, while Lancetooth is only excellent when you would otherwise waste attack. In high-attack scenarios (above absorb barrier), buying Lancetooth is equivalent to paying attack you would waste anyway.",
+    "units": [
+      "Thermite Core",
+      "Lancetooth"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Analysis of attack-spending efficiency between two optional-click units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-06 09:56",
+      "2019-10-06 09:58",
+      "2019-10-06 09:59",
+      "2019-10-06 10:00"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When buying Animus for the purpose of generating red to buy a few Cynestras, you should not buy Animus unless you have other uses for the red resources, because 18GGG for 3 attack with buildtime 2 is inefficient compared to buying pure attackers like Gauss Cannon.",
+    "units": [
+      "Animus",
+      "Cynestra",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Analysis of when Animus is worth the investment as a support unit.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-10-12 02:09",
+      "2019-10-12 02:14"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Animus can be a good alternative to Gauss Cannon for generating Cynestra attacks because the 6 gold per turn tech cost of Animus is competitive with buying 3 Gauss Cannons for 3 attack, especially if you use the red resources for anything else.",
+    "units": [
+      "Animus",
+      "Cynestra",
+      "Gauss Cannon"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Counter-analysis of Animus value in Cynestra lines.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-10-12 04:13",
+      "2019-10-12 04:14"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Forcefield is more gold-efficient for soak than Rhino, but if you buy Forcefield you often do not want to immediately replace the consumed Drone, because the economics shift.",
+    "units": [
+      "Forcefield",
+      "Rhino",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of defensive unit comparisons and economy implications.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-18 01:45"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Wincer should not be fired if it will not fire again (i.e., the enemy will be defeated before Wincer's cooldown expires). The threat of Wincer is already factored into the opponent's defense, so firing it to deal damage when it cannot fire again trades 5 drones for damage that could have been applied by simply maintaining the threat.",
+    "units": [
+      "Wincer"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Analysis of Wincer threat mechanics and when to actually use its ability.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-22 18:11",
+      "2019-10-22 18:12",
+      "2019-10-22 18:13",
+      "2019-10-22 18:14"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Endotherm Kit is not a bad unit in absolute terms—it is good in mid-to-high econ sets with breach-vulnerable defenses and limited vigilant counters. It is less situational than Apollo in some regards.",
+    "units": [
+      "Endotherm Kit",
+      "Apollo"
+    ],
+    "confidence": "medium",
+    "author": "msven",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Reassessment of Endotherm Kit power level relative to other legendary units.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2019-10-23 07:22"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against Endotherm Kit threats, you should avoid buying units with lifespan and instead let the opponent breach for a few drones, which is acceptable. The key is to apply consistent pressure so the opponent cannot survive long enough to make use of Endotherm.",
+    "units": [
+      "Endotherm Kit"
+    ],
+    "confidence": "medium",
+    "author": "amalloy",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Tactical guidance for defending against Endotherm Kit threat.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-25 01:13",
+      "2019-10-25 01:13",
+      "2019-10-25 01:14"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "You should not aggressively commit to attack builds (e.g., \"fastimus\" Animus buys) in sets where the units available do not align with that strategy. In such sets, buying drones and econ is usually correct, even if the set appears to have \"juicy\" attack options.",
+    "units": [
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "hyreon, f300xen",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of set-reading and strategy alignment.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-24 03:15",
+      "2019-10-24 03:18",
+      "2019-10-24 03:19"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Ebb (Ebbheart) is good not only in the late game when you have excess resources, but as soon as you stop buying Drones. Every turn you skip buying a Drone means a Drone is worth less than 3 gold at that moment, making Ebb's sell ability immediately valuable.",
+    "units": [
+      "Ebb",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "jamberine, amalloy",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Economic analysis of Ebb's utility timing.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-24 18:42",
+      "2019-10-24 18:43",
+      "2019-10-24 18:50",
+      "2019-10-24 18:51"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Ebb is purchased when blue tech is not otherwise productive in the set, and the primary alternative purchase is Steelsplitter. In this context, Ebb's ability to convert Drones into Engineer value is significantly more useful than merely blocking for soak.",
+    "units": [
+      "Ebb",
+      "Steelsplitter",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Discussion of Ebb as a blue tech outlet.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-24 18:54",
+      "2019-10-24 18:55"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Shadowfang is a support unit that is good in high-econ sets where you can afford to buy defensive soak with the red resources it generates, or in sets with strong red sinks. In low-econ sets, Shadowfang is more like a pair of fast Tarsiers without significant additional value.",
+    "units": [
+      "Shadowfang",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2019-10",
+    "replay_code": null,
+    "context": "Analysis of Shadowfang utility across different set contexts.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2019-10-27 04:22",
+      "2019-10-27 04:23"
+    ]
+  }
+]

@@ -1,0 +1,297 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Arms Race is high-impact in sets where good attackers are unavailable; when it's the best attacker available, both players converge on building it, making it the dominant strategy for both sides.",
+    "units": [
+      "Arms Race",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of Arms Race unit evaluation and impact in different set compositions.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-06 21:17",
+      "2018-05-06 21:20",
+      "2018-05-06 21:21"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Against vigilant absorbing attackers, denying absorb with attacker clicks (e.g., Thermite destroying Borehole Patroller) should be held unless opponent is under immediate threat; the attacker can usually be killed later while damage tempo gained justifies the delay.",
+    "units": [
+      "Thermite",
+      "Borehole Patroller",
+      "Centurion",
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "amalloy, mtanzer, itsotter",
+    "date": "2018-05",
+    "replay_code": "np9gs-@PFP2",
+    "context": "Analysis of when to click units to deny absorb versus holding attackers for pressure.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-07 23:24",
+      "2018-05-07 23:25",
+      "2018-05-07 23:26",
+      "2018-05-07 23:30",
+      "2018-05-07 23:31"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "An attacker on the board is worth roughly 4 damage to kill in terms of value trade-off; this accounts for its health, ongoing damage output, and inflation scaling.",
+    "units": [
+      "Borehole Patroller"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of whether to spend resources denying absorb or killing attackers.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-07 23:26",
+      "2018-05-07 23:32"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "With Apollo, you should generally snipe Tarsier rather than Wall to deny the opponent's ability to defend (defensive tempo denial is worth more than killing the higher-value unit).",
+    "units": [
+      "Apollo",
+      "Tarsier",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of targeting priority when sniping with Apollo.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-07 23:33",
+      "2018-05-07 23:34"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Thermite + Valkyrie + Bloodrager + Blood Pact is a powerful combo, especially when Xenofrost is available to accelerate Blastforge purchases and quickly build multiple Thermites.",
+    "units": [
+      "Thermite",
+      "Valkyrie",
+      "Bloodrager",
+      "Blood Pact",
+      "Xenofrost",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "xyotsuba",
+    "date": "2018-05",
+    "replay_code": "wkIcx-DcIMF",
+    "context": "Analysis of a particularly strong unit combination that allowed fast damage buildup.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-08 00:51",
+      "2018-05-08 01:01",
+      "2018-05-08 01:03"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Non-prompt Walls are often underrated; buying a Wall instead of 3 Engineers saves one gold and should be considered in many situations where soak next turn is valuable, unless you need granularity or have better uses for the gold.",
+    "units": [
+      "Wall",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "mtanzer",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of when non-prompt Walls are cost-efficient purchases in economy building.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-08 07:18",
+      "2018-05-08 08:30"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "A non-prompt Wall is worth approximately 4.5 value, while a post-buildtime Tarsier is worth approximately 6.3 value, reflecting their different roles and scaling.",
+    "units": [
+      "Wall",
+      "Tarsier"
+    ],
+    "confidence": "medium",
+    "author": ".bky_1556",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Unit valuation reference points for economic calculations.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-08 07:18",
+      "2018-05-08 07:19"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Arka Sadora's prompt mechanic enables counter-arka gameplay which can lead to stalled positions where neither player builds first Arka; the design masks over-tuning in cost/stats, similar to how Immaculon was over-buffed with Plexo Cells.",
+    "units": [
+      "Arka Sadora",
+      "Immaculon",
+      "Plexo Cell"
+    ],
+    "confidence": "medium",
+    "author": "masn6811",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of unit balance design philosophy and whether counter-play mechanics justify stat inflation.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-08 09:56",
+      "2018-05-08 10:00",
+      "2018-05-08 10:02",
+      "2018-05-08 10:06"
+    ]
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Strictly better unit comparisons are only valid when one unit dominates another in all constructed states; examples like Infusion Grid vs Wall or Shiver Yeti vs Rhino are not strictly better because build cost and situation matter.",
+    "units": [
+      "Infusion Grid",
+      "Wall",
+      "Shiver Yeti",
+      "Rhino"
+    ],
+    "confidence": "high",
+    "author": "amalloy, vanitascabal6962, liadahlia",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Clarification of the term 'strictly better' in game balance discussion.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-09 03:29",
+      "2018-05-09 03:32",
+      "2018-05-09 03:33",
+      "2018-05-09 03:34"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Resophore vs Zemora Voidbringer: While Zemora is generally more efficient due to lower cost and no Animus requirement, Resophore can be built in situations with limited green resources or when early absorb is needed before Zemora's high economy cost can be achieved.",
+    "units": [
+      "Resophore",
+      "Zemora Voidbringer"
+    ],
+    "confidence": "high",
+    "author": "mrguy888, amalloy",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Debate over whether Zemora is strictly better than Resophore.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2018-05-09 03:40",
+      "2018-05-09 03:47",
+      "2018-05-09 03:48"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Arka Sadora sets, the general rule of thumb is to hold Arka as an absorber and rarely click it for damage; clicking Arka is only justified when killing multiple attackers or when the click secures a win next turn.",
+    "units": [
+      "Arka Sadora"
+    ],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of when clicking Arka for damage is appropriate versus holding for absorb.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-09 10:20",
+      "2018-05-09 10:36",
+      "2018-05-09 10:37",
+      "2018-05-09 10:40"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In asymmetric economy situations, the player building toward attack (faster) should prioritize pressure on the opponent's high-cost permanent units (Vivid Drone, Savior, Zemora), while the player defending (slower) should pressure the opponent's temporary attackers (Hound, Cynestra, Shadowfang).",
+    "units": [
+      "Vivid Drone",
+      "Savior",
+      "Zemora Voidbringer",
+      "Hound",
+      "Cynestra",
+      "Shadowfang"
+    ],
+    "confidence": "medium",
+    "author": "Deleted User",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Discussion of inflation-based play and how econ tempo affects targeting priorities.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-09 10:34",
+      "2018-05-09 10:35",
+      "2018-05-09 10:36"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Clicking Arka is worse than clicking 2 Drakes in most situations; if you have 5+ absorb on Arka and can get only 2 normal absorb elsewhere, holding Arka is almost always better than clicking it.",
+    "units": [
+      "Arka Sadora",
+      "Drake"
+    ],
+    "confidence": "medium",
+    "author": "Deleted User",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Comparative analysis of click-for-damage decisions with Arka.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-09 10:37",
+      "2018-05-09 10:38"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In double-Arka games where both players have Arka and an alternate absorber (e.g., Odin), holding both units makes clicking either unit extremely bad for the opponent, as they must deal with both absorbs; this inverts the normal 'never click Arka' rule.",
+    "units": [
+      "Arka Sadora",
+      "Odin"
+    ],
+    "confidence": "medium",
+    "author": "Deleted User",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Analysis of multi-absorber scenarios and Arka click decision-making.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-09 10:41",
+      "2018-05-09 10:42"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When you have 3+ absorb available (e.g., Wall absorb + other soak), clicking Arka for damage is strongly disincentivized because the opponent needs to apply significant resources to counter that click; holding Arka is almost always correct.",
+    "units": [
+      "Arka Sadora",
+      "Wall"
+    ],
+    "confidence": "medium",
+    "author": "Deleted User",
+    "date": "2018-05",
+    "replay_code": null,
+    "context": "Analysis of when clicking Arka is mathematically justified vs intuitive play.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2018-05-09 10:43",
+      "2018-05-09 10:45"
+    ]
+  }
+]

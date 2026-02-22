@@ -1,0 +1,467 @@
+[
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Prismata decision trees are extremely large even after eliminating strictly dominated moves, because floating gold, holding units, and various defensive options are rarely strictly dominated—they are context-dependent.",
+    "units": [],
+    "confidence": "high",
+    "author": "consensus",
+    "date": "2020-04",
+    "replay_code": null,
+    "context": "Discussion of AI search space complexity and whether brute-force methods could work for Prismata.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-18 19:48",
+      "2020-04-18 19:52",
+      "2020-04-18 20:00",
+      "2020-04-18 20:08"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Evaluating breach damage should focus on absorb denial and SDRs (strategic drone removal) granted, not merely on unit count lost. A breach that denies absorb potential is often worse than one that only kills units.",
+    "units": [
+      "Drone",
+      "Engineer"
+    ],
+    "confidence": "high",
+    "author": "megasupp, masn6811",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Analysis of defense strategy and why breaches are costly beyond face-value unit loss.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-19 12:49",
+      "2020-04-19 12:53",
+      "2020-04-19 13:08"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding drones as defense against breach is only valuable if they can absorb or if losing them preserves a better unit. If the opponent cannot breach or must click through absorb anyway, holding drones provides no value.",
+    "units": [
+      "Drone",
+      "Thermite",
+      "Pixie"
+    ],
+    "confidence": "high",
+    "author": "megasupp",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Correcting misconception that drones are always good defense.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-19 12:59"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When deciding whether to defend or allow a breach, consider the opportunity cost. If the cost of defense (e.g., buying Rhino instead of Scorch) outweighs the loss from breach, allowing the breach may be correct. However, this trade-off is rarely favorable early in the game when establishing board position.",
+    "units": [
+      "Rhino",
+      "Scorch",
+      "Grenade Mech"
+    ],
+    "confidence": "high",
+    "author": "megasupp",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Discussion of when to allow breach vs. defend inefficiently.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-19 13:32",
+      "2020-04-19 13:37"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Xaetron's healing is valuable even on turns you don't click it, so you should rotate absorb to other units (e.g., Wall) on alternate turns to preserve Xaetron health and maximize healing efficiency, rather than clicking Xaetron every turn.",
+    "units": [
+      "Xaetron",
+      "Wall",
+      "Energy Matrix"
+    ],
+    "confidence": "high",
+    "author": "amalloy",
+    "date": "2020-04-20",
+    "replay_code": null,
+    "context": "Clarifying optimal Xaetron usage pattern.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-20 00:28",
+      "2020-04-20 00:29"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "P2 Doomed Drone + Engineer turn 1 / triple Drone turn 2 opening (DE1/DDD) is a standard way to enable triple Engineer builds. It is viable but sometimes overrated.",
+    "units": [
+      "Doomed Drone",
+      "Engineer",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "shadourow, megasupp",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Discussion of early game openings with Doomed Drone in the set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-19 16:18",
+      "2020-04-19 16:20",
+      "2020-04-19 16:22"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Doomed Drone tends to support rush and smaller economy builds, not broader economy expansion. It enables higher Engineer counts to purchase more Doomed Drones per turn, but this effect is limited by the 10-unit supply cap.",
+    "units": [
+      "Doomed Drone",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "megasupp, shadourow",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Discussion of when and how to use Doomed Drone in economy builds.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-19 16:24",
+      "2020-04-19 16:25",
+      "2020-04-19 16:43"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Thorium is a near-automatic buy in most sets because it allows you to spend extra gold despite limited energy, improving economy efficiency. Skip Thorium only if it opens you to an undefendable red rush.",
+    "units": [
+      "Thorium Dynamo"
+    ],
+    "confidence": "high",
+    "author": "stacko",
+    "date": "2020-04-20",
+    "replay_code": null,
+    "context": "Guidance on when to prioritize Thorium Dynamo in opening builds.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-20 07:29"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Flame Animus rush (T2 Blastforge → T3 Flame Animus into attackers) is strong in low-econ sets with good red units (e.g., Grimbotch), but should be avoided or delayed in high-econ sets or when powerful non-rush units like Centurion or Energy Matrix are available.",
+    "units": [
+      "Flame Animus",
+      "Blastforge",
+      "Grimbotch",
+      "Centurion",
+      "Energy Matrix"
+    ],
+    "confidence": "high",
+    "author": "megasupp, stacko",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Discussion of when Flame Animus rushes are appropriate.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-19 16:51",
+      "2020-04-19 16:53",
+      "2020-04-20 17:24"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Apollo should be bought when there is no absorber better than Energy Matrix in the set. Otherwise, the opportunity cost of buying Apollo over other units is too high.",
+    "units": [
+      "Apollo",
+      "Energy Matrix"
+    ],
+    "confidence": "medium",
+    "author": "megasupp",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Heuristic for evaluating Apollo purchases.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-19 16:50"
+    ]
+  },
+  {
+    "category": "BALANCE_OPINION",
+    "insight": "Apollo is underrated by the community; players claim it is weak but buy it frequently in practice, indicating it is a decent unit especially in slower sets with blue sinks.",
+    "units": [
+      "Apollo"
+    ],
+    "confidence": "medium",
+    "author": "sano712, siepu",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Meta discussion of Apollo's perceived vs. actual strength.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": [
+      "2020-04-19 16:51",
+      "2020-04-19 16:52"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "P1 slow Conduit (DDC pattern) is generally weak, but may be necessary in mid-econ sets that require green resources. P2 Conduit is heuristically better due to faster green, but is not strictly superior—P1 retains more drones.",
+    "units": [
+      "Conduit",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "iminabearsuit, amalloy",
+    "date": "2020-04-21",
+    "replay_code": null,
+    "context": "Analysis of Conduit opening patterns for each player.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-21 16:11",
+      "2020-04-21 16:15",
+      "2020-04-21 18:23",
+      "2020-04-21 18:24"
+    ]
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "In Scorch sets, P1 can avoid cutting drones by going slow Conduit (DDDC...) compared to faster alternatives, making it occasionally viable despite generally being weak.",
+    "units": [
+      "Conduit",
+      "Scorch",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "sano712",
+    "date": "2020-04-21",
+    "replay_code": null,
+    "context": "Niche application of slow Conduit in Scorch sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-21 18:37"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying Wall in defense forces you to not buy Hellhound, which is often a better unit. The opportunity cost of Wall over Hellhound is significant, making Rhino often a better defensive choice in Hellhound sets if it allows you to keep the Hellhound buy alive.",
+    "units": [
+      "Wall",
+      "Rhino",
+      "Hellhound"
+    ],
+    "confidence": "high",
+    "author": "jamberine, masn6811",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Analysis of Wall vs. Rhino defense in Hellhound-heavy sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 18:57",
+      "2020-04-22 19:17",
+      "2020-04-22 19:18",
+      "2020-04-22 19:19"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Rhino in Hellhound sets is valuable not just for the defense, but because the exact 1-damage increment is awkward for the opponent, and buying Rhino avoids forcing Wall which would deny Hellhound purchases.",
+    "units": [
+      "Rhino",
+      "Hellhound",
+      "Wall"
+    ],
+    "confidence": "high",
+    "author": "jamberine",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Detailed analysis of Rhino's utility in Hellhound-based defense.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 18:57",
+      "2020-04-22 18:58",
+      "2020-04-22 19:11"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "When facing Tia Threnody rush with limited absorbers, buying multiple Conduits to defend is poor because the extra Conduit floats gold after Tia is built and denies better buys.",
+    "units": [
+      "Tia Threnody",
+      "Conduit"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Discussion of Tia defense mechanics and opportunity cost.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 18:58"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Smorcus is best used early to provide persistent threat without requiring constant activation, or as a way to spend red mana late game when you have multiple Animus but need to deploy attackers other than Tarsiers. It is also good to purchase before you need to click it, as it provides 2 threat while unclicked.",
+    "units": [
+      "Smorcus",
+      "Animus",
+      "Tarsier"
+    ],
+    "confidence": "high",
+    "author": "velizar_, archagent",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Analysis of Smorcus's role in various game stages and build contexts.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 23:52",
+      "2020-04-22 23:53",
+      "2020-04-22 23:55",
+      "2020-04-23 00:47",
+      "2020-04-23 00:48"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Animus shines in early game when buying attackers frequently, and is worst in late game when buying absorbers. Use Smorcus when you want Animus early but need something else late (non-red attacker or absorber).",
+    "units": [
+      "Animus",
+      "Smorcus"
+    ],
+    "confidence": "high",
+    "author": "velizar_",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Explanation of Animus's game-stage efficiency and Smorcus as alternative.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 23:52",
+      "2020-04-22 23:53",
+      "2020-04-22 23:55"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Smorcus is excellent to pair with units like Wincer, Valkyrion, or Colossus that might leave you over-teched in red, because Smorcus can convert excess red into threat.",
+    "units": [
+      "Smorcus",
+      "Wincer",
+      "Valkyrion",
+      "Colossus"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Specific pairings where Smorcus solves resource management issues.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 23:57"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying a second Venge Cannon (Venge) to transform drones into Thorium Dynamo is inefficient and delays more valuable buys. The first Venge is good, but the second is often much worse.",
+    "units": [
+      "Venge Cannon",
+      "Thorium Dynamo",
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Analysis of Venge Cannon saturation in unit economy builds.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 19:50"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Buying Vai Mauronax to counter Centurion is often inferior to building your own Centurion, especially if your opponent has Phage; their Vai will be less effective without corresponding phage synergy.",
+    "units": [
+      "Vai Mauronax",
+      "Centurion",
+      "Phage"
+    ],
+    "confidence": "medium",
+    "author": "jamberine",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Discussion of reactive vs. proactive unit choices.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 19:52"
+    ]
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Cynestra is highly cost-effective as an attacker (second only to Shadowfang among listed units) and forces opponent preparation by threatening Tia Threnody simultaneously, often inducing defensive Blastforge purchases.",
+    "units": [
+      "Cynestra",
+      "Shadowfang",
+      "Tia Threnody",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Set analysis and unit evaluation in context of mixed threats.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 22:09",
+      "2020-04-22 22:10"
+    ]
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with Cynestra, low-economy Bombarder (Scorchilla) rush may be superior because Cynestra requires high economy for adequate defense, whereas Bombarder threatens quickly on low resources.",
+    "units": [
+      "Cynestra",
+      "Scorchilla",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "velizar_",
+    "date": "2020-04-22",
+    "replay_code": null,
+    "context": "Economy-dependent strategy choice between two attackers in same set.",
+    "temporal_validity": "timeless",
+    "source_message_ids": [
+      "2020-04-22 22:11",
+      "2020-04-22 22:12"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Prismata skill can be acquired relatively quickly compared to chess, Go, or League—proficient players emerge within 1 year of regular play, whereas these games require years of study. However, top-level play remains mechanically complex and difficult to master.",
+    "units": [],
+    "confidence": "high",
+    "author": "sano712, lyra1712",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Meta-discussion of Prismata learning curve and skill distribution.",
+    "temporal_validity": "historical",
+    "source_message_ids": [
+      "2020-04-19 17:42",
+      "2020-04-19 17:45",
+      "2020-04-19 17:48"
+    ]
+  },
+  {
+    "category": "EXPERT_ASSESSMENT",
+    "insight": "Even with a much larger player base, top Prismata players would likely not be substantially better than current top players (apooche, msven, arkanishu, etc.), suggesting the metagame has reached a reasonably mature state.",
+    "units": [],
+    "confidence": "medium",
+    "author": "sano712",
+    "date": "2020-04-19",
+    "replay_code": null,
+    "context": "Debate about whether player quantity limits game understanding.",
+    "temporal_validity": "historical",
+    "source_message_ids": [
+      "2020-04-19 17:43",
+      "2020-04-19 17:45"
+    ]
+  }
+]

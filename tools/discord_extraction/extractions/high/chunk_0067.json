@@ -1,0 +1,407 @@
+[
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Attacking for 2 damage into a Wall is inefficient; in base set, Player 2 should not respond to natural Blastforge with a traditional defense build (TDD), as Player 1 wins that exchange. The correct P2 response involves proper pressure that exploits the delayed Blastforge timing.",
+    "units": [
+      "Wall",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes, silentslayers, consensus from community discussion",
+    "date": "2023-09",
+    "replay_code": null,
+    "context": "Discussion of early-game P1 Blastforge openings and P2 defensive responses in base set.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": []
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Double Drone/Engineer (DDE) openings are overly slow and get punished by correct P2 play; specifically, a sequence like dd/dd/dde/da/ddd/sym + drone/dddb/phage + tarsier/wall gives P2 a sizeable advantage, as the first Phage comes online on the last turn, allowing P2 to secure a Blastforge without wasting Red.",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Phage",
+      "Blastforge"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes",
+    "date": "2023-09",
+    "replay_code": null,
+    "context": "Analysis of early base-set openers and their relative strength, arguing DDE is not a sound strategy.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": []
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Doomed Drone is fundamentally a supply-smoothing tool, not primarily valued for its blocking capability; the 1-gold cost difference between Doomed and regular Drone represents the value of having a unit available 5 turns later, and Doomed Drone is worse at long-term economy growth (1.228 growth factor vs Drone's 1.28).",
+    "units": [
+      "Doomed Drone",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "awaclus, silentslayers, consensus",
+    "date": "2023-09",
+    "replay_code": null,
+    "context": "Extended discussion on Doomed Drone economics, opportunity cost, and comparison to regular Drones and hypothetical bt5 Drones.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A hypothetical 1-gold buildtime-5 Drone (no energy cost) would have a growth factor of 1.3247 towards infinity, making it superior to Wild Drone (1.28) but inferior to Tarsier (1.39-1.40 assuming Breach Vanguard costs 2.33-2.40 gold).",
+    "units": [
+      "Drone",
+      "Wild Drone",
+      "Tarsier",
+      "Breach Vanguard"
+    ],
+    "confidence": "high",
+    "author": "silentslayers, awaclus",
+    "date": "2023-10",
+    "replay_code": null,
+    "context": "Mathematical analysis of hypothetical unit economics using Wolfram Alpha growth rate calculations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "GAME_MECHANIC",
+    "insight": "Economy growth rates (inflation factors) are abstract values derived from recursive unit economics and do not directly determine real-game value; the 2 free starting Drones/Engineers and early-game granularity matter significantly, and Vivid Drone's strength comes partly from being able to sacrifice the 6-7 physical starting Drones rather than requiring you to buy Drones to then buy Vivid Drones.",
+    "units": [
+      "Vivid Drone",
+      "Drone"
+    ],
+    "confidence": "high",
+    "author": "silentslayers, awaclus",
+    "date": "2023-10",
+    "replay_code": null,
+    "context": "Discussion distinguishing abstract infinite-game economy mathematics from real game scenarios with resource constraints.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In slow games where inflation is low and both players buy many Drones, thresholds for key purchases become less critical; conversely, in fast games where inflation is high, attack momentum matters more than drone count, making brainless high-drone buys (20+) suboptimal.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes",
+    "date": "2023-10",
+    "replay_code": null,
+    "context": "Analysis of why DooomedDrone early buys create economy crashes in mid-game and how game speed affects drone purchasing strategy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Wild Drone is underrated; buying Wild Drones early (turn 2) provides insane value later (turn 6+) when exploiting opponents, as the early investment compounds over many turns.",
+    "units": [
+      "Wild Drone"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes, silentslayers",
+    "date": "2023-10",
+    "replay_code": null,
+    "context": "Discussion comparing efficiency metrics of Vivid Drone and Wild Drone in real games vs abstract economics.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Optimal purchasing ratios of unit combinations (e.g., Drone/Engineer/Vivid) converge to an irrational fixed point similar to the golden ratio; maintaining the correct ratio avoids floating excess Gold or Energy.",
+    "units": [
+      "Drone",
+      "Engineer",
+      "Vivid Drone"
+    ],
+    "confidence": "medium",
+    "author": "aa01blue, silentslayers",
+    "date": "2023-10",
+    "replay_code": null,
+    "context": "Mathematical analysis of fixed-point ratios for economy units, with references to Wolfram Alpha calculations.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Plexo Cell and Wincer together enable otherwise impossible strategies by providing flexible unit placement and attack redirection, allowing unconventional builds like triple Amporilla in specific contexts.",
+    "units": [
+      "Plexo Cell",
+      "Wincer",
+      "Amporilla"
+    ],
+    "confidence": "medium",
+    "author": "shadourow",
+    "date": "2024-02",
+    "replay_code": "1ZoLk-Khapr",
+    "context": "Analysis of a replay featuring unusual Amporilla strategy enabled by Plexo and Wincer synergy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In sets with aggressive Red units (e.g., Cluster Bolt, Nitro), buying extra Plasmafier attackers can paradoxically worsen your defensive position if they volley with your own units, wasting effective absorption.",
+    "units": [
+      "Plasmafier",
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes",
+    "date": "2024-04",
+    "replay_code": "jA9lV-d4IYX",
+    "context": "Analysis of why additional Plasmafiers did not improve tempo despite the player buying more attack.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Natural Conduit (a common P2 response) is a significant advantage in aggressive Red sets; P1 should expect disadvantage in Plasmafier/Cluster Bolt sets due to P2's natural Conduit access.",
+    "units": [
+      "Conduit",
+      "Plasmafier",
+      "Cluster Bolt"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes",
+    "date": "2024-04",
+    "replay_code": null,
+    "context": "Discussion of why P1 loses certain Blue-light sets naturally.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": []
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Holding Doomed Mech while buying Feral Hound allows Feral's +2 health attack to defend via a 2-health gambit against Doomed Mech holds, providing flexible offense/defense options in the same turn.",
+    "units": [
+      "Doomed Mech",
+      "Feral Hound"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2024-05",
+    "replay_code": "+vQIU-JuZ7g",
+    "context": "Analysis of a base+5 set game featuring Doomed Mech and Feral Hound interactions.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "In Omega Splitter-heavy sets, over-committing to Omega (especially the 3rd or 4th copy) without sufficient soak leads to rapid drone losses; Forcefields alone are insufficient defense if the opponent has Green units and can threaten multiple attacks.",
+    "units": [
+      "Omega Splitter",
+      "Forcefield"
+    ],
+    "confidence": "medium",
+    "author": "tmtyioh, spiritfryer",
+    "date": "2024-05",
+    "replay_code": "+vQIU-JuZ7g",
+    "context": "Game analysis where P2 over-built Omega Splitters and lost drone supply despite seeming economic advantage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Zemora Voidbringer's first volley is often difficult to defend against in sets with aggressive Red units (Nullifier, Cluster Bolt, Venge); P2 may sacrifice economy to be first to Zemora in such sets to avoid taking the initial volley.",
+    "units": [
+      "Zemora Voidbringer",
+      "Nullifier",
+      "Cluster Bolt",
+      "Venge Cannon"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2024-08",
+    "replay_code": null,
+    "context": "Discussion of Zemora Voidbringer opening timing and when to prioritize it over economy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Vivid Drone is not high-priority snipe target in Zemora Voidbringer sets; Vivid provides +3 Gold while Conduit provides ~+1 Attack and +1 Gold, roughly equivalent value, so sniping Vivid vs Conduit is not a meaningful decision.",
+    "units": [
+      "Vivid Drone",
+      "Conduit",
+      "Zemora Voidbringer"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes, silentslayers",
+    "date": "2024-08",
+    "replay_code": null,
+    "context": "Discussion of sniping priorities when Zemora Voidbringer can target key economy units.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Blood Phage is strictly superior to Tarsier+Drone when neither Amporilla nor drone-eating units are present and you have only one Animus; however, after purchasing 2 Phages, additional Tarsier+Drone is preferable because holdable Drones gain value in lategame against Forcefield absorb.",
+    "units": [
+      "Blood Phage",
+      "Tarsier",
+      "Drone",
+      "Animus",
+      "Forcefield",
+      "Amporilla"
+    ],
+    "confidence": "medium",
+    "author": "wibbie, silentslayers, consensus",
+    "date": "2025-04",
+    "replay_code": null,
+    "context": "Discussion comparing value of Blood Phage vs Tarsier+Drone in various game states.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "A single holdable Drone provides significant value lategame in close games, especially in Centurion sets where even 1 defense can determine victory; the decision between Phage and Tarsier+Drone often comes down to whether the game is likely to reach defense-based endgames.",
+    "units": [
+      "Blood Phage",
+      "Tarsier",
+      "Drone",
+      "Centurion"
+    ],
+    "confidence": "medium",
+    "author": "silentslayers",
+    "date": "2025-04",
+    "replay_code": null,
+    "context": "Discussion of late-game value of holdable Drones vs instant-value Phages.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Amporilla is generally unviable in base+1 sets unless the opponent is playing unusually high economy or there is significant Red sink; buying a second Animus to enable Amporilla in such sets is typically wrong, as it wastes the second Animus's potential and fails to convert Amporilla into value.",
+    "units": [
+      "Amporilla",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes",
+    "date": "2025-08",
+    "replay_code": "XFZ+U-F2PRC",
+    "context": "Analysis of a game where player one over-committed to early Vivid/Animus for Amporilla without proper setup.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": []
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Vivid Drone + Animus opener is overcommittal to high economy in balanced sets; it leaves the player vulnerable to aggressive strategies and requires the opponent to also go high economy to justify the econ sacrifice.",
+    "units": [
+      "Vivid Drone",
+      "Animus"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes",
+    "date": "2025-08",
+    "replay_code": "XFZ+U-F2PRC",
+    "context": "Game analysis where aggressive early Vivid/Animus was punished by timely attacker purchases.",
+    "temporal_validity": "patch_dependent",
+    "source_message_ids": []
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Early Forge purchase in base set is greedy on turn 2; delaying Forge by one turn and using Rhino for defense instead allows smoother tech transitions and avoids floating early Blue.",
+    "units": [
+      "Blastforge",
+      "Rhino"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2025-09",
+    "replay_code": null,
+    "context": "Challenge solution showing delayed Forge is more flexible than immediate Forge in medium-econ strategies.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Against an economically advantaged opponent (e.g., +1 Drone), forcing medium/high-econ reduces the relative econ disadvantage and creates more opportunities for the opponent to make mistakes; pure aggression allows the opponent to maintain proportional economic advantage.",
+    "units": [
+      "Drone"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2025-09",
+    "replay_code": null,
+    "context": "Challenge analysis of Extremely Unfair scenario where P1 (6 Drones) faces P2 (8 Drones).",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Electrovore is a degenerate early-game pressure unit that excels at forcing opponent defensive responses; early Electrovores can prevent an economically advantaged opponent from using their econ advantage.",
+    "units": [
+      "Electrovore"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2025-09",
+    "replay_code": null,
+    "context": "Challenge solution emphasizing Electrovore's role in tempo advantage.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "UNIT_INTERACTION",
+    "insight": "Apollo's sniping of Vivid Drones is powerful long-term value; Infusion Grid provides additional soak on top of base Wall supply, buying time for Apollo to amass damage; Militia provides Blue sink for excess Energy.",
+    "units": [
+      "Apollo",
+      "Vivid Drone",
+      "Infusion Grid",
+      "Wall",
+      "Militia"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2025-09",
+    "replay_code": null,
+    "context": "Challenge solution showing Apollo + Infusion Grid + Militia synergy against Vivid Drone economy.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "The viability of 3-Engineer depends heavily on set units; sets with obvious punishers (fast attackers, high-efficiency aggro) make 2-Engineer correct, while sets with high-absorption defenders and slow threats make 3-Engineer correct.",
+    "units": [
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "pikachumemes, megasupp, spiritfryer, consensus",
+    "date": "2026-01",
+    "replay_code": null,
+    "context": "Extended discussion on 2 vs 3 Engineer decision-making and set-dependent correctness.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "STRATEGY_RULE",
+    "insight": "Tia Threnody's presence in a set is a non-obvious indicator that 3-Engineer is correct; despite being a Green unit, Tia forces econ races that favor drone-heavy strategies.",
+    "units": [
+      "Tia Threnody",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer",
+    "date": "2026-01",
+    "replay_code": null,
+    "context": "Retrospective on a memorable lesson about 3-Engineer in Tia sets.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  },
+  {
+    "category": "OPENING_THEORY",
+    "insight": "Base + Ematrix allows Tarsier to dominate while still leaving room to posture for late Ematrix off 2-Engineer; high absorption does not eliminate 2-Engineer viability if fast attack can be produced without many Drones.",
+    "units": [
+      "Ematrix",
+      "Tarsier",
+      "Engineer"
+    ],
+    "confidence": "medium",
+    "author": "spiritfryer, megasupp",
+    "date": "2026-01",
+    "replay_code": null,
+    "context": "Discussion of Ematrix as a high-absorption unit that does not automatically force 3-Engineer.",
+    "temporal_validity": "timeless",
+    "source_message_ids": []
+  }
+]

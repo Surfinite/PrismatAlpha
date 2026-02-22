@@ -45,3 +45,8 @@ February 20, 2026. Based on 12+ source categories (~3,600 lines across 7 KB file
 - 45 Lunarch Studios blog articles (recovered via Wayback Machine CDX API)
 - 629 Reddit r/Prismata posts (retrieved via PullPush API)
 - Twitch VODs: Apooche league commentary (in progress — 7 videos)
+
+
+### Discord Extractions
+- `discord/` -- Extracted insights from Prismata Discord (mirror directory, not yet promoted)
+  - Requires manual review and promotion to main KB files
