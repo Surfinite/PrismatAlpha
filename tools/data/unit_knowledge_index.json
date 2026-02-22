@@ -1,0 +1,870 @@
+{
+  "Drone": {
+    "snippet": "Cost: 3 gold + 1 energy | Build Time: 1 | HP: 1 Click: produce 1 gold. Can hold back to block (1 HP blocker). Pays for itself in 3 turns. The core economy unit.",
+    "mechanics": [
+      "breach"
+    ]
+  },
+  "Engineer": {
+    "snippet": "Cost: 1 gold | Build Time: 1 | HP: 1 Blocker. Produces 1 energy/turn. Players start with 2. Key for defensive granularity. Provides the \"small blockers\" needed to make absorb efficient.",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Conduit": {
+    "snippet": "Cost: 4 gold | Build Time: 1 | HP: n/a (non-blocker) Produces 1 green/turn. Cheapest, least committal tech building. \"One Conduit requires 3 Gold per turn to spend\" (tech spending rule of thumb).",
+    "mechanics": []
+  },
+  "Blastforge": {
+    "snippet": "Cost: 5 gold | Build Time: 1 | HP: n/a (non-blocker) Produces 1 blue/turn. Best for defense (Walls). \"One Blastforge requires 5 Gold per turn to spend.\"",
+    "mechanics": []
+  },
+  "Animus": {
+    "snippet": "Cost: 6 gold | Build Time: 1 | HP: n/a (non-blocker) Produces 2 red/turn. Best for attack (Tarsiers, Rhinos). \"One Animus requires 8 Gold per turn to spend.\" Most expensive tech to maintain.",
+    "mechanics": []
+  },
+  "Tarsier": {
+    "snippet": "Tarsier: 1.39 | The baseline permanent red attacker",
+    "mechanics": []
+  },
+  "Rhino": {
+    "snippet": "Cost: 5 gold + 1 red | Build Time: 1 | HP: 2 Prompt blocker. Stamina 2 (click to attack for 1, up to 2 times total). The \"Rhino train\" is a key tactic — buying 1-2 Rhinos per turn for steady defense.",
+    "mechanics": [
+      "prompt"
+    ]
+  },
+  "Wall": {
+    "snippet": "Wall: 3 | 5G + 1B | 2 | Base set. Standard absorber.",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Steelsplitter": {
+    "snippet": "Steelsplitter: 1.35 | \"Barely higher inflation than Drone\" — base set worst",
+    "mechanics": []
+  },
+  "Gauss Cannon": {
+    "snippet": "Gauss Cannon: 1.37 | ",
+    "mechanics": []
+  },
+  "Forcefield": {
+    "snippet": "Cost: 1 green (consumes a Drone) | Build Time: prompt | HP: 1 (fragile) Cheap prompt fragile blocker. Converts Drones to defense. \"In the late game, buy a Conduit for Forcefields\" — emergency defense conversion.",
+    "mechanics": [
+      "absorb",
+      "fragile",
+      "prompt"
+    ]
+  },
+  "Doomed Wall": {
+    "snippet": "Doomed Wall: 4 | 4G + 1B | 3 | Lifespan 3. Cheap prompt absorber.",
+    "mechanics": [
+      "absorb",
+      "lifespan",
+      "prompt"
+    ]
+  },
+  "Energy Matrix": {
+    "snippet": "Energy Matrix: 5 | 9G + 2B | 4 | Dominant defender. Game-defining.",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Infusion Grid": {
+    "snippet": "Infusion Grid: 6 | 7G | 5 | Non-prompt. Great HP/cost. Colorless!",
+    "mechanics": [
+      "absorb",
+      "prompt"
+    ]
+  },
+  "Centurion": {
+    "snippet": "Centurion: 58.7% | Second most. Confirms \"strongest unit\" community consensus.",
+    "mechanics": []
+  },
+  "Defense Grid": {
+    "snippet": "Defense Grid: 47.6% | ",
+    "mechanics": []
+  },
+  "Plexo Cell": {
+    "snippet": "Plexo Cell: 4 | 4G + 1Gr | 3 | Lifespan 3. Consumes Drone. Excellent value.",
+    "mechanics": [
+      "absorb",
+      "lifespan"
+    ]
+  },
+  "Drake": {
+    "snippet": "Drake: 1.48 | Huge threat + absorb denial",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Scorchilla": {
+    "snippet": "Scorchilla: 1.36 | \"Less efficient than Gauss Cannon on a graph\" but +3 pressure bonus",
+    "mechanics": []
+  },
+  "Amporilla": {
+    "snippet": "Amporilla: 3R | Creates Tarsiers for scaling | Most extreme big red. \"An Amporilla with three Tarsiers is about Shadowfang strength... A four-Tarsier Amporilla is extremely strong.\" Vulnerable to early pressure.",
+    "mechanics": []
+  },
+  "Iso Kronus": {
+    "snippet": "Iso Kronus: 1.36 | Sync for burst; exhaust reduces raw efficiency",
+    "mechanics": [
+      "burst"
+    ]
+  },
+  "Asteri Cannon": {
+    "snippet": "Asteri Cannon: 1 + click(3) | 14G + 2Gr | Build 3. Constant 4 attack. Fragile 6HP.",
+    "mechanics": [
+      "fragile"
+    ]
+  },
+  "Shadowfang": {
+    "snippet": "Shadowfang: 3R | Vanilla efficient attacker | \"The least impactful big red unit. It's just a vanilla, efficient attacker.\" Deploy selectively.",
+    "mechanics": []
+  },
+  "Odin": {
+    "snippet": "Odin: 45.7% | ",
+    "mechanics": []
+  },
+  "Tia Thurnax": {
+    "snippet": "Tia Thurnax: 47.2% | ",
+    "mechanics": []
+  },
+  "Lucina Spinos": {
+    "snippet": "Lucina Spinos: 23.7% | Tier X players buy 26% MORE often than average.",
+    "mechanics": []
+  },
+  "Zemora Voidbringer": {
+    "snippet": "Zemora Voidbringer: 50.8% | ",
+    "mechanics": []
+  },
+  "Savior": {
+    "snippet": "Savior: 16G + 2B | Build 3. Produces Forcefields. Defensive powerhouse.",
+    "mechanics": []
+  },
+  "Cynestra": {
+    "snippet": "Cynestra: 1.50 | Super efficient, spammable",
+    "mechanics": []
+  },
+  "Centrifuge": {
+    "snippet": "Centrifuge: 46.9% | ",
+    "mechanics": []
+  },
+  "Frostbite": {
+    "snippet": "Frostbite: 4 (self-sacrifice) | One-time burst. Produced by Frost Brooder/Endotherm Kit.",
+    "mechanics": [
+      "burst",
+      "chill",
+      "sacrifice"
+    ]
+  },
+  "Cryo Ray": {
+    "snippet": "Cryo Ray: 1/turn | Permanent chill. Good for granularity denial. Lifespan 4.",
+    "mechanics": [
+      "chill",
+      "lifespan"
+    ]
+  },
+  "Shiver Yeti": {
+    "snippet": "Shiver Yeti: 2/turn | Must click (loses blocking). Good for freezing absorbers.",
+    "mechanics": [
+      "chill"
+    ]
+  },
+  "Iceblade Golem": {
+    "snippet": "Iceblade Golem: 1/turn | No activation cost. Constant pressure. Also used in breachproof.",
+    "mechanics": [
+      "chill"
+    ]
+  },
+  "Tatsu Nullifier": {
+    "snippet": "Tatsu Nullifier: 4R | Freeze ability, high supply | \"A hard counter to big absorbers.\" Breachproof units neutralize much of its value.",
+    "mechanics": []
+  },
+  "Nivo Charge": {
+    "snippet": "Nivo Charge: 5 (self-sacrifice) | Huge burst, limited supply.",
+    "mechanics": [
+      "burst",
+      "chill",
+      "sacrifice"
+    ]
+  },
+  "Vai Mauronax": {
+    "snippet": "Vai Mauronax: 31.1% | ",
+    "mechanics": []
+  },
+  "Deadeye Operative": {
+    "snippet": "Deadeye Operative: Snipe: click to destroy any enemy unit with 1 HP",
+    "mechanics": [
+      "snipe"
+    ]
+  },
+  "Plasmafier": {
+    "snippet": "Plasmafier: 1.54 recursive / 1.47 at Tarsier | Most efficient green-blue attacker. Drone saccer.",
+    "mechanics": []
+  },
+  "Trinity Drone": {
+    "snippet": "Trinity Drone: Slightly less than Drone | Enables flexible P2 Conduit opens. Resource conversion options.",
+    "mechanics": []
+  },
+  "Vivid Drone": {
+    "snippet": "Vivid Drone: More efficient than Drone | Breach-vulnerable, snipeable by Apollo. Avoid excessive Engineers (4 max).",
+    "mechanics": [
+      "breach"
+    ]
+  },
+  "Grenade Mech": {
+    "snippet": "Grenade Mech: 1.36 / 1.35 (clicks) | ",
+    "mechanics": []
+  },
+  "Bloodrager": {
+    "snippet": "Bloodrager: Click: opponent loses 1 attack but you gain 1 permanent attack. Denies absorb.",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Militia": {
+    "snippet": "Militia: Buffed (dynamics) | Jan 2019 | \"Top player Msven championed this as a way of making the unit more dynamic.\"",
+    "mechanics": []
+  },
+  "Wild Drone": {
+    "snippet": "Wild Drone: Redesigned entirely | Jan 2019 | \"An entirely new unit with completely different synergies.\"",
+    "mechanics": []
+  },
+  "Auric Impulse": {
+    "snippet": "Auric Impulse: 1 gold. Produces 1 gold. Basically free economy. Limited supply 4.",
+    "mechanics": []
+  },
+  "Arka Sodara": {
+    "snippet": "Arka Sodara: 43.6% | ",
+    "mechanics": []
+  },
+  "Feral Warden": {
+    "snippet": "Feral Warden: 1.63 | Gets most value as absorber (factored into efficiency)",
+    "mechanics": []
+  },
+  "Odin (clicks)": {
+    "snippet": "Odin (clicks): 1.64 / 1.47 (replace Splitters) | Click value is real, not just threat",
+    "mechanics": []
+  },
+  "Venge Cannon": {
+    "snippet": "Venge Cannon: 1.54 recursive / 1.43 at Tarsier | ",
+    "mechanics": []
+  },
+  "The Wincer": {
+    "snippet": "The Wincer: 23.7% | Extreme unit — high impact when bought but not always correct.",
+    "mechanics": []
+  },
+  "Hellhound": {
+    "snippet": "Hellhound: 1.46 | \"Best attacker in the game\" — spammable, no counter, no enabler needed",
+    "mechanics": []
+  },
+  "Tesla Coil": {
+    "snippet": "Tesla Coil: 1.46 | Engineer consumption is the drawback",
+    "mechanics": []
+  },
+  "Fast Tarsier": {
+    "snippet": "Fast Tarsier: 1.46 | Reference point for buildtime-1 red attackers",
+    "mechanics": []
+  },
+  "Manticore": {
+    "snippet": "Manticore: 1.44 | ",
+    "mechanics": []
+  },
+  "Hannibull": {
+    "snippet": "Hannibull: 1.44 | ",
+    "mechanics": []
+  },
+  "Iceblade Golem (full chill)": {
+    "snippet": "Iceblade Golem (full chill): 1.47 / 1.35 (1 chill) | \"Amazing how much of a difference that makes\"",
+    "mechanics": [
+      "chill"
+    ]
+  },
+  "Gaussite Symbiote": {
+    "snippet": "Gaussite Symbiote: 1.41 | ",
+    "mechanics": []
+  },
+  "Apollo": {
+    "snippet": "Apollo: 43.5% | ",
+    "mechanics": []
+  },
+  "Omega Splitter": {
+    "snippet": "Omega Splitter: 1.41 | ",
+    "mechanics": []
+  },
+  "Redeemer": {
+    "snippet": "Redeemer: No change (confirmed) | Jan 2019 | \"Some players suggested P2 bias, but statistics showed little to no bias.\"",
+    "mechanics": []
+  },
+  "Tantalum Ray": {
+    "snippet": "Tantalum Ray: 1.41 (3 charges) / 1.37 (breachproof) | ",
+    "mechanics": []
+  },
+  "Valkyrion": {
+    "snippet": "Valkyrion: 1.40 | +5 bonus from exploit potential",
+    "mechanics": []
+  },
+  "Flame Animus": {
+    "snippet": "Flame Animus: 1.40 | Tarsiers via Flame Animus: 1.44",
+    "mechanics": []
+  },
+  "Immolite": {
+    "snippet": "Immolite: 1.40 | Passes Tarsier after 1.38 input",
+    "mechanics": []
+  },
+  "Mahar Rectifier": {
+    "snippet": "Mahar Rectifier: 1.40 | +5 absorb bonus, -2 for needing two",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Bloodrager (denies 1 absorb)": {
+    "snippet": "Bloodrager (denies 1 absorb): 1.47 / 1.39 (denies 0) | \"Often can't get more than 1-2 out before absorb denial stops working\"",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Perforator": {
+    "snippet": "Perforator: 1.39 | Passes Tarsier after 1.4 input",
+    "mechanics": []
+  },
+  "Blood Phage": {
+    "snippet": "Blood Phage: 1.38 | \"+5 bonus: click provides red tech sink + lets you keep growing econ after attacking\"",
+    "mechanics": []
+  },
+  "Borehole Patroller": {
+    "snippet": "Borehole Patroller: 1.38 | Least efficient green-blue attacker but good finesse + blocking",
+    "mechanics": []
+  },
+  "Gauss Fabricator": {
+    "snippet": "Gauss Fabricator: 43.8% | ",
+    "mechanics": []
+  },
+  "Lancetooth": {
+    "snippet": "Lancetooth: 1.37 (denies 0) / 1.43 (denies 1) | Good to absorb on over Wall (inflation)",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Doomed Drone": {
+    "snippet": "Doomed Drone: Slightly less than Drone (>2x if defends on final turn) | Early game smoothing, late-game income boost. \"Makes your choice of tech building very flexible.\"",
+    "mechanics": []
+  },
+  "Galvani Drone": {
+    "snippet": "Galvani Drone: Equal to Drone | Energy sink for low-econ builds. Enables vigilant Engineer play. With Antima Comet: \"arguably the strongest two-unit combination in Prismata.\"",
+    "mechanics": []
+  },
+  "Thorium Dynamo": {
+    "snippet": "Thorium Dynamo: More efficient than Drone | Breachproof economy. Delay purchase to avoid Energy waste.",
+    "mechanics": []
+  },
+  "Vendium Scrap": {
+    "snippet": "Vendium Scrap: Design exploration | 2018 | Designed to create more openings; Vendium Scrap lets P1 access P2-exclusive builds.",
+    "mechanics": []
+  },
+  "Chrono Filter": {
+    "snippet": "Chrono Filter: 67.2% | Most-bought legendary. Tier X players buy it 14% less often.",
+    "mechanics": []
+  },
+  "Antima Comet": {
+    "snippet": "Antima Comet: 50.6% | Tier X players buy 27% MORE often than average.",
+    "mechanics": []
+  },
+  "Xaetron": {
+    "snippet": "Xaetron: 47.0% | ",
+    "mechanics": []
+  },
+  "Thunderhead": {
+    "snippet": "Thunderhead: 42.5% | ",
+    "mechanics": []
+  },
+  "Endotherm Kit": {
+    "snippet": "Endotherm Kit: 31.8% | ",
+    "mechanics": []
+  },
+  "Resophore": {
+    "snippet": "Resophore: 20.2% | Least-bought legendary.",
+    "mechanics": []
+  },
+  "Attacker Efficiency Rankings (Recursive Inflation)": {
+    "snippet": "Higher inflation = more efficient. Drone inflation = 1.33 is the baseline. Powerhouse Tier (>1.50 recursive): Strong Tier (1.40-1.50):",
+    "mechanics": [
+      "absorb",
+      "burst",
+      "chill"
+    ]
+  },
+  "Green-Blue Attacker Comparison": {
+    "snippet": "Four comparable green-blue pressure attackers ranked by efficiency: 1. Plasmafier (1.54) — \"By far the most efficient. Drone saccing makes you overteched but it's quite worth it.\" Also blocks when it doesn't attack. 2. Tesla Coil (1.46) — Engineer consumption limits spammability. \"Getting more than 2 is generally risky.\" Combos: Hellhound, Sentinel, Electrovore.",
+    "mechanics": []
+  },
+  "Immolite vs Tarsier Decision Tree": {
+    "snippet": "1. If Tarsier's buildtime can deny absorb → buy Tarsier 2. If Immolite's finesse exploits the enemy → buy Immolite 3. If Immolite lets you spend tech you'd otherwise waste → buy Immolite",
+    "mechanics": [
+      "absorb",
+      "prompt"
+    ]
+  },
+  "Absorb Denial Rush Units": {
+    "snippet": "Units that deny absorb make it viable to attack earlier (smaller economy): Lancetooth — \"Especially nice for its buildtime\" (extra turn before absorb kicks in) Bloodrager — \"Lacks nice buildtime but much more efficient\"",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Efficient Low-Econ Attackers": {
+    "snippet": "Electrovore — \"First two seem like 4R Fast Tarsiers\" (free energy from starting Engineers). Also gives \"potshots\" — immediate damage can kill Engineers before Wall arrives. Scorchilla — \"Mathematically inefficient, but derives a ton of value from the pressure bonus, and it gets bigger every wave. By 6 Scorches the burst is all but impossible to defend.\" Blood Phage — Click provides tech sink (red's biggest rush problem). \"Lets you keep increasing econ after you start attacking.\"",
+    "mechanics": [
+      "burst"
+    ]
+  },
+  "Double Animus Rush Units": {
+    "snippet": "\"Super greedy attackers with a unique feel\": Tatsu Nullifier — \"Hard-counters almost every big defender: Energy Matrix, Doomed Wall, Defense Grid, Centurion, Plexo Cell\" Amporilla — \"Anti-synergy with all other attackers, best with no other attackers in set\"",
+    "mechanics": []
+  },
+  "Greedy Attackers (Prevent High-Econ)": {
+    "snippet": "Units too expensive for low-econ but prevent optimal econ from being too high: Cynestra — \"Super efficient, spammable. Trouble in low-econ due to high gold cost.\" Asteri Cannon — \"Pretty much the only spammable value attacker that doesn't cost red.\"",
+    "mechanics": []
+  },
+  "S Tier": {
+    "snippet": "Centurion — Highest value absorber. Prompt and reliable. Rarely skipped unless competing against powerful Big Red units. Tech: Green-Blue-Red.",
+    "mechanics": [
+      "prompt"
+    ]
+  },
+  "A Tier": {
+    "snippet": "Defense Grid — Second-strongest but requires three Blue tech. Vulnerable to Chill. Benefits from Blue sinks. Energy Matrix — \"Really good value, convenient, and reliable.\" 4 absorb/turn at 8BB cost. Colossus — Third-strongest by value but extremely clunky. Fragile with 4 supply limit; requires 7 damage/turn for full absorption.",
+    "mechanics": [
+      "absorb",
+      "chill",
+      "fragile"
+    ]
+  },
+  "B Tier": {
+    "snippet": "Infusion Grid — Convenient blue absorber, superior to Wall. Bridge to larger absorbers. Bombarder — Strong overall; best absorption at 1 stamina when attacking provides no pressure. Urban Sentry — Vigilant Blue-Green. Excellent first attacker despite slightly weaker value than Infusion Grid.",
+    "mechanics": [
+      "chill",
+      "fragile",
+      "lifespan"
+    ]
+  },
+  "C Tier": {
+    "snippet": "Protoplasm — Weak early, strong late-game. Opposite of Feral Warden. Wall — Convenient but weak. Default when no better absorber exists.",
+    "mechanics": []
+  },
+  "Rhino Tier": {
+    "snippet": "Rhino — Pure Red absorber. Weakest option due to Red's aggressive nature.",
+    "mechanics": []
+  },
+  "Special Category": {
+    "snippet": "Arka Sodara — Insanely high value under right circumstances, but costs 7 attack. Creates paradox where both players avoid buying it first, giving decisive advantage to second Arka buyer. Does NOT affect economy sizing like standard absorbers. Commentary insight: Economy size correlates with absorber strength — better absorbers enable larger economies. Absorbers providing attack (Centurion, Xeno Guardian, Odin) reward aggressive play alongside defense.",
+    "mechanics": []
+  },
+  "Unit Analysis": {
+    "snippet": "Big Red excels against: High-economy strategies, delayed pressure units (Zemora, Resophore, Savior). Big Red is weak to: Aggressive low-econ strategies, burst damage (Grenade Mech, Drake), sacrifice-economy attackers (Plasmafier, Venge Cannon). Support categories: Red Sinks (Blood Phage, Ferritin Sac, Nitrocybe), Tech Fixes (Centrifuge, Chrono Filter, Flame Animus), Absorbers (convenient absorbers aid defense; major absorbers create RPS dynamics).",
+    "mechanics": [
+      "breach",
+      "burst",
+      "frontline",
+      "sacrifice"
+    ]
+  },
+  "Centurion — The Strongest Unit": {
+    "snippet": "\"Currently, the strongest unit in the game, and it is really rare that I will not go for it.\" Even worth buying when opponent can freeze it (like against Vai Mauronax), because of the high defense tempo and aggression it provides. Occasionally, ultra-aggressive sets won't let you buy it, but \"most often, Centurion tames even the angry Red stuff.\"",
+    "mechanics": []
+  },
+  "Thunderhead — The Anti-Aggression": {
+    "snippet": "\"Provided there is no burst damage available (Gaussite Symbiote, Cluster Bolt), Thunderhead will make any aggressive strategy crumble.\" Even staying 2 turns is quite valuable. Before buying, evaluate the maximum damage your opponent can get to shut it down: \"if it is equal to 11 or more, think again!\" Amazing synergy with Redeemer: buying Redeemer right after Thunderhead creates massive pressure; opponent's Gauss Charges crash into Thunderhead on its last lifespan turn.",
+    "mechanics": [
+      "burst",
+      "lifespan"
+    ]
+  },
+  "Xaetron — The Anti-Abuse": {
+    "snippet": "Best unit against any kind of defensive abuse — it regenerates health regardless of damage patterns. Key tips: Buy it against 0-attack strategies (synched Iso Kronus or Scorchillas) Never click unless opponent isn't attacking it (reaching 12 health) or you desperately need pressure",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Protoplasm — Universally Strong": {
+    "snippet": "\"Protoplasm is always good if no one has blue answers.\" Without blue tech (no Wall, no Forcefield), Protoplasm's growth is unchecked. The community considers it universally strong in sets lacking blue-based defense.",
+    "mechanics": []
+  },
+  "Trinity Drone — Breach-Tolerant Glue": {
+    "snippet": "Beyond breachproof economy, Trinity Drone acts as \"breach-tolerant glue\" — it continues producing green after breach (unlike Conduit, which isn't targeted but whose green goes to waste without economy). Enables spare green conversion to Forcefields during emergencies.",
+    "mechanics": [
+      "breach"
+    ]
+  },
+  "Nivo Charge — Burst Pattern": {
+    "snippet": "Nivo Charge enables a \"stored green\" burst pattern: accumulate green over 2-3 turns, then buy 2-3 Nivos simultaneously for massive freeze pressure. The burst forces either a breach or a massively inefficient defense response. However, \"if your opponent can defend it, his defense will stick around for the following turns, so you have to rebuy the same amount of Nivos\" — and supply is scarce.",
+    "mechanics": [
+      "breach",
+      "burst"
+    ]
+  },
+  "Wincer Rush Shell": {
+    "snippet": "Standard Wincer build: DD/DDC/AB/D1 forces P1 into DDE response. The Wincer threat alone shapes the entire game: \"even unclicked, The Wincer is doing work because your opponent must prepare defense for the potential shot.\"",
+    "mechanics": []
+  },
+  "Iceblade Golem — Draw Potential": {
+    "snippet": "Iceblade Golem games have a 0.98% draw rate — the highest of any unit. This is because Iceblade's high HP (7) and freeze ability create stalemate-prone endgames where neither player can break through.",
+    "mechanics": []
+  },
+  "Plexo Cell — Confirmed Fragile": {
+    "snippet": "Plexo Cell has the Fragile keyword, meaning damage to it is permanent. This is sometimes overlooked but is crucial for evaluation — it means Plexo Cell cannot absorb, only soak.",
+    "mechanics": [
+      "absorb",
+      "fragile"
+    ]
+  },
+  "Drake vs Ossified Drone": {
+    "snippet": "Drake's threat loses value against Ossified Drone — vigilant defense blocks while still producing gold. Clicking Drake to kill the Ossified Drone means replacing Blastforge, which wastes red when you're already on Animus.",
+    "mechanics": []
+  },
+  "Shadowfang + Perforator Combo": {
+    "snippet": "Perforator solves Shadowfang's two main problems: (1) wasted 4th red from 2 Animuses, (2) red-spending difficulty in late-game defense. Perforator as red sink makes Shadowfang significantly more viable.",
+    "mechanics": []
+  },
+  "Arka Sodara Timing": {
+    "snippet": "\"Buy Arka before Defense Grid\" — if you buy Grid first, Arka's promptness is wasted. Buy Arka when opponent has ~10 attack, then get Grid immediately after.",
+    "mechanics": []
+  },
+  "Vivid Drone as Deadeye Counter": {
+    "snippet": "Deadeye Operative targets units named \"Drone\" — Vivid Drone is not named \"Drone.\" Converting economy to Vivids completely neutralizes Deadeye strategies.",
+    "mechanics": []
+  },
+  "Fission Turret + Cluster Bolt": {
+    "snippet": "Clicking dying Fission Turrets generates 3 green each — spend on Cluster Bolts for massive burst. More efficient than Hellhound when all green is spent. \"Talk about a combo.\"",
+    "mechanics": [
+      "burst"
+    ]
+  },
+  "Omega Splitter Weakness to Freeze": {
+    "snippet": "Nivo Charge freezing Omega Splitter denies its absorb, and Omega's clunky/non-prompt nature means you can't defend the accompanying Cluster Bolt burst either.",
+    "mechanics": [
+      "absorb",
+      "burst",
+      "prompt"
+    ]
+  },
+  "Punf's Unit Assessments": {
+    "snippet": "Centrifuge/Chrono Filter: Only for \"cheating things\" (enabling otherwise impossible purchases) Endotherm Kit: Weak without specific combo support Iceblade Golem: Go all-in or don't buy — partial investment gets exploited",
+    "mechanics": []
+  },
+  "Iso Kronus — Burst Synchronization": {
+    "snippet": "\"Iso Kronus shines in games where you need extra burst damage to get past big defenses. An alternative to Gauss Cannon, Iso Kronus attacks for twice as much every other turn. You often want to make sure your Iso Kronuses are attacking at the same time, which is easy since gold and green can be stored. Be wary of your opponent picking off your Iso Kronuses on the turn before they would attack.\"",
+    "mechanics": [
+      "burst"
+    ]
+  },
+  "Gauss Fabricator — Inevitable Value": {
+    "snippet": "\"Fabricator builds 40 health worth of units over 8 turns, which guarantees a bright future for your game once its full value kicks in. Simple and brutally efficient, the only downside is that your opponent will see it coming from miles away. But that doesn't necessarily mean that they'll be able to react in time.\"",
+    "mechanics": []
+  },
+  "Cryo Ray — Layered Freeze": {
+    "snippet": "\"A single Cryo Ray is an inefficient way to cancel out their defending Engineer; but once you have a couple of these, you have so many options. Freeze their biggest defender and deny them the ability to absorb damage, or freeze all their little defenders and take out their more expensive units or even legendaries. Fortunately green can be stored, so you can get a pile of these all at once.\"",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Cluster Bolt — Calculated Burst": {
+    "snippet": "\"Normally, paying 4 Green for this exchange of blows isn't great value, but if you have high-health Trinity Drones and Gauss Cannons, then 2 damage to you means a lot less than 5 damage to your opponent's Tarsiers. Another time to take advantage of Cluster Bolt is when your opponent has no attack and you have a Wall, since their 2 damage will only be absorbed.\"",
+    "mechanics": []
+  },
+  "Zemora Voidbringer — Conduit Synergy": {
+    "snippet": "\"While you're waiting for Zemora to construct, your Conduits will be working to produce future attack, which Zemora duplicates as gold for your economy. For maximum efficiency, have enough Conduits to power Zemora every turn.\"",
+    "mechanics": []
+  },
+  "Plexo Cell — Panic Defense": {
+    "snippet": "\"This bubbly construction combines the efficiency (and also the weaknesses) of Barrier with the ability of Forcefield to tap into your Drones. Combined with a strong absorber, it actually makes you feel like you can defend forever.\"",
+    "mechanics": [
+      "absorb",
+      "breach"
+    ]
+  },
+  "Heal to 12 HP Exception": {
+    "snippet": "\"Against fixed attack totals, it's almost never correct to heal the Xaetron to 12, but when your opponent has an ATK total [that varies], it's an exception.\" When the opponent has Scorchilla or other burst damage, healing Xaetron to full 12 HP is correct because you know the burst is coming and need every HP. The calculation: \"if you don't make this play, you're probably forced to buy some defense preemptively.\"",
+    "mechanics": [
+      "burst"
+    ]
+  },
+  "Xaetron Survival as Win Condition": {
+    "snippet": "In pressure games where the opponent has committed to burst (e.g., 4 Tesla Coils + Scorchilla), the game pivots on one question: \"if he doesn't kill the Xaetron and get in for a breach, he has very little attack against the Xaetron.\" When permanent attack is low but burst is high, keeping Xaetron alive means surviving the burst equals winning.",
+    "mechanics": [
+      "absorb",
+      "breach",
+      "burst"
+    ]
+  },
+  "Apollo Snipe Target Priority": {
+    "snippet": "In long games with Apollo: snipe Steel Splitters first (they convert to Lancetooth), then Drones (deny economy when green floats), then Conduits (deny cluster/green unit access). \"You snipe conduits before you snipe blast forge\" because green units drive both offense and cluster burst. Blast Forge targets are lower priority since blue units are fewer.",
+    "mechanics": [
+      "burst",
+      "snipe"
+    ]
+  },
+  "Apollo Creates Gauss Cannon Piles": {
+    "snippet": "\"It's pretty rare for Apollo games to just come down to Gauss Cannon piles\" — but it happens. When Apollo denies all fragile units (Tarsiers, Steel Splitters, Walls), games converge on Apollo-proof attackers: Gauss Cannon, Cluster Bolt, Lancetooth (from held Splitter bodies), and Chieftain (unsnipabl). \"Every single attacker besides Gauss Cannon either times out or dies to Apollo.\"",
+    "mechanics": [
+      "fragile"
+    ]
+  },
+  "Apollo as Pseudo-Defense Grid": {
+    "snippet": "\"Vivid Drone is basically an Overwork in this set, except it eats up your Apollo snipe and kills four drones instead of one.\" In Apollo sets, Vivid Drone and Apollo both function as economy tools — Apollo \"makes drones and it destroys attack\" similar to Defense Grid, which \"makes drones and gives you absorb.\"",
+    "mechanics": [
+      "absorb",
+      "sacrifice",
+      "snipe"
+    ]
+  },
+  "Tatsu Rush Lines": {
+    "snippet": "\"Tatsu is such a fast unit\" — the 12-drone Tatsu rush (skip Conduit, float 4 gold into Drone + double Animus) is the default P2 opening in Tatsu sets. \"You just need one Tatsu to deny the rest of the set.\" Getting a second Tatsu is desirable but the first already forces the opponent into constrained responses.",
+    "mechanics": []
+  },
+  "Dead Eye vs Tatsu Counter-play": {
+    "snippet": "Dead Eye Operative works against Tatsu because \"dead eye gives you a lot of free defense to deal with annoying stuff like Saib\" and the dead-eye bodies provide expendable HP to absorb Tatsu freeze damage. \"It's nice to see that Tatsu doesn't run over Dead Eye — if Lunarch's gonna make a toxic unit, they should at least make a toxic unit that beats another toxic unit.\"",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Four Tatsu Threshold": {
+    "snippet": "\"You need a fourth Tatsu to have a chance\" — three Tatsu freeze (6 damage) only kills a Wall + Engineer per turn, leaving the opponent with ten drones to outproduce you. Four Tatsu (8 damage) forces more significant defensive commitments.",
+    "mechanics": []
+  },
+  "Kit as Alternative to Amporilla": {
+    "snippet": "In Wild Drone + Amporilla sets, the Kit provides an alternative aggressive line. When the Amporilla tempo race looks unfavorable (\"the amporilla race would probably be lost\"), Kit + Cauterizer offers burst pressure instead of sustained freeze. The risk: \"the Kit play is getting there pretty crazy\" — it either overwhelms or runs out of gas.",
+    "mechanics": [
+      "burst"
+    ]
+  },
+  "Frostbite Cycle and Supply Exhaustion": {
+    "snippet": "With multiple Frostbite generators (Kit + Cauterizer), \"nine freeze\" or \"ten freeze\" turns force the defender into losing positions. But Saib supply matters: \"Arka's almost out of Saibs\" — once supply exhausts, the pressure collapses entirely.",
+    "mechanics": [
+      "absorb",
+      "breach",
+      "burst",
+      "lifespan"
+    ]
+  },
+  "Drake vs Zamora Interaction": {
+    "snippet": "\"Drake doesn't feel too great against Zamora, honestly\" — Zamora's persistent freeze reduces Drake's effective threat. Early Drake is \"NG sitting out because of Vivid\" — in Vivid Drone sets, the Engineer cost of Drake is more painful. However, Drake + Vivid into Drake (second Drake) creates double-click burst that can overwhelm defenses.",
+    "mechanics": [
+      "burst"
+    ]
+  },
+  "Fourth Drake Rarity": {
+    "snippet": "\"I don't know if I've ever seen a fourth Drake — not since the change to two blue at least.\" Four Drakes represents extreme aggression, consuming Engineer supply rapidly. The fourth Drake trade-off: massive pressure but \"relying on 10 defense seeds, which seems really scary.\"",
+    "mechanics": []
+  },
+  "Best as First Absorber": {
+    "snippet": "Polywall is \"best when it's your first absorber — you get the full 6 health value next turn.\" The 6-health body plus Prompt defense makes Polywall extremely efficient when it arrives before any other absorber. Once other absorbers are on the table, subsequent Polywalls become diminishing returns.",
+    "mechanics": [
+      "prompt"
+    ]
+  },
+  "Common Over-purchase Mistake": {
+    "snippet": "\"These Polywalls really need to stop\" — players frequently over-purchase Polywalls beyond defensive need, wasting resources on redundant health. The correct approach: buy Polywall for the first absorb slot, then switch to more efficient defense (Walls, Forcefields) for subsequent turns.",
+    "mechanics": [
+      "absorb",
+      "burst",
+      "sacrifice"
+    ]
+  },
+  "The Optimal Defense Principle": {
+    "snippet": "\"An optimal defensive play should make the attacker's decision hard.\" Most beginners overdefend against Frostbites — holding back too many Drones/Steelsplitters to guarantee no breach. The optimal play is to allow a small breach that the opponent would consider a bad trade: Core insight: \"If you want to play optimally against an opponent with a huge stack of Frostbites, you should almost always be allowing your opponent a small breach. And more generally, you should always be making your opponent's decision difficult. If your opponent has an easy decision (e.g. it's 100% clear that they'll choose not to use the Frostbites), then you've probably overdefended.\"",
+    "mechanics": [
+      "breach"
+    ]
+  },
+  "Frost Brooder Redesign": {
+    "snippet": "Frost Brooder was nerfed from 5RR to 4RR but its Frostbites now have Lifespan 3. \"This makes it much more difficult to store up a huge pile of Frostbites, and presents a ton of really interesting strategic questions, since your Frostbites are now 'use-em-or-lose-em'.\"",
+    "mechanics": [
+      "frontline",
+      "lifespan"
+    ]
+  },
+  "Xeno Guardian Build Time Change": {
+    "snippet": "Changed from 7BG BT1 to 5BG BT2. \"Xeno Guardian exhibits the highest player 2 advantage of any of the units currently in Prismata.\" The BT2 change balanced P1/P2 openings, made multiple Xeno Guardians stronger in long games, and weakened the very first one as a defender.",
+    "mechanics": []
+  },
+  "Scorchilla Build Time History": {
+    "snippet": "7RG BT1 → 5RG BT2 → 3RG BT3. The initial change dampened \"the dreaded P2 DD/DDC/DA/2xScorchilla\" opening (58% P2 winrate). At 3RG BT3: \"allows for some really fun timing attacks (2xScorchilla into TT into RR for 10 damage, anyone?).\"",
+    "mechanics": []
+  },
+  "Must-Buy Tier": {
+    "snippet": "Vivid Drone: \"Pretty much never skip. 80-90% of sets you want the 3rd, 50%+ you want all 4. If set is red, favors P1 due to sick efficiency of P1 vivid animus opening.\" Only skip vs Apollo. Centurion: \"Great vs everything except double animus. Only 4 units you don't always want Centurion vs: Tatsu, Vai, Amporilla, Shadowfangs.\" Frostbite: \"By far THE best unit in the game. Creating 3 points of pressure for 2 gold and a red is insane. Trying to defend vs Frostbites is pretty much impossible.\"",
+    "mechanics": []
+  },
+  "Underrated Tier": {
+    "snippet": "Kinetic Driver: \"Huge value unit and the #1 most underused unit in the game. After the buff this is pretty much a must-buy. Usually want to wait with using it until the last turn. Unless you can stop a Zemora from firing or something!\" Fission Turret: \"Great attacker. If you can pop it on its last turn, great value. The 2nd most underused unit.\" Resophore: \"Good in slow sets with a big absorber like Defense Grid or Centurion. A lot of people think this is weak, but it's actually pretty good.\"",
+    "mechanics": []
+  },
+  "Overrated / Situational Tier": {
+    "snippet": "Chrono Filter: \"Usually pretty bad. Very good in a few situations though. Don't get it unless you have a plan.\" (Conflicts with 67.2% purchase rate — Synx views average players as overbuing it.) Venge Cannon: \"Pretty bad unit. Or maybe I am just not very good with it. I pretty much never use it.\" Trinity Drone: \"The worst drone in the game.\" Only two use cases: saving 1 gold on a green when getting a Drone, or attempting breachproof.",
+    "mechanics": []
+  },
+  "Controversial Opinions": {
+    "snippet": "Drake: \"THE worst unit in the game. You never want a Drake.\" (Written 2015, before further balance changes.) Frost Brooder: \"This unit is a joke and removes like 80% of the options players have. Way too strong and should probably be flat out removed.\" Endotherm Kit: \"4 Frostbites and 4 Cryo Rays on build time 4 for 5 gold 2 red 2 green. If you play in a set with this you need to make sure to always get it first unless the set has amazing breachproof options.\"",
+    "mechanics": []
+  },
+  "Tactical Tips (Synx)": {
+    "snippet": "Doomed Mech vs Frostbites: \"I see a lot of people not leaving Doomed Mech back on its last turn if opponent has Frostbites. This is a mistake. It's better to remove 2 of the opponent's Frostbites than to deal 2 damage.\" Odin absorb rule: \"If Odin is the biggest absorber in the set, you pretty much always wanna leave it back. If you have equal or higher absorb or if you breach, then attacking with it is fine.\" Shredder timing: \"Once your opponent reaches the damage of your highest absorber + 4 and you don't need to spend blue on a Wall, you should probably buy a Shredder.\"",
+    "mechanics": [
+      "absorb",
+      "breach"
+    ]
+  },
+  "Why Scorchilla Appears Weak": {
+    "snippet": "\"Scorchilla in its current state is almost exclusively a combo unit. When the best few of these combos are available, Scorchilla is actually significantly above average.\" Its apparent weakness comes from: 1. Top units counter it: Alt drones (Vivid, Doomed, Wild, Trinity) promote high-econ games where Scorchilla is weaker 2. Doomed Mech and Chieftain are incredibly strong and can be timed to interrupt burst turns",
+    "mechanics": [
+      "absorb",
+      "burst"
+    ]
+  },
+  "Scorchilla Combo Partners": {
+    "snippet": "Tia Thurnax: The classic combo. Tia's burst combined with Scorchilla sync is devastating. Protoplasm: Strong in low-econ Scorchilla sets. Frostbite/freeze: \"Way too good with freeze.\"",
+    "mechanics": [
+      "burst"
+    ]
+  },
+  "Key Tactical Principle": {
+    "snippet": "\"You basically need a fairly early quad Scorchilla turn as a lead-off in high econ, or else the pressure doesn't usually matter enough.\" In low-econ games, even 2 Scorchillas from a single Animus creates immediate 6 burst pressure.",
+    "mechanics": [
+      "absorb",
+      "burst"
+    ]
+  },
+  "Scorch Syncing Against Doomed Wall": {
+    "snippet": "Having Doomed Walls against synced Scorchillas is a liability: \"The lifespan becomes a problem because you know exactly when your defense will drop.\" Scorchillas synced to fire the turn after Doomed Walls expire can generate devastating exploits.",
+    "mechanics": [
+      "lifespan"
+    ]
+  },
+  "Scorchillas as Absorb-Denial Timing Units": {
+    "snippet": "\"It's best to think of Scorchillas in the same way you think of Tarsiers — anything with build time, built before you have or are already over the absorb barrier, is preventing your opponent from getting value from their absorb.\" Scorch's 3-turn build time means the opponent can't immediately start absorbing. \"Scorches generally aren't a good pressure unit — a Scorch provides strictly less pressure than an Electrovore. The value of sinking attack is that your opponent has to buy prompt defense a turn before.\"",
+    "mechanics": [
+      "absorb",
+      "prompt"
+    ]
+  },
+  "Clicking vs Holding Doom Mech": {
+    "snippet": "Clicking Doom Mech for +1 extra damage (killing an absorber) is worth it: \"it kills the Bombardier of the opponent, which is great value. You lose an absorb but you get a bunch of tempo next turn.\" But don't click just to add marginal damage — \"it's gonna cost you more drones to do a play like this.\"",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Three Centurion Threats": {
+    "snippet": "\"Centurion has to be careful about having all of its other stuff frozen in order to breach Centurion. Frostbite cancels out a Wall — two reds to cancel out five blue of your defenses.\" Blood Rager denies Centurion absorb even at low attack counts. Tatsu freezes Centurion directly for 2 turns.",
+    "mechanics": [
+      "absorb",
+      "breach"
+    ]
+  },
+  "Plex-O-Cell + Centurion Vulnerability": {
+    "snippet": "\"If your opponent has the capacity to freeze for 4, they can make your Plexo Cells look very bad.\" Plexo Cells are normally excellent soak for Centurion builds, but chill/freeze counters them hard.",
+    "mechanics": [
+      "chill"
+    ]
+  },
+  "Rush-Set Economy Sizing": {
+    "snippet": "In sets with Hellhound + Electrovore + Flame Animus: \"this set has no defense at all, which means the number of drones you want is somewhere between 9 and 14.\" Doomed Drones can substitute for regular drones in the rush buildup and provide defensive value: \"Doomed Drones are great defenders and this is such a rushy set that you should get doom drone value even on turn one.\"",
+    "mechanics": []
+  },
+  "Savior Timing in Deadeye Sets": {
+    "snippet": "\"Savior is a mid-game purchase, not an early one.\" In Deadeye sets, buying Savior too early wastes its doubling ability because you don't have enough Drones to sacrifice. Wait until you have 14+ Drones and can leverage the Drone-sacrifice mechanic.",
+    "mechanics": [
+      "sacrifice"
+    ]
+  },
+  "Xeno Guardian vs Freeze": {
+    "snippet": "\"Xeno Guardian is excellent against freeze because it has 5 HP and is fragile — it doesn't care about being frozen since it's not absorbing anyway.\" High-HP fragile units naturally counter chill strategies because their HP provides soak value regardless of freeze status.",
+    "mechanics": [
+      "burst",
+      "chill",
+      "fragile"
+    ]
+  },
+  "Thermite Core Punishes Defense Grid": {
+    "snippet": "\"Thermite Core is just disgusting against Defense Grid — you can deny absorb completely for multiple turns in a row for a ridiculous cost.\" The counter: build up permanent attack slowly via Thermite Cores, denying Grid absorb while accumulating Pixie damage. Don't rush for Defense Grid when Thermite Cores are in the set.",
+    "mechanics": [
+      "absorb",
+      "breach",
+      "lifespan"
+    ]
+  },
+  "Colossus as Tempo Defender": {
+    "snippet": "\"15 gold and resources for 8 health... more tempo than buying a bunch of engineers and quite a bit more value.\" Colossus is best understood not as a primary absorber but as a tempo play — it provides immediate bulk defense in a single purchase, freeing up future turns for attack investment. The non-prompt nature means it must be planned one turn ahead, but the resource efficiency beats piecemeal Engineer purchases.",
+    "mechanics": [
+      "absorb",
+      "breach",
+      "burst",
+      "prompt",
+      "sacrifice"
+    ]
+  },
+  "Electrovore + Nitrocybe Defensive Shell": {
+    "snippet": "In the same game, the defensive transition involved Electrovores and Nitrocybes as a red-based defensive shell. Electrovore's 4 HP for 2R and Nitrocybe's red sink utility provide efficient defense that doesn't require blue or green tech, enabling all-red aggression strategies that still have defensive options.",
+    "mechanics": []
+  },
+  "Polywall as Iceblade Counter": {
+    "snippet": "Polywall is specifically strong against Iceblade Golem: \"Takes three of them to freeze it and like six of them to kill it.\" Polywall's 6 HP and non-fragile nature means the Iceblade player needs an enormous fleet just to neutralize one defensive unit, completely changing the economics of the matchup.",
+    "mechanics": [
+      "fragile"
+    ]
+  },
+  "Zamora's Vulnerability to Savior": {
+    "snippet": "Savior specifically counters Zamora: \"Savior does seem strong against Zamora\" because Savior arrives before Zamora fires and generates enough gold via Defense Grid clicks to hold indefinitely with Walls and Engineers. The Zamora player commits early to green tech that doesn't pressure the Savior player before the Savior's economic engine stabilizes.",
+    "mechanics": []
+  },
+  "Zamora + Savior Counter-Strategy": {
+    "snippet": "Against Zamora, the Savior player's plan is: \"You pretty much always click every Plasma Fire you make and you just win — the Savior just wins the game for you on its own.\" The key is Defense Grid providing absorb while Savior generates gold. However, Zamora + Savior (both sides buying their respective legendaries) creates \"always interesting games\" where the positioning battle becomes about whether the Zamora player can pressure before the Savior stabilizes.",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Steelforge + Wincer Synergy": {
+    "snippet": "Steelforge pairs naturally with Wincer: \"Usually you aren't firing like an exact multiple of five drones... you just feed the rest to Steelforge.\" The leftover gold after Wincer clicks (which require multiples of 5) gets efficiently converted into blue defense, eliminating waste.",
+    "mechanics": [
+      "absorb",
+      "burst"
+    ]
+  },
+  "Thunderhead's Guaranteed First Turn": {
+    "snippet": "\"The Thunderhead's always getting one turn because if you respond to Thunderhead with Isochronon, the Isos don't attack right away.\" Even reactive counter-play (buying Isochronons to reach 11 damage and kill Thunderhead) arrives too late — Thunderhead attacks first. The only way to prevent Thunderhead's first turn of value is to already have 11+ damage prepared before the opponent buys it.",
+    "mechanics": []
+  },
+  "Vai Alone Doesn't Guarantee Victory": {
+    "snippet": "\"Vai Mauronax alone doesn't guarantee a win because you still have the potential to go Forge into Synthesizer to draw\" — the old Synthesizer draw-out remains a theoretical escape valve. Getting Vai is dominant but not unconditionally winning.",
+    "mechanics": []
+  },
+  "Defense Grid + Savior Economy": {
+    "snippet": "\"Defense Grid is just so insane — what are you spending your gold on? Basically Walls, Engineers, Rhinos... you pretty much always click every Plasma Fire you make and you just win.\" Defense Grid's absorb combined with Savior's gold generation creates a self-sustaining defensive economy. The Savior player's game plan simplifies to: maintain absorb, click Plasma Fires, buy walls.",
+    "mechanics": [
+      "absorb"
+    ]
+  },
+  "Nivo vs Infusion Grid Math": {
+    "snippet": "\"Buying fewer Nivos than Infusion Grids that your opponent has\" is problematic. Two Infusion Grids absorb 10 freeze, requiring 3+ Nivos to meaningfully pressure. Single Nivo against double Infusion Grid provides \"barely pressure — it's doing a damage\" and little else. Scale Nivo purchases to match or exceed the opponent's Infusion Grid count.",
+    "mechanics": [
+      "absorb",
+      "burst",
+      "lifespan",
+      "sacrifice"
+    ]
+  },
+  "_concept_absorb": {
+    "snippet": "Go for the biggest blocker in the set and absorb on it. Absorb is the primary defender's advantage in Prismata (analogous to distance in StarCraft). \"Making two Steelsplitters costs 12BB and does two damage per turn. A Wall can absorb two damage per turn and costs 5B. So, in this case, absorb is over twice as efficient as attack.\" Only one absorber per turn: Due to how damage assignment works, you can only absorb on one unit per turn. Get the biggest one possible."
+  },
+  "_concept_breach": {
+    "snippet": "1. Full Breachproof: All-in from the start. No Blastforge, no blockers. 2. Semi-Breachproof: Defend normally initially, then transition to BP when defense becomes unsustainable. 3. Venge Cannon All-In: Convert as many Drones as possible into Venge Cannons in a single explosive turn. 4. Iceblade Golem All-In: High threat from freeze ability makes it hard to defend against."
+  },
+  "_concept_lifespan": {
+    "snippet": "\"Attacker-defenders with lifespan are almost always better off blocking than attacking on their last turn. Doomed Mech can either give you 2 attack or 5 defense on its last turn.\""
+  },
+  "_concept_chill": {
+    "snippet": "Chill units prevent opponent units from blocking, providing strategic value despite dealing no direct damage. Four primary uses: 1. Absorb Denial: Freezing the opponent's strongest absorber reduces defensive capacity, effectively increasing damage output. 2. Exploits: Freezing blockers disrupts granularity, creating gaps that reduce overall absorption potential. 3. Eliminating Doomed Units: \"You can freeze lifespan 1 units...it won't soak up any damage\" — converting blocked attack into real damage (e.g., a frozen Doomed Mech worth 5 damage)."
+  },
+  "_concept_frontline": {
+    "snippet": "\"Units with Frontline have more Health per gold cost than their backline counterparts. They also never have Fragile.\" When multiple frontline units are in the set (Wild Drone + Iceblade Golem or Shredder), rushing frontline units forgoes the need to block."
+  }
+}

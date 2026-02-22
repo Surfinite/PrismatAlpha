@@ -1,0 +1,461 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Surfinite/PrismatAlpha/tools/commentary_schema.json",
+  "title": "Prismata Post-Game Commentary - Phase 1 Structured Output",
+  "description": "Schema for the structured data produced by Phase 1 of the post-game commentary pipeline. Validates replay analysis output including per-turn buys, eval data, AI comparison, and precomputed narrative hints.",
+  "type": "object",
+  "required": [
+    "code",
+    "players",
+    "winner",
+    "total_rounds",
+    "game_characteristics",
+    "random_set",
+    "deck_units",
+    "turns",
+    "data_quality",
+    "precomputed",
+    "unit_knowledge"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Replay code (e.g. FxCfR-K49T+). May contain alphanumeric characters, hyphens, plus signs, at signs, etc.",
+      "minLength": 1
+    },
+    "players": {
+      "type": "array",
+      "description": "Exactly 2 player objects, index 0 (P1) and index 1 (P2).",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "rating",
+          "index"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rating": {
+            "type": "integer"
+          },
+          "index": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          }
+        }
+      }
+    },
+    "winner": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Index of the winning player (0 or 1)."
+    },
+    "total_rounds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of full rounds played."
+    },
+    "game_characteristics": {
+      "type": "object",
+      "description": "High-level game metadata for commentary framing.",
+      "required": [
+        "length_category",
+        "is_upset",
+        "rating_diff"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "length_category": {
+          "type": "string",
+          "enum": [
+            "short",
+            "medium",
+            "long"
+          ],
+          "description": "Game length bucket for commentary tone adjustment."
+        },
+        "is_upset": {
+          "type": "boolean",
+          "description": "True if the lower-rated player won."
+        },
+        "rating_diff": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Absolute rating difference between the two players."
+        },
+        "biggest_eval_swing": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Largest single-turn eval swing in the game. Optional: absent in validate mode (no eval data)."
+        }
+      }
+    },
+    "random_set": {
+      "type": "array",
+      "description": "The random units available in the game set (typically 8-11 units).",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "cost",
+          "hp",
+          "build_time",
+          "fragile",
+          "abilities",
+          "supply"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Display name of the unit."
+          },
+          "cost": {
+            "type": "string",
+            "description": "Cost string (digits=gold, G=green, B=blue, C=red/attack, H=energy). E.g. 12GGGB."
+          },
+          "hp": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Hit points. 0 for tech buildings and similar non-combat units."
+          },
+          "build_time": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Construction time in turns. 0 means the unit is available immediately."
+          },
+          "fragile": {
+            "type": "boolean",
+            "description": "True if the unit has the Fragile keyword."
+          },
+          "abilities": {
+            "type": "string",
+            "description": "Text description of the unit abilities. May be empty string for passive units."
+          },
+          "supply": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of copies available to each player."
+          }
+        }
+      }
+    },
+    "deck_units": {
+      "type": "array",
+      "description": "All unit names in the full deck (base set + random set). Base set has 11 units, so minimum 11.",
+      "minItems": 11,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "turns": {
+      "type": "array",
+      "description": "Per-ply turn records. One entry per half-turn (player action).",
+      "items": {
+        "type": "object",
+        "required": [
+          "ply",
+          "round",
+          "turn_in_round",
+          "player",
+          "player_name",
+          "buys",
+          "click_count",
+          "undo_count",
+          "abilities_used"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "ply": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "1-based half-turn index across the entire game."
+          },
+          "round": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "1-based round number."
+          },
+          "turn_in_round": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ],
+            "description": "1 = first player turn in this round, 2 = second player turn."
+          },
+          "player": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "description": "Player index (0 or 1)."
+          },
+          "player_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "buys": {
+            "type": "array",
+            "description": "List of unit display names purchased this turn.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "eval_pct": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Neural net eval as percentage (0-100 from P1 perspective). Optional: absent when has_eval is false."
+          },
+          "eval_raw": {
+            "type": "number",
+            "description": "Raw neural net eval output. Optional: absent when has_eval is false."
+          },
+          "eval_delta": {
+            "type": "number",
+            "description": "Change in eval_pct from previous ply. Optional: absent when has_eval is false."
+          },
+          "ai_buys": {
+            "type": "array",
+            "description": "What the AI would have bought this turn. Optional: absent when has_ai is false.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ai_agrees": {
+            "type": "boolean",
+            "description": "True if the AI recommended buys match the player actual buys. Optional: absent when has_ai is false."
+          },
+          "click_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total click actions this turn (buys + abilities + other)."
+          },
+          "undo_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of undo (revert) clicks this turn."
+          },
+          "abilities_used": {
+            "type": "array",
+            "description": "Display names of units whose abilities were activated this turn.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "data_quality": {
+      "type": "object",
+      "description": "Metadata about the quality and completeness of the analysis data.",
+      "required": [
+        "has_eval",
+        "has_ai",
+        "stepper_reliable",
+        "stepper_total_clicks",
+        "stepper_applied_clicks",
+        "stepper_applied_pct",
+        "mode",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "has_eval": {
+          "type": "boolean",
+          "description": "True if neural net eval data is present in turns."
+        },
+        "has_ai": {
+          "type": "boolean",
+          "description": "True if AI comparison data (ai_buys, ai_agrees) is present in turns."
+        },
+        "stepper_reliable": {
+          "type": "boolean",
+          "description": "True if the replay stepper successfully applied a high percentage of clicks."
+        },
+        "stepper_total_clicks": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total clicks in the replay commandList."
+        },
+        "stepper_applied_clicks": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of clicks the stepper successfully applied."
+        },
+        "stepper_applied_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fraction of clicks successfully applied (0-1)."
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "analyze",
+            "eval-only",
+            "validate"
+          ],
+          "description": "Pipeline mode: analyze = full (eval + AI), eval-only = eval without AI search, validate = parse-only (no eval or AI)."
+        },
+        "notes": {
+          "type": "array",
+          "description": "Free-form notes about data quality issues encountered.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "precomputed": {
+      "type": "object",
+      "description": "Precomputed narrative hints derived from turn data. Saves the LLM from doing arithmetic.",
+      "required": [
+        "turning_point_candidates"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "agreement_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fraction of turns where ai_agrees is true. Optional: present only when has_ai is true."
+        },
+        "biggest_mistake": {
+          "type": "object",
+          "description": "The single largest eval drop by either player. Optional: present only when has_eval is true.",
+          "required": [
+            "ply",
+            "player",
+            "eval_drop"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "ply": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "player": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            },
+            "eval_drop": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Magnitude of the eval drop (always positive)."
+            }
+          }
+        },
+        "max_eval_swing": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Largest absolute eval_delta across all turns. Optional: present only when has_eval is true."
+        },
+        "top_eval_swings": {
+          "type": "array",
+          "description": "Top eval swings sorted by magnitude. Optional: present only when has_eval is true.",
+          "items": {
+            "type": "object",
+            "required": [
+              "ply",
+              "player",
+              "delta"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "ply": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "player": {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ]
+              },
+              "delta": {
+                "type": "number",
+                "description": "Signed eval delta (negative = bad for that player)."
+              }
+            }
+          }
+        },
+        "turning_point_candidates": {
+          "type": "array",
+          "description": "Candidate turning points for the LLM to consider when structuring commentary. Different reasons carry different extra fields.",
+          "items": {
+            "type": "object",
+            "required": [
+              "ply",
+              "reason"
+            ],
+            "additionalProperties": true,
+            "properties": {
+              "ply": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "The ply where this turning point occurs."
+              },
+              "reason": {
+                "type": "string",
+                "description": "Category of turning point. Known values: largest_eval_drop, eval_swing, first_attacker_buy, burst_buy_spike, ai_disagreement_cluster. Extensible."
+              },
+              "magnitude": {
+                "type": "number",
+                "description": "Present for largest_eval_drop and eval_swing reasons."
+              },
+              "unit": {
+                "type": "string",
+                "description": "Present for first_attacker_buy reason."
+              },
+              "buy_count": {
+                "type": "integer",
+                "description": "Present for burst_buy_spike reason."
+              },
+              "cluster_size": {
+                "type": "integer",
+                "description": "Present for ai_disagreement_cluster reason."
+              },
+              "player": {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ],
+                "description": "Player index, if applicable to this turning point."
+              }
+            }
+          }
+        }
+      }
+    },
+    "unit_knowledge": {
+      "type": "object",
+      "description": "Mapping of unit display name to a short strategy snippet for the LLM. Covers all units that appear in the game random set.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

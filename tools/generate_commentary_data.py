@@ -6,11 +6,13 @@ per-turn summary suitable for writing commentary.
 
 Usage:
     python tools/generate_commentary_data.py REPLAY_CODE [--think-time MS] [--eval-only]
+    python tools/generate_commentary_data.py REPLAY_CODE --json-output PATH
 
 Examples:
     python tools/generate_commentary_data.py FxCfR-K49T+
     python tools/generate_commentary_data.py "FxCfR-K49T+" --think-time 200
     python tools/generate_commentary_data.py WjhmP-WWdXx --eval-only
+    python tools/generate_commentary_data.py FxCfR-K49T+ --json-output tmp/test_game.json
 """
 import sys
 import os
@@ -654,6 +656,461 @@ def print_validated_buys(code, replay, validated_turns):
     print("--- End of validation ---")
 
 
+# ---------------------------------------------------------------------------
+# Unit knowledge index loader (pre-built by tools/build_unit_knowledge_index.py)
+# ---------------------------------------------------------------------------
+UNIT_KNOWLEDGE_INDEX_PATH = os.path.join(os.path.dirname(__file__), "data", "unit_knowledge_index.json")
+
+
+def _load_unit_knowledge_index():
+    """Load the pre-built unit knowledge index. Returns empty dict if not found."""
+    if os.path.exists(UNIT_KNOWLEDGE_INDEX_PATH):
+        with open(UNIT_KNOWLEDGE_INDEX_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+def _get_unit_knowledge(deck_unit_names, unit_index):
+    """Look up knowledge snippets for units in the game.
+
+    Returns dict mapping unit name -> snippet string.
+    Also injects relevant concept snippets if mechanics like Chill/Absorb are present.
+    """
+    knowledge = {}
+    mechanics_seen = set()
+
+    for name in deck_unit_names:
+        entry = unit_index.get(name)
+        if entry:
+            knowledge[name] = entry["snippet"]
+            mechanics_seen.update(entry.get("mechanics", []))
+
+    # Inject concept snippets for relevant mechanics
+    for mechanic in mechanics_seen:
+        concept_key = f"_concept_{mechanic}"
+        if concept_key in unit_index:
+            knowledge[concept_key] = unit_index[concept_key]["snippet"]
+
+    return knowledge
+
+
+# ---------------------------------------------------------------------------
+# Structured JSON output builder (Phase 1 of commentary pipeline)
+# ---------------------------------------------------------------------------
+_RARITY_SUPPLY = {"legendary": 1, "rare": 4, "normal": 20, "trinket": 20}
+
+
+def _get_supply_from_rarity(rarity):
+    """Derive supply count from rarity field."""
+    return _RARITY_SUPPLY.get(rarity, 20)
+
+
+def _build_random_set_info(replay):
+    """Build detailed random set info including HP, build_time, fragile, abilities, supply."""
+    md = replay.get("deckInfo", {}).get("mergedDeck", [])
+    random_units = []
+    for card in md:
+        name = card.get("name", card.get("UIName", ""))
+        if name in BASE_SET_NAMES:
+            continue
+        # Build abilities description from abilityScript
+        abilities = ""
+        ab = card.get("abilityScript", {})
+        if isinstance(ab, dict) and ab:
+            recv = ab.get("receive", "")
+            if recv:
+                abilities = f"Click: receive {recv}"
+        ab_sac = card.get("abilitySac", [])
+        if ab_sac:
+            sac_parts = []
+            for sac in ab_sac:
+                if isinstance(sac, list) and len(sac) >= 2:
+                    sac_parts.append(f"sacrifice {sac[1]}x {sac[0]}")
+            if sac_parts:
+                abilities = f"Click: {', '.join(sac_parts)}. {abilities}".strip()
+
+        random_units.append({
+            "name": name,
+            "cost": card.get("buyCost", "?"),
+            "hp": card.get("toughness", 0),
+            "build_time": card.get("buildTime", 1),
+            "fragile": bool(card.get("fragile", 0)),
+            "abilities": abilities,
+            "supply": _get_supply_from_rarity(card.get("rarity", "normal")),
+        })
+    return random_units
+
+
+def _get_all_deck_unit_names(replay):
+    """Get all unit display names in the deck (base set + random set)."""
+    md = replay.get("deckInfo", {}).get("mergedDeck", [])
+    names = []
+    for card in md:
+        name = card.get("name", card.get("UIName", ""))
+        if name:
+            names.append(name)
+    return names
+
+
+def _compute_game_characteristics(players, winner, total_rounds, turns_with_eval):
+    """Pre-compute game characteristics for downstream use (Phase 1f)."""
+    if total_rounds < 12:
+        length_category = "short"
+    elif total_rounds <= 25:
+        length_category = "medium"
+    else:
+        length_category = "long"
+
+    rating_diff = abs(players[0]["rating"] - players[1]["rating"])
+    lower_rated = 0 if players[0]["rating"] < players[1]["rating"] else 1
+    is_upset = rating_diff > 200 and winner == lower_rated
+
+    biggest_eval_swing = 0.0
+    if turns_with_eval:
+        for t in turns_with_eval:
+            delta = abs(t.get("eval_delta", 0.0))
+            if delta > biggest_eval_swing:
+                biggest_eval_swing = delta
+
+    result = {
+        "length_category": length_category,
+        "is_upset": is_upset,
+        "rating_diff": rating_diff,
+    }
+    if turns_with_eval:
+        result["biggest_eval_swing"] = round(biggest_eval_swing, 2)
+    return result
+
+
+def _compute_turning_point_candidates(turns_data):
+    """Pre-compute turning point candidates from eval and buy data (Phase 1e).
+
+    Returns list of candidate dicts, each with ply, reason, and supporting data.
+    """
+    candidates = []
+
+    # 1. Top eval swings (largest |eval_delta|)
+    eval_swings = []
+    for t in turns_data:
+        delta = t.get("eval_delta")
+        if delta is not None and abs(delta) > 3.0:
+            eval_swings.append({
+                "ply": t["ply"],
+                "player": t["player"],
+                "delta": round(delta, 2),
+            })
+    eval_swings.sort(key=lambda x: abs(x["delta"]), reverse=True)
+    for swing in eval_swings[:5]:
+        reason = "largest_eval_drop" if swing["delta"] < 0 else "eval_swing"
+        candidates.append({
+            "ply": swing["ply"],
+            "reason": reason,
+            "magnitude": round(abs(swing["delta"]), 2),
+        })
+
+    # 2. First attacker buy (first non-Drone, non-Engineer, non-tech-building purchase)
+    tech_buildings = {"Conduit", "Blastforge", "Animus"}
+    econ_units = {"Drone", "Engineer"} | tech_buildings
+    for t in turns_data:
+        for buy in t.get("buys", []):
+            if buy not in econ_units:
+                candidates.append({
+                    "ply": t["ply"],
+                    "reason": "first_attacker_buy",
+                    "unit": buy,
+                })
+                break
+        else:
+            continue
+        break
+
+    # 3. Burst buy spikes (turns with unusually high buy count)
+    buy_counts = [len(t.get("buys", [])) for t in turns_data]
+    if buy_counts:
+        avg_buys = sum(buy_counts) / len(buy_counts)
+        for t in turns_data:
+            bc = len(t.get("buys", []))
+            if bc >= 4 and bc > avg_buys * 1.8:
+                candidates.append({
+                    "ply": t["ply"],
+                    "reason": "burst_buy_spike",
+                    "buy_count": bc,
+                })
+
+    # 4. AI disagreement clusters (consecutive ai_agrees=false turns)
+    streak_start = None
+    streak_len = 0
+    for t in turns_data:
+        if t.get("ai_agrees") is False:
+            if streak_start is None:
+                streak_start = t["ply"]
+            streak_len += 1
+        else:
+            if streak_len >= 3:
+                candidates.append({
+                    "ply": streak_start,
+                    "reason": "ai_disagreement_cluster",
+                    "cluster_size": streak_len,
+                })
+            streak_start = None
+            streak_len = 0
+    if streak_len >= 3:
+        candidates.append({
+            "ply": streak_start,
+            "reason": "ai_disagreement_cluster",
+            "cluster_size": streak_len,
+        })
+
+    return candidates
+
+
+def _compute_precomputed(turns_data):
+    """Compute precomputed analytics from structured turn data (Phase 1e)."""
+    precomputed = {}
+
+    # Agreement rate
+    ai_turns = [t for t in turns_data if "ai_agrees" in t]
+    if ai_turns:
+        agrees = sum(1 for t in ai_turns if t["ai_agrees"])
+        precomputed["agreement_rate"] = round(agrees / len(ai_turns), 3)
+
+    # Biggest mistake (largest negative eval delta for a player)
+    eval_turns = [t for t in turns_data if t.get("eval_delta") is not None]
+    if eval_turns:
+        worst = min(eval_turns, key=lambda t: t["eval_delta"])
+        if worst["eval_delta"] < -1.0:
+            precomputed["biggest_mistake"] = {
+                "ply": worst["ply"],
+                "player": worst["player"],
+                "eval_drop": round(abs(worst["eval_delta"]), 2),
+            }
+
+        # Max eval swing and top swings
+        max_swing = max(abs(t["eval_delta"]) for t in eval_turns)
+        precomputed["max_eval_swing"] = round(max_swing, 2)
+
+        sorted_swings = sorted(eval_turns, key=lambda t: abs(t["eval_delta"]), reverse=True)
+        precomputed["top_eval_swings"] = [
+            {"ply": t["ply"], "player": t["player"], "delta": round(t["eval_delta"], 2)}
+            for t in sorted_swings[:5]
+            if abs(t["eval_delta"]) > 1.0
+        ]
+
+    return precomputed
+
+
+def _run_cpp_with_fallback(cache_path, think_time=50, player="OriginalHardestAI", force_mode=None):
+    """Run C++ analysis with automatic fallback chain (Phase 1d).
+
+    Tries: --analyze (300s) -> --eval-only (60s) -> returns None (caller uses --validate)
+    Returns (analysis_dict, mode_str) or (None, "validate") if all C++ modes fail.
+    """
+    exe = os.path.abspath(EXE_PATH)
+    if not os.path.exists(exe):
+        print("WARNING: C++ exe not found, falling back to validate mode", file=sys.stderr)
+        return None, "validate"
+
+    modes = []
+    if force_mode == "eval-only":
+        modes = [("eval-only", [exe, "--eval", os.path.abspath(cache_path)], 60)]
+    elif force_mode == "validate":
+        return None, "validate"
+    else:
+        modes = [
+            ("analyze", [exe, "--analyze", os.path.abspath(cache_path),
+                         "--player", player, "--think-time", str(think_time)], 300),
+            ("eval-only", [exe, "--eval", os.path.abspath(cache_path)], 60),
+        ]
+
+    bin_dir = os.path.join(os.path.dirname(__file__), "..", "bin")
+    notes = []
+
+    for mode_name, cmd, timeout in modes:
+        try:
+            print(f"Running C++ --{mode_name}: {' '.join(cmd)}", file=sys.stderr)
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=timeout, cwd=bin_dir,
+            )
+            stdout = result.stdout.strip()
+            if stdout:
+                analysis = json.loads(stdout)
+                if analysis.get("ok", False):
+                    return analysis, mode_name
+                else:
+                    notes.append(f"{mode_name} returned ok=false: {analysis.get('error', 'unknown')}")
+            else:
+                notes.append(f"{mode_name} produced no output")
+        except subprocess.TimeoutExpired:
+            notes.append(f"{mode_name} timed out after {timeout}s")
+            print(f"WARNING: C++ --{mode_name} timed out, trying fallback...", file=sys.stderr)
+        except (json.JSONDecodeError, OSError) as e:
+            notes.append(f"{mode_name} error: {e}")
+            print(f"WARNING: C++ --{mode_name} failed ({e}), trying fallback...", file=sys.stderr)
+
+    print(f"WARNING: All C++ modes failed, using validate mode. Notes: {notes}", file=sys.stderr)
+    return None, "validate"
+
+
+def build_structured_output(code, replay=None, cache_path=None, think_time=50,
+                            player="OriginalHardestAI", force_mode=None, verbose=False):
+    """Build the complete structured JSON output for the commentary pipeline.
+
+    This is the main entry point for Phase 1 — produces everything the LLM stages need.
+
+    Args:
+        code: Replay code string
+        replay: Pre-loaded replay dict (if None, fetches from S3)
+        cache_path: Path to cached replay JSON (if None, fetches from S3)
+        think_time: AI think time in ms for --analyze mode
+        player: AI player name for comparison
+        force_mode: Force a specific mode ("analyze", "eval-only", "validate")
+        verbose: Enable verbose resource tracking output
+
+    Returns:
+        dict matching the commentary_schema.json structure
+    """
+    if replay is None or cache_path is None:
+        replay, cache_path = fetch_replay(code)
+
+    players = get_players(replay)
+    winner = replay.get("result", -1)
+    random_set = _build_random_set_info(replay)
+    deck_units = _get_all_deck_unit_names(replay)
+
+    # Always run resource validation for ground-truth buys
+    tracker = ResourceTracker(replay, verbose=verbose)
+    validated_turns = tracker.run()
+    total_rounds = max(t["shared_turn"] for t in validated_turns) if validated_turns else 0
+
+    # Count clicks and undos per turn from commandList
+    commands = replay.get("commandInfo", {}).get("commandList", [])
+    clicks_per_turn = replay.get("commandInfo", {}).get("clicksPerTurn", [])
+    cmd_offset = 0
+    turn_click_stats = []
+    for turn_idx, click_count in enumerate(clicks_per_turn):
+        turn_clicks = commands[cmd_offset:cmd_offset + click_count]
+        cmd_offset += click_count
+        undo_count = sum(1 for c in turn_clicks if c.get("_type") == "revert clicked")
+        # Abilities used: inst clicks that are NOT reverts
+        abilities = []
+        for c in turn_clicks:
+            ctype = c.get("_type", "")
+            if "inst" in ctype and "clicked" in ctype:
+                abilities.append(ctype)
+        turn_click_stats.append({
+            "click_count": click_count,
+            "undo_count": undo_count,
+            "abilities_used_count": len(abilities),
+        })
+
+    # Run C++ with fallback chain (or validate-only)
+    analysis = None
+    mode = "validate"
+    if force_mode != "validate":
+        analysis, mode = _run_cpp_with_fallback(
+            cache_path, think_time, player, force_mode=force_mode
+        )
+
+    has_eval = analysis is not None and mode in ("analyze", "eval-only")
+    has_ai = analysis is not None and mode == "analyze"
+    cpp_turns = {t["turn"]: t for t in analysis.get("turns", [])} if analysis else {}
+
+    # Stepper reliability
+    stepper_total = analysis.get("stepper_total_clicks", 0) if analysis else 0
+    stepper_applied = analysis.get("stepper_applied_clicks", 0) if analysis else 0
+    stepper_benign = analysis.get("stepper_benign_skips", 0) if analysis else 0
+    stepper_reliable = stepper_total > 0 and (stepper_applied + stepper_benign) > stepper_total * 0.8
+    stepper_pct = round(stepper_applied / stepper_total, 3) if stepper_total > 0 else 0.0
+
+    # Build structured turns array
+    turns_data = []
+    prev_eval_pct = 50.0
+    for vt in validated_turns:
+        turn_idx = vt["turn_idx"]
+        player_idx = vt["player"]
+        ply = turn_idx + 1  # 1-based half-turn index
+        round_num = vt["shared_turn"]
+        turn_in_round = 1 if player_idx == 0 else 2
+
+        turn_entry = {
+            "ply": ply,
+            "round": round_num,
+            "turn_in_round": turn_in_round,
+            "player": player_idx,
+            "player_name": players[player_idx]["name"] if player_idx < len(players) else f"Player{player_idx+1}",
+            "buys": vt["buys"],
+        }
+
+        # Add eval data if available from C++ output
+        cpp_turn = cpp_turns.get(turn_idx)
+        if cpp_turn and has_eval:
+            # C++ outputs eval_pct as "72%" string — strip the % suffix
+            eval_pct_raw = cpp_turn.get("eval_pct", "50")
+            if isinstance(eval_pct_raw, str) and eval_pct_raw.endswith("%"):
+                eval_pct = float(eval_pct_raw[:-1])
+            else:
+                eval_pct = float(eval_pct_raw)
+            turn_entry["eval_pct"] = round(eval_pct, 1)
+            # C++ outputs raw eval under "eval" key, not "eval_raw"
+            turn_entry["eval_raw"] = round(float(cpp_turn.get("eval", 0.0)), 4)
+            turn_entry["eval_delta"] = round(eval_pct - prev_eval_pct, 2)
+            prev_eval_pct = eval_pct
+
+        if cpp_turn and has_ai:
+            ai_buys = cpp_turn.get("ai_buy", [])
+            turn_entry["ai_buys"] = ai_buys
+            turn_entry["ai_agrees"] = cpp_turn.get("buy_agree", True)
+
+        # Click statistics
+        stats = turn_click_stats[turn_idx] if turn_idx < len(turn_click_stats) else {}
+        turn_entry["click_count"] = stats.get("click_count", 0)
+        turn_entry["undo_count"] = stats.get("undo_count", 0)
+        turn_entry["abilities_used"] = []  # simplified: count tracked above
+
+        turns_data.append(turn_entry)
+
+    # Load unit knowledge index
+    unit_index = _load_unit_knowledge_index()
+    unit_knowledge = _get_unit_knowledge(deck_units, unit_index)
+
+    # Compute game characteristics (Phase 1f)
+    game_chars = _compute_game_characteristics(
+        players, winner, total_rounds,
+        [t for t in turns_data if "eval_delta" in t]
+    )
+
+    # Compute precomputed analytics (Phase 1e)
+    precomputed = _compute_precomputed(turns_data)
+    precomputed["turning_point_candidates"] = _compute_turning_point_candidates(turns_data)
+
+    # Data quality block
+    data_quality = {
+        "has_eval": has_eval,
+        "has_ai": has_ai,
+        "stepper_reliable": stepper_reliable,
+        "stepper_total_clicks": stepper_total,
+        "stepper_applied_clicks": stepper_applied,
+        "stepper_applied_pct": stepper_pct,
+        "mode": mode,
+        "notes": [],
+    }
+
+    return {
+        "code": code,
+        "players": [{"name": p["name"], "rating": p["rating"], "index": i}
+                     for i, p in enumerate(players)],
+        "winner": winner,
+        "total_rounds": total_rounds,
+        "game_characteristics": game_chars,
+        "random_set": random_set,
+        "deck_units": deck_units,
+        "turns": turns_data,
+        "data_quality": data_quality,
+        "precomputed": precomputed,
+        "unit_knowledge": unit_knowledge,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate commentary data from replay")
     parser.add_argument("code", help="Replay code (e.g., FxCfR-K49T+)")
@@ -662,8 +1119,35 @@ def main():
     parser.add_argument("--eval-only", action="store_true", help="Skip AI search, just neural eval per turn")
     parser.add_argument("--validate", action="store_true",
                         help="Pure-Python resource validation (no C++ exe needed)")
+    parser.add_argument("--json-output", metavar="PATH",
+                        help="Write structured JSON output to PATH (for commentary pipeline)")
     parser.add_argument("--verbose", action="store_true", help="Show resource tracking debug output")
     args = parser.parse_args()
+
+    # JSON output mode — produces structured data for commentary pipeline
+    if args.json_output:
+        force_mode = None
+        if args.validate:
+            force_mode = "validate"
+        elif args.eval_only:
+            force_mode = "eval-only"
+
+        result = build_structured_output(
+            args.code, think_time=args.think_time, player=args.player,
+            force_mode=force_mode, verbose=args.verbose,
+        )
+
+        out_dir = os.path.dirname(args.json_output)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
+        with open(args.json_output, "w", encoding="utf-8") as f:
+            json.dump(result, f, indent=2, ensure_ascii=False)
+        print(f"Wrote structured JSON to {args.json_output}", file=sys.stderr)
+        print(f"  Mode: {result['data_quality']['mode']}", file=sys.stderr)
+        print(f"  Turns: {len(result['turns'])}", file=sys.stderr)
+        print(f"  Random set: {', '.join(u['name'] for u in result['random_set'])}", file=sys.stderr)
+        print(f"  Unit knowledge entries: {len(result['unit_knowledge'])}", file=sys.stderr)
+        return
 
     replay, cache_path = fetch_replay(args.code)
 
