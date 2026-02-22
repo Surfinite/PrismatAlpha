@@ -306,16 +306,17 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 
 ## Claude Code Tooling
 
-**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/sync-memory` (update CLAUDE.md), `/preflight` (pre-training verification: S3 deploy diff, code review, fleet/quota/git checks), `/document-context` (generate reviewer context doc for most recent plan in `docs/plans/`), `/meta-review` (ingest external reviews + meta-review with tiered plan updates — must-do/should-do auto-applied, consider as pick list), `/start-work` (create clean branch from master for new work), `/audit` (repo health check — branches, uncommitted changes, stale files). **Command name = filename**: commands in `.claude/commands/` are named by their `.md` filename — rename the file to rename the command, takes effect immediately.
+**Slash commands**: `/status` (fleet dashboard + game count + running processes), `/selfplay-count` (quick local shard count), `/sync-memory` (update CLAUDE.md), `/preflight` (pre-training verification: S3 deploy diff, code review, fleet/quota/git checks), `/document-context` (generate reviewer context doc for most recent plan in `docs/plans/`), `/meta-review` (ingest external reviews + meta-review with tiered plan updates — must-do/should-do auto-applied, consider as pick list), `/start-work` (create clean branch from master for new work), `/audit` (repo health check — branches, uncommitted changes, stale files), `/health-check` (quick local sanity check — hosts mode, weights, config, watcher), `/history` (timeline of significant work), `/recap` (quick session re-orientation), `/commit` (create git commit), `/commit-push-pr` (commit + push + open PR), `/clean_gone` (remove branches deleted on remote). **Command name = filename**: commands in `.claude/commands/` are named by their `.md` filename — rename the file to rename the command, takes effect immediately.
 
 **Hooks** (in `.claude/settings.local.json`):
 - PreToolUse: Blocks Read/Edit/Write on `.aws_credentials`, `credentials.json`, `.env` files
 - PreToolUse: Blocks Bash commands that would unregister/stop TheWatcher Task Scheduler job
 - Stop: Reminds to run `/sync-memory` on session close
+- PostToolUse: Runs `python -m py_compile` on any edited `.py` file — output to stderr, non-blocking
 
-**Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources. **NOTE: agent file currently missing — needs recreation.**
+**Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources. Has all provider-specific env var prefixes (MSYS_NO_PATHCONV, CLOUDSDK_PYTHON) already baked in.
 
-**MCP**: context7 configured in `.mcp.json` (project-level) — live docs for PyTorch, Express, Chart.js, cloud CLIs.
+**MCP**: context7 + GitHub configured in `.mcp.json` (project-level). context7 = live docs for PyTorch, Express, Chart.js, cloud CLIs. GitHub MCP = PR/issue/Actions access (uses `GITHUB_PERSONAL_ACCESS_TOKEN` Windows user env var — never hardcode in `.mcp.json`). **`enabledMcpjsonServers` gotcha**: `settings.local.json` lists only `"context7"` but `enableAllProjectMcpServers: true` should enable all `.mcp.json` entries — if GitHub MCP isn't available, add `"github"` to that list manually.
 
 **Excalidraw diagrams**: MCP tools available (`read_me`, `create_view`, `export_to_excalidraw`, `read_checkpoint`, `save_checkpoint`). Call `read_me` first for format reference. **VS Code extension can't render Excalidraw** — `create_view` only renders inline on claude.ai web; in VS Code shows raw JSON. Always use `export_to_excalidraw` for a shareable excalidraw.com URL. **`label` property doesn't export** — the `label` shorthand on shapes only works in the MCP inline renderer. For exported diagrams, use native bound text elements: `boundElements` array on rectangles + separate text elements with `containerId`, `originalText`, `textAlign: "center"`, `verticalAlign: "middle"`. Architecture diagram checkpoint: `bae5ace4d2484e41b5` (4-layer diagram with DC/S attribution stamps). **MCP drops mid-session**: `export_to_excalidraw` may become unavailable after one use with no warning — always save diagram JSON to a `.excalidraw` file as fallback (user can open in VS Code Excalidraw extension or drag onto excalidraw.com).
 
@@ -327,7 +328,7 @@ When the user says "wrapping up", "closing context", or "save everything":
 1. Check for undocumented results (experiments, tournaments, benchmarks) — if any exist only in conversation, write them to appropriate docs
 2. Update any stale plan/results docs with actual outcomes (e.g., mark plans COMPLETE, add results tables)
 3. Map any unnamed artifacts to human-readable names (e.g., run timestamps → experiment names)
-4. Run `/revise-claude-md` for CLAUDE.md status and gotcha updates
+4. Run `/sync-memory` for CLAUDE.md status and gotcha updates
 5. List anything still only in conversation context so the user knows what would be lost
 6. Save important conversation-only findings to claude-mem (audit results, stale deploy warnings, unfinished work items). Use judgement — no clutter, only items a future session would genuinely benefit from knowing.
 7. Commit all changes (unless a good reason exists not to). Group into logical commits if work spans multiple areas.
@@ -357,6 +358,7 @@ When the user says "wrapping up", "closing context", or "save everything":
 **Commit style:** Imperative mood, focus on "why". One logical change per commit.
 **Before starting new work:** Check if current branch has unrelated uncommitted changes. If so, suggest `/start-work` for a clean branch.
 **`gh pr create` untracked files gotcha:** Fails with "aborted: you must first push the current branch" when repo has many untracked files. Fix: always pass `--head feature/branch-name` explicitly.
+**Untracked files + `/commit-push-pr`:** When many untracked files exist, ask the user which categories to stage — don't auto-stage everything. Data files, logs, temp scripts, and large binaries usually shouldn't be committed.
 
 ## Key Architecture
 
