@@ -902,7 +902,7 @@ def _compute_precomputed(turns_data):
 def _run_cpp_with_fallback(cache_path, think_time=50, player="OriginalHardestAI", force_mode=None):
     """Run C++ analysis with automatic fallback chain (Phase 1d).
 
-    Tries: --analyze (300s) -> --eval-only (60s) -> returns None (caller uses --validate)
+    Tries: --analyze (300s) -> --eval-only (180s) -> returns None (caller uses --validate)
     Returns (analysis_dict, mode_str) or (None, "validate") if all C++ modes fail.
     """
     exe = os.path.abspath(EXE_PATH)
@@ -912,14 +912,14 @@ def _run_cpp_with_fallback(cache_path, think_time=50, player="OriginalHardestAI"
 
     modes = []
     if force_mode == "eval-only":
-        modes = [("eval-only", [exe, "--eval", os.path.abspath(cache_path)], 60)]
+        modes = [("eval-only", [exe, "--eval", os.path.abspath(cache_path)], 180)]
     elif force_mode == "validate":
         return None, "validate"
     else:
         modes = [
             ("analyze", [exe, "--analyze", os.path.abspath(cache_path),
                          "--player", player, "--think-time", str(think_time)], 300),
-            ("eval-only", [exe, "--eval", os.path.abspath(cache_path)], 60),
+            ("eval-only", [exe, "--eval", os.path.abspath(cache_path)], 180),
         ]
 
     bin_dir = os.path.join(os.path.dirname(__file__), "..", "bin")
