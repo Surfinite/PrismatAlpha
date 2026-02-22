@@ -133,10 +133,21 @@ MIN_MESSAGE_LENGTH = 20
 # Haiku pricing (per million tokens)
 HAIKU_INPUT_PRICE = 0.25     # $/MTok synchronous
 HAIKU_OUTPUT_PRICE = 1.25    # $/MTok synchronous
+
+# Sonnet pricing (per million tokens)
+SONNET_INPUT_PRICE = 3.00    # $/MTok synchronous
+SONNET_OUTPUT_PRICE = 15.00  # $/MTok synchronous
+
 BATCH_DISCOUNT = 0.50        # 50% off for Batch API
 
 # Estimated output/input ratio for extraction
 OUTPUT_INPUT_RATIO = 0.10    # ~10% of input tokens as output
+
+# Model IDs by name
+MODEL_IDS = {
+    "haiku": "claude-haiku-4-5-20251001",
+    "sonnet": "claude-sonnet-4-6",
+}
 
 # All 161 unit display names from cardLibrary.jso
 UNIT_NAMES = [
@@ -184,6 +195,14 @@ _UNIT_NAMES_LOWER = {name.lower(): name for name in UNIT_NAMES}
 VALID_CATEGORIES = {
     "UNIT_INTERACTION", "STRATEGY_RULE", "OPENING_THEORY", "GAME_MECHANIC",
     "BALANCE_OPINION", "EXPERT_ASSESSMENT", "COMMUNITY_JARGON",
+    "MB_BUG_REPORT", "MB_WEAKNESS", "MB_EXPLOIT_STRATEGY",
+    "MB_COMPARISON", "MB_FEATURE_REQUEST",
+}
+
+# Categories that are Master Bot feedback (routed to separate file)
+MB_CATEGORIES = {
+    "MB_BUG_REPORT", "MB_WEAKNESS", "MB_EXPLOIT_STRATEGY",
+    "MB_COMPARISON", "MB_FEATURE_REQUEST",
 }
 
 VALID_CONFIDENCE = {"high", "medium", "low"}
@@ -195,27 +214,34 @@ REQUIRED_FIELDS = {
     "replay_code", "context", "temporal_validity", "source_message_ids",
 }
 
+# Optional fields that are defaulted to null if missing (MB-specific)
+OPTIONAL_FIELDS_DEFAULTS = {
+    "reporter": None,
+    "report_date": None,
+}
+
 MAX_INSIGHT_LENGTH = 400
 
-EXTRACTION_MODEL = "claude-haiku-4-5-20251001"
+EXTRACTION_MODEL = "claude-haiku-4-5-20251001"  # default; overridden by --model
 EXTRACTION_MAX_TOKENS = 8192
 BATCH_POLL_INTERVAL = 60  # seconds
 SYNC_RETRY_ATTEMPTS = 3
 SYNC_RETRY_BASE_DELAY = 2  # seconds (exponential: 2, 4, 8)
 
+# Active model for this run (set by CLI --model flag in main())
+_active_model = EXTRACTION_MODEL
+
 EXTRACTION_PROMPT_TEMPLATE = """\
-You are analyzing Prismata Discord conversations for strategic game knowledge.
+You are analyzing Prismata Discord conversations for strategic game knowledge AND bot feedback.
 Prismata is a deterministic turn-based strategy card game (no RNG, perfect information).
 Two players build economies, armies, and defenses from a random set of units each game.
+"Master Bot" (MB) is the strongest built-in AI opponent. Other bots: BottyMcBotFace, Wacky Bot, Adept Bot.
 
 === PATCH HISTORY (for temporal_validity tagging) ===
 Pre-2018: Early beta, many units and mechanics different from final game.
-2018-2019: Active balance patches. Major rebalance Dec 2017. Venge rework Aug 2018.
-           Final major balance patch Jul 2019.
+2018-2019: Active balance patches. Final major balance patch Jul 2019.
 2020+: Game development ended. No further balance changes. All post-2020 advice is current.
-If discussing unit strength/weakness that may have changed: tag patch_dependent.
-If discussing timeless mechanics or principles: tag timeless.
-If discussing pre-2020 meta that may no longer apply: tag historical.
+Tag: "timeless" (mechanics/principles), "patch_dependent" (unit balance), "historical" (old meta).
 ======================
 
 === KNOWN EXPERTS (high-confidence by default) ===
@@ -228,24 +254,28 @@ Authors with "Developers" role are authoritative on game mechanics.
 === UNIT NAMES (for entity recognition) ===
 Base set: Drone, Engineer, Conduit, Blastforge, Animus, Tarsier, Rhino, Wall,
           Steelsplitter, Gauss Cannon, Forcefield.
-Advanced (80+ exist, common abbreviations in chat):
-Shadowfang, Pixie, Cauterizer, Cynestra, Drake, Doomed Mech, Borehole Patroller,
-Corpus, Husk, Galvani Drone, Zemora Voidbringer, Venge Cannon, Plasmafier,
-Wincer, Infestor, Centurion, Grimbotch, Scorchilla, Gaussite Symbiote,
-Iso Kronus, Tia Threnody, Plexo Cell, Vai Mauronax, Tatsu Nullifier,
-Shiver Yeti, Omega Splitter, Thorium Dynamo, Lucent Hellion, Cryo Ray,
-Fission Turret, Grenade Mech, Blood Pact, Apollo, Phase Tiger, Endotherm Kit,
-Barrager, Savior, Tantalum Ray, Militia, Cluster Bolt, Manticore, Wild Drone,
-Chrono Filter, Tera Sentinel, Research Net, Bloodrager, Thunderhead,
-Antima Comet, Vivid Drone, Deadeye Operative, Cataclysm, Colossus.
-(Do not hallucinate unit names. Use names as-is if ambiguous.)
+Advanced (80+ exist): Shadowfang, Pixie, Cauterizer, Cynestra, Drake, Doomed Mech,
+Borehole Patroller, Corpus, Husk, Galvani Drone, Zemora Voidbringer, Venge Cannon,
+Plasmafier, Wincer, Infestor, Centurion, Grimbotch, Scorchilla, Gaussite Symbiote,
+Iso Kronus, Tia Threnody, Plexo Cell, Vai Mauronax, Tatsu Nullifier, Shiver Yeti,
+Omega Splitter, Thorium Dynamo, Cryo Ray, Fission Turret, Grenade Mech, Blood Pact,
+Apollo, Endotherm Kit, Savior, Tantalum Ray, Militia, Cluster Bolt, Manticore,
+Wild Drone, Chrono Filter, Bloodrager, Thunderhead, Antima Comet, Vivid Drone,
+Deadeye Operative, Cataclysm, Colossus. (Do not hallucinate unit names.)
+======================
+
+=== BOT FEEDBACK DETECTION ===
+Look for bot/AI references including IMPLICIT mentions:
+- Explicit: "master bot", "MB", "the bot", "the AI", "BottyMcBotFace", "Wacky Bot", "Adept Bot"
+- Implicit: "it always buys X", "the AI can't handle Y", "easy to beat with Z" (in bot-game context)
+- Distinguish genuine bug reports (reproducible, specific) from casual complaints ("bot is dumb")
 ======================
 
 === EXTRACTION TASK ===
-Extract game knowledge from these conversations. Apply HIGH quality standards:
+Extract BOTH game knowledge AND bot feedback. Apply HIGH quality standards:
 
 Only extract insights that meet ALL of:
-  (1) Specific to named units or named strategic concepts -- not generic
+  (1) Specific to named units, strategic concepts, or bot behavior -- not generic
   (2) Not obvious to any player who has read the basic game rules
   (3) Backed by reasoning, examples, or community agreement in the conversation
 
@@ -253,22 +283,31 @@ Do NOT extract:
   - "Buy drones early" or similar obvious economy advice
   - Pure social chat, jokes without game content
   - Speculation without reasoning or support
-  - Balance complaints without citing why or what changed
+  - Generic "bot is bad" without specifying how or when
+
+Categories:
+  General: UNIT_INTERACTION | STRATEGY_RULE | OPENING_THEORY | GAME_MECHANIC |
+           BALANCE_OPINION | EXPERT_ASSESSMENT | COMMUNITY_JARGON
+  Bot feedback:
+    MB_BUG_REPORT -- Specific reproducible bot misbehavior (with replay code if available)
+    MB_WEAKNESS -- Strategic weakness or pattern the bot exhibits
+    MB_EXPLOIT_STRATEGY -- Known strategies to beat the bot / exploitable patterns
+    MB_COMPARISON -- Comparisons between bots (MB vs BottyMcBotFace, Wacky Bot, Adept Bot)
+    MB_FEATURE_REQUEST -- Community wishes for bot improvement
 
 For each insight, provide:
-- category: UNIT_INTERACTION | STRATEGY_RULE | OPENING_THEORY | GAME_MECHANIC |
-            BALANCE_OPINION | EXPERT_ASSESSMENT | COMMUNITY_JARGON
+- category: one of the categories above
 - insight: the knowledge (1-3 sentences, precise, name specific units)
 - units: array of unit display names mentioned ([] if none)
-- confidence: "high" (expert/dev, or strong consensus) /
-              "medium" (reasonable player, some agreement) /
-              "low" (single unverified claim)
+- confidence: "high" / "medium" / "low"
 - author: who said it, or "consensus" if multiple agree
 - date: approximate date (YYYY-MM)
 - replay_code: cited replay code, or null
 - context: one sentence on the discussion context
 - temporal_validity: "timeless" | "patch_dependent" | "historical"
-- source_message_ids: array of Discord message IDs that support this insight (for traceability)
+- source_message_ids: array of Discord message IDs that support this insight
+- reporter: Discord username who reported (for MB_ categories), or null
+- report_date: date of the report (YYYY-MM-DD if available, YYYY-MM otherwise), or null
 
 Return ONLY valid JSON. No markdown fences. No commentary outside the array.
 Output: JSON array of insight objects. If no qualifying knowledge: [].
@@ -1041,15 +1080,19 @@ def print_dry_run(results):
     total_input_tokens = totals["tokens"]
     total_output_tokens = int(total_input_tokens * OUTPUT_INPUT_RATIO)
 
-    sync_cost = (total_input_tokens / 1_000_000 * HAIKU_INPUT_PRICE +
-                 total_output_tokens / 1_000_000 * HAIKU_OUTPUT_PRICE)
-    batch_cost = sync_cost * BATCH_DISCOUNT
+    haiku_sync = (total_input_tokens / 1_000_000 * HAIKU_INPUT_PRICE +
+                  total_output_tokens / 1_000_000 * HAIKU_OUTPUT_PRICE)
+    haiku_batch = haiku_sync * BATCH_DISCOUNT
+
+    sonnet_sync = (total_input_tokens / 1_000_000 * SONNET_INPUT_PRICE +
+                   total_output_tokens / 1_000_000 * SONNET_OUTPUT_PRICE)
+    sonnet_batch = sonnet_sync * BATCH_DISCOUNT
 
     print(f"\nEstimated API Cost:")
     print(f"  Input tokens:  {total_input_tokens:>12,}")
     print(f"  Output tokens: {total_output_tokens:>12,} (est. {OUTPUT_INPUT_RATIO:.0%} of input)")
-    print(f"  Synchronous:   ${sync_cost:>8.4f}")
-    print(f"  Batch API:     ${batch_cost:>8.4f} (50% discount)")
+    print(f"  Haiku  sync:   ${haiku_sync:>8.4f}   batch: ${haiku_batch:>8.4f}")
+    print(f"  Sonnet sync:   ${sonnet_sync:>8.4f}   batch: ${sonnet_batch:>8.4f}")
     print(f"\nFilter rate:     {(1 - totals['filtered'] / totals['raw']) * 100:.1f}% of raw messages removed")
     print(f"Thread yield:    {totals['scored'] / totals['threads'] * 100:.1f}% of threads pass quality scoring"
           if totals["threads"] > 0 else "")
@@ -1213,6 +1256,11 @@ def validate_insight(insight):
         if field not in result:
             flags.append(f"missing_{field}")
             is_valid = False
+
+    # Default optional fields if missing
+    for field, default_val in OPTIONAL_FIELDS_DEFAULTS.items():
+        if field not in result:
+            result[field] = default_val
 
     # Validate category
     if result.get("category") not in VALID_CATEGORIES:
@@ -1401,7 +1449,7 @@ def extract_sync(chunk, client):
     for attempt in range(SYNC_RETRY_ATTEMPTS):
         try:
             response = client.messages.create(
-                model=EXTRACTION_MODEL,
+                model=_active_model,
                 max_tokens=EXTRACTION_MAX_TOKENS,
                 messages=[{"role": "user", "content": prompt}],
             )
@@ -1491,7 +1539,7 @@ def extract_batch(chunks_dir, work_dir, client):
         requests.append({
             "custom_id": custom_id,
             "params": {
-                "model": EXTRACTION_MODEL,
+                "model": _active_model,
                 "max_tokens": EXTRACTION_MAX_TOKENS,
                 "messages": [{"role": "user", "content": prompt}],
             },
@@ -1723,6 +1771,7 @@ def run_extraction(args):
         manifest = json.load(f)
 
     print(f"Work directory: {work_dir}", flush=True)
+    print(f"Model:          {_active_model}", flush=True)
     print(f"Total chunks:   {manifest['total_chunks']}", flush=True)
     print(f"Total tokens:   {manifest['total_tokens']:,}", flush=True)
 
@@ -2185,6 +2234,11 @@ def run_integration(args):
         "EXPERT_ASSESSMENT": "06-meta-expert-discord.md",
         "BALANCE_OPINION": "08-balance-history-discord.md",
         "COMMUNITY_JARGON": "discord_jargon_review.md",
+        "MB_BUG_REPORT": "mb_insights.md",
+        "MB_WEAKNESS": "mb_insights.md",
+        "MB_EXPLOIT_STRATEGY": "mb_insights.md",
+        "MB_COMPARISON": "mb_insights.md",
+        "MB_FEATURE_REQUEST": "mb_insights.md",
     }
 
     # Group insights by category
@@ -2193,40 +2247,74 @@ def run_integration(args):
         cat = ins.get("category", "UNKNOWN")
         by_category[cat].append(ins)
 
-    # Write category files
+    # Group categories by output filename (multiple MB categories -> one file)
+    by_file = defaultdict(list)
     for cat, cat_insights in sorted(by_category.items()):
         filename = CATEGORY_FILES.get(cat)
         if not filename:
             continue
+        by_file[filename].append((cat, cat_insights))
 
+    # Write output files
+    for filename, cat_groups in sorted(by_file.items()):
         filepath = discord_dir / filename
         lines = []
+        total_count = sum(len(ci) for _, ci in cat_groups)
 
-        if cat == "COMMUNITY_JARGON":
-            lines.append("# Community Jargon (Manual Review Required)")
+        if filename == "mb_insights.md":
+            lines.append("# Master Bot Insights (Discord)")
             lines.append("")
-            lines.append("These items need manual review for tone before any integration.")
+            lines.append(f"Extracted from Prismata Discord ({total_count} insights).")
+            lines.append("Bug reports, weaknesses, exploit strategies, bot comparisons, and feature requests.")
             lines.append("")
+
+            for cat, cat_insights in cat_groups:
+                display_cat = cat.replace("_", " ").title()
+                lines.append(f"## {display_cat} ({len(cat_insights)})")
+                lines.append("")
+                for ins in cat_insights:
+                    lines.append(f"### {ins.get('insight', 'No insight text')}")
+                    if ins.get("units"):
+                        lines.append(f"**Units:** {', '.join(ins['units'])}")
+                    lines.append(f"**Confidence:** {ins.get('confidence', '?')} | "
+                                 f"**Temporal:** {ins.get('temporal_validity', '?')}")
+                    reporter = ins.get("reporter") or ins.get("author", "?")
+                    report_date = ins.get("report_date") or ins.get("date", "?")
+                    lines.append(f"**Reporter:** {reporter} | **Date:** {report_date}")
+                    if ins.get("replay_code"):
+                        lines.append(f"**Replay:** `{ins['replay_code']}`")
+                    lines.append(f"> Source: Discord #{ins.get('_channel', 'unknown')} -- "
+                                 f"{ins.get('author', '?')} ({ins.get('date', '?')})")
+                    lines.append("")
         else:
-            display_cat = cat.replace("_", " ").title()
-            lines.append(f"# {display_cat} (Discord)")
-            lines.append("")
-            lines.append(f"Extracted from Prismata Discord ({len(cat_insights)} insights).")
-            lines.append("")
+            # Single-category files (original behavior)
+            cat, cat_insights = cat_groups[0]
 
-        for ins in cat_insights:
-            lines.append(f"### {ins.get('insight', 'No insight text')}")
-            if ins.get("units"):
-                lines.append(f"**Units:** {', '.join(ins['units'])}")
-            lines.append(f"**Confidence:** {ins.get('confidence', '?')} | "
-                         f"**Temporal:** {ins.get('temporal_validity', '?')}")
-            lines.append(f"> Source: Discord #{ins.get('_channel', 'unknown')} -- "
-                         f"{ins.get('author', '?')} ({ins.get('date', '?')})")
-            lines.append("")
+            if cat == "COMMUNITY_JARGON":
+                lines.append("# Community Jargon (Manual Review Required)")
+                lines.append("")
+                lines.append("These items need manual review for tone before any integration.")
+                lines.append("")
+            else:
+                display_cat = cat.replace("_", " ").title()
+                lines.append(f"# {display_cat} (Discord)")
+                lines.append("")
+                lines.append(f"Extracted from Prismata Discord ({len(cat_insights)} insights).")
+                lines.append("")
+
+            for ins in cat_insights:
+                lines.append(f"### {ins.get('insight', 'No insight text')}")
+                if ins.get("units"):
+                    lines.append(f"**Units:** {', '.join(ins['units'])}")
+                lines.append(f"**Confidence:** {ins.get('confidence', '?')} | "
+                             f"**Temporal:** {ins.get('temporal_validity', '?')}")
+                lines.append(f"> Source: Discord #{ins.get('_channel', 'unknown')} -- "
+                             f"{ins.get('author', '?')} ({ins.get('date', '?')})")
+                lines.append("")
 
         with open(filepath, "w", encoding="utf-8") as f:
             f.write("\n".join(lines))
-        print(f"  Written: {filepath} ({len(cat_insights)} insights)", flush=True)
+        print(f"  Written: {filepath} ({total_count} insights)", flush=True)
 
     # Write low-confidence insights to separate file
     low_dir = work_path / "extractions" / "low"
@@ -2354,6 +2442,9 @@ def parse_args():
                         help="Phase 2: use synchronous API instead of Batch API")
     parser.add_argument("--batch-id", type=str, default=None,
                         help="Phase 2: resume/check status of an existing batch")
+    parser.add_argument("--model", type=str, choices=["haiku", "sonnet"],
+                        default="haiku",
+                        help="Phase 2: model to use for extraction (default: haiku)")
 
     # Phase 3 flags
     parser.add_argument("--consolidate", action="store_true",
@@ -2376,6 +2467,10 @@ def parse_args():
 
 def main():
     args = parse_args()
+
+    # Set active model from CLI flag
+    global _active_model
+    _active_model = MODEL_IDS.get(args.model, EXTRACTION_MODEL)
 
     # Phase 2: LLM extraction
     if args.extract or args.batch_id:
