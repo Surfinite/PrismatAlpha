@@ -1,0 +1,57 @@
+1. **One-line verdict**: Excellent research foundation and pragmatic extension of existing tools, but the two-stage pipeline adds unnecessary complexity and cost for a solo dev targeting a tiny community—prototype a single-pass version first to validate quality claims.
+
+2. **What's good**:
+   - Thorough research integration: The arXiv 2506.17294 survey (confirmed via search: taxonomy of Live Observation/Strategic Analysis/Historical Recall; emphasis on multi-stage extract-analyze-narrate) directly justifies two-stage over single-pass, and WSC/GetStream insights on structured data align perfectly with C++ eval + ResourceTracker.
+   - Leverages mature codebase: Extending `generate_commentary_data.py` (Phase 1) and copying Batch patterns from `discord_knowledge_extractor.py` (Phases 4-5) minimizes reinvention; intermediate JSON caching (Phase 4d) smart for iteration.
+   - Cost realism: ~$0.01-0.02/game matches 2026 pricing (Haiku 4.5: $1/MTok in/$5 out; 50% Batch discount + 90% cache reads); projections conservative.
+   - Verification rigor: Programmatic checks (Phase 2c), rubrics (Phase 6), checklists per phase reduce hallucination risks.
+   - Phased rollout: Phases 1-4 as MVP preserves momentum; Batch/QA as enhancements.
+
+3. **Concerns & risks** (ranked by severity):
+   - **High**: Unit knowledge extraction (Phase 1b) from `03-advanced-units.md` (1,266 lines) via "simple text search for headers" is brittle—MD parsing fails on variations (e.g., bold/italic, lists, tables); fallback to `mergedDeck` stats loses strategy (e.g., "Drone-eating attack engine"). Risk: Incomplete/misparsed KB leads to poor analysis. No fallback plan if KB misses random set units (common for rares).
+   - **High**: No empirical proof two-stage > single-pass for Prismata-scale games (15-40 turns, 3-5k output). Plan dismisses single-pass based on sports research, but manual examples used structured data + one-shot prompting. Risk: 2x cost/latency for marginal gains; Haiku may hallucinate less with full context + few-shots.
+   - **Medium**: C++ dependencies fragile (x86 OOM at >200ms think-time, 300s `--analyze` timeouts on long games). `--validate-only` good fallback, but neural eval absent degrades quality (no "eval_swing" for turning points). Risk: Pipeline fails silently on 10-20% edge replays.
+   - **Medium**: Few-shot selection (Phase 3a) hardcoded to 3 files; token-heavy (3-4k each) risks exceeding 8k narrative limit on long games. Dynamic matching "game characteristics" vague/unimplemented.
+   - **Low**: No prose quality metrics (Phase 6b rubric factual-only); manual review sole gate. Small community means subjective "parity" unreliable.
+   - **Low**: Batch (Phase 5) overkill for "dozens" readers; proven pattern good, but 24h turnaround (per docs) vs sync 60s hurts iteration.
+
+4. **Suggested changes**:
+   - **Phase 1b**: Replace text search with structured KB JSON (pre-parse `docs/commentary-knowledge/` into `bin/kb_units.json` once); query by unit name. Add schema validation (e.g., `jsonschema` lib) to `--json-output`.
+   - **Phase 2**: Add `--single-pass` flag skipping analysis; feed raw JSON + few-shots directly to narrative prompt. Benchmark quality/cost on 3 test replays vs two-stage.
+   - **Phase 2c verification**: Expand to check "eval_delta" math (sum deltas ≈ final eval), player ratings/winner, random set coverage.
+   - **Phase 3a**: Compute selectors programmatically (e.g., `if total_rounds >20: include long_example`; `if rating_diff>200: include upset_example`). Trim examples to <2k tokens (extract key sections).
+   - **Phase 4**: Default to `--single-pass haiku` for MVP; make two-stage `--full`. Add `--dry-run` (generate data/JSON only).
+   - **Phase 5**: Cap batch at 50 games; add `--max-cost $X` pre-check using exact token lens.
+   - **External Review Q1**: Prototype single-pass; if >90% rubric + human parity, collapse to one stage (suffices for non-live, non-video games).
+   - Update model IDs: Use `claude-haiku-4-5-20251001` (exact snapshot per docs).
+
+5. **Alternatives**:
+   - **Single CoT pass**: One Haiku call: "Analyze [JSON] into phases/turns/assessments (JSON schema), then narrate using this analysis + few-shots." Halves cost/latency; survey notes chaining within one call works if structured intermediate forced.
+   - **Hybrid local LLM**: Use Ollama/Llama3.2 for analysis (free, fast); Claude only for narrative. Fits solo dev constraints.
+   - **No C++**: Pure Python eval via simplified ResNet port (PyTorch); eliminates timeouts/OOM.
+
+6. **Additions**:
+   - **Config YAML**: `config.yaml` for prompts (load `analysis_system.md` etc.), models, think-time defaults; enables A/B without code changes.
+   - **Logging/monitoring**: Structured JSON logs (tokens, cost, time, rubric score) to `bin/commentary/logs/`; integrate Usage API for post-run cost fetch.
+   - **Test suite**: Phase 6c expand to 10+ replays (short/long/upset); auto-diff vs manual examples (BLEU/ROUGE + custom specificity scorer).
+   - **Edge handling (Q5)**: Detect long games (>30 rounds) → use `--eval-only`, shorter prompt; abort if `stepper_reliable=false`.
+   - **Future**: Dynamic few-shots from generated commentaries (self-improving).
+
+7. **Removals**:
+   - Style flags (`--style hype/casual`, Phase 3d): Distraction; few-shots + instructions suffice initially. Add post-MVP.
+   - Narrative verification (implied Phase 3, but not explicit): Rely on analysis verification + rubric; extra LLM CoT too costly.
+   - `--think-time 50` CLI (Phase 4a): Hardcode 50ms; expose only if OOM issues.
+
+8. **Minor / nits**:
+   - JSON schema (Phase 1a): Add `required` fields, `$ref` for nested (e.g., turns[].buys).
+   - Output paths: Use `code.replace('+','_PLUS_')` consistently for filenames.
+   - Prompts: Reference `commentary-generation-instructions.md` lines exactly; split into reusable templates.
+   - Cost print (Phase 4c): Use `usage.input_tokens` etc. from API response; note "Batch would halve".
+   - Date: Plan dated 2026-02-22 matches current; update if stale.
+
+9. **Assumptions you're making**:
+   - `generate_commentary_data.py` subprocess clean (no side effects, JSON stdout reliable).
+   - C++ exe always available/paths correct; ResourceTracker 100% accurate (context notes ~80-90%).
+   - Few-shot files (`bin/commentary/*.txt`) exactly match desired style/format.
+   - No rate limits hit in sync mode (low volume).
+   - MD KB parsing feasible (assumed regex works; unverified without code). Plan author validate parsing on test units (e.g., Plasmafier).

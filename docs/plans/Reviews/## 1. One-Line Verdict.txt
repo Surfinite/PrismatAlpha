@@ -1,0 +1,191 @@
+## 1. One-Line Verdict
+
+A well-researched, thoughtfully structured plan with strong foundations, but it has several quietly load-bearing assumptions that could fail silently, underestimates token counts in a way that will break cost guarantees, and includes Phase 6 complexity that a solo dev shouldn't touch until the core pipeline is proven.
+
+---
+
+## 2. What's Good
+
+**Intermediate file caching (Phase 4d)** is the single best decision in the plan. Decoupling `data_*.json` → `analysis_*.json` → `commentary_*.txt` means prompt iteration is cheap. Keep this exactly as written.
+
+**Anti-pattern guards per phase** — these are the right kind of planning discipline. Specific ("Do NOT import the anthropic SDK in this file"), not vague. Keep all of them.
+
+**Dynamic few-shot selection (Phase 3a)** — matching examples to game characteristics (upset, length) is the right instinct and is validated by the WSC Sports research. The heuristics (>20 rounds, >200 rating delta) are concrete and implementable. Keep this.
+
+**Programmatic verification (Phase 2c) as a non-LLM pass** — the plan correctly distinguishes between what can be checked programmatically vs what needs an LLM judge. This keeps hallucination detection cheap and deterministic.
+
+**Batch follows proven pattern** — explicitly pointing to line numbers in `discord_knowledge_extractor.py` is the right way to enforce pattern reuse in a solo project. Don't abstract further; just copy-adapt.
+
+**The `--validate-only` mode** — fallback to pure Python with no C++ dependency is important for portability and resilience. Good constraint.
+
+---
+
+## 3. Concerns & Risks
+
+Ranked by severity:
+
+### 🔴 Critical
+
+**[1] Token estimates are wrong and the cost guarantee will break.**
+The plan's cost table says "~5K input + ~3K output per stage." For the narrative stage alone, the minimums are:
+- Game rules from `commentary_prompt.md`: ~2,400 tokens
+- One few-shot example (`WjhmP-WWdXx.txt`, described as "~3,500 tokens"): ~3,500 tokens
+- Analysis JSON (Phase 2b output, ~2K output tokens from analysis stage): ~2,000 tokens
+- Notable turns data: unknown but non-zero
+
+That's already ~8K before the user template or per-game unit knowledge. The plan itself acknowledges this in Phase 3's anti-pattern guard ("Do NOT exceed 8K input tokens for the narrative call"), which directly contradicts the cost table. At 8K input + 3K output for Haiku 4.5 sync, cost is closer to **$0.023/game narrative-only** — not the "~5K + ~3K" figure. The two-stage total likely lands at $0.035–0.045/game sync, above the $0.03 success criterion. This needs re-estimation with actual token counts before implementation starts, or the success criterion needs revising.
+
+**[2] `--eval-only` fallback creates a schema nullability gap that the LLM prompts don't account for.**
+Phase 4 offers `--eval-only` as a faster mode that skips AI comparison. In that mode, `ai_buys`, `ai_agrees`, and (critically) `biggest_mistake` in the analysis section will be null or empty. The schema shows these as plain fields with no nullable annotation. If the analysis-stage prompt references "AI agreement rate" or "biggest mistake turn" and those fields are empty, Haiku may fabricate values rather than omit them. The plan needs:
+- Explicit nullable markers in `commentary_schema.json` for these fields
+- Conditional phrasing in `analysis_system.md` based on whether eval data is present
+- A note in the verification checklist to test `--eval-only` specifically for hallucinated eval values
+
+**[3] The `--analyze` timeout has no automatic fallback in the Phase 4 orchestration.**
+The context document acknowledges `--analyze` can timeout on 40+ turn games. Phase 4 describes orchestration as "call `generate_commentary_data.py` internally" with no mention of retrying with `--eval-only` on timeout. A 40-turn grind like `uP8mG-tr75d` is exactly the kind of game that merits detailed commentary but is also the most likely to timeout. Without an automatic fallback, the pipeline will hard-fail on the most interesting games. Add: catch subprocess timeout, retry with `--eval-only`, log a warning.
+
+---
+
+### 🟠 High
+
+**[4] `buySac` interactions corrupt the "ground truth" buys.**
+The context document explicitly flags ResourceTracker's known inaccuracy with `buySac` units. If the random set includes units that require sacrificing another unit to purchase (e.g., units with `buySac` mechanics), the validated buys fed to the LLM may be wrong. The LLM will then produce factually incorrect commentary about those purchases — and the programmatic verification (Phase 2c) won't catch it because it only checks whether the unit name is in the deck, not whether the buy actually occurred. The plan should flag this as a known gap and note that commentary on buySac-heavy turns may be unreliable.
+
+**[5] Prompt caching TTL assumption for batch mode is incorrect.**
+Phase 5c uses `"cache_control": {"type": "ephemeral"}` with the comment "5-min cache (batch processes fast)." But Batch API processing is asynchronous and results arrive over minutes to hours. The ephemeral TTL is 5 minutes for synchronous calls; for batch, the Anthropic docs specify 1-hour TTL for cached blocks in batch context. If the plan actually means to use the 5-minute ephemeral TTL for batch, the cache will expire mid-batch and all subsequent requests will miss. This needs to be verified against the Anthropic docs and corrected — likely it should use the 1-hour TTL or no caching for batch.
+
+*Assumption: I'm working from the Anthropic docs as summarized in the context doc. The plan author should verify current TTL behavior for batch.*
+
+**[6] Two sequential Batch API rounds conflict with the 30-minute success criterion for 100 games.**
+The nice-to-have criterion says "<30 min for 100-game batch." But Phase 5 submits analysis batch, polls until complete, then submits narrative batch. Anthropic states results arrive within 24 hours. In practice it's usually under an hour, but there is no guarantee it's under 15 minutes. Two sequential rounds could easily total 30–90 minutes. If this criterion matters, the plan needs either: (a) accept that batch mode trades latency for cost and drop the 30-minute target, or (b) use asyncio concurrent sync calls instead of Batch API for medium batch sizes (10–50 games). At Haiku sync prices, 100 games ≈ $3.50 — not $0.70, but the latency is controllable. The plan should acknowledge this trade-off explicitly rather than implying Batch API will meet a 30-minute window.
+
+**[7] The subprocess vs import decision for `generate_commentary_data.py` is unresolved.**
+Phase 4b says "subprocess or import" and the anti-pattern guard says "Do NOT import if side effects at module level." This is left open, which means the developer will make an ad-hoc decision at implementation time. Given the 690-line size of the file, it almost certainly has module-level side effects (argparse setup, path resolution, possibly logging config). Subprocess is the safe choice but requires passing the structured JSON via file path, not stdout. The plan should commit to subprocess + temp file path and specify that explicitly.
+
+---
+
+### 🟡 Medium
+
+**[8] Unit knowledge lookup is fragile.**
+Phase 1b says "simple text search for unit name headers in the KB files." The KB is 1,266 lines for advanced units alone. Unit names in the KB may differ from `mergedDeck` names in capitalization, hyphenation, or spacing. "Tesla Coil" vs "Tesla-Coil," "Mega Drone" vs "MegaDrone" — these mismatches will produce silent failures (no KB entry found, fallback to stats only). The fallback is fine but the silent failure mode means the developer won't notice degraded context. Recommendation: log a warning when no KB entry is found; also pre-build a unit→KB-section lookup once (see Alternatives section) rather than re-scanning 1,266 lines per game.
+
+**[9] The `player_assessments[].mistakes` field in the analysis schema is a hallucination vector.**
+The analysis stage is asked to list specific mistakes per player. These are narrative claims ("T7: should have bought Blastforge instead of second Tarsier") that go beyond what the programmatic verification checks. The verification checks whether turn numbers exist and unit names are in the deck — but it doesn't verify that the counterfactual purchase was actually valid given the player's resources at that turn. A mistake claim like "should have bought X" where X costs resources the player didn't have is a coherent-sounding hallucination that the verification pass won't catch. Consider either: constraining `mistakes` to only cite what the AI comparison flagged (turns where `ai_agrees = false`), or accepting this as a known gap.
+
+**[10] No dry-run mode for prompt development.**
+The plan includes no `--dry-run` flag that shows the fully assembled prompts and estimated token counts without making API calls. Given that the developer will need to iterate on prompts (Phase 6), and that the token count estimates are already wrong (Concern #1), a `--dry-run` mode is not optional — it's essential. Without it, every prompt iteration costs money and requires reading the API dashboard.
+
+---
+
+### 🟢 Low
+
+**[11] Phase 6's A/B `--compare` flag adds complexity without proportional value for a solo dev.**
+A solo developer reviewing prose quality will simply read both outputs. A diff of two commentary texts isn't meaningful for prose — word-level diffs produce noise. The effort to implement this cleanly (including diff display for multi-message output) is non-trivial. This is scope creep that should be deferred or cut.
+
+**[12] The `commentary_schema.json` file will drift from the code immediately.**
+If there's no runtime validation against this schema (no Pydantic, no `jsonschema` validation call mentioned), the schema file becomes documentation that rots. Either use it programmatically (add a `jsonschema.validate()` call after Phase 1 JSON generation) or don't create the file — just document the structure in the script's docstring.
+
+---
+
+## 4. Suggested Changes
+
+**[S1] Re-estimate token counts before writing prompts.** Before Phase 2 implementation, run the 3 test replays through Phase 1, load the prompts as designed, and measure actual token counts using the `anthropic` SDK's token counting endpoint. Update the cost table and the $0.03/game success criterion accordingly. If the real cost lands at $0.04–0.05, update the criterion rather than optimizing blindly.
+
+**[S2] Add nullable annotations to the schema.** In `commentary_schema.json`, mark `eval_pct`, `eval_raw`, `eval_delta`, `ai_buys`, `ai_agrees`, `analysis.agreement_rate`, and `analysis.biggest_mistake` as nullable. In `analysis_system.md`, add a conditional instruction: "If eval data is not available for a turn, omit any numerical eval claims for that turn."
+
+**[S3] Add automatic `--analyze` → `--eval-only` fallback in Phase 4 orchestration.** In the subprocess call to the C++ exe, catch TimeoutExpired, log a warning, and retry with `--eval-only`. Set a flag in the Phase 1 JSON (`"analysis_mode": "eval_only"`) so downstream prompts know to skip AI comparison claims.
+
+**[S4] Commit to subprocess for `generate_commentary_data.py` integration.** Remove "or import" from Phase 4b. Specify that the orchestration script calls `generate_commentary_data.py` as a subprocess with `--json-output /tmp/data_{code}.json` and reads the result from that file.
+
+**[S5] Replace runtime unit knowledge text-search with a pre-built lookup.** Add a one-time preprocessing step (can be a separate script or run lazily on first use) that parses `03-advanced-units.md` and produces `tools/unit_knowledge_cache.json` mapping unit names → KB excerpts. This avoids per-game file scanning, is O(1) at game-time, and makes name normalization failures visible during preprocessing rather than silently at game time.
+
+**[S6] Add a `--dry-run` flag to Phase 4 CLI.** When set, assemble all prompts, print token counts, and exit without API calls. This is the single highest-leverage feature for prompt iteration and it's trivial to implement.
+
+**[S7] Drop the 30-minute/100-game batch success criterion or qualify it.** Change to: "Batch mode processes 100 games at ~50% cost reduction; wall-clock time depends on Batch API processing time and is not guaranteed." For time-sensitive use cases, document the asyncio concurrent sync alternative.
+
+**[S8] Constrain `mistakes` in analysis schema to AI-flagged turns.** In `analysis_system.md`, add: "Only cite a turn as a mistake if the `ai_agrees` field for that turn is `false`. Do not invent counterfactual purchases." This directly limits the hallucination surface without adding another verification step.
+
+---
+
+## 5. Alternatives
+
+**Alt A: Single-stage for short games (< 15 rounds).**
+The two-stage pipeline is well-justified for complex games, but the research case for it weakens for 8-12 turn rushes where there are 2-3 key events total. Consider: if `total_rounds < 15`, use a single-stage call with the analysis schema embedded in the narrative prompt. This halves API cost for rush games and the quality delta is probably negligible. Implement as `--single-stage` flag or auto-detect based on game length.
+
+**Alt B: Pre-built unit knowledge cache instead of per-game extraction.**
+Rather than text-searching the KB files per game (Phase 1b), run a preprocessing script once that produces `tools/unit_knowledge_cache.json`. All 80+ advanced units pre-extracted. Per-game lookup is then a dict key. This is simpler to implement, faster, and makes failures visible upfront. The only downside is the file needs manual regeneration when the KB updates — which is fine for a solo project where KB updates are intentional.
+
+**Alt C: asyncio concurrent sync calls instead of Batch API for medium batches.**
+For 10-50 games, `asyncio` with 5-10 concurrent sync calls will complete in 5-10 minutes at full price (~$1-2) vs Batch API taking potentially 30-120 minutes at half price (~$0.50-1). Given the small community scale and the developer's preference for fast iteration, the time savings may be worth the cost premium. Batch API makes more sense for large historical backfills (hundreds of games). Consider implementing `--concurrency N` for sync batch mode.
+
+**Alt D: Extract a style guide from existing commentaries instead of including full examples.**
+Rather than including full 3,500-token few-shot examples, extract a 500-token "style guide" from the existing commentaries: sentence patterns, vocabulary, structural conventions, characteristic phrases. This could be a one-time document (`tools/prompts/commentary_style_guide.md`) injected as cached system prompt content. The tradeoff: worse structural imitation, better token efficiency. Not recommended as primary approach but worth testing if the narrative prompt consistently hits the 8K ceiling.
+
+---
+
+## 6. Additions
+
+**[A1] Test cases for edge game types.** The 3 test replays cover upset, Master-tier mirror, and long grind. Missing coverage:
+- A rush game (8-10 turns) — tests the minimum-content case
+- A game with `buySac` mechanics — exposes the known ResourceTracker gap
+- A game with significant time pressure (player running very low on clock) — time bank commentary is featured in the existing examples
+
+Add at least the rush game test before Phase 6.
+
+**[A2] Explicit handling when S3 fetch or replay code is invalid.** The orchestration in Phase 4 should catch and produce a clear user-facing error for: invalid replay code format, S3 fetch failure, malformed replay JSON. Currently the plan describes the happy path only.
+
+**[A3] Replay code link format in Phase 3c.** The plan says "append replay code link to final message" without specifying the URL format. Prismata has a replay viewer at `prismata.net` — the exact URL template should be in the plan. *Assumption: I don't know the URL format; the plan author does.*
+
+**[A4] Sonnet model string.** The glossary specifies Haiku as `claude-haiku-4-5-20251001` and Sonnet as `claude-sonnet-4-5-20241022`. The plan should include the exact model string for the `--model sonnet` flag, not just "Claude Sonnet." Given the $805 billing incident, being precise about model names is safety-critical.
+
+**[A5] `jsonschema.validate()` call after Phase 1 JSON generation.** If `commentary_schema.json` is created, use it. Add a validation step in Phase 1 that validates the generated JSON against the schema before proceeding to Phase 2. This catches schema drift early. If not validating programmatically, drop the schema file (see Concern #12).
+
+---
+
+## 7. Removals
+
+**[R1] Phase 6's `--compare` / `--variant-a` / `--variant-b` flags.** Too much CLI machinery for a feature that a solo developer will never use instead of just running the command twice. Defer indefinitely. The quality rubric (Phase 6b) and `--test` mode (Phase 6c) are worth keeping; the A/B comparison UI is not.
+
+**[R2] `--style hype` and `--style casual` from Phase 3.** These are mentioned once, never specified in any prompt file, and add CLI surface area without substance. The plan correctly identifies `analytical` as the primary style. Ship `analytical` first, prove the pipeline, then add styles. As written, these are aspirational placeholders that will generate confusion. Remove from the initial plan; note as future extension.
+
+**[R3] The arXiv citation `2506.17294`.** The date of the plan is February 2026, and this paper ID is `2506.xxxxx`, implying a June 2026 preprint. Either the citation is a placeholder/invented ID, or the dating is off. Either way, a nonexistent or incorrectly cited source undermines the research credibility of the plan. Verify or remove.
+
+*Assumption: arXiv IDs encode submission month as YYMM. `2506` = June 2025. But the plan date is February 2026 and says it's citing research for this plan. If this paper actually exists (submitted June 2025), it's a real citation. If it was invented as a placeholder, it's a problem. Flagging for author to verify.*
+
+---
+
+## 8. Minor / Nits
+
+- **Phase 4c cost tracking format**: The example output shows `$0.006` and `$0.020` which already add up to more than the $0.02 total claimed in the cost table. The numbers should be internally consistent.
+
+- **Phase 3a: "shortest high-quality example" description.** `WjhmP-WWdXx` is described as "45 lines, ~3,500 tokens" in Phase 3a but the context document says it has 4 Discord messages and is "16 turns." Double-check that the few-shot example token count is based on actual measurement, not estimation — this directly affects the token ceiling concern in Concern #1.
+
+- **Phase 1 schema has `"tier": "rare"` for unit rarity** — verify this field exists in `mergedDeck` JSON. *Assumption: I can't see the replay JSON structure directly. If `mergedDeck` doesn't have a `tier` field, this schema field will always be null.*
+
+- **`previous commentary versions preserved with timestamp suffix`** (Phase 4d anti-pattern): specify the timestamp format (`commentary_FxCfR-K49T+_20260222T143000.txt`?) to avoid ambiguity.
+
+- **Phase 5c prompt caching structure**: the code example shows `game_rules + commentary_instructions` as the cached prefix. This should be `game_rules + commentary_instructions + few_shot_examples` to maximize cache hit value — the few-shot examples are the biggest token consumer and identical across games.
+
+- **The plan references `commentary-generation-instructions.md` lines 163-178 specifically.** Line numbers in a living document are fragile references. Consider naming the section instead of citing line numbers.
+
+---
+
+## 9. Assumptions You're Making
+
+These are places where I lacked direct code visibility and had to guess. The plan author should validate each.
+
+1. **`generate_commentary_data.py` has module-level side effects** (argparse setup, path resolution). If it doesn't, import is viable and cleaner than subprocess. Validate before committing to subprocess.
+
+2. **Unit names in `mergedDeck` may differ from unit name headers in `03-advanced-units.md`.** If Lunarch's canonical names exactly match the KB headers, the text search is fine as-is. If they differ (hyphenation, capitalization), a name normalization step is needed.
+
+3. **The replay viewer URL format for "append replay code link."** I don't know the prismata.net replay URL format. The plan author knows this and should specify it in Phase 3c.
+
+4. **`tier` field exists in `mergedDeck` JSON.** If it doesn't, Phase 1 schema needs adjustment.
+
+5. **The arXiv paper `2506.17294` exists.** If this is a real paper (submitted June 2025), the citation is valid. If it's a placeholder or invented, it should be removed from the plan's research sources.
+
+6. **Haiku 4.5 supports structured output as stated.** The plan notes "GA on Haiku 4.5" for structured outputs. Verify this is still the current model string (`claude-haiku-4-5-20251001`) and that structured output is fully supported as of the current Anthropic API.
+
+7. **The `click_count` and `undo_count` fields are available from existing `generate_commentary_data.py` output.** I assumed these are extractable from the replay's `commandList`, but if the existing tool doesn't already expose them, Phase 1 is adding more work than stated.
+
+8. **Prompt caching TTL for batch API is 1 hour, not 5 minutes.** This is the critical assumption in Concern #5. Validate against current Anthropic Batch API documentation.
