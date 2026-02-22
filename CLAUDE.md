@@ -175,6 +175,8 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Churchill paper URLs**: Use `davechurchill.ca/publications/` (old `cs.mun.ca/~dchurchill/` is dead).
 - **307th's Prismata Library blog** is at `prismatalibrary.blog` (NOT `blog.prismata.net/prismatalibrary/`). 27 articles, all live as of Feb 2026. Archive: `prismatalibrary.blog/archive/`.
 - **WebFetch blocked on web.archive.org**: Use the CDX API via curl instead: `curl -s "https://web.archive.org/cdx/search/cdx?url=DOMAIN/*&output=json&fl=timestamp,original,statuscode&limit=50"`. Then fetch archived pages: `curl -sL "https://web.archive.org/web/{timestamp}/{url}"`. Process HTML to text with Python.
+- **Commentary KB discord/ mirror pattern**: New Discord-sourced insights go to `docs/commentary-knowledge/discord/` (mirror files like `03-advanced-units-discord.md`), NOT directly into canonical `docs/commentary-knowledge/*.md` files. Promotion to main files is a separate manual step. `tools/commentary_prompt.md` (68 lines, ~2,400 tokens) is also manually curated — never auto-generated.
+- **Task agents can't create new files**: Background agents spawned via Task tool cannot create files that don't exist — Write tool requires prior Read (fails on nonexistent file), and Bash heredoc may be blocked by hooks. Write new files in the parent context instead, or pre-create an empty file before delegating.
 
 ### Self-Play & Data
 
@@ -496,10 +498,12 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `docs/claude-app-instructions.md` | Updated project instructions for Claude Windows app |
 | `docs/plans/2026-02-20-live-commentator-plan.md` | Live AI commentator plan (sniffer → Haiku → edge-tts → OBS/Twitch) |
 | `docs/plans/2026-02-20-commentary-knowledge-extraction.md` | Instructions for new context to extract game knowledge from guides |
-| `docs/commentary-knowledge/` | Extracted Prismata strategy knowledge for commentator (8 category files + README + sources). 115+ sources, 70+ from prismatalibrary.blog + Wayback. See README.md for index. |
+| `docs/commentary-knowledge/` | Extracted Prismata strategy knowledge for commentator (7 KB files + README + sources, ~5,090 lines). 280+ sources: 148 YouTube transcripts, 45 blog articles, 629 Reddit posts, 27 prismatalibrary.blog, 12 wiki guides, 24 Wayback recoveries. Discord not yet integrated (see extraction plan v2). |
 | `docs/commentary-knowledge/RESEARCH-HANDOFF.md` | Instructions for delegating further Prismata research to external AI — lists all processed sources to avoid duplication |
 | `docs/prismata-strategy-guide.md` | Comprehensive human-readable strategy guide (17 chapters, synthesized from all sources) |
 | `docs/recovered-sources/` | Full-text archive of recovered wiki guides + Wayback Machine content (21 files) |
+| `docs/plans/2026-02-21-discord-knowledge-extraction-v2.md` | Discord knowledge extraction v2 — 7-review meta-review applied, Batch API, embedding dedup, calibration phase, human review gate |
+| `docs/plans/META-REVIEW-2026-02-21-discord-knowledge-extraction.md` | Meta-review of 7 external reviews of Discord extraction plan |
 
 ## Tournament Results Summary
 
