@@ -177,7 +177,7 @@ REQUIRED_FIELDS = {
 MAX_INSIGHT_LENGTH = 400
 
 EXTRACTION_MODEL = "claude-haiku-4-5-20251001"
-EXTRACTION_MAX_TOKENS = 4096
+EXTRACTION_MAX_TOKENS = 8192
 BATCH_POLL_INTERVAL = 60  # seconds
 SYNC_RETRY_ATTEMPTS = 3
 SYNC_RETRY_BASE_DELAY = 2  # seconds (exponential: 2, 4, 8)
@@ -1236,6 +1236,9 @@ def _route_insights(insights, chunk_filename, high_dir, low_dir):
     Returns:
         tuple: (high_count, low_count) number of insights routed.
     """
+    high_dir = Path(high_dir)
+    low_dir = Path(low_dir)
+
     high_insights = []
     low_insights = []
 
@@ -1793,7 +1796,7 @@ def dedup_insights(insights):
     deduped = []
     duplicates_removed = 0
 
-    for (cat, _unit), group in groups.items():
+    for (cat, _), group in groups.items():
         if len(group) <= 1:
             for ins in group:
                 ins["import_id"] = sha256((cat + ins.get("insight", "")[:50]).encode()).hexdigest()[:12]
