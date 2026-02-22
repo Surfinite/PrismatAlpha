@@ -1389,23 +1389,32 @@ def _route_insights(insights, chunk_filename, high_dir, low_dir):
     return high_count, low_count
 
 
-def _load_processed_chunks(work_dir):
+def _load_processed_chunks(work_dir, extract_label="extractions"):
     """Load the processed chunks checkpoint file.
+
+    Args:
+        work_dir: Base work directory.
+        extract_label: Extraction subdirectory label (e.g., "extractions" or "extractions_sonnet").
 
     Returns:
         dict: Checkpoint data with 'processed' list, 'last_updated', 'batch_ids'.
     """
-    checkpoint_path = Path(work_dir) / "processed_chunks.json"
+    checkpoint_path = Path(work_dir) / f"processed_chunks_{extract_label}.json"
     if checkpoint_path.exists():
         with open(checkpoint_path, encoding="utf-8") as f:
+            return json.load(f)
+    # Fallback to legacy path for backward compatibility
+    legacy_path = Path(work_dir) / "processed_chunks.json"
+    if extract_label == "extractions" and legacy_path.exists():
+        with open(legacy_path, encoding="utf-8") as f:
             return json.load(f)
     return {"processed": [], "last_updated": None, "batch_ids": []}
 
 
-def _save_processed_chunks(work_dir, checkpoint):
+def _save_processed_chunks(work_dir, checkpoint, extract_label="extractions"):
     """Save the processed chunks checkpoint file."""
     checkpoint["last_updated"] = datetime.now(timezone.utc).isoformat()
-    checkpoint_path = Path(work_dir) / "processed_chunks.json"
+    checkpoint_path = Path(work_dir) / f"processed_chunks_{extract_label}.json"
     with open(checkpoint_path, "w", encoding="utf-8") as f:
         json.dump(checkpoint, f, indent=2, ensure_ascii=False)
 
@@ -1754,7 +1763,15 @@ def run_extraction(args):
         work_dir = str(script_dir / "discord_extraction")
 
     work_path = Path(work_dir)
-    chunks_dir = work_path / "chunks"
+
+    # Resolve chunks directory: per-channel dir (chunks_{channel}/) or legacy (chunks/)
+    channel_name = args.channel or (args.channels if args.channels and "," not in (args.channels or "") else None)
+    if channel_name and channel_name != "all":
+        chunks_dir = work_path / f"chunks_{channel_name}"
+        if not chunks_dir.is_dir():
+            chunks_dir = work_path / "chunks"  # fallback to legacy
+    else:
+        chunks_dir = work_path / "chunks"
 
     # Verify chunks exist
     if not chunks_dir.is_dir():
@@ -1762,7 +1779,10 @@ def run_extraction(args):
         print("Run Phase 1 first (without --extract) to generate chunks.", file=sys.stderr)
         sys.exit(1)
 
-    manifest_path = work_path / "chunk_manifest.json"
+    # Manifest lives inside the chunks directory for per-channel dirs
+    manifest_path = chunks_dir / "chunk_manifest.json"
+    if not manifest_path.exists():
+        manifest_path = work_path / "chunk_manifest.json"  # fallback to legacy
     if not manifest_path.exists():
         print("ERROR: chunk_manifest.json not found. Run Phase 1 first.", file=sys.stderr)
         sys.exit(1)
@@ -1784,11 +1804,15 @@ def run_extraction(args):
 
     elif args.no_batch:
         # Synchronous extraction
-        checkpoint = _load_processed_chunks(work_dir)
+        # Use model-specific extraction directories to keep Haiku/Sonnet results separate
+        model_label = args.model if hasattr(args, "model") else "haiku"
+        extract_base = f"extractions_{model_label}" if model_label != "haiku" else "extractions"
+
+        checkpoint = _load_processed_chunks(work_dir, extract_label=extract_base)
         processed_set = set(checkpoint["processed"])
 
-        high_dir = work_path / "extractions" / "high"
-        low_dir = work_path / "extractions" / "low"
+        high_dir = work_path / extract_base / "high"
+        low_dir = work_path / extract_base / "low"
 
         # Determine which chunks to process
         chunks_to_process = []
@@ -1849,7 +1873,7 @@ def run_extraction(args):
             # Mark as processed
             if filename not in checkpoint["processed"]:
                 checkpoint["processed"].append(filename)
-                _save_processed_chunks(work_dir, checkpoint)
+                _save_processed_chunks(work_dir, checkpoint, extract_label=extract_base)
 
         print(f"\n{'=' * 60}", flush=True)
         print(f"Sync extraction complete:", flush=True)
