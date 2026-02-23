@@ -40,11 +40,16 @@
 7. ~~**Build overlay advisor**~~ — DONE (Feb 18). C++ `--suggest` mode + Python overlay (`tools/prismata_advisor.py`) + launcher (`run_advisor.bat`). Run: double-click `run_advisor.bat`, press F6 in Prismata. Plan: `docs/plans/2026-02-18-prismata-overlay-advisor.md`.
 8. ~~**Live game state tracking in sniffer**~~ — DONE (Feb 20). Auto-F6 at turn boundaries via Win32 SendInput, clipboard capture, mid-turn click tracking, JSON + console output. See sniffer gotchas below. **Not yet live-tested.**
 9. ~~**Build live AI commentator — Phase 1 (text + chat)**~~ — DONE (Feb 20). Claude Haiku generates per-turn strategic commentary, injected as in-game PM via sniffer proxy. Adaptive token budget: short/punchy for fast turns (40 tokens), expanded colour for long thinks (120 tokens, >=15s threshold). Chat target defaults to Surfinite (self-PM); set `CHAT_TARGET=<id>` env var to redirect. Tested live on spectated games. Plan: `docs/plans/2026-02-20-live-commentator-plan.md`. Knowledge base: `docs/commentary-knowledge/`. **Phase 2 (TTS + OBS)** still planned — needs `edge-tts`, `sounddevice`, `obsws-python`, VB-Cable.
-10. **Post-game commentary from sniffer/replay data** — WORKING (Feb 20). Manual workflow: sniffer captures live game → parse commandInfo + live clicks → Claude generates full-game analysis → format for Discord. Community reception positive (2 games commentated, Wonderboat: "super cool dude!"). **Known limitation**: click-based buy counting can't distinguish successful purchases from failed clicks on sold-out cards — must enforce supply limits (see gotcha above). Replay API (`deckInfo.mergedDeck`) provides same data as sniffer. Commentary files: `bin/commentary_*.txt`.
+10. **Post-game commentary pipeline** — PHASES 1-3 COMPLETE (Feb 22). Two-stage LLM pipeline: Phase 2 (structured JSON analysis) → Phase 3 (narrative generation). Eval numbers converted to qualitative labels before narrative model (prevents unreliable eval leaking into output). Few-shot example selection by game characteristics. Discord 2000-char message splitting. Verified on 8 replays (~$0.027/replay on Haiku). Branch: `feature/postgame-commentary`. Run: `python tools/generate_postgame_commentary.py <CODE>`. Output: `bin/commentary/commentary_P1_vs_P2_CODE.md`. Remaining: Phase 4 (CLI polish), Phase 5 (batch), Phase 6 (Discord bot). Plan: `docs/plans/2026-02-22-postgame-commentary-pipeline-plan-v2.md`.
 11. ~~**Build autopilot — AI move injection via TCP proxy**~~ — DONE (Feb 20). `--suggest` now outputs `clicks` array with wire-protocol-ready `{_type, _id}` pairs. Python autopilot engine captures state (Shift+F6), runs AI, injects Click/EndTurn messages through sniffer proxy. Semi-auto (file trigger) and full-auto (StartTurn callback) modes. Dry-run mode for testing. Launch: `run_prismata_tools.bat --autopilot`. **Proxy integration verified (Feb 20): game traffic flows, StartTurn detected, bot-game check works. Not yet tested with actual bot game click injection.** Plan: `~/.claude/plans/sequential-launching-mountain.md`.
-12. **Frontline penalty isolation test** — INFRASTRUCTURE COMPLETE (Feb 22). Branch `test/frontline-penalty` (2 commits from master). Compares `frontlinePenalty=5.0` (modern) vs `100000` (legacy/ban) in paired tournament design. Local 50-round sanity check: AB 66.7% WR, FLLegacy 63.9% WR vs OriginalHardestAI (72 games, difference not significant p=0.80). All C1-C7 enhancements done. Ready for EC2 deploy. Plan: `docs/plans/2026-02-21-frontline-penalty-test-v2.md` (on `feature/cpp-replay-stepper`).
+12. **Frontline penalty isolation test** — COMPLETE (Feb 22). 6x c5.2xlarge spot, 12 workers, `FrontlineTest_Paired`. Final results (~780 games/arm): AB 52.1% WR (406W/372L), FLLegacy 51.6% WR (396W/370L) vs OriginalHardestAI — **+0.5 pp difference, not significant**. Frontline penalty value doesn't matter much. **Caveat**: defense reset bug (commit 5bf57a8) inflates blocking, likely underestimates frontline's real value. Re-test after engine fix if needed. Results: `s3://prismata-selfplay-data/eval-results/eval_2026-02-22_10-24-*/`. Plan: `docs/plans/2026-02-21-frontline-penalty-test-v2.md`.
+13. **Mix community replays into training data** — User goal: incorporate expert/community replay data so community members can truthfully say their games contributed. The C++ replay stepper (`--replay-dir`) converts replay JSONs into identical binary shards as self-play. ~35K replays (expert + Reddit + tournament + Discord) = ~1.3M records (~5% of current 27M self-play dataset). Human game value targets are higher quality than bot self-play. Standard practice to keep 10-20% human data in AlphaZero-style RL loops.
+14. **MB community issues extraction** — V2 DOCUMENT GENERATED (Feb 22). Branch: `feature/mb-issues-extraction`. 252 Sonnet extractions across 6 channels (strategy_advice 66/67, prismata_chat, unit_and_game_design, alpha_player_lounge, questions_and_help, ask_a_dev). 350 MB-specific insights consolidated. Output: `docs/discord-masterbot-feedback-analysis-v2.md`, `tools/discord_extraction/consolidated_mb_insights.json`. Plan: `docs/plans/2026-02-22-mb-issues-extraction-plan.md`. Remaining: 1 chunk (strategy_advice #64) missing, consolidation/dedup (Phase 4) can be re-run for final version.
+15. ~~**Engine logic audit (C++ vs AS3 ground truth)**~~ — COMPLETE (Feb 22-23). 4 fixes applied to `GameState.cpp` on branch `feature/engine-logic-audit` (commit `d44740e`): (1) CRITICAL: removed defense phase status reset, (2) CRITICAL: added "all units doomed" game-over check, (3) HIGH: mutual elimination draw fix, (4) MEDIUM: WIPEOUT switch fall-through break. 22 audit areas checked, 15 deliverables in `docs/audit/`. **Batch validation REGRESSED** from 55.7% to 50.4% (-5.3pp, 113 more failures) — fixes made engine stricter. USE_ABILITY is top failure category (40.7%). Remaining unfixed: script execution ordering, stagnation system, 4 Condition types. Plan: `docs/plans/engine-logic-audit-plan-v2.md`. Meta-review: `docs/plans/META-REVIEW-engine-logic-audit-plan.md`.
+16. **LiveHardestAI config ported from SWF** (Feb 23). Extracted live game's complete AI configuration from decompiled SWF: LiveOpeningBook (4 entries), LiveOpeningBook2 (50 unit-specific entries), Live_Ability_Filter (includes Odin), 5 ActionAbility strategy variants, complete Live_ partial player hierarchy (31 components), 15 move iterators, 48 player definitions. All prefixed with `Live_` in `config.txt`. Smoke test validated — all components parse and execute correctly (reached turn 23 with 7s think time). Tournament `LiveHardestAI_Smoke` defined but disabled (`run: false`).
+17. **Replay code database** — COMPLETE (Feb 23). SQLite at `c:\libraries\prismata-replay-parser\replays.db`. 128,978 unique codes from 7 source types (expert, v2 per-player, reddit, discord, tournament, sniffer, balance results). Junction table with triggers, CLI tool (`replay_cli.py status` for dashboard). Build: `python build_replay_db.py` (~68s full rebuild). Incremental: `python build_replay_db.py --incremental --source <file>`. 4 files: `replay_db.py` (schema), `build_replay_db.py` (import), `replay_queries.py` (queries), `replay_cli.py` (CLI). 2 code reviews applied (6 fixes: trigger UNIQUE, transaction safety, backfill guard, junction detection, source dedup, executescript replacement). Plan: `docs/plans/2026-02-23-replay-database-plan-v2.md`. Meta-review: `docs/plans/META-REVIEW-2026-02-23-replay-database-plan.md`.
 
-**Current neural net strength:** **256h 305K model = 45.3% WR** vs OriginalHardestAI (4,032 games, AB search + NeuralNet eval, Feb 18). Up from 26.7% with 63K games — 5x more data gave ~70% relative WR improvement. 512h comparison in progress. Previous: E2b (63K) = 26.7%, E1b (512h, 63K) = 19.6%, unfixed model = 3.6%. Historical: ~42% WR vs MediumAI (expert UCT). Churchill got 58.8% WR vs playout with 500K games — our 45.3% with 330K games and continued data generation toward 500K suggests we're on track to match or exceed that.
+**Current neural net strength:** **Run B 256h/3L 722K model = 51.9% WR** vs OriginalHardestAI (2,016 games, CI [49.7%, 54.1%], AB search + NeuralNet eval, Feb 21). First model to cross 50%. Up from 45.3% with 305K model (256h/2L). Previous: E2b (63K) = 26.7%, E1b (512h, 63K) = 19.6%, unfixed model = 3.6%. Historical: ~42% WR vs MediumAI (expert UCT). Churchill got 58.8% WR vs playout with 500K games -- we are at 51.9% with 722K games, closing the gap.
 
 ## What This Project Is
 
@@ -139,6 +144,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 ### Engine & Build
 
 - **Internal name system**: The engine uses codenames (e.g., "Tesla Tower" = Tarsier, "Brooder" = Blastforge). Full 105-unit mapping in `cardLibrary.jso`.
+- **AS3↔C++ naming dictionary**: Key mappings for cross-engine comparison: `role` (string) = `CardStatus` (enum), `disruptDamage` = `m_currentChill`, `MOVE_MELEE` = `ASSIGN_FRONTLINE`, `glassBroken` flag = `Phases::Breach`, `MOVE_ASSIGN` = `USE_ABILITY`, `MOVE_DEFEND` = `ASSIGN_BLOCKER`, `damageItCanTake` = `currentHealth()`, `deadness` (string) = `AliveStatus` + `CauseOfDeath` (enums). Full dictionary in `docs/plans/engine-logic-audit-plan.md` § Key Naming Differences.
 - **Two git remotes**: `origin` = davechurchill upstream, `PrismatAlpha` = user's fork (Surfinite/PrismatAlpha). Push to `PrismatAlpha`.
 - **Branch can switch unexpectedly**: When working across multiple branches, always `git branch --show-current` before operations that depend on branch-specific files. Background task completion or context recovery can leave you on a different branch than expected.
 - **Config tournament toggles**: Always check which tournaments have `"run":true` in `config.txt` before launching.
@@ -155,6 +161,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Prismata client architecture**: Adobe AIR/Flash app. C++ engine compiled to AVM2 bytecode via CrossBridge. Memory reading infeasible — use clipboard or network proxy for live state access. **Adobe AIR ignores PostMessage/SendMessage** for keystrokes — must use `SetForegroundWindow` + `SendInput` (brief focus steal ~100ms). This is a platform limitation of AIR's input handling.
 - **Clipboard game state export (WORKING)**: F6 copies game state JSON to clipboard. F6 = full (with TurnStartInfo), Shift+F6 = compact. Requires SWF dev mode patch (see below). JSON wrapper key is `"CurrentInfo"` containing `mergedDeck`, `gameState`, `aiParameters`. Card names are **display names** (e.g., "Tarsier" not "Tesla Tower"). Table entries are per-instance (with `instId`, `constructionTime`, `role`, `health`). Source: `prismata_decompiled/scripts/client/Game.as:1226-1249`, `UIKeyboard.as:122-135`.
 - **SWF developer mode patch (Feb 18)**: Single byte in `Prismata.swf` (CWS compressed, decompressed offset `0x1580196`): `0x27` (pushfalse) → `0x26` (pushtrue) enables `FlashBuildOptions.developerVersion`. Backup at `Prismata.swf.backup`. **Side effect**: disables load balancing — requires hosts entry `3.229.49.48 ec2-54-83-83-240.compute-1.amazonaws.com` (added via `tmp_restore_hosts.ps1` with UAC). Steam "Verify integrity" will revert the patch.
+- **JPEXS FFDec (SWF decompiler)**: Installed at `C:\Program Files (x86)\FFDec\`. CLI: `ffdec-cli.exe -export binaryData <outdir> <swf>`. Extracted AI params at `tmp_swf_extract/` (148=full, 93=short) — plain JSON text despite `.bin` extension. Short params (used after turn 16) are a strict subset of full — no HardestAI-relevant differences.
 - **Sniffer duplicate process gotcha**: Multiple sniffer processes can bind to the same ports (SO_REUSEADDR) without error, but only the first one receives connections. Always kill existing sniffer processes before launching a new one: check with `tasklist | grep python` and verify port ownership with `Get-NetTCPConnection -LocalPort 11600`. The old bat-file-launched sniffer won't show in Claude's `run_in_background` tasks.
 - **Autopilot only activates for bot games**: Safety check — autopilot skips PvP/spectated games (logs "Skipping — not a bot game"). Must use Play → vs Computer → Master Bot for testing. The check looks for `StartBotGame` in the BeginGame message type.
 - **Prismata server Moved redirect**: After initial handshake on port 11600, server sends `["Moved", "3.229.49.48", 11610, 11611]` redirecting client to new ports. The sniffer proxy intercepts this, rewrites IP to `127.0.0.1`, and dynamically proxies the new ports. Without interception, the client reconnects directly to the real server IP, bypassing the proxy. AMF3 re-encoding handles the string length change.
@@ -169,15 +176,21 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Click counting ≠ buy counting (CRITICAL)**: `card clicked` in commandList does NOT guarantee a successful purchase. Clicks on sold-out cards (legendary supply exhausted, etc.) are recorded but silently rejected by the game engine. `revert clicked` only undoes intentional undos, not failed clicks. **Any code parsing buys from clicks MUST enforce supply limits**: legendary = 1 per player, rare ≈ 4. Without this, buy counts are inflated — e.g., Mega Drone (legendary) showed 3x purchased from click data when only 1 is possible.
 - **Spectator commandInfo contains full game history**: When spectating a game already in progress, the BeginGame message includes `commandInfo.commandList` with ALL prior moves and `clicksPerTurn` with per-turn click counts. This allows complete game reconstruction from any spectator join point.
 - **Replay JSON structure**: Fetched replays use `deckInfo.mergedDeck` for card data (NOT `initInfo.mergedDeck`). `initInfo` has `initCards` and `initResources`. Player ratings in `ratingInfo.finalRatings[i].displayRating`.
+- **Replay `mergedDeck` has no `supply` field**: Derive supply from `rarity` field — legendary=1, rare=4, normal/trinket=20. `buildTime` defaults to 1 if absent, `fragile` defaults to 0 if absent.
+- **C++ `eval_pct` is a string with `%` suffix**: `DoAnalyze` outputs `"eval_pct":"72%"` (not `72.0`). Strip `%` before `float()`. Raw eval is under key `"eval"`, not `"eval_raw"`. See `Benchmarks.cpp:1847`.
 - **Sniffer live state tracking (Feb 20)**: Auto-F6 on each StartTurn, clipboard capture with hash-and-wait, mid-turn Click buy tracking via mergedDeck lookup, EndTurn summary logging, GameOver cleanup. Output: `bin/live_game_state.json` + formatted console. Uses `_capture_seq` debounce to prevent overlapping F6 sends from rapid StartTurn messages. Thread-safe via Session._lock. Architecture: `Session` (thread-safe state), `MessageDispatcher` (registry), `@on_message` decorator, 12 handlers (7 core + 5 live state).
 - **Sniffer spectator mode works**: Proxy captures replay codes from spectated PvP games (not just your own). The GameOver handler fires for all games observed through the proxy, including spectated matches.
 - **Sniffer chat injection (Feb 20)**: C->S `["Msg", msgId, ["PrivateChat", playerId, text]]` for PM, `["Msg", msgId, ["Chat", "globalEnglish", text]]` for global chat. Requires C->S msgId offset tracking — injected messages increment `_c2s_offset`, real C->S Msgs get offset added. **Critical**: S->C Ping confirmation rewriting — must subtract `_c2s_offset` from `Ping[2]` (lastC2SMsgConfirmed) or client asserts "Confirmation cannot be received before sending a message" and disconnects. File trigger: write to `bin/chat_trigger.txt` (prefix `global:` for global chat). Default target: Surfinite (7709, self-PM); override with `CHAT_TARGET` env var.
 - **Sniffer game action injection (Feb 20)**: Same `_inject_msg` mechanism as chat. C->S Click: `["Click", gameId, {_type, _id}, turn]`. C->S EndTurn: `["EndTurn", gameId, timeTaken, turn, finalClick]`. C->S EndSwoosh: `["EndSwoosh", gameId, turn]`. Must send EndSwoosh before any clicks. Turn lifecycle: EndSwoosh → abilities → buys → space → EndTurn (action), EndSwoosh → inst+endswipe per blocker → space → EndTurn (defense). Server validates moves — illegal clicks silently dropped.
 - **`_sanitize_gamestate()` in sniffer, advisor, and autopilot**: Intentional duplication — the tools are independent (sniffer is a network proxy, advisor is a clipboard overlay). Both need to parse F6 clipboard JSON. Do not refactor into a shared module.
+- **prismata-replay-parser git config**: This repo has no global git user config. Must set `git config user.name "Surfinite"` and `git config user.email "Surfinite@users.noreply.github.com"` locally before first commit.
+- **SQLite trigger DDL splitting**: Never split trigger SQL on `;` — triggers have semicolons inside `BEGIN...END` blocks. Split on `END;` boundary instead, or use separate string constants per trigger.
 - **Churchill paper URLs**: Use `davechurchill.ca/publications/` (old `cs.mun.ca/~dchurchill/` is dead).
 - **307th's Prismata Library blog** is at `prismatalibrary.blog` (NOT `blog.prismata.net/prismatalibrary/`). 27 articles, all live as of Feb 2026. Archive: `prismatalibrary.blog/archive/`.
 - **WebFetch blocked on web.archive.org**: Use the CDX API via curl instead: `curl -s "https://web.archive.org/cdx/search/cdx?url=DOMAIN/*&output=json&fl=timestamp,original,statuscode&limit=50"`. Then fetch archived pages: `curl -sL "https://web.archive.org/web/{timestamp}/{url}"`. Process HTML to text with Python.
 - **Commentary KB discord/ mirror pattern**: New Discord-sourced insights go to `docs/commentary-knowledge/discord/` (mirror files like `03-advanced-units-discord.md`), NOT directly into canonical `docs/commentary-knowledge/*.md` files. Promotion to main files is a separate manual step. `tools/commentary_prompt.md` (68 lines, ~2,400 tokens) is also manually curated — never auto-generated.
+- **Commentary eval sanitization**: Haiku ignores "don't quote percentages" prompt instructions if the input data or few-shot examples contain `\d+%` patterns. Must strip percentages from: (1) analysis JSON `eval_before`/`eval_after` → qualitative labels, (2) few-shot example text, (3) notable turns `eval=X%` → `eval=ahead`. Verification check catches leakage post-generation.
+- **Commentary pipeline auto-fetches replays**: `generate_postgame_commentary.py` downloads replay JSON from S3 on first use and caches to `bin/replays_test/`. No manual replay setup needed — just pass the replay code.
 - **Task agents can't create new files**: Background agents spawned via Task tool cannot create files that don't exist — Write tool requires prior Read (fails on nonexistent file), and Bash heredoc may be blocked by hooks. Write new files in the parent context instead, or pre-create an empty file before delegating.
 
 ### Self-Play & Data
@@ -238,7 +251,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 ### Historical / Concluded
 
 - **Blend tournaments concluded**: Neural component hurts. Don't revisit until model >60% val accuracy. See `docs/blend-tournament-results.md`.
-- **Batch validation**: 2,127 Master Bot replays tested (Feb 20). Pass rate: 55.7% (1,185/2,127) after RC#5–RC#9 fixes (action legality metric — stricter than previous state-comparison metric). Remaining 849 failures: USE_ABILITY (276), SNIPE (173), END_PHASE (130), BUY (116), BLOCKER (58), OTHER (96). These are genuine TS↔C++ semantic differences, diminishing returns to fix further. Not blocking self-play.
+- **Batch validation**: 2,127 Master Bot replays tested. **Baseline (Feb 20)**: 55.7% pass (1,185/2,127). **After engine audit fixes (Feb 23)**: 50.4% pass (1,072/2,127) — REGRESSED by 5.3pp. Fixes made engine stricter (USE_ABILITY 40.7% of failures). Remaining failures are genuine TS↔C++ semantic differences. Not blocking self-play.
 - **Replay balance validation**: `validate_balance_all.js` checks costs against `cardLibrary.jso`. Output: `balance_passed_codes.json` (32,973 codes). Incremental via `balance_results.json`.
 
 ### Dashboard
@@ -261,6 +274,8 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **AWS launch_selfplay.sh temp file race**: Script writes `.userdata_tmp.ps1` then reads it — parallel launches cause file-not-found errors. Even sequential launches can collide with TheWatcher (which also uses this file). Launch serially and accept occasional failures; TheWatcher will fill gaps on the next cycle. Proper fix: use per-PID unique temp filenames.
 - **launch_selfplay.sh 5th arg is instance count**: Pass a number (e.g., `1`) or omit. Passing `N` (literal) breaks the `seq` command inside the script. Applies to both `gcp/launch_selfplay.sh` and `azure/launch_selfplay.sh`.
 - **launch_tournament.sh fleet verification**: Always verify actual fleet size with `aws ec2 describe-instances` after launch — sequential calls may launch more instances than expected if each call spawns multiple.
+- **`deploy_for_eval.sh` deploys from current branch**: The script copies `bin/asset/config/config.txt` from the local working tree — whatever branch is checked out. Always run `git branch --show-current` before deploying. Wrong branch = wrong config = fleet wastes money and self-terminates. Verify with: `aws s3 cp s3://prismata-selfplay-data/deploy/asset/config/config.txt - --region eu-north-1 | grep -c "your_tournament_name"`.
+- **EC2 eval instances can zombie**: If config is wrong (missing tournament, wrong player names), instances run indefinitely producing no `tests/` HTML results — only boot logs. Check for zombies before launching: `aws ec2 describe-instances --region eu-north-1 --filters "Name=tag:Name,Values=PrismataEval-*" "Name=instance-state-name,Values=running" --query "Reservations[].Instances[].[InstanceId,LaunchTime,Tags[?Key=='Name'].Value|[0]]" --output table`. Kill with: `aws ec2 terminate-instances --instance-ids <ids> --region eu-north-1`.
 - **`launch_tournament.sh` env vars (Feb 22)**: `TOURNAMENT_NAME` (default: NeuralAB_vs_Original) selects which tournament to enable. `MAX_RUNTIME_HOURS` (default: 0 = continuous/no timeout) adds `shutdown.exe` safety timer. Both patched into PowerShell userdata at launch time.
 - **watcher_log.txt file lock**: TheWatcher (Task Scheduler instance) holds an exclusive lock on `aws/watcher_log.txt`. Standard file reads (`cat`, `Get-Content`, Python `open()`, `Copy-Item`) all fail. PowerShell `Add-Content` also fails with "Stream was not readable" when another process holds the file. Use `robocopy aws/ <dest>/ watcher_log.txt` to copy the locked file, then read the copy.
 - **Azure Public IP quota (increased to 40)**: Subscription-level limit, not per-region. Orphaned NICs and public IPs persist after VM deallocation/deletion, consuming quota even with no running VMs. Clean up: `az network nic delete` first, then `az network public-ip delete`. Check with `az network public-ip list -o table`.
@@ -291,7 +306,10 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Live commentator deps**: `anthropic` (Claude API, installed). Phase 2 deps (not yet installed): `edge-tts` (neural TTS, async), `sounddevice` + `pydub` (audio playback/decode), `obsws-python` (OBS WebSocket). External: VB-Cable (virtual audio for OBS routing). See `docs/plans/2026-02-20-live-commentator-plan.md`.
 - **Twitch VODs have no captions**: No subtitle tracks stored or served via API. Use `yt-dlp -x --audio-format mp3` to extract audio, then `openai-whisper` (local) or `faster-whisper` for speech-to-text transcription.
 - **sentence-transformers for dedup**: `all-MiniLM-L6-v2` (~80MB, lazy-loaded) used for semantic deduplication in Discord extraction pipeline. Install: `pip install sentence-transformers`. Cosine similarity threshold: 0.85.
-- **Claude Haiku `max_tokens` for structured extraction**: 4096 is too small for content-rich chunks (49+ threads). Use 8192. Truncated responses produce unparseable JSON (`stop_reason=max_tokens`). The `discord_knowledge_extractor.py` uses `EXTRACTION_MAX_TOKENS = 8192`.
+- **Claude `max_tokens` for structured extraction**: 4096 is too small for content-rich chunks (49+ threads). `discord_knowledge_extractor.py` uses `EXTRACTION_MAX_TOKENS = 16384` (increased from 8192 in Feb 22 — large chunks with 36K+ input tokens were truncating Sonnet output at 8192).
+- **Anthropic Batch API: Sonnet markdown-fences JSON output**: When using Batch API with Sonnet, responses may wrap JSON in `` ```json ... ``` `` markdown fences even when prompted for raw JSON. Always strip markdown fencing before `json.loads()`: `re.sub(r'^\s*```(?:json)?\s*\n?', '', text)` then `re.sub(r'\n?\s*```\s*$', '', stripped)`. This caused 37/312 batch results to be silently dropped until fixed. Batch results remain retrievable after completion via `client.messages.batches.results(batch_id)`.
+- **Cross-context checkpoint conflicts**: Two Claude Code contexts writing to the same checkpoint file (`processed_chunks_extractions_sonnet.json`) causes data loss and confusion. When running parallel extraction contexts, use separate checkpoint files or coordinate which context owns the checkpoint. The extractor's `--extract-label` flag helps namespace model-specific checkpoints.
+- **Discord extraction per-channel chunk dirs**: Phase 1 chunking creates `chunks_{channel}/` directories (e.g., `chunks_strategy_advice/`) with per-channel `chunk_manifest.json`. Output files use channel-qualified names (`channel__chunk_NNNN.json`) to avoid collisions. Model-specific extractions go to `extractions_sonnet/high/` and `extractions_sonnet/low/`.
 
 ## Claude Code Tooling
 
@@ -305,6 +323,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 **Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources. **NOTE: agent file currently missing — needs recreation.**
 
 **MCP**: context7 configured in `.mcp.json` (project-level) — live docs for PyTorch, Express, Chart.js, cloud CLIs.
+**MCP on Windows**: `npx`-based MCP servers need `cmd /c` wrapper to work: `"command": "cmd", "args": ["/c", "npx", "-y", "@pkg"]`. Local MCP servers (github, aws-kb-retrieval, ssh) configured in `.claude.json` under `projects["C:/libraries/PrismataAI"].mcpServers`.
 
 **C++ style**: `.clang-format` at project root (Allman braces, 4-space indent, 120 col limit). Matches existing codebase conventions.
 
@@ -343,7 +362,7 @@ All script references in `cardLibrary.jso` must use **internal names**, not disp
 
 ### Game Phases & Turn Numbering
 
-Action → Breach (if wipeout) → Confirm → Defense (if enemy has attack) → Swoosh → next player's Action. `m_turnNumber` increments once per **player-turn** (not per round). Frontline kills happen during Action phase via `ASSIGN_FRONTLINE`.
+Action → Breach (if wipeout) → Confirm → Defense (if enemy has attack) → Swoosh → next player's Action. `m_turnNumber` increments once per **player-turn** (not per round). Frontline kills happen during Action phase via `ASSIGN_FRONTLINE`. **`beginTurn()` runs during Swoosh** (GameState.cpp:1317), NOT at the start of Defense — cards keep their status from the previous Action phase through Defense. Tapped units (Assigned) cannot block; untapped units (Default) can. Do NOT reset statuses before Defense.
 
 **Targeting abilities are two-step**: USE_ABILITY on source card (sets `m_targetAbilityCardClicked` flag in GameState), then SNIPE/CHILL on target (checked by `isTargetAbilityCardClicked()` in `isLegal`). `"disrupt"` in cardLibrary maps to `ActionTypes::CHILL` (CardTypeInfo.cpp:127). 12 units have `targetAction`. After CHILL execution, source card's `canUseAbility()` stays true (no abilityScript), but `hasTarget()` becomes true — must check both to avoid reuse.
 
@@ -354,6 +373,8 @@ Action → Breach (if wipeout) → Confirm → Defense (if enemy has attack) →
 **Will Score** heuristic (`source/ai/Heuristics.cpp`): resource values ATTACK=2.25, BLUE=1.50, GREEN=1.20, GOLD=1.00, RED=0.90, ENERGY=0.50. Cost-based material counting — not strategic value.
 
 **Neural net**: ResNet, state_dim=1785, policy+value heads. C++ inference via `NeuralNet::Instance()`. ~2,000 evals/sec/core. Hidden dim AND num_layers are dynamic (read from weight file header) — current best: 256h/3L (R12_smooth90). Can deploy 256h/2L, 256h/3L, or 512h by swapping weight files, no C++ rebuild needed.
+
+**Three HardestAI baselines**: `OriginalHardestAI` (Dave Churchill's original with Legacy components), `HardestAI` (our modified — different opening books, 1 root ability variant), `LiveHardestAI` (exact match to live Prismata SWF — 5 root ability variants, 50-entry unit-specific opening book, Odin in ability filter). Use `LiveHardestAI` when comparing against the actual game. Tournament configs: `LiveHardestAI_Smoke` (2 rounds), `LiveVsOriginal` (1500 rounds).
 
 ### Training Approach
 
@@ -377,10 +398,15 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 
 ## Known Issues (Current)
 
+- ~~**Defense phase blocking bug**~~ — FIXED (Feb 23, commit `d44740e`). Removed status reset in `GameState::beginPhase(Defense)` (lines 1289-1306). Part of engine logic audit. All 722K self-play games were generated with the bug (both sides, internally consistent).
 - **Neural policy head weak** — 13.3% accuracy. Computed but unused for move ordering.
 - **PUCT move ordering implemented** — `"UsePUCT": true` in Player_UCT config. Uses policy head as priors in UCT search (AlphaZero-style). Disabled by default — don't enable until policy accuracy improves past ~30%. Files: `UCTSearch.cpp` (computeRootPriors, PUCT formula in UCTNodeSelect), `UCTNode.h` (_policyPrior), `UCTSearchParameters.hpp` (_usePUCT), `AIParameters.cpp` (UsePUCT parsing).
 - **Blocking feature mismatch** — C++ uses `CardStatus::Assigned`, Python uses `blocking AND abilityUsed`. Low priority.
 - **Track A regression inconclusive** — HardestAI (improved) vs OriginalHardestAI: 50/50 over 60 games. Fixes are neutral, not harmful.
+- **C++ missing stagnation detection**: AS3 has 4-level progress counter system (cutoffs 2/8/20/40 turns tracking 12+ event types). C++ only has flat 200-turn limit. Stalemate games generate low-quality training data for turns 40-200. See `docs/audit/B5_B6_B7_sellable_stagnation_death.md`.
+- **C++ missing death scripts**: AS3 runs `deathScript` when units die from breach (creates tokens, produces resources). C++ `killCardByID` simply marks card dead — no triggers execute. Units with death effects (Centurion, Valkyrion) behave differently. See `docs/audit/B5_B6_B7_sellable_stagnation_death.md`.
+- ~~**C++ missing "all units doomed" win check**~~ — FIXED (Feb 23, commit `d44740e`). Added game-over check when all opponent units are doomed.
+- **Replay validation tests legality, not state correctness**: The 55.7% pass rate validates that recorded ACTIONS are legal in the C++ engine — it does NOT verify that game STATE matches. Bugs that make MORE moves legal (like the defense-reset bug) pass replay validation fine because human replays never exercise the extra-legal moves. Only logic-level comparison against AS3 ground truth can find this class of bug.
 - **TS tooling bugs (FIXED, validation improved)** — RC#5 (snipe target), RC#6 (frontline→breach), RC#7 (two-step targeting: USE_ABILITY before SNIPE/CHILL), RC#8 (action ordering: abilities→snipe→frontline→buy), RC#9 (SNIPE overcounting: CancelUseAbility routing fix in TS parser + converter cap), selfsac/lifespan tolerance all fixed. Pass rate 27.2%→55.7% (1,185/2,127, action legality metric). Remaining failures are genuine TS↔C++ semantic differences. Not blocking self-play.
 
 ## Key Files
@@ -450,10 +476,17 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `.mcp.json` | Project-level MCP server config (context7) |
 | `~/.claude/agents/fleet-health.md` | Cloud fleet health audit subagent |
 | `c:\libraries\prismata-replay-parser\` | TS replay parser + data extraction scripts |
+| `c:\libraries\prismata-replay-parser\fetch_player_replays.py` | Per-player month-by-month replay fetcher (v2, adaptive splitting, --rated-only) |
+| `c:\libraries\prismata-replay-parser\replays.db` | SQLite replay database (128K codes, 177 MB, rebuild via `build_replay_db.py`) |
+| `c:\libraries\prismata-replay-parser\replay_db.py` | DB schema definitions + connection helpers |
+| `c:\libraries\prismata-replay-parser\build_replay_db.py` | DB migration + import from all JSON sources |
+| `c:\libraries\prismata-replay-parser\replay_queries.py` | Query library (counts, player stats, unit search) |
+| `c:\libraries\prismata-replay-parser\replay_cli.py` | CLI: status, count, player, unit, sources, export |
+| `docs/audit/` | Engine logic audit findings (B1 script ordering, B2-B4 resources/ability/snipe, B5-B7 sellable/stagnation/death) |
 | `c:\libraries\DiscordChatExporter\` | Discord message export tool (CLI at `cli/`) |
 | `c:\libraries\prismata-replay-parser\validate_balance_all.js` | Balance validation across all replay sources |
 | `c:\libraries\prismata-replay-parser\balance_passed_codes.json` | 32,973 balance-validated replay codes |
-| `tools/prismata_sniffer.py` | TCP proxy for Prismata AMF3 protocol — hook framework, Moved redirect interception, dynamic port proxying, replay code capture, live game state tracking (auto-F6 + clipboard + click tracking) |
+| `tools/prismata_sniffer.py` | TCP proxy for Prismata AMF3 protocol — **run with `proxy` subcommand** (`python tools/prismata_sniffer.py proxy`). Hook framework, Moved redirect interception, dynamic port proxying, replay code capture, live game state tracking (auto-F6 + clipboard + click tracking) |
 | `bin/live_game_state.json` | Live game state output from sniffer (written each turn, deleted on GameOver) |
 | `tools/prismata_advisor.py` | Python overlay — clipboard monitor + F6 sanitization + C++ --suggest + tkinter always-on-top display |
 | `tools/audit_selfplay_s3.py` | S3 data integrity audit (11 checks: CRC, NaN, outcome consistency, duplicates, win rates) |
@@ -463,15 +496,37 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `bin/prismata_capture_codes.txt` | Sniffer-captured replay codes (TSV: timestamp, code, source). Append-only. |
 | `tools/prismata_commentator.py` | Live AI commentator — sniffer events → Claude Haiku → chat injection (Phase 1 working) |
 | `tools/prismata_game_state.py` | Shared game state model — TurnRecord, GameContext, GameNarrative with callback registration |
+| `tools/generate_postgame_commentary.py` | Two-stage LLM commentary pipeline (Phase 2 analysis + Phase 3 narrative) |
+| `tools/prompts/analysis_system.md` | Phase 2 system prompt — structured game analysis |
+| `tools/prompts/narrative_system.md` | Phase 3 system prompt — narrative generation with qualitative eval |
+| `bin/commentary/` | Generated commentary output (.md files with player names in filename) |
 | `tools/commentary_prompt.md` | Condensed Prismata knowledge base for commentary system prompt (~2,400 tokens) |
+| `tools/build_unit_knowledge_index.py` | Scans KB markdown → `tools/data/unit_knowledge_index.json` (163 units, 5 concepts, mechanics tags) |
+| `tools/commentary_schema.json` | JSON Schema draft-07 for Phase 1 structured output validation |
+| `tools/data/unit_knowledge_index.json` | Pre-built unit knowledge lookup (rebuild via `build_unit_knowledge_index.py`) |
 | `tools/discord_knowledge_extractor.py` | Discord knowledge extraction pipeline — pre-filter, chunk, Claude Haiku extraction, semantic dedup, KB integration. 5 phases: `--dry-run`, `--extract`, `--consolidate`, `--preview`, `--integrate` |
 | `tools/discord_extraction/` | Working directory for extraction pipeline (chunks, extractions, consolidated JSON, manifest) |
 | `docs/commentary-knowledge/discord/` | Discord-sourced strategy insights (7 category files, 1,426 insights). Isolated from canonical KB. |
 | `docs/discord-knowledge-extraction-preview.md` | Human-reviewable preview of extracted Discord insights |
 | `docs/discord-replay-codes.json` | 93 replay codes extracted from Discord strategy discussions |
+| `tools/spiritfryer_stats.py` | SpiritFryer player stats analysis (expert_replays.json) |
+| `tools/wonderboat_stats.py` | Wonderboat/1durbow player stats analysis |
+| `tools/flopflop_stats.py` | flopflop player stats analysis |
+| `tools/generate_excalidraw.py` | Excalidraw stats dashboard generator (SpiritFryer, v3: Helvetica, W=1350) |
+| `tools/wonderboat_excalidraw.py` | Excalidraw stats dashboard generator (Wonderboat) |
+| `docs/spiritfryer_stats.excalidraw` | Generated SpiritFryer stats visualization |
+| `docs/wonderboat_stats.excalidraw` | Generated Wonderboat stats visualization |
 | `tmp_proxy_hosts.ps1` | Set hosts to PROXY mode (127.0.0.1) for sniffer — needs UAC |
 | `tmp_restore_hosts.ps1` | Set hosts to DIRECT mode (3.229.49.48) for normal play — needs UAC |
 | `prismata_decompiled/` | Decompiled Prismata client ActionScript source (Game.as, State.as, UIKeyboard.as) |
+| `prismata_decompiled/scripts/mcds/engine/State.as` | AS3 ground truth game state machine (4,490 lines) — phases, moves, blocking, swoosh |
+| `prismata_decompiled/scripts/mcds/engine/Inst.as` | AS3 card instance (504 lines) — damageItCanTake, role, blocking, health |
+| `prismata_decompiled/scripts/mcds/engine/Card.as` | AS3 card type definition (753 lines) — static properties, scripts |
+| `prismata_decompiled/scripts/mcds/engine/StateHelper.as` | AS3 computed properties (649 lines) — blocker eligibility, defense calc, couldDefendThisTurn |
+| `prismata_decompiled/scripts/mcds/engine/C.as` | AS3 constants (300 lines) — role/phase/move string constants, resource indices |
+| `prismata_decompiled/scripts/mcds/engine/Analyzer.as` | AS3 game analysis (662 lines) — no direct C++ equivalent |
+| `tmp_swf_extract/148_AI.AIThreadHandler_aiParamTextLoad.bin` | Live game's full AI parameters (JSON text, extracted from SWF via JPEXS) |
+| `tmp_swf_extract/93_AI.AIThreadHandler_aiParam_shortTextLoad.bin` | Live game's short AI parameters (used after turn 16, subset of full) |
 
 ## Documentation Index
 
@@ -515,6 +570,22 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `docs/recovered-sources/` | Full-text archive of recovered wiki guides + Wayback Machine content (21 files) |
 | `docs/plans/2026-02-21-discord-knowledge-extraction-v2.md` | Discord knowledge extraction v2 — 7-review meta-review applied, Batch API, embedding dedup, calibration phase, human review gate |
 | `docs/plans/META-REVIEW-2026-02-21-discord-knowledge-extraction.md` | Meta-review of 7 external reviews of Discord extraction plan |
+| `docs/discord-masterbot-feedback-analysis.md` | Master Bot community issues analysis v1 (Haiku, strategy_advice only) |
+| `docs/discord-masterbot-feedback-analysis-v2.md` | Expanded MB analysis v2 (Sonnet, 6 channels, 350 MB insights, 44+ replay codes, 10 sections) |
+| `docs/plans/2026-02-22-mb-issues-extraction-plan.md` | Plan for MB-focused Discord extraction (5 phases, Sonnet batch + sync) |
+| `docs/plans/2026-02-22-auto-spectate-plan.md` | Auto-spectate feature plan (F8 hotkey, TopGamesUpdate → ObserveTopGame injection, auto-cycle on GameOver) |
+| `tools/discord_extraction/consolidated_mb_insights.json` | Consolidated MB insights JSON (350 MB-specific + 33 bot-related) |
+| `docs/plans/2026-02-22-postgame-commentary-pipeline-plan-v2.md` | Post-game commentary pipeline plan (v2, 13 reviews + meta-review applied, 6 phases) |
+| `docs/plans/META-REVIEW-2026-02-22-postgame-commentary-pipeline-plan.md` | Meta-review of 13 external reviews of commentary pipeline plan |
+| `docs/plans/commentary-pipeline-kickoff-prompt.md` | Kickoff prompt for starting commentary pipeline implementation in new context |
+| `docs/plans/engine-logic-audit-plan.md` | Engine logic audit plan v1 — C++ vs AS3 ground-truth comparison |
+| `docs/plans/engine-logic-audit-plan-v2.md` | Engine logic audit plan v2 (FINAL) — 10 reviews + meta-review applied, Phase 0 prereqs, 4 enhancements |
+| `docs/plans/META-REVIEW-engine-logic-audit-plan.md` | Meta-review of 10 external reviews of engine logic audit plan |
+| `docs/plans/bug-investigation-prompt.md` | Reusable bug investigation template (4-phase: root cause, impact, evidence, fix) |
+| `docs/plans/bug-investigation-defense-reset.md` | Filled-in kickoff for Defense phase reset bug (commit 5bf57a8) |
+| `docs/plans/2026-02-23-replay-database-plan-v2.md` | Replay code database plan v2 (5 reviews + meta-review applied, UPSERT, VIEWs) |
+| `docs/plans/2026-02-23-replay-database-plan-CONTEXT.md` | Context document for external review of replay database plan |
+| `docs/plans/META-REVIEW-2026-02-23-replay-database-plan.md` | Meta-review of 5 external reviews of replay database plan |
 
 ## Tournament Results Summary
 
@@ -543,15 +614,21 @@ Replays stored as gzipped JSON on S3: `http://saved-games-alpha.s3-website-us-ea
 **prismata-stats submit API**: `POST https://prismata-stats.web.app/replays/submit` — form field `codes` (newline-separated). Batches of 50 work fine, processes every 5 min. Used to bulk-submit 4,306 community codes (Feb 20).
 
 **expert_replays.json key format**: Uses capital `Code` (not `code` or `replayCode`). Other fields: `P1Name`, `P2Name`, `P1RatingIni`, `P2RatingIni`, `StartTime`, `Result`, `Deck`.
+- **expert_replays.json null Decks**: Some games have `null` Deck field. Always guard: `if not g['deck']: continue` before iterating units in stats scripts.
+- **Discord usernames ≠ in-game names**: Players may use different names on Discord (e.g., `_wonderboat` for Wonderboat, `SpyrFyr` for SpiritFryer). Search broadly with partial matching when looking up Discord activity.
 
 ### Replay Code Sources
 
 | Source | Codes | Location |
 |---|---|---|
+| Per-player V2 (42 players, rated) | ~125,185 | `prismata-replay-parser/*_all_replays_v2.json` |
 | Expert (prismata-stats API, 2000+) | ~31,506 | `prismata-replay-parser/expert_replays.json` |
 | Reddit /r/prismata | 245 | `prismata-replay-parser/reddit_valid_replays.json` |
 | Tournament (Grand Prix + leagues) | 960 | `prismata-replay-parser/tournament_valid_replays.json` |
 | Discord (Prismata + League servers) | 3,626 | `prismata-replay-parser/discord_replay_codes_all.json` |
+| **Total unique across all sources** | **~128,978** | — |
+
+- **Per-player V2 fetch** (`fetch_player_replays.py` at `c:\libraries\prismata-replay-parser\`): Month-by-month queries with adaptive date-range splitting bypass the 100-per-page API cap. `--rated-only --delay 2` is stable. 42 players fetched (Feb 23): elite tier (Punf 4.5K, Achaa 4.8K, MasN), expert tier (Mega-supp 4.5K, zezetel 5.4K, Shadourow, TheTrumpWall, ruinedshadows 4K), and 34 others. ~92K codes genuinely new vs V1 sources. V2 records have identical structure to expert_replays.json (same 15 keys, `Code`/`Deck`/`P1Name`/etc.).
 
 **Discord export tool**: `c:\libraries\DiscordChatExporter\cli\DiscordChatExporter.Cli.exe` (pre-built v2.46, no .NET SDK needed).
 Discord server IDs: Prismata = `112616041175089152`, Prismata League = `412991183355248640`.

@@ -704,6 +704,7 @@ bool GameState::doAction(const Action & action)
         case ActionTypes::WIPEOUT:
         {
             endPhase();
+            break; // ENGINE AUDIT FIX: was falling through into UNDO_CHILL
         }
         case ActionTypes::UNDO_CHILL:
         {
@@ -1209,7 +1210,39 @@ bool GameState::calculateGameOver() const
     CardID p1Cards = numCards(Players::Player_One) + numKilledCards(Players::Player_One);
     CardID p2Cards = numCards(Players::Player_Two) + numKilledCards(Players::Player_Two);
 
-    return p1Cards == 0 || p2Cards == 0;
+    // Original check: either player has zero units
+    if (p1Cards == 0 || p2Cards == 0)
+    {
+        return true;
+    }
+
+    // ENGINE AUDIT FIX: "All opponent units doomed" instant-win.
+    // AS3 checkWin() (State.as:3323) ends the game when ALL remaining units of
+    // a player have lifespan==1 and are active (not constructing/delayed).
+    // These units will all die next swoosh with no way to survive.
+    // See: docs/audit/A5_game_over_conditions.md
+    for (PlayerID p = 0; p < 2; ++p)
+    {
+        bool allDoomed = true;
+        CardID unitCount = 0;
+        for (const auto & cardID : getCardIDs(p))
+        {
+            const Card & card = getCardByID(cardID);
+            if (card.isDead()) { continue; }
+            unitCount++;
+            if (card.getCurrentLifespan() != 1 || card.isUnderConstruction() || card.isDelayed())
+            {
+                allDoomed = false;
+                break;
+            }
+        }
+        if (allDoomed && unitCount > 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void GameState::beginTurn(const PlayerID player)
@@ -1286,25 +1319,13 @@ void GameState::beginPhase(const PlayerID player, const int newPhase)
     {
         case Phases::Defense:
         {
-            // Reset card statuses for the defending player before defense.
-            // Cards that used abilities in the previous action phase still have
-            // Assigned status (beginTurn hasn't run yet). In the live Prismata
-            // game, units can block during defense regardless of prior ability use.
-            for (const auto & cardID : getCardIDs(player))
-            {
-                Card & card = _getCardByID(cardID);
-                if (!card.isDead() && !card.isUnderConstruction() && !card.isDelayed())
-                {
-                    if (card.getType().hasAbility() || card.getType().hasTargetAbility())
-                    {
-                        card.setStatus(CardStatus::Default);
-                    }
-                    else
-                    {
-                        card.setStatus(CardStatus::Inert);
-                    }
-                }
-            }
+            // ENGINE AUDIT FIX: Removed incorrect status reset (commit 5bf57a8).
+            // In AS3 ground truth (State.as swoosh), card statuses persist through
+            // Defense phase. Tapped units (Assigned status) use assignedBlocking
+            // (usually false) for block eligibility — only units that did NOT use
+            // their ability can block. The removed reset was giving tapped Drones
+            // ~40-60% extra defense per Defense phase across 722K self-play games.
+            // See: docs/audit/A1_blocking_eligibility.md
 
             if (getAttack(getEnemy(player)) == 0)
             {
@@ -1763,14 +1784,48 @@ const PlayerID GameState::winner() const
         return Players::Player_None;
     }
 
-    if (numCards(Players::Player_One) + numKilledCards(Players::Player_One) == 0)
+    CardID p1Cards = numCards(Players::Player_One) + numKilledCards(Players::Player_One);
+    CardID p2Cards = numCards(Players::Player_Two) + numKilledCards(Players::Player_Two);
+
+    // ENGINE AUDIT FIX: Check mutual elimination BEFORE individual checks.
+    // AS3 returns COLOR_DRAW_MUTUAL_ELIMINATION when both players have 0 units.
+    // Previously, C++ checked P1 first and would return P2 as winner.
+    // See: docs/audit/A5_game_over_conditions.md
+    if (p1Cards == 0 && p2Cards == 0)
+    {
+        return Players::Player_None; // Draw (mutual elimination)
+    }
+
+    if (p1Cards == 0)
     {
         return Players::Player_Two;
     }
 
-    if (numCards(Players::Player_Two) + numKilledCards(Players::Player_Two) == 0)
+    if (p2Cards == 0)
     {
         return Players::Player_One;
+    }
+
+    // "All units doomed" — the player whose opponent is doomed wins
+    for (PlayerID p = 0; p < 2; ++p)
+    {
+        bool allDoomed = true;
+        CardID unitCount = 0;
+        for (const auto & cardID : getCardIDs(p))
+        {
+            const Card & card = getCardByID(cardID);
+            if (card.isDead()) { continue; }
+            unitCount++;
+            if (card.getCurrentLifespan() != 1 || card.isUnderConstruction() || card.isDelayed())
+            {
+                allDoomed = false;
+                break;
+            }
+        }
+        if (allDoomed && unitCount > 0)
+        {
+            return getEnemy(p); // The OTHER player wins
+        }
     }
 
     return Players::Player_None;
