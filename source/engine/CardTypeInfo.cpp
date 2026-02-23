@@ -54,6 +54,9 @@ CardTypeInfo::CardTypeInfo(const int id, const std::string & name, const rapidjs
     JSONTools::ReadScript           ("beginOwnTurnScript",      value, beginOwnTurnScript);
     JSONTools::ReadScriptEffect     ("beginOwnTurnScript",      value, beginOwnTurnScriptEffect);
 
+    // DEATH SCRIPT (AS3 Card.as:320 — runs when unit dies from breach)
+    JSONTools::ReadScript           ("deathScript",             value, deathScript);
+
     // TARGET ABILITIES
     JSONTools::ReadInt<HealthType>  ("targetAmount",            value, targetAmount);
     JSONTools::ReadString           ("targetAction",            value, targetAction);
@@ -115,6 +118,7 @@ CardTypeInfo::CardTypeInfo(const int id, const std::string & name, const rapidjs
 
     hasBeginOwnTurnScript = beginOwnTurnScript.hasEffect();
     hasAbility = abilityScript.hasEffect();
+    hasDeathScript = deathScript.hasEffect();
 
     if      (!rarity.compare("legendary"))  { supply = SupplyAmount::Legendary; }
     else if (!rarity.compare("rare"))       { supply = SupplyAmount::Rare; }

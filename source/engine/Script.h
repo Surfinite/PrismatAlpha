@@ -13,7 +13,7 @@ namespace Prismata
 {
 namespace ScriptTypes
 {
-enum { BuyScript, AbilityScript, BeginTurnScript, Size };
+enum { BuyScript, AbilityScript, BeginTurnScript, DeathScript, Size };
 }
 
 class Script

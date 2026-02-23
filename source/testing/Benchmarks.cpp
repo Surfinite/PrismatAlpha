@@ -1036,6 +1036,7 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
         << ",\"eval\":" << (int)evalMs
         << ",\"search\":" << (int)searchMs << "}";
     out << ",\"full_move\":\"" << jsonEscape(move.toString()) << "\"";
+    out << ",\"state_hash\":\"" << state.debugStateHash() << "\"";
     out << "}";
 
     printf("%s\n", out.str().c_str());

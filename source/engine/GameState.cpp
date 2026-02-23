@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "CardTypeData.h"
 #include <set>
 
 using namespace Prismata;
@@ -568,9 +569,13 @@ bool GameState::doAction(const Action & action)
             {
                 CardID cardID = buyCardByID(action.getPlayer(), action.getID()).getID();
                 runScript(cardID, getCardByID(cardID).getType().getBuyScript(), ScriptTypes::BuyScript);
+
+                // AS3 port: buying a card resets stagnation progress
+                reportProgress(action.getPlayer(), ProgressEvent::CardBought);
+                m_cardsBoughtOrCreatedThisTurn++;
             }
             while (action.getShift() && isLegal(action));
-                        
+
             break;
         }
         case ActionTypes::USE_ABILITY:
@@ -594,6 +599,10 @@ bool GameState::doAction(const Action & action)
             do
             {
                 legalShiftActionFound = false;
+
+                // AS3 port: deduct health/charge costs BEFORE script execution
+                // Matches AS3 State.as:1446-1533 (health/charge → ASSIGNED → mana → sac → script)
+                _getCardByID(currentAction.getID()).payAbilityCost();
 
                 // run the card's ability script
                 runScript(currentAction.getID(), getCardByID(currentAction.getID()).getType().getAbilityScript(), ScriptTypes::AbilityScript);
@@ -670,13 +679,19 @@ bool GameState::doAction(const Action & action)
             Card & card = _getCardByID(action.getID());
             Card & target = _getCardByID(action.getTargetID());
 
-            PRISMATA_ASSERT(!card.isDead(), "Trying to CHILL with dead card");
+            PRISMATA_ASSERT(!card.isDead(), "Trying to SNIPE with dead card");
             PRISMATA_ASSERT(!target.isDead(), "Trying to snipe a dead target card");
-            
+
             card.setTargetID(target.getID());
-            killCardByID(action.getTargetID(), CauseOfDeath::Sniped);
-            
+
+            // AS3 port: pay ability costs BEFORE script (same as USE_ABILITY)
+            card.payAbilityCost();
+
+            // AS3 port: run script BEFORE killing target (State.as:1484-1510)
             runScript(action.getID(), card.getType().getAbilityScript(), ScriptTypes::AbilityScript);
+
+            // Kill target AFTER script (AS3: target.deadness = SNIPED after runScriptForward)
+            killCardByID(action.getTargetID(), CauseOfDeath::Sniped);
 
             m_targetAbilityCardClicked = false;
             m_targetAbilityCardID = 0;
@@ -691,10 +706,16 @@ bool GameState::doAction(const Action & action)
             PRISMATA_ASSERT(!card.isDead(), "Trying to CHILL with dead card");
             PRISMATA_ASSERT(!target.isDead(), "Trying to CHILL a dead target card");
 
-            target.applyChill(card.getType().getTargetAbilityAmount());
             card.setTargetID(target.getID());
-            
+
+            // AS3 port: pay ability costs BEFORE script (same as USE_ABILITY)
+            card.payAbilityCost();
+
+            // AS3 port: run script BEFORE applying chill (matching SNIPE pattern)
             runScript(action.getID(), card.getType().getAbilityScript(), ScriptTypes::AbilityScript);
+
+            // Apply chill AFTER script (AS3: target.disruptDamage += amount after runScriptForward)
+            target.applyChill(card.getType().getTargetAbilityAmount());
 
             m_targetAbilityCardClicked = false;
             m_targetAbilityCardID = 0;
@@ -943,8 +964,18 @@ void GameState::runScript(const CardID cardID, const Script & script, size_t scr
         }
     }
     
-    // RECEIVE MANA 
+    // RECEIVE MANA
     _getResources(player).add(script.getEffect().getReceive());
+
+    // AS3 port: track gold/green production for ENTER_CONFIRM stagnation
+    if (script.getEffect().getReceive().amountOf(Resources::Gold) > 0)
+    {
+        m_goldProducedThisTurn = true;
+    }
+    if (script.getEffect().getReceive().amountOf(Resources::Green) > 0)
+    {
+        m_greenProducedThisTurn = true;
+    }
 
     // GIVE MANA
     _getResources(getEnemy(player)).add(script.getEffect().getGive());
@@ -953,14 +984,24 @@ void GameState::runScript(const CardID cardID, const Script & script, size_t scr
     if (script.hasResonate())
     {
         const size_t resonateSize = numCardsOfType(player, script.getResonateEffect().getResonateType(), true);
-        
+
         for (size_t r(0); r < resonateSize; ++r)
         {
-            // RECEIVE MANA 
+            // RECEIVE MANA
             _getResources(player).add(script.getResonateEffect().getReceive());
 
             // GIVE MANA
             _getResources(getEnemy(player)).add(script.getResonateEffect().getGive());
+
+            // Track gold/green from resonance
+            if (script.getResonateEffect().getReceive().amountOf(Resources::Gold) > 0)
+            {
+                m_goldProducedThisTurn = true;
+            }
+            if (script.getResonateEffect().getReceive().amountOf(Resources::Green) > 0)
+            {
+                m_greenProducedThisTurn = true;
+            }
         }
     }
         
@@ -989,10 +1030,11 @@ void GameState::runScript(const CardID cardID, const Script & script, size_t scr
 
                 Card & added = m_cards.addCard(toAdd);
 
-                // if this isn't a begin turn script, note that this card created this cardID so we can undo it easily later
+                // AS3 port: track units created for ENTER_CONFIRM stagnation
                 if (scriptType != ScriptTypes::BeginTurnScript)
                 {
                     _getCardByID(cardID).addCreatedCardID(added.getID());
+                    m_cardsBoughtOrCreatedThisTurn++;
                 }
             }
         }
@@ -1086,6 +1128,9 @@ void GameState::runScriptUndo(const CardID cardID, const Script & script, size_t
     {
         bool cardDied = card.isDead();
         card.undoUseAbility();
+
+        // AS3 port: restore health/charge costs (paid before script in forward path)
+        card.restoreAbilityCost();
 
         if (cardDied)
         {
@@ -1190,6 +1235,12 @@ const PlayerID GameState::getInactivePlayer() const
 
 void GameState::killCardByID(const CardID cardID, const int causeOfDeath)
 {
+    // AS3 collectBodies: when a unit dies, reset the OPPONENT's stagnation counters
+    // (killing an opponent unit = progress for the killer)
+    // AS3 State.as:2566-2580: resetColorNoProgressCounters(1 - inst.owner, LEVEL_OPP_UNIT_COLLECTED)
+    const PlayerID deadOwner = getCardByID(cardID).getPlayer();
+    reportProgress(getEnemy(deadOwner), ProgressEvent::OppUnitCollected);
+
     m_cards.killCardByID(cardID, causeOfDeath);
 }
 
@@ -1242,6 +1293,14 @@ bool GameState::calculateGameOver() const
         }
     }
 
+    // AS3 port Phase 5: stagnation draw check — enabled now that reportProgress() dispatches resets.
+    // ANY semantics: if any single level counter >= cutoff for either player, game is drawn.
+    // Cutoffs [2, 8, 20, 40] — level 0 fires first (2 turns of zero progress).
+    if (checkStagnation())
+    {
+        return true;
+    }
+
     return false;
 }
 
@@ -1249,16 +1308,20 @@ void GameState::beginTurn(const PlayerID player)
 {
     PRISMATA_ASSERT(player < 2, "player exceeds num players, player=%d, numplayers=%d", player, 2);
 
-    // reset resource that needs to be reset
+    // 1. Reset per-turn resources (AS3 State.as swoosh: turnMana reset)
     _getResources(player).set(Resources::Energy, 0);
     _getResources(player).set(Resources::Blue, 0);
     _getResources(player).set(Resources::Red, 0);
     _getResources(player).set(Resources::Attack, 0);
 
-    // reset card breached
+    // 2. Reset breach flag and turn-scoped tracking
     m_canBreachFrozenCard = false;
+    m_cardsBoughtOrCreatedThisTurn = 0;
+    m_goldProducedThisTurn = false;
+    m_greenProducedThisTurn = false;
 
-    // keep track of all the cards we had at the beginning of the turn
+    // 3. Snapshot alive card IDs for safe iteration (scripts may create new cards)
+    // AS3 State.as:2613-2617 — copyOfInstIds
     std::vector<CardID> cardsAtStartOfTurn;
     cardsAtStartOfTurn.reserve(numCards(player));
     for (const auto & cardID : getCardIDs(player))
@@ -1266,46 +1329,111 @@ void GameState::beginTurn(const PlayerID player)
         cardsAtStartOfTurn.push_back(cardID);
     }
 
-    // do begin turn for dead cards
+    // Reset flags on dead cards (KilledThisTurn → Dead transition)
     for (const auto & cardID : getKilledCardIDs(player))
     {
-        _getCardByID(cardID).beginTurn();
+        _getCardByID(cardID).beginTurnResetFlags();
     }
 
-    // do beginning of turn upkeep for each card
+    // 4. Single-pass per-card processing — matches AS3 State.as:2618-2920
+    // Each card does: clear damage/chill → tick timers → role reset → health regen → beginOwnTurnScript
+    // Scripts run INLINE: when card N's script runs, cards 0..N-1 are fully processed,
+    // cards N+1..end are still in pre-swoosh state. This matches AS3 exactly.
     for (const auto & cardID : cardsAtStartOfTurn)
     {
-        PRISMATA_ASSERT(!getCardByID(cardID).isDead(), "Card is dead?");
+        Card & card = _getCardByID(cardID);
 
-        _getCardByID(cardID).beginTurn();
+        // Reset per-turn flags
+        card.beginTurnResetFlags();
 
-        if (_getCardByID(cardID).isDead())
+        // Skip dead cards (shouldn't happen in alive list, but safety check)
+        if (card.isDead())
         {
-            killCardByID(cardID, CauseOfDeath::Unknown);
+            continue;
         }
-    }
 
-    // do begin own turn scrips for each remaining card that isn't dead
-    for (const auto & cardID : cardsAtStartOfTurn)
-    {
-        const Card & card = _getCardByID(cardID);
-        
-        // if the card is still alive and can run its own begin turn script, do it
-        if (!card.isDead() && card.getType().hasBeginOwnTurnScript() && card.canRunBeginOwnTurnScript())
+        // a. Clear damage and chill (AS3:2624-2640)
+        card.clearDamageCounter();
+        card.clearChill();
+
+        // b. Tick construction OR delay OR lifespan (AS3:2642-2696, mutually exclusive)
+        if (card.isUnderConstruction())
+        {
+            card.tickConstruction();
+            reportProgress(player, ProgressEvent::BuildTimeTicked);
+
+            // Still under construction after tick — skip all remaining processing
+            if (card.isUnderConstruction())
+            {
+                continue;
+            }
+            // Construction just completed (time went 1→0) — fall through to role reset, regen, scripts
+        }
+        else if (card.isDelayed())
+        {
+            card.tickDelay();
+            reportProgress(player, ProgressEvent::DelayTicked);
+
+            // Still delayed after tick — set inert and skip remaining processing
+            if (card.isDelayed())
+            {
+                card.setStatus(CardStatus::Inert);
+                continue;
+            }
+            // Delay just completed — fall through to role reset, regen, scripts
+        }
+        else if (card.getCurrentLifespan() > 0)
+        {
+            bool expired = card.tickLifespan();
+            reportProgress(player, ProgressEvent::OppLifespanTicked);
+
+            if (expired)
+            {
+                killCardByID(cardID, CauseOfDeath::Lifespan);
+                continue;
+            }
+        }
+
+        // c. Reset role (AS3:2698-2705) — only for cards that survived the timer section
+        card.resetRole();
+
+        // d. Apply health regen (AS3:2708-2725)
+        if (card.applyHealthRegen())
+        {
+            if (card.getType().getHealthUsed() > 0)
+            {
+                reportProgress(player, ProgressEvent::HPHealedOnPayHP);
+            }
+        }
+
+        // e. Run beginOwnTurnScript INLINE (AS3:2870-2873)
+        // Scripts run during the per-card loop — this is the key AS3 difference from old two-pass C++
+        if (card.getType().hasBeginOwnTurnScript() && card.canRunBeginOwnTurnScript())
         {
             runScript(cardID, card.getType().getBeginOwnTurnScript(), ScriptTypes::BeginTurnScript);
-            bool scriptKilledCard = getCardByID(cardID).isDead();
 
-            _getCardByID(cardID).runBeginTurnScript();
-
-            if (_getCardByID(cardID).isDead() && !scriptKilledCard)
+            if (!card.isDead())
             {
-                killCardByID(cardID, CauseOfDeath::Unknown);
+                _getCardByID(cardID).runBeginTurnScript();
+
+                if (_getCardByID(cardID).isDead())
+                {
+                    killCardByID(cardID, CauseOfDeath::Unknown);
+                }
             }
         }
     }
-    
+
+    // 5. Process resonators (AS3:2922-2948 — annihilator/annihilatee matching)
+    processResonators(player);
+
+    // 6. Remove killed cards
     m_cards.removeKilledCards();
+
+    // 7. Increment stagnation counters AFTER all swoosh resets — AS3 State.as:3070
+    // In AS3, increment fires at the END of swoosh for the new active player.
+    // Simple resets (from ticks above) happen BEFORE this increment.
+    incrementStagnation(player);
 }
 
 void GameState::beginPhase(const PlayerID player, const int newPhase)
@@ -1357,7 +1485,29 @@ void GameState::endPhase()
         {
             // ending a defense phase with enemy damage means DEFENSE and SWOOSH would happen in 1 turn, which is not legal
             PRISMATA_ASSERT(getAttack(enemy) == 0, "Cannot end DEFENSE phase with remaining enemy damage");
-        
+
+            // AS3 State.as:1900-1905 — END_DEFENSE fragile blocker stagnation check
+            // If a fragile blocker took more damage than its healthGained, the attacker
+            // (opponent of the defender) gets credit for making progress.
+            for (PlayerID p(0); p < 2; ++p)
+            {
+                bool found = false;
+                for (const auto & cardID : getCardIDs(p))
+                {
+                    const Card & card = getCardByID(cardID);
+                    // AS3 isPartiallyDamaged: (!dead || deadness==SNIPED) && damage > 0
+                    if (!card.isDead() && card.getDamageTaken() > 0
+                        && card.getType().isFragile()
+                        && card.getDamageTaken() > card.getType().getHealthGained())
+                    {
+                        resetOppProgress(player, Stagnation::LEVEL_DAMAGE_MORE_THAN_HEALING);
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+
             // transition into current player's SWOOSH phase
             beginPhase(player, Phases::Swoosh);
             break;
@@ -1403,6 +1553,10 @@ void GameState::endPhase()
         }
         case Phases::Confirm:
         {
+            // AS3 port Phase 5: complex ENTER_CONFIRM stagnation resets
+            // Matches AS3 State.as:1911-1954 — fires BEFORE collectBodies/removeKilledCards
+            processEnterConfirmStagnation(player);
+
             m_turnNumber++;
             m_cards.removeKilledCards();
 
@@ -2182,6 +2336,18 @@ bool GameState::isIsomorphic(const GameState & otherState) const
         return false;
     }
 
+    // Compare stagnation counters
+    for (PlayerID p(0); p < 2; ++p)
+    {
+        for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
+        {
+            if (m_noProgress[p][level] != otherState.m_noProgress[p][level])
+            {
+                return false;
+            }
+        }
+    }
+
     for (PlayerID p(0); p<2; ++p)
     {
         if (!isPlayerIsomorphic(otherState, p))
@@ -2189,7 +2355,7 @@ bool GameState::isIsomorphic(const GameState & otherState) const
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -2242,6 +2408,354 @@ const size_t GameState::getMemoryUsed() const
     size_t size = sizeof(GameState);
     
     return sizeof(GameState) + m_cards.getMemoryUsed();
+}
+
+uint64_t GameState::cardDebugHash(const Card & card) const
+{
+    // Hash all gameplay-relevant card fields (matches Card::isIsomorphic fields)
+    uint64_t h = 0;
+    h ^= std::hash<int>()(card.getType().getID()) * 0x9e3779b97f4a7c15ULL;
+    h ^= std::hash<int>()(card.getPlayer()) * 0x517cc1b727220a95ULL;
+    h ^= std::hash<int>()(card.currentHealth()) * 0x6c62272e07bb0142ULL;
+    h ^= std::hash<int>()(card.currentChill()) * 0xd6e8feb86659fd93ULL;
+    h ^= std::hash<int>()(card.getCurrentCharges()) * 0xbf58476d1ce4e5b9ULL;
+    h ^= std::hash<int>()(card.isDead() ? 1 : 0) * 0x94d049bb133111ebULL;
+    h ^= std::hash<int>()(card.getCurrentDelay()) * 0x4a7c15f39cc0605dULL;
+    h ^= std::hash<int>()(card.getConstructionTime()) * 0x12baf9d65b411946ULL;
+    h ^= std::hash<int>()(card.getCurrentLifespan()) * 0x2e7d2c03a4507d35ULL;
+    h ^= std::hash<int>()(card.getStatus()) * 0x5851f42d4c957f2dULL;
+    return h;
+}
+
+uint64_t GameState::debugStateHash() const
+{
+    // Lightweight state hash for rapid differential testing.
+    // Isomorphic states produce identical hashes (card hashing is order-independent via XOR).
+    // Different states should produce different hashes (not cryptographic, but good enough for testing).
+    uint64_t h = 0;
+    h ^= std::hash<int>()(m_turnNumber) * 0x9e3779b97f4a7c15ULL;
+    h ^= std::hash<int>()(m_activePlayer) * 0x517cc1b727220a95ULL;
+    h ^= std::hash<int>()(m_activePhase) * 0x6c62272e07bb0142ULL;
+    h ^= std::hash<int>()(m_gameOver ? 1 : 0) * 0xd6e8feb86659fd93ULL;
+
+    // Hash resources for both players
+    for (int p = 0; p < 2; p++)
+    {
+        for (int r = 0; r < Resources::NumTypes; r++)
+        {
+            h ^= std::hash<int>()(m_resources[p].amountOf(r)) * (0xbf58476d1ce4e5b9ULL + p * 7 + r);
+        }
+    }
+
+    // Hash stagnation counters
+    for (int p = 0; p < 2; p++)
+    {
+        for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
+        {
+            h ^= std::hash<int>()(m_noProgress[p][level]) * (0x94d049bb133111ebULL + p * 13 + level);
+        }
+    }
+
+    // Hash card states (order-independent via XOR for isomorphic compatibility)
+    for (int p = 0; p < 2; p++)
+    {
+        for (const auto & cardID : m_cards.getCardIDs(p))
+        {
+            h ^= cardDebugHash(m_cards.getCardByID(cardID));
+        }
+    }
+
+    return h;
+}
+
+// Stagnation system stubs — full implementation in Phase 5
+// AS3 State.as:76-100 — reset counters below the given level
+void GameState::resetTurnProgress(const PlayerID player, int level)
+{
+    for (int i = 0; i < level; ++i)
+    {
+        m_noProgress[player][i] = 0;
+    }
+}
+
+// AS3 State.as — reset opponent's counters below the given level
+void GameState::resetOppProgress(const PlayerID player, int level)
+{
+    const PlayerID opp = getEnemy(player);
+    for (int i = 0; i < level; ++i)
+    {
+        m_noProgress[opp][i] = 0;
+    }
+}
+
+// AS3 State.as:1338-1349 — reset a specific player's counters for indices [0..level)
+void GameState::resetColorProgress(const PlayerID player, int level)
+{
+    for (int i = 0; i < level && i < Stagnation::NUM_LEVELS; ++i)
+    {
+        m_noProgress[player][i] = 0;
+    }
+}
+
+// AS3 State.as — dispatch progress events to correct reset function + level
+// Centralized mapping: event → player (self/opp) → level
+void GameState::reportProgress(const PlayerID player, ProgressEvent event)
+{
+    switch (event)
+    {
+        // Level 1 events — reset turn player's counters [0..1)
+        case ProgressEvent::DelayTicked:
+        case ProgressEvent::HPHealedOnPayHP:
+        case ProgressEvent::ChargeRecharged:
+        case ProgressEvent::DamageMoreThanHealing:
+            resetTurnProgress(player, Stagnation::LEVEL_DELAY_TICKED);
+            break;
+
+        // Level 2 events — reset turn player's counters [0..2)
+        case ProgressEvent::MoneyStored:
+            resetTurnProgress(player, Stagnation::LEVEL_MONEY_STORED);
+            break;
+
+        // Level 3 events — reset turn player's counters [0..3)
+        case ProgressEvent::CardBought:
+            resetTurnProgress(player, Stagnation::LEVEL_CARD_BOUGHT);
+            break;
+        case ProgressEvent::BuildTimeTicked:
+            resetTurnProgress(player, Stagnation::LEVEL_BUILDTIME_TICKED);
+            break;
+        case ProgressEvent::GasStored:
+            resetTurnProgress(player, Stagnation::LEVEL_GAS_STORED);
+            break;
+
+        // Opponent-targeting events
+        case ProgressEvent::OppLifespanTicked:
+            // Opponent's lifespan unit expiring = progress for the opponent
+            resetOppProgress(player, Stagnation::LEVEL_OPP_LIFESPAN_TICKED);
+            break;
+        case ProgressEvent::OppUnitCollected:
+            // Unit died = progress for the opponent of the dead unit's owner
+            // Note: `player` here is the player whose counters to reset (the opponent of the dead unit)
+            resetColorProgress(player, Stagnation::LEVEL_OPP_UNIT_COLLECTED);
+            break;
+    }
+}
+
+// AS3 State.as:2950 — increment all stagnation counters at end of turn
+void GameState::incrementStagnation(const PlayerID player)
+{
+    for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
+    {
+        m_noProgress[player][level]++;
+    }
+}
+
+// AS3 State.as:1351-1370 — colorIsStagnated()
+// A player is stagnated if ANY single level's counter exceeds its cutoff.
+// This matches AS3's ANY semantics (not ALL).
+// Cutoffs: [2, 8, 20, 40] — if noProgress[i] >= CUTOFFS[i] for any i, stagnated.
+bool GameState::checkStagnation() const
+{
+    for (PlayerID p(0); p < 2; ++p)
+    {
+        for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
+        {
+            if (m_noProgress[p][level] >= Stagnation::CUTOFFS[level])
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// AS3 State.as:1911-1954 — complex ENTER_CONFIRM stagnation resets
+// This is the priority-ordered if-else chain that evaluates what "progress" the current turn represented.
+// Fires when the active player ends their action phase (entering Confirm).
+void GameState::processEnterConfirmStagnation(const PlayerID player)
+{
+    const PlayerID enemy = getEnemy(player);
+    const HealthType attack = getAttack(player);
+
+    // Compute opponent defense statistics (inline StateHelper — AS3 StateHelper.as:437-447)
+    HealthType oppDefense = 0;
+    HealthType maxOppDefenderHP = 0;
+    HealthType damageReqdForFragileProgress = 0;
+
+    for (const auto & cardID : getCardIDs(enemy))
+    {
+        const Card & card = getCardByID(cardID);
+        if (card.isDead() || card.isUnderConstruction() || !card.canBlock())
+        {
+            continue;
+        }
+
+        HealthType hp = card.currentHealth();
+        oppDefense += hp;
+        maxOppDefenderHP = std::max(maxOppDefenderHP, hp);
+
+        if (!card.getType().isFragile())
+        {
+            // Non-fragile: must fully kill to make progress
+            damageReqdForFragileProgress = std::max(damageReqdForFragileProgress, hp);
+        }
+        else
+        {
+            // Fragile: must exceed healing to make permanent progress
+            HealthType healthGained = card.getType().getHealthGained();
+            HealthType threshold = std::min(static_cast<HealthType>(healthGained + 1), hp);
+            damageReqdForFragileProgress = std::max(damageReqdForFragileProgress, threshold);
+        }
+    }
+
+    // Priority 1 (HIGHEST): Can kill an opponent unit this turn
+    // AS3: attack > 0 && oppDefense > 0 && attack >= maxOppDefenderHealth
+    if (attack > 0 && oppDefense > 0 && attack >= maxOppDefenderHP)
+    {
+        resetTurnProgress(player, Stagnation::LEVEL_OPP_UNIT_COLLECTED);  // resets all 4 levels
+    }
+    // Priority 2: Bought or created a unit this turn
+    // AS3: endTurnObject.unitsCreated.length > 0 || endTurnObject.unitsBought.length > 0
+    else if (m_cardsBoughtOrCreatedThisTurn > 0)
+    {
+        resetTurnProgress(player, Stagnation::LEVEL_CARD_BOUGHT);  // resets levels 0,1,2
+    }
+    // Priority 3b: Have attack, opp has defense, can make progress on fragile blocker
+    // AS3: attack > 0 && oppDefense > 0 && attack >= damageReqdToMakeProgressOnFragileBlocker
+    // (Note: Priority 3a partially-damaged-inst check skipped — at ENTER_CONFIRM,
+    //  enemy cards have 0 damage because damage is cleared at each swoosh)
+    else if (attack > 0 && oppDefense > 0 && damageReqdForFragileProgress > 0
+             && attack >= damageReqdForFragileProgress)
+    {
+        resetTurnProgress(player, Stagnation::LEVEL_DAMAGE_MORE_THAN_HEALING);  // resets level 0
+    }
+    // Priority 4: Stored gold (economy progress)
+    // AS3: totalProducedThisTurn.money > 0
+    else if (m_goldProducedThisTurn)
+    {
+        resetTurnProgress(player, Stagnation::LEVEL_MONEY_STORED);  // resets levels 0,1
+    }
+
+    // Independent green resource checks (AS3 State.as:1934-1951)
+    // These fire independently of the main priority chain above.
+    // When green was produced this turn and specific units could consume it, stagnation is not occurring.
+    if (m_greenProducedThisTurn)
+    {
+        const HealthType greenResource = getResources(player).amountOf(Resources::Green);
+
+        // Cache type IDs on first call (these cards are always in cardLibrary.jso)
+        static const CardID clusterBoltTypeID = CardTypeData::Instance().GetCardTypeInfoByName("Meteor Shower").typeID;
+        static const CardID gaussChargeTypeID = CardTypeData::Instance().GetCardTypeInfoByName("Flame Kin").typeID;
+        static const CardID zemoraTypeID = CardTypeData::Instance().GetCardTypeInfoByName("NeoContraption").typeID;
+        static const CardID gaussiteTypeID = CardTypeData::Instance().GetCardTypeInfoByName("Gasplant").typeID;
+
+        // Scan buyable cards for gas-consuming units in the game set
+        bool gasStored = false;
+        for (CardID i = 0; i < numCardsBuyable() && !gasStored; ++i)
+        {
+            const CardBuyable & cb = getCardBuyableByIndex(i);
+            const CardID typeID = cb.getType().getID();
+            const SupplyType remaining = cb.getSupplyRemaining(player);
+
+            // AS3: Cluster Bolt — green < 4 * remaining supply
+            if (typeID == clusterBoltTypeID && remaining > 0
+                && greenResource < static_cast<HealthType>(4 * remaining))
+            {
+                gasStored = true;
+            }
+            // AS3: Gauss Charge — green < min(remaining supply, gold)
+            else if (typeID == gaussChargeTypeID && remaining > 0)
+            {
+                const HealthType gold = getResources(player).amountOf(Resources::Gold);
+                const HealthType threshold = std::min(static_cast<HealthType>(remaining), gold);
+                if (greenResource < threshold)
+                {
+                    gasStored = true;
+                }
+            }
+            // AS3: Zemora Voidbringer — alive instance exists && green < 8
+            else if (typeID == zemoraTypeID)
+            {
+                for (const auto & cardID : getCardIDs(player))
+                {
+                    const Card & card = getCardByID(cardID);
+                    if (!card.isDead() && !card.isUnderConstruction()
+                        && card.getType().getID() == zemoraTypeID
+                        && greenResource < 8)
+                    {
+                        gasStored = true;
+                        break;
+                    }
+                }
+            }
+            // AS3: Gaussite Symbiote — green < 3 * alive count
+            else if (typeID == gaussiteTypeID)
+            {
+                int aliveCount = 0;
+                for (const auto & cardID : getCardIDs(player))
+                {
+                    const Card & card = getCardByID(cardID);
+                    if (!card.isDead() && !card.isUnderConstruction()
+                        && card.getType().getID() == gaussiteTypeID)
+                    {
+                        aliveCount++;
+                    }
+                }
+                if (aliveCount > 0 && greenResource < static_cast<HealthType>(3 * aliveCount))
+                {
+                    gasStored = true;
+                }
+            }
+        }
+
+        if (gasStored)
+        {
+            resetTurnProgress(player, Stagnation::LEVEL_GAS_STORED);
+        }
+    }
+}
+
+// AS3 State.as:2922-2948 — resonator/annihilation matching during swoosh.
+// In the C++ engine, resonation is ALREADY handled inline during runScript() (GameState.cpp:952-965)
+// when beginOwnTurnScript runs. The AS3 collects resonators into dictionaries then matches in a
+// separate pass, but the result is equivalent because resonators target OTHER card types (Drone,
+// Engineer, etc.) that don't themselves resonate back — processing order doesn't matter.
+// This method exists as a hook point if we ever need a separate resonation pass.
+void GameState::processResonators(const PlayerID player)
+{
+    (void)player;
+}
+
+// Debug-only CardData integrity assertion (Phase 2 Task 2.9)
+void GameState::validateCardIntegrity() const
+{
+#ifdef _DEBUG
+    for (PlayerID p(0); p < 2; ++p)
+    {
+        const CardIDVector & ids = getCardIDs(p);
+        for (size_t i = 0; i < ids.size(); ++i)
+        {
+            const Card & card = getCardByID(ids[i]);
+            PRISMATA_ASSERT(card.getPlayer() == p,
+                "Card %d belongs to player %d but is in player %d's list",
+                ids[i], card.getPlayer(), p);
+            PRISMATA_ASSERT(!card.isDead(),
+                "Dead card %d found in player %d's live card list",
+                ids[i], p);
+        }
+
+        const CardIDVector & killedIds = getKilledCardIDs(p);
+        for (size_t i = 0; i < killedIds.size(); ++i)
+        {
+            const Card & card = getCardByID(killedIds[i]);
+            PRISMATA_ASSERT(card.getPlayer() == p,
+                "Killed card %d belongs to player %d but is in player %d's killed list",
+                killedIds[i], card.getPlayer(), p);
+            PRISMATA_ASSERT(card.isDead(),
+                "Alive card %d found in player %d's killed card list",
+                killedIds[i], p);
+        }
+    }
+#endif
 }
 
 void GameState::manuallySetMana(const PlayerID player, const Resources & resource)
