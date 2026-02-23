@@ -26,6 +26,10 @@ class GameState
     // 4-level no-progress counters per player, reset by ProgressEvents
     int         m_noProgress[2][Stagnation::NUM_LEVELS] = {};
 
+    // Turn-scoped tracking for ENTER_CONFIRM stagnation — AS3 EndTurnObject
+    int         m_cardsBoughtOrCreatedThisTurn = 0;
+    bool        m_goldProducedThisTurn = false;
+
     Card &          _getCardByID(const CardID id);
     CardBuyable &   _getCardBuyableByIndex(const CardID index);
     CardBuyable &   _getCardBuyableByID(const CardID cardID);
@@ -59,6 +63,9 @@ class GameState
     void            reportProgress(const PlayerID player, ProgressEvent event);
     void            incrementStagnation(const PlayerID player);
     bool            checkStagnation() const;
+
+    // Complex ENTER_CONFIRM stagnation — AS3 State.as:1911-1954
+    void            processEnterConfirmStagnation(const PlayerID player);
 
     // Swoosh helpers — AS3 State.as:1200-1700
     void            processResonators(const PlayerID player);

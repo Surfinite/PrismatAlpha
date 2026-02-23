@@ -571,6 +571,7 @@ bool GameState::doAction(const Action & action)
 
                 // AS3 port: buying a card resets stagnation progress
                 reportProgress(action.getPlayer(), ProgressEvent::CardBought);
+                m_cardsBoughtOrCreatedThisTurn++;
             }
             while (action.getShift() && isLegal(action));
 
@@ -962,8 +963,14 @@ void GameState::runScript(const CardID cardID, const Script & script, size_t scr
         }
     }
     
-    // RECEIVE MANA 
+    // RECEIVE MANA
     _getResources(player).add(script.getEffect().getReceive());
+
+    // AS3 port: track gold production for ENTER_CONFIRM stagnation (totalProducedThisTurn.money)
+    if (script.getEffect().getReceive().amountOf(Resources::Gold) > 0)
+    {
+        m_goldProducedThisTurn = true;
+    }
 
     // GIVE MANA
     _getResources(getEnemy(player)).add(script.getEffect().getGive());
@@ -972,14 +979,20 @@ void GameState::runScript(const CardID cardID, const Script & script, size_t scr
     if (script.hasResonate())
     {
         const size_t resonateSize = numCardsOfType(player, script.getResonateEffect().getResonateType(), true);
-        
+
         for (size_t r(0); r < resonateSize; ++r)
         {
-            // RECEIVE MANA 
+            // RECEIVE MANA
             _getResources(player).add(script.getResonateEffect().getReceive());
 
             // GIVE MANA
             _getResources(getEnemy(player)).add(script.getResonateEffect().getGive());
+
+            // Track gold from resonance
+            if (script.getResonateEffect().getReceive().amountOf(Resources::Gold) > 0)
+            {
+                m_goldProducedThisTurn = true;
+            }
         }
     }
         
@@ -1008,10 +1021,11 @@ void GameState::runScript(const CardID cardID, const Script & script, size_t scr
 
                 Card & added = m_cards.addCard(toAdd);
 
-                // if this isn't a begin turn script, note that this card created this cardID so we can undo it easily later
+                // AS3 port: track units created for ENTER_CONFIRM stagnation
                 if (scriptType != ScriptTypes::BeginTurnScript)
                 {
                     _getCardByID(cardID).addCreatedCardID(added.getID());
+                    m_cardsBoughtOrCreatedThisTurn++;
                 }
             }
         }
@@ -1212,6 +1226,12 @@ const PlayerID GameState::getInactivePlayer() const
 
 void GameState::killCardByID(const CardID cardID, const int causeOfDeath)
 {
+    // AS3 collectBodies: when a unit dies, reset the OPPONENT's stagnation counters
+    // (killing an opponent unit = progress for the killer)
+    // AS3 State.as:2566-2580: resetColorNoProgressCounters(1 - inst.owner, LEVEL_OPP_UNIT_COLLECTED)
+    const PlayerID deadOwner = getCardByID(cardID).getPlayer();
+    reportProgress(getEnemy(deadOwner), ProgressEvent::OppUnitCollected);
+
     m_cards.killCardByID(cardID, causeOfDeath);
 }
 
@@ -1264,11 +1284,13 @@ bool GameState::calculateGameOver() const
         }
     }
 
-    // AS3 port: stagnation draw check (DISABLED until Phase 5 implements reportProgress)
-    // Without resets, stagnation fires at turn 40 (highest cutoff) which breaks AI search.
-    // checkStagnation() logic is correct (ALL semantics); incrementStagnation() is active
-    // so counters accumulate correctly for Phase 5 activation.
-    // if (checkStagnation()) { return true; }
+    // AS3 port Phase 5: stagnation draw check — enabled now that reportProgress() dispatches resets.
+    // ANY semantics: if any single level counter >= cutoff for either player, game is drawn.
+    // Cutoffs [2, 8, 20, 40] — level 0 fires first (2 turns of zero progress).
+    if (checkStagnation())
+    {
+        return true;
+    }
 
     return false;
 }
@@ -1283,8 +1305,10 @@ void GameState::beginTurn(const PlayerID player)
     _getResources(player).set(Resources::Red, 0);
     _getResources(player).set(Resources::Attack, 0);
 
-    // 2. Reset breach flag
+    // 2. Reset breach flag and turn-scoped tracking
     m_canBreachFrozenCard = false;
+    m_cardsBoughtOrCreatedThisTurn = 0;
+    m_goldProducedThisTurn = false;
 
     // 3. Snapshot alive card IDs for safe iteration (scripts may create new cards)
     // AS3 State.as:2613-2617 — copyOfInstIds
@@ -1395,6 +1419,11 @@ void GameState::beginTurn(const PlayerID player)
 
     // 6. Remove killed cards
     m_cards.removeKilledCards();
+
+    // 7. Increment stagnation counters AFTER all swoosh resets — AS3 State.as:3070
+    // In AS3, increment fires at the END of swoosh for the new active player.
+    // Simple resets (from ticks above) happen BEFORE this increment.
+    incrementStagnation(player);
 }
 
 void GameState::beginPhase(const PlayerID player, const int newPhase)
@@ -1492,9 +1521,9 @@ void GameState::endPhase()
         }
         case Phases::Confirm:
         {
-            // AS3 port: increment stagnation counters at turn boundary
-            // Matches AS3 State.as:1911-1954 (MOVE_ENTER_CONFIRM)
-            incrementStagnation(player);
+            // AS3 port Phase 5: complex ENTER_CONFIRM stagnation resets
+            // Matches AS3 State.as:1911-1954 — fires BEFORE collectBodies/removeKilledCards
+            processEnterConfirmStagnation(player);
 
             m_turnNumber++;
             m_cards.removeKilledCards();
@@ -2427,22 +2456,56 @@ void GameState::resetOppProgress(const PlayerID player, int level)
     }
 }
 
-// AS3 State.as — reset color resource counters (placeholder)
+// AS3 State.as:1338-1349 — reset a specific player's counters for indices [0..level)
 void GameState::resetColorProgress(const PlayerID player, int level)
 {
-    // Color-specific progress tracking is part of Phase 5
-    // Uses separate red/green/blue resource counters in AS3
-    (void)player;
-    (void)level;
+    for (int i = 0; i < level && i < Stagnation::NUM_LEVELS; ++i)
+    {
+        m_noProgress[player][i] = 0;
+    }
 }
 
-// AS3 State.as:2800-2930 — report a progress event and reset appropriate counters
+// AS3 State.as — dispatch progress events to correct reset function + level
+// Centralized mapping: event → player (self/opp) → level
 void GameState::reportProgress(const PlayerID player, ProgressEvent event)
 {
-    // Full implementation in Phase 5 — will dispatch to resetTurnProgress/resetOppProgress
-    // based on Stagnation::LEVEL_FOR_* constants
-    (void)player;
-    (void)event;
+    switch (event)
+    {
+        // Level 1 events — reset turn player's counters [0..1)
+        case ProgressEvent::DelayTicked:
+        case ProgressEvent::HPHealedOnPayHP:
+        case ProgressEvent::ChargeRecharged:
+        case ProgressEvent::DamageMoreThanHealing:
+            resetTurnProgress(player, Stagnation::LEVEL_DELAY_TICKED);
+            break;
+
+        // Level 2 events — reset turn player's counters [0..2)
+        case ProgressEvent::MoneyStored:
+            resetTurnProgress(player, Stagnation::LEVEL_MONEY_STORED);
+            break;
+
+        // Level 3 events — reset turn player's counters [0..3)
+        case ProgressEvent::CardBought:
+            resetTurnProgress(player, Stagnation::LEVEL_CARD_BOUGHT);
+            break;
+        case ProgressEvent::BuildTimeTicked:
+            resetTurnProgress(player, Stagnation::LEVEL_BUILDTIME_TICKED);
+            break;
+        case ProgressEvent::GasStored:
+            resetTurnProgress(player, Stagnation::LEVEL_GAS_STORED);
+            break;
+
+        // Opponent-targeting events
+        case ProgressEvent::OppLifespanTicked:
+            // Opponent's lifespan unit expiring = progress for the opponent
+            resetOppProgress(player, Stagnation::LEVEL_OPP_LIFESPAN_TICKED);
+            break;
+        case ProgressEvent::OppUnitCollected:
+            // Unit died = progress for the opponent of the dead unit's owner
+            // Note: `player` here is the player whose counters to reset (the opponent of the dead unit)
+            resetColorProgress(player, Stagnation::LEVEL_OPP_UNIT_COLLECTED);
+            break;
+    }
 }
 
 // AS3 State.as:2950 — increment all stagnation counters at end of turn
@@ -2454,27 +2517,95 @@ void GameState::incrementStagnation(const PlayerID player)
     }
 }
 
-// AS3 State.as:3000 — check if any stagnation counter exceeds its cutoff
+// AS3 State.as:1351-1370 — colorIsStagnated()
+// A player is stagnated if ANY single level's counter exceeds its cutoff.
+// This matches AS3's ANY semantics (not ALL).
+// Cutoffs: [2, 8, 20, 40] — if noProgress[i] >= CUTOFFS[i] for any i, stagnated.
 bool GameState::checkStagnation() const
 {
-    // A player stagnates when ALL levels exceed their cutoffs simultaneously
     for (PlayerID p(0); p < 2; ++p)
     {
-        bool allExceeded = true;
         for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
         {
-            if (m_noProgress[p][level] < Stagnation::CUTOFFS[level])
+            if (m_noProgress[p][level] >= Stagnation::CUTOFFS[level])
             {
-                allExceeded = false;
-                break;
+                return true;
             }
-        }
-        if (allExceeded)
-        {
-            return true;
         }
     }
     return false;
+}
+
+// AS3 State.as:1911-1954 — complex ENTER_CONFIRM stagnation resets
+// This is the priority-ordered if-else chain that evaluates what "progress" the current turn represented.
+// Fires when the active player ends their action phase (entering Confirm).
+void GameState::processEnterConfirmStagnation(const PlayerID player)
+{
+    const PlayerID enemy = getEnemy(player);
+    const HealthType attack = getAttack(player);
+
+    // Compute opponent defense statistics (inline StateHelper — AS3 StateHelper.as:437-447)
+    HealthType oppDefense = 0;
+    HealthType maxOppDefenderHP = 0;
+    HealthType damageReqdForFragileProgress = 0;
+
+    for (const auto & cardID : getCardIDs(enemy))
+    {
+        const Card & card = getCardByID(cardID);
+        if (card.isDead() || card.isUnderConstruction() || !card.canBlock())
+        {
+            continue;
+        }
+
+        HealthType hp = card.currentHealth();
+        oppDefense += hp;
+        maxOppDefenderHP = std::max(maxOppDefenderHP, hp);
+
+        if (!card.getType().isFragile())
+        {
+            // Non-fragile: must fully kill to make progress
+            damageReqdForFragileProgress = std::max(damageReqdForFragileProgress, hp);
+        }
+        else
+        {
+            // Fragile: must exceed healing to make permanent progress
+            HealthType healthGained = card.getType().getHealthGained();
+            HealthType threshold = std::min(static_cast<HealthType>(healthGained + 1), hp);
+            damageReqdForFragileProgress = std::max(damageReqdForFragileProgress, threshold);
+        }
+    }
+
+    // Priority 1 (HIGHEST): Can kill an opponent unit this turn
+    // AS3: attack > 0 && oppDefense > 0 && attack >= maxOppDefenderHealth
+    if (attack > 0 && oppDefense > 0 && attack >= maxOppDefenderHP)
+    {
+        resetTurnProgress(player, Stagnation::LEVEL_OPP_UNIT_COLLECTED);  // resets all 4 levels
+    }
+    // Priority 2: Bought or created a unit this turn
+    // AS3: endTurnObject.unitsCreated.length > 0 || endTurnObject.unitsBought.length > 0
+    else if (m_cardsBoughtOrCreatedThisTurn > 0)
+    {
+        resetTurnProgress(player, Stagnation::LEVEL_CARD_BOUGHT);  // resets levels 0,1,2
+    }
+    // Priority 3b: Have attack, opp has defense, can make progress on fragile blocker
+    // AS3: attack > 0 && oppDefense > 0 && attack >= damageReqdToMakeProgressOnFragileBlocker
+    // (Note: Priority 3a partially-damaged-inst check skipped — at ENTER_CONFIRM,
+    //  enemy cards have 0 damage because damage is cleared at each swoosh)
+    else if (attack > 0 && oppDefense > 0 && damageReqdForFragileProgress > 0
+             && attack >= damageReqdForFragileProgress)
+    {
+        resetTurnProgress(player, Stagnation::LEVEL_DAMAGE_MORE_THAN_HEALING);  // resets level 0
+    }
+    // Priority 4: Stored gold (economy progress)
+    // AS3: totalProducedThisTurn.money > 0
+    else if (m_goldProducedThisTurn)
+    {
+        resetTurnProgress(player, Stagnation::LEVEL_MONEY_STORED);  // resets levels 0,1
+    }
+
+    // Independent green resource checks for specific units (Cluster Bolt, Gauss Charge, Zemora, Gaussite Symbiote)
+    // Deferred — requires unit-name lookups and supply tracking that the C++ engine doesn't readily expose.
+    // These are stagnation safety valves for specific green-heavy strategies and affect a tiny fraction of games.
 }
 
 // AS3 State.as:2922-2948 — resonator/annihilation matching during swoosh.
