@@ -58,6 +58,7 @@ public:
     bool            isSpell                 = false;
     bool            hasAbility              = false;
     bool            hasBeginOwnTurnScript   = false;
+    bool            hasDeathScript          = false;
     bool            isEconCard              = false;
     bool            isBaseSet               = false;
     bool            isAbilityHealthUserOnly = false;
@@ -70,6 +71,7 @@ public:
     Script          abilityScript;
     Script          buyScript;
     Script          beginOwnTurnScript;
+    Script          deathScript;
     ScriptEffect    abilityScriptEffect;
     ScriptEffect    buyScriptEffect;
     ScriptEffect    beginOwnTurnScriptEffect;

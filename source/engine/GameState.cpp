@@ -2182,6 +2182,18 @@ bool GameState::isIsomorphic(const GameState & otherState) const
         return false;
     }
 
+    // Compare stagnation counters
+    for (PlayerID p(0); p < 2; ++p)
+    {
+        for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
+        {
+            if (m_noProgress[p][level] != otherState.m_noProgress[p][level])
+            {
+                return false;
+            }
+        }
+    }
+
     for (PlayerID p(0); p<2; ++p)
     {
         if (!isPlayerIsomorphic(otherState, p))
@@ -2189,7 +2201,7 @@ bool GameState::isIsomorphic(const GameState & otherState) const
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -2242,6 +2254,165 @@ const size_t GameState::getMemoryUsed() const
     size_t size = sizeof(GameState);
     
     return sizeof(GameState) + m_cards.getMemoryUsed();
+}
+
+uint64_t GameState::cardDebugHash(const Card & card) const
+{
+    // Hash all gameplay-relevant card fields (matches Card::isIsomorphic fields)
+    uint64_t h = 0;
+    h ^= std::hash<int>()(card.getType().getID()) * 0x9e3779b97f4a7c15ULL;
+    h ^= std::hash<int>()(card.getPlayer()) * 0x517cc1b727220a95ULL;
+    h ^= std::hash<int>()(card.currentHealth()) * 0x6c62272e07bb0142ULL;
+    h ^= std::hash<int>()(card.currentChill()) * 0xd6e8feb86659fd93ULL;
+    h ^= std::hash<int>()(card.getCurrentCharges()) * 0xbf58476d1ce4e5b9ULL;
+    h ^= std::hash<int>()(card.isDead() ? 1 : 0) * 0x94d049bb133111ebULL;
+    h ^= std::hash<int>()(card.getCurrentDelay()) * 0x4a7c15f39cc0605dULL;
+    h ^= std::hash<int>()(card.getConstructionTime()) * 0x12baf9d65b411946ULL;
+    h ^= std::hash<int>()(card.getCurrentLifespan()) * 0x2e7d2c03a4507d35ULL;
+    h ^= std::hash<int>()(card.getStatus()) * 0x5851f42d4c957f2dULL;
+    return h;
+}
+
+uint64_t GameState::debugStateHash() const
+{
+    // Lightweight state hash for rapid differential testing.
+    // Isomorphic states produce identical hashes (card hashing is order-independent via XOR).
+    // Different states should produce different hashes (not cryptographic, but good enough for testing).
+    uint64_t h = 0;
+    h ^= std::hash<int>()(m_turnNumber) * 0x9e3779b97f4a7c15ULL;
+    h ^= std::hash<int>()(m_activePlayer) * 0x517cc1b727220a95ULL;
+    h ^= std::hash<int>()(m_activePhase) * 0x6c62272e07bb0142ULL;
+    h ^= std::hash<int>()(m_gameOver ? 1 : 0) * 0xd6e8feb86659fd93ULL;
+
+    // Hash resources for both players
+    for (int p = 0; p < 2; p++)
+    {
+        for (int r = 0; r < Resources::NumTypes; r++)
+        {
+            h ^= std::hash<int>()(m_resources[p].amountOf(r)) * (0xbf58476d1ce4e5b9ULL + p * 7 + r);
+        }
+    }
+
+    // Hash stagnation counters
+    for (int p = 0; p < 2; p++)
+    {
+        for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
+        {
+            h ^= std::hash<int>()(m_noProgress[p][level]) * (0x94d049bb133111ebULL + p * 13 + level);
+        }
+    }
+
+    // Hash card states (order-independent via XOR for isomorphic compatibility)
+    for (int p = 0; p < 2; p++)
+    {
+        for (const auto & cardID : m_cards.getCardIDs(p))
+        {
+            h ^= cardDebugHash(m_cards.getCardByID(cardID));
+        }
+    }
+
+    return h;
+}
+
+// Stagnation system stubs — full implementation in Phase 5
+// AS3 State.as:76-100 — reset counters below the given level
+void GameState::resetTurnProgress(const PlayerID player, int level)
+{
+    for (int i = 0; i < level; ++i)
+    {
+        m_noProgress[player][i] = 0;
+    }
+}
+
+// AS3 State.as — reset opponent's counters below the given level
+void GameState::resetOppProgress(const PlayerID player, int level)
+{
+    const PlayerID opp = getEnemy(player);
+    for (int i = 0; i < level; ++i)
+    {
+        m_noProgress[opp][i] = 0;
+    }
+}
+
+// AS3 State.as — reset color resource counters (placeholder)
+void GameState::resetColorProgress(const PlayerID player, int level)
+{
+    // Color-specific progress tracking is part of Phase 5
+    // Uses separate red/green/blue resource counters in AS3
+    (void)player;
+    (void)level;
+}
+
+// AS3 State.as:2800-2930 — report a progress event and reset appropriate counters
+void GameState::reportProgress(const PlayerID player, ProgressEvent event)
+{
+    // Full implementation in Phase 5 — will dispatch to resetTurnProgress/resetOppProgress
+    // based on Stagnation::LEVEL_FOR_* constants
+    (void)player;
+    (void)event;
+}
+
+// AS3 State.as:2950 — increment all stagnation counters at end of turn
+void GameState::incrementStagnation()
+{
+    // Full implementation in Phase 5
+    // Increments m_noProgress[activePlayer][level] for all levels
+}
+
+// AS3 State.as:3000 — check if any stagnation counter exceeds its cutoff
+bool GameState::checkStagnation() const
+{
+    for (PlayerID p(0); p < 2; ++p)
+    {
+        for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
+        {
+            if (m_noProgress[p][level] >= Stagnation::CUTOFFS[level])
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// AS3 State.as:1200-1700 — process resonators during swoosh (placeholder)
+void GameState::processResonators(const PlayerID player)
+{
+    // Full implementation in Phase 3
+    (void)player;
+}
+
+// Debug-only CardData integrity assertion (Phase 2 Task 2.9)
+void GameState::validateCardIntegrity() const
+{
+#ifdef _DEBUG
+    for (PlayerID p(0); p < 2; ++p)
+    {
+        const CardIDVector & ids = getCardIDs(p);
+        for (size_t i = 0; i < ids.size(); ++i)
+        {
+            const Card & card = getCardByID(ids[i]);
+            PRISMATA_ASSERT(card.getPlayer() == p,
+                "Card %d belongs to player %d but is in player %d's list",
+                ids[i], card.getPlayer(), p);
+            PRISMATA_ASSERT(!card.isDead(),
+                "Dead card %d found in player %d's live card list",
+                ids[i], p);
+        }
+
+        const CardIDVector & killedIds = getKilledCardIDs(p);
+        for (size_t i = 0; i < killedIds.size(); ++i)
+        {
+            const Card & card = getCardByID(killedIds[i]);
+            PRISMATA_ASSERT(card.getPlayer() == p,
+                "Killed card %d belongs to player %d but is in player %d's killed list",
+                killedIds[i], card.getPlayer(), p);
+            PRISMATA_ASSERT(card.isDead(),
+                "Alive card %d found in player %d's killed card list",
+                killedIds[i], p);
+        }
+    }
+#endif
 }
 
 void GameState::manuallySetMana(const PlayerID player, const Resources & resource)

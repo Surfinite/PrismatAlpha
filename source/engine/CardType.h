@@ -46,6 +46,7 @@ public:
     const Script &  getAbilityScript()          const;
     const Script &  getBeginOwnTurnScript()     const;
     const Script &  getBuyScript()              const;
+    const Script &  getDeathScript()            const;
     ActionID        getTargetAbilityType()      const;
     HealthType      getTargetAbilityAmount()    const;
     ActionID        getActionType()             const;
@@ -58,6 +59,7 @@ public:
     bool hasTargetAbility()          const;
     bool hasAbility()                const;
     bool hasBeginOwnTurnScript()     const;
+    bool hasDeathScript()            const;
     bool usesCharges()               const;
     bool usesBuySac()               const;
     bool canBlock(bool assigned)    const;

@@ -220,6 +220,11 @@ const Script & CardType::getBuyScript() const
     return CardTypeData::Instance().getCardTypeInfo(m_id).buyScript;
 }
 
+const Script & CardType::getDeathScript() const
+{
+    return CardTypeData::Instance().getCardTypeInfo(m_id).deathScript;
+}
+
 const Resources & CardType::produces() const
 {
     return CardTypeData::Instance().getCardTypeInfo(m_id).produces;
@@ -228,6 +233,11 @@ const Resources & CardType::produces() const
 bool CardType::hasBeginOwnTurnScript() const
 {
     return CardTypeData::Instance().getCardTypeInfo(m_id).hasBeginOwnTurnScript;
+}
+
+bool CardType::hasDeathScript() const
+{
+    return CardTypeData::Instance().getCardTypeInfo(m_id).hasDeathScript;
 }
 
 const ChargeType CardType::getStartingCharge() const

@@ -22,6 +22,10 @@ class GameState
     bool        m_canBreachFrozenCard       = false;
     bool        m_containsBaseSet           = false;
 
+    // Stagnation tracking — AS3 State.as:76-100
+    // 4-level no-progress counters per player, reset by ProgressEvents
+    int         m_noProgress[2][Stagnation::NUM_LEVELS] = {};
+
     Card &          _getCardByID(const CardID id);
     CardBuyable &   _getCardBuyableByIndex(const CardID index);
     CardBuyable &   _getCardBuyableByID(const CardID cardID);
@@ -38,6 +42,7 @@ class GameState
     void            runScriptUndo(const CardID cardID, const Script & script, size_t scriptType);
     void            initFromJSON(const rapidjson::Value & value);
     bool            undoTargetAbility(Card & card);
+    uint64_t        cardDebugHash(const Card & card) const;
     
     Card &          buyCardByID(const PlayerID player, const CardID cardBuyableIndex);
     void            sellCardByID(const PlayerID player, const CardID cardID);
@@ -46,6 +51,20 @@ class GameState
     void            getCardsToDestroy(const PlayerID abilityOwner, const DestroyDescription & destroyDescription, std::vector<CardID> & cardsToDestroy) const;
     void            getCardsToSac(const PlayerID abilityOwner, const SacDescription & destroyDescription, std::vector<CardID> & cardsToSac) const;
     bool            calculateGameOver() const;
+
+    // Stagnation system — AS3 State.as swoosh/checkWin
+    void            resetTurnProgress(const PlayerID player, int level);
+    void            resetOppProgress(const PlayerID player, int level);
+    void            resetColorProgress(const PlayerID player, int level);
+    void            reportProgress(const PlayerID player, ProgressEvent event);
+    void            incrementStagnation();
+    bool            checkStagnation() const;
+
+    // Swoosh helpers — AS3 State.as:1200-1700
+    void            processResonators(const PlayerID player);
+
+    // CardData integrity — Debug-only validation (Phase 2 Task 2.9)
+    void            validateCardIntegrity() const;
 
 public:
     
@@ -109,6 +128,7 @@ public:
     std::string             getStateString()                                                        const;
     std::string             toJSONString()                                                          const;
     const size_t            getMemoryUsed()                                                         const;
+    uint64_t                debugStateHash()                                                        const;
 };
 
 class DestroyCardCompare 
