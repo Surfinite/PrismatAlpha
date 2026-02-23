@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "CardTypeData.h"
 #include <set>
 
 using namespace Prismata;
@@ -966,10 +967,14 @@ void GameState::runScript(const CardID cardID, const Script & script, size_t scr
     // RECEIVE MANA
     _getResources(player).add(script.getEffect().getReceive());
 
-    // AS3 port: track gold production for ENTER_CONFIRM stagnation (totalProducedThisTurn.money)
+    // AS3 port: track gold/green production for ENTER_CONFIRM stagnation
     if (script.getEffect().getReceive().amountOf(Resources::Gold) > 0)
     {
         m_goldProducedThisTurn = true;
+    }
+    if (script.getEffect().getReceive().amountOf(Resources::Green) > 0)
+    {
+        m_greenProducedThisTurn = true;
     }
 
     // GIVE MANA
@@ -988,10 +993,14 @@ void GameState::runScript(const CardID cardID, const Script & script, size_t scr
             // GIVE MANA
             _getResources(getEnemy(player)).add(script.getResonateEffect().getGive());
 
-            // Track gold from resonance
+            // Track gold/green from resonance
             if (script.getResonateEffect().getReceive().amountOf(Resources::Gold) > 0)
             {
                 m_goldProducedThisTurn = true;
+            }
+            if (script.getResonateEffect().getReceive().amountOf(Resources::Green) > 0)
+            {
+                m_greenProducedThisTurn = true;
             }
         }
     }
@@ -1309,6 +1318,7 @@ void GameState::beginTurn(const PlayerID player)
     m_canBreachFrozenCard = false;
     m_cardsBoughtOrCreatedThisTurn = 0;
     m_goldProducedThisTurn = false;
+    m_greenProducedThisTurn = false;
 
     // 3. Snapshot alive card IDs for safe iteration (scripts may create new cards)
     // AS3 State.as:2613-2617 — copyOfInstIds
@@ -1475,7 +1485,29 @@ void GameState::endPhase()
         {
             // ending a defense phase with enemy damage means DEFENSE and SWOOSH would happen in 1 turn, which is not legal
             PRISMATA_ASSERT(getAttack(enemy) == 0, "Cannot end DEFENSE phase with remaining enemy damage");
-        
+
+            // AS3 State.as:1900-1905 — END_DEFENSE fragile blocker stagnation check
+            // If a fragile blocker took more damage than its healthGained, the attacker
+            // (opponent of the defender) gets credit for making progress.
+            for (PlayerID p(0); p < 2; ++p)
+            {
+                bool found = false;
+                for (const auto & cardID : getCardIDs(p))
+                {
+                    const Card & card = getCardByID(cardID);
+                    // AS3 isPartiallyDamaged: (!dead || deadness==SNIPED) && damage > 0
+                    if (!card.isDead() && card.getDamageTaken() > 0
+                        && card.getType().isFragile()
+                        && card.getDamageTaken() > card.getType().getHealthGained())
+                    {
+                        resetOppProgress(player, Stagnation::LEVEL_DAMAGE_MORE_THAN_HEALING);
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+
             // transition into current player's SWOOSH phase
             beginPhase(player, Phases::Swoosh);
             break;
@@ -2603,9 +2635,83 @@ void GameState::processEnterConfirmStagnation(const PlayerID player)
         resetTurnProgress(player, Stagnation::LEVEL_MONEY_STORED);  // resets levels 0,1
     }
 
-    // Independent green resource checks for specific units (Cluster Bolt, Gauss Charge, Zemora, Gaussite Symbiote)
-    // Deferred — requires unit-name lookups and supply tracking that the C++ engine doesn't readily expose.
-    // These are stagnation safety valves for specific green-heavy strategies and affect a tiny fraction of games.
+    // Independent green resource checks (AS3 State.as:1934-1951)
+    // These fire independently of the main priority chain above.
+    // When green was produced this turn and specific units could consume it, stagnation is not occurring.
+    if (m_greenProducedThisTurn)
+    {
+        const HealthType greenResource = getResources(player).amountOf(Resources::Green);
+
+        // Cache type IDs on first call (these cards are always in cardLibrary.jso)
+        static const CardID clusterBoltTypeID = CardTypeData::Instance().GetCardTypeInfoByName("Meteor Shower").typeID;
+        static const CardID gaussChargeTypeID = CardTypeData::Instance().GetCardTypeInfoByName("Flame Kin").typeID;
+        static const CardID zemoraTypeID = CardTypeData::Instance().GetCardTypeInfoByName("NeoContraption").typeID;
+        static const CardID gaussiteTypeID = CardTypeData::Instance().GetCardTypeInfoByName("Gasplant").typeID;
+
+        // Scan buyable cards for gas-consuming units in the game set
+        bool gasStored = false;
+        for (CardID i = 0; i < numCardsBuyable() && !gasStored; ++i)
+        {
+            const CardBuyable & cb = getCardBuyableByIndex(i);
+            const CardID typeID = cb.getType().getID();
+            const SupplyType remaining = cb.getSupplyRemaining(player);
+
+            // AS3: Cluster Bolt — green < 4 * remaining supply
+            if (typeID == clusterBoltTypeID && remaining > 0
+                && greenResource < static_cast<HealthType>(4 * remaining))
+            {
+                gasStored = true;
+            }
+            // AS3: Gauss Charge — green < min(remaining supply, gold)
+            else if (typeID == gaussChargeTypeID && remaining > 0)
+            {
+                const HealthType gold = getResources(player).amountOf(Resources::Gold);
+                const HealthType threshold = std::min(static_cast<HealthType>(remaining), gold);
+                if (greenResource < threshold)
+                {
+                    gasStored = true;
+                }
+            }
+            // AS3: Zemora Voidbringer — alive instance exists && green < 8
+            else if (typeID == zemoraTypeID)
+            {
+                for (const auto & cardID : getCardIDs(player))
+                {
+                    const Card & card = getCardByID(cardID);
+                    if (!card.isDead() && !card.isUnderConstruction()
+                        && card.getType().getID() == zemoraTypeID
+                        && greenResource < 8)
+                    {
+                        gasStored = true;
+                        break;
+                    }
+                }
+            }
+            // AS3: Gaussite Symbiote — green < 3 * alive count
+            else if (typeID == gaussiteTypeID)
+            {
+                int aliveCount = 0;
+                for (const auto & cardID : getCardIDs(player))
+                {
+                    const Card & card = getCardByID(cardID);
+                    if (!card.isDead() && !card.isUnderConstruction()
+                        && card.getType().getID() == gaussiteTypeID)
+                    {
+                        aliveCount++;
+                    }
+                }
+                if (aliveCount > 0 && greenResource < static_cast<HealthType>(3 * aliveCount))
+                {
+                    gasStored = true;
+                }
+            }
+        }
+
+        if (gasStored)
+        {
+            resetTurnProgress(player, Stagnation::LEVEL_GAS_STORED);
+        }
+    }
 }
 
 // AS3 State.as:2922-2948 — resonator/annihilation matching during swoosh.

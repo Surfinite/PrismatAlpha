@@ -29,6 +29,7 @@ class GameState
     // Turn-scoped tracking for ENTER_CONFIRM stagnation — AS3 EndTurnObject
     int         m_cardsBoughtOrCreatedThisTurn = 0;
     bool        m_goldProducedThisTurn = false;
+    bool        m_greenProducedThisTurn = false;
 
     Card &          _getCardByID(const CardID id);
     CardBuyable &   _getCardBuyableByIndex(const CardID index);
