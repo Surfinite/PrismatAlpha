@@ -108,6 +108,8 @@ public:
     void takeDamage(const HealthType amount, const int damageSource);
     void useAbility();
     void undoUseAbility();
+    void payAbilityCost();       // AS3 port: deduct health/charge BEFORE script
+    void restoreAbilityCost();   // AS3 port: reverse payAbilityCost for undo
     void runAbilityScript();
     void runBeginTurnScript();
     void beginTurn();

@@ -57,7 +57,7 @@ class GameState
     void            resetOppProgress(const PlayerID player, int level);
     void            resetColorProgress(const PlayerID player, int level);
     void            reportProgress(const PlayerID player, ProgressEvent event);
-    void            incrementStagnation();
+    void            incrementStagnation(const PlayerID player);
     bool            checkStagnation() const;
 
     // Swoosh helpers — AS3 State.as:1200-1700

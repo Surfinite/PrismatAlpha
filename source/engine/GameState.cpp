@@ -568,9 +568,12 @@ bool GameState::doAction(const Action & action)
             {
                 CardID cardID = buyCardByID(action.getPlayer(), action.getID()).getID();
                 runScript(cardID, getCardByID(cardID).getType().getBuyScript(), ScriptTypes::BuyScript);
+
+                // AS3 port: buying a card resets stagnation progress
+                reportProgress(action.getPlayer(), ProgressEvent::CardBought);
             }
             while (action.getShift() && isLegal(action));
-                        
+
             break;
         }
         case ActionTypes::USE_ABILITY:
@@ -594,6 +597,10 @@ bool GameState::doAction(const Action & action)
             do
             {
                 legalShiftActionFound = false;
+
+                // AS3 port: deduct health/charge costs BEFORE script execution
+                // Matches AS3 State.as:1446-1533 (health/charge → ASSIGNED → mana → sac → script)
+                _getCardByID(currentAction.getID()).payAbilityCost();
 
                 // run the card's ability script
                 runScript(currentAction.getID(), getCardByID(currentAction.getID()).getType().getAbilityScript(), ScriptTypes::AbilityScript);
@@ -670,13 +677,19 @@ bool GameState::doAction(const Action & action)
             Card & card = _getCardByID(action.getID());
             Card & target = _getCardByID(action.getTargetID());
 
-            PRISMATA_ASSERT(!card.isDead(), "Trying to CHILL with dead card");
+            PRISMATA_ASSERT(!card.isDead(), "Trying to SNIPE with dead card");
             PRISMATA_ASSERT(!target.isDead(), "Trying to snipe a dead target card");
-            
+
             card.setTargetID(target.getID());
-            killCardByID(action.getTargetID(), CauseOfDeath::Sniped);
-            
+
+            // AS3 port: pay ability costs BEFORE script (same as USE_ABILITY)
+            card.payAbilityCost();
+
+            // AS3 port: run script BEFORE killing target (State.as:1484-1510)
             runScript(action.getID(), card.getType().getAbilityScript(), ScriptTypes::AbilityScript);
+
+            // Kill target AFTER script (AS3: target.deadness = SNIPED after runScriptForward)
+            killCardByID(action.getTargetID(), CauseOfDeath::Sniped);
 
             m_targetAbilityCardClicked = false;
             m_targetAbilityCardID = 0;
@@ -691,10 +704,16 @@ bool GameState::doAction(const Action & action)
             PRISMATA_ASSERT(!card.isDead(), "Trying to CHILL with dead card");
             PRISMATA_ASSERT(!target.isDead(), "Trying to CHILL a dead target card");
 
-            target.applyChill(card.getType().getTargetAbilityAmount());
             card.setTargetID(target.getID());
-            
+
+            // AS3 port: pay ability costs BEFORE script (same as USE_ABILITY)
+            card.payAbilityCost();
+
+            // AS3 port: run script BEFORE applying chill (matching SNIPE pattern)
             runScript(action.getID(), card.getType().getAbilityScript(), ScriptTypes::AbilityScript);
+
+            // Apply chill AFTER script (AS3: target.disruptDamage += amount after runScriptForward)
+            target.applyChill(card.getType().getTargetAbilityAmount());
 
             m_targetAbilityCardClicked = false;
             m_targetAbilityCardID = 0;
@@ -1087,6 +1106,9 @@ void GameState::runScriptUndo(const CardID cardID, const Script & script, size_t
         bool cardDied = card.isDead();
         card.undoUseAbility();
 
+        // AS3 port: restore health/charge costs (paid before script in forward path)
+        card.restoreAbilityCost();
+
         if (cardDied)
         {
             m_cards.undoKill(cardID);
@@ -1241,6 +1263,12 @@ bool GameState::calculateGameOver() const
             return true;
         }
     }
+
+    // AS3 port: stagnation draw check (DISABLED until Phase 5 implements reportProgress)
+    // Without resets, stagnation fires at turn 40 (highest cutoff) which breaks AI search.
+    // checkStagnation() logic is correct (ALL semantics); incrementStagnation() is active
+    // so counters accumulate correctly for Phase 5 activation.
+    // if (checkStagnation()) { return true; }
 
     return false;
 }
@@ -1464,6 +1492,10 @@ void GameState::endPhase()
         }
         case Phases::Confirm:
         {
+            // AS3 port: increment stagnation counters at turn boundary
+            // Matches AS3 State.as:1911-1954 (MOVE_ENTER_CONFIRM)
+            incrementStagnation(player);
+
             m_turnNumber++;
             m_cards.removeKilledCards();
 
@@ -2414,23 +2446,32 @@ void GameState::reportProgress(const PlayerID player, ProgressEvent event)
 }
 
 // AS3 State.as:2950 — increment all stagnation counters at end of turn
-void GameState::incrementStagnation()
+void GameState::incrementStagnation(const PlayerID player)
 {
-    // Full implementation in Phase 5
-    // Increments m_noProgress[activePlayer][level] for all levels
+    for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
+    {
+        m_noProgress[player][level]++;
+    }
 }
 
 // AS3 State.as:3000 — check if any stagnation counter exceeds its cutoff
 bool GameState::checkStagnation() const
 {
+    // A player stagnates when ALL levels exceed their cutoffs simultaneously
     for (PlayerID p(0); p < 2; ++p)
     {
+        bool allExceeded = true;
         for (int level = 0; level < Stagnation::NUM_LEVELS; ++level)
         {
-            if (m_noProgress[p][level] >= Stagnation::CUTOFFS[level])
+            if (m_noProgress[p][level] < Stagnation::CUTOFFS[level])
             {
-                return true;
+                allExceeded = false;
+                break;
             }
+        }
+        if (allExceeded)
+        {
+            return true;
         }
     }
     return false;

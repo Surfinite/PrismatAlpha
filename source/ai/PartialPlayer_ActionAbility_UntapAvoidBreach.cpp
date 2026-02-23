@@ -150,6 +150,7 @@ CardID PartialPlayer_ActionAbility_UntapAvoidBreach::getNextUntapCardID(const Ga
         // create a temp card and undo its ability so we can see how much defense and attack it will have when untapped
         Card tempCard = state.getCardByID(cards[c]);
         tempCard.undoUseAbility();
+        tempCard.restoreAbilityCost();  // AS3 port: costs now separate from undoUseAbility
 
         PRISMATA_ASSERT(tempCard.currentHealth() > 0, "Temp card has zero health");
 

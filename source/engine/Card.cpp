@@ -816,18 +816,8 @@ void Card::undoUseAbility()
 {
     PRISMATA_ASSERT(canUndoUseAbility(), "Trying to undo an ability that we can't");
 
-    if (getType().usesCharges())
-    {
-        m_currentCharges += getType().getChargeUsed();
-    }
-
-    if (m_type.getHealthUsed() > 0 && m_currentHealth == 0)
-    {
-        m_aliveStatus = AliveStatus::Alive;
-        m_causeOfDeath = CauseOfDeath::None;
-    }
-
-    m_currentHealth += m_type.getHealthUsed();
+    // AS3 port: health/charge restoration now handled by restoreAbilityCost()
+    // called from runScriptUndo() path. undoUseAbility() only undoes status + self-sac.
 
     if (m_type.getAbilityScript().isSelfSac())
     {
@@ -852,30 +842,50 @@ void Card::endTurn()
 
 void Card::useAbility()
 {
-    if (!canUseAbility())
-    {
-        bool b = canUseAbility();
-    }
-
-    PRISMATA_ASSERT(canUseAbility(), "useAbility() called when canUseAbility() is false: %s", getType().getName().c_str());
-
+    // AS3 port: canUseAbility() may return false here because payAbilityCost()
+    // already deducted health/charge before runScript() calls this method.
+    // Legality was verified by doAction(USE_ABILITY) before cost deduction.
     m_abilityUsedThisTurn = true;
 
+    setStatus(CardStatus::Assigned);
+
+    runAbilityScript();
+}
+
+void Card::payAbilityCost()
+{
+    // AS3 port: deduct health/charge costs BEFORE script execution
+    // Matches AS3 State.as:1446-1533 where health/charge are paid before runScriptForward
     if (getType().usesCharges())
     {
         m_currentCharges -= getType().getChargeUsed();
     }
-        
+
     m_currentHealth -= m_type.getHealthUsed();
 
     if (m_currentHealth == 0)
     {
         kill(CauseOfDeath::SelfAbilityHealthCost);
     }
-               
-    setStatus(CardStatus::Assigned);
+}
 
-    runAbilityScript();
+void Card::restoreAbilityCost()
+{
+    // AS3 port: reverse payAbilityCost for undo path
+    // Note: m_dead is NOT reset here — m_cards.undoKill() handles it in the GameState flow.
+    // restoreAbilityCost() only restores health/charge values and alive status metadata.
+    if (m_type.getHealthUsed() > 0 && m_currentHealth == 0)
+    {
+        m_aliveStatus = AliveStatus::Alive;
+        m_causeOfDeath = CauseOfDeath::None;
+    }
+
+    m_currentHealth += m_type.getHealthUsed();
+
+    if (getType().usesCharges())
+    {
+        m_currentCharges += getType().getChargeUsed();
+    }
 }
 
 bool Card::meetsCondition(const Condition & condition) const
