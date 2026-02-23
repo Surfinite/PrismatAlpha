@@ -356,6 +356,8 @@ class Session:
         self.turn_buys = []         # Cards bought this turn (display names)
         self.last_f6_state = None   # Last parsed F6 clipboard state
         self._player_ids = []       # Player IDs from BeginGame (for chat injection)
+        # Lobby readiness (triggered by SplashToLobby — definitive signal that client is ready)
+        self._lobby_ready = threading.Event()
         # Commentary chat target — set via CHAT_TARGET env var, defaults to Surfinite (self-PM)
         self._chat_target_id = os.environ.get("CHAT_TARGET", "7709")
         # Chat injection state (thread-safe via _c2s_lock)
@@ -505,6 +507,20 @@ def _handle_logged_in(msg_type, direction, params, raw_msg):
         print(f"  [session] Logged in as: {name}")
 
 
+@on_message("CourierClaimed")
+def _handle_courier_claimed(msg_type, direction, params, raw_msg):
+    """Handle session resume — set player_name so dump-replays can proceed."""
+    if not session.player_name:
+        session.update(player_name="(resumed)", game_phase="lobby")
+        print(f"  [session] Session resumed (CourierClaimed)")
+
+
+@on_message("SplashToLobby")
+def _handle_splash_to_lobby(msg_type, direction, params, raw_msg):
+    """Client is fully loaded and in the lobby — safe to inject commands."""
+    session._lobby_ready.set()
+
+
 @on_message("UserInfo")
 def _handle_user_info(msg_type, direction, params, raw_msg):
     """Extract rating from UserInfo response."""
@@ -550,22 +566,238 @@ def _handle_game_over_draw(msg_type, direction, params, raw_msg):
 
 @on_message("RequestReplaysResponse")
 def _handle_replay_list(msg_type, direction, params, raw_msg):
-    """Harvest replay codes from the My Replays list."""
-    if params and isinstance(params[0], list):
+    """Harvest replay codes from RequestReplaysResponse.
+    Wire format: [startIndex, [array of replay stub objects]]
+    Each stub has .hash = replay code (AS3 ReplayStub.as:264)."""
+    if not params or len(params) < 2:
+        return
+    start_index = params[0]
+    stubs = params[1]
+    if not isinstance(stubs, list):
+        return
+    codes = []
+    for stub in stubs:
+        if isinstance(stub, dict):
+            # Primary key is "hash" (AS3 source), fallback to others
+            code = stub.get("hash") or stub.get("code") or stub.get("hashCode")
+            if code and isinstance(code, str) and len(code) > 3:
+                codes.append(code)
+    if codes:
+        session.append_replay_list(codes)
+        print(f"  [replay-dump] Batch at index {start_index}: {len(codes)} codes")
+    # Notify replay dumper if active
+    if _replay_dumper:
+        _replay_dumper.on_batch(start_index, stubs)
+
+
+@on_message("RequestNumReplaysResponse")
+def _handle_num_replays(msg_type, direction, params, raw_msg):
+    """Handle total replay count response. Wire: [totalCount]."""
+    if params and isinstance(params[0], (int, float)):
+        total = int(params[0])
+        print(f"  [replay-dump] Server reports {total} total replays")
+        if _replay_dumper:
+            _replay_dumper.on_total_count(total)
+
+
+@on_message("ServerMsg")
+def _handle_server_msg_dump(msg_type, direction, params, raw_msg):
+    """Capture /getreplays response for replay dumper.
+    Wire: ["_NORMAL_", ["text with \\n-separated codes"], -1]"""
+    if not _replay_dumper:
+        return
+    if params and len(params) >= 2 and isinstance(params[1], list):
+        # params[1] is a format string array — first element has the raw text
+        text = params[1][0] if params[1] else ""
+        if isinstance(text, str):
+            _replay_dumper.on_server_msg(text)
+
+
+# ============================================================
+# Replay Dumper — batch-extract ALL replay codes via protocol injection
+# ============================================================
+
+class ReplayDumper:
+    """Extracts ALL replay codes via hybrid approach:
+
+    1. /getreplays chat command → first 5000 codes (instant)
+    2. RequestReplays protocol → remaining codes beyond 5000 (batched)
+    """
+
+    BATCH_SIZE = 100    # Larger batches for faster extraction (server handles up to 500)
+    RATE_LIMIT = 0.3    # Slightly more than AS3 default to be gentle on server
+    GETREPLAYS_CAP = 5000  # Confirmed server-side cap (tested Feb 23 — returns max 5000)
+
+    # Replay code pattern: XXXXX-XXXXX (5 chars, dash, 5 chars)
+    CODE_RE = re.compile(r'[A-Za-z0-9+@_-]{5}-[A-Za-z0-9+@_-]{5}')
+
+    def __init__(self, output_path):
+        self.output_path = output_path
+        self.total_count = None
+        self.stubs = {}           # startIndex -> list of stub dicts
+        self.codes = []           # All extracted codes in order
+        self._total_event = threading.Event()
+        self._batch_events = {}   # startIndex -> Event
+        self._pending_lock = threading.Lock()
+        self._getreplays_codes = []  # Codes from /getreplays ServerMsg
+        self._getreplays_event = threading.Event()
+        self._done = False
+
+    def on_total_count(self, total):
+        """Called by RequestNumReplaysResponse handler."""
+        self.total_count = total
+        self._total_event.set()
+
+    def on_batch(self, start_index, stubs):
+        """Called by RequestReplaysResponse handler."""
+        self.stubs[start_index] = stubs
+        with self._pending_lock:
+            evt = self._batch_events.get(start_index)
+            if evt:
+                evt.set()
+
+    def on_server_msg(self, text):
+        """Called by ServerMsg handler — captures /getreplays response."""
+        codes = self.CODE_RE.findall(text)
+        if len(codes) >= 10:  # Only trigger on bulk code messages, not random chat
+            self._getreplays_codes.extend(codes)
+            self._getreplays_event.set()
+
+    def run(self):
+        """Main dumper loop — call from a background thread."""
+        print()
+        print("=" * 60)
+        print("  REPLAY DUMPER — Extracting ALL replay codes")
+        print("=" * 60)
+        print()
+
+        # Wait for SplashToLobby — definitive signal that client is fully loaded
+        print("[replay-dump] Waiting for Prismata login...")
+        print("[replay-dump] (Launch Prismata and log in normally)")
+        if not session._lobby_ready.wait(timeout=120):
+            print("[replay-dump] ERROR: Timed out waiting for lobby (120s)")
+            return
+        # Small settle time for remaining post-lobby messages
+        time.sleep(1)
+        name = session.player_name or "(unknown)"
+        print(f"[replay-dump] Logged in as: {name}")
+
+        # Step 1: Get total replay count
+        session._inject_msg(["RequestNumReplays"], "RequestNumReplays")
+        if not self._total_event.wait(timeout=15):
+            print("[replay-dump] ERROR: No response to RequestNumReplays (timeout 15s)")
+            return
+        total = self.total_count
+        print(f"[replay-dump] Total replays: {total}")
+        if total == 0:
+            print("[replay-dump] No replays to dump!")
+            return
+
+        # Step 2: /getreplays 5000 for the first batch (instant, server cap = 5000)
+        getreplays_count = min(total, self.GETREPLAYS_CAP)
+        print(f"[replay-dump] Sending /getreplays {getreplays_count}...")
+        session._inject_msg(["Command", f"getreplays {getreplays_count}"],
+                            f"getreplays {getreplays_count}")
+        if not self._getreplays_event.wait(timeout=30):
+            print("[replay-dump] WARNING: No /getreplays response — falling back to batch mode")
+            getreplays_codes = []
+        else:
+            # Wait for all ServerMsg chunks to arrive (server may split into multiple messages)
+            # With large requests (>5000), server may send many chunks — give it more time
+            prev_count = 0
+            stable_ticks = 0
+            for _ in range(60):  # Up to 30 seconds
+                time.sleep(0.5)
+                cur = len(self._getreplays_codes)
+                if cur == prev_count:
+                    stable_ticks += 1
+                    if stable_ticks >= 3:  # 1.5s of no new codes = done
+                        break
+                else:
+                    stable_ticks = 0
+                prev_count = cur
+            getreplays_codes = list(self._getreplays_codes)
+            print(f"[replay-dump] /getreplays returned {len(getreplays_codes)} codes")
+
+        # Step 3: If we need more, use RequestReplays for the rest
+        remaining = total - len(getreplays_codes)
+        if remaining > 0 and len(getreplays_codes) > 0:
+            print(f"[replay-dump] Fetching remaining {remaining} codes via protocol...")
+            start_from = len(getreplays_codes)
+            extra_codes = self._fetch_batches(start_from, total)
+            all_codes = getreplays_codes + extra_codes
+        elif len(getreplays_codes) == 0:
+            # Fallback: fetch everything via protocol
+            print(f"[replay-dump] Fetching all {total} codes via protocol...")
+            all_codes = self._fetch_batches(0, total)
+        else:
+            all_codes = getreplays_codes
+
+        self.codes = all_codes
+
+        # Step 4: Write to file
+        print(f"\n[replay-dump] Writing {len(all_codes)} replay codes to {self.output_path}")
+        with open(self.output_path, "w", encoding="utf-8") as f:
+            for code in all_codes:
+                f.write(code + "\n")
+
+        print()
+        print("=" * 60)
+        print(f"  DONE! {len(all_codes)} replay codes saved")
+        print(f"  File: {self.output_path}")
+        print("=" * 60)
+        print()
+        print("[replay-dump] You can now close this window or press Ctrl+C.")
+        self._done = True
+
+    def _fetch_batches(self, start_from, total):
+        """Fetch codes via RequestReplays protocol in batches."""
+        remaining = total - start_from
+        num_batches = (remaining + self.BATCH_SIZE - 1) // self.BATCH_SIZE
+        eta_secs = num_batches * 2  # ~2s per batch (rate limit + server response)
+        print(f"[replay-dump] {num_batches} batches of {self.BATCH_SIZE}, ~{eta_secs:.0f}s estimated")
+
         codes = []
-        for entry in params[0]:
-            if isinstance(entry, dict):
-                code = entry.get("code") or entry.get("hashCode")
-                if code:
-                    codes.append(code)
-            elif isinstance(entry, list) and len(entry) > 0:
-                # Some formats use positional arrays
-                code = entry[0] if isinstance(entry[0], str) else None
-                if code and len(code) > 3:
-                    codes.append(code)
-        if codes:
-            session.append_replay_list(codes)
-            print(f"  [session] Harvested {len(codes)} replay codes from replay list")
+        for batch_idx in range(num_batches):
+            start = start_from + batch_idx * self.BATCH_SIZE
+            count = min(self.BATCH_SIZE, total - start)
+
+            evt = threading.Event()
+            with self._pending_lock:
+                self._batch_events[start] = evt
+
+            session._inject_msg(["RequestReplays", start, count],
+                                f"RequestReplays({start}, {count})")
+
+            if not evt.wait(timeout=30):
+                # Check if socket is dead (Prismata disconnected)
+                if not session.server_sock:
+                    print(f"\n  [replay-dump] ERROR: Connection lost!")
+                    break
+                session._inject_msg(["RequestReplays", start, count],
+                                    f"RequestReplays({start}, {count}) RETRY")
+                if not evt.wait(timeout=30):
+                    print(f"\n  [replay-dump] SKIP: No response for index {start}")
+                    time.sleep(self.RATE_LIMIT)
+                    continue
+
+            stubs = self.stubs.get(start, [])
+            for stub in stubs:
+                if isinstance(stub, dict):
+                    code = stub.get("hash") or stub.get("code") or stub.get("hashCode")
+                    if code and isinstance(code, str) and len(code) > 3:
+                        codes.append(code)
+
+            pct = (batch_idx + 1) * 100 // num_batches
+            print(f"\r  [replay-dump] Batch progress: {len(codes)}/{remaining} ({pct}%)", end="", flush=True)
+            time.sleep(self.RATE_LIMIT)
+
+        print()
+        return codes
+
+
+# Global replay dumper instance (set when --dump-replays mode is active)
+_replay_dumper = None
 
 
 # Replay code pattern: 5+ alphanumeric chars with hyphens/pluses
@@ -1473,8 +1705,17 @@ def run_proxy(real_ip, log_path=None):
                         chat_text = f.read().strip()
                     os.unlink(_chat_trigger_path)
                     if chat_text:
+                        # Support "cmd:command" prefix for server commands (e.g., /getreplays)
+                        if chat_text.startswith("cmd:"):
+                            cmd_text = chat_text[4:].strip()
+                            print(f"  [cmd] Injecting command: {cmd_text}")
+                            ok = session._inject_msg(["Command", cmd_text], f"Command: {cmd_text}")
+                            if ok:
+                                print(f"  [cmd] Sent: {cmd_text}")
+                            else:
+                                print(f"  [cmd] Failed (no connection?)")
                         # Support "global:message" prefix for global chat
-                        if chat_text.startswith("global:"):
+                        elif chat_text.startswith("global:"):
                             global_text = chat_text[7:].strip()
                             print(f"  [chat-test] Sending to global chat: {global_text}")
                             ok = session.inject_global_chat("globalEnglish", global_text)
@@ -1546,19 +1787,44 @@ def run_passive_test():
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "test":
         run_passive_test()
-    elif len(sys.argv) > 1 and sys.argv[1] == "proxy":
+    elif len(sys.argv) > 1 and sys.argv[1] in ("proxy", "dump-replays"):
         # Hardcoded real IP (hosts file redirects DNS to 127.0.0.1)
         real_ip = "3.229.49.48"
         log_path = os.path.join(os.path.dirname(__file__), "..", "bin", "prismata_capture.log")
-        run_proxy(real_ip, log_path)
+
+        # --dump-replays mode: extract all replay codes then exit
+        if sys.argv[1] == "dump-replays" or "--dump-replays" in sys.argv:
+            output_path = os.path.join(os.path.dirname(__file__), "..", "bin", "my_replay_codes.txt")
+            # Allow custom output path: dump-replays [output_file]
+            for i, arg in enumerate(sys.argv):
+                if arg == "--output" and i + 1 < len(sys.argv):
+                    output_path = sys.argv[i + 1]
+                    break
+                elif arg == "dump-replays" and i + 1 < len(sys.argv) and not sys.argv[i + 1].startswith("-"):
+                    output_path = sys.argv[i + 1]
+                    break
+            _replay_dumper = ReplayDumper(os.path.abspath(output_path))
+            # Start proxy in background, dumper runs after login
+            proxy_thread = threading.Thread(target=run_proxy, args=(real_ip, log_path), daemon=True)
+            proxy_thread.start()
+            # Run dumper on main thread
+            _replay_dumper.run()
+        else:
+            run_proxy(real_ip, log_path)
     else:
         print("Usage:")
-        print("  python prismata_sniffer.py test   - Connect and decode server greeting")
-        print("  python prismata_sniffer.py proxy  - Run as TCP proxy (captures replay codes)")
+        print("  python prismata_sniffer.py test          - Connect and decode server greeting")
+        print("  python prismata_sniffer.py proxy         - Run as TCP proxy (captures replay codes)")
+        print("  python prismata_sniffer.py dump-replays  - Extract ALL replay codes and save to file")
         print()
-        print("For proxy mode:")
+        print("Dump replays options:")
+        print("  python prismata_sniffer.py dump-replays [output_file]")
+        print("  python prismata_sniffer.py dump-replays --output my_codes.txt")
+        print(f"  Default output: bin/my_replay_codes.txt")
+        print()
+        print("For proxy/dump-replays mode:")
         print(f"  1. Add to hosts: 127.0.0.1 {REAL_SERVER_HOST}")
-        print(f"  2. Run: python prismata_sniffer.py proxy")
-        print(f"  3. Launch Prismata and play games")
+        print(f"  2. Run: python prismata_sniffer.py proxy (or dump-replays)")
+        print(f"  3. Launch Prismata and log in")
         print(f"  4. Replay codes appear in console + saved to bin/prismata_capture_codes.txt")
         print(f"  5. When done, restore hosts: 3.229.49.48 {REAL_SERVER_HOST}")
