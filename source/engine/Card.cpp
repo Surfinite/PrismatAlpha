@@ -642,6 +642,84 @@ void Card::beginTurn()
     }
 }
 
+// Per-turn flag resets only — called at start of swoosh for each card.
+// Does NOT do construction/delay/lifespan/health/status (those are now in GameState::beginTurn single-pass).
+void Card::beginTurnResetFlags()
+{
+    m_sellable = false;
+    // m_damageTaken is NOT reset here — clearDamageCounter() handles it in the single-pass loop
+    m_wasBreached = false;
+    m_abilityUsedThisTurn = false;
+    m_killedCardIDs.clear();
+    m_createdCardIDs.clear();
+    clearTarget();
+
+    // Transition KilledThisTurn → Dead
+    if (m_aliveStatus == AliveStatus::KilledThisTurn)
+    {
+        m_aliveStatus = AliveStatus::Dead;
+    }
+}
+
+// Swoosh helpers — individual operations for single-pass architecture
+void Card::clearChill()
+{
+    m_currentChill = 0;
+}
+
+void Card::clearDamageCounter()
+{
+    m_damageTaken = 0;
+}
+
+void Card::tickConstruction()
+{
+    PRISMATA_ASSERT(isUnderConstruction(), "tickConstruction called on non-constructing card");
+    --m_constructionTime;
+}
+
+void Card::tickDelay()
+{
+    PRISMATA_ASSERT(isDelayed(), "tickDelay called on non-delayed card");
+    --m_currentDelay;
+}
+
+bool Card::tickLifespan()
+{
+    PRISMATA_ASSERT(m_lifespan > 0, "tickLifespan called with lifespan 0");
+    --m_lifespan;
+    return (m_lifespan == 0);
+}
+
+bool Card::applyHealthRegen()
+{
+    HealthType gained = m_type.getHealthGained();
+    if (gained == 0)
+    {
+        return false;
+    }
+
+    HealthType oldHealth = m_currentHealth;
+    m_currentHealth += gained;
+    if (m_type.getHealthMax() > 0 && m_currentHealth > m_type.getHealthMax())
+    {
+        m_currentHealth = m_type.getHealthMax();
+    }
+    return (m_currentHealth != oldHealth);
+}
+
+void Card::resetRole()
+{
+    if (getType().hasAbility() || getType().hasTargetAbility())
+    {
+        setStatus(CardStatus::Default);
+    }
+    else
+    {
+        setStatus(CardStatus::Inert);
+    }
+}
+
 bool Card::canRunBeginOwnTurnScript() const
 {
     return !isUnderConstruction() && m_currentDelay == 0;

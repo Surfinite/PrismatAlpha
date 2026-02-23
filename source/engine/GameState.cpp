@@ -1249,16 +1249,17 @@ void GameState::beginTurn(const PlayerID player)
 {
     PRISMATA_ASSERT(player < 2, "player exceeds num players, player=%d, numplayers=%d", player, 2);
 
-    // reset resource that needs to be reset
+    // 1. Reset per-turn resources (AS3 State.as swoosh: turnMana reset)
     _getResources(player).set(Resources::Energy, 0);
     _getResources(player).set(Resources::Blue, 0);
     _getResources(player).set(Resources::Red, 0);
     _getResources(player).set(Resources::Attack, 0);
 
-    // reset card breached
+    // 2. Reset breach flag
     m_canBreachFrozenCard = false;
 
-    // keep track of all the cards we had at the beginning of the turn
+    // 3. Snapshot alive card IDs for safe iteration (scripts may create new cards)
+    // AS3 State.as:2613-2617 — copyOfInstIds
     std::vector<CardID> cardsAtStartOfTurn;
     cardsAtStartOfTurn.reserve(numCards(player));
     for (const auto & cardID : getCardIDs(player))
@@ -1266,45 +1267,105 @@ void GameState::beginTurn(const PlayerID player)
         cardsAtStartOfTurn.push_back(cardID);
     }
 
-    // do begin turn for dead cards
+    // Reset flags on dead cards (KilledThisTurn → Dead transition)
     for (const auto & cardID : getKilledCardIDs(player))
     {
-        _getCardByID(cardID).beginTurn();
+        _getCardByID(cardID).beginTurnResetFlags();
     }
 
-    // do beginning of turn upkeep for each card
+    // 4. Single-pass per-card processing — matches AS3 State.as:2618-2920
+    // Each card does: clear damage/chill → tick timers → role reset → health regen → beginOwnTurnScript
+    // Scripts run INLINE: when card N's script runs, cards 0..N-1 are fully processed,
+    // cards N+1..end are still in pre-swoosh state. This matches AS3 exactly.
     for (const auto & cardID : cardsAtStartOfTurn)
     {
-        PRISMATA_ASSERT(!getCardByID(cardID).isDead(), "Card is dead?");
+        Card & card = _getCardByID(cardID);
 
-        _getCardByID(cardID).beginTurn();
+        // Reset per-turn flags
+        card.beginTurnResetFlags();
 
-        if (_getCardByID(cardID).isDead())
+        // Skip dead cards (shouldn't happen in alive list, but safety check)
+        if (card.isDead())
         {
-            killCardByID(cardID, CauseOfDeath::Unknown);
+            continue;
         }
-    }
 
-    // do begin own turn scrips for each remaining card that isn't dead
-    for (const auto & cardID : cardsAtStartOfTurn)
-    {
-        const Card & card = _getCardByID(cardID);
-        
-        // if the card is still alive and can run its own begin turn script, do it
-        if (!card.isDead() && card.getType().hasBeginOwnTurnScript() && card.canRunBeginOwnTurnScript())
+        // a. Clear damage and chill (AS3:2624-2640)
+        card.clearDamageCounter();
+        card.clearChill();
+
+        // b. Tick construction OR delay OR lifespan (AS3:2642-2696, mutually exclusive)
+        if (card.isUnderConstruction())
+        {
+            card.tickConstruction();
+            reportProgress(player, ProgressEvent::BuildTimeTicked);
+
+            // Still under construction after tick — skip all remaining processing
+            if (card.isUnderConstruction())
+            {
+                continue;
+            }
+            // Construction just completed (time went 1→0) — fall through to role reset, regen, scripts
+        }
+        else if (card.isDelayed())
+        {
+            card.tickDelay();
+            reportProgress(player, ProgressEvent::DelayTicked);
+
+            // Still delayed after tick — set inert and skip remaining processing
+            if (card.isDelayed())
+            {
+                card.setStatus(CardStatus::Inert);
+                continue;
+            }
+            // Delay just completed — fall through to role reset, regen, scripts
+        }
+        else if (card.getCurrentLifespan() > 0)
+        {
+            bool expired = card.tickLifespan();
+            reportProgress(player, ProgressEvent::OppLifespanTicked);
+
+            if (expired)
+            {
+                killCardByID(cardID, CauseOfDeath::Lifespan);
+                continue;
+            }
+        }
+
+        // c. Reset role (AS3:2698-2705) — only for cards that survived the timer section
+        card.resetRole();
+
+        // d. Apply health regen (AS3:2708-2725)
+        if (card.applyHealthRegen())
+        {
+            if (card.getType().getHealthUsed() > 0)
+            {
+                reportProgress(player, ProgressEvent::HPHealedOnPayHP);
+            }
+        }
+
+        // e. Run beginOwnTurnScript INLINE (AS3:2870-2873)
+        // Scripts run during the per-card loop — this is the key AS3 difference from old two-pass C++
+        if (card.getType().hasBeginOwnTurnScript() && card.canRunBeginOwnTurnScript())
         {
             runScript(cardID, card.getType().getBeginOwnTurnScript(), ScriptTypes::BeginTurnScript);
-            bool scriptKilledCard = getCardByID(cardID).isDead();
 
-            _getCardByID(cardID).runBeginTurnScript();
-
-            if (_getCardByID(cardID).isDead() && !scriptKilledCard)
+            if (!card.isDead())
             {
-                killCardByID(cardID, CauseOfDeath::Unknown);
+                _getCardByID(cardID).runBeginTurnScript();
+
+                if (_getCardByID(cardID).isDead())
+                {
+                    killCardByID(cardID, CauseOfDeath::Unknown);
+                }
             }
         }
     }
-    
+
+    // 5. Process resonators (AS3:2922-2948 — annihilator/annihilatee matching)
+    processResonators(player);
+
+    // 6. Remove killed cards
     m_cards.removeKilledCards();
 }
 
@@ -2375,10 +2436,14 @@ bool GameState::checkStagnation() const
     return false;
 }
 
-// AS3 State.as:1200-1700 — process resonators during swoosh (placeholder)
+// AS3 State.as:2922-2948 — resonator/annihilation matching during swoosh.
+// In the C++ engine, resonation is ALREADY handled inline during runScript() (GameState.cpp:952-965)
+// when beginOwnTurnScript runs. The AS3 collects resonators into dictionaries then matches in a
+// separate pass, but the result is equivalent because resonators target OTHER card types (Drone,
+// Engineer, etc.) that don't themselves resonate back — processing order doesn't matter.
+// This method exists as a hook point if we ever need a separate resonation pass.
 void GameState::processResonators(const PlayerID player)
 {
-    // Full implementation in Phase 3
     (void)player;
 }
 

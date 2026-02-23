@@ -111,7 +111,17 @@ public:
     void runAbilityScript();
     void runBeginTurnScript();
     void beginTurn();
+    void beginTurnResetFlags();
     void kill(const int causeOfDeath);
+
+    // Swoosh helpers — individual operations split from beginTurn() for single-pass architecture
+    void clearChill();
+    void clearDamageCounter();
+    void tickConstruction();
+    void tickDelay();
+    bool tickLifespan();        // returns true if card died from lifespan expiry
+    bool applyHealthRegen();    // returns true if health was actually gained
+    void resetRole();
     void applyChill(const HealthType amount);
     void removeChill(const HealthType amount);
     void setID(const CardID id);
