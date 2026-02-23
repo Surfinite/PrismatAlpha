@@ -10,6 +10,68 @@
         { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buy" : ["Drone", "Drone"] },
         { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buy" : ["Drone", "Drone"] }
     ],
+
+    "LiveOpeningBook" :
+    [
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Doomed Drone", 1], ["Engineer", 3]], "enemy" : [], "buyable" : ["Doomed Drone"], "buy" : ["Drone", "Drone", "Drone"] },
+        { "self" : [["Drone", 10], ["Engineer", 3]], "enemy" : [], "buyable" : [], "buy" : ["Drone", "Drone", "Drone"] }
+    ],
+
+    "LiveOpeningBook2" :
+    [
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Doomed Wall"], "buy" : ["Engineer", "Wild Drone", "Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Energy Matrix"], "buy" : ["Engineer", "Wild Drone", "Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Vivid Drone"], "buy" : ["Engineer", "Wild Drone", "Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Galvani Drone"], "buy" : ["Engineer", "Wild Drone", "Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Centurion"], "buy" : ["Engineer", "Wild Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Engineer", 3]], "enemy" : [], "buyable" : ["Wild Drone"], "buy" : ["Wild Drone", "Drone", "Drone"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Doomed Wall"], "buy" : ["Engineer", "Wild Drone", "Wild Drone"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Energy Matrix"], "buy" : ["Engineer", "Wild Drone", "Wild Drone"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Vivid Drone"], "buy" : ["Engineer", "Wild Drone", "Wild Drone"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Galvani Drone"], "buy" : ["Engineer", "Wild Drone", "Wild Drone"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Wild Drone", "Centurion"], "buy" : ["Engineer", "Wild Drone", "Wild Drone"] },
+        { "self" : [["Drone", 6], ["Engineer", 3]], "enemy" : [], "buyable" : ["Wild Drone"], "buy" : ["Wild Drone", "Wild Drone", "Wild Drone"] },
+        { "self" : [["Drone", 6], ["Wild Drone", 2], ["Engineer", 3]], "enemy" : [], "buyable" : ["Wild Drone"], "buy" : ["Drone", "Drone", "Wild Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Drone", "Doomed Wall"], "buy" : ["Drone", "Engineer", "Doomed Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Drone", "Energy Matrix"], "buy" : ["Drone", "Engineer", "Doomed Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Drone", "Centurion"], "buy" : ["Drone", "Engineer", "Doomed Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Drone", "Xeno Guardian"], "buy" : ["Drone", "Engineer", "Doomed Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Drone", "Vivid Drone"], "buy" : ["Drone", "Engineer", "Doomed Drone"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Wall"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Wall"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Energy Matrix"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Engineer", 2]], "enemy" : [], "buyable" : ["Energy Matrix"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Centurion"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Engineer", 2]], "enemy" : [], "buyable" : ["Centurion"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Xeno Guardian"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Engineer", 2]], "enemy" : [], "buyable" : ["Xeno Guardian"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Vivid Drone"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Engineer", 2]], "enemy" : [], "buyable" : ["Vivid Drone"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Defense Grid"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Engineer", 2]], "enemy" : [], "buyable" : ["Defense Grid"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Drone"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Drone"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Galvani Drone"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 8], ["Engineer", 2]], "enemy" : [], "buyable" : ["Galvani Drone"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Wall"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 9], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Wall"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Energy Matrix"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 9], ["Engineer", 2]], "enemy" : [], "buyable" : ["Energy Matrix"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Centurion"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 9], ["Engineer", 2]], "enemy" : [], "buyable" : ["Centurion"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Xeno Guardian"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 9], ["Engineer", 2]], "enemy" : [], "buyable" : ["Xeno Guardian"], "buy" : ["Drone", "Drone", "Engineer"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Vivid Drone"], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 9], ["Engineer", 2]], "enemy" : [], "buyable" : ["Vivid Drone"], "buy" : ["Drone", "Drone", "Engineer", "Engineer"] },
+        { "self" : [["Drone", 8], ["Doomed Drone", 1], ["Engineer", 3]], "enemy" : [], "buyable" : ["Doomed Drone"], "buy" : ["Drone", "Drone", "Drone"] },
+        { "self" : [["Drone", 10], ["Engineer", 3]], "enemy" : [], "buyable" : [], "buy" : ["Drone", "Drone", "Drone"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Drone"], "buy" : ["Drone", "Doomed Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buyable" : ["Doomed Drone"], "buy" : ["Drone", "Doomed Drone"] },
+        { "self" : [["Drone", 6], ["Engineer", 2]], "enemy" : [], "buy" : ["Drone", "Drone"] },
+        { "self" : [["Drone", 7], ["Engineer", 2]], "enemy" : [], "buy" : ["Drone", "Drone"] }
+    ],
     
     "BlueTurnTwoOpeningBook" :
     [
@@ -51,10 +113,29 @@
         ]
     },
     
-    "Ability_Filter" : 
+    "Ability_Filter" :
     {
         "default"    : false,
         "cards"      : ["Drake", "Grenade Mech"]
+    },
+
+    "Live_Ability_Filter" :
+    {
+        "default"    : false,
+        "cards"      : ["Drake", "Grenade Mech", "Odin"]
+    },
+
+    "NoStore_Filter" :
+    {
+        "default"    : false,
+        "allowResonate" : true,
+        "cards"      : ["Conduit", "Animus", "Blastforge", "Auride Core", "Thermite Core", "Overwork", "Blood Pact"],
+        "conditions" : [ [["lifespan", "=", 1]] ],
+        "stateConditions" :
+        [
+            [["cardName", "=", "Amporilla"], ["Tarsier", "<", 3]],
+            [["cardName", "=", "Savior"], ["Drone", "<", 12]]
+        ]
     }
 },
 
@@ -99,6 +180,40 @@
     "ACAvoidBreach" :           { "type":"ActionAbility_Combination", "combination": ["ACEasy", "AvoidBreach_NoChill"] },
     "ACAvoidBreachSimple" :     { "type":"ActionAbility_Combination", "combination": ["ACEasy", "AvoidBreachGK"] },
     "ACAvoidBreach_ChillSolver":{ "type":"ActionAbility_Combination", "combination": ["ACEasy", "AvoidBreach_SolveChill"] },
+
+    "Live_AbilityAttackDefault" :     { "type":"ActionAbility_AttackDefault", "filter":"Live_Ability_Filter"},
+    "Live_AbilityActivateUtility" :   { "type":"ActionAbility_ActivateUtility", "filter":"Live_Ability_Filter"},
+    "Live_AbilityAttackDefaultClick" :{ "type":"ActionAbility_AttackDefault"},
+    "Live_AbilityActivateUtilityClick":{ "type":"ActionAbility_ActivateUtility"},
+    "Live_ACDefault" :                { "type":"ActionAbility_Combination", "combination": ["AbilityEconomyDefault", "Live_AbilityAttackDefault", "Live_AbilityActivateUtility", "AbilityFrontlineGKWill", "AbilitySnipeGKWill", "AbilityChillGKWill", "AbilityAvoidAttackWaste"] },
+    "Live_ACDefaultNF" :              { "type":"ActionAbility_Combination", "combination": ["AbilityEconomyDefault", "Live_AbilityAttackDefault", "Live_AbilityActivateUtility", "AbilitySnipeGKWill", "AbilityChillGKWill", "AbilityAvoidAttackWaste"] },
+    "Live_ACDefaultClickNoChill" :    { "type":"ActionAbility_Combination", "combination": ["AbilityEconomyDefault", "Live_AbilityAttackDefaultClick", "Live_AbilityActivateUtilityClick", "AbilityFrontlineGKWill", "AbilitySnipeGKWill", "AbilityAvoidAttackWaste"] },
+    "Live_ACDefaultClickNF" :         { "type":"ActionAbility_Combination", "combination": ["AbilityEconomyDefault", "Live_AbilityAttackDefaultClick", "Live_AbilityActivateUtilityClick", "AbilitySnipeGKWill", "AbilityChillGKWill", "AbilityAvoidAttackWaste"] },
+    "Live_BuyOpeningBook" :           { "type":"ActionBuy_OpeningBook", "openingBook" : "LiveOpeningBook"},
+    "Live_BuyOpeningBook2" :          { "type":"ActionBuy_OpeningBook", "openingBook" : "LiveOpeningBook2"},
+    "Live_ACEasy" :                   { "type":"ActionAbility_Combination", "combination": ["Live_ACDefault", "Live_BuyOpeningBook"] },
+    "Live_ACEasy2" :                  { "type":"ActionAbility_Combination", "combination": ["Live_ACDefault", "Live_BuyOpeningBook2"] },
+    "Live_ACAvoidBreach_CS" :         { "type":"ActionAbility_Combination", "combination": ["Live_ACEasy", "AvoidBreach_SolveChill"] },
+    "Live_ACAvoidBreach_CS2" :        { "type":"ActionAbility_Combination", "combination": ["Live_ACEasy2", "AvoidBreach_SolveChill"] },
+    "Live_ACAvoidBreach_CSNF" :       { "type":"ActionAbility_Combination", "combination": ["Live_ACDefaultNF", "Live_BuyOpeningBook", "AvoidBreach_SolveChill"] },
+    "Live_ACAvoidBreach_CSClickNC" :  { "type":"ActionAbility_Combination", "combination": ["Live_ACDefaultClickNoChill", "Live_BuyOpeningBook", "AvoidBreach_SolveChill"] },
+    "Live_ACAvoidBreach_CSClickNF" :  { "type":"ActionAbility_Combination", "combination": ["Live_ACDefaultClickNF", "Live_BuyOpeningBook", "AvoidBreach_SolveChill"] },
+
+    "Live_BuyEconFast" :              { "type":"ActionBuy_Sequence", "buySequence": [["Vivid Drone", 0], ["Doomed Drone", 0], ["Galvani Drone", 0], ["Engineer", 0]], "buyLimits": "EconLimits"},
+    "Live_BuyEcon" :                  { "type":"ActionBuy_Sequence", "buySequence": [["Drone", 3], ["Engineer", 0]], "buyLimits": "EconLimits"},
+    "Live_BuyEconLimited" :           { "type":"ActionBuy_Sequence", "buySequence": [["Drone", 0], ["Engineer", 0]], "buyLimits": "EconLimits15"},
+    "Live_BuyOneDrone" :              { "type":"ActionBuy_Sequence", "buySequence": [["Vivid Drone", 1], ["Doomed Drone", 1], ["Galvani Drone", 1], ["Drone", 1]], "buyLimits": "EconLimits"},
+    "Live_BuyTechEcon" :              { "type":"ActionBuy_Combination", "combination": ["Live_BuyOneDrone", "BuyTech_Elyot", "Live_BuyEconFast", "Live_BuySafeguard"] },
+    "Live_BuyEconTech" :              { "type":"ActionBuy_Combination", "combination": ["Live_BuyEcon", "BuyTech_Elyot", "Live_BuySafeguard"] },
+    "Live_BuyComboGreedyAttack" :     { "type":"ActionBuy_Combination", "combination": ["BuyGK_AttackValue", "BuyGK_WillScore", "Live_BuyEconLimited", "BuyTech_Elyot", "Live_BuySafeguard"] },
+    "Live_BuyComboGreedyWill" :       { "type":"ActionBuy_Combination", "combination": ["BuyGK_WillScore", "BuyGK_AttackValue", "Live_BuyEconLimited", "BuyTech_Elyot", "Live_BuySafeguard"] },
+    "Live_BuyComboGreedyDefense" :    { "type":"ActionBuy_Combination", "combination": ["BuyGK_BlockValue", "BuyGK_AttackValue", "Live_BuyEconLimited", "BuyTech_Elyot", "Live_BuySafeguard"] },
+    "Live_BuySafeguard" :             { "type":"ActionBuy_Combination", "combination": ["AbilityAvoidEconomyWaste", "BuyGK_AttackValue", "Live_BuyEcon", "BuyTech_Elyot"] },
+    "Live_BuySafeguardRoot" :         { "type":"ActionBuy_Combination", "combination": ["Live_BuySafeguard", "AbilityAvoidAttackWaste"] },
+    "Live_BCGAttack_Root" :           { "type":"ActionBuy_Combination", "combination": ["BuyGK_AttackValue", "BuyGK_WillScore", "Live_BuySafeguardRoot"] },
+    "Live_BCGWill_Root" :             { "type":"ActionBuy_Combination", "combination": ["BuyGK_WillScore", "Live_BuySafeguardRoot"] },
+    "Live_BCGDef_Root" :              { "type":"ActionBuy_Combination", "combination": ["Live_BuyComboGreedyDefense", "BuyGK_WillScore", "Live_BuySafeguardRoot"] },
+
     "ACDocile" :                { "type":"ActionAbility_Combination", "combination": ["AbilityEconomyDefault", "AvoidBreach_SolveChill"] },                    
     "ACRandom" :                { "type":"ActionAbility_Combination", "combination": ["AbilityEconomyDefault"] },    
     
@@ -171,6 +286,11 @@
     "RedRushIterator" :     { "type":"PPPortfolio", "include":"HardIterator_Root", "buyLimits":"RedRushLimits" },
     "GreenBlueIterator" :   { "type":"PPPortfolio", "include":"HardIterator_Root", "buyLimits":"GreenBlueLimits" },
 
+    "Live_BaseIterator" :       { "type":"PPPortfolio", "PartialPlayers": [ ["DefenseSolver"], [], ["Live_BuyEconTech", "Live_BuyTechEcon", "Live_BuyComboGreedyAttack", "Live_BuyComboGreedyWill", "Live_BuyComboGreedyDefense"], ["BreachGreedyKnapsack"] ] },
+    "Live_BaseIterator_Root" :  { "type":"PPPortfolio", "PartialPlayers": [ ["DefenseSolver"], [], ["Live_BuyEconTech", "Live_BuyTechEcon", "Live_BCGAttack_Root", "Live_BCGWill_Root", "Live_BCGDef_Root"], ["BreachGreedyKnapsack"] ] },
+    "LiveHardestAI_Iterator" :  { "type":"PPPortfolio", "include":"Live_BaseIterator", "PartialPlayers": [ [], ["Live_ACAvoidBreach_CS"], [], [] ] },
+    "LiveHardestAI_Root" :      { "type":"PPPortfolio", "include":"Live_BaseIterator_Root", "PartialPlayers": [ [], ["Live_ACAvoidBreach_CS2", "Live_ACAvoidBreach_CS", "Live_ACAvoidBreach_CSNF", "Live_ACAvoidBreach_CSClickNC", "Live_ACAvoidBreach_CSClickNF"], [], [] ] },
+
     "BaseIterator_Legacy" :     { "type":"PPPortfolio", "PartialPlayers": [ ["DefenseSolver"], [], ["BuyEconTech_Legacy", "BuyTechEcon_Legacy", "BuyComboGreedyAttack_Legacy", "BuyComboGreedyWill_Legacy", "BuyComboGreedyDefense_Legacy"], ["BreachGreedyKnapsack_Legacy"] ] },
     "HardIterator_Root_Legacy" :{ "type":"PPPortfolio", "PartialPlayers": [ ["DefenseSolver"], ["ACAvoidBreach_ChillSolver"], ["BuyEconTech_Legacy", "BuyTechEcon_Legacy", "BCGAttack_Root_Legacy", "BCGWill_Root_Legacy", "BCGDef_Root_Legacy"], ["BreachGreedyKnapsack_Legacy"] ] },
     "HardIterator_Legacy" :     { "type":"PPPortfolio", "include":"BaseIterator_Legacy", "PartialPlayers": [ [], ["ACAvoidBreach_ChillSolver"], [], [] ] }
@@ -212,6 +332,10 @@
     "Personality_DroneSpam":{ "type":"Player_StackAlphaBeta", "TimeLimit":3000, "MaxChildren":40, "RootMoveIterator":"DroneSpamIterator", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "Personality_RedRush"  :{ "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"RedRushIterator", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "Personality_GreenBlue":{ "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"GreenBlueIterator", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+
+    "Live_Playout" :           { "type":"Player_PPSequence", "PartialPlayers":["DefenseSolver", "Live_ACAvoidBreach_CS", "Live_BuyComboGreedyAttack", "BreachGreedyKnapsack"]},
+    "LiveHardestAI" :          { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
+    "LiveHardestAIUCT" :       { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
 
     "Playout_Legacy" :         { "type":"Player_PPSequence", "PartialPlayers":["DefenseSolver", "ACAvoidBreach_ChillSolver", "BuyComboGreedyAttack_Legacy", "BreachGreedyKnapsack"]},
     "OriginalHardestAI" :      { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
@@ -282,6 +406,8 @@
 
     { "run":false, "type":"Tournament", "name":"SelfPlayTimingTest", "rounds":5, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
     { "run":false, "type":"Tournament", "name":"ThreadSafetyTest", "rounds":8, "Threads":8, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_threadtest/"}, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"LiveHardestAI_Smoke", "rounds":2, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"LiveHardestAI","group":1}, {"name":"OriginalHardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"LiveVsOriginal", "rounds":1500, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"LiveHardestAI","group":1}, {"name":"OriginalHardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"SelfPlay_Smoke", "rounds":3, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_smoke/"}, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
     { "run":false, "type":"Tournament", "name":"SelfPlay_Preview", "rounds":8, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "SkipColorSwap":true, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_preview/"}, "players":[ {"name":"OriginalHardestAI_2s","group":1}, {"name":"OriginalHardestAI_Copy_2s","group":2}] },
     { "run":false, "type":"Tournament", "name":"AutoDetectTest", "rounds":1, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":false}, "players":[ {"name":"OriginalHardestAI_2s","group":1}, {"name":"OriginalHardestAI_Copy_2s","group":2}] },
