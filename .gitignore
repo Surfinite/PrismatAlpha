@@ -223,3 +223,21 @@ docs/wiki/*.pdf
 
 # --- Python cache in tools/ ---
 tools/__pycache__/
+
+# --- Discord extraction working files (large, regenerated) ---
+tools/discord_extraction/chunks/
+tools/discord_extraction/batch_status.json
+tools/discord_extraction/processed_chunks.json
+tools/discord_extraction/processed_chunks_extractions_sonnet.json
+
+# --- SWF binary extraction temp files ---
+tmp_swf_extract/
+
+# --- Temp stdout/stderr captures ---
+tmp_stdout.txt
+tmp_stderr.txt
+
+# --- Stats visualization scripts & output (local tools) ---
+tools/*_stats.py
+tools/*_excalidraw.py
+tools/*.excalidraw
