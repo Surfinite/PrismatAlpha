@@ -365,6 +365,13 @@ class Session:
         self._c2s_lock = threading.Lock()  # Protects server_sock writes + ID counter
         self._c2s_offset = 0            # Offset added to real C->S msgIds (incremented per injection)
         self._c2s_last_real_id = -1     # Last real C->S msgId seen (before offset)
+        # Auto-spectate state
+        self.top_games = []              # Sorted top games from TopGamesUpdate
+        self.live_game_id = None         # liveGameID of current game (played or spectated)
+        self.auto_spectate = False       # Whether auto-spectate loop is active
+        self._last_spectated_id = None   # Avoid re-spectating same game immediately
+        self._spectate_count = 0         # Games spectated this session
+        self._spectate_retry = 0         # Retry counter when no games available
 
     def update(self, **kwargs):
         with self._lock:
@@ -405,6 +412,18 @@ class Session:
     def inject_global_chat(self, channel, text):
         """Inject a global/channel chat message. Channel is e.g. 'globalen'."""
         return self._inject_msg(["Chat", str(channel), str(text)], text)
+
+    def inject_observe_top_game(self, gameid):
+        """Inject ObserveTopGame to start spectating a featured game."""
+        return self._inject_msg(["ObserveTopGame", str(gameid)], f"spectate {str(gameid)[:12]}")
+
+    def inject_quit_game(self):
+        """Inject QuitGame to leave current game and return to lobby."""
+        with self._lock:
+            gid = self.live_game_id
+        if gid:
+            return self._inject_msg(["QuitGame", str(gid)], "quit game")
+        return False
 
     def _inject_msg(self, inner_msg, log_text=""):
         """Inject an arbitrary message via the server socket. Thread-safe."""
@@ -611,6 +630,188 @@ def _handle_server_msg_dump(msg_type, direction, params, raw_msg):
         text = params[1][0] if params[1] else ""
         if isinstance(text, str):
             _replay_dumper.on_server_msg(text)
+
+
+# ============================================================
+# Auto-Spectate — TopGamesUpdate parsing & game cycling
+# ============================================================
+
+_VK_F8 = 0x77  # F8 virtual key code for auto-spectate toggle
+_top_games_logged = False  # Log raw stub once for field name discovery
+
+
+@on_message("TopGamesUpdate")
+def _handle_top_games_update(msg_type, direction, params, raw_msg):
+    """Parse server-pushed top games list and store sorted by quality."""
+    global _top_games_logged
+    if not params or not isinstance(params[0], list):
+        return
+
+    games = params[0]
+
+    # Log first raw message for field name discovery
+    if not _top_games_logged and games:
+        _top_games_logged = True
+        first = games[0] if games else {}
+        if isinstance(first, dict):
+            print(f"  [spectate] TopGamesUpdate stub keys: {list(first.keys())}")
+            print(f"  [spectate] First stub: {json.dumps(first, default=str)[:500]}")
+        else:
+            print(f"  [spectate] TopGamesUpdate first element type: {type(first)}")
+
+    parsed = []
+    for game in games:
+        if not isinstance(game, dict):
+            continue
+
+        # Extract game ID — actual field is "gameid" (all lowercase, confirmed from live data)
+        gameid = (game.get("gameid") or game.get("gameId") or game.get("id")
+                  or game.get("liveGameID") or game.get("gameID"))
+
+        # Players: direct string array ["flopflop", "xYotsu"]
+        players = []
+        player_list = game.get("players", [])
+        if isinstance(player_list, list):
+            for p in player_list:
+                if isinstance(p, dict):
+                    players.append(p.get("displayName") or p.get("name") or "?")
+                elif isinstance(p, str):
+                    players.append(p)
+
+        # Ratings: direct number array [2198.75, 2244.26] (top-level, not nested in players)
+        ratings = []
+        ratings_list = game.get("ratings", [])
+        if isinstance(ratings_list, list):
+            ratings = [float(r) for r in ratings_list if isinstance(r, (int, float))]
+
+        started = float(game.get("started", 0) or 0)
+        time_control = game.get("timeControl", "")
+
+        # Skip dev-mode test games (DerpyMcLongName etc.) with fake ratings
+        avg_rating = sum(ratings) / max(len(ratings), 1)
+        if avg_rating < 500:
+            continue
+
+        # Score: higher-rated and more recent games sort first
+        # (GameStub.as:52-57 formula)
+        score = avg_rating - 100 * started / (1000 * 60) if started else avg_rating
+
+        parsed.append({
+            "gameid": gameid,
+            "players": players,
+            "ratings": ratings,
+            "score": score,
+            "started": started,
+            "timeControl": str(time_control),
+        })
+
+    parsed.sort(key=lambda g: g["score"], reverse=True)
+
+    with session._lock:
+        session.top_games = parsed
+
+    if parsed:
+        best = parsed[0]
+        p_str = " vs ".join(best["players"][:2])
+        avg = sum(best["ratings"][:2]) / max(len(best["ratings"][:2]), 1)
+        status = "ON" if session.auto_spectate else "OFF"
+        print(f"  [spectate] {len(parsed)} games available (best: {p_str}, avg {avg:.0f}) [auto-spectate {status}]")
+        # If auto-spectate is on and we're not currently in a game, start spectating
+        if session.auto_spectate and not session.live_game_id:
+            _start_spectating_best(session)
+    elif session.auto_spectate:
+        print(f"  [spectate] No live games right now — waiting for next update...")
+
+
+def _start_spectating_best(sess, exclude_id=None):
+    """Pick the best available game and inject ObserveTopGame."""
+    with sess._lock:
+        if not sess.auto_spectate:
+            return
+        games = list(sess.top_games)
+        current_game = sess.live_game_id
+
+    # Don't try to spectate if we're already in a game (unless cycling after GameOver)
+    if current_game and not exclude_id:
+        print(f"  [spectate] In a game — will look for games when it ends")
+        return
+
+    # Filter out the game we just finished watching (also skip entries with no gameid)
+    candidates = [g for g in games if g.get("gameid") and g["gameid"] != exclude_id]
+
+    if not candidates:
+        with sess._lock:
+            sess._spectate_retry += 1
+            retry = sess._spectate_retry
+        if retry <= 6:
+            print(f"  [spectate] No games available — retry {retry}/6 in 10s...")
+            threading.Timer(10.0, _start_spectating_best, args=[sess, exclude_id]).start()
+        else:
+            print(f"  [spectate] No games after 6 retries — press F8 to retry")
+            with sess._lock:
+                sess._spectate_retry = 0
+        return
+
+    best = candidates[0]
+    gameid = best["gameid"]
+    players = best.get("players", ["?", "?"])
+    ratings = best.get("ratings", [0, 0])
+
+    with sess._lock:
+        sess._spectate_count += 1
+        sess._last_spectated_id = gameid
+        sess._spectate_retry = 0
+        count = sess._spectate_count
+
+    p_str = f"{players[0]} ({ratings[0]:.0f})" if players else "?"
+    if len(players) > 1:
+        p_str += f" vs {players[1]} ({ratings[1]:.0f})"
+    print(f"  [spectate] Game #{count} — Observing: {p_str}")
+
+    # Click Watch tab → game card so the client transitions naturally
+    if not _click_spectate_game():
+        # Fallback to protocol injection if click fails
+        print(f"  [spectate] Click failed — trying protocol injection")
+        sess.inject_observe_top_game(gameid)
+
+
+def _return_to_lobby_and_spectate(sess, last_id):
+    """Dismiss game-over screen, return to lobby, then spectate next game."""
+    # Step 1: Press Escape to dismiss game-over screen
+    print(f"  [spectate] Pressing Escape to return to lobby...")
+    _send_escape_to_prismata()
+    time.sleep(1.0)
+
+    # Step 2: Inject QuitGame as belt-and-suspenders
+    sess.inject_quit_game()
+    time.sleep(2.0)
+
+    # Step 3: Now try to spectate the next game
+    _start_spectating_best(sess, exclude_id=last_id)
+
+
+@on_message("GameOver")
+def _handle_game_over_spectate(msg_type, direction, params, raw_msg):
+    """Auto-cycle to next game if auto-spectate is active."""
+    if not session.auto_spectate:
+        return
+    with session._lock:
+        last_id = session._last_spectated_id
+    print(f"  [spectate] Game ended — returning to lobby in 3s...")
+    threading.Timer(3.0, _return_to_lobby_and_spectate, args=[session, last_id]).start()
+
+
+@on_message("GameOverDraw")
+def _handle_game_over_draw_spectate(msg_type, direction, params, raw_msg):
+    """Auto-cycle on draw if auto-spectate is active."""
+    if not session.auto_spectate:
+        return
+    # Clear live_game_id for draws (GameOver handler already does this)
+    session.update(live_game_id=None)
+    with session._lock:
+        last_id = session._last_spectated_id
+    print(f"  [spectate] Game drawn — returning to lobby in 3s...")
+    threading.Timer(3.0, _return_to_lobby_and_spectate, args=[session, last_id]).start()
 
 
 # ============================================================
@@ -831,7 +1032,10 @@ def _handle_user_chat(msg_type, direction, params, raw_msg):
 # Win32 constants for SendInput
 _VK_F6 = 0x75
 _INPUT_KEYBOARD = 1
+_INPUT_MOUSE = 0
 _KEYEVENTF_KEYUP = 0x0002
+_MOUSEEVENTF_LEFTDOWN = 0x0002
+_MOUSEEVENTF_LEFTUP = 0x0004
 
 _LIVE_STATE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                  "..", "bin", "live_game_state.json")
@@ -891,6 +1095,129 @@ def _send_f6_to_prismata():
     time.sleep(0.05)
 
     if prev_hwnd and prev_hwnd != hwnd:
+        user32.SetForegroundWindow(prev_hwnd)
+
+    return True
+
+
+def _click_at(hwnd, frac_x, frac_y, label=""):
+    """Click at a fractional position within the Prismata client area."""
+    user32 = ctypes.windll.user32
+
+    # Use client area (excludes title bar and window borders)
+    class RECT(ctypes.Structure):
+        _fields_ = [("left", ctypes.c_long), ("top", ctypes.c_long),
+                     ("right", ctypes.c_long), ("bottom", ctypes.c_long)]
+    class POINT(ctypes.Structure):
+        _fields_ = [("x", ctypes.c_long), ("y", ctypes.c_long)]
+
+    client_rect = RECT()
+    user32.GetClientRect(hwnd, ctypes.byref(client_rect))
+    pt = POINT(x=0, y=0)
+    user32.ClientToScreen(hwnd, ctypes.byref(pt))
+    cw = client_rect.right
+    ch = client_rect.bottom
+
+    click_x = pt.x + int(cw * frac_x)
+    click_y = pt.y + int(ch * frac_y)
+    if label:
+        print(f"  [spectate] Clicking {label} at ({click_x}, {click_y}) in {cw}x{ch} client")
+
+    user32.SetCursorPos(click_x, click_y)
+    time.sleep(0.05)
+    user32.mouse_event(_MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+    time.sleep(0.05)
+    user32.mouse_event(_MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+
+
+def _ensure_foreground(hwnd):
+    """Reliably bring a window to foreground using AttachThreadInput."""
+    user32 = ctypes.windll.user32
+    kernel32 = ctypes.windll.kernel32
+
+    fg = user32.GetForegroundWindow()
+    if fg == hwnd:
+        return True
+
+    # Attach our thread to the foreground window's thread — this lets us
+    # call SetForegroundWindow without Windows blocking it
+    our_tid = kernel32.GetCurrentThreadId()
+    fg_tid = user32.GetWindowThreadProcessId(fg, None)
+    attached = False
+    if our_tid != fg_tid:
+        attached = bool(user32.AttachThreadInput(our_tid, fg_tid, True))
+
+    # Also try Alt key trick as belt-and-suspenders
+    user32.keybd_event(0x12, 0, 0, 0)      # VK_MENU (Alt) down
+    user32.keybd_event(0x12, 0, 0x0002, 0)  # VK_MENU up
+    time.sleep(0.02)
+
+    user32.BringWindowToTop(hwnd)
+    user32.SetForegroundWindow(hwnd)
+    time.sleep(0.15)
+
+    if attached:
+        user32.AttachThreadInput(our_tid, fg_tid, False)
+
+    # Verify focus was actually acquired
+    if user32.GetForegroundWindow() != hwnd:
+        print("  [spectate] WARNING: Could not acquire focus — aborting clicks")
+        return False
+    return True
+
+
+def _send_escape_to_prismata():
+    """Send Escape key to Prismata to dismiss game-over screen.
+    Does NOT restore previous focus — keeps Prismata foreground for click sequence."""
+    hwnd = _find_prismata_hwnd()
+    if not hwnd:
+        return False
+    if not _ensure_foreground(hwnd):
+        return False
+
+    VK_ESCAPE = 0x1B
+    user32 = ctypes.windll.user32
+    inputs = (_INPUT * 2)(
+        _INPUT(type=_INPUT_KEYBOARD, ki=_KEYBDINPUT(wVk=VK_ESCAPE, dwFlags=0)),
+        _INPUT(type=_INPUT_KEYBOARD, ki=_KEYBDINPUT(wVk=VK_ESCAPE, dwFlags=_KEYEVENTF_KEYUP)),
+    )
+    user32.SendInput(2, inputs, ctypes.sizeof(_INPUT))
+    time.sleep(0.05)
+    return True
+
+
+def _click_spectate_game():
+    """Click Watch tab then game card in Top Live Games to start spectating."""
+    hwnd = _find_prismata_hwnd()
+    if not hwnd:
+        print("  [spectate] Prismata window not found")
+        return False
+
+    user32 = ctypes.windll.user32
+
+    # Save cursor and focus
+    class POINT(ctypes.Structure):
+        _fields_ = [("x", ctypes.c_long), ("y", ctypes.c_long)]
+    old_pos = POINT()
+    user32.GetCursorPos(ctypes.byref(old_pos))
+    prev_hwnd = user32.GetForegroundWindow()
+
+    # Bring Prismata to front with verified focus
+    if not _ensure_foreground(hwnd):
+        return False
+
+    # Step 1: Click "Watch" tab (4th of 5 tabs, top center bar)
+    _click_at(hwnd, 0.52, 0.02, "Watch tab")
+    time.sleep(0.5)
+
+    # Step 2: Click center of screen (game card in Top Live Games)
+    _click_at(hwnd, 0.50, 0.50, "center — game card")
+    time.sleep(0.1)
+
+    # Restore cursor and focus
+    user32.SetCursorPos(old_pos.x, old_pos.y)
+    if prev_hwnd and prev_hwnd != hwnd:
+        time.sleep(0.1)
         user32.SetForegroundWindow(prev_hwnd)
 
     return True
@@ -1072,8 +1399,9 @@ def _handle_begin_game_live(msg_type, direction, params, raw_msg):
     info = params[0]
 
     merged_deck = info.get("mergedDeck", [])
+    live_id = info.get("liveGameID") or info.get("serverID") or info.get("gameId")
     session.update(merged_deck=merged_deck, turn_number=0, turn_buys=[],
-                   last_f6_state=None)
+                   last_f6_state=None, live_game_id=live_id)
 
     # Extract player names and IDs from laneInfo
     players = []
@@ -1215,7 +1543,7 @@ def _handle_end_turn_live(msg_type, direction, params, raw_msg):
 def _handle_game_over_live(msg_type, direction, params, raw_msg):
     """Clear live state on game end."""
     session.update(merged_deck=[], turn_number=0, turn_buys=[],
-                   last_f6_state=None)
+                   last_f6_state=None, live_game_id=None)
     # Clean up state file
     try:
         if os.path.exists(_LIVE_STATE_PATH):
@@ -1694,10 +2022,28 @@ def run_proxy(real_ip, log_path=None):
     _chat_trigger_path = os.path.join(os.path.dirname(__file__), "..", "bin", "chat_trigger.txt")
     print(f"[*] Chat trigger: write message to {os.path.abspath(_chat_trigger_path)}")
     print(f"[*] C->S msgId rewriting: ENABLED")
+    print(f"[*] Auto-spectate: press F8 to toggle (works globally, no focus needed)")
 
     try:
         while True:
             time.sleep(0.5)
+            # Check F8 for auto-spectate toggle (global — works without Prismata focus)
+            try:
+                if ctypes.windll.user32.GetAsyncKeyState(_VK_F8) & 0x0001:
+                    session.auto_spectate = not session.auto_spectate
+                    if session.auto_spectate:
+                        with session._lock:
+                            count = session._spectate_count
+                        print(f"\n  [spectate] AUTO-SPECTATE ON (games watched: {count})")
+                        _start_spectating_best(session)
+                    else:
+                        with session._lock:
+                            session._spectate_retry = 0
+                            count = session._spectate_count
+                        print(f"\n  [spectate] AUTO-SPECTATE OFF (games watched: {count})")
+            except Exception:
+                pass  # GetAsyncKeyState may fail if no console session
+
             # Check for chat trigger file
             if os.path.exists(_chat_trigger_path):
                 try:
@@ -1746,7 +2092,8 @@ def run_proxy(real_ip, log_path=None):
     except KeyboardInterrupt:
         snap = session.snapshot()
         codes = snap["replay_codes"]
-        print(f"\n[*] Shutting down. {len(codes)} codes captured:")
+        spectated = session._spectate_count
+        print(f"\n[*] Shutting down. {len(codes)} codes captured, {spectated} games spectated.")
         for i, (code, result) in enumerate(codes, 1):
             print(f"  {i}. {code} ({result})")
         print(f"[*] Session: {json.dumps(snap, indent=2)}")

@@ -482,6 +482,7 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 | `c:\libraries\prismata-replay-parser\build_replay_db.py` | DB migration + import from all JSON sources |
 | `c:\libraries\prismata-replay-parser\replay_queries.py` | Query library (counts, player stats, unit search) |
 | `c:\libraries\prismata-replay-parser\replay_cli.py` | CLI: status, count, player, unit, sources, export |
+| `c:\libraries\prismata-replay-parser\batch_fetch.py` | Concurrent batch player fetcher (reads player list, skips existing, max-concurrent limiting) |
 | `docs/audit/` | Engine logic audit findings (B1 script ordering, B2-B4 resources/ability/snipe, B5-B7 sellable/stagnation/death) |
 | `c:\libraries\DiscordChatExporter\` | Discord message export tool (CLI at `cli/`) |
 | `c:\libraries\prismata-replay-parser\validate_balance_all.js` | Balance validation across all replay sources |
@@ -616,19 +617,20 @@ Replays stored as gzipped JSON on S3: `http://saved-games-alpha.s3-website-us-ea
 **expert_replays.json key format**: Uses capital `Code` (not `code` or `replayCode`). Other fields: `P1Name`, `P2Name`, `P1RatingIni`, `P2RatingIni`, `StartTime`, `Result`, `Deck`.
 - **expert_replays.json null Decks**: Some games have `null` Deck field. Always guard: `if not g['deck']: continue` before iterating units in stats scripts.
 - **Discord usernames ≠ in-game names**: Players may use different names on Discord (e.g., `_wonderboat` for Wonderboat, `SpyrFyr` for SpiritFryer). Search broadly with partial matching when looking up Discord activity.
+- **Shalev rating fields in replay JSON**: `displayRating = shalevU + 350`. `shalevV` = uncertainty (high = inactive/vacation). `score` with TC-index key (e.g. `"23"`) is cumulative XP, not rating. Vacation penalty inflates `shalevV`, not `shalevU`. `peakAdjustedShalevU` tracks all-time peak.
 
 ### Replay Code Sources
 
 | Source | Codes | Location |
 |---|---|---|
-| Per-player V2 (42 players, rated) | ~125,185 | `prismata-replay-parser/*_all_replays_v2.json` |
+| Per-player V2 (163 players, rated) | ~224,412 | `prismata-replay-parser/*_all_replays_v2.json` |
 | Expert (prismata-stats API, 2000+) | ~31,506 | `prismata-replay-parser/expert_replays.json` |
 | Reddit /r/prismata | 245 | `prismata-replay-parser/reddit_valid_replays.json` |
 | Tournament (Grand Prix + leagues) | 960 | `prismata-replay-parser/tournament_valid_replays.json` |
 | Discord (Prismata + League servers) | 3,626 | `prismata-replay-parser/discord_replay_codes_all.json` |
-| **Total unique across all sources** | **~128,978** | — |
+| **Total unique across all sources** | **~170,926** | — |
 
-- **Per-player V2 fetch** (`fetch_player_replays.py` at `c:\libraries\prismata-replay-parser\`): Month-by-month queries with adaptive date-range splitting bypass the 100-per-page API cap. `--rated-only --delay 2` is stable. 42 players fetched (Feb 23): elite tier (Punf 4.5K, Achaa 4.8K, MasN), expert tier (Mega-supp 4.5K, zezetel 5.4K, Shadourow, TheTrumpWall, ruinedshadows 4K), and 34 others. ~92K codes genuinely new vs V1 sources. V2 records have identical structure to expert_replays.json (same 15 keys, `Code`/`Deck`/`P1Name`/etc.).
+- **Per-player V2 fetch** (`fetch_player_replays.py` at `c:\libraries\prismata-replay-parser\`): Month-by-month queries with adaptive date-range splitting bypass the 100-per-page API cap. `--rated-only --delay 2` is stable. 163 players fetched (Feb 23, 311 more pending — API down): all 2000+ players, plus partial 1800-1999 and lower tiers via `batch_fetch.py`. V2 records have identical structure to expert_replays.json (same 15 keys, `Code`/`Deck`/`P1Name`/etc.).
 
 **Discord export tool**: `c:\libraries\DiscordChatExporter\cli\DiscordChatExporter.Cli.exe` (pre-built v2.46, no .NET SDK needed).
 Discord server IDs: Prismata = `112616041175089152`, Prismata League = `412991183355248640`.
