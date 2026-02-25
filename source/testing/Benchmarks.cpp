@@ -1871,3 +1871,124 @@ void Benchmarks::DoAnalyze(const std::string & replayFile, const std::string & p
     printf("}\n");
     fflush(stdout);
 }
+
+void Benchmarks::DoDumpStates(const std::string & replayFile, const std::string & outputFile)
+{
+    // 1. Read and parse replay JSON
+    std::ifstream ifs(replayFile);
+    if (!ifs.is_open())
+    {
+        fprintf(stderr, "[DumpStates] Cannot open replay: %s\n", replayFile.c_str());
+        return;
+    }
+    std::string raw((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+    ifs.close();
+
+    rapidjson::Document doc;
+    if (doc.Parse(raw.c_str()).HasParseError())
+    {
+        fprintf(stderr, "[DumpStates] JSON parse error in %s\n", replayFile.c_str());
+        return;
+    }
+
+    // 2. Validate required sections
+    if (!doc.HasMember("deckInfo") || !doc["deckInfo"].HasMember("mergedDeck")
+        || !doc.HasMember("initInfo")
+        || !doc.HasMember("commandInfo") || !doc["commandInfo"].HasMember("commandList")
+        || !doc["commandInfo"].HasMember("clicksPerTurn")
+        || !doc.HasMember("playerInfo"))
+    {
+        fprintf(stderr, "[DumpStates] Missing required replay sections\n");
+        return;
+    }
+
+    // 3. Extract replay components
+    const auto & mergedDeck = doc["deckInfo"]["mergedDeck"];
+    const auto & initInfo = doc["initInfo"];
+    const auto & commandList = doc["commandInfo"]["commandList"];
+    const auto & clicksPerTurn = doc["commandInfo"]["clicksPerTurn"];
+    const auto & playerInfo = doc["playerInfo"];
+
+    // 4. Redirect stdout → stderr during stepper init (suppresses PRISMATA_ASSERT noise)
+    fflush(stdout);
+    int savedFd = _dup(_fileno(stdout));
+    _dup2(_fileno(stderr), _fileno(stdout));
+
+    ReplayStepper stepper;
+    bool initOk = stepper.init(mergedDeck, initInfo, commandList, clicksPerTurn, playerInfo);
+
+    // Restore stdout
+    fflush(stdout);
+    _dup2(savedFd, _fileno(stdout));
+    _close(savedFd);
+
+    if (!initOk)
+    {
+        fprintf(stderr, "[DumpStates] ReplayStepper init failed for %s\n", replayFile.c_str());
+        return;
+    }
+
+    // 5. Open output file
+    FILE * out = fopen(outputFile.c_str(), "w");
+    if (!out)
+    {
+        fprintf(stderr, "[DumpStates] Cannot open output: %s\n", outputFile.c_str());
+        return;
+    }
+
+    // Helper lambda: strip newlines from toJSONString() output so each JSONL line is a single line
+    auto singleLineState = [](const GameState & s) -> std::string
+    {
+        std::string json = s.toJSONString();
+        json.erase(std::remove(json.begin(), json.end(), '\n'), json.end());
+        json.erase(std::remove(json.begin(), json.end(), '\r'), json.end());
+        return json;
+    };
+
+    // 6. Dump initial state (before any turns)
+    {
+        const GameState & state = stepper.getState();
+        fprintf(out, "{\"turn\":-1,\"label\":\"initial\",\"player\":%d,\"hash\":\"%016llx\",\"state\":%s}\n",
+            (int)state.getActivePlayer(), (unsigned long long)state.debugStateHash(), singleLineState(state).c_str());
+    }
+
+    // 7. Step through turns, dumping state at each boundary
+    int turnCount = 0;
+
+    // Redirect stdout → stderr during stepping (suppresses PRISMATA_ASSERT noise)
+    fflush(stdout);
+    savedFd = _dup(_fileno(stdout));
+    _dup2(_fileno(stderr), _fileno(stdout));
+
+    while (stepper.hasNextTurn())
+    {
+        ReplayStepper::StepResult result = stepper.advanceTurn();
+        const GameState & state = stepper.getState();
+        int turn = stepper.getCurrentTurn();
+        int player = (int)state.getActivePlayer();
+
+        fprintf(out, "{\"turn\":%d,\"player\":%d,\"hash\":\"%016llx\",\"state\":%s}\n",
+            turn, player, (unsigned long long)state.debugStateHash(), singleLineState(state).c_str());
+
+        turnCount++;
+
+        if (result == ReplayStepper::StepResult::FatalError ||
+            result == ReplayStepper::StepResult::GameOver)
+            break;
+    }
+
+    // Restore stdout
+    fflush(stdout);
+    _dup2(savedFd, _fileno(stdout));
+    _close(savedFd);
+
+    // 8. Write summary line
+    const GameState & finalState = stepper.getState();
+    fprintf(out, "{\"summary\":true,\"total_turns\":%d,\"final_hash\":\"%016llx\",\"game_over\":%s,\"benign_skips\":%d,\"fatal_errors\":%d}\n",
+        turnCount, (unsigned long long)finalState.debugStateHash(),
+        finalState.isGameOver() ? "true" : "false",
+        stepper.getBenignSkips(), stepper.getFatalErrors());
+
+    fclose(out);
+    fprintf(stderr, "[DumpStates] Wrote %d turns to %s\n", turnCount, outputFile.c_str());
+}

@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
         if (arg == "--suggest") { isSuggestMode = true; break; }
         if (arg == "--eval") { isSuggestMode = true; break; }  // --eval also needs quiet stdout
         if (arg == "--analyze") { isSuggestMode = true; break; }  // --analyze also needs quiet stdout
+        if (arg == "--dump-states") { isSuggestMode = true; break; }  // --dump-states also needs quiet stdout
         if (arg == "--replay" || arg == "--replay-dir") { isReplayMode = true; break; }
     }
 
@@ -100,6 +101,8 @@ int main(int argc, char* argv[])
     int suggestThinkTime = 3000;
     std::string evalFile;
     std::string analyzeFile;
+    std::string dumpStatesFile;
+    std::string dumpStatesOutput = "state_dump.jsonl";
     std::string replayFile;
     std::string replayDir;
     std::string replayOutputDir = "training/data/expert/";
@@ -127,6 +130,10 @@ int main(int argc, char* argv[])
             evalFile = argv[++i];
         if (std::string(argv[i]) == "--analyze" && i + 1 < argc)
             analyzeFile = argv[++i];
+        if (std::string(argv[i]) == "--dump-states" && i + 1 < argc)
+            dumpStatesFile = argv[++i];
+        if (std::string(argv[i]) == "--dump-output" && i + 1 < argc)
+            dumpStatesOutput = argv[++i];
         if (std::string(argv[i]) == "--replay" && i + 1 < argc)
             replayFile = argv[++i];
         if (std::string(argv[i]) == "--replay-dir" && i + 1 < argc)
@@ -143,6 +150,10 @@ int main(int argc, char* argv[])
     if (!suggestFile.empty())
     {
         Benchmarks::DoSuggest(suggestFile, suggestPlayer, suggestThinkTime);
+    }
+    else if (!dumpStatesFile.empty())
+    {
+        Benchmarks::DoDumpStates(dumpStatesFile, dumpStatesOutput);
     }
     else if (!analyzeFile.empty())
     {

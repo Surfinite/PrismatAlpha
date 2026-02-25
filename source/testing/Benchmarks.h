@@ -25,5 +25,6 @@ namespace Benchmarks
     void DoReplayBatch(const std::string & replayDir, const std::string & outputDir, int minRating);
     void DoEval(const std::string & replayFile);
     void DoAnalyze(const std::string & replayFile, const std::string & playerName, int thinkTimeMs);
+    void DoDumpStates(const std::string & replayFile, const std::string & outputFile);
 }
 }
