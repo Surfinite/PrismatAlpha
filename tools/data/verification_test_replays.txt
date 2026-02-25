@@ -1,0 +1,37 @@
+# Verification Test Replays
+# =========================
+# Curated set for regression testing of the C++ engine state verification pipeline.
+# Each code is a known-valid replay on S3 (cached in bin/replays_test/).
+#
+# Selection criteria:
+#   - Game length diversity: short (13-16 turns), medium (20-24), long (28-38)
+#   - Player diversity: top-tier (flopflop, Punf, Kolento, Homeless, Mega-supp, 307th)
+#   - Unit diversity: chill units, absorbers, complex abilities, legendary units
+#   - URL encoding coverage: codes with @, +, and plain alphanumeric
+#   - At least 15 codes for statistical significance
+
+# --- Short games (13-18 turns) ---
+xhzg6-ncYpY    # 14 turns: Lucina Spinos, Xeno Guardian, Frost Brooder, Arms Race, Pixie
+o9X0r-UWCQW    # 13 turns: Borehole Patroller, Gaussite Symbiote, Flame Animus, Nivo Charge
+BDw97-dQUyX    # 16 turns: Mahar Rectifier, Steelforge, Cryo Ray, Frostbite, Corpus
+DNpCJ-HSnPF    # 18 turns: Colossus, Redeemer, Amporilla, Auride Core
+3RMR0-0GaiR    # 18 turns: Centrifuge, Innervi Field, Xeno Guardian, Nivo Charge
+
+# --- Medium games (20-24 turns) ---
+vVhWq-8gl1S    # 24 turns: Colossus, Chrono Filter, Chieftain, Thunderhead, Barrier
+MpJBm-AXADv    # 22 turns: Tesla Coil, Cryo Ray, Militia, Frostbite, Shiver Yeti
+AmVv8-capn4    # 21 turns: Centrifuge, Tantalum Ray, Chieftain, Auric Impulse
+Kq0O0-mHEhA    # 21 turns: Asteri Cannon, Redeemer, Chrono Filter, Nivo Charge, Barrier
+Otlxy-X7AAj    # 20 turns: Redeemer, Corpus, Arms Race, Feral Warden, Venge Cannon
+3XIU1-2xr7Z    # 24 turns: Lucina Spinos, Cryo Ray, Arka Sodara, Trinity Drone
+
+# --- Long games (28-38 turns) ---
+2feHk-9nh9S    # 28 turns: Synthesizer, Antima Comet, Barrier, Gauss Charge, Perforator
+9RIlO-qcI8B    # 28 turns: Xeno Guardian, Chieftain, Nivo Charge, Gauss Charge, Plexo Cell
+rG9HL-C6TNq    # 30 turns: Steelforge, Xeno Guardian, Arms Race, Antima Comet
+cZyRk-YKaZO    # 36 turns: Mahar Rectifier, Innervi Field, Husk, Infusion Grid, Synthesizer
+
+# --- URL encoding test: codes with @ and + characters ---
+E@I5R-0XnVm    # 27 turns: Tia Thurnax, Chieftain, Plasmafier, Feral Warden, Cynestra (@ in code)
+@5IOB-0RcYQ    # 38 turns: Steelforge, Photonic Fibroid, Arka Sodara, Wild Drone (@ prefix)
+zj+jc-9UuAl    # 30 turns: Centrifuge, Pixie, Borehole Patroller, Omega Splitter (+ in code)

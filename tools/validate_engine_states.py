@@ -393,6 +393,9 @@ def main():
             "\n"
             "  # Full pipeline (interactive F6 capture)\n"
             "  python tools/validate_engine_states.py Abc12-defgh --verbose\n"
+            "\n"
+            "  # Regression test (curated replays, auto-detects F6 ground truth)\n"
+            "  python tools/validate_engine_states.py --regression\n"
         ),
     )
     parser.add_argument(
@@ -432,7 +435,39 @@ def main():
         action="store_true",
         help="Pass --verbose to comparison tool for detailed mismatch output",
     )
+    parser.add_argument(
+        "--regression",
+        action="store_true",
+        help=(
+            "Run regression test suite: reads codes from "
+            "tools/data/verification_test_replays.txt, uses "
+            "tools/data/f6_ground_truth/ for F6 data (auto-skips F6 if no "
+            "ground truth captured yet), outputs to validation_results/regression/"
+        ),
+    )
     args = parser.parse_args()
+
+    # --- Regression mode: set defaults for curated test suite ---
+    if args.regression:
+        # Replay file: curated test list
+        if not args.replay_file and not args.codes:
+            args.replay_file = "tools/data/verification_test_replays.txt"
+
+        # Output directory: separate regression subdir
+        if args.output_dir == "validation_results":
+            args.output_dir = "validation_results/regression"
+
+        # F6 ground truth: use curated dir if it has captures, else auto-skip
+        f6_gt_dir = "tools/data/f6_ground_truth"
+        if not args.f6_dir and not args.skip_f6:
+            if os.path.isdir(f6_gt_dir) and any(
+                f.endswith(".json") for f in os.listdir(f6_gt_dir)
+            ):
+                args.f6_dir = f6_gt_dir
+                _log(f"[regression] Using F6 ground truth from {f6_gt_dir}")
+            else:
+                args.skip_f6 = True
+                _log(f"[regression] No F6 ground truth in {f6_gt_dir}, auto-skipping F6")
 
     # Collect replay codes
     codes = list(args.codes)
@@ -441,7 +476,12 @@ def main():
             with open(args.replay_file, "r", encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
-                    if line and not line.startswith("#"):
+                    if not line or line.startswith("#"):
+                        continue
+                    # Strip inline comments (e.g., "xhzg6-ncYpY  # 14 turns")
+                    if "#" in line:
+                        line = line[:line.index("#")].strip()
+                    if line:
                         codes.append(line)
         except OSError as e:
             _log(f"ERROR: Cannot read replay file: {e}")
