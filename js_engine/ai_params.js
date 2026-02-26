@@ -61,6 +61,9 @@ const AI_NO_OPENINGS = [
  * Matches AIThreadHandler.as:297-303 and :340-347 logic.
  */
 function selectParams(aiDifficulty, turnNumber, fullParams, shortParams) {
+    // NOTE: AS3 source (AIThreadHandler.as:297,340) uses `> 0`, not `!== -1`.
+    // This means DocileAI (index 0) incorrectly gets full params in the live game.
+    // We reproduce this exact behavior for faithfulness.
     if (AI_NO_OPENINGS.indexOf(aiDifficulty) > 0 || turnNumber > 16) {
         return shortParams;
     }
