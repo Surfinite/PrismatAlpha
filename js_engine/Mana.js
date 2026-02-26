@@ -27,6 +27,11 @@ class Mana {
      * @param {string} manaString - Mana string (e.g., "6BGGG", "3H", "0")
      */
     constructor(manaString) {
+        // AS3 auto-coerces non-string args (e.g., number 1 → "1")
+        if (typeof manaString !== 'string') {
+            manaString = String(manaString == null ? '' : manaString);
+        }
+
         // pool: [gold, green, blue, red, energy, attack]
         this.pool = new Array(C.MANA_NUMBER_OF);
         for (let i = 0; i < C.MANA_NUMBER_OF; i++) {
