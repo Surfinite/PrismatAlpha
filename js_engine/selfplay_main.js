@@ -11,6 +11,7 @@
  *   node selfplay_main.js                        # Play 1 game, print summary
  *   node selfplay_main.js --games 10             # Play 10 games
  *   node selfplay_main.js --games 10 --jsonl out.jsonl  # Output training data
+ *   node selfplay_main.js --replay-dir path/     # Save GUI-loadable replay JSON per game
  *   node selfplay_main.js --difficulty HardestAI # AI difficulty (default: HardestAI)
  *
  * Output: JSONL training examples (one per turn) to stdout or file.
@@ -27,6 +28,7 @@ const MCDSAIWorker = require('./mcdsai_manager');
 const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet } = require('./card_library');
 const { loadFullParams, loadShortParams, selectParams } = require('./ai_params');
 const { stateToTrainingExample } = require('./state_adapter');
+const { stateToCppJSON, buildReplayJSON } = require('./replay_exporter');
 
 const MAX_TURNS = 400; // Safety limit to prevent infinite games
 
@@ -84,10 +86,11 @@ function buildGameInitInfo(mergedDeck) {
  * @param {string} shortParams - Short AI parameters JSON string
  * @param {number} gameId - Unique game identifier
  * @param {Map} library - Card library for buildInitDeck
- * @returns {Promise<{ examples: Object[], result: number, turns: number, cardSet: string[] }>}
+ * @param {boolean} [captureReplay=false] - If true, capture full GameState snapshots for GUI replay
+ * @returns {Promise<{ examples: Object[], result: number, turns: number, cardSet: string[], replayStates?: Object[] }>}
  */
 async function playGame(workerWhite, workerBlack, mergedDeck, difficulty,
-                         fullParams, shortParams, gameId, library) {
+                         fullParams, shortParams, gameId, library, captureReplay) {
     // Active deck = base set + 8 random units (~19 cards)
     const activeDeck = mergedDeck.filter(c => !c._inactive);
 
@@ -116,6 +119,7 @@ async function playGame(workerWhite, workerBlack, mergedDeck, difficulty,
     analyzer.loaderInit();
 
     const examples = [];
+    const replayStates = captureReplay ? [] : null;
     let turnCount = 0;
 
     while (!analyzer.gameState.finished && turnCount < MAX_TURNS) {
@@ -126,6 +130,11 @@ async function playGame(workerWhite, workerBlack, mergedDeck, difficulty,
         // serialize features from the current (pre-move) state now.
         const activePlayer = analyzer.gameState.turn;
         const example = stateToTrainingExample(analyzer.gameState, gameId, []);
+
+        // Capture full GameState snapshot for GUI replay (also pre-move)
+        if (replayStates) {
+            replayStates.push(stateToCppJSON(analyzer.gameState));
+        }
 
         // Select AI worker and params based on turn
         const worker = activePlayer === C.COLOR_WHITE ? workerWhite : workerBlack;
@@ -213,6 +222,11 @@ async function playGame(workerWhite, workerBlack, mergedDeck, difficulty,
         }
     }
 
+    // Capture the final game state (post-game-over) so the replay shows the end position
+    if (replayStates) {
+        replayStates.push(stateToCppJSON(analyzer.gameState));
+    }
+
     // Set final result on all examples
     const finalResult = analyzer.gameState.result;
     for (const ex of examples) {
@@ -229,12 +243,18 @@ async function playGame(workerWhite, workerBlack, mergedDeck, difficulty,
         }
     }
 
-    return {
+    const result = {
         examples,
         result: finalResult,
         turns: turnCount,
         cardSet
     };
+
+    if (replayStates) {
+        result.replayStates = replayStates;
+    }
+
+    return result;
 }
 
 /**
@@ -246,6 +266,7 @@ async function main() {
     // Parse arguments
     let numGames = 1;
     let outputPath = null;
+    let replayDir = null;
     let difficulty = 'HardestAI';
     let verbose = false;
 
@@ -256,12 +277,20 @@ async function main() {
         } else if (args[i] === '--jsonl' && args[i + 1]) {
             outputPath = args[i + 1];
             i++;
+        } else if (args[i] === '--replay-dir' && args[i + 1]) {
+            replayDir = args[i + 1];
+            i++;
         } else if (args[i] === '--difficulty' && args[i + 1]) {
             difficulty = args[i + 1];
             i++;
         } else if (args[i] === '--verbose') {
             verbose = true;
         }
+    }
+
+    // Create replay directory if needed
+    if (replayDir) {
+        fs.mkdirSync(replayDir, { recursive: true });
     }
 
     console.error(`Self-play: ${numGames} games, difficulty=${difficulty}`);
@@ -304,7 +333,7 @@ async function main() {
             try {
                 gameResult = await playGame(
                     workerWhite, workerBlack, mergedDeck, difficulty,
-                    fullParams, shortParams, gameId, library
+                    fullParams, shortParams, gameId, library, !!replayDir
                 );
 
                 // Check if the game actually produced moves (not a 0-turn AI failure)
@@ -346,6 +375,20 @@ async function main() {
         else if (gameResult.result === C.COLOR_BLACK) blackWins++;
         else if (gameResult.result === C.COLOR_NONE) ongoing++;
         else draws++;
+
+        // Write replay file for GUI visualization
+        if (replayDir && gameResult.replayStates && gameResult.replayStates.length > 0) {
+            const winner = gameResult.result === C.COLOR_WHITE ? 0 :
+                           gameResult.result === C.COLOR_BLACK ? 1 : -1;
+            const replay = buildReplayJSON(
+                gameResult.replayStates,
+                'MCDSAI White', 'MCDSAI Black',
+                winner, gameResult.turns, gameResult.cardSet
+            );
+            const replayPath = path.join(replayDir, `game_${String(gameId).padStart(4, '0')}.json`);
+            fs.writeFileSync(replayPath, JSON.stringify(replay));
+            console.error(`  Replay saved: ${replayPath} (${gameResult.replayStates.length} states)`);
+        }
 
         // Output training examples
         for (const example of gameResult.examples) {
