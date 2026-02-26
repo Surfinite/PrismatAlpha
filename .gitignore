@@ -225,13 +225,34 @@ docs/wiki/*.pdf
 tools/__pycache__/
 
 # --- Discord extraction working files (large, regenerated) ---
-tools/discord_extraction/chunks/
+tools/discord_extraction/chunks*/
+tools/discord_extraction/extractions_sonnet/
 tools/discord_extraction/batch_status.json
 tools/discord_extraction/processed_chunks.json
 tools/discord_extraction/processed_chunks_extractions_sonnet.json
 
 # --- SWF binary extraction temp files ---
 tmp_swf_extract/
+
+# --- Temp working directories (large, not source) ---
+tmp_pcode_verify/
+tmp_pcode_export/
+tmp_pcode_patched/
+tmp_browser_client/
+tmp_as3_patched/
+
+# --- Validation output ---
+validation_results/
+
+# --- Replay extractor cache ---
+tools/prismata_replay_extractor/
+
+# --- Replay dump dist (embedded Python, large binaries) ---
+tools/replay_dump_dist/
+
+# --- Generated bin/ data files ---
+bin/eval_history.csv
+bin/test_dump.jsonl
 
 # --- Temp stdout/stderr captures ---
 tmp_stdout.txt
@@ -241,3 +262,9 @@ tmp_stderr.txt
 tools/*_stats.py
 tools/*_excalidraw.py
 tools/*.excalidraw
+
+# --- JS engine runtime output (generated) ---
+js_engine/*.log
+js_engine/*.jsonl
+js_engine/validation_results.json
+js_engine/test_movejson.json

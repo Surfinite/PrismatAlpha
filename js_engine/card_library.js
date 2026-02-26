@@ -12,8 +12,9 @@ const path = require('path');
  * the internal name IS the display name (e.g., "Drone", "Engineer").
  *
  * The mergedDeck sent to MCDSAI contains card objects with a `name` property
- * set to the internal name and all other cardLibrary properties preserved.
- * MCDSAI references cards by their UIName (display name) in click responses.
+ * set to the DISPLAY name (UIName). MCDSAI's Card.as uses obj.name as
+ * cardName for matching clicks and game state. The internal name is
+ * preserved as `internalName` for reverse lookups.
  */
 
 const CARD_LIBRARY_PATH = path.resolve(__dirname, '../bin/asset/config/cardLibrary.jso');
@@ -65,49 +66,110 @@ function loadCardLibrary(filePath) {
 function buildMergedDeck(unitNames, library) {
     const deck = [];
     const uiNameToInternal = new Map();
+    const internalToUIName = new Map();
 
-    // Build reverse lookup: UIName → internal name
+    // Build name lookups
     for (const [internalName, card] of library) {
         uiNameToInternal.set(card.UIName, internalName);
+        internalToUIName.set(internalName, card.UIName);
     }
 
-    // Add all base set cards first
-    for (const [internalName, card] of library) {
-        if (card.baseSet) {
-            deck.push(buildDeckEntry(card));
-        }
+    // Track which cards are in the active game set
+    const activeSet = new Set();
+    // Base set is always active
+    for (const [, card] of library) {
+        if (card.baseSet) activeSet.add(card.UIName);
     }
-
-    // Add specified advanced units
+    // Add the specified random units
     for (const uiName of unitNames) {
-        const internalName = uiNameToInternal.get(uiName);
-        if (!internalName) {
+        if (!uiNameToInternal.has(uiName)) {
             throw new Error(`Unknown unit display name: "${uiName}". Check cardLibrary.jso UIName mappings.`);
         }
-        const card = library.get(internalName);
-        if (card.baseSet) {
-            continue; // Already included
+        activeSet.add(uiName);
+    }
+
+    // Include ALL cards from the library in the mergedDeck.
+    // MCDSAI's AI parameters reference cards by name (opening books, strategies).
+    // If a referenced card isn't registered, CardType::getCardType() asserts and
+    // aborts the entire move computation. By including all cards (with supply=0
+    // for non-game cards), MCDSAI can look up any card without failing.
+    // Base set and active random cards get normal supply.
+    for (const [internalName, card] of library) {
+        // Skip unbuyable cards — they cause Emscripten abort() when added
+        // to the mergedDeck (heap issue in MCDSAI3441.js, Feb 2017 build).
+        // Behemoth is referenced by AI params but the soft assert from its
+        // absence doesn't prevent AI player loading.
+        if (card.rarity === 'unbuyable') {
+            continue;
         }
-        deck.push(buildDeckEntry(card));
+        const entry = buildDeckEntry(card, internalToUIName);
+        if (!activeSet.has(card.UIName)) {
+            // Not in this game's card set — include but mark inactive (0 supply).
+            // MCDSAI AI params reference card names (opening books, strategies)
+            // and getCardType() asserts if a name isn't registered.
+            entry._inactive = true;
+        }
+        deck.push(entry);
     }
 
     return deck;
 }
 
 /**
+ * Get the active card set names from a mergedDeck (excludes inactive cards).
+ */
+function getActiveCardNames(mergedDeck) {
+    return mergedDeck
+        .filter(c => !c._inactive && !c.baseSet)
+        .map(c => c.name);
+}
+
+/**
  * Build a single mergedDeck entry from a card library entry.
  * Strips description/fullDescription fields (matching simpleMergedDeck logic
  * from GameInitializationInfo.as lines 109-121).
+ *
+ * Translates all internal card name references to display names throughout
+ * the entry, matching the real game's server-side mergedDeck format.
+ * Fields like create, resonate, buySac, needs use internal names in
+ * cardLibrary.jso but display names in the wire protocol.
+ *
+ * @param {Object} card - Card library entry
+ * @param {Map} [nameMap] - Internal name → display name mapping
  */
-function buildDeckEntry(card) {
+function buildDeckEntry(card, nameMap) {
     const entry = {};
     for (const key of Object.keys(card)) {
         if (key === 'description' || key.indexOf('fullDescription') !== -1) {
             continue;
         }
-        entry[key] = card[key];
+        entry[key] = nameMap ? translateNames(card[key], nameMap) : card[key];
     }
+    // MCDSAI's Card.as uses obj.name as cardName for click matching.
+    // Must be the display name (UIName), not the internal name.
+    entry.name = card.UIName;
     return entry;
+}
+
+/**
+ * Recursively translate internal card names to display names in a value.
+ * Handles strings, arrays, and nested objects.
+ */
+function translateNames(value, nameMap) {
+    if (typeof value === 'string') {
+        return nameMap.has(value) ? nameMap.get(value) : value;
+    }
+    if (Array.isArray(value)) {
+        return value.map(v => translateNames(v, nameMap));
+    }
+    if (value !== null && typeof value === 'object') {
+        const result = {};
+        for (const key of Object.keys(value)) {
+            result[key] = translateNames(value[key], nameMap);
+        }
+        return result;
+    }
+    return value;
 }
 
 /**
@@ -150,11 +212,108 @@ function getSupply(card) {
     return SUPPLY_BY_RARITY[card.rarity] || 20;
 }
 
+/**
+ * Build an init deck for MCDSAI that includes all cards the AI might reference.
+ *
+ * MCDSAI's AI params reference ~91 card names (opening books, strategies).
+ * Card scripts (create, needs, resonate, buySac) reference ~27 more.
+ * If any referenced name isn't registered via the mergedDeck, MCDSAI's
+ * CardType::getCardType() asserts and aborts move computation.
+ *
+ * Sending ALL 158 non-unbuyable cards breaks MCDSAI (0 AI players loaded).
+ * This function builds a targeted deck: active cards + only the cards
+ * referenced by AI params and card scripts (~100 total). Achieves ~95%
+ * success rate across random sets (vs ~33% with active-only 19-card deck).
+ *
+ * @param {Object[]} activeDeck - Active game cards (base + 8 random, ~19 entries)
+ * @param {Map} library - Full card library from loadCardLibrary()
+ * @param {string} fullParamsStr - Full AI parameters JSON string
+ * @param {string} shortParamsStr - Short AI parameters JSON string
+ * @returns {Object[]} Init deck suitable for MCDSAI initializeAI
+ */
+function buildInitDeck(activeDeck, library, fullParamsStr, shortParamsStr) {
+    // Build name lookup tables
+    const allDisplayNames = new Set();
+    const displayToCard = new Map();
+    const internalToDisplay = new Map();
+    for (const [intName, card] of library) {
+        allDisplayNames.add(card.UIName);
+        displayToCard.set(card.UIName, card);
+        internalToDisplay.set(intName, card.UIName);
+    }
+
+    // Collect all card names MCDSAI might reference
+    const required = new Set();
+
+    // 1. Scan AI params for card names
+    function scanForCardNames(obj) {
+        if (typeof obj === 'string') {
+            if (allDisplayNames.has(obj)) required.add(obj);
+            return;
+        }
+        if (Array.isArray(obj)) { obj.forEach(scanForCardNames); return; }
+        if (obj && typeof obj === 'object') {
+            for (const key of Object.keys(obj)) scanForCardNames(obj[key]);
+        }
+    }
+    scanForCardNames(JSON.parse(fullParamsStr));
+    scanForCardNames(JSON.parse(shortParamsStr));
+
+    // 2. Scan card scripts for referenced card names (create, needs, resonate, buySac)
+    // These use internal names in cardLibrary.jso — translate to display names
+    for (const [, card] of library) {
+        if (card.rarity === 'unbuyable') continue;
+        if (card.needs) {
+            for (const n of card.needs) {
+                var dn = internalToDisplay.get(n);
+                if (dn) required.add(dn);
+            }
+        }
+        var scriptFields = ['buyScript', 'abilityScript', 'beginOwnTurnScript', 'deathScript'];
+        for (var si = 0; si < scriptFields.length; si++) {
+            var script = card[scriptFields[si]];
+            if (script && script.create) {
+                for (var ci = 0; ci < script.create.length; ci++) {
+                    dn = internalToDisplay.get(script.create[ci][0]);
+                    if (dn) required.add(dn);
+                }
+            }
+        }
+        if (card.resonate) {
+            dn = internalToDisplay.get(card.resonate);
+            if (dn) required.add(dn);
+        }
+        if (card.buySac) {
+            for (var bi = 0; bi < card.buySac.length; bi++) {
+                dn = internalToDisplay.get(card.buySac[bi][0]);
+                if (dn) required.add(dn);
+            }
+        }
+    }
+
+    // Build init deck: active cards + required cards (with _inactive flag)
+    var included = new Set(activeDeck.map(function(c) { return c.name; }));
+    var deck = activeDeck.slice(); // shallow copy
+
+    for (var displayName of required) {
+        if (included.has(displayName)) continue;
+        var card = displayToCard.get(displayName);
+        if (!card || card.rarity === 'unbuyable') continue;
+        var entry = buildDeckEntry(card, internalToDisplay);
+        entry._inactive = true;
+        deck.push(entry);
+    }
+
+    return deck;
+}
+
 module.exports = {
     loadCardLibrary,
     buildMergedDeck,
+    buildInitDeck,
     buildDeckEntry,
     getAdvancedUnitNames,
+    getActiveCardNames,
     randomSet,
     getSupply,
     SUPPLY_BY_RARITY,

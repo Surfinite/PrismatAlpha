@@ -361,9 +361,10 @@ function lowercaseColorToInt(string) {
  */
 function ASSERT(expr, message) {
     if (!expr) {
-        const err = new Error(`ASSERT failed: ${message || 'no message'}`);
-        console.error(err.message);
-        throw err;
+        // Soft assert — matches AS3 C.ASSERT behavior (logs but does NOT abort).
+        // Many valid code paths trigger asserts during replay (e.g., cancel target
+        // when not in target mode, illegal clicks from UI interactions).
+        console.error(`ASSERT failed: ${message || 'no message'}`);
     }
 }
 

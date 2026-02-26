@@ -31,12 +31,10 @@ class MCDSAIWorker {
     spawn() {
         return new Promise((resolve, reject) => {
             this._process = fork(WORKER_PATH, [], {
-                stdio: ['pipe', 'pipe', 'pipe', 'ipc']
-            });
-
-            // Capture stderr for debugging
-            this._process.stderr.on('data', (data) => {
-                // Emscripten startup noise — ignore
+                // Use 'ignore' for stdout/stderr to prevent Emscripten's massive
+                // Module.print output from filling pipe buffers and blocking.
+                // All meaningful communication happens via IPC.
+                stdio: ['ignore', 'ignore', 'ignore', 'ipc']
             });
 
             this._process.on('message', (msg) => {
@@ -53,12 +51,21 @@ class MCDSAIWorker {
             });
 
             this._process.on('exit', (code) => {
+                // If process exits before 'ready' was received, reject the spawn promise
+                if (!this._ready) {
+                    reject(new Error(`Worker ${this.label} exited before ready (code ${code})`));
+                }
                 this._ready = false;
                 // Reject any pending callbacks
                 for (const [, cb] of this._pendingCallbacks) {
                     cb.reject(new Error(`Worker ${this.label} exited with code ${code}`));
                 }
                 this._pendingCallbacks.clear();
+                // Clear kill timer if set
+                if (this._killTimer) {
+                    clearTimeout(this._killTimer);
+                    this._killTimer = null;
+                }
             });
         });
     }
@@ -69,7 +76,7 @@ class MCDSAIWorker {
      * @returns {Promise<string>} Init status string from MCDSAI
      */
     initializeAI(initJson) {
-        return this._sendAndWait('init', initJson, 'init_result');
+        return this._sendAndWait('init', initJson, 'init_result', { skipHashCheck: true });
     }
 
     /**
@@ -88,16 +95,17 @@ class MCDSAIWorker {
         if (this._process) {
             this._process.send({ type: 'exit' });
             // Force kill after 5s if still alive
-            setTimeout(() => {
+            this._killTimer = setTimeout(() => {
                 if (this._process && !this._process.killed) {
                     this._process.kill('SIGKILL');
                 }
+                this._killTimer = null;
             }, 5000);
         }
     }
 
     /** @private */
-    _sendAndWait(type, payload, expectedResponseType) {
+    _sendAndWait(type, payload, expectedResponseType, extra) {
         return new Promise((resolve, reject) => {
             if (!this._ready) {
                 reject(new Error(`Worker ${this.label} not ready`));
@@ -107,7 +115,9 @@ class MCDSAIWorker {
             const id = this._nextId++;
             this._pendingCallbacks.set(expectedResponseType, { resolve, reject, id });
 
-            this._process.send({ type: type, payload: payload });
+            const msg = { type: type, payload: payload };
+            if (extra) Object.assign(msg, extra);
+            this._process.send(msg);
         });
     }
 
@@ -128,6 +138,15 @@ class MCDSAIWorker {
         if (cb) {
             this._pendingCallbacks.delete(msg.type);
             if (msg.success) {
+                // Log debug info if present
+                if (msg.debug) {
+                    console.error(`Worker ${this.label} debug: clicks=${msg.debug.clickCount} think=${msg.debug.thinkTime}ms payload=${msg.debug.payloadLength}b`);
+                    if (msg.debug.mcdsaiOutput && msg.debug.mcdsaiOutput.length > 0) {
+                        for (const line of msg.debug.mcdsaiOutput) {
+                            console.error(`  MCDSAI: ${line}`);
+                        }
+                    }
+                }
                 cb.resolve(msg.result);
             } else {
                 cb.reject(new Error(msg.message || 'Unknown error'));

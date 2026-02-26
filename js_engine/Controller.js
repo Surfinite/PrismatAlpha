@@ -192,6 +192,11 @@ class Controller {
                 'Got a shift click in the middle of a swipe.');
             inst = this.state.instIdToInst(id);
 
+            // Guard against null inst (can happen during replay if state diverged)
+            if (inst === null || inst === undefined) {
+                return new ClickResult(actuallyDoClick, false);
+            }
+
             // ------------------------------------------------------------------
             // DEFENSE PHASE
             // ------------------------------------------------------------------

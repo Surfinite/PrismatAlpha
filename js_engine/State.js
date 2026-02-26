@@ -378,7 +378,7 @@ class State {
     }
 
     get turn() {
-        return this.numTurns % 2;
+        return (this.numTurns + 1) % 2;
     }
 
     get finished() {
@@ -1671,6 +1671,9 @@ class State {
 
 // Static PRNG instance matching AS3 State.rnd (seed 100)
 State.rnd = new Rndm(100);
+
+// Static method — deep clone 2D createIds arrays (Controller.js calls State.cloneCreateIds)
+State.cloneCreateIds = cloneCreateIds;
 
 // Export stagnation constants for external use
 State.NUM_LEVELS_OF_DRAW_VARIABLES = NUM_LEVELS_OF_DRAW_VARIABLES;
