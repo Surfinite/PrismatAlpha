@@ -10,6 +10,16 @@
 AZ="/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin/az"
 export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"
 
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
+
 # Verify Azure CLI is available
 if [ ! -f "$AZ" ]; then
     echo "ERROR: Azure CLI not found at $AZ"
@@ -23,9 +33,9 @@ THINK_TIME="${3:-1}"
 VM_MULTIPLIER="${4:-2}"
 NUM_INSTANCES="${5:-1}"
 USE_SPOT="${USE_SPOT:-false}"
-RESOURCE_GROUP="prismata-selfplay"
-LOCATION="${LOCATION:-northeurope}"
-BUCKET="prismata-selfplay-data"
+RESOURCE_GROUP="${AZURE_RESOURCE_GROUP:?Set AZURE_RESOURCE_GROUP in cloud-config.env}"
+LOCATION="${AZURE_LOCATION:-northeurope}"
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
 IMAGE="Win2022AzureEditionCore"
 ADMIN_USER="prismata"
 # Generate a password that meets Azure complexity requirements
@@ -72,7 +82,6 @@ echo ""
 # Part 1: Static header -- download, install, setup
 STARTUP_SCRIPT=$(cat <<'ENDSCRIPT'
 $ErrorActionPreference = "Continue"
-$bucket = "prismata-selfplay-data"
 $runId = (Get-Date -Format "yyyy-MM-dd_HH-mm-ss")
 
 Start-Transcript -Path "C:\selfplay_boot.log" -Append
@@ -114,6 +123,7 @@ ENDSCRIPT
 
 # Part 2: Inject dynamic values (AWS credentials, game config)
 STARTUP_SCRIPT+="
+\$bucket = \"$BUCKET\"
 \$env:AWS_ACCESS_KEY_ID = \"$AWS_ACCESS_KEY_ID\"
 \$env:AWS_SECRET_ACCESS_KEY = \"$AWS_SECRET_ACCESS_KEY\"
 \$env:AWS_DEFAULT_REGION = \"eu-north-1\"

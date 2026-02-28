@@ -9,8 +9,18 @@ $ProjectDir = 'c:\libraries\PrismataAI'
 $ConfigFile = Join-Path $ProjectDir 'aws\watcher_config.json'
 $StatusFile = Join-Path $ProjectDir 'aws\watcher_status.json'
 $LogFile = Join-Path $ProjectDir 'aws\watcher_log.txt'
-$AwsRegion = 'eu-north-1'
-$Bucket = 'prismata-selfplay-data'
+
+# Load cloud config
+$CloudConfigFile = Join-Path $ProjectDir 'cloud-config.env'
+if (Test-Path $CloudConfigFile) {
+    Get-Content $CloudConfigFile | ForEach-Object {
+        if ($_ -match '^\s*([A-Z_]+)\s*=\s*(.+)$' -and $_ -notmatch '^\s*#') {
+            Set-Variable -Name $Matches[1] -Value $Matches[2].Trim()
+        }
+    }
+}
+$AwsRegion = if ($AWS_REGION) { $AWS_REGION } else { 'eu-north-1' }
+$Bucket = if ($CLOUD_BUCKET) { $CLOUD_BUCKET } else { Write-Error "CLOUD_BUCKET not set in cloud-config.env"; exit 1 }
 $VcpusPerInstance = 8
 
 # Ensure cloud CLIs are in PATH

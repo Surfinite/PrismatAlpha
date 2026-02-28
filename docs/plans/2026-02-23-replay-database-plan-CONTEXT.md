@@ -78,7 +78,7 @@ This is a **data infrastructure consolidation** task within a mature project. Th
 | Live tools | Python (sniffer proxy, commentator, advisor) |
 | Dashboard | Node.js + Express + vanilla JS |
 | Self-play infra | AWS EC2 / GCP Compute Engine (Windows instances) |
-| Data storage | AWS S3 (`s3://prismata-selfplay-data/`) |
+| Data storage | AWS S3 (`s3://$CLOUD_BUCKET/`) |
 | Already installed | FastAPI 0.129.0, uvicorn 0.40.0, httpx 0.28.1, requests 2.32.5 |
 | Already available | Python sqlite3 (SQLite 3.50.4), no additional install needed |
 

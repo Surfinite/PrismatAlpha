@@ -65,7 +65,7 @@ Use `--streaming` for datasets >1M records (memory-mapped, avoids 50GB+ RAM). Cl
 
 | Dataset | Examples | Source |
 |---|---|---|
-| Self-play (305K games, deployed model) | ~12.2M records | `s3://prismata-selfplay-data/results/` |
+| Self-play (305K games, deployed model) | ~12.2M records | `s3://$CLOUD_BUCKET/results/` |
 | Self-play (total ~705K games) | ~26M+ records | Same S3 bucket, 7,756 shards |
 | Expert 2000+ | ~251K | `prismata-replay-parser/training_data.jsonl` |
 | Expert 1500+ | ~269K | `prismata-replay-parser/expert_1500_training_data.jsonl` |

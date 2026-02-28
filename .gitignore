@@ -2,6 +2,18 @@
 # PrismataAI .gitignore
 # ===========================================
 
+# --- Cloud config (contains account-specific resource IDs) ---
+cloud-config.env
+
+# --- Sniffer/proxy tools (contain server infrastructure details) ---
+tools/prismata_sniffer.py
+tools/replay_capture.py
+tools/prismata_replay_dump.py
+tools/prismata_advisor.py
+tmp_proxy_hosts.ps1
+tmp_restore_hosts.ps1
+run_prismata_tools.bat
+
 # --- Visual Studio build artifacts ---
 visualstudio/Release/
 visualstudio/Debug/

@@ -7,19 +7,29 @@
 #   INSTANCE_TYPE=c5.xlarge  Instance type (default: c5.xlarge, 4 vCPU, 8GB RAM)
 #
 # Prerequisites:
-#   - Deploy audit script: aws s3 cp tools/audit_selfplay_s3.py s3://prismata-selfplay-data/deploy/tools/audit_selfplay_s3.py --region eu-north-1
+#   - Deploy audit script: aws s3 cp tools/audit_selfplay_s3.py s3://$CLOUD_BUCKET/deploy/tools/audit_selfplay_s3.py --region $AWS_REGION
 
 export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"
+
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
 
 # Infrastructure
 INSTANCE_TYPE="${INSTANCE_TYPE:-c5.xlarge}"
 DRY_RUN="${DRY_RUN:-false}"
-REGION="eu-north-1"
-AMI="ami-0bd05d88ea8c3e277"  # Deep Learning OSS PyTorch 2.6, Amazon Linux 2023
-KEY_NAME="prismata-selfplay"
-SG_ID="sg-02117c219481e8e6a"
-PROFILE="PrismataSelfPlayEC2"
-BUCKET="prismata-selfplay-data"
+REGION="${AWS_REGION:-eu-north-1}"
+AMI="${AWS_AMI_DL_PYTORCH:?Set AWS_AMI_DL_PYTORCH in cloud-config.env}"
+KEY_NAME="${AWS_KEY_NAME:?Set AWS_KEY_NAME in cloud-config.env}"
+SG_ID="${AWS_SG_ID:?Set AWS_SG_ID in cloud-config.env}"
+PROFILE="${AWS_IAM_PROFILE:?Set AWS_IAM_PROFILE in cloud-config.env}"
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
 
 echo "=== Prismata Self-Play Data Audit Launch ==="
 echo "  Instance:  $INSTANCE_TYPE"
@@ -79,6 +89,10 @@ echo "Shutting down..."
 sudo shutdown -h now
 ENDSCRIPT
 )
+
+# Inject sourced config values into userdata (heredoc is single-quoted to protect shell syntax)
+USERDATA="${USERDATA/BUCKET=\"prismata-selfplay-data\"/BUCKET=\"$BUCKET\"}"
+USERDATA="${USERDATA/REGION=\"eu-north-1\"/REGION=\"$REGION\"}"
 
 if [ "$DRY_RUN" = "true" ]; then
   echo "=== DRY RUN - Userdata script: ==="

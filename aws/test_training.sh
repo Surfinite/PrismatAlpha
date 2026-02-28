@@ -5,7 +5,7 @@ cd /home/ec2-user/training
 
 # Get unit_index.json
 echo "=== Downloading unit_index.json ==="
-aws s3 cp s3://prismata-selfplay-data/deploy/training/unit_index.json /home/ec2-user/training/data/unit_index.json --region eu-north-1
+aws s3 cp s3://$BUCKET/deploy/training/unit_index.json /home/ec2-user/training/data/unit_index.json --region $REGION
 ls -la data/unit_index.json
 
 # Count records

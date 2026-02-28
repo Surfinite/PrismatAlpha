@@ -151,10 +151,10 @@ az vm extension set \
 **Alternative (simpler) approach**: Encode the entire PowerShell startup script into the `commandToExecute` field of the Custom Script Extension settings, or host the script on S3/blob and reference it via `fileUris`. The S3 approach is cleanest since we already have the bucket:
 ```bash
 # Upload startup script to S3 once
-aws s3 cp azure/.startup_tmp.ps1 s3://prismata-selfplay-data/deploy/azure_startup.ps1
+aws s3 cp azure/.startup_tmp.ps1 s3://$CLOUD_BUCKET/deploy/azure_startup.ps1
 
 # Then in az vm extension set:
---settings '{"fileUris":["https://prismata-selfplay-data.s3.eu-north-1.amazonaws.com/deploy/azure_startup.ps1"],"commandToExecute":"powershell -ExecutionPolicy Unrestricted -File azure_startup.ps1"}'
+--settings '{"fileUris":["https://$CLOUD_BUCKET.s3.eu-north-1.amazonaws.com/deploy/azure_startup.ps1"],"commandToExecute":"powershell -ExecutionPolicy Unrestricted -File azure_startup.ps1"}'
 ```
 
 ### New files to create:
@@ -277,7 +277,7 @@ aws s3 cp azure/.startup_tmp.ps1 s3://prismata-selfplay-data/deploy/azure_startu
 ### Tasks:
 1. Run `bash azure/launch_selfplay.sh Standard_D2s_v5 100 1 2 1` (small test: 1 instance, 100 games)
 2. Monitor: `az vm list --resource-group prismata-selfplay --output table`
-3. Check S3 for shards: `aws s3 ls s3://prismata-selfplay-data/results/ --recursive | tail -5`
+3. Check S3 for shards: `aws s3 ls s3://$CLOUD_BUCKET/results/ --recursive | tail -5`
 4. Verify VM deallocates after completion
 5. Verify TheWatcher detects the instance and cleans it up
 6. If working: enable in watcher config (`azure.enabled: true`)

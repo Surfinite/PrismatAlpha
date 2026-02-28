@@ -3,8 +3,18 @@
 # Run this after rebuilding Prismata_Testing.exe with the latest code + weights
 export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"
 
-BUCKET="prismata-selfplay-data"
-REGION="eu-north-1"
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
+
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
+REGION="${AWS_REGION:-eu-north-1}"
 BIN_DIR="c:/libraries/PrismataAI/bin"
 
 echo "=== Deploying to S3 for Tournament Evaluation ==="

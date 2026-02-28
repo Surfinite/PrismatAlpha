@@ -510,7 +510,7 @@ Confirm `bin/Prismata_Testing.exe` timestamp updated.
 bash aws/deploy_for_eval.sh
 ```
 
-This uploads: `Prismata_Testing.exe`, `config.txt`, `cardLibrary.jso`, `neural_weights.bin` to `s3://prismata-selfplay-data/deploy/`.
+This uploads: `Prismata_Testing.exe`, `config.txt`, `cardLibrary.jso`, `neural_weights.bin` to `s3://$CLOUD_BUCKET/deploy/`.
 
 ### 4c — Launch Tournament 1: Paired (Primary)
 
@@ -540,12 +540,12 @@ bash aws/launch_tournament.sh c5.2xlarge 700 1 3
 ### 4e — Monitor and Collect Results
 
 Results upload to:
-- `s3://prismata-selfplay-data/eval-results/frontline_test_paired/`
-- `s3://prismata-selfplay-data/eval-results/frontline_test_h2h/`
+- `s3://$CLOUD_BUCKET/eval-results/frontline_test_paired/`
+- `s3://$CLOUD_BUCKET/eval-results/frontline_test_h2h/`
 
 Download with:
 ```bash
-aws s3 sync s3://prismata-selfplay-data/eval-results/ eval-results/ --region eu-north-1
+aws s3 sync s3://$CLOUD_BUCKET/eval-results/ eval-results/ --region eu-north-1
 ```
 
 Open `tests/Tournament_FrontlineTest_Paired.html` and `tests/Tournament_FrontlineTest_HeadToHead.html` in results folders.
@@ -553,7 +553,7 @@ Open `tests/Tournament_FrontlineTest_Paired.html` and `tests/Tournament_Frontlin
 ### Phase 4 Verification
 
 1. After launch: `aws ec2 describe-instances --region eu-north-1 --filters "Name=tag:Name,Values=PrismataEval*" --query 'Reservations[].Instances[].InstanceId' --output text` → should show 9 instances (6 paired + 3 h2h)
-2. After ~30 min: check for result files: `aws s3 ls s3://prismata-selfplay-data/eval-results/ --region eu-north-1 | grep frontline`
+2. After ~30 min: check for result files: `aws s3 ls s3://$CLOUD_BUCKET/eval-results/ --region eu-north-1 | grep frontline`
 3. Cost estimate: 9 × c5.2xlarge spot (~$0.14/hr) × ~2hr runtime ≈ **$2.52 total**
 
 ---

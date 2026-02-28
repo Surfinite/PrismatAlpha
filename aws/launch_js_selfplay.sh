@@ -12,16 +12,26 @@
 
 export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"
 
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
+
 NUM_GAMES="${1:-1000}"
 NUM_INSTANCES="${2:-1}"
 INSTANCE_TYPE="${3:-c5.2xlarge}"
 THINK_TIME="${THINK_TIME:-1000}"       # ms, default 1s
-REGION="eu-north-1"
-AMI="ami-0d5323a080e2e5b40"           # Amazon Linux 2023 x86_64
-KEY_NAME="prismata-selfplay"
-SG_ID="sg-02117c219481e8e6a"
-PROFILE="PrismataSelfPlayEC2"
-BUCKET="prismata-selfplay-data"
+REGION="${AWS_REGION:-eu-north-1}"
+AMI="${AWS_AMI_LINUX:?Set AWS_AMI_LINUX in cloud-config.env}"
+KEY_NAME="${AWS_KEY_NAME:?Set AWS_KEY_NAME in cloud-config.env}"
+SG_ID="${AWS_SG_ID:?Set AWS_SG_ID in cloud-config.env}"
+PROFILE="${AWS_IAM_PROFILE:?Set AWS_IAM_PROFILE in cloud-config.env}"
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
 
 # Determine worker count from instance type
 case "$INSTANCE_TYPE" in

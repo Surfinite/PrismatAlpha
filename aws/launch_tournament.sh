@@ -13,9 +13,19 @@
 #
 # Runs NeuralAB_vs_Original (AB) against OriginalHardestAI.
 # Each process runs the tournament independently. Multiple instances = more games.
-# Results uploaded to s3://prismata-selfplay-data/eval-results/<runId>/
+# Results uploaded to s3://$CLOUD_BUCKET/eval-results/<runId>/
 
 export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"
+
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
 
 INSTANCE_TYPE="${1:-c5.2xlarge}"
 NUM_ROUNDS="${2:-1500}"
@@ -24,12 +34,12 @@ NUM_INSTANCES="${4:-1}"
 WEIGHTS_KEY="${WEIGHTS_KEY:-deploy/asset/config/neural_weights.bin}"
 MODEL_LABEL="${MODEL_LABEL:-default}"
 USE_SPOT="${USE_SPOT:-false}"
-REGION="eu-north-1"
-AMI="ami-0adc3f10e1311b184"  # Windows Server 2022 Base
-KEY_NAME="prismata-selfplay"
-SG_ID="sg-02117c219481e8e6a"
-PROFILE="PrismataSelfPlayEC2"
-BUCKET="prismata-selfplay-data"
+REGION="${AWS_REGION:-eu-north-1}"
+AMI="${AWS_AMI_WINDOWS:?Set AWS_AMI_WINDOWS in cloud-config.env}"
+KEY_NAME="${AWS_KEY_NAME:?Set AWS_KEY_NAME in cloud-config.env}"
+SG_ID="${AWS_SG_ID:?Set AWS_SG_ID in cloud-config.env}"
+PROFILE="${AWS_IAM_PROFILE:?Set AWS_IAM_PROFILE in cloud-config.env}"
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
 
 echo "=== Prismata Tournament Eval EC2 Launch ==="
 echo "  Instance:   $INSTANCE_TYPE x $NUM_INSTANCES"
@@ -105,6 +115,9 @@ Read-S3Object -BucketName $bucket -Key "deploy/asset/config/config.txt" -File "C
 Read-S3Object -BucketName $bucket -Key "deploy/asset/config/cardLibrary.jso" -File "C:\eval\asset\config\cardLibrary.jso"
 ENDSCRIPT
 )
+
+# Inject sourced config values into userdata (heredoc is single-quoted to protect PS syntax)
+USERDATA="${USERDATA/\$bucket = \"prismata-selfplay-data\"/\$bucket = \"$BUCKET\"}"
 
 # Inject dynamic values (weights key, rounds, processes, think time)
 USERDATA+="

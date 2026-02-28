@@ -14,12 +14,12 @@
 - **AWS CLI in Git Bash**: Native Windows exe. Temp file paths must be Windows-accessible (not `/tmp/`). Use `file://` prefix for user-data. PATH: `export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"`.
 - **EC2 spot has separate vCPU quota**: `USE_SPOT=true bash aws/launch_selfplay.sh ...` uses separate quota. Run on-demand + spot simultaneously for double capacity. Quota codes: `L-34B43A08` (spot), `L-1216C47A` (on-demand).
 - **EC2 file-lock sync**: `Write-S3Object` cannot read locked files. The periodic sync copies to temp dir first via `Copy-Item`, then uploads from temp.
-- **AWS quota management**: Check: `aws service-quotas get-service-quota --service-code ec2 --quota-code <CODE> --region eu-north-1`. Increase: `aws service-quotas request-service-quota-increase --service-code ec2 --quota-code <CODE> --desired-value <N> --region eu-north-1`. Modest asks (64-128) more likely auto-approved.
+- **AWS quota management**: Check: `aws service-quotas get-service-quota --service-code ec2 --quota-code <CODE> --region $AWS_REGION`. Increase: `aws service-quotas request-service-quota-increase --service-code ec2 --quota-code <CODE> --desired-value <N> --region $AWS_REGION`. Modest asks (64-128) more likely auto-approved.
 
 ## GCP Compute Engine
 
-- **GCP hybrid cloud**: Instances install AWS CLI, upload to S3 bucket `prismata-selfplay-data`. No GCS. Credentials from `gcp/.aws_credentials`. Project: `prismata-selfplay`, zone: `us-central1-a`.
-- **GCP quotas**: N2_CPUS=200 (25 n2-standard-8), INSTANCES=24, PREEMPTIBLE_CPUS=0. SSD_TOTAL_GB=250 may limit concurrent instances. Check: `gcloud compute regions describe us-central1 --project=prismata-selfplay --format="json(quotas)"`.
+- **GCP hybrid cloud**: Instances install AWS CLI, upload to S3 bucket `$CLOUD_BUCKET`. No GCS. Credentials from `gcp/.aws_credentials`. Project: `$GCP_PROJECT`, zone: `us-central1-a`.
+- **GCP quotas**: N2_CPUS=200 (25 n2-standard-8), INSTANCES=24, PREEMPTIBLE_CPUS=0. SSD_TOTAL_GB=250 may limit concurrent instances. Check: `gcloud compute regions describe us-central1 --project=$GCP_PROJECT --format="json(quotas)"`.
 - **GCP instance self-deletion**: Uses `gcloud compute instances delete` (not Stop-Computer). Requires `compute-rw` scope. Falls back to Stop-Computer if delete fails.
 - **GCP gcloud.cmd vs gcloud**: Use `gcloud.cmd` in PowerShell, `gcloud` in bash. Git Bash can't execute `.cmd` directly. SDK: `C:\google-cloud-sdk\bin`.
 - **gcloud.cmd stderr noise**: Harmless stderr about temp files even on success. TheWatcher logs as warnings, reports call as successful.
@@ -38,7 +38,7 @@
 - **Azure VM think-time multipliers**: vs local Ryzen 5700X3D. F2s_v2 (2 vCPUs, 4 threads): **3x**. F8s_v2/D8als_v7 (8 vCPUs, 4 threads): **2x**. Formula: base cloud penalty (2x) x oversubscription factor.
 - **Azure hybrid cloud**: Same S3 pattern as GCP. AWS credentials from `azure/.aws_credentials`.
 - **Azure quota management**: Two-tier: Total Regional vCPUs (ceiling, 64) + per-family limits (default 10 each). Both must allow a VM. "VM stopped" still consumes quota — must deallocate. Check: `az vm list-usage --location northeurope --output json`. **Quotas are per-region.**
-- **Azure orphaned resources after VM deletion**: `az vm delete` does NOT cascade — NICs, public IPs, OS disks, NSGs, and VNets persist and bill. After deleting VMs, clean up in order: NICs → public IPs → disks → NSGs → VNets. All `az` commands must use `MSYS_NO_PATHCONV=1` in Git Bash (Azure resource IDs start with `/subscriptions/` which Git Bash mangles to Windows paths). Verify cleanup: `az resource list --resource-group prismata-selfplay --query "length(@)"` → should be 0.
+- **Azure orphaned resources after VM deletion**: `az vm delete` does NOT cascade — NICs, public IPs, OS disks, NSGs, and VNets persist and bill. After deleting VMs, clean up in order: NICs → public IPs → disks → NSGs → VNets. All `az` commands must use `MSYS_NO_PATHCONV=1` in Git Bash (Azure resource IDs start with `/subscriptions/` which Git Bash mangles to Windows paths). Verify cleanup: `az resource list --resource-group $AZURE_RESOURCE_GROUP --query "length(@)"` → should be 0.
 - **Azure orphan cleanup commands** (Git Bash):
   ```bash
   AZ="/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin/az"
@@ -53,19 +53,19 @@
 When checking cloud compute status, verify ALL of these — not just running VMs:
 
 ### Azure
-1. **Running VMs**: `az vm list --resource-group prismata-selfplay --output table`
-2. **Orphaned resources**: `az resource list --resource-group prismata-selfplay --query "length(@)"` — should equal VM count or 0
+1. **Running VMs**: `az vm list --resource-group $AZURE_RESOURCE_GROUP --output table`
+2. **Orphaned resources**: `az resource list --resource-group $AZURE_RESOURCE_GROUP --query "length(@)"` — should equal VM count or 0
 3. **Idle VM detection**: Check `watcher_status.json` → `shard_activity.last_new_shard`. If stale (>1hr), VMs may be idle/crashed. Cross-check S3 boot logs: directories with `selfplay_boot.log` = completed VMs; without = potentially still running or crashed.
 
 ### AWS EC2
-1. **Running instances**: `aws ec2 describe-instances --filters "Name=instance-state-name,Values=running" "Name=tag:purpose,Values=selfplay" --query "Reservations[].Instances[].InstanceId" --region eu-north-1`
-2. **Orphaned EBS volumes**: `aws ec2 describe-volumes --filters "Name=status,Values=available" --region eu-north-1 --query "Volumes[].{Id:VolumeId,Size:Size}"` — "available" = unattached, still billing
-3. **Orphaned Elastic IPs**: `aws ec2 describe-addresses --region eu-north-1 --query "Addresses[?AssociationId==null]"` — unattached EIPs bill ~$3.65/month each
+1. **Running instances**: `aws ec2 describe-instances --filters "Name=instance-state-name,Values=running" "Name=tag:purpose,Values=selfplay" --query "Reservations[].Instances[].InstanceId" --region $AWS_REGION`
+2. **Orphaned EBS volumes**: `aws ec2 describe-volumes --filters "Name=status,Values=available" --region $AWS_REGION --query "Volumes[].{Id:VolumeId,Size:Size}"` — "available" = unattached, still billing
+3. **Orphaned Elastic IPs**: `aws ec2 describe-addresses --region $AWS_REGION --query "Addresses[?AssociationId==null]"` — unattached EIPs bill ~$3.65/month each
 
 ### GCP
-1. **Running instances**: `gcloud compute instances list --project=prismata-selfplay`
-2. **Orphaned disks**: `gcloud compute disks list --project=prismata-selfplay --filter="NOT users:*"` — unattached disks still bill
-3. **Static IPs**: `gcloud compute addresses list --project=prismata-selfplay` — unused static IPs bill ~$2.88/month
+1. **Running instances**: `gcloud compute instances list --project=$GCP_PROJECT`
+2. **Orphaned disks**: `gcloud compute disks list --project=$GCP_PROJECT --filter="NOT users:*"` — unattached disks still bill
+3. **Static IPs**: `gcloud compute addresses list --project=$GCP_PROJECT` — unused static IPs bill ~$2.88/month
 
 ## Operational Gotchas (migrated from CLAUDE.md, Feb 28)
 
@@ -73,8 +73,8 @@ When checking cloud compute status, verify ALL of these — not just running VMs
 - **AWS launch_selfplay.sh temp file race**: Script writes `.userdata_tmp.ps1` then reads it — parallel launches cause file-not-found errors. Launch serially; TheWatcher fills gaps on the next cycle.
 - **launch_selfplay.sh 5th arg is instance count**: Pass a number (e.g., `1`) or omit. Passing `N` (literal) breaks the `seq` command. Applies to both GCP and Azure launch scripts.
 - **launch_tournament.sh fleet verification**: Always verify fleet size with `aws ec2 describe-instances` after launch — sequential calls may spawn more instances than expected.
-- **`deploy_for_eval.sh` deploys from current branch**: Copies `bin/asset/config/config.txt` from local working tree. Wrong branch = wrong config = fleet wastes money. Always `git branch --show-current` before deploying. Verify: `aws s3 cp s3://prismata-selfplay-data/deploy/asset/config/config.txt - --region eu-north-1 | grep -c "your_tournament_name"`.
-- **EC2 eval instances can zombie**: Wrong config → instances run indefinitely with no results. Check: `aws ec2 describe-instances --region eu-north-1 --filters "Name=tag:Name,Values=PrismataEval-*" "Name=instance-state-name,Values=running" --query "Reservations[].Instances[].[InstanceId,LaunchTime,Tags[?Key=='Name'].Value|[0]]" --output table`.
+- **`deploy_for_eval.sh` deploys from current branch**: Copies `bin/asset/config/config.txt` from local working tree. Wrong branch = wrong config = fleet wastes money. Always `git branch --show-current` before deploying. Verify: `aws s3 cp s3://$CLOUD_BUCKET/deploy/asset/config/config.txt - --region $AWS_REGION | grep -c "your_tournament_name"`.
+- **EC2 eval instances can zombie**: Wrong config → instances run indefinitely with no results. Check: `aws ec2 describe-instances --region $AWS_REGION --filters "Name=tag:Name,Values=PrismataEval-*" "Name=instance-state-name,Values=running" --query "Reservations[].Instances[].[InstanceId,LaunchTime,Tags[?Key=='Name'].Value|[0]]" --output table`.
 - **`launch_tournament.sh` env vars**: `TOURNAMENT_NAME` (default: NeuralAB_vs_Original), `MAX_RUNTIME_HOURS` (default: 0 = no timeout).
 - **watcher_log.txt file lock**: TheWatcher holds exclusive lock. Use `robocopy aws/ <dest>/ watcher_log.txt` to copy, then read.
 - **Azure Public IP quota (40)**: Subscription-level. Orphaned NICs/IPs persist after VM deletion. `az network nic delete` then `az network public-ip delete`.
@@ -85,7 +85,7 @@ When checking cloud compute status, verify ALL of these — not just running VMs
 - **Cloud training disk sizing**: Data ~178GB → need 350GB boot disk + `--streaming`. Use g2-standard-8 (32GB) not g2-standard-4 (16GB OOM-kills).
 - **EBS IOPS diminishing returns**: 3K→6K IOPS = 2x speedup, 6K→16K = ~5% more. Bottleneck shifts to read latency.
 - **SSH to EC2 training**: `ssh -i ~/.ssh/prismata-selfplay.pem ec2-user@<IP>`. Logs at `/home/ec2-user/training/training_output.log`.
-- **S3 crash dumps**: ~93GB of .dmp files. Delete: `aws s3 rm s3://prismata-selfplay-data/results/ --recursive --exclude "*" --include "*.dmp" --region eu-north-1`.
+- **S3 crash dumps**: ~93GB of .dmp files. Delete: `aws s3 rm s3://$CLOUD_BUCKET/results/ --recursive --exclude "*" --include "*.dmp" --region $AWS_REGION`.
 - **`aws s3 ls --recursive` fails on large prefixes**: Use `aws s3api list-objects-v2 --query "..."` instead.
 - **S3 provider identification**: Check `patched_config.txt` (Azure uses 250-round, EC2 uses 1000-round) or boot log presence ("GCP Worker Starting").
 - **watcher_status.json shard tracking unreliable**: `shard_activity.last_new_shard` and `shards_last_hour` underreport. Use actual S3 data growth or instance counts.

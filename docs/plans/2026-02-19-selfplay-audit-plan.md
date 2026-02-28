@@ -10,7 +10,7 @@
 
 ### Overview
 A self-contained Python script (only needs `boto3`, `numpy`, `zlib` stdlib) that:
-1. Lists all `.bin` files under `s3://prismata-selfplay-data/results/`
+1. Lists all `.bin` files under `s3://$CLOUD_BUCKET/results/`
 2. Streams each shard, validates structure, accumulates statistics
 3. Outputs a JSON report + human-readable summary
 
@@ -59,7 +59,7 @@ import boto3, struct, zlib, json, sys, hashlib, time
 import numpy as np
 from collections import defaultdict
 
-BUCKET = 'prismata-selfplay-data'
+BUCKET = '$CLOUD_BUCKET'
 PREFIX = 'results/'
 REGION = 'eu-north-1'
 MAGIC = 0x50534450
@@ -99,7 +99,7 @@ def main():
 ```json
 {
   "timestamp": "2026-02-19T20:00:00Z",
-  "bucket": "prismata-selfplay-data",
+  "bucket": "$CLOUD_BUCKET",
   "prefix": "results/",
   "summary": {
     "total_shards": 7756,
@@ -160,7 +160,7 @@ def main():
 ### Overview
 Minimal launch script based on `aws/launch_training.sh` pattern but much simpler:
 - c5.xlarge spot (~$0.07/hr) in eu-north-1
-- Amazon Linux 2023 AMI (same training AMI works: `ami-0bd05d88ea8c3e277`)
+- Amazon Linux 2023 AMI (same training AMI works: `$AWS_AMI_DL_PYTORCH`)
 - Install boto3+numpy, download audit script from S3, run, upload results, terminate
 - No GPU needed, small disk (20GB default is fine)
 
@@ -177,7 +177,7 @@ source /opt/pytorch/bin/activate 2>/dev/null || {
 }
 
 # Download audit script
-aws s3 cp s3://prismata-selfplay-data/deploy/tools/audit_selfplay_s3.py /tmp/audit.py --region eu-north-1
+aws s3 cp s3://$CLOUD_BUCKET/deploy/tools/audit_selfplay_s3.py /tmp/audit.py --region eu-north-1
 
 # Run audit
 cd /tmp
@@ -185,9 +185,9 @@ python3 audit.py 2>&1 | tee audit_output.log
 
 # Upload results
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-aws s3 cp /tmp/audit_report.json s3://prismata-selfplay-data/audit-results/audit_${TIMESTAMP}.json --region eu-north-1
-aws s3 cp /tmp/audit_output.log s3://prismata-selfplay-data/audit-results/audit_${TIMESTAMP}.log --region eu-north-1
-aws s3 cp /tmp/audit_boot.log s3://prismata-selfplay-data/audit-results/audit_${TIMESTAMP}_boot.log --region eu-north-1
+aws s3 cp /tmp/audit_report.json s3://$CLOUD_BUCKET/audit-results/audit_${TIMESTAMP}.json --region eu-north-1
+aws s3 cp /tmp/audit_output.log s3://$CLOUD_BUCKET/audit-results/audit_${TIMESTAMP}.log --region eu-north-1
+aws s3 cp /tmp/audit_boot.log s3://$CLOUD_BUCKET/audit-results/audit_${TIMESTAMP}_boot.log --region eu-north-1
 
 # Self-terminate
 sudo shutdown -h now
@@ -196,21 +196,21 @@ sudo shutdown -h now
 ### Launch Command
 ```bash
 # Deploy audit script to S3 first
-aws s3 cp tools/audit_selfplay_s3.py s3://prismata-selfplay-data/deploy/tools/audit_selfplay_s3.py --region eu-north-1
+aws s3 cp tools/audit_selfplay_s3.py s3://$CLOUD_BUCKET/deploy/tools/audit_selfplay_s3.py --region eu-north-1
 
 # Launch
 bash aws/launch_audit.sh
 ```
 
 ### Infrastructure Details
-- **AMI:** `ami-0bd05d88ea8c3e277` (Deep Learning AMI, has Python+boto3 preinstalled)
+- **AMI:** `$AWS_AMI_DL_PYTORCH` (Deep Learning AMI, has Python+boto3 preinstalled)
 - **Instance type:** c5.xlarge (4 vCPU, 8GB RAM) — no GPU needed
 - **Disk:** 20GB gp3 (default, plenty for a script that streams)
 - **Spot:** Always (one-time, terminate on interruption)
 - **Region:** eu-north-1 (same as S3 — free, fast transfers)
 - **Auto-terminate:** `--instance-initiated-shutdown-behavior terminate` + `shutdown -h now`
 - **IAM:** Same `PrismataSelfPlayEC2` profile (already has S3 read/write)
-- **Results:** Uploaded to `s3://prismata-selfplay-data/audit-results/`
+- **Results:** Uploaded to `s3://$CLOUD_BUCKET/audit-results/`
 
 ### Documentation References
 - Spot request pattern: `aws/launch_training.sh:330-397`
@@ -232,7 +232,7 @@ bash aws/launch_audit.sh
 
 2. **Deploy to S3:**
    ```bash
-   aws s3 cp tools/audit_selfplay_s3.py s3://prismata-selfplay-data/deploy/tools/audit_selfplay_s3.py --region eu-north-1
+   aws s3 cp tools/audit_selfplay_s3.py s3://$CLOUD_BUCKET/deploy/tools/audit_selfplay_s3.py --region eu-north-1
    ```
 
 3. **Launch on spot:**
@@ -245,8 +245,8 @@ bash aws/launch_audit.sh
    - Wait ~30 min
    - Download results:
      ```bash
-     aws s3 ls s3://prismata-selfplay-data/audit-results/ --region eu-north-1
-     aws s3 cp s3://prismata-selfplay-data/audit-results/audit_LATEST.json . --region eu-north-1
+     aws s3 ls s3://$CLOUD_BUCKET/audit-results/ --region eu-north-1
+     aws s3 cp s3://$CLOUD_BUCKET/audit-results/audit_LATEST.json . --region eu-north-1
      ```
 
 ### Verification Checklist

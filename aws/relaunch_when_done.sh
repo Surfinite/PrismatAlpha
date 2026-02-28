@@ -5,8 +5,19 @@
 
 set -e
 export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"
-REGION="eu-north-1"
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
+
+REGION="${AWS_REGION:-eu-north-1}"
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # Count how many are running right now (to detect when batch ends)
@@ -35,7 +46,7 @@ while true; do
 
         # Sync results to S3 summary
         echo "[$(date)] Syncing S3 results locally before next batch..."
-        aws s3 sync s3://prismata-selfplay-data/results/ "$PROJECT_DIR/bin/training/data/selfplay/" --region "$REGION" 2>/dev/null
+        aws s3 sync "s3://$BUCKET/results/" "$PROJECT_DIR/bin/training/data/selfplay/" --region "$REGION" 2>/dev/null
 
         # Check current quotas to use maximum capacity
         VCPUS_PER_INSTANCE=8  # c5.2xlarge

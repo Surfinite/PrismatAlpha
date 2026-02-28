@@ -16,6 +16,16 @@
 
 export PATH="$PATH:/c/google-cloud-sdk/bin:/c/Program Files/Amazon/AWSCLIV2"
 
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
+
 # Verify gcloud (on Windows it's a .cmd file, command -v won't find it)
 if ! gcloud --version &>/dev/null; then
     echo "ERROR: gcloud not found. Install Google Cloud SDK or check PATH."
@@ -26,14 +36,14 @@ fi
 MACHINE_TYPE="${MACHINE_TYPE:-g2-standard-4}"
 USE_SPOT="${USE_SPOT:-false}"
 DRY_RUN="${DRY_RUN:-false}"
-PROJECT="prismata-selfplay"
-ZONE="us-central1-a"
+PROJECT="${GCP_PROJECT:?Set GCP_PROJECT in cloud-config.env}"
+ZONE="${GCP_ZONE:-us-central1-a}"
 GPU_TYPE="${GPU_TYPE:-nvidia-l4}"
 GPU_COUNT=1
 IMAGE_FAMILY="pytorch-2-7-cu128-ubuntu-2204-nvidia-570"
 IMAGE_PROJECT="deeplearning-platform-release"
-BUCKET="prismata-selfplay-data"
-S3_REGION="eu-north-1"
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
+S3_REGION="${AWS_REGION:-eu-north-1}"
 
 # Load AWS credentials
 CRED_FILE="$(cd "$(dirname "$0")" && pwd)/.aws_credentials"
@@ -484,6 +494,11 @@ gcloud compute instances delete $INSTANCE_NAME --zone=$INSTANCE_ZONE --quiet 2>&
 sudo shutdown -h now
 ENDSCRIPT
 )
+
+# Inject sourced config values into startup script (heredoc is single-quoted to protect shell syntax)
+STARTUP_SCRIPT="${STARTUP_SCRIPT/BUCKET=\"prismata-selfplay-data\"/BUCKET=\"$BUCKET\"}"
+STARTUP_SCRIPT="${STARTUP_SCRIPT/S3_REGION=\"eu-north-1\"/S3_REGION=\"$S3_REGION\"}"
+STARTUP_SCRIPT="${STARTUP_SCRIPT//gs:\/\/prismata-selfplay-data\//gs:\/\/$BUCKET\/}"
 
 if [ "$DRY_RUN" = "true" ]; then
     echo "=== DRY RUN ==="

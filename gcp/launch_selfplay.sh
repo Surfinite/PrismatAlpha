@@ -9,6 +9,16 @@
 
 export PATH="$PATH:/c/google-cloud-sdk/bin:/c/Program Files/Amazon/AWSCLIV2"
 
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
+
 # Verify gcloud is available
 if ! command -v gcloud &>/dev/null; then
     echo "ERROR: gcloud not found in PATH. Install Google Cloud SDK or check PATH."
@@ -22,9 +32,9 @@ THINK_TIME="${3:-1}"
 VM_MULTIPLIER="${4:-2}"
 NUM_INSTANCES="${5:-1}"
 USE_SPOT="${USE_SPOT:-false}"
-PROJECT="prismata-selfplay"
-ZONE="us-central1-a"
-BUCKET="prismata-selfplay-data"
+PROJECT="${GCP_PROJECT:?Set GCP_PROJECT in cloud-config.env}"
+ZONE="${GCP_ZONE:-us-central1-a}"
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
 IMAGE_FAMILY="windows-2022"
 IMAGE_PROJECT="windows-cloud"
 
@@ -68,7 +78,6 @@ echo ""
 # Build the PowerShell startup script
 STARTUP_SCRIPT=$(cat <<'ENDSCRIPT'
 $ErrorActionPreference = "Continue"
-$bucket = "prismata-selfplay-data"
 $runId = (Get-Date -Format "yyyy-MM-dd_HH-mm-ss")
 
 Start-Transcript -Path "C:\selfplay_boot.log" -Append
@@ -148,6 +157,7 @@ ENDSCRIPT
 
 # Inject dynamic values
 STARTUP_SCRIPT+="
+\$bucket = \"$BUCKET\"
 \$gamesPerProcess = $GAMES_PER_PROCESS
 \$numProcesses = $PROCESSES
 \$timeLimitMs = $TIME_LIMIT_MS

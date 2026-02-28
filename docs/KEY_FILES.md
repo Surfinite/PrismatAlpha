@@ -114,13 +114,16 @@
 
 ## Prismata Client Tools (Sniffer, Advisor, Autopilot, Commentary)
 
+> **Note:** Sniffer, advisor, and proxy tools are local-only (not tracked in the public repo).
+> They contain server infrastructure details. See `.gitignore` for the full exclusion list.
+
 | Path | Description |
 |---|---|
-| `tools/prismata_sniffer.py` | TCP proxy for Prismata AMF3 protocol — **run with `proxy` subcommand** (`python tools/prismata_sniffer.py proxy`). Hook framework, Moved redirect interception, dynamic port proxying, replay code capture, live game state tracking |
+| `tools/prismata_sniffer.py` | *(local only)* TCP proxy for Prismata AMF3 protocol |
 | `bin/live_game_state.json` | Live game state output from sniffer (written each turn, deleted on GameOver) |
-| `tools/prismata_advisor.py` | Python overlay — clipboard monitor + F6 sanitization + C++ --suggest + tkinter always-on-top display |
+| `tools/prismata_advisor.py` | *(local only)* Python overlay — clipboard monitor + C++ --suggest + tkinter display |
 | `run_advisor.bat` | One-click overlay launcher (pre-flight checks for exe + weights) |
-| `run_prismata_tools.bat` | Combined launcher — sniffer proxy + advisor overlay + autopilot (pass --autopilot to enable, --auto for full-auto, --dry-run for testing) |
+| `run_prismata_tools.bat` | *(local only)* Combined launcher — sniffer proxy + advisor overlay + autopilot |
 | `tools/prismata_autopilot.py` | AI move injection engine — captures F6 state, runs --suggest, injects clicks via sniffer proxy |
 | `bin/prismata_capture_codes.txt` | Sniffer-captured replay codes (TSV: timestamp, code, source). Append-only. |
 | `tools/prismata_commentator.py` | Live AI commentator — sniffer events → Claude Haiku → chat injection (Phase 1 working) |
@@ -159,10 +162,12 @@
 
 ## Hosts & SWF Tools
 
+> **Note:** Hosts file scripts are local-only (not tracked in the public repo).
+
 | Path | Description |
 |---|---|
-| `tmp_proxy_hosts.ps1` | Set hosts to PROXY mode (127.0.0.1) for sniffer — needs UAC |
-| `tmp_restore_hosts.ps1` | Set hosts to DIRECT mode (3.229.49.48) for normal play — needs UAC |
+| `tmp_proxy_hosts.ps1` | *(local only)* Set hosts to PROXY mode for sniffer — needs UAC |
+| `tmp_restore_hosts.ps1` | *(local only)* Set hosts to DIRECT mode for normal play — needs UAC |
 
 ## Decompiled AS3 Source (Ground Truth)
 

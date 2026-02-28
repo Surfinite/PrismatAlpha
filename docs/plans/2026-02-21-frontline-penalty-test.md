@@ -363,7 +363,7 @@ Confirm `bin/Prismata_Testing.exe` timestamp updated.
 bash aws/deploy_for_eval.sh
 ```
 
-This uploads: `Prismata_Testing.exe`, `config.txt`, `cardLibrary.jso`, `neural_weights.bin` to `s3://prismata-selfplay-data/deploy/`.
+This uploads: `Prismata_Testing.exe`, `config.txt`, `cardLibrary.jso`, `neural_weights.bin` to `s3://$CLOUD_BUCKET/deploy/`.
 
 ### 4c — Launch Tournament 1: PrismatAI_AB vs Original
 
@@ -390,13 +390,13 @@ Same fleet size for directly comparable sample sizes.
 ### 4e — Monitor and Collect Results
 
 Results upload to:
-- `s3://prismata-selfplay-data/eval-results/frontline_test_ab_vs_original/`
-- `s3://prismata-selfplay-data/eval-results/frontline_test_fllegacy_vs_original/`
+- `s3://$CLOUD_BUCKET/eval-results/frontline_test_ab_vs_original/`
+- `s3://$CLOUD_BUCKET/eval-results/frontline_test_fllegacy_vs_original/`
 
 Download with:
 ```bash
-aws s3 sync s3://prismata-selfplay-data/eval-results/frontline_test_ab_vs_original/ eval-results/frontline_test_ab_vs_original/ --region eu-north-1
-aws s3 sync s3://prismata-selfplay-data/eval-results/frontline_test_fllegacy_vs_original/ eval-results/frontline_test_fllegacy_vs_original/ --region eu-north-1
+aws s3 sync s3://$CLOUD_BUCKET/eval-results/frontline_test_ab_vs_original/ eval-results/frontline_test_ab_vs_original/ --region eu-north-1
+aws s3 sync s3://$CLOUD_BUCKET/eval-results/frontline_test_fllegacy_vs_original/ eval-results/frontline_test_fllegacy_vs_original/ --region eu-north-1
 ```
 
 Open `tests/Tournament_FrontlineTest_AB_vs_Original.html` in each results folder.
@@ -404,7 +404,7 @@ Open `tests/Tournament_FrontlineTest_AB_vs_Original.html` in each results folder
 ### Phase 4 Verification
 
 1. After launch: `aws ec2 describe-instances --region eu-north-1 --filters "Name=tag:Name,Values=PrismataEval*" --query 'Reservations[].Instances[].InstanceId' --output text` → should show 12 instances (6 per tournament)
-2. After ~30 min: check for result files: `aws s3 ls s3://prismata-selfplay-data/eval-results/ --region eu-north-1 | grep frontline`
+2. After ~30 min: check for result files: `aws s3 ls s3://$CLOUD_BUCKET/eval-results/ --region eu-north-1 | grep frontline`
 3. Cost estimate: 12 × c5.2xlarge spot (~$0.14/hr) × ~2hr runtime ≈ **$3.36 total**
 
 ---

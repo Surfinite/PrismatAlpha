@@ -849,7 +849,7 @@ bin/run_selfplay.bat
 bash aws/launch_selfplay.sh [INSTANCE_TYPE] [NUM_GAMES]
 
 # Download AWS results:
-aws s3 sync s3://prismata-selfplay-data/results/ bin/training/data/selfplay/ --region eu-north-1
+aws s3 sync s3://$CLOUD_BUCKET/results/ bin/training/data/selfplay/ --region eu-north-1
 
 # === Data Inspection ===
 # Summary (with CRC validation):

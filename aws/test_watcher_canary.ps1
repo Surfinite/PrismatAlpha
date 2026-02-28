@@ -4,13 +4,26 @@
 
 $env:Path += ';C:\Program Files\Amazon\AWSCLIV2;C:\google-cloud-sdk\bin'
 
+# Load cloud config
+$ProjectDir = 'c:\libraries\PrismataAI'
+$CloudConfigFile = Join-Path $ProjectDir 'cloud-config.env'
+if (Test-Path $CloudConfigFile) {
+    Get-Content $CloudConfigFile | ForEach-Object {
+        if ($_ -match '^\s*([A-Z_]+)\s*=\s*(.+)$' -and $_ -notmatch '^\s*#') {
+            Set-Variable -Name $Matches[1] -Value $Matches[2].Trim()
+        }
+    }
+}
+$AwsRegion = if ($AWS_REGION) { $AWS_REGION } else { 'eu-north-1' }
+$Bucket = if ($CLOUD_BUCKET) { $CLOUD_BUCKET } else { 'prismata-selfplay-data' }
+
 Write-Host "=== Cloud API Canary Check ==="
 Write-Host ""
 
 # AWS EC2
 Write-Host "--- AWS EC2 ---"
 try {
-    $awsResult = aws ec2 describe-instances --filters 'Name=tag:Name,Values=PrismataSelfPlay-*' --query 'Reservations[].Instances[].[InstanceId,State.Name]' --output table --region eu-north-1 2>&1
+    $awsResult = aws ec2 describe-instances --filters 'Name=tag:Name,Values=PrismataSelfPlay-*' --query 'Reservations[].Instances[].[InstanceId,State.Name]' --output table --region $AwsRegion 2>&1
     if ($LASTEXITCODE -eq 0) {
         Write-Host "[PASS] AWS EC2 API reachable"
         Write-Host $awsResult
@@ -27,7 +40,7 @@ Write-Host ""
 # AWS Quotas
 Write-Host "--- AWS Quotas ---"
 try {
-    $quota = aws service-quotas get-service-quota --service-code ec2 --quota-code L-1216C47A --region eu-north-1 --query 'Quota.Value' --output text 2>&1
+    $quota = aws service-quotas get-service-quota --service-code ec2 --quota-code L-1216C47A --region $AwsRegion --query 'Quota.Value' --output text 2>&1
     if ($LASTEXITCODE -eq 0) {
         Write-Host "[PASS] AWS Quotas API reachable (on-demand vCPUs: $quota)"
     } else {
@@ -59,7 +72,7 @@ Write-Host ""
 # S3
 Write-Host "--- S3 Bucket ---"
 try {
-    $s3Count = aws s3api list-objects-v2 --bucket prismata-selfplay-data --prefix results/ --query 'KeyCount' --output text --region eu-north-1 2>&1
+    $s3Count = aws s3api list-objects-v2 --bucket $Bucket --prefix results/ --query 'KeyCount' --output text --region $AwsRegion 2>&1
     if ($LASTEXITCODE -eq 0) {
         Write-Host "[PASS] S3 reachable (objects in results/: $s3Count)"
     } else {

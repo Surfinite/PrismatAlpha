@@ -483,10 +483,10 @@ Enabling `developerVersion` also unlocks other debug keybindings defined in `UIK
 
 ### Hosts File Redirect (DONE — Feb 18)
 
-Enabling `developerVersion` disables load balancing (`useLoadBalancing` getter checks `!developerVersion`, line 129). The client then connects directly to `serverURL_amazonAlpha` (`ec2-54-83-83-240.compute-1.amazonaws.com`) which is a dead server. Fix: hosts file entry redirecting the dead hostname to the live server IP:
+Enabling `developerVersion` disables load balancing (`useLoadBalancing` getter checks `!developerVersion`, line 129). The client then connects directly to `serverURL_amazonAlpha` (`<PRISMATA_SERVER_HOST>`) which is a dead server. Fix: hosts file entry redirecting the dead hostname to the live server IP:
 
 ```
-3.229.49.48 ec2-54-83-83-240.compute-1.amazonaws.com  # Prismata dev mode - redirect dead amazonAlpha to live server
+<PRISMATA_SERVER_IP> <PRISMATA_SERVER_HOST>  # Prismata dev mode - redirect dead amazonAlpha to live server
 ```
 
 Added via `tmp_restore_hosts.ps1` (requires UAC elevation). Safe — the old hostname is dead and not used by anything else.
@@ -531,7 +531,7 @@ Added via `tmp_restore_hosts.ps1` (requires UAC elevation). Safe — the old hos
 
 ## Confirmed Server Details (Feb 18, 2026)
 
-- **Game server**: `ec2-3-229-49-48.compute-1.amazonaws.com` → `3.229.49.48`
+- **Game server**: `<PRISMATA_SERVER_HOST>` → `<PRISMATA_SERVER_IP>`
 - **Ports**: 11600 (plaintext AMF3 — game traffic), 11601 (TLS — auth/payment), 11619 (Flash policy)
 - **Status**: Server DNS resolves and ports are reachable (confirmed Feb 18). Client connects successfully when hosts file is clean.
 - **S3 replay API**: Still live — `http://saved-games-alpha.s3-website-us-east-1.amazonaws.com/{CODE}.json.gz`. Used daily by our self-play pipeline.
@@ -539,7 +539,7 @@ Added via `tmp_restore_hosts.ps1` (requires UAC elevation). Safe — the old hos
 
 ## CRITICAL WARNING: Network Proxy Hosts File Lockout
 
-**Incident (Feb 18):** The `prismata_sniffer.py` proxy adds `127.0.0.1 ec2-3-229-49-48.compute-1.amazonaws.com` to the Windows hosts file. A previous Claude Code session added this entry and **never removed it**, locking the user out of the Prismata client for an unknown duration. The client showed "Connection Error — Can't connect to the Prismata server" because all traffic was being redirected to localhost.
+**Incident (Feb 18):** The `prismata_sniffer.py` proxy adds `127.0.0.1 <PRISMATA_SERVER_HOST>` to the Windows hosts file. A previous Claude Code session added this entry and **never removed it**, locking the user out of the Prismata client for an unknown duration. The client showed "Connection Error — Can't connect to the Prismata server" because all traffic was being redirected to localhost.
 
 **Root cause:** The sniffer instructions (in the script comments) say to manually add/remove the hosts entry, but there's no automated cleanup. If the session ends without removing it, the user is silently locked out.
 

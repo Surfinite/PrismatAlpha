@@ -198,16 +198,16 @@ The JSON output contains:
 
 ### Network Proxy (alternative approach)
 `tools/prismata_sniffer.py` is a 511-line TCP proxy that intercepts AMF3 game traffic. It works by:
-1. Adding `127.0.0.1 ec2-3-229-49-48.compute-1.amazonaws.com` to the Windows hosts file
+1. Adding `127.0.0.1 <PRISMATA_SERVER_HOST>` to the Windows hosts file
 2. Listening on ports 11600/11601/11619
-3. Forwarding traffic to the real server at `3.229.49.48`
+3. Forwarding traffic to the real server at `<PRISMATA_SERVER_IP>`
 4. Decoding and logging AMF3 messages (clicks, turns, game starts/ends)
 
 This is a fallback if clipboard export isn't available.
 
-**Server status (confirmed Feb 18, 2026):** Game server `ec2-3-229-49-48.compute-1.amazonaws.com` resolves to `3.229.49.48` and ports 11600/11601 are reachable. The client connects successfully when no hosts file redirect is present.
+**Server status (confirmed Feb 18, 2026):** Game server `<PRISMATA_SERVER_HOST>` resolves to `<PRISMATA_SERVER_IP>` and ports 11600/11601 are reachable. The client connects successfully when no hosts file redirect is present.
 
-> **WARNING — HOSTS FILE LOCKOUT RISK:** The sniffer's hosts file redirect (`127.0.0.1 ec2-3-229-49-48.compute-1.amazonaws.com`) silently locks the user out of the live Prismata client if not removed. This happened on Feb 18 — a previous session added the entry and never cleaned it up. The client shows "Connection Error" with no indication that the hosts file is the cause. Removal requires admin/UAC elevation. **Any future proxy-based approach MUST include automated cleanup** (atexit handler, context manager, or startup stale-entry check). See the main plan doc's "CRITICAL WARNING" section for full mitigation steps.
+> **WARNING — HOSTS FILE LOCKOUT RISK:** The sniffer's hosts file redirect (`127.0.0.1 <PRISMATA_SERVER_HOST>`) silently locks the user out of the live Prismata client if not removed. This happened on Feb 18 — a previous session added the entry and never cleaned it up. The client shows "Connection Error" with no indication that the hosts file is the cause. Removal requires admin/UAC elevation. **Any future proxy-based approach MUST include automated cleanup** (atexit handler, context manager, or startup stale-entry check). See the main plan doc's "CRITICAL WARNING" section for full mitigation steps.
 
 ## 7. Existing Entry Point (`main.cpp`)
 

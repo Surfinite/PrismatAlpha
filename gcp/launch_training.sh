@@ -38,6 +38,16 @@
 
 export PATH="$PATH:/c/google-cloud-sdk/bin:/c/Program Files/Amazon/AWSCLIV2"
 
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
+
 # Verify tools
 if ! command -v gcloud &>/dev/null; then
     echo "ERROR: gcloud not found. Install Google Cloud SDK or check PATH."
@@ -65,14 +75,14 @@ RESUME_FROM="${RESUME_FROM:-}"
 MACHINE_TYPE="${MACHINE_TYPE:-g2-standard-4}"
 USE_SPOT="${USE_SPOT:-false}"
 DRY_RUN="${DRY_RUN:-false}"
-PROJECT="prismata-selfplay"
-ZONE="us-central1-a"
+PROJECT="${GCP_PROJECT:?Set GCP_PROJECT in cloud-config.env}"
+ZONE="${GCP_ZONE:-us-central1-a}"
 GPU_TYPE="${GPU_TYPE:-nvidia-l4}"
 GPU_COUNT=1
 IMAGE_FAMILY="pytorch-2-7-cu128-ubuntu-2204-nvidia-570"
 IMAGE_PROJECT="deeplearning-platform-release"
-BUCKET="prismata-selfplay-data"
-S3_REGION="eu-north-1"
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
+S3_REGION="${AWS_REGION:-eu-north-1}"
 
 # Load AWS credentials for S3 access (skip in DRY_RUN mode)
 CRED_FILE="$(cd "$(dirname "$0")" && pwd)/.aws_credentials"
@@ -250,7 +260,7 @@ echo "Download complete."
 
 # Stage selfplay data to GCS for future runs (avoids S3 egress on subsequent launches)
 echo "Staging selfplay data to GCS (background)..."
-(gsutil -m rsync -r \$WORK/selfplay_data/ gs://prismata-selfplay-data/selfplay_data/ 2>&1 | tail -5 && echo "[gcs] Selfplay data staged to GCS") &
+(gsutil -m rsync -r \$WORK/selfplay_data/ gs://\$BUCKET/selfplay_data/ 2>&1 | tail -5 && echo "[gcs] Selfplay data staged to GCS") &
 GCS_STAGE_PID=\$!
 
 # Download resume checkpoint if specified

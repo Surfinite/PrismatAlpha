@@ -9,17 +9,27 @@
 
 export PATH="$PATH:/c/Program Files/Amazon/AWSCLIV2"
 
+# Load cloud config
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../cloud-config.env"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Missing cloud-config.env. Copy cloud-config.env.example and fill in your values."
+    exit 1
+fi
+
 INSTANCE_TYPE="${1:-t3.micro}"
 NUM_GAMES="${2:-2500}"
 THINK_TIME="${3:-1}"
 VM_MULTIPLIER="${4:-2}"
 USE_SPOT="${USE_SPOT:-false}"  # Set USE_SPOT=true to use spot pricing
-REGION="eu-north-1"
-AMI="ami-0adc3f10e1311b184"  # Windows Server 2022 Base
-KEY_NAME="prismata-selfplay"
-SG_ID="sg-02117c219481e8e6a"
-PROFILE="PrismataSelfPlayEC2"
-BUCKET="prismata-selfplay-data"
+REGION="${AWS_REGION:-eu-north-1}"
+AMI="${AWS_AMI_WINDOWS:?Set AWS_AMI_WINDOWS in cloud-config.env}"
+KEY_NAME="${AWS_KEY_NAME:?Set AWS_KEY_NAME in cloud-config.env}"
+SG_ID="${AWS_SG_ID:?Set AWS_SG_ID in cloud-config.env}"
+PROFILE="${AWS_IAM_PROFILE:?Set AWS_IAM_PROFILE in cloud-config.env}"
+BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
 
 echo "=== Prismata Self-Play EC2 Launch ==="
 echo "  Instance: $INSTANCE_TYPE"
@@ -89,6 +99,9 @@ Write-Host "Download complete"
 $config = Get-Content "C:\selfplay\asset\config\config.txt" -Raw
 ENDSCRIPT
 )
+
+# Inject sourced config values into userdata (heredoc is single-quoted to protect PS syntax)
+USERDATA="${USERDATA/\$bucket = \"prismata-selfplay-data\"/\$bucket = \"$BUCKET\"}"
 
 # Inject the dynamic values
 USERDATA+="
