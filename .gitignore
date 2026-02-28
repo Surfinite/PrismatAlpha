@@ -273,3 +273,19 @@ js_engine/test_movejson.json
 js_engine/overnight_run/
 js_engine/cloud_results/
 js_engine/stuck_replays/
+js_engine/extraction_log*.txt
+js_engine/all_codes_*.json
+js_engine/all_expert_*.txt
+js_engine/prepatch_*.json
+js_engine/prepatch_*.txt
+
+# --- F6 ground truth test data (large, regeneratable) ---
+tools/data/f6_ground_truth/
+
+# --- Player replay code exports (derived data) ---
+tools/my_replay_codes*.txt
+
+# --- Player stats text exports ---
+tools/data/*_vs_*.txt
+tools/data/*_stats.txt
+tools/data/*_analysis.txt
