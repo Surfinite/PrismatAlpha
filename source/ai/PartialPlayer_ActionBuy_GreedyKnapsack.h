@@ -36,7 +36,7 @@ public:
     PartialPlayer_ActionBuy_GreedyKnapsack( const PlayerID playerID,
                                             const CardFilter & filter,
                                             EvaluationType (*heuristic)(const CardType, const GameState &, const PlayerID) = &Heuristics::BuyHighestCost,
-                                            bool legacy = false);
+                                            bool legacy = true);
 
     void getMove(GameState & state, Move & move);
     void addToBlacklist(const CardType type);

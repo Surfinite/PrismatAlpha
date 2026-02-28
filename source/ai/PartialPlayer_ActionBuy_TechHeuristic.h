@@ -26,7 +26,7 @@ class PartialPlayer_ActionBuy_TechHeuristic : public PartialPlayer
 
 public:
 
-    PartialPlayer_ActionBuy_TechHeuristic (const PlayerID playerID, const size_t & heuristicType, bool legacy = false);
+    PartialPlayer_ActionBuy_TechHeuristic (const PlayerID playerID, const size_t & heuristicType, bool legacy = true);
     
     void getMove(GameState & state, Move & move);
 
