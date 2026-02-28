@@ -21,13 +21,15 @@
 
 **Local training: `--device xpu --num-workers 4`** (Intel Arc B580, 3.2x speedup vs CPU). Streaming loader supports `--num-workers 2-4`.
 
+**Pre-public security cleanup COMPLETE** (Feb 28). Cloud resource IDs parameterized via `cloud-config.env` (19 scripts). Sniffer/proxy tools excluded from tracking. Server IPs redacted from docs. Gitleaks verified clean (124 commits). Template: `cloud-config.env.example`.
+
 **Next actions:**
 1. **Retrain on expanded dataset** — 2.63M expert examples ready (1500+ rating). Use R12_smooth90 architecture (256h/3L). Local XPU or cloud GPU with `--streaming`.
 2. **Mix community replays into training data** — ~35K replays = ~1.3M records. C++ replay stepper (`--replay-dir`) converts to binary shards. Goal: community members' games contribute to training.
 3. **Post-game commentary pipeline** — Phases 1-3 COMPLETE. Remaining: Phase 4 (CLI polish), Phase 5 (batch), Phase 6 (Discord bot). Run: `python tools/generate_postgame_commentary.py <CODE>`.
 4. **Live commentator Phase 2 (TTS + OBS)** — needs `edge-tts`, `sounddevice`, `obsws-python`, VB-Cable.
 
-**Completed (see `docs/PROJECT_HISTORY.md` for details):** JS transpilation, engine logic audit (4 fixes), LiveHardestAI config port, replay database (128K codes), overlay advisor, autopilot, sniffer live tracking, frontline penalty test (+0.5pp, not significant), MB community issues extraction (350 insights).
+**Completed (see `docs/PROJECT_HISTORY.md` for details):** JS transpilation, engine logic audit (4 fixes), LiveHardestAI config port, replay database (128K codes), overlay advisor, autopilot, sniffer live tracking, frontline penalty test (+0.5pp, not significant), MB community issues extraction (350 insights), pre-public security cleanup (cloud config parameterization, sniffer exclusion, IP redaction).
 
 ## What This Project Is
 
@@ -100,6 +102,9 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 ## Gotchas & Non-Obvious Patterns
 
 > Cloud provider operational details (AWS/GCP/Azure quotas, CLI quirks, encoding bugs, orphaned resource cleanup) are in `docs/cloud-ops-reference.md`.
+
+- **Cloud config pattern**: All cloud scripts source `cloud-config.env` (gitignored) via `SCRIPT_DIR`/`BASH_SOURCE[0]` relative path. Template at `cloud-config.env.example`. Single-quoted heredocs use `__CLOUD_BUCKET__`/`__AWS_REGION__` placeholders replaced post-heredoc: `USERDATA="${USERDATA/__CLOUD_BUCKET__/$BUCKET}"`.
+- **Gitleaks binary**: `/tmp/gitleaks/gitleaks.exe` (v8.22.1). Run: `gitleaks detect --source . --no-banner -v`. Use `--no-git` flag for working tree scan (includes untracked files).
 
 ### Engine & Build
 
