@@ -15,7 +15,7 @@ if (Test-Path $CloudConfigFile) {
     }
 }
 $AwsRegion = if ($AWS_REGION) { $AWS_REGION } else { 'eu-north-1' }
-$Bucket = if ($CLOUD_BUCKET) { $CLOUD_BUCKET } else { 'prismata-selfplay-data' }
+$Bucket = if ($CLOUD_BUCKET) { $CLOUD_BUCKET } else { Write-Error "CLOUD_BUCKET not set in cloud-config.env"; exit 1 }
 
 Write-Host "=== Cloud API Canary Check ==="
 Write-Host ""

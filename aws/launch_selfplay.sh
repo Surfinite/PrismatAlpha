@@ -67,7 +67,7 @@ echo ""
 USERDATA=$(cat <<'ENDSCRIPT'
 <powershell>
 $ErrorActionPreference = "Continue"
-$bucket = "prismata-selfplay-data"
+$bucket = "__CLOUD_BUCKET__"
 $runId = (Get-Date -Format "yyyy-MM-dd_HH-mm-ss")
 
 # Log everything
@@ -101,7 +101,7 @@ ENDSCRIPT
 )
 
 # Inject sourced config values into userdata (heredoc is single-quoted to protect PS syntax)
-USERDATA="${USERDATA/\$bucket = \"prismata-selfplay-data\"/\$bucket = \"$BUCKET\"}"
+USERDATA="${USERDATA/__CLOUD_BUCKET__/$BUCKET}"
 
 # Inject the dynamic values
 USERDATA+="

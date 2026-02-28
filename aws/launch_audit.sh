@@ -44,8 +44,8 @@ USERDATA=$(cat <<'ENDSCRIPT'
 #!/bin/bash
 set -eo pipefail
 
-BUCKET="prismata-selfplay-data"
-REGION="eu-north-1"
+BUCKET="__CLOUD_BUCKET__"
+REGION="__AWS_REGION__"
 LOG="/tmp/audit_boot.log"
 
 exec > >(tee -a "$LOG") 2>&1
@@ -91,8 +91,8 @@ ENDSCRIPT
 )
 
 # Inject sourced config values into userdata (heredoc is single-quoted to protect shell syntax)
-USERDATA="${USERDATA/BUCKET=\"prismata-selfplay-data\"/BUCKET=\"$BUCKET\"}"
-USERDATA="${USERDATA/REGION=\"eu-north-1\"/REGION=\"$REGION\"}"
+USERDATA="${USERDATA/__CLOUD_BUCKET__/$BUCKET}"
+USERDATA="${USERDATA/__AWS_REGION__/$REGION}"
 
 if [ "$DRY_RUN" = "true" ]; then
   echo "=== DRY RUN - Userdata script: ==="

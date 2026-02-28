@@ -62,7 +62,7 @@ fi
 USERDATA=$(cat <<'ENDSCRIPT'
 <powershell>
 $ErrorActionPreference = "Continue"
-$bucket = "prismata-selfplay-data"
+$bucket = "__CLOUD_BUCKET__"
 $runId = "heuristic_eval_" + (Get-Date -Format "yyyy-MM-dd_HH-mm-ss") + "_" + $env:COMPUTERNAME
 
 Start-Transcript -Path "C:\eval_boot.log" -Append
@@ -89,7 +89,7 @@ ENDSCRIPT
 )
 
 # Inject sourced config values into userdata (heredoc is single-quoted to protect PS syntax)
-USERDATA="${USERDATA/\$bucket = \"prismata-selfplay-data\"/\$bucket = \"$BUCKET\"}"
+USERDATA="${USERDATA/__CLOUD_BUCKET__/$BUCKET}"
 
 # Inject dynamic values
 USERDATA+="
