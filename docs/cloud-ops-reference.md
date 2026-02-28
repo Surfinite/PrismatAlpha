@@ -66,3 +66,34 @@ When checking cloud compute status, verify ALL of these — not just running VMs
 1. **Running instances**: `gcloud compute instances list --project=prismata-selfplay`
 2. **Orphaned disks**: `gcloud compute disks list --project=prismata-selfplay --filter="NOT users:*"` — unattached disks still bill
 3. **Static IPs**: `gcloud compute addresses list --project=prismata-selfplay` — unused static IPs bill ~$2.88/month
+
+## Operational Gotchas (migrated from CLAUDE.md, Feb 28)
+
+- **Cloud config isolation**: Each provider downloads base config from S3 and patches locally on the VM. Providers can run simultaneously without conflicts.
+- **AWS launch_selfplay.sh temp file race**: Script writes `.userdata_tmp.ps1` then reads it — parallel launches cause file-not-found errors. Launch serially; TheWatcher fills gaps on the next cycle.
+- **launch_selfplay.sh 5th arg is instance count**: Pass a number (e.g., `1`) or omit. Passing `N` (literal) breaks the `seq` command. Applies to both GCP and Azure launch scripts.
+- **launch_tournament.sh fleet verification**: Always verify fleet size with `aws ec2 describe-instances` after launch — sequential calls may spawn more instances than expected.
+- **`deploy_for_eval.sh` deploys from current branch**: Copies `bin/asset/config/config.txt` from local working tree. Wrong branch = wrong config = fleet wastes money. Always `git branch --show-current` before deploying. Verify: `aws s3 cp s3://prismata-selfplay-data/deploy/asset/config/config.txt - --region eu-north-1 | grep -c "your_tournament_name"`.
+- **EC2 eval instances can zombie**: Wrong config → instances run indefinitely with no results. Check: `aws ec2 describe-instances --region eu-north-1 --filters "Name=tag:Name,Values=PrismataEval-*" "Name=instance-state-name,Values=running" --query "Reservations[].Instances[].[InstanceId,LaunchTime,Tags[?Key=='Name'].Value|[0]]" --output table`.
+- **`launch_tournament.sh` env vars**: `TOURNAMENT_NAME` (default: NeuralAB_vs_Original), `MAX_RUNTIME_HOURS` (default: 0 = no timeout).
+- **watcher_log.txt file lock**: TheWatcher holds exclusive lock. Use `robocopy aws/ <dest>/ watcher_log.txt` to copy, then read.
+- **Azure Public IP quota (40)**: Subscription-level. Orphaned NICs/IPs persist after VM deletion. `az network nic delete` then `az network public-ip delete`.
+- **GCP GPU quotas**: Per-GPU-type regional quotas AND `GPUS_ALL_REGIONS=1` global cap. Check project-level: `gcloud compute project-info describe --format=json`.
+- **GCP THREE CPU quotas**: N2_CPUS (200), regional CPUS (200), **CPUS_ALL_REGIONS (48, the real bottleneck)**.
+- **GCP exe crash was stale S3 exe**: `0xc0000409` (buffer overrun) from GCP's VM memory layout. Fix: rebuild fresh + redeploy. **Always redeploy exe after rebuilding.**
+- **GCP SSD_TOTAL_GB = 250**: Use `pd-standard` for selfplay (CPU-bound).
+- **Cloud training disk sizing**: Data ~178GB → need 350GB boot disk + `--streaming`. Use g2-standard-8 (32GB) not g2-standard-4 (16GB OOM-kills).
+- **EBS IOPS diminishing returns**: 3K→6K IOPS = 2x speedup, 6K→16K = ~5% more. Bottleneck shifts to read latency.
+- **SSH to EC2 training**: `ssh -i ~/.ssh/prismata-selfplay.pem ec2-user@<IP>`. Logs at `/home/ec2-user/training/training_output.log`.
+- **S3 crash dumps**: ~93GB of .dmp files. Delete: `aws s3 rm s3://prismata-selfplay-data/results/ --recursive --exclude "*" --include "*.dmp" --region eu-north-1`.
+- **`aws s3 ls --recursive` fails on large prefixes**: Use `aws s3api list-objects-v2 --query "..."` instead.
+- **S3 provider identification**: Check `patched_config.txt` (Azure uses 250-round, EC2 uses 1000-round) or boot log presence ("GCP Worker Starting").
+- **watcher_status.json shard tracking unreliable**: `shard_activity.last_new_shard` and `shards_last_hour` underreport. Use actual S3 data growth or instance counts.
+- **watcher `spot_only: true`**: Only prevents NEW on-demand launches. Must manually terminate existing.
+- **Cloud free credits — CRITICAL**: AWS $200 tutorial credits DON'T cover EC2 Spot. Feb bill: $805.34 USD. Azure $200/30 days. GCP $300/90 days. **All cloud spend is real money.**
+- **Cost comparison (Windows 8 vCPU)**: AWS c5.2xlarge: $0.384/hr OD, $0.14/hr spot. Azure D8als_v7: $0.726/hr (spot unavailable). Cost per 1K games: $0.32 spot.
+- **AWS GPU training costs**: g4dn.xlarge: ~$0.20/hr spot. Separate G/VT quota from Standard.
+- **S3 deploy bucket**: 5 files required: `train.py`, `load_selfplay.py`, `export_weights.py`, `schema.json`, `unit_index.json`. Missing `unit_index.json` → FileNotFoundError.
+- **`aws s3 sync` non-zero exits**: Returns non-zero on partial transfer warnings. Wrap with `|| { echo "WARNING..."; }`.
+- **Cloud launch scripts have trap EXIT**: Auto-terminate on any exit (crashes, signals, errors).
+- **GCP quota gate**: Wait 48 hours from account creation before quota increase requests.

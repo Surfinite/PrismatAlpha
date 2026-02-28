@@ -50,6 +50,7 @@ bin/training/
 training/data/train.pt
 training/data/val.pt
 training/data_test/
+training/data_expert_*/
 training/models/
 training/models_test/
 training/runs/
@@ -217,6 +218,7 @@ aws/log_copy/
 
 # --- Training run logs ---
 training/*.log
+training_*.log
 
 # --- docs/wiki binary files ---
 docs/wiki/*.pdf
@@ -268,3 +270,6 @@ js_engine/*.log
 js_engine/*.jsonl
 js_engine/validation_results.json
 js_engine/test_movejson.json
+js_engine/overnight_run/
+js_engine/cloud_results/
+js_engine/stuck_replays/

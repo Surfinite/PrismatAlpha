@@ -3,53 +3,31 @@
 > **Full project history** (sections 1-29, completed milestones, tournament results): see `docs/PROJECT_HISTORY.md`
 > **Execution plan** for self-play training: see `docs/plans/2026-02-15-selfplay-training-master-plan.md`
 
-## Current Status (Feb 20, 2026)
+## Current Status (Feb 28, 2026)
 
-**305K-game 256h model: 45.3% WR vs OriginalHardestAI** (4,032 games, CI [43.8%, 46.8%], 24 EC2 c5.2xlarge). Massive improvement from 26.7% with 63K games. Trained on 330K games (12.2M records), 256h, LR=1e-5, tanh+MSE, 86.1% val accuracy. Weights: `bin/asset/config/neural_weights_305k.bin` (deployed as `neural_weights.bin`). Previous models: `neural_weights_selfplay_v1.bin` (iter 1, 77% val acc, 10K games), `neural_weights_expert_backup.bin` (expert-trained).
+**First correct-data model: ExpertJS R12 256h/3L = 6.0% WR** vs OriginalHardestAI (1.33M examples, epoch 6 best). All prior WR numbers (3.6%→51.9%) were trained on buggy C++ engine data — those models collapsed to ~11% WR when engine bugs were fixed. Historical progression moved to `docs/PROJECT_HISTORY.md`. Current deployed weights: `bin/asset/config/neural_weights.bin`.
 
-**T4 hyperparameter plan COMPLETE (Feb 19).** 12 experiments on GCP L4 in 41 min. Winner: R12_smooth90 (256h/3L, lr=2e-5, dropout=0.20, label_smooth=0.90, val_loss=0.4875). But **tournament showed data > hyperparameters**: R12 trained on 500K records got 19.3% WR (11,060 games), while E2b trained on 2.3M records got 28.9% WR (3,400 games). The 16GB RAM limit on g2-standard-4 forced `--max-records 500000`, nullifying architecture gains. Results: `s3://prismata-selfplay-data/training-runs/plan_2026-02-19_02-27-22/`. Weights: `bin/asset/config/neural_weights_R12_smooth90.bin` (256h/3L, 871K params). Plan: `docs/plans/2026-02-18-t4-training-plan.md`.
+**AS3→JS transpilation COMPLETE** (Feb 26, branch `feature/as3-js-transpilation`). Core engine transpiled: 18 AS3 files → 18 JS modules. Integration layer with MCDSAI worker-based self-play. 100% replay validation on 500 replays. Run: `cd js_engine && node selfplay_main.js --games 10 --jsonl out.jsonl 2> log.txt`.
 
-**Training pipeline hardened (Feb 19).** 6 fixes from pre-training code review: (1) `max_records` overshoot trimmed in `load_selfplay.py`, (2) streaming mode label sanity check added (samples 10K records at startup), (3) `--num-workers` default lowered from 8→2 (safe for 16GB cloud), (4) LR scheduler state saved/restored on checkpoint resume, (5) double-tanh fix in `export_weights.py` verification for `use_tanh=True` models, (6) vectorized O(N) subsampling loops in both `train.py` and `load_selfplay.py`. These changes have been deployed to S3 (`s3://prismata-selfplay-data/deploy/training/`).
+**Expanded training datasets READY**: Expert 1500+ (2.63M examples), Expert 2000+ (1.33M). Retrain pending.
 
-**V2 hyperparameter experiments COMPLETE (Feb 17).** 9 experiments across 3 phases (loss function, LR sweep, data & capacity). Winner: E2b (hidden_dim=256, LR=1e-5, tanh+MSE, 739K params) — Brier 0.1213, best at step 10000. Key findings: (1) model capacity matters most — smaller model trains longer before overfitting, (2) LR controls overfitting speed but not ceiling, (3) loss function (MSE vs BCE) is a wash, (4) subsampling hurts. **Tournament eval COMPLETE (Feb 17):** 24 EC2 c5.2xlarge instances (12 per model), 2 workers each, ~1,008 games per model vs OriginalHardestAI. Results: **E2b (256h) = 26.7% WR** (269.5/1,008), **E1b (512h) = 19.6% WR** (197.5/1,008). Previous baseline was 3.6% — 5-7x improvement from v2 hyperparameter fixes (tanh activation, proper LR). Run JSONs: `training/runs/20260217_*.json`. Saved checkpoints: `training/models/best_model_E1b_512h.pt`, `training/models/best_model_E2b_256h.pt`. The v1 experiments (3 runs with confounds: expert data mixed in, tanh mismatch unfixed) are superseded.
+**Training pipeline hardened (Feb 19).** 6 fixes deployed to S3: max_records overshoot, streaming label sanity check, num-workers default 8→2, LR scheduler state on resume, double-tanh verification fix, vectorized subsampling.
 
-**Self-play generation ACTIVE** via TheWatcher (Task Scheduler, every 5 min). **~722K games generated (Feb 20 audit: 7,804 shards, 26.7M records, 178 GB in S3)**, targeting 1M for iteration 2+ retraining. Local: `bin/run_selfplay.bat` (double-click from Explorer, 4 threads per process, run multiple times for more CPU). EC2: `bash aws/launch_selfplay.sh c5.2xlarge 5000 1 2` — TheWatcher auto-relaunches when batches finish. GCP: `bash gcp/launch_selfplay.sh n2-standard-8 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Azure: `bash azure/launch_selfplay.sh Standard_D8als_v7 5000 1 2 N` — TheWatcher monitors and auto-relaunches. Use `/status` slash command for a quick dashboard. Crash-safe: each run writes to timestamped `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/` subdirectory.
+**Key training findings** (V2 + T4 experiments, Feb 17-19): (1) data volume > hyperparameters, (2) smaller model (256h) trains longer before overfitting, (3) MSE vs BCE is a wash, (4) subsampling hurts. Winner architecture: R12_smooth90 (256h/3L, lr=2e-5, d=0.20, s=0.90). Full experiment results in `training/runs/` and `docs/PROJECT_HISTORY.md`.
 
-**AWS EC2 self-play** pipeline verified working (Feb 15-16). Boots Windows Server, downloads exe+config from S3, patches config to enable SelfPlay_CI, runs self-play, uploads shards to `s3://prismata-selfplay-data/results/` every 5 min (copy-to-temp sync), auto-terminates. AWS account on paid plan (c5 instances unlocked). vCPU quotas: 192 on-demand + 300 spot (Standard, increased from 256 Feb 18). **AWS selfplay DISABLED (Feb 19)** (`selfplay.enabled: false` in watcher_config.json). Re-enable when needed. Spot-only mode was active (`spot_only: true`). Previous fleet: 37 spot c5.2xlarge = 296 vCPUs (~$5.18/hr). Cost per 1K games: $0.32 spot, $0.88 OD. TheWatcher handles S3 sync, auto-relaunch, and quota-aware scale-up (confirmed working: auto-detected spot quota 64→128→256→300 increases and launched additional instances within 30s). **Note:** `launch_selfplay.sh` only supports 1 instance per invocation — use a bash loop for bulk launches (sequential to avoid temp file race).
+**Self-play data: ~722K games** (Feb 20 audit: 7,804 shards, 26.7M records, 178 GB in S3). Local: `bin/run_selfplay.bat`. Cloud: `aws/launch_selfplay.sh`, `gcp/launch_selfplay.sh`, `azure/launch_selfplay.sh`. **AWS selfplay DISABLED**, **Azure PAUSED/CLEANED**, GCP was active. Use `/status` for dashboard. All self-play data was generated with buggy C++ engine (defense-reset bug) — both sides, internally consistent.
 
-**AWS GPU training pipeline TESTED AND WORKING (Feb 19).** `aws/launch_training.sh` launches GPU spot instances in eu-north-1. Default: `g6.2xlarge` (NVIDIA L4, 24GB VRAM, 32GB RAM, ~$0.40/hr spot). AMI: `ami-0bd05d88ea8c3e277` (Deep Learning OSS PyTorch 2.6, Amazon Linux 2023, venv at `/opt/pytorch/`). Downloads training code (5 files including `unit_index.json`) + selfplay data from S3 (~183GB shards, ~22 min download), trains with `--device cuda`, exports weights, uploads results to `s3://prismata-selfplay-data/training-runs/<label>/`, auto-terminates. Uses `request-spot-instances` (queues for capacity instead of instant-fail). Supports env var config (HIDDEN_DIM, LR, EPOCHS, NUM_LAYERS, INSTANCE_TYPE, etc.). **GPU quota APPROVED (Feb 19)** — G/VT Spot = 8 vCPUs. Available types: `g6.2xlarge` (L4, 8 vCPU, 32GB, $0.40/hr — **recommended**), `g6.xlarge` (L4, 4 vCPU, 16GB, $0.35/hr), `g4dn.xlarge` (T4, 4 vCPU, 16GB, $0.20/hr). S3 selfplay data is ~178GB .bin shards (~722K games), crash dumps cleaned. Training code deployed: `s3://prismata-selfplay-data/deploy/training/`.
+**Cloud GPU training** verified on AWS (`aws/launch_training.sh`, g6.2xlarge L4 spot ~$0.40/hr) and GCP (`gcp/launch_training.sh`, g2-standard-8 L4). Use `--streaming` for full dataset, `MACHINE_TYPE=g2-standard-8` on GCP (16GB OOMs). Full cloud infrastructure details in `docs/cloud-ops-reference.md`.
 
-**GCP GPU training ACTIVE (Feb 20).** `gcp/launch_training.sh` launches Linux DL VM with GPU. Default: `g2-standard-4` + L4 (on-demand). **Use `MACHINE_TYPE=g2-standard-8` for full-dataset streaming** (16GB OOMs). Script creates 16GB swap automatically. Image: `pytorch-2-7-cu128-ubuntu-2204-nvidia-570` (PyTorch 2.7, CUDA 12.8). GPU quotas in us-central1: `NVIDIA_L4_GPUS=1`, `NVIDIA_T4_GPUS=1`, `NVIDIA_V100_GPUS=1` (on-demand and preemptible each). **`GPUS_ALL_REGIONS=1`** is the project-level gate — only 1 GPU instance at a time across all regions. GCP billing upgraded from free trial Feb 16 (credits still apply). Script supports env var config: `HIDDEN_DIM`, `LR`, `NUM_LAYERS`, `WARMUP_EPOCHS`, `DROPOUT`, `WEIGHT_DECAY`, `LABEL_SMOOTH`, `RESUME_FROM`, `GPU_TYPE`, `MACHINE_TYPE`. Uses `--streaming` for large datasets. Downloads all selfplay data from S3 (~94GB, needs 250GB disk). Auto-deletes on completion. Training plan: `docs/plans/2026-02-18-t4-training-plan.md`.
-
-**GCP Compute Engine self-play** pipeline set up (Feb 16). Uses same S3 bucket (hybrid cloud — GCP instances install AWS CLI). GCP project `prismata-selfplay`, zone `us-central1-a`. Quotas: N2_CPUS=200, INSTANCES=24, PREEMPTIBLE_CPUS=0 (no spot), **CPUS_ALL_REGIONS=48 (increased from 12, Feb 18)**. Fleet: 6x n2-standard-8 = 48 vCPUs. $300 free credit (90 days from Feb 16). TheWatcher monitors GCP instances and auto-relaunches. **GCP crash fix (Feb 18):** Instances dying after ~8 games was NOT Defender — root cause was stale exe in S3 with latent stack buffer overrun (0xc0000409) triggered by GCP's VM memory layout. Fresh rebuild + deploy to S3 fixed it. Defender exclusions (`Add-MpPreference`) and `windows-2022` image (switched from `windows-2022-core`) kept as belt-and-suspenders. Boot disk switched from `pd-ssd` to `pd-standard` (SSD_TOTAL_GB quota = 250, only fits 5 instances; CPU-bound workload doesn't need SSD). **GCP batch size fixed** (Feb 16) — `games_per_instance: 5000` → 2500 rounds/process exceeded x86 OOM threshold. Fixed to 2000. **GCP quota gate**: Must wait 48 hours from account creation before GCP accepts quota increase requests. Account created Feb 16, eligible Feb 18+.
-
-**Azure self-play PAUSED and CLEANED (Feb 18).** Azure on-demand is ~2x more expensive per vCPU-hr than AWS spot ($0.091-0.122 vs $0.052). Azure spot unavailable (confirmed by email). Fleet stopped, all resources deleted (only 1 VNET remains, free). Azure billing has 24-48hr lag — charges may appear after cleanup but will stop. ~£65 over free credit charged to card. Pipeline verified working (Feb 16-17). **Fleet rebuilt Feb 17** — 16 VMs across 16 families (8x v7 + 8x v6, D/F series) = 128 vCPUs (regional cap maxed). v7 families: D8als, D8ads, D8as, D8alds, F8als, F8ads, F8as, F8alds. v6 families: D8as, D8ads, D8als, D8alds, F8as, F8als, D8s, D8ds. Each runs 5,000 games at ~3.5 games/min. Multi-family deployment bypasses per-family 10 vCPU limits. Same hybrid S3 pattern as GCP. Regional cap: 128 vCPUs (increased from 64). **IMPORTANT: `az vm delete` does NOT cascade** — orphaned NICs, public IPs, OS disks, NSGs persist and bill. After deleting VMs, run full cleanup (see `docs/cloud-ops-reference.md` → "Azure orphaned resources"). TheWatcher monitors, auto-deallocates stopped VMs, auto-relaunches. Launch: `bash azure/launch_selfplay.sh Standard_D8ads_v7 5000 1 2 N`. Use `LOCATION=australiacentral` for other regions (separate Regional quota).
-
-**Command Center dashboard** built (Feb 17). Node.js + Express web app at `dashboard/`. Run via `run_dashboard.bat` (auto-installs deps, opens browser). Features: live fleet status (AWS/GCP/Azure/Local) via SSE with 30s heartbeat, data generation progress with estimated game rate, config-driven actions from `dashboard/actions.json` (refresh, S3 sync, launch AWS, train E2b), experiment browser with Chart.js training curves and multi-experiment overlay (Ctrl+click up to 3), watcher log viewer with filtering, ARIA accessibility attributes. Auth: Bearer token + CSRF Origin check. Conditional file watchers (only active when SSE clients connected). Binds to `0.0.0.0` — accessible from LAN devices.
-
-**Streaming data loader VERIFIED WORKING (Feb 17, rewritten Feb 20).** Header-only indexer reads 64 bytes per shard (not full data). Shard-level train/val split (`shard_idx % 10 == 0` → val) — no game_id reads needed since games never span shards. LRU file handle cache with 8K FD limit (raised via `ctypes._setmaxstdio`). Multi-worker DataLoader (`--num-workers 2-4`) supported via lazy init pattern. Uses ~12GB RAM at peak (vs 50GB+ without streaming).
-
-**Intel Arc B580 XPU acceleration ENABLED (Feb 17).** PyTorch 2.10.0+xpu installed globally, IPEX removed, native `torch.xpu` backend. New CLI flags: `--device` (force cpu/xpu/cuda), `--amp` (BF16), `--compile` (torch.compile, needs MSVC). Benchmark (100K records, bs=512, seed 42): **XPU+nw4: 13s/epoch vs CPU: 42s/epoch (3.2x per-epoch, 4.5x total)**. BF16 (`--amp`) adds overhead at this model size — skip it. Multi-worker data loading confirmed working (`num_workers=4` is optimal). Earlier "pickle bug" failures were transient Windows handle exhaustion from memory pressure, not a real incompatibility. Plan: `~/.claude/plans/intel-arc-b580-xpu-acceleration-v2.md`. **Production command: `--device xpu --num-workers 4`.**
+**Local training: `--device xpu --num-workers 4`** (Intel Arc B580, 3.2x speedup vs CPU). Streaming loader supports `--num-workers 2-4`.
 
 **Next actions:**
-1. **Retrain R12 architecture with full dataset** — R12_smooth90 (256h/3L, d=0.20, s=0.90) has best val_loss but was limited to 500K records by GCP RAM. Use AWS T4 spot (g4dn.xlarge, $0.20/hr, **G/VT spot quota = 8 vCPUs, 2 instances**) with `--streaming` for full 15M+ record dataset.
-2. **Continue data generation** toward 1M games. **AWS selfplay DISABLED (Feb 19)** (`selfplay.enabled: false` in watcher_config.json). **GCP selfplay ACTIVE** (6x n2-standard-8, 48 vCPUs, `gcp.enabled: true`). Azure paused and cleaned. **~722K games generated (Feb 20 audit: 7,804 shards, 26.7M records, 178 GB in S3).** Local selfplay via `run_selfplay.bat` is free.
-4. ~~**256h 305K-game eval**~~ — DONE (Feb 18). 45.3% WR (4,032 games). Major milestone — up from 26.7% with 63K games.
-5. ~~**Fix streaming DataLoader multi-worker support**~~ — DONE (Feb 17). Lazy init pattern in `MemmapSelfPlayDataset` enables `num_workers>0`. Use `--num-workers 2` for streaming to avoid RAM thrashing (4 causes 94% RAM on 32GB).
-6. ~~**Enable Intel Arc B580 GPU acceleration**~~ — DONE (Feb 17). See above.
-7. ~~**Build overlay advisor**~~ — DONE (Feb 18). C++ `--suggest` mode + Python overlay (`tools/prismata_advisor.py`) + launcher (`run_advisor.bat`). Run: double-click `run_advisor.bat`, press F6 in Prismata. Plan: `docs/plans/2026-02-18-prismata-overlay-advisor.md`.
-8. ~~**Live game state tracking in sniffer**~~ — DONE (Feb 20). Auto-F6 at turn boundaries via Win32 SendInput, clipboard capture, mid-turn click tracking, JSON + console output. See sniffer gotchas below. **Not yet live-tested.**
-9. ~~**Build live AI commentator — Phase 1 (text + chat)**~~ — DONE (Feb 20). Claude Haiku generates per-turn strategic commentary, injected as in-game PM via sniffer proxy. Adaptive token budget: short/punchy for fast turns (40 tokens), expanded colour for long thinks (120 tokens, >=15s threshold). Chat target defaults to Surfinite (self-PM); set `CHAT_TARGET=<id>` env var to redirect. Tested live on spectated games. Plan: `docs/plans/2026-02-20-live-commentator-plan.md`. Knowledge base: `docs/commentary-knowledge/`. **Phase 2 (TTS + OBS)** still planned — needs `edge-tts`, `sounddevice`, `obsws-python`, VB-Cable.
-10. **Post-game commentary pipeline** — PHASES 1-3 COMPLETE (Feb 22). Two-stage LLM pipeline: Phase 2 (structured JSON analysis) → Phase 3 (narrative generation). Eval numbers converted to qualitative labels before narrative model (prevents unreliable eval leaking into output). Few-shot example selection by game characteristics. Discord 2000-char message splitting. Verified on 8 replays (~$0.027/replay on Haiku). Branch: `feature/postgame-commentary`. Run: `python tools/generate_postgame_commentary.py <CODE>`. Output: `bin/commentary/commentary_P1_vs_P2_CODE.md`. Remaining: Phase 4 (CLI polish), Phase 5 (batch), Phase 6 (Discord bot). Plan: `docs/plans/2026-02-22-postgame-commentary-pipeline-plan-v2.md`.
-11. ~~**Build autopilot — AI move injection via TCP proxy**~~ — DONE (Feb 20). `--suggest` now outputs `clicks` array with wire-protocol-ready `{_type, _id}` pairs. Python autopilot engine captures state (Shift+F6), runs AI, injects Click/EndTurn messages through sniffer proxy. Semi-auto (file trigger) and full-auto (StartTurn callback) modes. Dry-run mode for testing. Launch: `run_prismata_tools.bat --autopilot`. **Proxy integration verified (Feb 20): game traffic flows, StartTurn detected, bot-game check works. Not yet tested with actual bot game click injection.** Plan: `~/.claude/plans/sequential-launching-mountain.md`.
-12. **Frontline penalty isolation test** — COMPLETE (Feb 22). 6x c5.2xlarge spot, 12 workers, `FrontlineTest_Paired`. Final results (~780 games/arm): AB 52.1% WR (406W/372L), FLLegacy 51.6% WR (396W/370L) vs OriginalHardestAI — **+0.5 pp difference, not significant**. Frontline penalty value doesn't matter much. **Caveat**: defense reset bug (commit 5bf57a8) inflates blocking, likely underestimates frontline's real value. Re-test after engine fix if needed. Results: `s3://prismata-selfplay-data/eval-results/eval_2026-02-22_10-24-*/`. Plan: `docs/plans/2026-02-21-frontline-penalty-test-v2.md`.
-13. **Mix community replays into training data** — User goal: incorporate expert/community replay data so community members can truthfully say their games contributed. The C++ replay stepper (`--replay-dir`) converts replay JSONs into identical binary shards as self-play. ~35K replays (expert + Reddit + tournament + Discord) = ~1.3M records (~5% of current 27M self-play dataset). Human game value targets are higher quality than bot self-play. Standard practice to keep 10-20% human data in AlphaZero-style RL loops.
-14. **MB community issues extraction** — V2 DOCUMENT GENERATED (Feb 22). Branch: `feature/mb-issues-extraction`. 252 Sonnet extractions across 6 channels (strategy_advice 66/67, prismata_chat, unit_and_game_design, alpha_player_lounge, questions_and_help, ask_a_dev). 350 MB-specific insights consolidated. Output: `docs/discord-masterbot-feedback-analysis-v2.md`, `tools/discord_extraction/consolidated_mb_insights.json`. Plan: `docs/plans/2026-02-22-mb-issues-extraction-plan.md`. Remaining: 1 chunk (strategy_advice #64) missing, consolidation/dedup (Phase 4) can be re-run for final version.
-15. ~~**Engine logic audit (C++ vs AS3 ground truth)**~~ — COMPLETE (Feb 22-23). 4 fixes applied to `GameState.cpp` on branch `feature/engine-logic-audit` (commit `d44740e`): (1) CRITICAL: removed defense phase status reset, (2) CRITICAL: added "all units doomed" game-over check, (3) HIGH: mutual elimination draw fix, (4) MEDIUM: WIPEOUT switch fall-through break. 22 audit areas checked, 15 deliverables in `docs/audit/`. **Batch validation REGRESSED** from 55.7% to 50.4% (-5.3pp, 113 more failures) — fixes made engine stricter. USE_ABILITY is top failure category (40.7%). Remaining unfixed: script execution ordering, stagnation system, 4 Condition types. Plan: `docs/plans/engine-logic-audit-plan-v2.md`. Meta-review: `docs/plans/META-REVIEW-engine-logic-audit-plan.md`.
-16. **LiveHardestAI config ported from SWF** (Feb 23). Extracted live game's complete AI configuration from decompiled SWF: LiveOpeningBook (4 entries), LiveOpeningBook2 (50 unit-specific entries), Live_Ability_Filter (includes Odin), 5 ActionAbility strategy variants, complete Live_ partial player hierarchy (31 components), 15 move iterators, 48 player definitions. All prefixed with `Live_` in `config.txt`. Smoke test validated — all components parse and execute correctly (reached turn 23 with 7s think time). Tournament `LiveHardestAI_Smoke` defined but disabled (`run: false`).
-17. **Replay code database** — COMPLETE (Feb 23). SQLite at `c:\libraries\prismata-replay-parser\replays.db`. 128,978 unique codes from 7 source types (expert, v2 per-player, reddit, discord, tournament, sniffer, balance results). Junction table with triggers, CLI tool (`replay_cli.py status` for dashboard). Build: `python build_replay_db.py` (~68s full rebuild). Incremental: `python build_replay_db.py --incremental --source <file>`. 4 files: `replay_db.py` (schema), `build_replay_db.py` (import), `replay_queries.py` (queries), `replay_cli.py` (CLI). 2 code reviews applied (6 fixes: trigger UNIQUE, transaction safety, backfill guard, junction detection, source dedup, executescript replacement). Plan: `docs/plans/2026-02-23-replay-database-plan-v2.md`. Meta-review: `docs/plans/META-REVIEW-2026-02-23-replay-database-plan.md`.
+1. **Retrain on expanded dataset** — 2.63M expert examples ready (1500+ rating). Use R12_smooth90 architecture (256h/3L). Local XPU or cloud GPU with `--streaming`.
+2. **Mix community replays into training data** — ~35K replays = ~1.3M records. C++ replay stepper (`--replay-dir`) converts to binary shards. Goal: community members' games contribute to training.
+3. **Post-game commentary pipeline** — Phases 1-3 COMPLETE. Remaining: Phase 4 (CLI polish), Phase 5 (batch), Phase 6 (Discord bot). Run: `python tools/generate_postgame_commentary.py <CODE>`.
+4. **Live commentator Phase 2 (TTS + OBS)** — needs `edge-tts`, `sounddevice`, `obsws-python`, VB-Cable.
 
-**Current neural net strength:** **Run B 256h/3L 722K model = 51.9% WR** vs OriginalHardestAI (2,016 games, CI [49.7%, 54.1%], AB search + NeuralNet eval, Feb 21). First model to cross 50%. Up from 45.3% with 305K model (256h/2L). Previous: E2b (63K) = 26.7%, E1b (512h, 63K) = 19.6%, unfixed model = 3.6%. Historical: ~42% WR vs MediumAI (expert UCT). Churchill got 58.8% WR vs playout with 500K games -- we are at 51.9% with 722K games, closing the gap.
+**Completed (see `docs/PROJECT_HISTORY.md` for details):** JS transpilation, engine logic audit (4 fixes), LiveHardestAI config port, replay database (128K codes), overlay advisor, autopilot, sniffer live tracking, frontline penalty test (+0.5pp, not significant), MB community issues extraction (350 insights).
 
 ## What This Project Is
 
@@ -112,30 +90,12 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 
 ## TheWatcher (Persistent Multi-Cloud Monitor)
 
-**NEVER kill, stop, or unregister the `PrismataAI-TheWatcher` Task Scheduler job.** It runs every 5 minutes and manages AWS EC2 + GCP Compute Engine + Azure auto-relaunch, quota-aware scale-up, and S3 sync. It is harmless — it only monitors and writes status.
+**NEVER kill, stop, or unregister the `PrismataAI-TheWatcher` Task Scheduler job.** Runs every 5 min. Manages AWS/GCP/Azure auto-relaunch, quota-aware scale-up, S3 sync. Harmless — only monitors and writes status.
 
-- **Check status**: Read `aws/watcher_status.json` (updated every 5 min automatically)
-- **Change behavior**: Edit `aws/watcher_config.json` (e.g., set `selfplay.enabled: false` to pause AWS, `gcp.enabled: false` to pause GCP)
-- **View log**: Read `aws/watcher_log.txt` (append-only)
-- **Boot protection**: Won't auto-launch after PC restart (status goes stale >30 min). A Claude Code context or user must launch instances manually first — TheWatcher then tracks and relaunches. **Also triggers during RAM thrashing** — if watcher can't run a cycle for >30 min (e.g., training with too many workers), status goes stale and boot protection engages. Recovery: manually launch instances, then watcher resumes tracking.
-- **Spot-only mode**: Set `selfplay.spot_only: true` in watcher_config.json to prevent on-demand launches. Watcher respects this in both relaunch and scale-up code paths.
-- **Manual launch**: Use `bash aws/launch_selfplay.sh` (EC2), `bash gcp/launch_selfplay.sh` (GCP), `bash azure/launch_selfplay.sh` (Azure), or `bash aws/launch_tournament.sh` (eval). TheWatcher will detect them and auto-relaunch when they finish.
-- **Quota-aware scale-up**: Detects unused capacity (e.g., after a quota increase) and launches additional instances to fill it. Works for both AWS (on-demand + spot separately) and GCP (N2 vCPU + instance count limits).
-- **Multi-cloud quotas**: Tracks AWS quotas via `service-quotas` API and GCP quotas via `gcloud compute regions describe`. All quotas logged and visible in `watcher_status.json`.
-
-| File | Purpose |
-|---|---|
-| `aws/watcher.ps1` | The script (runs via Task Scheduler) |
-| `aws/watcher_config.json` | What to do — AWS (`selfplay`), GCP (`gcp`), Azure (`azure`), eval, S3 sync |
-| `aws/watcher_status.json` | Current state — instance counts, quotas, batch tracking |
-| `aws/watcher_log.txt` | Append-only log |
-
-- **Reliability**: All cloud API calls go through `Invoke-CloudApi` wrapper. Relaunch requires API success. After 6 consecutive failures (30 min), force-reset. Tests: `test_watcher_e2e.ps1` (22 scenarios), `test_watcher_smoke.ps1`, `test_watcher_canary.ps1`, `test_watcher_log_health.ps1`.
-- **Change detection**: Logs `CHANGE:` lines when values differ between cycles. Grep `CHANGE:` in `watcher_log.txt` to see state transitions. Cost shift >$1/hr also triggers change detection. Log lines now include `cost=$X.XX/hr`.
-- **Fleet health checks**: When investigating compute costs, check ALL resource types — not just running VMs. Orphaned disks, NICs, IPs, and NSGs persist after VM deletion and bill silently. See `docs/cloud-ops-reference.md` → "Fleet Health Checks" for per-provider commands (Azure/AWS/GCP). **Warning**: `shard_activity.last_new_shard` in `watcher_status.json` is unreliable (see Cloud Operations gotchas) — use actual S3 data growth or instance counts to verify fleet health.
-- **Watcher hangs under memory pressure**: When system RAM thrashing is severe (>90% RAM, high page faults), cloud API calls (gcloud, aws, az) can't spawn and the watcher hangs indefinitely. Task Scheduler shows error code 267009. **Recovery**: `Stop-ScheduledTask -TaskName 'PrismataAI-TheWatcher'; Start-Sleep 2; Start-ScheduledTask -TaskName 'PrismataAI-TheWatcher'`. Root cause must also be fixed (e.g., reduce training workers) or watcher will hang again.
-- **Instance counting is unconditional (Feb 20 fix)**: GCP and Azure instances are always counted even when `provider.enabled=false` — prevents blind spots where running instances are invisible in status/cost tracking. Only relaunch and active operations (cleanup, quota checks) are gated behind the enabled flag. Logs `WARNING` when instances detected but provider disabled.
-- **v2 enhancements** (branch `feature/watcher-enhancements-v2`, NOT yet merged to master): Three new monitors: (1) **Cost estimation** — per-provider hourly cost tracking with rate table for 19 Azure VM sizes + AWS + GCP, new `cost_estimate` field in status JSON. (2) **Idle fleet detection** — flags when VMs running but shard production <25% expected for >30 min, new `health.low_shard_since` field. (3) **Orphaned Azure resource cleanup** — auto-deletes unattached NICs, disks, IPs, NSGs, new `azure_cleanup` field in status JSON. Also fixes shard sample cap from 20 to 200, and captures Azure VM size for per-VM cost calculation.
+- **Check status**: Read `aws/watcher_status.json` | **Change behavior**: Edit `aws/watcher_config.json` | **View log**: `aws/watcher_log.txt`
+- **Boot protection**: Won't auto-launch if status >30 min stale (PC restart or RAM thrashing). Manual launch first, then watcher resumes.
+- **RAM pressure hang**: Recovery: `Stop-ScheduledTask -TaskName 'PrismataAI-TheWatcher'; Start-Sleep 2; Start-ScheduledTask -TaskName 'PrismataAI-TheWatcher'`
+- **Fleet health**: Check ALL resource types — orphaned disks/NICs/IPs bill silently. See `docs/cloud-ops-reference.md` → "Fleet Health Checks".
 
 ## Gotchas & Non-Obvious Patterns
 
@@ -178,35 +138,26 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Replay JSON structure**: Fetched replays use `deckInfo.mergedDeck` for card data (NOT `initInfo.mergedDeck`). `initInfo` has `initCards` and `initResources`. Player ratings in `ratingInfo.finalRatings[i].displayRating`.
 - **Replay `mergedDeck` has no `supply` field**: Derive supply from `rarity` field — legendary=1, rare=4, normal/trinket=20. `buildTime` defaults to 1 if absent, `fragile` defaults to 0 if absent.
 - **C++ `eval_pct` is a string with `%` suffix**: `DoAnalyze` outputs `"eval_pct":"72%"` (not `72.0`). Strip `%` before `float()`. Raw eval is under key `"eval"`, not `"eval_raw"`. See `Benchmarks.cpp:1847`.
-- **Sniffer live state tracking (Feb 20)**: Auto-F6 on each StartTurn, clipboard capture with hash-and-wait, mid-turn Click buy tracking via mergedDeck lookup, EndTurn summary logging, GameOver cleanup. Output: `bin/live_game_state.json` + formatted console. Uses `_capture_seq` debounce to prevent overlapping F6 sends from rapid StartTurn messages. Thread-safe via Session._lock. Architecture: `Session` (thread-safe state), `MessageDispatcher` (registry), `@on_message` decorator, 12 handlers (7 core + 5 live state).
-- **Sniffer spectator mode works**: Proxy captures replay codes from spectated PvP games (not just your own). The GameOver handler fires for all games observed through the proxy, including spectated matches.
-- **Sniffer chat injection (Feb 20)**: C->S `["Msg", msgId, ["PrivateChat", playerId, text]]` for PM, `["Msg", msgId, ["Chat", "globalEnglish", text]]` for global chat. Requires C->S msgId offset tracking — injected messages increment `_c2s_offset`, real C->S Msgs get offset added. **Critical**: S->C Ping confirmation rewriting — must subtract `_c2s_offset` from `Ping[2]` (lastC2SMsgConfirmed) or client asserts "Confirmation cannot be received before sending a message" and disconnects. File trigger: write to `bin/chat_trigger.txt` (prefix `global:` for global chat). Default target: Surfinite (7709, self-PM); override with `CHAT_TARGET` env var.
-- **Sniffer game action injection (Feb 20)**: Same `_inject_msg` mechanism as chat. C->S Click: `["Click", gameId, {_type, _id}, turn]`. C->S EndTurn: `["EndTurn", gameId, timeTaken, turn, finalClick]`. C->S EndSwoosh: `["EndSwoosh", gameId, turn]`. Must send EndSwoosh before any clicks. Turn lifecycle: EndSwoosh → abilities → buys → space → EndTurn (action), EndSwoosh → inst+endswipe per blocker → space → EndTurn (defense). Server validates moves — illegal clicks silently dropped.
-- **`_sanitize_gamestate()` in sniffer, advisor, and autopilot**: Intentional duplication — the tools are independent (sniffer is a network proxy, advisor is a clipboard overlay). Both need to parse F6 clipboard JSON. Do not refactor into a shared module.
-- **prismata-replay-parser git config**: This repo has no global git user config. Must set `git config user.name "Surfinite"` and `git config user.email "Surfinite@users.noreply.github.com"` locally before first commit.
-- **SQLite trigger DDL splitting**: Never split trigger SQL on `;` — triggers have semicolons inside `BEGIN...END` blocks. Split on `END;` boundary instead, or use separate string constants per trigger.
+- **Sniffer protocol**: Live state tracking (auto-F6 + click tracking → `bin/live_game_state.json`), spectator mode works, chat injection (file trigger: `bin/chat_trigger.txt`), game action injection (EndSwoosh → clicks → EndTurn). **Critical**: Ping confirmation rewriting for injected messages — see sniffer source. `_sanitize_gamestate()` is intentionally duplicated across sniffer/advisor/autopilot — do not refactor.
+- **prismata-replay-parser git config**: Must set `git config user.name "Surfinite"` and `git config user.email "Surfinite@users.noreply.github.com"` locally.
 - **Churchill paper URLs**: Use `davechurchill.ca/publications/` (old `cs.mun.ca/~dchurchill/` is dead).
-- **307th's Prismata Library blog** is at `prismatalibrary.blog` (NOT `blog.prismata.net/prismatalibrary/`). 27 articles, all live as of Feb 2026. Archive: `prismatalibrary.blog/archive/`.
-- **WebFetch blocked on web.archive.org**: Use the CDX API via curl instead: `curl -s "https://web.archive.org/cdx/search/cdx?url=DOMAIN/*&output=json&fl=timestamp,original,statuscode&limit=50"`. Then fetch archived pages: `curl -sL "https://web.archive.org/web/{timestamp}/{url}"`. Process HTML to text with Python.
-- **Commentary KB discord/ mirror pattern**: New Discord-sourced insights go to `docs/commentary-knowledge/discord/` (mirror files like `03-advanced-units-discord.md`), NOT directly into canonical `docs/commentary-knowledge/*.md` files. Promotion to main files is a separate manual step. `tools/commentary_prompt.md` (68 lines, ~2,400 tokens) is also manually curated — never auto-generated.
-- **Commentary eval sanitization**: Haiku ignores "don't quote percentages" prompt instructions if the input data or few-shot examples contain `\d+%` patterns. Must strip percentages from: (1) analysis JSON `eval_before`/`eval_after` → qualitative labels, (2) few-shot example text, (3) notable turns `eval=X%` → `eval=ahead`. Verification check catches leakage post-generation.
-- **Commentary pipeline auto-fetches replays**: `generate_postgame_commentary.py` downloads replay JSON from S3 on first use and caches to `bin/replays_test/`. No manual replay setup needed — just pass the replay code.
-- **Task agents can't create new files**: Background agents spawned via Task tool cannot create files that don't exist — Write tool requires prior Read (fails on nonexistent file), and Bash heredoc may be blocked by hooks. Write new files in the parent context instead, or pre-create an empty file before delegating.
+- **WebFetch blocked on web.archive.org**: Use CDX API via curl instead.
+- **Commentary KB**: Discord insights go to `docs/commentary-knowledge/discord/`, NOT canonical files. `commentary_prompt.md` is manually curated — never auto-generated. Pipeline auto-fetches replays from S3 on first use.
+- **Commentary eval sanitization**: Strip `\d+%` patterns from analysis JSON and few-shot examples before narrative generation — Haiku ignores prompt-level instructions otherwise.
+- **Task agents can't create new files**: Write tool requires prior Read. Pre-create files in parent context before delegating.
 
 ### Self-Play & Data
 
 - **SkipColorSwap auto-detection**: Self-play tournaments auto-detect identical AI configs and skip redundant games. `rounds = desired_games` for self-play.
 - **Self-play crash safety**: Each run writes to `bin/training/data/selfplay/run_YYYY-MM-DD_HH-MM-SS/`. Restart anytime — only in-flight games lost. Empty run dirs (config file but no shards) mean the exe was killed before completing any games — harmless, can be deleted.
 - **Run self-play from Explorer**: Use `bin/run_selfplay.bat`. Has startup exe check and 5s error delay to prevent spin-looping during rebuilds. **The bat loop only auto-restarts if the window stays open** — killing the process externally (e.g., `taskkill`) also kills the bat loop. Must manually re-launch `run_selfplay.bat` after external kills.
-- **Selfplay shard CRC**: CRC check fails on shards from crashed/in-progress runs (no footer). Use `validate_crc=False` for live data.
-- **In-progress shard detection**: Sentinel record_count (0xFFFFFFFFFFFFFFFF) + non-zero payload remainder = shard was being written when process died. No valid CRC footer exists — the trailing bytes are an incomplete record. ~99.8% of local shards are sentinel (only properly finalized on clean exit).
+- **Selfplay shard CRC**: Use `validate_crc=False` for live data — crashed/in-progress shards have no footer. ~99.8% of local shards are sentinel (only finalized on clean exit).
 - **Selfplay positions per game**: ~37 records/game (both players' turns), NOT ~440. A 10K-game run yields ~370K records.
 - **Selfplay shard binary format**: Header 64 bytes (magic, version, feature_dim, record_size, record_count, endian_check, padding) + 4-byte CRC32 footer. Record size = 7152 bytes. Games = `(file_size - 68) / 7152 / ~37`. See `training/load_selfplay.py` for `HEADER_SIZE = 64`.
 - **Selfplay game counting**: `python -c "import os; base='bin/training/data/selfplay'; total=sum((os.path.getsize(os.path.join(r,f))-68)//7152 for r,_,fs in os.walk(base) for f in fs if f.endswith('.bin') and os.path.getsize(os.path.join(r,f))>68); print(f'{total} records, ~{total//37} games')"`.
 - **S3 download dir structure**: `aws s3 sync` creates timestamp dirs without `run_` prefix containing nested `run_*` subdirs. Must scan recursively.
-- **S3 data audit COMPLETE (Feb 20)**: 7,804 shards, 26.7M records, ~722K games, 178GB — all clean. 0 CRC failures, 0 NaN, 0 Inf, 0 duplicates, 0 error shards. P0 win rate 43.9%, P1 57.3% (P2 advantage, see below). Results: `s3://prismata-selfplay-data/audit-results/audit_20260220_005826.json`. Tool: `tools/audit_selfplay_s3.py`.
-- **Self-play uses playout eval**: `SelfPlay_CI` runs `OriginalHardestAI_1s` vs itself (playout eval, 1s think). The neural net is NOT used for game generation — only for position labeling. Data quality depends on playout AI strength, not model WR. ~4 games/min per 4-thread process.
-- **P2 (second player) wins 57.3% of self-play games**: P0 43.9% / P1 57.3% across 26.7M records. Human play at 1800+ is 48.6/50.8 (Lunarch stats). P2 starts with an extra Drone, enabling openings P1 can't execute. The wider gap vs human play is likely because 1s think time is insufficient for P1 to find precise equalizing openings. Not a data quality issue — the model should learn this real game asymmetry.
+- **Self-play uses playout eval**: `SelfPlay_CI` runs `OriginalHardestAI_1s` vs itself. Neural net NOT used for generation — only labeling. ~4 games/min per 4-thread process. P2 wins 57.3% (extra Drone advantage, wider gap than human 50.8% due to 1s think time).
+- **S3 data audit (Feb 20)**: 7,804 shards, 26.7M records, ~722K games, 178GB — all clean. Tool: `tools/audit_selfplay_s3.py`.
 - **PID-based random seeding**: All 3 exe entry points use `srand(time ^ PID)` — prevents identical sequences when launching multiple instances in the same second.
 - **Game_id namespacing**: `load_selfplay.py` offsets game_ids by 1M per source dir to prevent collisions across runs and train/val split leakage. `audit_selfplay_s3.py` uses `(shard_index, game_id)` composite keys. **Any new code touching game_ids must scope them per-shard** — each selfplay process starts its counter at 0.
 - **Value-only model export**: `export_weights.py` exports zero-initialized policy tensors for value-only models (4 extra). C++ loader requires all 26 tensors — a 22-tensor export will fail.
@@ -226,13 +177,9 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Parallel tournament eval**: Use separate directories (`bin_eval_X/`) each with own exe, config.txt, cardLibrary.jso, and neural_weights.bin to run multiple tournaments simultaneously.
 - **D: drive backup**: `D:\PrismataAI_backup\` has selfplay data, models, weights, config, run logs. Created Feb 15.
 - **Experiment logs**: `training/runs/{timestamp}.json` — full per-epoch metrics, hyperparameters, git hash.
-- **Streaming DataLoader num_workers>0** (FIXED Feb 17): Was crashing with `TypeError: cannot pickle 'module' object` — root cause is transient Windows handle exhaustion under memory pressure, not a real pickle incompatibility. Lazy init pattern (`self._torch = None` in `__init__`, import in `_ensure_init()`) is still good practice. `persistent_workers=True` ensures init happens only once per worker. `num_workers=4` confirmed working when RAM is adequate.
-- **train.py positional args**: TWO positional args — `data_dir` (default `training/data`) then `model_dir` (default `training/models`). Must pass both when using custom model output dirs: `python training/train.py training/data training/models/my_run --selfplay-dir ...`.
-- **IPEX is EOL (removed Feb 17)**: `intel_extension_for_pytorch` end-of-life March 2026. Replaced with native `torch.xpu` (PyTorch 2.10.0+xpu). Do NOT install IPEX. `get_device()` uses `hasattr(torch, 'xpu')` — works on any PyTorch version.
-- **XPU training: use `--device xpu --num-workers 4`**: Auto-detected if XPU available. With `num_workers=4`: 3.2x per-epoch speedup vs CPU (13s vs 42s). BF16 (`--amp`) adds overhead for small models — skip it. `torch.compile` (`--compile`) needs MSVC vcvars64.bat — skip unless model gets larger.
-- **XPU + streaming + RAM pressure**: Two concurrent training jobs (~18GB) plus XPU streaming causes disk thrashing (mmap page faults) and transient "cannot pickle 'module' object" errors from Windows handle exhaustion. Keep to 1-2 concurrent training jobs when using streaming mode. Use `--max-records 100000` for quick smoke tests.
-- **Streaming num_workers=2 on 32GB RAM**: With 12M+ records, `--num-workers 4` causes 94% RAM usage, 410K page faults/sec, disk queue 27 — system becomes unusable (watcher hangs, boot protection triggers). **Use `--num-workers 2`** for streaming on 32GB RAM. Default is now 2 (changed from 8, Feb 19). Use `--num-workers 4` explicitly only on 32GB+ local machines.
-- **Cloud GPU RAM constraint (16GB)**: Both GCP g2-standard-4 and AWS g4dn.xlarge have only 16GB system RAM. Non-streaming mode: `--max-records 500000` safe, 800K OOMs during `np.concatenate`, 1.5M definitely OOMs. **Must use `--streaming` for full dataset on cloud GPUs.** Default `--num-workers 2` is safe for 16GB; use `--num-workers 4` only on 32GB+ local. **WARNING: g2-standard-4 (16GB) OOM-kills streaming training with 27M+ records even with `--num-workers 2`** — mmap page cache grows over ~30K steps until OOM killer fires. Use **g2-standard-8 (32GB)** for full-dataset streaming. `gcp/launch_training.sh` now creates 16GB swap as belt-and-suspenders.
+- **train.py positional args**: `data_dir` then `model_dir`. Must pass both for custom output: `python training/train.py training/data training/models/my_run --selfplay-dir ...`.
+- **Do NOT install IPEX** (EOL). Use native `torch.xpu` (PyTorch 2.10.0+xpu). `--device xpu --num-workers 4` = 3.2x speedup. BF16/torch.compile not beneficial for current model size.
+- **RAM pressure rules**: Max 2 concurrent training jobs. Streaming on 32GB: `--num-workers 2` (4 causes system hang). Cloud 16GB: must use `--streaming`, use g2-standard-8 not g2-standard-4 (OOM-kills). Quick smoke tests: `--max-records 100000`.
 
 ### Windows & Python Environment
 
@@ -254,62 +201,14 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Batch validation**: 2,127 Master Bot replays tested. **Baseline (Feb 20)**: 55.7% pass (1,185/2,127). **After engine audit fixes (Feb 23)**: 50.4% pass (1,072/2,127) — REGRESSED by 5.3pp. Fixes made engine stricter (USE_ABILITY 40.7% of failures). Remaining failures are genuine TS↔C++ semantic differences. Not blocking self-play.
 - **Replay balance validation**: `validate_balance_all.js` checks costs against `cardLibrary.jso`. Output: `balance_passed_codes.json` (32,973 codes). Incremental via `balance_results.json`.
 
-### Dashboard
+### Dashboard, Cloud Ops & External Tools
 
-- **BOM stripping required**: `watcher_status.json` and `watcher_config.json` have UTF-8 BOM from PowerShell. Server.js strips with `raw.replace(/^\uFEFF/, '')`.
-- **fs.watchFile, not fs.watch**: `fs.watch` is unreliable on Windows for network/mapped drives. `fs.watchFile` polls at 5s interval — reliable but uses CPU. 200ms debounce for half-written files. Watchers only activate when SSE clients are connected (`startWatchers`/`stopWatchers`).
-- **Git Bash for bash scripts**: Action system spawns bash scripts with `shell: 'C:/Program Files/Git/bin/bash.exe'`. Python actions use `PYTHONUNBUFFERED=1`.
-- **LAN access**: Server binds to `0.0.0.0:3000`. Logs local LAN IP on startup. Firewall may need port 3000 opened for other devices.
-- **Config-driven actions**: Action definitions live in `dashboard/actions.json` (tier, label, description, command array, optional conflicts array). Edit this file to add/modify actions — no server.js changes needed.
-- **Conflict prevention**: `activeOps` Map tracks running child processes. Returns 409 if same action running OR if bidirectional `conflicts` array in `actions.json` blocks it.
-- **Game rate estimation**: `gamesPerShard = total_games / total_shards` ratio computed from cumulative data. Display: `shards_last_hour × gamesPerShard` → auto-selects GAMES/MIN or GAMES/HR label.
-- **watcher_log.txt EBUSY crash (FIXED Feb 18)**: `logWatcher` in server.js previously used bare `fs.openSync` — crashed the server when the watcher held an exclusive lock on the log file. Fixed with try-catch; silently skips the poll cycle and retries next time.
-- **Local process monitoring**: `get_local_stats.ps1` detects selfplay, training (with model label, device, worker count from cmdline), and Claude Code processes. Provides CPU%, GPU%, RAM, disk I/O via CIM/WMI (NO Get-Counter — those block ~1s each). Served at `/api/local-stats` with 30s cache. Dashboard shows training/Claude job rows and utilization bars.
-- **All costs displayed in GBP**: `USD_TO_GBP = 0.79` constant in app.js. AWS costs converted from USD, Azure already in GBP. Cloud cost cache TTL: 5 minutes.
-- **Dashboard server restart required for code changes**: `server.js` edits don't take effect until the Node.js process is restarted. Find PID: `Get-NetTCPConnection -LocalPort 3000 -State Listen | Select OwningProcess`, then `Stop-Process -Id <PID>; node dashboard/server.js`.
-
-### Cloud Operations
-
-- **Cloud config isolation**: Each provider (AWS/GCP/Azure) downloads base config from S3 and patches it locally on the VM. No shared local config files are modified — providers can run simultaneously without conflicts.
-- **AWS launch_selfplay.sh temp file race**: Script writes `.userdata_tmp.ps1` then reads it — parallel launches cause file-not-found errors. Even sequential launches can collide with TheWatcher (which also uses this file). Launch serially and accept occasional failures; TheWatcher will fill gaps on the next cycle. Proper fix: use per-PID unique temp filenames.
-- **launch_selfplay.sh 5th arg is instance count**: Pass a number (e.g., `1`) or omit. Passing `N` (literal) breaks the `seq` command inside the script. Applies to both `gcp/launch_selfplay.sh` and `azure/launch_selfplay.sh`.
-- **launch_tournament.sh fleet verification**: Always verify actual fleet size with `aws ec2 describe-instances` after launch — sequential calls may launch more instances than expected if each call spawns multiple.
-- **`deploy_for_eval.sh` deploys from current branch**: The script copies `bin/asset/config/config.txt` from the local working tree — whatever branch is checked out. Always run `git branch --show-current` before deploying. Wrong branch = wrong config = fleet wastes money and self-terminates. Verify with: `aws s3 cp s3://prismata-selfplay-data/deploy/asset/config/config.txt - --region eu-north-1 | grep -c "your_tournament_name"`.
-- **EC2 eval instances can zombie**: If config is wrong (missing tournament, wrong player names), instances run indefinitely producing no `tests/` HTML results — only boot logs. Check for zombies before launching: `aws ec2 describe-instances --region eu-north-1 --filters "Name=tag:Name,Values=PrismataEval-*" "Name=instance-state-name,Values=running" --query "Reservations[].Instances[].[InstanceId,LaunchTime,Tags[?Key=='Name'].Value|[0]]" --output table`. Kill with: `aws ec2 terminate-instances --instance-ids <ids> --region eu-north-1`.
-- **`launch_tournament.sh` env vars (Feb 22)**: `TOURNAMENT_NAME` (default: NeuralAB_vs_Original) selects which tournament to enable. `MAX_RUNTIME_HOURS` (default: 0 = continuous/no timeout) adds `shutdown.exe` safety timer. Both patched into PowerShell userdata at launch time.
-- **watcher_log.txt file lock**: TheWatcher (Task Scheduler instance) holds an exclusive lock on `aws/watcher_log.txt`. Standard file reads (`cat`, `Get-Content`, Python `open()`, `Copy-Item`) all fail. PowerShell `Add-Content` also fails with "Stream was not readable" when another process holds the file. Use `robocopy aws/ <dest>/ watcher_log.txt` to copy the locked file, then read the copy.
-- **Azure Public IP quota (increased to 40)**: Subscription-level limit, not per-region. Orphaned NICs and public IPs persist after VM deallocation/deletion, consuming quota even with no running VMs. Clean up: `az network nic delete` first, then `az network public-ip delete`. Check with `az network public-ip list -o table`.
-- **GCP GPU quotas**: Per-GPU-type regional quotas (e.g., `NVIDIA_L4_GPUS=1`, `NVIDIA_T4_GPUS=1`) AND a project-level `GPUS_ALL_REGIONS=1` global cap. The global cap limits total GPUs across all regions/types to 1. Check project-level: `gcloud compute project-info describe --format=json` filtering for `GPU`. Check regional: `gcloud compute regions describe us-central1 --format=json` filtering for `NVIDIA`.
-- **GCP has THREE separate CPU quotas**: (1) N2_CPUS (per-family, 200), (2) regional CPUS (per-region, 200), (3) **CPUS_ALL_REGIONS (global/project-level, 48)**. The global quota is the real bottleneck — search for `CPUS_ALL_REGIONS` in the GCP Console quota page (NOT "CPUS" which shows per-region). Request ID `91228b40031744c590` got 48 approved (200 was denied — new accounts get incremental increases).
-- **GCP exe crash (was misdiagnosed as Defender)**: GCP instances died after ~8 games with `0xc0000409` (STATUS_STACK_BUFFER_OVERRUN). Initially blamed on Defender (null exit code = external termination), but root cause was **stale exe in S3** — same exe worked on EC2/local but GCP's VM memory layout triggered a latent buffer overrun. Fix: rebuild exe fresh and redeploy to S3. Image switched from `windows-2022-core` to `windows-2022`. Defender exclusions (`Add-MpPreference -ExclusionPath/-ExclusionProcess`) kept. **Always redeploy exe to S3 after rebuilding** (`aws/deploy_for_eval.sh` or manual `aws s3 cp`).
-- **GCP SSD_TOTAL_GB quota = 250**: Each 50GB pd-ssd boot disk counts against this. Max 5 instances with SSD. Switched to `pd-standard` (2048GB quota) since selfplay is CPU-bound. Warning about "disk size under 200GB" is cosmetic — ignore it.
-- **Cloud training disk sizing**: Selfplay data is ~178GB (Feb 20, ~722K games, 7,804 shards). Cloud training instances need 350GB boot disk and `--streaming` flag. Without streaming, loading 13M records requires ~50GB RAM. The `n1-standard-4` (15GB) will OOM; use `n1-standard-8` (30GB) minimum with streaming. Boot disk type must be `pd-standard` (not `pd-ssd`) to avoid `SSD_TOTAL_GB` quota conflict with selfplay instances.
-- **EBS IOPS scaling diminishing returns**: For streaming mmap training on gp3 EBS, 3K→6K IOPS gives 2x speedup (314s→157s/1K steps), but 6K→12K→16K gives only ~5% more. Bottleneck shifts from IOPS throughput to EBS read latency (~1.1ms/IO). GPU stays at 2% (fully I/O-bound). `aws ec2 modify-volume` applies live (no restart) but only one modification at a time (blocks while OPTIMIZING).
-- **SSH to EC2 training instances**: `ssh -i ~/.ssh/prismata-selfplay.pem ec2-user@<IP>`. Key name is `prismata-selfplay`. Training logs at `/home/ec2-user/training/training_output.log`.
-- **S3 crash dumps waste storage**: `s3://prismata-selfplay-data/results/` contains .dmp crash dump files (~93 GB as of Feb 19, 22 files). These are from early GCP/Azure instance crashes. Delete periodically: `aws s3 rm s3://prismata-selfplay-data/results/ --recursive --exclude "*" --include "*.dmp" --region eu-north-1`. Actual selfplay data: 7,756 .bin shards (182 GB) + 3,230 .txt configs + 658 .log files.
-- **`aws s3 ls --recursive` fails on large prefixes**: The results/ prefix has 8,000+ objects and times out. Use `aws s3api list-objects-v2 --query "Contents | sort_by(@, &LastModified) | [-5:]"` instead.
-- **S3 provider identification**: EC2 instances don't upload boot logs. GCP boot logs say "GCP Worker Starting". Azure doesn't upload boot logs either. To distinguish EC2 vs Azure in S3 results, check the `patched_config.txt` (Azure uses 250-round batches, EC2 uses 1000-round runs) or check instance naming patterns in logs.
-- **watcher_status.json shard tracking unreliable**: `shard_activity.last_new_shard` can show stale dates (e.g., Feb 16) even with 56+ active EC2 instances. `shards_last_hour` also underreports. Don't rely on these fields for fleet health — check actual S3 data growth or instance counts instead.
-- **watcher `spot_only: true` doesn't terminate existing on-demand**: Setting `spot_only` in watcher_config only prevents NEW on-demand launches. Existing on-demand instances keep running and consuming quota. Must manually terminate them: `aws ec2 terminate-instances --instance-ids $(aws ec2 describe-instances --region eu-north-1 --filters 'Name=tag:Name,Values=PrismataSelfplay*' 'Name=instance-lifecycle,Values=normal' --query 'Reservations[].Instances[].InstanceId' --output text)`.
-- **Cloud free credits — CRITICAL**: AWS $200 is **NOT auto-applied** — it's 6x $20 "Explore AWS" tutorial credits restricted to specific services. They do **NOT** cover EC2 Spot, Data Transfer, or VPC. **Feb bill: $805.34 USD** ($671 pre-tax + $134 tax) for ~4 days of 37-instance spot fleet. Check credits page: https://console.aws.amazon.com/billing/home#/credits. Azure $200/30days (HIGH RISK — hard 30-day deadline, ~£65 over-credit charged). GCP $300/90days (from Feb 16). **All cloud spend is real money — there is no safety net.**
-- **Cloud compute cost comparison (Windows, 8 vCPU, Feb 2026)**: AWS c5.2xlarge: $0.384/hr on-demand, **$0.14/hr spot** (eu-north-1 Stockholm rates from watcher.ps1 rate table). Cost per 1K games: $0.88 OD, **$0.32 spot** (64% savings). Azure D8als_v7: $0.726/hr on-demand, $0.134/hr spot (82% off, **but spot unavailable** for this subscription). **Spot-only mode recommended** — set `spot_only: true` in watcher_config.json.
-- **AWS GPU training costs**: g4dn.xlarge (T4, 4 vCPU, 16GB RAM): ~$0.20/hr spot in eu-north-1. Parallel sweeps: 10 configs x 1 hour = ~$2. Separate G/VT vCPU quota from Standard (selfplay) — both can run simultaneously.
-- **S3 deploy bucket**: `s3://prismata-selfplay-data/deploy/training/` contains 5 required files: `train.py`, `load_selfplay.py`, `export_weights.py`, `schema.json`, `unit_index.json`. Missing `unit_index.json` causes `FileNotFoundError`. Redeploy after local changes.
-- **`aws s3 sync` non-zero exits**: S3 sync returns non-zero on partial transfer warnings even when data transferred OK. Scripts with `set -eo pipefail` die silently. Wrap critical syncs with `|| { echo "WARNING..."; }` to continue.
-- **Cloud launch scripts have trap EXIT (Feb 20 fix)**: Both `aws/launch_training.sh` and `gcp/launch_training.sh` use `trap cleanup_and_shutdown EXIT` to ensure instances self-terminate on ANY exit — `set -eo pipefail` crashes, signals (SIGTERM from spot termination), or errors. Does best-effort log upload before shutdown. Previously, crashed instances ran indefinitely billing ~$0.40/hr.
-- **GCP quota gate**: New GCP accounts must wait 48 hours from creation before quota increase requests are accepted.
-
-### External Tools
-
-- **claude-mem 10.0.7**: Bug #1104 filed. Chroma runs manually on port 8000. **Update when >10.0.7 available.**
-- **Future feature plans in claude-mem**: GUI spectator mode (#1385), web-based remote advisor (#1524). Use MCP search to retrieve.
-- **Live commentator deps**: `anthropic` (Claude API, installed). Phase 2 deps (not yet installed): `edge-tts` (neural TTS, async), `sounddevice` + `pydub` (audio playback/decode), `obsws-python` (OBS WebSocket). External: VB-Cable (virtual audio for OBS routing). See `docs/plans/2026-02-20-live-commentator-plan.md`.
-- **Twitch VODs have no captions**: No subtitle tracks stored or served via API. Use `yt-dlp -x --audio-format mp3` to extract audio, then `openai-whisper` (local) or `faster-whisper` for speech-to-text transcription.
-- **sentence-transformers for dedup**: `all-MiniLM-L6-v2` (~80MB, lazy-loaded) used for semantic deduplication in Discord extraction pipeline. Install: `pip install sentence-transformers`. Cosine similarity threshold: 0.85.
-- **Claude `max_tokens` for structured extraction**: 4096 is too small for content-rich chunks (49+ threads). `discord_knowledge_extractor.py` uses `EXTRACTION_MAX_TOKENS = 16384` (increased from 8192 in Feb 22 — large chunks with 36K+ input tokens were truncating Sonnet output at 8192).
-- **Anthropic Batch API: Sonnet markdown-fences JSON output**: When using Batch API with Sonnet, responses may wrap JSON in `` ```json ... ``` `` markdown fences even when prompted for raw JSON. Always strip markdown fencing before `json.loads()`: `re.sub(r'^\s*```(?:json)?\s*\n?', '', text)` then `re.sub(r'\n?\s*```\s*$', '', stripped)`. This caused 37/312 batch results to be silently dropped until fixed. Batch results remain retrievable after completion via `client.messages.batches.results(batch_id)`.
-- **Cross-context checkpoint conflicts**: Two Claude Code contexts writing to the same checkpoint file (`processed_chunks_extractions_sonnet.json`) causes data loss and confusion. When running parallel extraction contexts, use separate checkpoint files or coordinate which context owns the checkpoint. The extractor's `--extract-label` flag helps namespace model-specific checkpoints.
-- **Discord extraction per-channel chunk dirs**: Phase 1 chunking creates `chunks_{channel}/` directories (e.g., `chunks_strategy_advice/`) with per-channel `chunk_manifest.json`. Output files use channel-qualified names (`channel__chunk_NNNN.json`) to avoid collisions. Model-specific extractions go to `extractions_sonnet/high/` and `extractions_sonnet/low/`.
+> Dashboard gotchas, cloud operations details, and external tool notes moved to reference docs:
+> - Cloud operations: `docs/cloud-ops-reference.md`
+> - Dashboard: Run via `run_dashboard.bat`. Binds to `0.0.0.0:3000`. Edit `dashboard/actions.json` for actions. Restart server after code changes. Costs in GBP (`USD_TO_GBP = 0.79`).
+> - **claude-mem 10.0.7**: Chroma runs manually on port 8000. Update when >10.0.7 available.
+> - **Anthropic Batch API**: Sonnet may wrap JSON in markdown fences. Strip before `json.loads()`.
+> - **Cloud free credits — CRITICAL**: AWS tutorial credits don't cover EC2 Spot. **Feb bill: $805.34 USD.** All cloud spend is real money.
 
 ## Claude Code Tooling
 
@@ -320,7 +219,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - PreToolUse: Blocks Bash commands that would unregister/stop TheWatcher Task Scheduler job
 - Stop: Reminds to run `/revise` on session close
 
-**Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources. **NOTE: agent file currently missing — needs recreation.**
+**Subagents**: `fleet-health` (`~/.claude/agents/fleet-health.md`) — audits AWS/GCP/Azure for running instances and orphaned resources.
 
 **MCP**: context7 configured in `.mcp.json` (project-level) — live docs for PyTorch, Express, Chart.js, cloud CLIs.
 **MCP on Windows**: `npx`-based MCP servers need `cmd /c` wrapper to work: `"command": "cmd", "args": ["/c", "npx", "-y", "@pkg"]`. Local MCP servers (github, aws-kb-retrieval, ssh) configured in `.claude.json` under `projects["C:/libraries/PrismataAI"].mcpServers`.
@@ -398,213 +297,76 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 
 ## Known Issues (Current)
 
-- ~~**Defense phase blocking bug**~~ — FIXED (Feb 23, commit `d44740e`). Removed status reset in `GameState::beginPhase(Defense)` (lines 1289-1306). Part of engine logic audit. All 722K self-play games were generated with the bug (both sides, internally consistent).
-- **Neural policy head weak** — 13.3% accuracy. Computed but unused for move ordering.
-- **PUCT move ordering implemented** — `"UsePUCT": true` in Player_UCT config. Uses policy head as priors in UCT search (AlphaZero-style). Disabled by default — don't enable until policy accuracy improves past ~30%. Files: `UCTSearch.cpp` (computeRootPriors, PUCT formula in UCTNodeSelect), `UCTNode.h` (_policyPrior), `UCTSearchParameters.hpp` (_usePUCT), `AIParameters.cpp` (UsePUCT parsing).
+- **All 722K self-play games used buggy C++ engine** — defense-reset bug (fixed Feb 23, commit `d44740e`). Both sides affected equally, internally consistent. Models trained on this data showed inflated WR.
+- **Neural policy head weak** — 13.3% accuracy. Computed but unused. PUCT move ordering implemented (`"UsePUCT": true`) but disabled — don't enable until policy accuracy >30%.
+- **C++ missing stagnation detection**: AS3 has 4-level progress counter system. C++ only has flat 200-turn limit. See `docs/audit/B5_B6_B7_sellable_stagnation_death.md`.
+- **C++ missing death scripts**: `killCardByID` doesn't execute `deathScript`. Units with death effects (Centurion, Valkyrion) behave differently.
+- **Replay validation tests legality, not state correctness**: 50.4% pass rate (post-audit). Remaining failures are genuine TS↔C++ semantic differences.
 - **Blocking feature mismatch** — C++ uses `CardStatus::Assigned`, Python uses `blocking AND abilityUsed`. Low priority.
-- **Track A regression inconclusive** — HardestAI (improved) vs OriginalHardestAI: 50/50 over 60 games. Fixes are neutral, not harmful.
-- **C++ missing stagnation detection**: AS3 has 4-level progress counter system (cutoffs 2/8/20/40 turns tracking 12+ event types). C++ only has flat 200-turn limit. Stalemate games generate low-quality training data for turns 40-200. See `docs/audit/B5_B6_B7_sellable_stagnation_death.md`.
-- **C++ missing death scripts**: AS3 runs `deathScript` when units die from breach (creates tokens, produces resources). C++ `killCardByID` simply marks card dead — no triggers execute. Units with death effects (Centurion, Valkyrion) behave differently. See `docs/audit/B5_B6_B7_sellable_stagnation_death.md`.
-- ~~**C++ missing "all units doomed" win check**~~ — FIXED (Feb 23, commit `d44740e`). Added game-over check when all opponent units are doomed.
-- **Replay validation tests legality, not state correctness**: The 55.7% pass rate validates that recorded ACTIONS are legal in the C++ engine — it does NOT verify that game STATE matches. Bugs that make MORE moves legal (like the defense-reset bug) pass replay validation fine because human replays never exercise the extra-legal moves. Only logic-level comparison against AS3 ground truth can find this class of bug.
-- **TS tooling bugs (FIXED, validation improved)** — RC#5 (snipe target), RC#6 (frontline→breach), RC#7 (two-step targeting: USE_ABILITY before SNIPE/CHILL), RC#8 (action ordering: abilities→snipe→frontline→buy), RC#9 (SNIPE overcounting: CancelUseAbility routing fix in TS parser + converter cap), selfsac/lifespan tolerance all fixed. Pass rate 27.2%→55.7% (1,185/2,127, action legality metric). Remaining failures are genuine TS↔C++ semantic differences. Not blocking self-play.
 
 ## Key Files
+
+> Full file reference (115 entries): `docs/KEY_FILES.md`
 
 | Path | Description |
 |---|---|
 | `bin/asset/config/config.txt` | AI player definitions, tournament configs |
-| `bin/asset/config/cardLibrary.jso` | Master unit definitions (105+11 units) |
-| `bin/asset/config/neural_weights.bin` | Neural network weights (8.8 MB, committed for CI) |
-| `source/ai/NeuralNet.h/cpp` | Neural network inference engine |
-| `source/ai/UCTSearch.cpp` | UCT/MCTS search |
-| `source/ai/StackAlphaBetaSearch.cpp` | Stack Alpha-Beta search |
-| `source/ai/Eval.cpp` | Evaluation functions (WillScore, Playout, NeuralNet) |
-| `source/ai/Heuristics.cpp` | Will Score evaluation and resource values |
-| `source/ai/AIParameters.cpp` | AI config JSON parser |
+| `bin/asset/config/cardLibrary.jso` | Master unit definitions (105+11 units, internal codenames) |
+| `bin/asset/config/neural_weights.bin` | Neural network weights (deployed) |
 | `source/engine/GameState.cpp` | Core game logic |
-| `source/engine/Constants.h` | Game constants, EvaluationMethods enum |
+| `source/ai/NeuralNet.h/cpp` | Neural network inference engine |
+| `source/ai/AIParameters.cpp` | AI config JSON parser |
 | `source/testing/Tournament.cpp` | Multi-threaded tournament runner |
 | `source/testing/TournamentGame.cpp` | Single game runner with self-play data export |
-| `source/testing/SelfPlayDataSink.h/cpp` | Binary shard writer for self-play features |
-| `source/testing/IDataSink.h` | Virtual interface for game event capture |
-| `source/gui/GUIState_Play.cpp` | Game play GUI, debug panel, replay viewer |
-| `source/gui/GUIState_WatchTraining.cpp/.h` | Watch Training/Eval GUI — live display + training data generation |
-| `training/train.py` | PyTorch training (PrismataNet, supports `--selfplay-dir`) |
+| `training/train.py` | PyTorch training (PrismataNet, `--selfplay-dir`, `--streaming`) |
 | `training/load_selfplay.py` | Binary shard loader → numpy arrays |
-| `training/vectorize.py` | Expert JSONL → PyTorch tensors |
 | `training/export_weights.py` | PyTorch → C++ binary weight format |
 | `training/schema.json` | Feature schema contract (state_dim=1785) |
-| `training/FEATURES.md` | Human-readable feature specification |
-| `training/data/unit_index.json` | 161 canonical unit names |
-| `training/requirements.txt` | Python deps (torch, numpy, tqdm) with XPU install instructions |
-| `training/opening_book.py` | Opening book extraction from expert replays |
-| `tools/verify_selfplay.py` | Validates self-play binary output |
-| `tools/analyze_tournament.py` | Parse tournament HTML results: Wilson CI, z-test, multi-file aggregation |
-| `training/retest_validation.py` | Re-test failed replays against fixed C++ engine with error categorization |
-| `training/analyze_mismatches.py` | Aggregate mismatch analysis across failed replay validations |
-| `training/convert_replay_for_cpp.py` | Convert TS replay states to C++ validation format (RC#9 cap for snipe_targets) |
-| `training/fast_batch_validate.py` | Fast batch validation: in-process conversion + parallel C++ validation (4 workers) |
-| `tools/download_wiki.py` | Downloads full Prismata wiki from Fandom API |
-| `bin/run_selfplay.bat` | Crash-safe self-play launcher (run from Explorer) |
-| `.github/workflows/selfplay.yml` | GitHub Actions self-play workflow |
-| `aws/launch_selfplay.sh` | EC2 self-play launcher (Windows instances, auto-terminate) |
-| `aws/launch_training.sh` | EC2 GPU training launcher (g6.2xlarge, Linux, env var config, trap EXIT auto-terminate) |
-| `aws/launch_tournament.sh` | EC2 tournament fleet launcher (supports NUM_INSTANCES, WEIGHTS_KEY, MODEL_LABEL env vars) |
-| `aws/launch_audit.sh` | EC2 spot launcher for S3 data integrity audit (c5.xlarge, <$0.10, auto-terminate) |
-| `aws/deploy_for_eval.sh` | Upload exe/config/weights to S3 for EC2 tournament eval |
-| `aws/download_results.sh` | Download self-play results from S3 |
-| `aws/sync_results.bat` | S3 → local sync for self-play results (Task Scheduler compatible) |
-| `aws/test_watcher_smoke.ps1` | Smoke test — status freshness, Task Scheduler, API health |
-| `aws/test_watcher_canary.ps1` | Canary check — independent cloud API connectivity test |
-| `aws/test_watcher_log_health.ps1` | Log anomaly detection — stuck state, thrashing, errors |
-| `aws/test_watcher_e2e.ps1` | E2E decision logic tests (22 scenarios, no cloud calls) |
-| `aws/watcher.ps1` | TheWatcher — persistent monitor + auto-relauncher (Task Scheduler) |
+| `js_engine/selfplay_main.js` | JS self-play data generator (AS3→JS transpilation) |
+| `tools/prismata_sniffer.py` | TCP proxy — **run with `proxy` subcommand** |
+| `tools/prismata_advisor.py` | Neural eval overlay (clipboard → C++ --suggest → tkinter) |
+| `run_prismata_tools.bat` | Combined launcher — sniffer + advisor + autopilot |
+| `aws/watcher.ps1` | TheWatcher — persistent cloud monitor (Task Scheduler) |
 | `aws/watcher_config.json` | TheWatcher config (edit to change behavior) |
-| `aws/watcher_status.json` | TheWatcher status (read for current state) |
-| `aws/watcher_log.txt` | TheWatcher append-only log |
-| `gcp/launch_selfplay.sh` | GCP Compute Engine self-play launcher (uploads to S3, auto-deletes) |
-| `gcp/launch_training.sh` | GCP GPU training launcher (L4/T4, Linux DL VM, env var config, trap EXIT auto-delete) |
-| `gcp/.aws_credentials` | AWS credentials for GCP→S3 uploads (gitignored, not committed) |
-| `azure/launch_selfplay.sh` | Azure VM self-play launcher (Windows VMs, auto-terminate) |
-| `azure/.aws_credentials` | AWS credentials for Azure→S3 uploads (gitignored, not committed) |
-| `dashboard/server.js` | Command Center backend (Express + SSE + action system) |
-| `dashboard/actions.json` | Action button definitions (tier, command, conflicts) — edit to add new actions |
-| `dashboard/public/` | Command Center frontend (HTML + CSS + vanilla JS + Chart.js) |
-| `run_dashboard.bat` | One-click dashboard launcher (auto-installs deps, opens browser) |
-| `.clang-format` | C++ code style (Allman, 4-space, 120 col) |
-| `.mcp.json` | Project-level MCP server config (context7) |
-| `~/.claude/agents/fleet-health.md` | Cloud fleet health audit subagent |
-| `c:\libraries\prismata-replay-parser\` | TS replay parser + data extraction scripts |
-| `c:\libraries\prismata-replay-parser\fetch_player_replays.py` | Per-player month-by-month replay fetcher (v2, adaptive splitting, --rated-only) |
-| `c:\libraries\prismata-replay-parser\replays.db` | SQLite replay database (128K codes, 177 MB, rebuild via `build_replay_db.py`) |
-| `c:\libraries\prismata-replay-parser\replay_db.py` | DB schema definitions + connection helpers |
-| `c:\libraries\prismata-replay-parser\build_replay_db.py` | DB migration + import from all JSON sources |
-| `c:\libraries\prismata-replay-parser\replay_queries.py` | Query library (counts, player stats, unit search) |
-| `c:\libraries\prismata-replay-parser\replay_cli.py` | CLI: status, count, player, unit, sources, export |
-| `c:\libraries\prismata-replay-parser\batch_fetch.py` | Concurrent batch player fetcher (reads player list, skips existing, max-concurrent limiting) |
-| `docs/audit/` | Engine logic audit findings (B1 script ordering, B2-B4 resources/ability/snipe, B5-B7 sellable/stagnation/death) |
-| `c:\libraries\DiscordChatExporter\` | Discord message export tool (CLI at `cli/`) |
-| `c:\libraries\prismata-replay-parser\validate_balance_all.js` | Balance validation across all replay sources |
-| `c:\libraries\prismata-replay-parser\balance_passed_codes.json` | 32,973 balance-validated replay codes |
-| `tools/prismata_sniffer.py` | TCP proxy for Prismata AMF3 protocol — **run with `proxy` subcommand** (`python tools/prismata_sniffer.py proxy`). Hook framework, Moved redirect interception, dynamic port proxying, replay code capture, live game state tracking (auto-F6 + clipboard + click tracking) |
-| `bin/live_game_state.json` | Live game state output from sniffer (written each turn, deleted on GameOver) |
-| `tools/prismata_advisor.py` | Python overlay — clipboard monitor + F6 sanitization + C++ --suggest + tkinter always-on-top display |
-| `tools/audit_selfplay_s3.py` | S3 data integrity audit (11 checks: CRC, NaN, outcome consistency, duplicates, win rates) |
-| `run_advisor.bat` | One-click overlay launcher (pre-flight checks for exe + weights) |
-| `run_prismata_tools.bat` | Combined launcher — sniffer proxy + advisor overlay + autopilot (pass --autopilot to enable, --auto for full-auto, --dry-run for testing) |
-| `tools/prismata_autopilot.py` | AI move injection engine — captures F6 state, runs --suggest, injects clicks via sniffer proxy. Semi-auto (file trigger) and full-auto modes |
-| `bin/prismata_capture_codes.txt` | Sniffer-captured replay codes (TSV: timestamp, code, source). Append-only. |
-| `tools/prismata_commentator.py` | Live AI commentator — sniffer events → Claude Haiku → chat injection (Phase 1 working) |
-| `tools/prismata_game_state.py` | Shared game state model — TurnRecord, GameContext, GameNarrative with callback registration |
-| `tools/generate_postgame_commentary.py` | Two-stage LLM commentary pipeline (Phase 2 analysis + Phase 3 narrative) |
-| `tools/prompts/analysis_system.md` | Phase 2 system prompt — structured game analysis |
-| `tools/prompts/narrative_system.md` | Phase 3 system prompt — narrative generation with qualitative eval |
-| `bin/commentary/` | Generated commentary output (.md files with player names in filename) |
-| `tools/commentary_prompt.md` | Condensed Prismata knowledge base for commentary system prompt (~2,400 tokens) |
-| `tools/build_unit_knowledge_index.py` | Scans KB markdown → `tools/data/unit_knowledge_index.json` (163 units, 5 concepts, mechanics tags) |
-| `tools/commentary_schema.json` | JSON Schema draft-07 for Phase 1 structured output validation |
-| `tools/data/unit_knowledge_index.json` | Pre-built unit knowledge lookup (rebuild via `build_unit_knowledge_index.py`) |
-| `tools/discord_knowledge_extractor.py` | Discord knowledge extraction pipeline — pre-filter, chunk, Claude Haiku extraction, semantic dedup, KB integration. 5 phases: `--dry-run`, `--extract`, `--consolidate`, `--preview`, `--integrate` |
-| `tools/discord_extraction/` | Working directory for extraction pipeline (chunks, extractions, consolidated JSON, manifest) |
-| `docs/commentary-knowledge/discord/` | Discord-sourced strategy insights (7 category files, 1,426 insights). Isolated from canonical KB. |
-| `docs/discord-knowledge-extraction-preview.md` | Human-reviewable preview of extracted Discord insights |
-| `docs/discord-replay-codes.json` | 93 replay codes extracted from Discord strategy discussions |
-| `tools/spiritfryer_stats.py` | SpiritFryer player stats analysis (expert_replays.json) |
-| `tools/wonderboat_stats.py` | Wonderboat/1durbow player stats analysis |
-| `tools/flopflop_stats.py` | flopflop player stats analysis |
-| `tools/generate_excalidraw.py` | Excalidraw stats dashboard generator (SpiritFryer, v3: Helvetica, W=1350) |
-| `tools/wonderboat_excalidraw.py` | Excalidraw stats dashboard generator (Wonderboat) |
-| `docs/spiritfryer_stats.excalidraw` | Generated SpiritFryer stats visualization |
-| `docs/wonderboat_stats.excalidraw` | Generated Wonderboat stats visualization |
-| `tmp_proxy_hosts.ps1` | Set hosts to PROXY mode (127.0.0.1) for sniffer — needs UAC |
-| `tmp_restore_hosts.ps1` | Set hosts to DIRECT mode (3.229.49.48) for normal play — needs UAC |
-| `prismata_decompiled/` | Decompiled Prismata client ActionScript source (Game.as, State.as, UIKeyboard.as) |
-| `prismata_decompiled/scripts/mcds/engine/State.as` | AS3 ground truth game state machine (4,490 lines) — phases, moves, blocking, swoosh |
-| `prismata_decompiled/scripts/mcds/engine/Inst.as` | AS3 card instance (504 lines) — damageItCanTake, role, blocking, health |
-| `prismata_decompiled/scripts/mcds/engine/Card.as` | AS3 card type definition (753 lines) — static properties, scripts |
-| `prismata_decompiled/scripts/mcds/engine/StateHelper.as` | AS3 computed properties (649 lines) — blocker eligibility, defense calc, couldDefendThisTurn |
-| `prismata_decompiled/scripts/mcds/engine/C.as` | AS3 constants (300 lines) — role/phase/move string constants, resource indices |
-| `prismata_decompiled/scripts/mcds/engine/Analyzer.as` | AS3 game analysis (662 lines) — no direct C++ equivalent |
-| `tmp_swf_extract/148_AI.AIThreadHandler_aiParamTextLoad.bin` | Live game's full AI parameters (JSON text, extracted from SWF via JPEXS) |
-| `tmp_swf_extract/93_AI.AIThreadHandler_aiParam_shortTextLoad.bin` | Live game's short AI parameters (used after turn 16, subset of full) |
+| `docs/cloud-ops-reference.md` | Cloud provider operational details (AWS/GCP/Azure) |
+| `c:\libraries\prismata-replay-parser\` | TS replay parser + database (128K codes) |
+| `prismata_decompiled/scripts/mcds/engine/State.as` | AS3 ground truth game state machine (4,490 lines) |
 
 ## Documentation Index
 
+> Full documentation index (54 entries): `docs/DOCUMENTATION_INDEX.md`
+
 | Document | Description |
 |---|---|
-| `docs/PROJECT_HISTORY.md` | Full chronological dev history (sections 1-29) |
-| `docs/plans/2026-02-15-selfplay-training-master-plan.md` | Current execution plan (iteration 1 complete, iteration 2 pending) |
-| `docs/plans/2026-02-14-selfplay-10k-generation-and-training.md` | Earlier 10K-game generation plan (superseded by master plan) |
-| `docs/plans/opening-book-plan.md` | Opening book extraction plan (DONE) |
-| `docs/plans/engine-validation-plan.md` | Engine validation plan (DONE) |
-| `docs/plans/2026-02-16-azure-compute-plan.md` | Azure compute integration plan (DONE — D8als_v7 in North Europe) |
-| `docs/plans/2026-02-17-hyperparameter-experiments.md` | Hyperparameter experiment plan v1 (overfitting fix, Churchill/Lc0 research) |
-| `docs/plans/hyperparameter-experiments-v2.md` | Experiment plan v2 (COMPLETE — tanh fix, 6 expert critiques, phased approach) |
-| `~/.claude/plans/intel-arc-b580-xpu-acceleration-v2.md` | Intel Arc B580 GPU acceleration plan v2 (DONE — 4.5x speedup with XPU+nw4) |
-| `docs/selfplay-worker-instructions.md` | Source-verified self-play implementation spec |
-| `docs/blend-tournament-results.md` | Blend tournament results (CONCLUDED) |
-| `docs/session-logs/` | Historical parallel session logs (ctx1-4, selfplay progress) |
-| `docs/backup_claude_md_2026-02-14/` | Backup of all original CLAUDE*.md files |
+| `docs/PROJECT_HISTORY.md` | Full dev history + historical tournament results |
+| `docs/plans/2026-02-15-selfplay-training-master-plan.md` | Self-play training execution plan |
+| `docs/cloud-ops-reference.md` | Cloud provider gotchas (AWS/GCP/Azure quotas, CLI quirks) |
+| `docs/plans/engine-logic-audit-plan-v2.md` | Engine logic audit (COMPLETE — 4 fixes, 22 areas) |
+| `docs/plans/2026-02-25-as3-js-transpilation-plan-v2.md` | AS3→JS transpilation plan (COMPLETE) |
 | `training/FEATURES.md` | Neural net feature layout specification |
 | `docs/WEIGHT_FORMAT.md` | Binary weight format specification |
-| `docs/wiki/PRISMATA_REFERENCE.md` | Curated game knowledge reference (from wiki) |
-| `docs/wiki/` | Full wiki dump (448 pages, raw wikitext) |
-| `docs/plans/reproducibility-plan.md` | Training reproducibility standard (seeds, determinism) |
-| `docs/cloud-ops-reference.md` | Cloud provider operational gotchas (AWS/GCP/Azure) |
-| `~/.claude/plans/bubbly-tinkering-kahan.md` | Prioritized development guide (roadmap research synthesis) |
-| `~/.claude/plans/roadmap-phase2-instructions.md` | Phase 2 execution instructions (tournament eval, streaming loader, retrain) |
-| `~/.claude/plans/prismata-command-center-build.md` | Command Center build plan + full source code appendix |
-| `docs/plans/2026-02-18-prismata-overlay-advisor.md` | Neural eval overlay plan (clipboard → C++ --suggest → tkinter overlay) |
-| `docs/plans/2026-02-18-overlay-context.md` | Standalone context document for overlay plan (no prior knowledge needed) |
-| `docs/plans/2026-02-18-t4-training-plan.md` | GPU training experiment plan (L4 on GCP, T4 spot on AWS, 6 phases, 15 runs) |
-| `docs/plans/2026-02-18-training-plan-context.md` | Standalone context doc for external review of training plan |
-| `docs/plans/2026-02-19-training-next-steps.md` | Training plan v3 FINAL — 9 expert reviews incorporated, 3 parallel runs |
-| `docs/plans/2026-02-19-training-plan-context.md` | Context doc v3 FINAL — accompanies training plan for external reviewers |
-| `docs/plans/2026-02-19-selfplay-audit-plan.md` | S3 selfplay data integrity audit plan (CRC, duplicates, statistics) |
-| `docs/claude-app-instructions.md` | Updated project instructions for Claude Windows app |
-| `docs/plans/2026-02-20-live-commentator-plan.md` | Live AI commentator plan (sniffer → Haiku → edge-tts → OBS/Twitch) |
-| `docs/plans/2026-02-20-commentary-knowledge-extraction.md` | Instructions for new context to extract game knowledge from guides |
-| `docs/commentary-knowledge/` | Extracted Prismata strategy knowledge for commentator (8 canonical files + discord/ subdir + README + sources). 400+ sources incl. Discord (1,426 insights). See README.md for index. |
-| `docs/commentary-knowledge/RESEARCH-HANDOFF.md` | Instructions for delegating further Prismata research to external AI — lists all processed sources to avoid duplication |
-| `docs/prismata-strategy-guide.md` | Comprehensive human-readable strategy guide (17 chapters, synthesized from all sources) |
-| `docs/recovered-sources/` | Full-text archive of recovered wiki guides + Wayback Machine content (21 files) |
-| `docs/plans/2026-02-21-discord-knowledge-extraction-v2.md` | Discord knowledge extraction v2 — 7-review meta-review applied, Batch API, embedding dedup, calibration phase, human review gate |
-| `docs/plans/META-REVIEW-2026-02-21-discord-knowledge-extraction.md` | Meta-review of 7 external reviews of Discord extraction plan |
-| `docs/discord-masterbot-feedback-analysis.md` | Master Bot community issues analysis v1 (Haiku, strategy_advice only) |
-| `docs/discord-masterbot-feedback-analysis-v2.md` | Expanded MB analysis v2 (Sonnet, 6 channels, 350 MB insights, 44+ replay codes, 10 sections) |
-| `docs/plans/2026-02-22-mb-issues-extraction-plan.md` | Plan for MB-focused Discord extraction (5 phases, Sonnet batch + sync) |
-| `docs/plans/2026-02-22-auto-spectate-plan.md` | Auto-spectate feature plan (F8 hotkey, TopGamesUpdate → ObserveTopGame injection, auto-cycle on GameOver) |
-| `tools/discord_extraction/consolidated_mb_insights.json` | Consolidated MB insights JSON (350 MB-specific + 33 bot-related) |
-| `docs/plans/2026-02-22-postgame-commentary-pipeline-plan-v2.md` | Post-game commentary pipeline plan (v2, 13 reviews + meta-review applied, 6 phases) |
-| `docs/plans/META-REVIEW-2026-02-22-postgame-commentary-pipeline-plan.md` | Meta-review of 13 external reviews of commentary pipeline plan |
-| `docs/plans/commentary-pipeline-kickoff-prompt.md` | Kickoff prompt for starting commentary pipeline implementation in new context |
-| `docs/plans/engine-logic-audit-plan.md` | Engine logic audit plan v1 — C++ vs AS3 ground-truth comparison |
-| `docs/plans/engine-logic-audit-plan-v2.md` | Engine logic audit plan v2 (FINAL) — 10 reviews + meta-review applied, Phase 0 prereqs, 4 enhancements |
-| `docs/plans/META-REVIEW-engine-logic-audit-plan.md` | Meta-review of 10 external reviews of engine logic audit plan |
-| `docs/plans/bug-investigation-prompt.md` | Reusable bug investigation template (4-phase: root cause, impact, evidence, fix) |
-| `docs/plans/bug-investigation-defense-reset.md` | Filled-in kickoff for Defense phase reset bug (commit 5bf57a8) |
-| `docs/plans/2026-02-23-replay-database-plan-v2.md` | Replay code database plan v2 (5 reviews + meta-review applied, UPSERT, VIEWs) |
-| `docs/plans/2026-02-23-replay-database-plan-CONTEXT.md` | Context document for external review of replay database plan |
-| `docs/plans/META-REVIEW-2026-02-23-replay-database-plan.md` | Meta-review of 5 external reviews of replay database plan |
+| `docs/wiki/PRISMATA_REFERENCE.md` | Curated game knowledge reference |
+| `docs/commentary-knowledge/` | Strategy knowledge for commentator (400+ sources) |
+| `docs/prismata-strategy-guide.md` | Comprehensive strategy guide (17 chapters) |
 
 ## Tournament Results Summary
 
+**Current (correct engine data):**
+
 | Matchup | Games | Win Rate | Notes |
 |---|---|---|---|
-| PrismatAlpha_UCT vs MediumAI | 60 | 41.7% | Neural eval has real signal |
-| PrismatAlpha_UCT vs OriginalHardestAI | 64 | 10.9% | Weak but not random |
-| PrismatAlpha_AB vs MediumAI | 128 | 43.8% | Search type doesn't matter |
+| ExpertJS R12 256h/3L vs OriginalHardestAI | — | **6.0%** | First correct-data model, 1.33M examples |
+
+**Baselines (engine-independent):**
+
+| Matchup | Games | Win Rate | Notes |
+|---|---|---|---|
 | HardestAI vs OriginalHardestAI | 60 | 50.0% | Track A fixes are neutral |
 | RandomAI vs MediumAI | 100 | 0% | Baseline floor |
 | EasyAI vs MediumAI | 100 | 6% | Baseline |
-| 256h (305K games) AB vs OriginalHardestAI | 4,032 | **45.3%** | 330K games, 86.1% val acc, CI [43.8%, 46.8%] |
-| E2b (256h) AB vs OriginalHardestAI | 1,008 | 26.7% | V2 winner, 63K games, tanh+MSE, LR=1e-5 |
-| E1b (512h) AB vs OriginalHardestAI | 1,008 | 19.6% | V2, tanh+MSE, LR=1e-5 |
-| Unfixed model AB vs OriginalHardestAI | 1,120 | 3.6% | Pre-v2 (tanh mismatch, high LR) |
-| R12_smooth90 (256h/3L) AB vs OriginalHardestAI | 11,060 | 19.3% | 500K records, d=0.20, s=0.90 |
-| E2b (256h) AB vs OriginalHardestAI (reconfirmed) | 3,400 | 28.9% | 2.3M records, same 26.7% ballpark |
-| Self-play v1 training | 16 ep (early stop) | 76.9% val acc | 10K games, epoch 1 best, value-only |
+
+**Historical (INVALID — trained on buggy C++ engine data, see `docs/PROJECT_HISTORY.md`):**
+Models trained on pre-fix engine showed 3.6%→51.9% WR progression but collapsed to ~11% WR after engine fixes. Full table in PROJECT_HISTORY.md.
 
 ## Replay API
 
