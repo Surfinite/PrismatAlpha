@@ -19,6 +19,8 @@
  *   node matchup_main.js --games 5 --think-time 1000 --verbose  # Quick smoke test
  *   node matchup_main.js --mcdsai-color W                 # MCDSAI always White
  *   node matchup_main.js --player LiveHardestAI           # Test different C++ player
+ *   node matchup_main.js --card-set "Tarsier,Rhino,Wall,Steelsplitter,Forcefield,Gauss Cannon,Conduit,Blastforge"
+ *   node matchup_main.js --card-set "set1a,set1b,...;set2a,set2b,..."  # Multiple sets (semicolon-separated)
  *   node matchup_main.js --jsonl data.jsonl               # Output training data
  */
 
@@ -50,6 +52,7 @@ function buildGameInitInfo(mergedDeck) {
     const randomizer = [];
 
     for (const card of mergedDeck) {
+        if (card._inactive) continue; // Skip inactive cards — only active set gets supply
         const supply = card.supply !== undefined ? card.supply : 20;
         if (card.baseSet) {
             base.push([card.name, supply]);
@@ -294,7 +297,7 @@ async function playGame(mcdsaiWorker, cppWorker, mcdsaiColor, mergedDeck,
         const curStateStr = analyzer.gameState.toString();
         if (prevStateStr !== null && curStateStr === prevStateStr) {
             stuckCount++;
-            if (stuckCount >= 3) {
+            if (stuckCount >= 30) {
                 console.error(`Game ${gameId} turn ${turnCount}: State unchanged for ${stuckCount} turns — stuck, aborting`);
                 break;
             }
@@ -369,6 +372,8 @@ async function main() {
     let playerName = 'OriginalHardestAI';
     let exePath = null;
     let verbose = false;
+    let cardSets = null; // Array of card set arrays, or null for random
+    let summaryJsonPath = null;
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--games' && args[i + 1]) {
@@ -403,6 +408,19 @@ async function main() {
             i++;
         } else if (args[i] === '--verbose') {
             verbose = true;
+        } else if (args[i] === '--card-set' && args[i + 1]) {
+            // Single card set: "Tarsier,Rhino,Steelsplitter,..."
+            // Multiple card sets (semicolon-separated): "set1;set2;set3"
+            const raw = args[i + 1];
+            if (raw.includes(';')) {
+                cardSets = raw.split(';').map(s => s.split(',').map(n => n.trim()));
+            } else {
+                cardSets = [raw.split(',').map(n => n.trim())];
+            }
+            i++;
+        } else if (args[i] === '--summary-json' && args[i + 1]) {
+            summaryJsonPath = args[i + 1];
+            i++;
         }
     }
 
@@ -414,6 +432,9 @@ async function main() {
     console.error(`=== MCDSAI vs ${playerName} Matchup ===`);
     console.error(`Games: ${numGames}, C++ think: ${cppThinkTime}ms, MCDSAI difficulty: ${difficulty}`);
     console.error(`MCDSAI color: ${mcdsaiColorArg === null ? 'alternating' : mcdsaiColorArg === C.COLOR_WHITE ? 'always White' : 'always Black'}`);
+    if (cardSets) {
+        console.error(`Fixed card sets: ${cardSets.length} set(s)`);
+    }
 
     // Load card library and AI params
     const library = loadCardLibrary();
@@ -467,7 +488,10 @@ async function main() {
 
         while (attempts < MAX_RETRIES) {
             attempts++;
-            const unitNames = randomSet(library, 8);
+            // Use fixed card set (cycling through if multiple) or random
+            const unitNames = cardSets
+                ? cardSets[g % cardSets.length]
+                : randomSet(library, 8);
             const mergedDeck = buildMergedDeck(unitNames, library);
 
             try {
@@ -509,8 +533,24 @@ async function main() {
         // Don't count games with no decisive result
         if (gameResult.result === C.COLOR_NONE) {
             const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-            console.error(`Game ${gameId}: No result after ${gameResult.turns} turns (${elapsed}s) — discarded`);
+            const cards = gameResult.cardSet ? gameResult.cardSet.join(', ') : 'unknown';
+            console.error(`Game ${gameId}: No result after ${gameResult.turns} turns (${elapsed}s) — discarded [${cards}]`);
             failures++;
+
+            // Save partial replay for stuck game analysis
+            if (replayDir && gameResult.replayStates && gameResult.replayStates.length > 0) {
+                const mcdsaiSide = mcdsaiColor === C.COLOR_WHITE ? 'White' : 'Black';
+                const p0Name = mcdsaiColor === C.COLOR_WHITE ? 'MCDSAI' : playerName;
+                const p1Name = mcdsaiColor === C.COLOR_BLACK ? 'MCDSAI' : playerName;
+                const replay = buildReplayJSON(
+                    gameResult.replayStates, p0Name, p1Name,
+                    -1, gameResult.turns, gameResult.cardSet
+                );
+                replay.stuck = true;
+                const replayPath = path.join(replayDir, `stuck_${String(gameId).padStart(4, '0')}.json`);
+                fs.writeFileSync(replayPath, JSON.stringify(replay));
+            }
+
             continue;
         }
 
@@ -594,6 +634,26 @@ async function main() {
     console.error(`Wilson 95% CI (MCDSAI WR): [${ciLow.toFixed(1)}%, ${ciHigh.toFixed(1)}%]`);
     if (outputPath) console.error(`Training examples: ${totalExamples}`);
     console.error('================================');
+
+    // Write structured summary JSON if requested
+    if (summaryJsonPath) {
+        const summary = {
+            mcdsai_wins: mcdsaiWins,
+            cpp_wins: cppWins,
+            draws: draws,
+            total: completedGames,
+            failed: failures,
+            avg_turns: parseFloat(avgTurns),
+            avg_mcdsai_think_ms: avgMcdsaiThink,
+            avg_cpp_think_ms: avgCppThink,
+            mcdsai_difficulty: difficulty,
+            cpp_player: playerName,
+            think_time_ms: cppThinkTime,
+            games_requested: numGames
+        };
+        fs.writeFileSync(summaryJsonPath, JSON.stringify(summary, null, 2) + '\n');
+        console.error(`Summary written to ${summaryJsonPath}`);
+    }
 }
 
 if (require.main === module) {

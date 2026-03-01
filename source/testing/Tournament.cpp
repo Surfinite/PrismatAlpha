@@ -38,6 +38,11 @@ Tournament::Tournament(const rapidjson::Value & tournamentValue)
         _saveReplays = tournamentValue["SaveReplays"].GetBool();
     }
 
+    if (tournamentValue.HasMember("DetailedReplays") && tournamentValue["DetailedReplays"].IsBool())
+    {
+        _detailedReplays = tournamentValue["DetailedReplays"].GetBool();
+    }
+
     if (tournamentValue.HasMember("SkipColorSwap") && tournamentValue["SkipColorSwap"].IsBool())
     {
         _skipColorSwap = tournamentValue["SkipColorSwap"].GetBool();
@@ -118,6 +123,7 @@ void Tournament::playRound(const GameState & stateTemplate, IDataSink * sink)
                 TournamentGame g1(state, _players[p1], w1, _players[p2], b1);
                 if (sink) g1.setDataSink(sink);
                 if (_saveReplays) g1.setSaveReplays(true);
+                if (_detailedReplays) g1.setDetailedReplays(true);
                 g1.playGame();
 
                 // Color-swapped game: skip for self-play (identical AIs produce identical games)
@@ -130,6 +136,7 @@ void Tournament::playRound(const GameState & stateTemplate, IDataSink * sink)
                     g2 = TournamentGame(state, _players[p2], w2, _players[p1], b2);
                     if (sink) g2.setDataSink(sink);
                     if (_saveReplays) g2.setSaveReplays(true);
+                    if (_detailedReplays) g2.setDetailedReplays(true);
                     g2.playGame();
                     g2ptr = &g2;
                 }

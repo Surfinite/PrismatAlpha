@@ -34,6 +34,7 @@ NUM_INSTANCES="${4:-1}"
 WEIGHTS_KEY="${WEIGHTS_KEY:-deploy/asset/config/neural_weights.bin}"
 MODEL_LABEL="${MODEL_LABEL:-default}"
 USE_SPOT="${USE_SPOT:-false}"
+TOURNAMENT_NAME="${TOURNAMENT_NAME:-NeuralAB_vs_Original}"
 REGION="${AWS_REGION:-eu-north-1}"
 AMI="${AWS_AMI_WINDOWS:?Set AWS_AMI_WINDOWS in cloud-config.env}"
 KEY_NAME="${AWS_KEY_NAME:?Set AWS_KEY_NAME in cloud-config.env}"
@@ -43,6 +44,7 @@ BUCKET="${CLOUD_BUCKET:?Set CLOUD_BUCKET in cloud-config.env}"
 
 echo "=== Prismata Tournament Eval EC2 Launch ==="
 echo "  Instance:   $INSTANCE_TYPE x $NUM_INSTANCES"
+echo "  Tournament: $TOURNAMENT_NAME"
 echo "  Rounds:     $NUM_ROUNDS (per process)"
 echo "  VM mult:    ${VM_MULTIPLIER}x think time"
 echo "  Weights:    $WEIGHTS_KEY"
@@ -125,6 +127,7 @@ USERDATA+="
 \$numRounds = $NUM_ROUNDS
 \$numProcesses = $PROCESSES
 \$timeLimitMs = $TIME_LIMIT_MS
+\$tournamentName = \"$TOURNAMENT_NAME\"
 "
 
 USERDATA+=$(cat <<'ENDSCRIPT2'
@@ -136,10 +139,10 @@ Write-Host "Download complete"
 # Patch config
 $config = Get-Content "C:\eval\asset\config\config.txt" -Raw
 
-# Patch config line-by-line: disable all, enable NeuralAB_vs_Original only
+# Patch config line-by-line: disable all, enable target tournament only
 $lines = $config -split "`n"
 for ($i = 0; $i -lt $lines.Length; $i++) {
-    if ($lines[$i] -match '"NeuralAB_vs_Original"') {
+    if ($lines[$i] -match [regex]::Escape("`"$tournamentName`"")) {
         $lines[$i] = $lines[$i] -replace '"run"\s*:\s*false', '"run":true'
         $lines[$i] = $lines[$i] -replace '"run"\s*:\s*true', '"run":true'
         $lines[$i] = $lines[$i] -replace '"rounds"\s*:\s*\d+', "`"rounds`":$numRounds"
@@ -147,16 +150,15 @@ for ($i = 0; $i -lt $lines.Length; $i++) {
         if ($lines[$i] -notmatch '"Threads"') {
             $lines[$i] = $lines[$i] -replace '"rounds"', '"Threads":4, "rounds"'
         }
-        Write-Host "Enabled NeuralAB_vs_Original on line $i"
+        Write-Host "Enabled $tournamentName on line $i"
     } else {
         $lines[$i] = $lines[$i] -replace '"run"\s*:\s*true', '"run":false'
     }
 }
 $config = $lines -join "`n"
 
-# Patch player TimeLimits for VM speed adjustment
-$config = $config -replace '("PrismatAI_AB_Legacy"\s*:\s*\{[^}]*"TimeLimit"\s*:\s*)\d+', "`${1}$timeLimitMs"
-$config = $config -replace '("OriginalHardestAI"\s*:\s*\{[^}]*"TimeLimit"\s*:\s*)\d+', "`${1}$timeLimitMs"
+# Patch ALL player TimeLimits for VM speed adjustment
+$config = $config -replace '"TimeLimit"\s*:\s*\d+', "`"TimeLimit`":$timeLimitMs"
 
 Set-Content "C:\eval\asset\config\config.txt" $config -Encoding ascii
 Write-Host "Config patched: $numRounds rounds, $numProcesses processes, TimeLimit=${timeLimitMs}ms"
@@ -164,7 +166,7 @@ Write-Host "Config patched: $numRounds rounds, $numProcesses processes, TimeLimi
 # Debug: show patched tournament and player lines
 $debugConfig = Get-Content "C:\eval\asset\config\config.txt" -Raw
 $debugConfig -split "`n" | ForEach-Object {
-    if ($_ -match 'NeuralAB_vs_Original|PrismatAI_AB_Legacy|OriginalHardestAI') {
+    if ($_ -match [regex]::Escape($tournamentName) -or $_ -match '"TimeLimit"') {
         Write-Host "DEBUG: $_"
     }
 }
@@ -305,7 +307,7 @@ echo "Each instance will:"
 echo "  1. Boot Windows Server (~3 min)"
 echo "  2. Install VC++ runtime (~1 min)"
 echo "  3. Download exe + config + weights from S3 (~1 min)"
-echo "  4. Run NeuralAB_vs_Original tournament"
+echo "  4. Run $TOURNAMENT_NAME tournament"
 echo "  5. Upload results to s3://$BUCKET/eval-results/"
 echo "  6. Auto-terminate"
 echo ""

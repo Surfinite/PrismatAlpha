@@ -1013,7 +1013,8 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
                 break;
         }
     }
-    // Final END_PHASE to commit the turn
+    // Final two END_PHASE clicks: enter confirm + commit (matches Move::toClientString())
+    appendClick(clicksOut, hasPrevClick, "space clicked", -1);
     appendClick(clicksOut, hasPrevClick, "space clicked", -1);
     clicksOut << "]";
 

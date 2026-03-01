@@ -95,10 +95,10 @@ function buildMergedDeck(unitNames, library) {
     // for non-game cards), MCDSAI can look up any card without failing.
     // Base set and active random cards get normal supply.
     for (const [internalName, card] of library) {
-        // Skip unbuyable cards — they cause Emscripten abort() when added
-        // to the mergedDeck (heap issue in MCDSAI3441.js, Feb 2017 build).
-        // Behemoth is referenced by AI params but the soft assert from its
-        // absence doesn't prevent AI player loading.
+        // Skip unbuyable cards in the JS game engine mergedDeck.
+        // Unbuyable tokens (Behemoth, Transwall, Fusion) are created by
+        // card scripts at runtime, not bought from supply.
+        // Note: buildInitDeck() separately includes them for MCDSAI.
         if (card.rarity === 'unbuyable') {
             continue;
         }
@@ -143,6 +143,13 @@ function buildDeckEntry(card, nameMap) {
         if (key === 'description' || key.indexOf('fullDescription') !== -1) {
             continue;
         }
+        // UIName is already a display name — don't translate it.
+        // "Forcefield" (Blood Barrier's UIName) also happens to be an internal
+        // name of a different card, so translateNames would corrupt it.
+        if (key === 'UIName') {
+            entry[key] = card[key];
+            continue;
+        }
         entry[key] = nameMap ? translateNames(card[key], nameMap) : card[key];
     }
     // MCDSAI's Card.as uses obj.name as cardName for click matching.
@@ -173,12 +180,45 @@ function translateNames(value, nameMap) {
 }
 
 /**
+ * The 105 advanced units in the real game (from Prismata wiki).
+ * cardLibrary.jso contains 42 extra unreleased/beta units that were never
+ * playable in the live game. Including them causes MCDSAI failures and
+ * produces game states that never occur in real play.
+ */
+const REAL_ADVANCED_UNITS = new Set([
+    'Aegis','Amporilla','Antima Comet','Apollo','Arka Sodara','Arms Race',
+    'Asteri Cannon','Auric Impulse','Auride Core','Barrier','Blood Pact',
+    'Blood Phage','Bloodrager','Bombarder','Borehole Patroller','Cauterizer',
+    'Centrifuge','Centurion','Chieftain','Chrono Filter','Cluster Bolt',
+    'Colossus','Corpus','Cryo Ray','Cynestra','Deadeye Operative',
+    'Defense Grid','Doomed Drone','Doomed Mech','Doomed Wall','Drake',
+    'Ebb Turbine','Electrovore','Endotherm Kit','Energy Matrix',
+    'Feral Warden','Ferritin Sac','Fission Turret','Flame Animus',
+    'Frost Brooder','Frostbite','Galvani Drone',
+    'Gauss Charge','Gauss Fabricator','Gaussite Symbiote','Grenade Mech',
+    'Grimbotch','Hannibull','Hellhound','Husk','Iceblade Golem','Immolite',
+    'Infusion Grid','Innervi Field','Iso Kronus','Kinetic Driver',
+    'Lancetooth','Lucina Spinos','Mahar Rectifier','Manticore','Mega Drone',
+    'Militia','Mobile Animus','Nitrocybe','Nivo Charge','Odin',
+    'Omega Splitter','Ossified Drone','Oxide Mixer','Perforator',
+    'Photonic Fibroid','Pixie','Plasmafier','Plexo Cell','Polywall',
+    'Protoplasm','Redeemer','Resophore','Rhino','Savior','Scorchilla',
+    'Sentinel','Shadowfang','Shiver Yeti','Shredder','Steelforge',
+    'Steelsplitter','Synthesizer','Tantalum Ray','Tarsier','Tatsu Nullifier',
+    'Tesla Coil','The Wincer','Thermite Core','Thorium Dynamo','Thunderhead',
+    'Tia Thurnax','Trinity Drone','Tyranno Smorcus','Urban Sentry',
+    'Vai Mauronax','Valkyrion','Venge Cannon','Vivid Drone','Wild Drone',
+    'Xaetron','Xeno Guardian','Zemora Voidbringer'
+]);
+
+/**
  * Get all available advanced (non-base-set) unit display names.
+ * Filters to only real game units (excludes 42 unreleased/beta cards in cardLibrary.jso).
  */
 function getAdvancedUnitNames(library) {
     const names = [];
     for (const [, card] of library) {
-        if (!card.baseSet && card.rarity !== 'unbuyable') {
+        if (!card.baseSet && card.rarity !== 'unbuyable' && REAL_ADVANCED_UNITS.has(card.UIName)) {
             names.push(card.UIName);
         }
     }
@@ -291,14 +331,17 @@ function buildInitDeck(activeDeck, library, fullParamsStr, shortParamsStr) {
         }
     }
 
-    // Build init deck: active cards + required cards (with _inactive flag)
+    // Build init deck: active cards + required cards (with _inactive flag).
+    // Includes unbuyable tokens (Behemoth, Transwall, Fusion) when referenced
+    // by active cards' needs/scripts — MCDSAI's CardType::getCardType() asserts
+    // if these aren't registered.
     var included = new Set(activeDeck.map(function(c) { return c.name; }));
     var deck = activeDeck.slice(); // shallow copy
 
     for (var displayName of required) {
         if (included.has(displayName)) continue;
         var card = displayToCard.get(displayName);
-        if (!card || card.rarity === 'unbuyable') continue;
+        if (!card) continue;
         var entry = buildDeckEntry(card, internalToDisplay);
         entry._inactive = true;
         deck.push(entry);
@@ -317,5 +360,6 @@ module.exports = {
     randomSet,
     getSupply,
     SUPPLY_BY_RARITY,
+    REAL_ADVANCED_UNITS,
     CARD_LIBRARY_PATH
 };

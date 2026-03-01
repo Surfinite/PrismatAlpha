@@ -863,8 +863,18 @@ void GUIState_Play::drawInformation()
         sf::Vector2f replayPos(210.0f, 4.0f);
         GUITools::DrawString(replayPos, replayInfo.str(), sf::Color::Yellow, &m_game.window(), 14);
 
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top), "Right/Space: Next Turn", sf::Color(127, 127, 127), &m_game.window());
-        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 1*spacing), "Left/Z:      Prev Turn", sf::Color(127, 127, 127), &m_game.window());
+        // Player side labels (P1=top half, P0=bottom half)
+        {
+            auto wSize = m_game.window().getSize();
+            float boardLeft = BuyablePaneSize.x;
+            sf::Vector2f p1Pos(boardLeft + 10, 22);
+            sf::Vector2f p0Pos(boardLeft + 10, wSize.y / 2.0f + 8);
+            GUITools::DrawString(p1Pos, m_replayP1, sf::Color(200, 200, 200), &m_game.window(), 16);
+            GUITools::DrawString(p0Pos, m_replayP0, sf::Color(200, 200, 200), &m_game.window(), 16);
+        }
+
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top), "Right/Space: Next Step", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 1*spacing), "Left/Z:      Prev Step", sf::Color(127, 127, 127), &m_game.window());
         GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 2*spacing), "ESC:         Main Menu", sf::Color(127, 127, 127), &m_game.window());
         GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 3*spacing), "TAB:         Buy Pane", sf::Color(127, 127, 127), &m_game.window());
         GUITools::DrawString(sf::Vector2f(5, m_game.window().getSize().y - top + 4*spacing), "~/# :        Toggle Debug", sf::Color(127, 127, 127), &m_game.window());

@@ -21,6 +21,7 @@ void GUIEngine::init()
     const std::vector<CardType> & types = CardTypes::GetAllCardTypes();
     for (size_t i(0); i<types.size(); ++i)
     {
+        if (types[i].getName() == "None") { continue; }
         Assets::Instance().addTexture(types[i].getUIName(), "asset/images/cards/" + types[i].getImageFileName());
     }
 

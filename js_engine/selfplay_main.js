@@ -46,6 +46,7 @@ function buildGameInitInfo(mergedDeck) {
     const randomizer = [];
 
     for (const card of mergedDeck) {
+        if (card._inactive) continue; // Skip inactive cards — only active set gets supply
         const supply = card.supply !== undefined ? card.supply : 20;
         if (card.baseSet) {
             base.push([card.name, supply]);

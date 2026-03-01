@@ -38,6 +38,13 @@ void TournamentGame::playGame()
             _dataSink->onTurnStart(_game.getState());
         }
 
+        // Save pre-turn state for detailed replay reconstruction
+        GameState preTurnState;
+        if (_detailedReplays && _saveReplays)
+        {
+            preTurnState = _game.getState();
+        }
+
         t.start();
         _game.playNextTurn();
         double ms = t.getElapsedTimeInMilliSec();
@@ -46,7 +53,20 @@ void TournamentGame::playGame()
 
         if (_saveReplays)
         {
-            _stateSnapshots.push_back(_game.getState().toJSONString());
+            if (_detailedReplays)
+            {
+                // Replay each action on the saved pre-turn state to capture per-action snapshots
+                const Move & move = _game.getPreviousMove();
+                for (size_t a = 0; a < move.size(); ++a)
+                {
+                    preTurnState.doAction(move.getAction(a));
+                    _stateSnapshots.push_back(preTurnState.toJSONString());
+                }
+            }
+            else
+            {
+                _stateSnapshots.push_back(_game.getState().toJSONString());
+            }
 
             // Log buy actions with card names (verbose, only useful for replay inspection)
             const Move & move = _game.getPreviousMove();
@@ -87,6 +107,7 @@ void TournamentGame::saveReplay(const std::string & filename) const
     file << "\"p1\": \"" << _playerNames[1] << "\",\n";
     file << "\"winner\": " << winnerID << ",\n";
     file << "\"winnerName\": \"" << winnerName << "\",\n";
+    file << "\"detailedReplays\": " << (_detailedReplays ? "true" : "false") << ",\n";
     file << "\"turns\": " << _stateSnapshots.size() << ",\n";
     file << "\"states\": [\n";
 

@@ -18,6 +18,7 @@ class TournamentGame
     std::vector<std::string> _stateSnapshots;
     IDataSink *     _dataSink = nullptr;
     bool            _saveReplays = false;
+    bool            _detailedReplays = false;
 
 public:
 
@@ -25,6 +26,7 @@ public:
 
     void setDataSink(IDataSink * sink) { _dataSink = sink; }
     void setSaveReplays(bool save) { _saveReplays = save; }
+    void setDetailedReplays(bool detailed) { _detailedReplays = detailed; }
     void playGame();
     void saveReplay(const std::string & filename) const;
 

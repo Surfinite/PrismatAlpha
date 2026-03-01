@@ -896,9 +896,11 @@ def main():
 
         state_dim = train_data["states"].shape[1]
 
-        # Add has_policy=1 for expert data (all have policy targets)
-        train_data["has_policy"] = torch.ones(train_data["states"].shape[0])
-        val_data["has_policy"] = torch.ones(val_data["states"].shape[0])
+        # Add has_policy if not already present (combined datasets may include it)
+        if "has_policy" not in train_data:
+            train_data["has_policy"] = torch.ones(train_data["states"].shape[0])
+        if "has_policy" not in val_data:
+            val_data["has_policy"] = torch.ones(val_data["states"].shape[0])
 
         # Apply label smoothing to value targets
         if args.label_smooth < 1.0:
