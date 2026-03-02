@@ -1,21 +1,22 @@
 'use strict';
 
 /**
- * matchup_clean.js — Phase 7a: Single-turn matchup test (clean room rebuild)
+ * matchup_clean.js — Phase 7b: Single-game matchup runner (clean room rebuild)
  *
- * Orchestrates one turn of Prismata by:
+ * Orchestrates a complete Prismata game by:
  *   1. Verifying supply at init (rarity-based, no card.supply field)
  *   2. Initializing a JS game via Analyzer
- *   3. Exporting JS state to JSON for C++ --suggest
- *   4. Calling Prismata_Testing.exe --suggest
- *   5. Parsing the JSON response
- *   6. Applying clicks back to JS engine
+ *   3. Looping: export state -> call C++ --suggest -> apply clicks -> check game over
+ *   4. Handling errors: retry on malformed JSON, forfeit/abort on repeated failure
+ *   5. Stuck detection: abort as draw if state unchanged for N consecutive turns
  *
  * Usage:
- *   node matchup_clean.js                             # Base-set-only single turn test
+ *   node matchup_clean.js                             # Base-set-only single game
  *   node matchup_clean.js --random                    # Random 8-unit set
- *   node matchup_clean.js --player LiveHardestAI      # Specific AI player
+ *   node matchup_clean.js --player LiveHardestAI      # Same AI for both sides
+ *   node matchup_clean.js --player-white HardestAI --player-black LiveHardestAI
  *   node matchup_clean.js --think-time 5000           # Custom think time
+ *   node matchup_clean.js --single-turn               # Phase 7a single-turn test mode
  */
 
 const fs = require('fs');
@@ -426,7 +427,218 @@ function buildGameInitInfo(mergedDeck) {
 }
 
 // ---------------------------------------------------------------------------
-// 8. Main test runner
+// 8. Play a single complete game (Phase 7b)
+// ---------------------------------------------------------------------------
+
+/**
+ * Compute a simple hash of the game state for stuck detection.
+ * Uses the full state JSON string — any change in units, mana, supply,
+ * phase, or turn will produce a different hash.
+ *
+ * @param {Object} analyzer
+ * @returns {string} State hash (the full JSON string)
+ */
+function getStateHash(analyzer) {
+    return analyzer.gameState.toString();
+}
+
+/**
+ * Map state.result to a human-readable string.
+ *
+ * @param {number} result - state.result value (C.COLOR_WHITE, C.COLOR_BLACK, etc.)
+ * @returns {string}
+ */
+function resultToString(result) {
+    if (result === C.COLOR_WHITE) return 'White (P0)';
+    if (result === C.COLOR_BLACK) return 'Black (P1)';
+    if (result === C.COLOR_DRAW_MUTUAL_ELIMINATION) return 'Draw (mutual elimination)';
+    if (result === C.COLOR_DRAW_STALEMATE) return 'Draw (stalemate)';
+    if (result === C.COLOR_NONE) return 'Ongoing';
+    return `Unknown (${result})`;
+}
+
+/**
+ * Play a complete game from init to game-over (or abort).
+ *
+ * Alternates Player 0 (White) and Player 1 (Black) turns,
+ * calling C++ --suggest for each turn and applying clicks to the JS engine.
+ *
+ * Error handling:
+ *   - Malformed JSON from --suggest: retry once (retryOnError), then forfeit
+ *   - --suggest crash (non-zero exit): mark game invalid
+ *   - --suggest timeout: mark game invalid
+ *   - recordClick failure: log and continue (applyClicks handles this)
+ *   - Stuck detection: if state hash unchanged for stuckDetectionTurns
+ *     consecutive turns, abort as draw
+ *
+ * @param {Object[]} activeDeck - Active mergedDeck cards
+ * @param {{ playerWhite: string, playerBlack: string, thinkTimeMs: number }} config
+ * @returns {{ result: number, winner: string, turns: number, errors: string[], abortReason: string|null }}
+ */
+function playSingleGame(activeDeck, config) {
+    const playerWhite = config.playerWhite;
+    const playerBlack = config.playerBlack;
+    const thinkTimeMs = config.thinkTimeMs;
+    const maxTurns = CONFIG.maxTurns || 200;
+    const retryOnError = CONFIG.retryOnError || 1;
+    const stuckThreshold = CONFIG.stuckDetectionTurns || 5;
+
+    const errors = [];
+    let abortReason = null;
+
+    // Initialize game
+    const gameInitInfo = buildGameInitInfo(activeDeck);
+    const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
+    analyzer.loaderInit();
+
+    console.error('[Game] Initialized. White=' + playerWhite + ', Black=' + playerBlack);
+    printStateSummary(analyzer, 'GAME START');
+
+    // Stuck detection state
+    const recentHashes = [];  // circular buffer of last N state hashes
+    let turnCount = 0;
+
+    // Main game loop
+    while (!analyzer.gameState.finished && turnCount < maxTurns) {
+        turnCount++;
+
+        const activePlayer = analyzer.gameState.turn;
+        const playerName = activePlayer === 0 ? playerWhite : playerBlack;
+        const playerLabel = activePlayer === 0 ? 'White' : 'Black';
+
+        console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}) ===`);
+
+        // --- Stuck detection: capture pre-turn state hash ---
+        const preHash = getStateHash(analyzer);
+
+        // --- Call playSingleTurn with retry logic ---
+        let turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs);
+
+        if (!turnResult.ok) {
+            // Retry once on error (malformed JSON, parse failure, etc.)
+            console.error(`[Game] Turn ${turnCount} failed: ${turnResult.error}`);
+            console.error(`[Game] Retrying (attempt 2/${retryOnError + 1})...`);
+
+            // Dump state for debugging
+            try {
+                const stateDump = analyzer.gameState.toString();
+                console.error(`[Game] State dump at failure:\n${stateDump.substring(0, 1000)}`);
+            } catch (dumpErr) {
+                console.error(`[Game] State dump failed: ${dumpErr.message}`);
+            }
+
+            // Retry
+            turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs);
+
+            if (!turnResult.ok) {
+                // Second failure — check error type for appropriate handling
+                const errMsg = turnResult.error || '';
+                errors.push(`Turn ${turnCount} (${playerLabel}): ${errMsg}`);
+
+                if (errMsg.includes('timed out')) {
+                    // Timeout: mark game invalid
+                    abortReason = `Timeout on turn ${turnCount} (${playerLabel}): ${errMsg}`;
+                    console.error(`[Game] ABORT: ${abortReason}`);
+                    break;
+                } else if (errMsg.includes('Process error')) {
+                    // Crash (non-zero exit): mark game invalid
+                    abortReason = `Crash on turn ${turnCount} (${playerLabel}): ${errMsg}`;
+                    console.error(`[Game] ABORT: ${abortReason}`);
+                    break;
+                } else {
+                    // Malformed JSON or other: forfeit for this player
+                    abortReason = `Forfeit by ${playerLabel} on turn ${turnCount}: ${errMsg}`;
+                    console.error(`[Game] FORFEIT: ${abortReason}`);
+                    // Set result to opponent wins
+                    analyzer.gameState.result = activePlayer === 0 ? C.COLOR_BLACK : C.COLOR_WHITE;
+                    break;
+                }
+            } else {
+                errors.push(`Turn ${turnCount} (${playerLabel}): recovered after retry`);
+            }
+        }
+
+        // Log click failures (non-fatal — applyClicks handles them)
+        if (turnResult.clickResult && turnResult.clickResult.failed > 0) {
+            const failMsg = `Turn ${turnCount} (${playerLabel}): ${turnResult.clickResult.failed} click(s) failed`;
+            errors.push(failMsg);
+            // Detailed click failures already logged by playSingleTurn
+        }
+
+        // --- Check for game over ---
+        if (analyzer.gameState.finished) {
+            console.error(`[Game] Game over detected after turn ${turnCount}`);
+            break;
+        }
+
+        // --- Check stagnation (AS3-style) ---
+        if (analyzer.gameState.colorIsStagnated(C.COLOR_WHITE) ||
+            analyzer.gameState.colorIsStagnated(C.COLOR_BLACK)) {
+            analyzer.gameState.result = C.COLOR_DRAW_STALEMATE;
+            abortReason = `Stagnation draw detected at turn ${turnCount}`;
+            console.error(`[Game] ${abortReason}`);
+            break;
+        }
+
+        // --- Stuck detection: compare post-turn hash ---
+        const postHash = getStateHash(analyzer);
+        recentHashes.push(postHash);
+
+        // Keep only the last stuckThreshold hashes
+        if (recentHashes.length > stuckThreshold) {
+            recentHashes.shift();
+        }
+
+        // Check if all recent hashes are identical (state unchanged)
+        if (recentHashes.length >= stuckThreshold) {
+            const allSame = recentHashes.every(h => h === recentHashes[0]);
+            if (allSame) {
+                abortReason = `Stuck: state unchanged for ${stuckThreshold} consecutive turns at turn ${turnCount}`;
+                console.error(`[Game] ABORT: ${abortReason}`);
+                analyzer.gameState.result = C.COLOR_DRAW_STALEMATE;
+                break;
+            }
+        }
+    }
+
+    // Max turns reached
+    if (!analyzer.gameState.finished && !abortReason && turnCount >= maxTurns) {
+        abortReason = `Max turns reached (${maxTurns})`;
+        console.error(`[Game] ABORT: ${abortReason}`);
+        analyzer.gameState.result = C.COLOR_DRAW_STALEMATE;
+    }
+
+    // Final state
+    const finalResult = analyzer.gameState.result;
+    const winner = resultToString(finalResult);
+
+    printStateSummary(analyzer, 'GAME END');
+
+    console.error(`\n[Game] ========== RESULT ==========`);
+    console.error(`[Game] Winner: ${winner}`);
+    console.error(`[Game] Turns: ${turnCount}`);
+    console.error(`[Game] Errors: ${errors.length}`);
+    if (abortReason) console.error(`[Game] Abort reason: ${abortReason}`);
+    if (errors.length > 0) {
+        console.error(`[Game] Error log:`);
+        for (const e of errors) console.error(`  - ${e}`);
+    }
+    console.error(`[Game] ================================\n`);
+
+    // Clean up temp file
+    try { fs.unlinkSync(SUGGEST_TMP); } catch (e) { /* ignore */ }
+
+    return {
+        result: finalResult,
+        winner: winner,
+        turns: turnCount,
+        errors: errors,
+        abortReason: abortReason
+    };
+}
+
+// ---------------------------------------------------------------------------
+// 9. Main
 // ---------------------------------------------------------------------------
 
 function main() {
@@ -434,12 +646,20 @@ function main() {
 
     // Parse CLI args
     let useRandom = false;
-    let playerName = CONFIG.defaultPlayer;
+    let singleTurnMode = false;
+    let playerWhite = CONFIG.defaultPlayer;
+    let playerBlack = CONFIG.defaultPlayer;
     let thinkTimeMs = CONFIG.thinkTimeMs;
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--random') useRandom = true;
-        if (args[i] === '--player' && args[i + 1]) { playerName = args[++i]; }
+        if (args[i] === '--single-turn') singleTurnMode = true;
+        if (args[i] === '--player' && args[i + 1]) {
+            playerWhite = args[++i];
+            playerBlack = playerWhite;  // same player for both sides unless overridden
+        }
+        if (args[i] === '--player-white' && args[i + 1]) { playerWhite = args[++i]; }
+        if (args[i] === '--player-black' && args[i + 1]) { playerBlack = args[++i]; }
         if (args[i] === '--think-time' && args[i + 1]) { thinkTimeMs = parseInt(args[++i], 10); }
     }
 
@@ -450,10 +670,14 @@ function main() {
         process.exit(1);
     }
 
-    console.error('=== Phase 7a: Single-Turn Matchup Test ===');
+    const modeLabel = singleTurnMode ? 'Single-Turn Test (Phase 7a)' : 'Single Game (Phase 7b)';
+    console.error(`=== ${modeLabel} ===`);
     console.error(`Exe: ${EXE_PATH}`);
-    console.error(`Player: ${playerName}`);
+    console.error(`White: ${playerWhite}, Black: ${playerBlack}`);
     console.error(`Think time: ${thinkTimeMs}ms`);
+    if (!singleTurnMode) {
+        console.error(`Max turns: ${CONFIG.maxTurns}, Stuck detection: ${CONFIG.stuckDetectionTurns} turns`);
+    }
     console.error('');
 
     // 1. Load card library
@@ -483,82 +707,100 @@ function main() {
         console.error('WARNING: Supply verification found mismatches (proceeding anyway)');
     }
 
-    // 5. Initialize game
-    console.error('\n--- Game Initialization ---');
-    const gameInitInfo = buildGameInitInfo(activeDeck);
-    const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
-    analyzer.loaderInit();
-    console.error('Game initialized successfully.');
+    // -----------------------------------------------------------------------
+    // Single-turn mode (Phase 7a compatibility)
+    // -----------------------------------------------------------------------
+    if (singleTurnMode) {
+        console.error('\n--- Game Initialization ---');
+        const gameInitInfo = buildGameInitInfo(activeDeck);
+        const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
+        analyzer.loaderInit();
+        console.error('Game initialized successfully.');
 
-    // Print initial state
-    printStateSummary(analyzer, 'INITIAL STATE');
+        printStateSummary(analyzer, 'INITIAL STATE');
 
-    // 6. Play a single turn (Player 0 = White)
-    console.error('\n--- Playing Single Turn ---');
-    const turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs);
+        console.error('\n--- Playing Single Turn ---');
+        const turnResult = playSingleTurn(analyzer, activeDeck, playerWhite, thinkTimeMs);
 
-    // Print post-turn state
-    printStateSummary(analyzer, 'AFTER TURN');
+        printStateSummary(analyzer, 'AFTER TURN');
 
-    // 7. Verify results
-    console.error('\n--- Verification ---');
-    const postState = JSON.parse(analyzer.gameState.toString());
+        // Verify results
+        console.error('\n--- Verification ---');
+        const postState = JSON.parse(analyzer.gameState.toString());
+        let verifyOk = true;
 
-    let verifyOk = true;
+        if (turnResult.ok && turnResult.clickResult) {
+            if (turnResult.clickResult.applied === 0) {
+                console.error('WARNING: No clicks were applied');
+                verifyOk = false;
+            } else {
+                console.error(`OK: ${turnResult.clickResult.applied} clicks applied`);
+            }
+            if (turnResult.clickResult.failed > 0) {
+                console.error(`WARNING: ${turnResult.clickResult.failed} clicks failed`);
+                verifyOk = false;
+            }
+        }
 
-    // Check that something happened (mana should have changed, or buys made)
-    if (turnResult.ok && turnResult.clickResult) {
-        if (turnResult.clickResult.applied === 0) {
-            console.error('WARNING: No clicks were applied');
-            verifyOk = false;
+        if (turnResult.ok) {
+            if (postState.numTurns > 1 || postState.turn !== 0) {
+                console.error('OK: Turn advanced (numTurns or active player changed)');
+            } else {
+                console.error('NOTE: Turn did not advance (may still be in action phase if clicks failed)');
+            }
+        }
+
+        console.error('\n=== RESULT ===');
+        if (turnResult.ok && verifyOk) {
+            console.error('PASS: Single-turn matchup test completed successfully.');
+        } else if (turnResult.ok) {
+            console.error('PARTIAL: --suggest succeeded but some clicks failed.');
         } else {
-            console.error(`OK: ${turnResult.clickResult.applied} clicks applied`);
+            console.error('FAIL: --suggest failed.');
         }
 
-        if (turnResult.clickResult.failed > 0) {
-            console.error(`WARNING: ${turnResult.clickResult.failed} clicks failed`);
-            verifyOk = false;
+        try { fs.unlinkSync(SUGGEST_TMP); } catch (e) { /* ignore */ }
+
+        if (turnResult.suggest && turnResult.suggest.response) {
+            const output = {
+                mode: 'single-turn',
+                ok: turnResult.ok,
+                suggest: turnResult.suggest.response,
+                clicksApplied: turnResult.clickResult ? turnResult.clickResult.applied : 0,
+                clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0
+            };
+            console.log(JSON.stringify(output, null, 2));
         }
+        return;
     }
 
-    // Check if turn advanced (either turn player changed, or numTurns increased)
-    // In action phase, ending turn should advance to the other player
-    if (turnResult.ok) {
-        // Post state should be different from initial (turn 0 White -> turn 1 Black or still action)
-        if (postState.numTurns > 1 || postState.turn !== 0) {
-            console.error('OK: Turn advanced (numTurns or active player changed)');
-        } else {
-            console.error('NOTE: Turn did not advance (may still be in action phase if clicks failed)');
-        }
-    }
+    // -----------------------------------------------------------------------
+    // Single-game mode (Phase 7b — default)
+    // -----------------------------------------------------------------------
+    console.error('\n--- Starting Single Game ---');
+    const gameResult = playSingleGame(activeDeck, {
+        playerWhite: playerWhite,
+        playerBlack: playerBlack,
+        thinkTimeMs: thinkTimeMs
+    });
 
-    // Final summary
-    console.error('\n=== RESULT ===');
-    if (turnResult.ok && verifyOk) {
-        console.error('PASS: Single-turn matchup test completed successfully.');
-    } else if (turnResult.ok) {
-        console.error('PARTIAL: --suggest succeeded but some clicks failed.');
-    } else {
-        console.error('FAIL: --suggest failed.');
-    }
-
-    // Clean up temp file
-    try { fs.unlinkSync(SUGGEST_TMP); } catch (e) { /* ignore */ }
-
-    // Output the suggest response as JSON to stdout for inspection
-    if (turnResult.suggest && turnResult.suggest.response) {
-        const output = {
-            ok: turnResult.ok,
-            suggest: turnResult.suggest.response,
-            clicksApplied: turnResult.clickResult ? turnResult.clickResult.applied : 0,
-            clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0
-        };
-        console.log(JSON.stringify(output, null, 2));
-    }
+    // Output result as JSON to stdout
+    const output = {
+        mode: 'single-game',
+        result: gameResult.result,
+        winner: gameResult.winner,
+        turns: gameResult.turns,
+        errors: gameResult.errors,
+        abortReason: gameResult.abortReason,
+        players: { white: playerWhite, black: playerBlack },
+        thinkTimeMs: thinkTimeMs,
+        cardSet: activeDeck.filter(c => !c.baseSet).map(c => c.UIName || c.name)
+    };
+    console.log(JSON.stringify(output, null, 2));
 }
 
 // ---------------------------------------------------------------------------
-// Module exports (for use by future multi-turn matchup runner)
+// Module exports (for use by multi-game matchup runner)
 // ---------------------------------------------------------------------------
 
 module.exports = {
@@ -568,7 +810,10 @@ module.exports = {
     applyClicks,
     playSingleTurn,
     buildGameInitInfo,
-    printStateSummary
+    printStateSummary,
+    playSingleGame,
+    getStateHash,
+    resultToString
 };
 
 if (require.main === module) {
