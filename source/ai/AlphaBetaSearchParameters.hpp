@@ -18,6 +18,7 @@ class AlphaBetaSearchParameters
     double      _timeLimit = 0;
     size_t      _maxChildren = 40;
     int         _evalMethod = EvaluationMethods::WillScore;
+    double      _blendWeight = 0.5;
 
     bool    _resumeSearch = false;
     AlphaBetaSearchSaveState _saveState;
@@ -43,6 +44,7 @@ public:
     double timeLimit() const { return _timeLimit; }
     size_t maxChildren() const { return _maxChildren; }
     int evalMethod() const { return _evalMethod; }
+    double blendWeight() const { return _blendWeight; }
     PlayerPtr getPlayoutPlayer(const PlayerID p) const { return _playoutPlayers[p]; }
     bool resumeSearch() const { return _resumeSearch; }
     const AlphaBetaSearchSaveState & getSaveState() const { return _saveState; }
@@ -56,9 +58,21 @@ public:
     void setTimeLimit(const double & timeLimit) { _timeLimit = timeLimit; }
     void setMaxChildren(const size_t & children) { _maxChildren = children; }
     void setEvalMethod(const int & eval) { _evalMethod = eval; }
+    void setBlendWeight(const double & w) { _blendWeight = w; }
     void setPlayoutPlayer(const PlayerID p, const PlayerPtr & ptr) { _playoutPlayers[p] = ptr; }
     void setMoveIterator(const PlayerID p, const MoveIteratorPtr & m) { _moveIterators[p] = m; }
     void setRootMoveIterator(const PlayerID p, const MoveIteratorPtr & m) { _rootMoveIterators[p] = m; }
+
+    // Deep-clone all shared_ptrs so this instance is fully independent (thread-safe)
+    void deepClone()
+    {
+        for (int p = 0; p < 2; ++p)
+        {
+            if (_playoutPlayers[p])    _playoutPlayers[p] = _playoutPlayers[p]->clone();
+            if (_moveIterators[p])     _moveIterators[p] = _moveIterators[p]->clone();
+            if (_rootMoveIterators[p]) _rootMoveIterators[p] = _rootMoveIterators[p]->clone();
+        }
+    }
 
     std::string getDescription()
     {

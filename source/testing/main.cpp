@@ -1,6 +1,7 @@
 #include "Prismata.h"
 #include "PrismataAI.h"
 #include "Benchmarks.h"
+#include "NeuralNet.h"
 #include <iostream>
 
 using namespace Prismata;
@@ -17,9 +18,15 @@ int main(int argc, char* argv[])
     printf("Initializing card library\n");
     Prismata::InitFromCardLibrary(configDir + "cardLibrary.jso");
 
+    printf("Loading neural network weights\n");
+    if (NeuralNet::Instance().loadWeights(configDir + "neural_weights.bin"))
+    {
+        NeuralNet::Instance().buildCardTypeMapping();
+    }
+
     printf("Parsing AI Parameters\n");
     Prismata::AIParameters::Instance().parseFile(configDir + "config.txt");
-    
+
     printf("Running Benchmarks\n");
     Benchmarks::DoBenchmarks(configDir + "config.txt");
      

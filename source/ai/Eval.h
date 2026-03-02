@@ -22,6 +22,7 @@ namespace PlayoutTieBreaker
     double      WillScoreSum(const GameState & state, const PlayerID player);
     double      WillScoreEvaluation(const GameState & state, const PlayerID maxPlayer);
     double      WillScoreInflationEvaluation(const GameState & state, const PlayerID maxPlayer);
+    double      NeuralNetEvaluation(const GameState & state, const PlayerID maxPlayer);
     PlayerID    WillScoreEvalWinner(const GameState & state);
 }
 }
