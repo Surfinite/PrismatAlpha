@@ -924,7 +924,20 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
                 buys.push_back(CardType(action.getID()).getUIName());
                 break;
             case ActionTypes::USE_ABILITY:
-                abilities.push_back(state.getCardByID(action.getID()).getType().getUIName());
+                // Shift-click expands to all cards of same type
+                if (action.getShift())
+                {
+                    const CardType ct = state.getCardByID(action.getID()).getType();
+                    for (const auto & cid : state.getCardIDs(action.getPlayer()))
+                    {
+                        if (state.getCardByID(cid).getType() == ct && state.getCardByID(cid).getClientInstId() >= 0)
+                            abilities.push_back(ct.getUIName());
+                    }
+                }
+                else
+                {
+                    abilities.push_back(state.getCardByID(action.getID()).getType().getUIName());
+                }
                 break;
             case ActionTypes::ASSIGN_BLOCKER:
                 defense.push_back(state.getCardByID(action.getID()).getType().getUIName());
@@ -979,8 +992,27 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
             }
             case ActionTypes::USE_ABILITY:
             {
-                int instId = state.getCardByID(action.getID()).getClientInstId();
-                appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                // Shift-click means "activate all cards of this type" (e.g., all Drones).
+                // The C++ engine expands shift internally (GameState.cpp:599-638), but the
+                // Move only contains ONE action. We must emit inst clicks for ALL matching
+                // cards so the JS engine (which has no shift expansion) activates them all.
+                if (action.getShift())
+                {
+                    const CardType actionCardType = state.getCardByID(action.getID()).getType();
+                    for (const auto & cardID : state.getCardIDs(action.getPlayer()))
+                    {
+                        const Card & card = state.getCardByID(cardID);
+                        if (card.getType() == actionCardType && card.getClientInstId() >= 0)
+                        {
+                            appendClick(clicksOut, hasPrevClick, "inst clicked", card.getClientInstId());
+                        }
+                    }
+                }
+                else
+                {
+                    int instId = state.getCardByID(action.getID()).getClientInstId();
+                    appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                }
                 break;
             }
             case ActionTypes::ASSIGN_BLOCKER:

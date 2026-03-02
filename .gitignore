@@ -59,22 +59,20 @@ bin/asset/replays/
 bin/training/
 
 # --- Training data & models (2GB+, regenerated) ---
+training/data_*/
 training/data/train.pt
 training/data/val.pt
-training/data_test/
-training/data_expert_*/
-training/models/
-training/models_test/
-training/runs/
-training/__pycache__/
-
-# --- Opening book analysis outputs (regenerated from scripts) ---
 training/data/pair_opening_analysis.json
 training/data/triple_opening_analysis.json
 training/data/tech_timing.json
 training/data/unit_opening_impact.json
 training/data/universal_openings.json
 training/data/opening_book_*/
+training/data/selfplay_synthetic/
+training/models/
+training/models_test/
+training/runs/
+training/__pycache__/
 
 # --- Build/pipeline logs ---
 build_output.txt
@@ -144,9 +142,6 @@ chroma.log
 # --- Validation output (generated) ---
 bin/validation_*
 bin/asset/config/validation_*
-
-# --- Synthetic training data (generated) ---
-training/data/selfplay_synthetic/
 
 # --- Doc backups (local) ---
 docs/backup_claude_md_2026-02-14/
@@ -290,6 +285,11 @@ js_engine/all_codes_*.json
 js_engine/all_expert_*.txt
 js_engine/prepatch_*.json
 js_engine/prepatch_*.txt
+js_engine/matchup_replays/
+
+# --- Evaluation & matchup results (generated, large) ---
+eval-results/
+matchup-results/
 
 # --- F6 ground truth test data (large, regeneratable) ---
 tools/data/f6_ground_truth/
