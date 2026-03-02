@@ -16,5 +16,7 @@ namespace Benchmarks
 
     void DoChillIteratorBenchmarkJSON(const rapidjson::Value & value);
     void DoChillIteratorBenchmark(size_t timeLimitMS, size_t histogramMinIndex, size_t histogramMaxIndex, size_t histogramMaxValue);
+
+    void DoSuggest(const std::string & stateFile, const std::string & playerName, int thinkTimeMs);
 }
 }
