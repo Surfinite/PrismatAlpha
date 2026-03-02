@@ -1,0 +1,109 @@
+# Removing RNG: how eliminating luck can benefit strategy card games
+# Source: http://blog.lunarchstudios.com/2014/12/02/removing-rng-eliminating-luck-can-benefit-strategy-card-games
+# Words: 2580
+
+This article originally appeared as a guest feature on continue-play.com
+
+What if a card game like Magic: The Gathering or Hearthstone had no luck ? Would it be playable? Exciting? Balanced? Skill-testing? When I ask people this question, most of them seem to think that it would introduce a huge number of problems, crippling the experience for players. But I’m here to make a bold counter-claim: If done right, removing randomness can actually make a card game better .
+
+My justification for this statement is effectively a case in point . For many years, I’ve been working on a game called Prismata with a group of friends from MIT. Prismata is, effectively, an online competitive card game without randomness—a seemingly impossible game that shouldn’t exist. In reality, Prismata borrows a lot of ideas from real-time strategy games and tabletop board games to make the concept work. However, blending these ideas in a usable way was no simple task; Prismata required years of testing and iteration, and the entire project was scrapped and restarted from scratch over a dozen times.
+
+The difficulty arose because, in giving up randomness, we were depriving ourselves of a valuable tool. Game designers often make extensive use of luck-based mechanics when trying to optimize for balance, novelty, and excitement. The effects of luck on player psychology and behaviour are also extremely relevant, especially when it comes to player retention and monetization. Without luck-based game mechanics, we suffered from a deficiency in design power that required many novel workarounds.
+
+In this article, I’m going to describe those workarounds. In particular, I’m going to introduce six benefits of luck-game mechanics, and show how each of these benefits can be achieved without the use of randomness.
+
+The incentive to remove luck
+
+First off, I want to establish that eliminating randomness is actually a desirable goal in the first place. The key reason is simply that players hate it.
+
+A user on the /r/Hearthstone subreddit recently conducted a survey on what players’ least favourite aspects of the game were. The result was the following word cloud:
+
+The most common answer, by far, was “RNG”. For the uninitiated, RNG stands for “Random Number Generator”—the type of software tool used to generate the outcomes of random events in video games. RNG is frequently used colloquially as a catch-all term to describe luck-based game mechanics, in contexts such as, “This game has a ton of RNG”, or, “I’m getting awful RNG today”, or, “Time to pray to RNGesus”. In the Hearthstone world, RNG is the bane of many players’ existence, as bad card draws frequently lead to unwinnable games. The issue has become a hotly debated topic in the wake of serious complaints from professional players concerning the role of randomness in the game.
+
+Magic: The Gathering designer Mark Rosewater has written extensively about the use of randomness in Magic. Mark insists that players’ natural reaction to randomness is discomfort , and explains how Magic itself has cut down dramatically on the use of coin-flipping as a game mechanic. He even goes as far to recommend that designers remove icons of randomness (such as dice, coins, or spinners) from their games altogether.
+
+In e-sports, randomness leads to another problem—endless complaints and hostility from players and their fans, especially when tournaments with five- or six-figure prize pools are often decided by RNG. Fans often question whether the winner of a world final is truly the best player, as his or her win could have been entirely due to luck. This type of bitterness frequently fuels online flame wars and can even encourage toxic player behaviour.
+
+In any case, it’s clear that the use of randomness as a design tool carries several costs. Now, onto the benefits. Again, my point is to emphasize that the positive effects of luck-based game mechanics can indeed be achieved without RNG:
+
+(1) Novelty
+
+Many games use randomness to force players into new situations. In a collectible card game, players get different opening hands each time, leading to a different experience in each match instead of the same opening plays. Is this level of variety possible without randomness?
+
+Variety is very important in strategy games. Players quickly tire if they are forced to make the same moves over and over again. However, card draw —the key random mechanism that most card games use to generate variety in gameplay—has an inherent problem in that it strongly reduces fairness . Players can draw opening hands of vastly different strengths, and players in both Hearthstone and Magic can find themselves in virtually unwinnable positions in the event of a bad card draw. This leads to tremendous player frustration.
+
+So what do we do in Prismata? First off, we eliminate decks entirely. Instead, before each match begins, Prismata selects a fixed pool of units that both you and your opponent can buy. This pool of units is different every time, guaranteeing that each game is a unique experience. However, each individual game of Prismata is chess-like, in that there is no randomness or hidden information once the game begins. A good analogy is that of Chess960— a chess variant in which both players start the game with a back row of pieces that is randomized, but identical for both players. Randomness is used before the game begins to generate novelty in a way that is as fair as possible for both players, and once the game begins, there is no additional RNG whatsoever.
+
+Some randomly generated unit sets in Prismata. Players see a new one of these every time they play.
+
+The effect in Prismata is tremendous. Because there are dozens of units with many interesting synergies and interactions among them, but you only get to see a tiny subset of these units each game, Prismata exhibits an incredibly addictive form of game-to-game novelty. Players always want to play “just one more” game, because the first thing that happens in each game is the exciting unveiling of the set of available units. Moreover, the fairness issue is completely sidestepped, because there is no possible way for one player to draw a stronger hand than the other.
+
+(2) Excitement
+
+Randomness can cause lucky events to occur during gameplay, which can be exciting for players and lead to high levels of player engagement via social media sharing of those exciting moments. Is it possible to achieve a similar player experience without RNG?
+
+I actually believe that the most celebrated occurrences in the history of card game e-sports are not random events, but feats of skill! If you’re into Hearthstone, check out Reynad’s famous Highmane sacrifice from Dreamhack earlier this year, in which he used a spell to kill his own minion in order to trigger a lethal combo. Amaz—one of the most popular Hearthstone streamers—is famous for puzzling his way through incredibly complex board states to achieve decisive victories through skill. Lucky moments are sometimes funny, but at the end of the day, the most memorable stories celebrate skillful players.
+
+[youtube=https://www.youtube.com/watch?v=LZaWyQawYF4&w=640&h=385]
+
+One of our goals in designing Prismata was, through the variety of situations that occur as a result of the random unit pools, allow players to reach situations in which they can display high amounts of skill. Prismata endgames often involve highly tactical decisions in which only a small number of units remain on the table. Players frequently win or lose by just a single point of health. We make an effort to create “I can’t believe that just happened” moments through our design choices in the units themselves, rather than RNG.
+
+[youtube=http://youtu.be/oQpM0bPwNgs&w=640&h=385]
+
+Players of games like StarCraft probably remember videos like Pimpest Plays that show off amazing and clever feats of skill in a game with little to no randomness at all. Prismata sometimes feels very much like a turn-based version of an RTS like StarCraft, and we made a strong effort to design these types of moments into the game by providing interesting mechanics that lead to unusual situations. For example, a key insight was that by making Prismata’s economic units better at protecting attackers, we could encourage games in which both players traded their economies, resulting in situations where the two sides would fight to the death with a final unreplaceable army. Decisions like these have yielded a much higher proportion of Prismata games that feel “truly epic”.
+
+(3) Closer games
+
+Randomness can reduce the skill gap between players. In most card games, an amateur holds a chance to win against a top professional as long as he draws better cards. Is this type of feature useful or necessary?
+
+This feature is crucial for tabletop games like Magic: The Gathering, which are often played among small groups of friends or in small tournaments at a local card shop. Because playgroups are small, players may not easily be able to find opponents of equal skill. Therefore, it’s essential that players of different skill levels can still have enjoyable games, and hence it’s necessary that weaker players have a chance of defeating stronger ones.
+
+In games like Prismata, which have hundreds of players online at any given time, this is no longer necessary as any reasonable matchmaking system should be able to find you an opponent that you can beat 50% of the time. Accordingly, it’s not necessary to use luck as a means to even out the playing field.
+
+(4) Player Psychology
+
+Luck gives players something to blame when they’re losing. Isn’t this a useful feature?
+
+This type of psychological phenomenon is often why bad poker players continue playing poker despite continually losing. By constantly blaming their losses on luck, they are able to rationalize their decision to play again. This is great if you’re a poker website trying to maximize revenue; but is it actually good if you’re a player?
+
+Removing luck confers a number of benefits to the way players feel when they win or lose. Many of our players report that their victories in Prismata feel incredibly satisfying, because players feel that they won because of their own skill, not because of favourable RNG. Losses are learning experiences, because players can analyze their replays to find the exact misplays that led to them ultimately losing the game.
+
+Games like poker are often very hard to improve at, because players often make incorrect decisions and win, or make correct decisions and lose. In Prismata, players improve much more quickly because they always feel the consequences of their mistakes. This faster improvement leads to our players playing the game at a higher level and appreciating it more.
+
+(5) Comebacks
+
+Luck can be used as a tool to engineer comeback mechanisms into games. In card games, players who are behind can often win by getting lucky. Isn’t this desirable?
+
+Early on when designing Prismata, we often got complaints of the form “when I’m behind, there’s nothing I can do to get back into the game.” We thought about adding certain types of comeback mechanisms, but in the end, we did the opposite: we adjusted a few parameters so that players lost even faster when they were behind.
+
+Why did we do this? Well, digging a little deeper, we found that players weren’t seeking comebacks. They simply didn’t want to be dragged along for a long time in an unwinnable position. Games like League of Legends are notorious for this, as teams often play on for 20 minutes or longer in situations where they have an extremely low probability of winning, but are forced to cling on in hopes that their opponents make enough mistakes for them to catch up.
+
+In Prismata, you seldom have to play out a lost position. The game is designed around decisive moments—like a first big breach of the opponent’s defenses—that quickly lead to a position in which one side is the clear victor. The game ends in a fashion that’s very similar to a real-time strategy game like StarCraft. Losing players simply resign once their army has been demolished; they don’t need to wait for the opponent to take out the last lingering units and structures.
+
+(6) Balance
+
+In games with large amounts of luck, balance issues are less exposed. Overpowered cards can simply never be drawn, or can be defeated through good luck. Isn’t it much harder to balance a game like Prismata when there is no randomness whatsoever?
+
+I’m basically going to concede this point. Prismata was really hard to balance. We had to restart over a dozen times before we nailed the perfect starting configuration and unit costs for the base game. Older version of Prismata frequently had issues where certain strategies would dominate, or going first or second carried a huge advantage. Worst of all, in Prismata, if a particular unit was too strong, both players would just spend all their resources trying to get it, resulting in some incredibly boring games. We ended up spending over three years balancing the game, which would be far too great of a time commitment for a modern gaming studio intent on shipping their next product as soon as possible. It took a lot of time and effort.
+
+That said, Prismata’s design has a few tricks up its sleeve that help us when adjusting units for balance. For example, our tech resources (green, red, and blue) all have differing relative values, since the structures that produce them ( Conduit , Blastforge , and Animus ) all cost different amounts. This allows us to have a high degree of granularity in unit pricing, even if the actual prices are all small integers (because, for example, one green is worth about 4/3 of one red).
+
+Additionally, because Prismata is a digital game, we can rebalance units on the fly by simply changing their costs or other properties. Doing so for a game like Magic: The Gathering is impossible after the cards themselves are printed. Moreover, because our users don’t actually own collections of cards in Prismata, we face far less user backlash when we rebalance units compared to a game like Hearthstone, in which a small change to a single card may force users to completely change their decks, often ruining the resources spent collecting cards to build that deck.
+
+Conclusion
+
+At the top of this article, I promised to establish that removing randomness from a card game could actually make it better. It’s clear that players generally dislike random elements in strategy games, and many of the benefits of luck in game design are either overstated, or achievable through other means.
+
+However, in the case of Prismata, a tremendous amount of up-front design work was needed to retain novelty, excitement, and (particularly) balance. This design effort was put forth by us over a period of many years while Prismata was our pet hobby project. It’s unclear if a similar design effort would be feasible for a traditional game development studio. Safer game designs employing luck-based mechanics are likely much faster to develop and converge more quickly to a satisfactory level of balance.
+
+At the very least, we’ve proven that it can be done.
+
+---
+
+About Elyot Grant
+
+A former gold medalist in national competitions in both mathematics and computer science, Elyot has long refused to enjoy anything except video games. Elyot took more pride in winning the Reddit Starcraft Tournament than he did in earning the Computing Research Association's most prestigious research award in North America. Decried for wasting his talents, Elyot founded Lunarch Studios to pursue his true passion.
+
+View all posts by Elyot Grant ->
+
+---

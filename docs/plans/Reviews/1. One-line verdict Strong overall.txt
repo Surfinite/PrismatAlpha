@@ -1,0 +1,107 @@
+1. **One-line verdict**: Strong overall direction (structured data → analysis → narrative), but the plan is overconfident on caching/cost, under-specified on schemas/turn indexing, and needs a tighter grounding+verification loop to reliably hit the “no hallucinated facts” bar.
+
+2. **What’s good**
+   - **Two-stage split (Phase 2 → Phase 3)** is a sensible quality lever: analysis wants structure; narrative wants style. This matches your own live-vs-postgame constraints and the research summary.
+   - **Leaning on existing proven tooling** (`generate_commentary_data.py`, Batch pattern from `discord_knowledge_extractor.py`) is exactly right for a solo dev project. Preserve this “extend, don’t rewrite” bias.
+   - **Intermediate caching of artifacts (Phase 4d)** is a big practical win for iteration. Keeping `data_*.json` and `analysis_*.json` alongside final text will materially speed prompt tuning.
+   - **Programmatic verification (Phase 2c)** is the right instinct. Even if it needs expansion, this is the correct kind of guardrail (cheap, deterministic).
+
+3. **Concerns & risks (ranked)**
+   1. **Prompt caching assumptions are likely wrong / overstated (Phases 3–5, cost estimates).**
+      - Anthropic prompt caching has a **minimum cacheable length**; for **Claude Haiku 4.5 it’s 4096 tokens**. If your “shared prefix” is ~3K (Phase 5c) or your analysis system prompt is ~1.2K (Phase 2a), caching may simply not engage.
+      - Batch processing can take **>5 minutes**; default cache TTL is 5 minutes. If you rely on caching between analysis-batch and narrative-batch, it may expire unless you pay for **1h TTL**.
+      - In-batch concurrency also reduces cache-hit likelihood because a cache entry becomes usable only after a prior request begins processing. Net: the “Batch + caching stacks → $0.70/100 games” might be optimistic.
+   2. **Turn/round indexing ambiguity will poison both verification and narration (Phase 1 schema + all downstream).**
+      - Your example schema uses `"round": 1` plus `"player": 0` inside `"turns"`, but commentary excerpts use “T8”. In Prismata, “round” vs “turn” vs “ply” is easy to mix up. If you don’t standardize a single canonical index, your “no invented turn numbers” checks will be fragile and/or will reject valid output.
+   3. **Unit knowledge lookup (Phase 1b) is brittle and too narrow.**
+      - “Simple text search for unit name headers” will break on formatting changes, ambiguous matches, and substring collisions (e.g., “Drone” inside other words; units with punctuation).
+      - Pulling only from `03-advanced-units.md` misses **base-set units** (always relevant) and misses **concept sections** (Absorb, Chill theory, timing, “changing gears”) that often explain *why* a turning point matters.
+   4. **Verification as written doesn’t cover the most common hallucination surfaces (Phase 2c + Phase 3).**
+      - You verify analysis JSON, but most hallucinations users care about appear in the **final narrative** (invented buys, invented sacrifices, invented breach timing, wrong “power turn” claims, “X identified Y within 30 seconds”, etc.).
+      - Checking “unit names are in the deck” won’t catch false claims like “they bought 3 Engineers on T8” (Engineers exist; the buy count could be wrong).
+   5. **Schema includes fields that may not exist reliably (Phase 1a).**
+      - `time_control`, `time_used`, `time_bank`, `tier`, `abilities` as a clean string—these may not be present or may be hard to compute consistently from replay JSON. If they’re missing for many replays, you’ll either spam nulls or silently degrade quality.
+   6. **Structured outputs integration details are underspecified / possibly mismatched to SDK reality (Phase 2b).**
+      - The plan shows a Python dict of types (`str`, `float`) as “schema”. Anthropic structured outputs expects **JSON Schema** (or Pydantic via SDK helpers). If you stick to “stdlib + anthropic”, you need to be explicit about how you build/validate JSON Schema without adding dependencies.
+   7. **Scope creep in Phase 6 and style modes conflicts with stated scope boundaries.**
+      - You explicitly said “beginner-friendly out of scope,” but Phase 3d adds `--style casual` “for non-expert audience.” That’s a mismatch that will complicate prompts and evaluation.
+
+4. **Suggested changes (actionable)**
+   - **A. Fix the data model first (Phase 1a): add canonical indexing + optionality.**
+     - Add explicit fields:
+       - `ply`: 1..N half-turn index (monotonic)
+       - `round`: 1..R full-round index (if meaningful)
+       - `turn_in_round`: 1 or 2 (or `player_to_act`)
+     - Include `deck_units`: an array of canonical unit names from `mergedDeck` (base + random) for validation.
+     - Make fields **optional** where they depend on C++ mode:
+       - If `--validate-only`: no `eval_*`, no `ai_buys`
+       - If `--eval-only`: `eval_*` present, `ai_*` absent
+       - If `--analyze`: both present
+     - Include a `data_quality` block early:
+       - `has_eval`, `has_ai`, `has_time_data`, `stepper_reliable`, `stepper_applied_pct`, `notes[]`
+   - **B. Replace “unit knowledge grep” with a tiny precomputed index (Phase 1b).**
+     - Build a one-time parser that:
+       - Scans KB markdown files and extracts `(unit_name → snippet)` using header structure (e.g., `^### `) rather than naive substring search.
+       - Normalizes names (trim, casefold, handle punctuation).
+     - Pull from multiple sources:
+       - Always include base-set snippets (from `02-base-set-units.md`).
+       - Conditionally include 1–3 concept snippets (from `01-game-fundamentals.md` / `04-strategy-concepts.md`) based on detected mechanics in the set (e.g., Chill units present ⇒ include “Chill theory”).
+   - **C. Move more “turning point candidate selection” into deterministic code (Phase 2/3).**
+     - Before Stage 1, compute:
+       - top K eval swings (if eval exists)
+       - “burst buy turns” (e.g., count of buys, spend spike, first attacker purchase, first Wall/Forcefield timing)
+       - time-pressure spikes (if time data exists)
+     - Pass these as *candidates* to the analysis model and require it to choose among them, rather than letting it invent.
+   - **D. Add a post-narrative verification + conditional repair loop (Phase 3).**
+     - After narrative generation, programmatically check:
+       - all `T\d+` references within range (using your canonical `ply`/turn index)
+       - winner correctness
+       - units mentioned (hard problem—see note below)
+       - any numeric eval claims, if present, within tolerance
+     - If any check fails, do **one cheap repair call**:
+       - “Here is the commentary. Here are the failed checks and the ground truth. Rewrite only the incorrect sentences; preserve style.”
+       - This keeps cost low because it triggers only on failures.
+     - For unit validation in free prose, reduce ambiguity by **asking the model to format unit names consistently** (e.g., backticks around unit names only when making factual claims: `` `Engineer` ``). That makes regex-based checking feasible without making the whole piece feel mechanical.
+   - **E. Correct the caching plan (Phases 2/5).**
+     - Ensure the cacheable prefix for Haiku 4.5 is **≥4096 tokens** if you want caching to matter.
+     - For batch mode, strongly consider **1-hour TTL** for cache control; default 5-minute TTL is likely too short for many batches.
+     - Update cost estimates to incorporate:
+       - cache writes (5m TTL writes cost more than base input; 1h TTL writes cost even more)
+       - the possibility of low cache-hit rate in batch due to async scheduling
+   - **F. Align scope with flags (Phase 3d).**
+     - Drop or defer `--style casual` if beginner-friendly is out of scope. Keep `analytical` and maybe one “hype” variant since that’s still expert-audience compatible.
+
+5. **Alternatives**
+   - **Single-pass narrative with algorithmic pre-analysis**: Instead of an LLM “analysis stage,” compute phases/turning points heuristically from eval deltas + buy bursts + timing, then do one narrative call. This could cut cost/latency ~40–50% while maintaining grounding. You can still keep the two-stage option as `--quality high` if needed.
+   - **Structured-output narrative as “array of Discord messages”**: You don’t have to constrain prose to make structured outputs useful. You can ask for JSON like `{ "messages": ["...","..."] }` and then postprocess lightly. This can dramatically reduce delimiter/2000-char failures without making the writing robotic.
+   - **Verification as a lightweight LLM judge only on failure**: Keep your deterministic checks, but if something fails in a hard-to-parse way (unit mentions), call Haiku with “extract all factual claims as JSON” and verify those claims against the data.
+
+6. **Additions**
+   - **Long/short game handling (Key Question #5)**:
+     - If `total_rounds <= 10`: target 2–3 Discord messages; prioritize opening + decisive turn.
+     - If `total_rounds >= 30`: force a “chaptered” format (early/mid/late + 3 turning points) and cap per-phase detail.
+   - **Player metadata source-of-truth**:
+     - Your best manual example includes “rated games played” style facts that likely don’t exist in replay JSON. Either:
+       - Add an optional fetch (prismata-stats API) to enrich `players[]`, or
+       - Explicitly instruct the model to *never* mention stats not present in `data_*.json`.
+   - **Robust filename encoding**:
+     - Bake in the existing `+ → _PLUS_`, `@ → _AT_` convention for `data_*.json`, `analysis_*.json`, `commentary_*.txt` so caching and re-runs don’t break on Windows paths.
+   - **Concurrency limits for local Phase 1 in batch mode**:
+     - Parallelize replay fetch/validation safely, but limit concurrent C++ subprocesses to avoid x86 memory pressure.
+
+7. **Removals**
+   - **Remove `tier` from the Phase 1 schema** unless it’s a real field you can derive correctly. Prismata “supply” exists; “tier/rare” is likely invented metadata and will encourage hallucinations.
+   - **Remove `--style casual` for now** (scope mismatch). Add it later when you actually want beginner commentary.
+
+8. **Minor / nits**
+   - Phase 2a says “condensed game rules (~1,200 tokens, subset of `commentary_prompt.md`)” but earlier context says `commentary_prompt.md` is ~2,400 tokens. Be explicit which file is the source of truth and how you keep it in sync.
+   - Your Phase 2b “analysis_schema = { … str, float … }” isn’t a JSON schema. Plan should explicitly state: “we will use Anthropic `output_config.format` JSON Schema” (or SDK `.parse()` with Pydantic if you allow that dependency).
+   - “Do NOT exceed 8K input tokens” is fine as a guardrail, but Haiku supports much larger contexts; consider making this a **soft cap** with a trim strategy rather than a hard abort.
+
+9. **Assumptions you’re making**
+   - Replay JSON reliably contains (or can be used to derive) `time_used`, `time_bank`, and `time_control`. I’m not confident these exist across all replays; you’ll need to confirm in actual replay payloads.
+   - `generate_commentary_data.py` can be safely invoked as a subprocess without significant overhead and already has stable JSON-producing subroutines to reuse (or can be refactored without breaking modes).
+   - Unit headers in `03-advanced-units.md` are consistently formatted such that header-based extraction is feasible (e.g., `### UnitName` blocks). If the KB uses inconsistent formatting, you’ll need a more robust index build step.
+   - The existing manual commentaries’ style can be matched without importing large parts of the full 5,090-line KB, provided you inject the right concept snippets and base-unit notes.
+
+If you want the highest-impact, lowest-effort improvement: **standardize turn indexing + add post-narrative verification+repair**. That directly targets your “>95% factual accuracy” success criterion and will save you from spending weeks tuning prompts only to be derailed by occasional but embarrassing factual slips.

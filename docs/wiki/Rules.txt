@@ -1,0 +1,70 @@
+= Rules =
+
+==Basic rule summary==
+The basic [[rules]] of [[Prismata]] are summarized briefly here:
+*There are five [[resource]]s: {{ticon|gold}}[[gold]], {{ticon|energy}}[[energy]], {{ticon|green}}[[green resource|green]], {{ticon|blue}}[[blue resource|blue]], and {{ticon|red}}[[red resource|red]] used to buy [[unit]]s.
+*Unspent energy, blue resource, and red resource are lost at the end of each round. Gold and green resource carry over between [[turn]]s.
+*Some units act automatically at the start of a turn, while many have click{{ticon|click}} [[Ability|abilities]]. Note that units that use click abilities do not block that turn.
+*{{ticon|attack}}[[Attack]] power, is the sum of the attack of the individual attacking units. It is pooled and fired in a single burst the defending player may assign if his [[Defense]] value is high enough. There is no unit-on-unit combat.
+*{{ticon|blocker}}[[Blocker]]s take damage first. Their total {{ticon|health}}health is the player's [[defense]] for the turn.
+*A player having attack power equal to or greater than the opponent's defense assigns the damage to his opponent's units.
+*Otherwise, the defending player assigns the attacking player's damage to his or her own units.
+*Units that survive the damage heal between turns. But if the opponent has more damage remaining that a unit's health, assigning damage to that unit kills it. It isn't possible to assign a smaller amount.
+*Everything in a turn can be undone. CTRL-Z is one way. The "<" and "<<" buttons on the side of the screen are another way.
+*The game ends when one player has no units left.
+
+There are exceptions to the above rules as noted in [[unit mechanics]]. Summarized very briefly here:
+*{{ticon|buildtime}} [[Build time]]: Takes a certain number of turns to come into play.
+*{{ticon|stamina}} [[Stamina]]: Can only use click ability a limited number of times.
+*{{ticon|lifespan}} [[Lifespan]]: Dies after a set number of turns.
+*{{ticon|fragile}} [[Fragile]]: Does not heal.
+*{{ticon|frontline}} [[Frontline]]: Can be directly attacked.
+*{{ticon|exhaust}} [[Exhaust]]: Is disabled for a time after start-of-turn effect or ability use.
+*{{ticon|prompt}} [[Prompt]]: Unit blocks in the same round it is purchased.
+*{{ticon|chill}} [[Chill]]: Adds chill effect to target until next turn. Targets with chill equal to their health cannot block.
+
+==Comprehensive rules==
+This contains the precise rules of Prismata without any implementation level details (eg. doesn’t mention blockers are blue).
+ 
+===General===
+*Take turns.  The objective is to eliminate your opponent’s units.
+*6 Resources: Gold, Green, Blue, Red, Energy, and Attack Power.  Gold and Green are stored from one turn to the next; others are not saved.
+*There are two phases in each turn: the Defense Phase and the Action Phase.
+
+===Defense Phase===
+*If your opponent ended his turn turn with Attack Power remaining, all of that Attack Power is now converted into damage and you must choose Blocking units in any order until all of the damage has been applied.  For each choice of unit to block, damage is applied to the unit until no more damage is left to apply or the unit dies.  A unit dies if it takes damage equal to its current Health.
+*If a unit does not take lethal damage, that damage expires at the start of the next turn unless that unit has Fragile.
+
+===Action Phase===
+*At the start of the action phase, units with "at the start of your turn" actions perform those actions now.
+*During the action phase, you may buy any number of units if you can pay their costs, and you have supplies of those units available. In addition, you may click any units that can be clicked to perform an action, though you may only click them once.
+*If you have more damage than your opponent's defense, you must click the "overrun defenders" at some point during the action phase to perform a breach. After all of the defenders have been destroyed, you must assign leftover damage to your opponent's units.
+
+===Statuses and keywords===
+*Block - Special status with properties described above.  Also, see MISC.
+*Health - Special status.  Every unit has a predefined amount of Health that unit starts with when you buy it.
+*Prompt - Blocks immediately.
+*N Stamina - This unit may perform its click-action only N times total.
+*Chill +N - Adds N chill to a blocking unit.  A unit chilled at or above its health cannot block (“Frozen”).  Chill expires at the start of any turn.
+*Exhaust N - This unit cannot perform its start-action or perform its click-action for your next N turns, including this one.
+*Buildtime N - This unit cannot have damage applied, perform its start-action, or perform its click-action for your next N turns, including this one.
+*Fragile - Damage applied to this unit permanently reduces its Health. (Displayed as a number next to this status.)
+*Frontline - Your opponent may destroy this unit by clicking it and paying Attack Power equal to this units Health.
+*Lifespan N - This unit loses 1 Lifespan at the start of your turn (before start-actions), and dies at 0 Lifespan.
+*Spell - This unit dies at the end of this turn.
+*Consume - Destroy a ready unit as a cost. You cannot consume units with Buildtime or Exhaust. If a consumed unit is clickable, it will be automatically clicked.
+*Effects phrased as “for each _ you own” only count units without Buildtime or Exhaust.
+
+===Misc===
+*Units with Block that perform their click-action lose Block.
+*You can click units again to toggle between their potential actions (click-action performed versus not.)
+*Units without Buildtime or Prompt are assumed to have Buildtime 1.  Units that are constructed by other units are assumed to have Exhaust 1 (and they don’t have Buildtime.)
+*Units with Prompt cannot perform their click action on the turn they are bought.
+*During a Breach, units with Buildtime cannot be damaged. This restriction is removed if all remaining targets cannot have damage applied (“Overkill”), only during a breach, and only for the purpose of applying damage in this way.
+
+==External links==
+*[https://docs.google.com/document/d/1JX4MHGGZpfRWVQIHlQFQ2cZandeuPbBH59HAOHgj8rc Prismata Rules In Half A Page]
+*[https://docs.google.com/document/d/1YRvCnS3cNDA0-I58W4ZAH_v8rIxtGq4rfu16E91U8ok Comprehensive Rules]
+*[http://blog.prismata.net/2014/08/12/game-prismata-rules/ An Exposition of the Exact Rules of Prismata], a blog post by [[Will Ma]]. ''(August 12th, 2014)''
+
+[[Category:Gameplay]]

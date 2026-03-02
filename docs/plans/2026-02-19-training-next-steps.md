@@ -1,0 +1,434 @@
+# PrismataAI Training Plan — Next 24 Hours & 7 Days
+
+> **Created:** Feb 19, 2026 ~5:00 PM GMT
+> **Status:** FINAL (v3) — incorporates 9 expert reviews + code verification
+> **Context:** Feature branch `feature/watcher-enhancements-v2`
+> **Companion:** `docs/plans/2026-02-19-training-plan-context.md` (standalone context for external reviewers)
+
+---
+
+## Executive Summary
+
+We have **726K games (26.8M records)** locally — 2.2x more data than our best model was trained on. Our current best model (trained on 330K games, 256h/2L) is at **45.3% WR** vs OriginalHardestAI. Data scaling research suggests the full 726K dataset should yield **48-56% WR** — a meaningful improvement, but with diminishing returns. This estimate is intentionally conservative; we have only two data points to extrapolate from.
+
+**The single most impactful action right now is training on the data we already have.** Training costs ~$0-3 per run (free locally, cheap on cloud). The selfplay fleet costs $180/day. We should train first, evaluate, and then decide whether more data or a bigger model is the right next investment.
+
+### Critical Timing Correction (from v1)
+
+The v1 draft estimated training at "9 minutes locally" and "40 minutes on cloud." **These were wrong.** Those estimates came from benchmarks on 100K records, not the full 26.8M dataset. An epoch (full pass over all training data) takes **~30 min on local XPU** and **~10-15 min on NVIDIA L4**. With early stopping, a typical run takes **2-5 hours**, not minutes. This changes the plan significantly — parallelism now matters, and we should start training immediately rather than treating it as a quick task.
+
+---
+
+## Current State Snapshot (Feb 19, 5:00 PM)
+
+| Metric | Value |
+|--------|-------|
+| **Local selfplay data** | 726K games, 26.8M records, 177 GiB |
+| **S3 selfplay data** | 7,804 .bin shards (avg 23 MB each), 177 GiB total |
+| **Best model** | 305K-game 256h/2L — **45.3% WR** (4,032 games vs OriginalHardestAI) |
+| **Best architecture (untested on full data)** | R12_smooth90 (256h/3L, d=0.20, s=0.90) — tested only on 500K records |
+| **Selfplay fleet** | 37 AWS spot + 6 GCP = 43 instances, ~$7.52/hr ($180/day) |
+| **AWS GPU quota** | 8 vCPUs G/VT spot (pending increase, CASE_OPENED Feb 18) |
+| **GCP GPU quota** | 1 GPU globally (GPUS_ALL_REGIONS=1), ~$240 free credit remaining |
+| **Generation rate** | ~37K games/day across fleet |
+
+---
+
+## Verified Training Time Estimates
+
+**These replace all timing from v1.** An "epoch" in `train.py` is a **full pass over all training records** (not a step count). With 26.8M records (90% train split = 24.1M), batch_size=512: **~47,100 batches per epoch.**
+
+| Platform | Per-Epoch Time | Typical Run (5-15 epochs + early stop) | Cost |
+|----------|---------------|---------------------------------------|------|
+| **Local XPU** (Intel Arc B580, nw=4) | ~30 min | **2.5-7.5 hours** | Free |
+| **NVIDIA L4** (g6.2xlarge / GCP g2) | ~10-15 min | **1-4 hours** + 22 min S3 download | $0.40-2.80/hr |
+| **NVIDIA T4** (g4dn.xlarge) | ~15-20 min | **1.5-5 hours** + 22 min download | $0.20-1.00/hr |
+| **CPU only** (Ryzen 7 5700X3D) | ~90 min | **7.5-22 hours** | Free |
+
+**With `--eval-every-steps 5000`:** Evaluation runs on the **full validation set** (2.7M records, ~5,300 batches) every 5,000 training steps — ~2 min on L4, ~6 min on XPU per eval. There are ~9.4 eval cycles per epoch. With patience=25, early stopping triggers after ~2.7 epochs (~80 min on XPU, ~30 min on L4) of no improvement. Typical runs: **1-4 hours on XPU, 0.5-3 hours on L4.**
+
+---
+
+## Key Research Findings
+
+### Data Scaling
+- Our data: 63K games → 26.7% WR, 330K games → 45.3% WR (+18.6pp from 5.2x data)
+- Power-law scaling in Elo space (well-established in AlphaZero/Lc0 literature) suggests **48-56% WR** at 726K games — a wide range reflecting uncertainty from only two data points
+- **Watch for capacity saturation**: if WR barely improves (<48%), the 256h model (~800K params) may be too small for 726K games (~1 parameter per game). Scale to 512h immediately in that case.
+
+### What Churchill's Result Means (and Doesn't)
+Churchill reported 58.8% WR with 500K games, but this was **against a playout AI** (symmetric playouts to game end), not against OriginalHardestAI (Alpha-Beta + Will Score heuristic). OriginalHardestAI is a stronger opponent. **These numbers cannot be directly compared.** Churchill's result is useful as proof that self-play data can produce a strong neural evaluator for Prismata, but not as a numeric target for our WR metric.
+
+### AlphaZero/Lc0 Best Practices
+- **Retrain every 50-100K new games** — we're overdue
+- **Model gating**: new model must beat current best head-to-head (>55% WR in 1,000+ games) before deployment. This is the ONLY gate — absolute WR vs OriginalHardestAI is an aspirational milestone, not a deployment criterion.
+- **Sliding window does NOT apply here**: all our data is generated by the same fixed agent (OriginalHardestAI). There is no quality gradient between older and newer games. Use all available data. Sliding windows become relevant only in iteration 2+ when the generating model changes.
+
+### Compute Selection
+
+**Constraint: No new compute for 24 hours.** We assume current quotas only.
+
+| Resource | Best For | Limitation |
+|----------|---------|-----------|
+| **Local XPU** (Arc B580) | Single runs, no cost | Serial only, ~30 min/epoch |
+| **GCP g2-standard-4** (L4, free credits) | Parallel with local, free | 16GB RAM (OK with streaming), 250GB disk (tight at 177GB data) |
+| **AWS g6.2xlarge** (L4 spot) | Fastest training (~10 min/epoch) | Costs real money, 8 vCPU quota = 1 instance |
+
+**Strategy: Run locally AND on GCP simultaneously.** Local XPU handles one run while GCP L4 handles another — two experiments in parallel for $0 cost. AWS as fallback if GCP disk is too tight.
+
+### Storage & RAM: No Upgrades Needed
+
+- **Storage**: g6.2xlarge has 450GB NVMe (fits 177GB easily). GCP has 250GB (tight — ~53GB free after data + OS). Local has plenty.
+- **RAM**: Streaming mode (`--streaming`) uses ~12GB peak regardless of dataset size. All platforms have ≥16GB. No upgrade needed.
+- **Note**: S3 download time grows linearly with data. Currently ~22 min for 177GB. By Day 7 (~240GB), expect ~30 min. Pre-populated EBS snapshots become attractive if we do many cloud runs.
+
+---
+
+## 24-HOUR PLAN (Feb 19 evening → Feb 20 evening)
+
+### Step 0: Sanity Checks (15 min)
+
+Before launching any training, verify the pipeline:
+
+```bash
+# Confirm local data size
+python -c "import os; base='bin/training/data/selfplay'; total=sum((os.path.getsize(os.path.join(r,f))-68)//7152 for r,_,fs in os.walk(base) for f in fs if f.endswith('.bin') and os.path.getsize(os.path.join(r,f))>68); print(f'{total} records, ~{total//37} games')"
+
+# Confirm train/val split is by game (game_id % 10 == 0 → val)
+# This is hardcoded in train.py:506 — no leakage risk
+
+# Quick smoke test — 2 epochs on 10K records to verify pipeline
+python training/train.py --selfplay-dir bin/training/data/selfplay/ \
+  --value-only --epochs 2 --batch-size 512 --device xpu --streaming \
+  --max-records 10000
+```
+
+### Step 1: Launch Three Training Runs (TONIGHT) ★ CRITICAL
+
+Start all three in parallel where possible. **Train locally first** — it's free and avoids the 22-min S3 download.
+
+**Run A — Baseline retrain (256h/2L, current best config):**
+```bash
+# LOCAL — Intel Arc B580 XPU
+python training/train.py --selfplay-dir bin/training/data/selfplay/ \
+  --value-only --hidden-dim 256 --num-layers 2 --lr 1e-5 \
+  --epochs 10 --patience 25 --batch-size 512 --dropout 0.1 \
+  --label-smooth 0.95 --loss-fn mse --tanh-in-training \
+  --eval-every-steps 5000 --streaming --device xpu --num-workers 4 \
+  training/data training/models/run_A_256h2L
+```
+- **Time: ~2-4 hours** (10 epochs max, early stop likely at 3-7)
+- **Cost: $0**
+
+**Run B — R12 architecture (256h/3L, best hyperparams from sweep):**
+```bash
+# GCP — Free credits, launch in parallel with Run A
+HIDDEN_DIM=256 NUM_LAYERS=3 LR=2e-5 EPOCHS=10 PATIENCE=25 \
+DROPOUT=0.20 LABEL_SMOOTH=0.90 LOSS_FN=mse BATCH_SIZE=512 \
+EVAL_STEPS=5000 LABEL="full726k_R12_256h3L" \
+bash gcp/launch_training.sh
+```
+- **Time: ~1-3 hours** + 22 min download (L4 is faster than XPU)
+- **Cost: $0** (free credits, ~$0.70/hr × 2-4 hr ≈ $1.40-2.80 from $240 credit pool)
+- **Disk check**: 250GB disk − 177GB data − ~20GB OS ≈ 53GB free. Sufficient for checkpoints (~4MB each) and logs. If data has grown past ~200GB by launch time, add `MAX_RECORDS=8000000` to cap at ~80% of dataset.
+
+**Run C — Capacity test (512h/2L, larger model):**
+```bash
+# Start AFTER Run A finishes locally, OR on AWS if GCP is occupied
+python training/train.py --selfplay-dir bin/training/data/selfplay/ \
+  --value-only --hidden-dim 512 --num-layers 2 --lr 1e-5 \
+  --epochs 10 --patience 25 --batch-size 512 --dropout 0.1 \
+  --label-smooth 0.95 --loss-fn mse --tanh-in-training \
+  --eval-every-steps 5000 --streaming --device xpu --num-workers 4 \
+  training/data training/models/run_C_512h2L
+```
+- **Time: ~3-5 hours** (larger model, more compute per batch)
+- **Cost: $0** (local) or ~$1-2 (cloud)
+- **Why proactive, not reactive**: With ~800K params learning from ~726K independent games, the 256h model may be capacity-limited. We can't know without testing. All 7 reviewers agreed this should not wait.
+
+**Parallelism plan:**
+- Run A (local XPU) + Run B (GCP L4): start simultaneously tonight
+- Run C (local XPU): start after Run A finishes (~2-4 hours later)
+- **Runs A+B results:** ~2-4 hours after launch. **Run C result:** ~5-9 hours after launch.
+- **All three results expected by 9-10 AM GMT** if launched by ~midnight. If Run A takes the full 4 hours and Run C the full 5, completion is ~2 AM — well before a morning check.
+
+### Step 2: Reduce Selfplay Fleet (TONIGHT)
+
+**Cut AWS fleet from 37 to 10 instances. Pause GCP selfplay entirely.**
+
+GCP selfplay (6× n2-standard-8) costs ~$56/day from the same $240 credit pool we need for GPU training. Every day of GCP selfplay burns 23% of our remaining credits. Pause GCP selfplay and reserve credits exclusively for training.
+
+```bash
+# Edit watcher_config.json:
+#   selfplay.max_instances → 10 (was 37)
+#   gcp.enabled → false (pause GCP selfplay to preserve credits)
+# Terminate excess AWS instances
+```
+
+| Current | Proposed | Savings |
+|---------|----------|---------|
+| 37 AWS ($5.18/hr) + 6 GCP ($2.34/hr) = $180/day | 10 AWS ($1.40/hr) = $34/day | **$146/day** |
+
+**More aggressive option: Pause ALL selfplay for 12-24 hours.** Since training + evaluation is the bottleneck and we already have 726K games, generating more data doesn't change any decisions in the next 24 hours. Pausing saves $180/day with zero impact on the training pipeline. Restart at reduced level once Day 1 results reveal whether we're data-limited or capacity-limited.
+
+**Rationale:**
+- We have 726K games — 2.2x more than our best model used
+- Training is the bottleneck, not data
+- GCP credits are finite and compete with GPU training — preserve them
+- At 10 AWS instances, we still generate ~8K games/day (pipeline stays warm)
+- The marginal 727,000th game costs the same as the 1st but gives far less value
+
+**Reassess after seeing Day 1 results.** If WR improves significantly with 726K games, more data may not help and we can cut further. If WR is flat (capacity saturation), more data definitely won't help.
+
+### Step 3: Request GPU Quota Increase (5 min admin task)
+
+Check pending request, resubmit if needed:
+```bash
+aws service-quotas list-requested-service-quota-change-history \
+  --service-code ec2 --region eu-north-1 \
+  --query 'RequestedQuotas[?Status!=`APPROVED`]' --output table
+```
+
+Request 16 vCPUs if not already pending:
+```bash
+aws service-quotas request-service-quota-increase \
+  --service-code ec2 --quota-code L-3819A6DF \
+  --desired-value 16 --region eu-north-1
+```
+
+### Step 4: Evaluate Results (Morning, Feb 20)
+
+1. **Compare training metrics** from Runs A, B, C:
+   - Best validation value loss
+   - Best epoch/step
+   - Training time to convergence
+
+2. **Export weights** for the best 2 models:
+   ```bash
+   python training/export_weights.py training/models/run_X_best/best_model.pt \
+     bin/asset/config/neural_weights_runX.bin
+   ```
+
+3. **Launch tournament evaluation** — 8,000+ games per model:
+   ```bash
+   # Use existing c5.2xlarge eval fleet
+   bash aws/launch_tournament.sh
+   ```
+   - 8,000 games gives ±1.1% CI at 50% WR (sufficient to distinguish 2-3pp differences)
+   - Cost: ~$3.36/hr × 4-6 hr = ~$15-20
+
+4. **Decision tree based on results:**
+
+   | Run A WR (256h/2L) | Action |
+   |-------------------|--------|
+   | **< 45%** (regression) | Debug: check data pipeline, verify shard integrity, inspect loss curves |
+   | **45-48%** (flat) | **Capacity saturation confirmed.** Prioritise 512h results (Run C). If Run C also flat, try 512h/3L or investigate data quality. |
+   | **48-52%** (expected) | Good. Compare with Runs B and C. Best architecture moves to Day 2 sweeps. |
+   | **> 52%** (great) | Excellent. Data scaling working. Proceed to hyperparameter sweep on winning architecture. |
+   | **> 56%** (exceptional) | Outstanding. Deploy immediately, begin iteration 2 engineering. |
+
+---
+
+## 7-DAY PLAN (Feb 19 → Feb 26)
+
+### Day 1 (Feb 19-20): Three Baseline Runs ★ CRITICAL
+
+| Task | Time | Cost |
+|------|------|------|
+| Sanity checks | 15 min | Free |
+| Launch Run A (local XPU, 256h/2L) | 2-4 hr | Free |
+| Launch Run B (GCP L4, 256h/3L) | 1-3 hr | Free (credits) |
+| Launch Run C (local XPU after A, 512h/2L) | 3-5 hr | Free |
+| Reduce selfplay fleet to 10 AWS, pause GCP selfplay | 10 min | Saves $146/day |
+| Request GPU quota increase | 5 min | Free |
+| **Runs A+B by 2-4h, Run C by 9-10 AM GMT** | | |
+
+### Day 2 (Feb 20-21): Evaluate & Sweep
+
+| Task | Time | Cost |
+|------|------|------|
+| Compare Runs A/B/C metrics | 30 min | Free |
+| Export best 2 weights | 10 min | Free |
+| Launch tournament eval (8,000 games × 2 models) | 4-6 hr | ~$15-20 |
+| Begin hyperparameter sweep on winning architecture | 4-12 hr | Free (local) or ~$3-5 (GCP) |
+
+**Sweep grid — 2³ factorial (on winning architecture):**
+
+Use `--max-records 2000000` for sweep runs (~30-60 min each on XPU) to keep the grid fast. Full-dataset training reserved for the sweep winner only.
+
+| Run | LR | Dropout | Smoothing |
+|-----|-----|---------|-----------|
+| S1 | 5e-6 | 0.10 | 0.90 |
+| S2 | 2e-5 | 0.10 | 0.90 |
+| S3 | 5e-6 | 0.25 | 0.90 |
+| S4 | 2e-5 | 0.25 | 0.90 |
+| S5 | 5e-6 | 0.10 | 0.95 |
+| S6 | 2e-5 | 0.10 | 0.95 |
+| S7 | 5e-6 | 0.25 | 0.95 |
+| S8 | 2e-5 | 0.25 | 0.95 |
+
+8 runs × 30-60 min each (with `--max-records 2000000`) = **4-8 hours serial** (local), or 2-4 hours with local + GCP parallel. Captures all pairwise interaction effects (e.g., whether optimal dropout depends on LR). Only 2 more runs than the v2 OFAT design. All can be run overnight.
+
+### Day 3 (Feb 21-22): Tournament Eval of Sweep Winners
+
+| Task | Time | Cost |
+|------|------|------|
+| Collect tournament results for A/B/C | Morning | — |
+| Select top 2-3 from sweep by val loss | 15 min | Free |
+| Launch tournament eval (8,000 games × 2-3 models) | 4-8 hr | ~$15-30 |
+| **Capacity decision**: if 512h > 256h, expand sweep to 512h variants | 2-4 hr | Free |
+| Secondary eval: 2nd time control (0.25s, 2s) on champion for robustness | 2-3 hr | ~$5-10 |
+| Benchmark C++ NN inference speed (iteration 2 prep) | 1 hr | Free |
+
+**Inference benchmark** (iteration 2 engineering prep):
+```bash
+# Measure evaluations/sec with current weights
+# This determines whether neural self-play is feasible
+./bin/Prismata_Testing.exe --suggest test_state.json --think-time 5000
+# Compare: how many nodes/sec with neural eval vs playout eval?
+```
+
+### Day 4 (Feb 22-23): Crown a Champion
+
+| Task | Time | Cost |
+|------|------|------|
+| Collect all tournament results | 30 min | Free |
+| Final validation: champion vs 305K model head-to-head, 1,000 games | 1-2 hr | ~$5 |
+| Secondary eval: champion vs weaker AIs (sanity/generalization) | 1-2 hr | ~$5 |
+| Deploy champion weights as `neural_weights.bin` | 10 min | Free |
+| Update CLAUDE.md with all results | 30 min | Free |
+
+**Model gating**: Champion must beat the 305K model head-to-head (>55% WR in 1,000+ games). This is the only hard gate. Absolute WR vs OriginalHardestAI is tracked as a milestone but not a deployment criterion — a model that wins 48% vs OriginalHardestAI but crushes the old model 62-38 head-to-head is strictly better and should be deployed.
+
+### Day 5-6 (Feb 23-25): Iteration 2 Engineering (Prep Only)
+
+**Do NOT start neural self-play data generation yet.** All 7 reviewers agreed this is premature at <55% WR.
+
+| Task | Time | Cost |
+|------|------|------|
+| Design neural self-play AI config in C++ | 2-4 hr | Free |
+| Benchmark: games/min with neural eval vs playout eval | 1 hr | Free |
+| If WR > 55%: pilot 10K games of neural self-play (gated) | 4-8 hr | ~$5 |
+| If WR ≤ 55%: more architecture exploration (384h, 512h/3L) | 4-8 hr | Free |
+| Continue data generation on reduced fleet (10 AWS) | Ongoing | ~$34/day |
+
+**Why wait on iteration 2:**
+- At 50% WR, the neural evaluator is roughly equal to playout. Neural self-play data may not be higher quality.
+- Risk of regression cascade: model trains on its own mistakes, amplifying errors.
+- Engineering work (C++ config, inference speed, gating) should be done in parallel regardless.
+- Target: begin neural self-play at >55% WR with a 10K-game gated pilot.
+
+### Day 7 (Feb 26): Assess & Plan Forward
+
+| Task | Time | Cost |
+|------|------|------|
+| Compile all results (WR progression, val loss, training curves) | 1 hr | Free |
+| If iteration 2 pilot ran: evaluate pilot data quality | 2 hr | Free |
+| Decision: continue current approach or pivot? | 30 min | — |
+| Write up results, update CLAUDE.md and plans | 30 min | Free |
+
+**Success criteria for the week:**
+
+| Level | WR vs OriginalHardestAI | What it means | Next action |
+|-------|------------------------|---------------|-------------|
+| **Regression** | < 45% | Bug in pipeline or data | Debug immediately |
+| **Flat** | 45-48% | Model capacity saturated at 256h | Scale to 512h, explore 3-4 layer models |
+| **Expected** | 48-52% | Data scaling working, diminishing returns kicking in | Continue sweep, consider 512h |
+| **Good** | 52-56% | Strong improvement, approaching parity | Begin iteration 2 engineering seriously |
+| **Excellent** | > 56% | Exceeding expectations | Deploy, start iteration 2 pilot |
+
+---
+
+## Cost Summary
+
+### 24-Hour Costs
+
+| Item | Cost |
+|------|------|
+| Training (Run A + C local, Run B on GCP credits) | **$0** (credit cost: ~$2) |
+| Tournament evaluation (24x c5.2xlarge, 5 hr) | ~$17 |
+| Selfplay fleet (10 AWS, GCP paused) | ~$34 |
+| **Total cash** | **~$51** |
+
+**Savings vs current:** $129/day (from fleet reduction + GCP selfplay pause + local training)
+
+### 7-Day Costs
+
+| Item | Est. Cost |
+|------|-----------|
+| Training runs (~20 runs: local + GCP free credits) | ~$0 cash (~$10-15 credits) |
+| Tournament evaluations (~4 rounds, 8K games each) | ~$60-80 |
+| Selfplay fleet (10 AWS, 7 days) | ~$238 |
+| **Total estimated cash** | **~$300-320** |
+
+### Credit Strategy
+- **GCP ($240 remaining)**: Reserved for GPU training only. Pause GCP selfplay to stop the $56/day credit drain. At ~$2/run for L4 training, $240 covers 100+ runs — far more than needed. Do NOT burn credits on selfplay.
+- **AWS cash**: Reserve for tournament evaluation (c5.2xlarge fleet) and reduced selfplay (10 spot instances = $34/day).
+- **Local XPU**: Primary for most training experiments (free, ~30 min/epoch).
+
+---
+
+## Validation Methodology
+
+For reviewers asking about train/val split and evaluation:
+
+- **Train/val split**: By game, not by record. `game_id % 10 == 0` assigns entire game trajectories (~37 records each) to validation. No cross-game leakage. ~90% train / ~10% val. Hardcoded in `train.py:506`.
+- **Early stopping metric**: Validation value loss (`va_vl`). Patience counter increments each evaluation cycle without improvement. With `--eval-every-steps 5000`, each eval runs the **full val set** (2.7M records, ~5,300 forward-pass batches). This adds ~2 min (L4) or ~6 min (XPU) per eval, ~9.4 evals per epoch. With patience=25, training stops after 25 consecutive evals (~2.7 epochs) without improvement.
+- **Position correlation**: 26.8M records are NOT independent — they're ~37 correlated positions per game from the same trajectory. Effective diversity ≈ 726K independent games. The 256h model has ~800K params for ~726K games — roughly 1:1, which is tight.
+- **Tournament evaluation**: WR vs OriginalHardestAI (Alpha-Beta + Will Score heuristic) is the primary metric. Secondary: head-to-head vs previous champion, vs weaker AIs for generalization.
+
+---
+
+## Risk Register
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|-----------|--------|------------|
+| **Model capacity saturation** (256h too small for 726K games) | Medium-High | High | Run C (512h) proactively on Day 1. If WR flat, scale up immediately. |
+| GPU spot unavailable | Low | Medium | GCP L4 (free credits) or local XPU as fallback |
+| GCP disk too small (250GB, data=177GB, ~53GB free) | Medium | Low | If data >200GB at launch, add `MAX_RECORDS=8000000` to GCP command. Or use AWS g6.2xlarge (450GB NVMe). |
+| GCP credits burned by selfplay fleet | High | High | **Pause GCP selfplay** — 6 instances cost $56/day, draining the $240 credit pool in 4 days. Reserve credits for GPU training only. |
+| Training longer than expected | Medium | Low | Use `--eval-every-steps 5000` for faster feedback; overnight runs are fine |
+| S3 download time grows (~30 min by Day 7) | Low | Low | Pre-populated EBS snapshot if doing many AWS runs |
+| AWS credits exhausted | Medium | Medium | Reduced fleet ($34/day cash), GCP credits reserved for training only |
+| Iteration 2 regression cascade | Medium | High | Don't start until >55% WR; pilot with 10K games; model gating |
+| NN inference too slow for self-play | Medium | High | Benchmark on Day 3 before committing to iteration 2 |
+
+---
+
+## Appendix: What Reviewers Got Wrong (Code-Verified Corrections)
+
+For transparency, these reviewer suggestions were based on the context document alone (they couldn't see the code):
+
+1. **"Train both models in 20 minutes locally"** — Wrong. The 13s/epoch and 5s/epoch figures were from a 100K-record benchmark, not the 26.8M full dataset. Full-dataset training takes hours. Plan corrected.
+
+2. **"Train/val split may have leakage"** — No leakage. Split uses `game_id % 10 == 0` (`train.py:506`), putting all ~37 records from the same game into the same split.
+
+3. **"Consider sliding window of recent 500K games"** — Does not apply. All games are generated by the same fixed agent (OriginalHardestAI). No quality gradient between old and new games. Sliding windows become relevant only in iteration 2+ when the generating model changes.
+
+4. **"Shards are ~7MB each"** — Outdated. Actual average is 23.2 MB (verified from S3 listing). The 7MB figure was from early small runs. 7,804 .bin shards × 23.2 MB = 177 GiB.
+
+5. **"Value target convention unclear"** — Documented: value is from the perspective of the current player to move (+1 = current player wins, -1 = current player loses). Applied consistently in `SelfPlayDataSink.cpp` and `train.py`.
+
+6. **"game_id may not be globally unique — risk of val leakage"** (Review 8) — Handled in code. `load_selfplay.py` offsets game_ids by 1M per source directory to prevent collisions across shards/processes. Even if individual shards start game_id at 0, the loader namespaces them. The `game_id % 10 == 0` split operates on these globally-unique IDs.
+
+7. **"Patience=15 means 15 epochs of tolerance"** (v1 assumption) — **Corrected in v3.** With `--eval-every-steps 5000`, patience counts eval cycles, not epochs. There are ~9.4 eval cycles per epoch, so patience=25 (v3 value) gives ~2.7 epochs of tolerance — appropriate for detecting genuine convergence plateaus without premature termination. The v2 value of 15 was too aggressive (only ~1.6 epochs), especially for the larger 512h model which may converge more slowly.
+
+---
+
+## References
+
+### Data Scaling Research
+- [AlphaZero Neural Scaling and Zipf's Law (Neumann et al., 2024)](https://arxiv.org/abs/2412.11979)
+- [Scaling Scaling Laws with Board Games (Jones, 2021)](https://arxiv.org/abs/2104.03113)
+- [ELF OpenGo (Facebook, 2019)](https://arxiv.org/pdf/1902.04522)
+
+### AlphaZero/Lc0 Implementation
+- [OpenSpiel AlphaZero docs](https://openspiel.readthedocs.io/en/stable/alpha_zero.html)
+- [Leela Chess Zero technical explanation](https://lczero.org/dev/wiki/technical-explanation-of-leela-chess-zero/)
+
+### PyTorch Memory-Mapped Training
+- [Demystify RAM Usage in Multi-Process Data Loaders](https://ppwwyyxx.com/blog/2022/Demystify-RAM-Usage-in-Multiprocess-DataLoader/)
+
+### AWS Instance Storage
+- [EC2 G6 Instance Types](https://aws.amazon.com/ec2/instance-types/g6/)
+- [EC2 G4 Instance Types](https://aws.amazon.com/ec2/instance-types/g4/)

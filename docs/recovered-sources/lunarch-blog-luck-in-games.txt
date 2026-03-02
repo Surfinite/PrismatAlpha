@@ -1,0 +1,235 @@
+# The role of luck in games: Why luck kills strategy games
+# Source: http://blog.lunarchstudios.com/2014/07/15/luck-in-games
+# Words: 4891
+
+The topic of luck in competitive gaming always ruffles a lot of feathers, leading to never-ending complaints and hostility from many different types of gamers: players whining about losses caused entirely by randomness, fans whining about their favourite pros being knocked out of tournaments due to bad luck, and everyone else whining about all the whiners. The subject arises frequently in discussions surrounding card games like Hearthstone, where the issue has become a hotly debated topic in the wake of serious complaints from professional players  concerning the role of randomness in the game.
+
+In developing Prismata —a competitive turn-based strategy game sharing many features with card games—we’ve questioned whether the presence of luck was really worth all the fuss, raging, and drama. Could a game like Hearthstone still be as popular and fun if the element of luck was removed?
+
+Over the years, we’ve talked to many professional gamers and expert game designers, including folks from Hearthstone’s design team , about the role of luck in card games. When asked whether it would be possible to design a card game without luck, they all told us the same thing:
+
+“Bad players will never think they can win, and they will stop playing.”
+
+“Your game can’t thrive if it doesn’t have luck.”
+
+“You'd be fucking crazy to try and make it a commercial success.”
+
+Challenge accepted. I guess we’re fucking crazy.
+
+Of course, it’s no secret that there are many benefits to having elements of luck in competitive games. Randomness can create exciting moments for players, alleviate balance issues, and provide losing players with an excuse to avoid feeling bad about their performance. As a design decision, it has become the de facto standard in card games, copied from one game to another throughout the industry. But are luck-based game mechanics the only method of achieving these goals?
+
+After four years of struggling over this issue, the answer is finally clear: a resounding NO .
+
+The Secret
+
+What took us four years to understand is that luck-based game mechanics are not necessary to achieve excitement, balance, or consolement. All of these objectives are reachable through other means, without the player frustration or toxic community behaviour that inevitably arises in games featuring a high amount of randomness.
+
+In a nutshell, we've concluded that it’s possible to design a compelling competitive game without luck.  Possible . Not easy. Not necessarily doable in a manner consistent with the breakneck pace and intolerance of failure that characterizes much of AAA game development. But possible .
+
+Chess, go, shogi, and checkers have been played for centuries and feature no randomness whatsoever. This means that masters of these games will crush you. Every. Time.
+
+In some sense, this doesn’t sound too surprising. Most of the world’s most famous traditional competitive tabletop games—like chess and go—have fascinated people for centuries despite possessing no luck whatsoever. But it would be naive to assume that their success should translate to the modern-day gaming audience, with their short attention spans and insatiable addiction to novelty. Accordingly, throughout the four-year process of designing Prismata, we encountered many roadblocks in trying to meet our goal of having no randomness in the game whatsoever.
+
+Before discussing those roadblocks, or even our reasons for wanting to avoid luck-based game mechanics in the first place, let’s take a look at different types of luck found in video games, and their effects in games like Hearthstone.
+
+Forms of Luck in Gaming
+
+Most types of uncertainty or variance in competitive gaming fall into one of the following four categories:
+
+(1) Absolute Luck
+
+Examples: coin flips, die rolls, waiting for the result after going all in pre-flop in poker
+
+And we’re all in! No amount of skill can save you now
+
+In games with absolute luck, there comes a point where no amount of skill or knowledge can prevent you from losing. You’re at the mercy of the dice, the cards, or the random number generator (RNG) used in a video game. You have no way of reacting to what happens; you simply win, or lose.
+
+Absolute luck is seldom a wise choice when designing video games, because it often leaves players feeling frustrated and helpless when they become unlucky.
+
+(2) Execution Luck
+
+Examples: basketball shooting, bowling, headshots in first-person shooters
+
+Even the greatest Counter-Strike players can’t make that headshot 100 percent of the time. Unless they’re aim-botting.
+
+Execution luck refers to unavoidable variance in performance due to imperfect skill, such as basketball players who sink only 70-90% of free throws.
+
+Execution luck can have huge effects on player psychology. Players feel bad when they lose 3 consecutive all-in bets in poker due to unlucky river cards. But they can feel much worse when they’re playing a competitive shooter and miss 3 consecutive headshots that they are usually able to make. Execution luck feels different from most other types of luck because players blame themselves when they exhibit short bursts of sub-average performance, even if those bursts are statistically inevitable due to random variations in human performance (a person who makes 80% of their shots will miss three in a row about 1% of the time). Players often question their own skill when this happens, leading to them feeling extremely demotivated (“Am I playing like crap today? Did I get worse at the game? Should I just quit?”). Worst of all, it’s statistically unavoidable. Players will inevitably feel demoralized at some point in all games where execution luck is a huge factor.
+
+For these reasons, designers need to be very careful when incorporating game mechanics that result in heavy penalties for poor execution. It’s important that players are given ample opportunities to demonstrate their skills so that random variations in performance are “averaged out” over the course of a full match.
+
+(3) Yomi Luck (i.e. “mind games”)
+
+Examples: rock-paper-scissors, build order selection in real-time strategy games, move selection in fighting games or pokemon
+
+StarCraft has many rock-paper-scissors situations due to the fog of war. A greedy economic build may yield an advantage against an opponent playing a standard build, but may lose to a rush. However, a rush can fail to an opponent playing standard, leading to a disastrous economic disadvantage. Hence Greedy > Standard > Rush > Greedy. (Of course, this is an oversimplification.)
+
+Yomi  is the Japanese name given to the “mind-reading” skill that allows people to win at games like rock-paper-scissors, in which both players simultaneously select an action. Despite having no true randomness associated with them, these situations exhibit large amounts of variance; no player can win 100% of the time at rock-paper-scissors.
+
+Yomi situations show up often in real-time strategy games. The correct units to build often depend on what the opponent chooses to get, and that information may not be available at all times due to the fog of war and inability to scout the opponent’s base. In fighting games, human reaction time itself creates a natural “fog of war”; you won’t have enough time to counter your opponent’s move if you wait until it animates on the screen; you must predict what your opponent will do in order to counter it.
+
+Games rich in yomi often provide a multitude of options to players: safe plays, risky gambles, all-ins, hard counters, soft counters, and the ability to trade resources for information (for example, by scouting with a worker in StarCraft). The blending of play skill and yomi luck can create a complex web of interaction that rewards experienced players. Many yomi situations allow experts to crush new players by exploiting their natural tendencies or lack of understanding. However, in expert vs expert games where both players have a mastery of the rules and mechanics, yomi situations often devolve into purely arbitrary outcomes that depend highly on luck rather than skill. Nevertheless, this can have some benefits: players feel accomplished when they “outplay” their opponents, even if they simply got lucky.
+
+(4) Soft RNG Luck
+
+Examples: backgammon, most card games
+
+Come on! I need to topdeck that lightning bolt! HEART OF THE CARDS!
+
+RNG stands for “random number generator”. In the context of gaming, RNG refers to any situation in which an outcome is random. Games like Hearthstone have RNG effects every turn when card drawing occurs, as well as randomized in-game effects (such as spells that deal random amounts of damage, or minions that automatically attack a random enemy). However, these RNG effects are soft in that players are given an opportunity to react to the different situations that occur. In theory, better players should be better at planning their turns around the randomness that occurs, so the increased amount of in-game luck should theoretically be counterbalanced by an increase in the skill ceiling of the game itself.
+
+As we'll see, this theory can break down in practice.
+
+How Luck can Fail
+
+To see a key example of where the presence of RNG can have a strongly negative effect on some players’ enjoyment of the game, we shall examine Hearthstone.
+
+As the Hearthstone metagame has become more fully explored, many strong players have become frustrated at the lack of opportunities for skill expression. Unlike in chess—where the best player in the world is a 91% favourite when playing a single match against the 100th-best player—in Hearthstone, the best player is often only a marginal favourite when playing any reasonably good player with a good deck. Gosugamers reports that popular player Tidesoftime , who is currently ranked 4th in the global ELO rating , has won only 63% of his matches. With that win rate, a player will lose a best-of-five series over a quarter of the time, meaning that most tournaments (televised ones in particular) don't have nearly enough games to have a high likelihood of rewarding the most skilled players. Worst of all, unlike in poker—where a talented player will inevitably see a profit from playing millions of hands over the course of his or her career—skilled Hearthstone players have only a few opportunities each year to do well in a meaningful tournament, where winning requires an enormous amount of luck. Being good isn't enough.
+
+Of course, many players insist (rightfully so) that this is how card games typically are—luck is a part of the game. But it's also abundantly clear that at least some fraction of players are very unhappy with the current state of the game.
+
+This week, popular streamer Reynad announced he was taking a break from Hearthstone,  complaining that the game, in its current state, doesn't reward skill enough. Kripparrian—another renowned gaming celebrity who streams Hearthstone regularly—posted a video of his own in the wake of Reynad's announcement, in which he stated the following:
+
+Kripparrian: In Hearthstone, in constructed, at this time, it's pretty much just about draw RNG, and that really dictates who wins the matches.
+
+Gaara, a teammate of Reynad, had similar concerns, which he made clear in a video:
+
+Gaara complains that Hearthstone has too many auto-win  hands and situations where there is little decision making involved. If the opponent gets a good draw and you don’t, there’s often very little you can do.
+
+For those familiar with Hearthstone, one picture says it all:
+
+Against any reasonable opponent, your chances of winning here are likely less than two percent, even though the game has just barely begun.
+
+In the scene above, which we shall refer to as the  awful zoo hand , the player on the bottom has drawn too many high-cost cards. These cards don’t work well together, and none of them can be played during the first few turns of the game anyway. The player on top is in a much stronger position, and is virtually guaranteed victory. All the skillful decision-making in the world cannot save the player on the bottom from losing. These situations are not fun at all, and fairly common with the current set of decks that are most effective in Hearthstone.
+
+Are We Better Off Without Luck?
+
+Mark Rosewater, head designer of Magic: The Gathering, has written extensively  about the different types of RNG effects found in card games, and their effects on player enjoyment. Though he stresses that most players of card games don’t enjoy too much randomness, he also emphasizes several key benefits of RNG: increased surprises and excitement, the ability for losing players to make comebacks, the ability for weaker players to win, and the increase in opportunities for strong players to demonstrate skill by accurately preparing for random events and reacting to them.
+
+We’ll look at several of these points. In each case, the question we’re asking is “can the same effect be obtained without any luck?”
+
+Comebacks
+
+Mark lists a catch-up feature as the fourth entry on his list of ten things every game needs  and describes how the random card draw system in Magic and other card games ensures that players who are behind can always draw a key card required to make a dramatic comeback.
+
+However, I think Mark is missing the bigger picture here (he loves to say “every game needs X”, where X is a feature that Magic has.) Having talked to our players, we've learned that what they truly want is NOT comebacks. They simply want to avoid being dragged along for many turns in an unwinnable position. Comeback mechanics are one way of achieving this, but not the only way.
+
+Let’s go back to our “awful zoo hand” from above. If you’re in this situation, you’re faced with an uncomfortable decision: do you play on, knowing that the chance of winning is likely under 2 percent? Or do you resign, saving yourself some time, but costing yourself a chance to win. Many players choose to play on, unable to resist the urge to eke out every last percentage point of possible winnings. But players who do so seldom have a good experience during the remainder of the game, often just sitting there cursing the RNG gods for dealing them such an awful hand.
+
+Another common example can be found in League of Legends, where teams often play on for 20 minutes or more in situations where they have an extremely low probability of winning, but are forced to cling on in hopes that their opponents make enough mistakes for them to catch up:
+
+This game should have been over 20 minutes ago. Instead, the blue team has been repeatedly battered into the 47th minute of the game.
+
+The key insight is that lack of a comeback mechanic is NOT the problem. Indeed, these games both have comeback mechanics. The problem is that regardless of the strength of the comeback mechanics, there will always be situations where your chance of winning lies in the single digit percentages, and it shouldn’t take 20 minutes for your opponents to close out the game when they have such a monstrous advantage. Your opponent should be able to swiftly terminate you, and the game rules should be designed so that they are strongly incentivized to do so, rather than to play conservatively and torture you for another 20 minutes.
+
+In many games, luck has the opposite effect of facilitating this. In games like League of Legends, fear of bad Execution Luck or Yomi Luck results in teams playing conservatively when they’re ahead, exacerbating the problem that comeback mechanics are meant to solve.
+
+Balance
+
+In a tabletop game like Magic: the Gathering, in which players must physically meet up to play and don’t have the luxury of choosing from hundreds of online opponents, players aren’t always able to find opponents of exactly equal skill. Consequently, it’s important that weaker players stand a chance against stronger ones so that weaker players don’t quit when they have no balanced opponents to play against and get crushed every game. Thus it makes a lot of sense for games like Magic to be balanced so that weaker players can get lucky and win against stronger players.
+
+With modern online matchmaking and rating systems, any player of any game with a sufficiently large audience should be able to quickly find a match against an opponent that they can beat 50% of the time. There’s absolutely no reason to deliberately increase the role of luck in determining who wins. Richard Garfield, one of the creators of Magic, made a similar point in a  talk given at the 2012 Magic Cruise .
+
+Excitement
+
+Random events in card games can be very exciting and have produced some extremely memorable moments like Craig Jones’s famous topdeck of the century  in Magic: the Gathering.The hearthstone subreddit  is filled to the brim with videos displaying amazing instances of RNG completely turning the tide of a game, or yielding funny or ironic results.
+
+However, many of the most popular video clips are not acts of luck. They are acts of skill, like Reynad’s brilliant highmane sacrifice , which won him a key match in a Dreamhack tournament from earlier this year when all hope was lost:
+
+One of the most famous hearthstone plays ever made. No RNG was involved.
+
+You can find many other examples of truly amazing feats of skill in Hearthstone, often yielding clutch victories. Check out some of Amaz's crazy board clears  and lethal combos  if you haven’t seen them already. One thing is obvious: highly skilled plays are just as exciting, if not more exciting, than lucky plays.
+
+Skill
+
+Here, I won’t argue with Mark. It’s certainly true that much of the skill expressed in games like Magic: the Gathering is centered around preparing for, and reacting to, random events. Any Shaman player in Hearthstone will tell you the same thing. Playing well under situations where a lot of random events can occur requires a lot of planning, calculation, and ingenuity.
+
+That said, there is no shortage of skill to be displayed in games that have no randomness at all. In games like chess or StarCraft, players can concretely understand every aspect of the game at incredible depth because of the ability to replay deterministic openings or build orders and study the situations that result. In games like Hearthstone, it’s much harder to argue that a person “made the optimal play”, because merely calculating the percent chance of winning is incredibly complicated in all but the simplest of positions. So randomness can make it harder to obtain satisfying answers to what the optimal move in a particular situation is.
+
+Just Imagine…
+
+Given our understanding of the benefits and drawbacks of luck in card games, let’s perform a thought experiment to see what it might be like if we tried to design a card game in which all of the luck was removed.
+
+Imagine a game like Hearthstone or Magic: the Gathering where there was no draw phase at all; you simply drew your whole deck on the first turn, and could play any card from your deck as if it were in your hand. Let’s call this imaginary game DeckHand. In DeckHand, there are no mulligans, no bad draws, no RNG, and you can “live the dream” every game. You can always play a perfectly optimized (“on curve”) sequence of cards, and you always have access to whichever cards are necessary to deal with whatever your opponent is plotting.
+
+DeckHand. Imagine having a 30-card hand on turn one. What would your dream opening be?
+
+What would DeckHand be like?
+
+If your answer is, “broken as hell”, you’re probably right, but let’s think a bit about how the metagame in DeckHand would play out, supposing that the cards were balanced around the new format, and appropriate steps were taken to ensure that the player going second wouldn’t be too disadvantaged (for example, by providing something similar to Hearthstone’s “coin” card).
+
+We can already predict several problems with DeckHand. Many of them were also issues with Prismata during the early days of its development:
+
+Problem 1: openings
+
+DeckHand players would quickly settle on a few optimal decks, and learn precise opening sequences for each deck. This would lead to an “opening book” like chess, where the best players memorize deep sequences of moves to play in the early stages of the game. Optimal play would depend heavily on huge amounts of study and memorization rather than game knowledge or strategizing. Many players would not find this to be fun.
+
+Problem 2: repetition
+
+There would likely be a few popular decks in DeckHand, and players would quickly learn all of the basic matchups. Without randomness to naturally create variation in each game’s opening sequence of moves, each matchup would proceed quickly and predictably through the first few turns as players “played out the book”. A player of a specific deck in DeckHand might only really ever find themselves in 3 or 4 different situations over the course of all of the early turns in all of their games. This would cause games to get very repetitive. Not fun at all.
+
+Problem 3: balance
+
+In most card games, if your opponent is playing a deck that “counters” your deck and is favoured to win, then despite being an underdog, you seldom have a probability of winning below 25%. Your opponent can always get unlucky with their draws, giving you the opportunity to win despite playing a disfavoured deck. In DeckHand, this would no longer be the case. Your opponent would have complete access to all of the cards that counter your strategy, and you could easily find yourself in situations where your odds of winning are effectively zero if your opponent plays correctly. Many games in DeckHand could simply be decided by which deck you get matched up against. The "automatch RNG" would simply take over as the dominant factor in determining the winner. Definitely not fun.
+
+Solution Step 1: use randomized decks
+
+The problems listed above are inherent to the constructed metagame in any card game, but they are mitigated by random opening hands, which add variety to games, discourage deep memorization of openings, and help boost the win rate of underdog decks. Without random opening hands, we need another trick up our sleeves. The solution is simple: don’t randomize the opening hands, randomize the whole deck! Providing each player with a randomized, but balanced decklist would make each game of DeckHand fresh, with new strategies to uncover in every match. A game that does something similar to this is Dominion , in which players build decks over the course of the game using cards from a randomly generated pile.
+
+Dominion—where the cards you use are different every game. However, unlike in DeckHand, you can still fall victim to bad draws. Better pray to RNGesus.
+
+You might be thinking, “Wait, I thought we wanted to remove luck from the game; why are we adding random decks” You’d have a point, but we’ll address that later.
+
+Solution Step 2: use the same deck for both players
+
+Of course, randomized decks vary greatly in strength, meaning that many games of DeckHand would be unfair if one player’s randomly generated deck was stronger than the other. So for fairness, let’s give both players the same randomly generated deck. Unfortunately, this leads to a further problem: if every match features the same cards on both sides, won’t both players just play identical cards every game? DeckHand won’t be too interesting if every game is a mirror match, which can be common in games like Dominion when experienced players square off.
+
+Solution Step 3: build diversity by forcing players to make tech choices
+
+The three technologies that can be purchased in Prismata. If you want to rush, go red.
+
+This step is a bit harder to explain, but I’ll summarize what we did in Prismata. In Prismata, there are three different technologies that players can invest in. Each unit in the game has different technology requirements, so you can’t buy a unit whenever you want; you have to purchase the prerequisite technologies first. Upon seeing a player invest in a particular technology, the opponent will often react by investing in a different technology to have access to the units that counter those of the first player. This process continues as the two players jockey for position, making their tech investments in response to those of their opponent. This naturally promotes tech diversity, and hence mirror matches are uncommon. We could easily imagine doing something similar for DeckHand, though it might require a non-trivial revamp of the game's economy.
+
+Let’s try DeckHand?
+
+Of course, DeckHand was an imaginary game, and many changes to the cards and abilities would likely be necessary to ensure that everything worked well. We can’t say for sure that DeckHand would be a good game, but it should be conceivable that the key problems induced by removing card draw RNG can be overcome.
+
+So What About Prismata?
+
+Of course, the whole discussion about DeckHand is very much an analogy of some of the struggles we faced in designing Prismata. Prismata is essentially just DeckHand with modified combat rules, and an economy that feels a bit more like a turn-based version of what you’d find in a real-time strategy game. Prismata isn’t completely free of RNG, but the only randomness present lies in the random selection of units available for purchase in each game, and the selection of which player goes first. Once the game begins, there is absolutely no luck involved.
+
+There is one last point that we didn’t address. As I mentioned at the very outset of this article, there was one serious doubt that was much harder to shake:
+
+“Bad players will never think they can win, and they will stop playing.”
+
+Back when Prismata was our pet project and we were still in school, we never intended for it to be a game for “bad players”. We were massively addicted to it and tried quite hard to play well! But before quitting school to work on Prismata full time, we needed to be absolutely sure that players inexperienced with strategy games wouldn’t have a bad time. We did several rounds of user testing, and what we discovered was quite astonishing.
+
+Despite Prismata having no randomness, beginners who lost actually thought they were unlucky.
+
+As it turned out, beginners had not formulated any concrete strategies when deciding which units to buy, and had just chosen some at random. If their units happened to be strong against whatever their opponent chose, they would win. If not, they would lose. And they didn’t blame themselves for losing, because they had just chosen randomly.
+
+The best explanation that I have for this phenomenon is that it exemplifies a fifth  type of luck in games:
+
+(5) Outcome Uncertainty
+
+Examples: strategy games, in which players choose a strategy without knowing whether it will work.
+
+Outcome uncertainty is sometimes called opaqueness luck  as it refers to situations in which the final outcome of a choice is not visible to players, even though it may be deterministic. A quick example would be a contest in which the goal is to guess the closest date to a chosen person's birthday. Such a contest involves no RNG in any sense, but to the participants, the results are essentially random. Opaqueness luck is not unique to beginners; in fact, much of the variance in performance among chess grandmasters can be attributed to it. Strong chess players may make a move thinking, "this is probably good for white", but they seldom know for sure.
+
+As it turns out, opaqueness is the key source of luck in games like Prismata. With a near-infinite number of possible combinations of initial configurations, games of Prismata present limitless opportunities for players to be placed in unfamiliar situations. While still learning the game, beginners often buy the wrong thing and lose. Frequently, they develop a favourite unit as a result of getting lucky with it, and then continually purchase that unit whenever it's available, regardless of whether a unit countering it can be bought by their opponents. Confronted with a loss, they actually tend to blame the RNG for providing their opponent with a counter to their favourite unit.
+
+In any case, I’m now wholeheartedly convinced that strategy game players will never change. Despite our best efforts to make a luck-free game, there will still be threads in which people claim that going second is OP, or whine that the randomly generated card sets are rigged, or complain that there are too many whiners. In the end, such discussions are a healthy part of most strategy game communities, as excuses help protect players' egos. However, we think players are good enough at coming up with excuses on their own, so we've come down firmly against the idea of adding more randomness for its own sake. Instead, our highest priority (on top of creating an enjoyable game) is to provide a quality matchmaking service guaranteeing that our players genuinely have a 50% chance of winning.
+
+That should be enough to keep them happy.
+
+Or so I hope.
+
+---
+
+About Elyot Grant
+
+A former gold medalist in national competitions in both mathematics and computer science, Elyot has long refused to enjoy anything except video games. Elyot took more pride in winning the Reddit Starcraft Tournament than he did in earning the Computing Research Association's most prestigious research award in North America. Decried for wasting his talents, Elyot founded Lunarch Studios to pursue his true passion.
+
+View all posts by Elyot Grant ->
+
+---

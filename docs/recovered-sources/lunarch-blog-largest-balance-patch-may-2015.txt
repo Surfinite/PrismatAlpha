@@ -1,0 +1,124 @@
+# Our Largest Balance Patch Ever
+# Source: blog.lunarchstudios.com/2015/05/23/our-largest-balance-patch-ever/
+# Wayback: https://web.archive.org/web/20200922105255/http://blog.lunarchstudios.com/2015/05/23/our-largest-balance-patch-ever/
+# Retrieved: 2026-02-20
+
+Today at 12 noon EST, we deployed our largest Prismata balance patch thus far. A total of 14 units have received changes. In this article, I’m going to provide an explanation for each change, explaining our thought processes, and what we’ll be looking toward doing with future units and balance changes.
+
+[Image: Militia]
+
+**Militia – health has been increased from 2 health to 4 health.**
+
+This is a simple change that will hopefully make some Militia games a bit more interesting. We found that, while players often bought Militias during the opening to take advantage of their gold-producing ability while the opponent constructed early defenses, Militias had little use in the late game, often being simply worse than Steelsplitters. Now, with higher HP, the decision between Militias and Steelsplitters will be more interesting later in the game.
+
+[Image: Hannibull]
+
+**Hannibull – Cost increased from 9RB to 10RB. HP increased from 6 to 7. Now does 1 damage at the start of the turn, and a 2nd damage when clicked (formerly, it did 0 damage at the start of the turn, and 2 damage when clicked).**
+
+This was the eventual solution we settled upon after the Hannibull problems we discussed in the previous blog article. The goal is to weaken Hannibull’s strength as a rusher by increasing its cost. Simultaneously, Hannibull’s potential value later in the game is now quite a bit higher, on par with units like Chieftain. Hannibull can still be rushed, and Hannibull rushes are actually better at transitioning into sustainable late-game strategies because the unit is quite a bit less “all-in” now.
+
+[Image: Cynestra]
+
+**Cynestra – Cost increased from 11GGGR to 12GGGR.**
+
+When Cynestra was introduced, our design goal was essentially to create a “second Shadowfang”—another unit that was highly cost efficient, but vulnerable to breaching and slightly awkward to construct efficiently and safely. As it turned out, Cynestra, while already a bit weaker than Shadowfang in terms of pure value per unit cost, didn’t result in players being punished enough for constructing it because it didn’t require the tech investment of a double Animus. Openings like a player 2 DD/DDC/CA/Cynestra were actually quite strong in many sets, and getting a lot of green out became essential in almost any blueprint set involving Cynestra. Historically, Cynestra didn’t have this problem because its tech cost was formerly GRRR rather than GGGR, but the change to GGGR was made to make it feel a bit different from Shadowfang. We even considered adding another G to its cost, but in testing, a simple 1 gold nerf seemed adequate. Cynestra should feel a little less like a “must-buy” unit when it’s available, and rushing it will be weaker.
+
+[Image: Tesla Coil]
+
+**Tesla Coil – Cost increased from 10GGB to 12GGB, but comes with 3 Engineers instead of 2 Engineers when bought.**
+
+This change was aimed squarely at rushes like p2 DD/DDC/DB/C+Tesla Coil/D+Tesla Coil, which were incredibly powerful, resistant to counterplay, and reduced gameplay diversity by completely shutting down a lot of other rush builds. Tesla Coil is essentially an overpowered unit whose long-term value is kept in check only by limited Engineer supply, meaning that its overpoweredness really shines during the opening phase of the game when Engineer supply is not relevant. The change essentially forces you to buy an extra Engineer on any turn in which Tesla Coil is purchased, and is actually a buff in some ways, because the additional Engineer does not reduce the total Engineer supply. With this change, we should see fewer aggressive rushes with fast Tesla Coils, and possibly more long-term Tesla Coil play involving 3 or more of them.
+
+[Image: Venge Cannon]
+
+**Venge Cannon – Health increased from 8 to 9.**
+
+Many months ago, we nerfed Venge Cannon in response to the powerful Venge rush popularized by Prismata player Al2718x. Since that nerf, Venge Cannon has felt a little weak late in the game, so we decided to make a tiny buff to Venge Cannon by increasing its HP. This is part of a series of several changes (including those to Militia and Ebb Turbine, along with some upcoming unreleased units) that aim to make breach-proof strategies a bit stronger on average.
+
+[Image: Drake]
+
+**Drake – Cost increased from 16BBB to 17BBB.**
+
+Drake was one of the most p1-favouring units in Prismata, because the opening DD/DDE/DDD/DDDB/WBB(or SBB) leads to p1 being able to comfortably pump Drakes off of 16 Drones. Even though p2 can rush to get the first Drake out a little faster, the second Drake (and threat of 10 burst damage) tended to put p2 in a very uncomfortable position. Drake itself is one of the strongest BBB units in Prismata because the on-click ability, while not being incredibly efficient, often forces the defending player to overdefend against the threat. Consequently, a 1 gold nerf seemed warranted. We considered making a similar 1-gold nerf to Omega Splitter, but Omega Splitter’s defensive ability is substantially less valuable in most games relative to Drake’s burst threat—more in line with a 3-gold difference rather than a 2-gold difference.
+
+[Image: Kinetic Driver]
+
+**Kinetic Driver – Cost of on-click ability reduced from 4 to 3.**
+
+We’re always wary of making “negative abilities” (like Kinetic Driver’s economy disruption) too strong, because they can frustrate the player on the receiving end. So, when creating Kinetic Driver, we intentionally made the original on-click ability fairly weak. The unit has proved to be quite popular and lead to lots of interesting games, so we’re going to try out a small buff to its on-click ability. Please let us know what you think of the change!
+
+[Image: Xaetron]
+
+ 
+
+**Xaetron – Attack weakened and now converts 7 health to 5 Gauss Charges instead of 7 Gauss Charges.**
+
+Internally, Xaetron underwent some huge changes immediately prior to its release (originally it gained 5HP per turn and was even stronger!) Will and I debated between releasing a “7 hp for 7 Gauss Charges” version (the old Xaetron) and an “8 hp for 8 Gauss Charges” version (that would have been a bit slower). Generally when these debates arise, we go with “whichever option is stronger” because we want new units to see a lot of play (and hence try to err on the side of making them strong). As it turned out, the “7 for 7” version was a bit too strong. However, we learned a lot from releasing the “7 for 7” Xaetron. Xaetron is actually an incredibly powerful unit both defensively and offensively, but we found players favouring its offensive potential more (even though using Xaetron offensively is theoretically quite a bit slower), and learned that many players felt that defending with Xaetron was a waste of potential future attack. Consequently, we decided that the best change wasn’t to revert to the “8 for 8” Xaetron, but to actually modify the “1 for 1” attack ratio that Xaetron has essentially had *forever*. This is something quite new for us, but it seems to work quite well! Xaetron should now be much more balanced as an attacked and defender (relative to Energy Matrix, Xaetron costs substantially more, but is immensely more flexible, resistant to chill, resistant to burst, and doesn’t require the support of low HP defenders for granularity).
+
+[Image: Fission Turret]
+
+**Fission Turret – Lifespan increased from 4 to 5. Ability cost reduced from EEEE to EEE, but the ability produces GGG instead of GGGG.**
+
+Fission Turret is meant to be an underpowered unit with a strong ability that is activated late in its lifespan. Problematically, we found that some players never managed to get out enough Engineers to effectively use its ability, and those Engineers sometimes ended up costing too much relative to the value they provided (especially in sets where surplus G didn’t have much of a use). So we’ve made two changes—we strengthened the unit, and we reduced the cost and benefit of the ability. Fission Turret’s ability is a bit weaker in the best case, but stronger in typical cases.
+
+[Image: Ebb Turbine]
+
+**Ebb Turbine – Health increased from 4 to 5. Supply increased from 4 to 10. And now, instead of producing 5E upon click, Ebb Turbine now produces 1 automatically at the start of the turn and 4E upon being clicked.**
+
+Wow. That’s 3 buffs in total. However, each of them is almost inconsequential. Together, these buffs strive to do one thing—make Ebb Turbine more playable in breach-proof strategies. Ebb Turbine will be harder for your opponents to kill and more valuable late in the game when Drone supplies are running low, so you’ll be able to include them more often in strategies where you buy few or no Walls.
+
+[Image: The Wincer]
+
+**The Wincer – Cost decreased from 10GBBR to 9GBBR.**
+
+Wincer has been through a whirlwind of changes lately, beginning at 8GBRR, then going to 9GBRR, 10GBBR, and now finally ending up at 9GBBR. Hopefully this will be the last change for a while! The Wincer is a very extreme unit—the biggest example of burst damage in Prismata. This makes it quite resistant to all of our usual mathy methods of evaluating it, so we’re mostly just making adjustments based on what kind of stats we’re seeing in the wild. 10GBBR seemed a little weak, so consider this a small nudge in the opposite direction of previous nerfs.
+
+[Image: Vai Mauronax]
+
+**Vai Mauronax – Cost decreased from 15BRRR to 14BRRR, value of Chill ability increased from 6 to 7.**
+
+This is an example of the reverse of our usual trend of erring on the side of making new units strong. Vai Mauronax was intentionally made a little bit weak because of freeze being a bit strong at the moment. It seems that this was unnecessary, so we’re buffing the unit. With the ability to Chill for 7, Vai gains the ability to freeze Chieftains, Defense Grids, and the new Hannibull.
+
+[Image: Resophore]
+
+**Resophore – Build time increased from 1 to 6, and cost decreased from 10GG to 1RG.**
+
+This change probably required more hours of playtesting than most of the other changes in this list combined. There’s a long story behind this change, and Resophore in general. The unit was originally designed by Will as sort of a “joke unit”, hence why it ended up being a part of our “April fools” collection from April 1st this year. However, it led to a lot of really interesting and promising gameplay, so we decided to release the unit. Unfortunately, after a number of players tinkered with the unit and its build orders, Resophore started to feel a bit stale and “solved”. Consequently, we decided to go back to the drawing board and reshape the unit into something more dynamic and interesting, while keeping the idea of Forcefield Resonance—dealing one damage per Forcefield owned at the start of the turn.
+
+The core problem is this: Resophore’s ability doesn’t really combo with any other units in Prismata, so in a lot of Resophore games, it’s either optimal to not get Resophore at, or to get *Resophores only* (along with Drones, Engineers, Conduits, and Forcefields). Even Gauss Cannons and other economic units like Vivid Drones aren’t really favoured in Resophore games (you’d rather make Forcefields). This creates several problems:
+
+- Whether or not Resophore is good is very 1-dimensional—Resophore simply gets worse as stronger units show up alongside it, because no units really make Resophore itself stronger.
+
+- When Resophore is good, the game reduces to a [base set only + Resophore] mirror, which is still very complex, but probably solveable with a lot of effort, and ultimately not that interesting.
+
+- It’s rare for games to be close when one players gets a Resophore and the other player doesn’t; victory simply depends on whether the non-Resophore player has access to a sufficiently strong build to counter the Resophore.
+
+We saw 2 sensible solutions to these problems. The first idea was to add other technologies (blues and reds) to Resophore’s cost, so that units other than Resophore + Drones, Engineers, Conduits, and Forcefields would get bought in Resophore builds. However, this alone doesn’t do much, because even if reds and blues become “free resources” that would otherwise be completely wasted, Forcefields are so efficient that other attackers just don’t make sense to buy. (For example, with a Resophore in play, Forcefields are much better value than Tarsiers, even if those Tarsiers cost 4 instead of 4R).
+
+The second solution was to increase Resophore’s build time so that players had to essentially “play a game of Prismata” before the Resophore itself becomes available. This ended up achieving the effect that we wanted, but balancing it was tricky.
+
+A number of specific things were tried. We spent a long time attempting to emply costs like 4BG with a build time of 4. However, in these circumstances, the optimal Resophore build was still to simply make a Resophore and spam Drones and Forcefields (plus the occasional Wall for defense), and we found ourselves able to completely solve a number of Resophore games. Eventually, we decided to add Red to the cost and go with an even longer build time, so that Tarsiers and other red attackers would see some play before the Forcefield spam started. We tried an RGB cost, but found the unit to be too difficult to access, so we went with a simpler 2-tech cost of 1RG.
+
+The new Resophore’s strength no longer exists in a vacuum—Resophore builds will now depend much more heavily on the presence of other supporting units. With this new Resophore, the decision of when to stop buying other attackers and switch into Drones, Conduits, and Forcefields is actually a very complex and nuanced decision, and I believe it will allow strong players to exhibit a great amount of skill. We’re looking forward to seeing some great games with it!
+
+A couple final notes:
+
+- If this version of Resophore works out and ends up sticking, we’ll probably make some modifications to the art to help indicate its “redness”.
+
+- Even if it doesn’t work out and we decide to remove the unit from rotation, I promise that you’ll still get a really cool single player mission featuring it. 😉
+
+[Image: Corpus]
+
+**Corpus – Cost increased from 9RRR to 10RRR.**
+
+This is another case of Will and I not really being sure whether it should have been 9RRR or 10RRR in the first place, and us choosing to default to the stronger option. As it turned out, Corpus + Shadowfang rushes were extremely strong (possibly broken), so a nerf to 10RRR was warranted.
+
+ 
+
+## And that’s all for now!
+
+We had a number of other changes on the table, but many of them just didn’t work out. Expect to see more new units in the coming months, including some really strange economic units, and a few units that will help with breachproof strategies. We’ll be keeping an eye on all of our rebalanced units to see how they perform after these modifications.
+
+As always, if you were hoping for a change that we didn’t yet make, or thing there’s something else we should modify, please let us know (there is already a reddit post live, feel free to leave comments there!)
+
+One final news update: **Embargoes** have been added internally and will be deployed next week as soon as they pass our testing, so if there’s something you wish we had nerfed, you’ll soon have the option of choosing to see it less in your Arena matches.

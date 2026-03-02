@@ -1,0 +1,235 @@
+{
+  "feature_version": 2,
+  "state_dim": 1785,
+  "num_units": 161,
+  "features_per_unit": 11,
+  "num_global_features": 14,
+  "policy_dim": 161,
+  "unit_index_hash": "2ec440f25ef669b001dceb0ae5bd5c52fbc22d4dd7e01b2acfbbedebc1f6cda1",
+  "feature_layout": [
+    {
+      "name": "per_unit_p0_ready",
+      "start_idx": "u*11 + 0",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 0 count of this unit type in ready state"
+    },
+    {
+      "name": "per_unit_p0_exhausted",
+      "start_idx": "u*11 + 1",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 0 count of this unit type in exhausted state"
+    },
+    {
+      "name": "per_unit_p0_constructing",
+      "start_idx": "u*11 + 2",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 0 count of this unit type under construction"
+    },
+    {
+      "name": "per_unit_p0_blocking",
+      "start_idx": "u*11 + 3",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 0 count of this unit type assigned as blocker"
+    },
+    {
+      "name": "per_unit_p1_ready",
+      "start_idx": "u*11 + 4",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 1 count of this unit type in ready state"
+    },
+    {
+      "name": "per_unit_p1_exhausted",
+      "start_idx": "u*11 + 5",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 1 count of this unit type in exhausted state"
+    },
+    {
+      "name": "per_unit_p1_constructing",
+      "start_idx": "u*11 + 6",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 1 count of this unit type under construction"
+    },
+    {
+      "name": "per_unit_p1_blocking",
+      "start_idx": "u*11 + 7",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 1 count of this unit type assigned as blocker"
+    },
+    {
+      "name": "per_unit_p0_supply",
+      "start_idx": "u*11 + 8",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 0 remaining supply of this unit type"
+    },
+    {
+      "name": "per_unit_p1_supply",
+      "start_idx": "u*11 + 9",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "raw_count",
+      "description": "Player 1 remaining supply of this unit type"
+    },
+    {
+      "name": "per_unit_in_card_set",
+      "start_idx": "u*11 + 10",
+      "size": 1,
+      "per_unit": true,
+      "normalization": "binary",
+      "description": "1.0 if this unit type is buyable in this game, 0.0 otherwise"
+    },
+    {
+      "name": "p0_gold",
+      "start_idx": 1771,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 20,
+      "description": "Player 0 current gold resource"
+    },
+    {
+      "name": "p0_blue",
+      "start_idx": 1772,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 5,
+      "description": "Player 0 current blue resource"
+    },
+    {
+      "name": "p0_red",
+      "start_idx": 1773,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 5,
+      "description": "Player 0 current red resource"
+    },
+    {
+      "name": "p0_green",
+      "start_idx": 1774,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 15,
+      "description": "Player 0 current green resource"
+    },
+    {
+      "name": "p0_energy",
+      "start_idx": 1775,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 10,
+      "description": "Player 0 current energy resource"
+    },
+    {
+      "name": "p0_attack",
+      "start_idx": 1776,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 25,
+      "description": "Player 0 current attack value"
+    },
+    {
+      "name": "p1_gold",
+      "start_idx": 1777,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 20,
+      "description": "Player 1 current gold resource"
+    },
+    {
+      "name": "p1_blue",
+      "start_idx": 1778,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 5,
+      "description": "Player 1 current blue resource"
+    },
+    {
+      "name": "p1_red",
+      "start_idx": 1779,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 5,
+      "description": "Player 1 current red resource"
+    },
+    {
+      "name": "p1_green",
+      "start_idx": 1780,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 15,
+      "description": "Player 1 current green resource"
+    },
+    {
+      "name": "p1_energy",
+      "start_idx": 1781,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 10,
+      "description": "Player 1 current energy resource"
+    },
+    {
+      "name": "p1_attack",
+      "start_idx": 1782,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 25,
+      "description": "Player 1 current attack value"
+    },
+    {
+      "name": "turn_number",
+      "start_idx": 1783,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "clamp_divide",
+      "cap": 30,
+      "description": "Current turn number (per player-turn)"
+    },
+    {
+      "name": "active_player",
+      "start_idx": 1784,
+      "size": 1,
+      "per_unit": false,
+      "normalization": "raw",
+      "description": "Whose turn it is: 0 = Player 0, 1 = Player 1"
+    }
+  ],
+  "global_normalization_caps": {
+    "gold": 20,
+    "blue": 5,
+    "red": 5,
+    "green": 15,
+    "energy": 10,
+    "attack": 25,
+    "turn_number": 30
+  },
+  "pov_convention": "absolute",
+  "value_convention": "active_player_perspective"
+}

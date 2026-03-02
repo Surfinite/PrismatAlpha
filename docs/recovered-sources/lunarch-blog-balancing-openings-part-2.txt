@@ -1,0 +1,209 @@
+# Balancing Prismata Openings Through Unit Design - part 2: Tempo and Initiative
+# Source: blog.lunarchstudios.com/2015/05/27/balancing-prismata-openings-part-2/
+# Wayback: https://web.archive.org/web/20191122020746/http://blog.lunarchstudios.com/2015/05/27/balancing-prismata-openings-part-2/
+# Retrieved: 2026-02-20
+
+Hey guys!
+
+A quick news update before we get on with the rest of today’s article: in celebration of our new balance patch, we’ve posted a Kickstarter update highlighting some of our recent accomplishments and previewing a few more new skins. If you haven’t yet claimed your supporter badge, instructions are provided there!
+[Image: LP bloodranger color]
+
+Did you know that blog articles containing pictures are 82% more likely to be read and shared, and that 63% of statistics are actually made up on the spot?
+
+Today, we’re going to be continuing our discussion on how Prismata openings influence our decisions regarding unit balance. Last week, we discussed how our goal in designing each Prismata unit is to find the best, most balanced, and most interesting version of that unit, and showed how specific opening timings can create design challenges because certain unit designs can favour certain players or certain strategies too much.
+
+Like last time, I’ll be sharing a few pages from our developer-exclusive *secret opening book*. To understand how to analyze some of the rushes and timings that exist in these openings, we first need to discuss two important strategy game concepts: Tempo and Initiative.
+
+ 
+
+## Tempo and initiative in Prismata
+
+You may have heard of concepts like *initiative* and* tempo *when studying traditional games like chess, strategy games like StarCraft, or card games like Magic and Hearthstone (these topics are so vital to overall strategy that they’ve even got their own Wikipedia pages!) In a game like chess, the player with the *initiative* is the player who can make the stronger threats, forcing the opponent to make defensive or reactive plays rather than counterattacking. *Tempo* (a term used to avoid confusion with “time”, which might refer to the actual time remaining on a player’s clock) is a concept that exists in any strategy game where progress has value—players who can use time efficiently (or force their opponent to use time inefficiently) can effectively “generate a tempo advantage” by making more progress than their opponent in the same number of moves (or same amount of real time, in the case of RTS games). In chess, a player can sometimes “gain a tempo” (get one move ahead in development) by giving up a pawn, making a threat, or otherwise forcing their opponent to make inefficient moves or repeatedly move the same pieces. In collectible card games, players aim to “generate tempo” by making efficient use of their mana and limiting the options of their opponents.
+
+Tempo and initiative both play a strong role in Prismata strategy, and the two concepts are always kept at the forefront of our minds when optimizing the design of Prismata units for balance. Before we get to that, however, I want to give a quick overview of how tempo and initiative are relevant in Prismata.
+
+ 
+
+### **Initiative**
+
+*Initiative *is something that exists in almost every Prismata game. If you construct the first attacker, and your opponent is forced to spend their resources building a Wall instead of an attacker of their own, you’ve “got the initiative”. Having the initiative allows you to determine the pace of the game; by pressuring your opponent, you can control how big your opponent can grow their economy and you can sometimes prevent them from accessing important techs that might thwart your plans. By rushing out multiple early Scorchillas or Tesla Coils, you can even force your opponent to commit substantial resources to defending before they have the opportunity to build up their own attacking forces.
+
+> 
+
+**When you have the initiative, you have the ability to force your opponent to make defensive and reactive plays.**
+
+You don’t even have to build attackers to develop an initiative in Prismata; sometimes, just threatening to build them is enough. If you’ve got enough resources stored up to build a Tia Thurnax, your opponent might be forced to play defensively even if you never build it!
+
+Simply threatening to buy Tia Thurnax can provide a source of initiative.
+
+ 
+
+The initiative is valuable in most Prismata games, but it comes at a cost. In terms of their raw value and price, attackers are designed to be more efficient than workers and defenders in the long run. However, you need to build up a sufficiently large attack before you reap the rewards of your investment. There are two reasons for this:
+
+- The initial Engineers that your opponent begins the game with can provide a “home base advantage”, effectively allowing them to defend against your first few offensive blows without committing any of their resources to defense.
+
+- Walls and other absorbing units can render the first few attacks of your early units almost entirely wasted. If larger defenders like Energy Matrix or Centurion are present, this effect is even further amplified.
+
+By taking the initiative and building attacking units before your opponent, you generally have to make due with a smaller economy or tech level. If you take the initiative too early (e.g. by building an Animus on the first turn and spamming as many Tarsiers as you can), then your small economy may never produce enough attackers to provide a good return on your investment, and you’ll lose. However, as both players grow their economies, it becomes increasingly beneficial to seize the initiative. To see why, consider the following:
+
+- Drones generate value as soon as you buy them.
+
+- Attackers only generate value once you have enough of them to start killing stuff (and get “over the hump” of your opponent’s first Wall).
+
+- As economy sizes grow and both players become capable of producing more attackers per turn, the amount of time (tempo) needed to get over this “hump” decreases.
+
+- Conclusion: seizing the initiative gets more and more valuable as the game progresses.
+
+Tesla Coil was recently rebalanced, its cost increasing from 10GGB to 12GGB, with 3 Engineers being created upon construction instead of 2. This was largely to reduce the value of the lead in initiative that players would obtain by getting 2 of them quickly.
+
+Units that threaten a lot of sudden damage, like Shadowfangs, Electrovores, and Tesla Coils, can provide a strong burst of initiative, accelerating the game (and making it correct to purchase fewer Drones). Conversely, large absorbing defenders like Energy Matrix often lead to games where it’s correct to go for a larger economy, because more attackers are required to get “over the hump” before the defender starts losing units. The decision of “when should I buy my first attacker” is often incredibly difficult in Prismata, as it depends heavily on the availability of fast attackers and powerful defenders, as well as the types of tech available to you and your opponent. More on that topic next week.
+
+ 
+
+### **Tempo**
+
+People often use the terms “tempo” and “initiative” interchangeably, but they’re quite distinct concepts. A good way to understand the concept of tempo in Prismata is via analogy with chess—another turn-based game. In chess lingo, the term “tempo” is a countable noun used in a quantified sense: if you allow your opponent to freely make two moves in a row, you would have “lost a tempo” by falling one move behind in your development. A lost tempo in the opening is typically seen as being worth about a third of a pawn in value, though this can vary depending on other factors in a given position. Playing as white, you automatically start the game with an advantage of half a tempo (if you “passed” on your first move, you would lose one tempo and switch from being half a tempo ahead to half a tempo behind). Tempo can often be a source of initiative and tempo advantages translate into statistically significant increases in win percentage, as exemplified by white’s winrate in chess being several percentage points above black’s (a number of studies on the subject are linked here.)
+
+In Prismata, one whole turn is much too coarse to use as a metric for determining tempo advantage (passing a whole turn during the opening phases of a Prismata game would translate into a deficit so large that even the strongest Prismata players would likely not be able to overcome it against any competent opponent.) The tempo gains and losses seen in a typical game occur at a much more granular level. As an example, leaving back one Drone as player 2 during your first turn could be seen as giving up about 1/7th of a move worth of tempo (though some may argue that 1/10th is a more accurate number than 1/7th, since you’d be starting your second turn with 9 available gold instead of 10.) Even this—a 1-gold difference—is a fairly large amount; enough to shift a player’s win percentage by several points.
+
+Holding back Drones during the opening is one method of playing handicap games in Prismata. The more Drones you hold back, the more tempo you’re giving up.
+
+To understand how to quantify differences in tempo, think of a game of Prismata as a race where you and your opponent each take a single step forward each turn, aiming to be the first to cross some unforeseen finish line. It’s not a perfect analogy, but it’s fairly accurate during the opening phases of the game. Initially, player 1 is half a step behind in the race, but is given the chance to take the first step. As you and your opponent take turns building up your economies and purchasing your initial tech, you each step further forward than your opponent stepped during their last turn: at the beginning of your turns, you typically have fewer units than your opponent, but in spending one turn worth of resources, your army size surges ahead, and you leapfrog over your opponent’s army size, ending the turn with more units than your opponent. Your opponent then begins their turn with fewer units than you, and the cycle continues, each of you taking a step forward during your turn, ending up half a step ahead of where your opponent just was.
+
+Hence, at the end of each turn during the opening, you’ll have an advantage in army size. The magnitude of this advantage will typically be about half of what you can produce in a turn.
+
+If your opponent handicaps themselves by leaving a Drone back during their first turn, the effect will be the following: *your end-of-turn advantage will be greater than your opponent’s.**** ***In other words, at the end of your turns, you’ll be more than a half-step ahead of your opponent, who will be less than a half-step ahead of you. This is precisely the definition of a tempo lead:
+
+> 
+
+**When your end-of-turn army size advantage is greater than your opponent’s, you’re ahead in tempo.**
+
+Of course, there are many complications, and even determining who has a tempo lead can sometimes be difficult. There are different metrics to use (start-of-turn army size also works), and stored resources are complicated to account for correctly (storing resources is usually slightly less efficient than spending them, but stored resources can be more valuable than spent ones if they provide additional options in future turns).
+
+Generally speaking, *having more stuff* is a good thing in Prismata, and being ahead in tempo is, for most purposes, equivalent to being ahead in *stuff*.
+
+Units like Flame Animus are highly efficient for their cost, and if you can incorporate them into your builds, they can generate tempo advantages.
+
+There are many ways to generate a tempo lead in Prismata, but a core principle is simply “be less wasteful than your opponent”. One of the key ways in which beginners often fall behind in tempo is simply by wasting resources. Unspent red and blue resources contribute inefficiency to your turns, causing your “forward steps” to be smaller. Leaving back Drones and attackers unnecessarily has a similar effect. On the other hand, hyper-efficient resource-producing units like Flame Animus and Gaussite Symbiote can produce tempo leads if you can manage to integrate them into your tech-construction plans.
+
+This guy is a master of value and tempo. Fun fact: he’s also the unit that players are most likely to buy if he shows up in their random set.
+
+Doomed Drone is another favourite tempo-gainer. Being so cheap, it’s easy to fit Doomed Drone into many builds, allowing you to squeeze out an extra worker in situations where you’d otherwise need to bank leftover resources.
+
+If you buy Zemora and your opponent doesn’t, prepare to be at a huge tempo disadvantage for 6 turns.
+
+Units like Centrifuge and Zemora Voidbringer force you to pay up front for benefits that don’t arrive until several turns later. When you pay for a Zemora Voidbringer, those resources are effectively gone for six turns; you’re providing your opponent with a massive (but temporary) tempo advantage in hopes that you can later surge into the lead when your Zemora arrives. These types of dynamic tempo swings make for some highly entertaining games, so expect to see more units with longer build times in the future.
+
+ 
+
+## How tempo and initiative influence unit balance
+
+Let’s consider Scorchilla for a moment. Many months ago, Scorchilla had a price of 7RG and a build time of 1. Now he’s got a price of 5RG and a build time of 2. Why did we make the change?
+
+Scorchilla used to cost 7RG, but it could be constructed in one turn.
+
+That change was aimed at one specific opening. At a cost of 7RG, player two had an incredibly strong Scorchilla rush, which went as follows:
+
+1) .. DD
+
+2) .. DDC
+
+3) .. DA
+
+4) .. 2xScorchilla
+
+This rush yielded a huge initiative swing on turn 5, with 6 damage threatened. Moreover, it’s a strong tempo play, with very efficient resource usage and no waste of any kind, since it can easily be followed up with more Scorchillas, Rhinos, and other units that efficiently consume the red and green resources generated in subsequent turns. Before the change, Scorchilla was the most player-2-favouring unit in Prismata at the time, with over 57% of ranked games going to player 2 whenever Scorchilla was present.
+
+Strangely enough, the new 5RG Scorchilla isn’t much weaker in terms of its overall value. The 2-gold decrease in price is pretty fair as compensation for the 1-turn increase in build time. However, the above player 2 Scorchilla rush no longer provides nearly as much of a lead in tempo or initiative, so it’s much weaker. Instead, if player 2 wants to threaten 6 damage on turn 5, they have to give up a much larger amount of their economy to obtain the same initiative, by executing a build like the following:
+
+1) .. DC
+
+2) .. A
+
+3) .. 2xScorchilla
+
+This build is not nearly as strong as the old Scorchilla rush, though it can still be playable in some situations (its success likely depends on the presence of other strong red and red-green units to provide additional support for the rush).
+
+As a result of our changes to Scorchilla, the player 2 winrate advantage completely disappeared (as did the massive pile of complaints building up in our inbox). Lesson learned: units that produce big swings in initiative need to be priced very carefully to ensure that players don’t have access to timings that are too strong. Especially among lower ranked players who are less skilled at planning against builds like the old 7RG Scorchilla rush, tempo and initiative together can be completely game-winning.
+
+ 
+
+## Something to think about
+
+This whole discussion of tempo and initiative is really just to prepare you for next week’s article, which will delve into the nitty-gritty details of opening balance and rush timings. To whet your appetite, I’m going to give you something to think about concerning a few openings from our *secret opening book*. They all involve the biggest blue attacker in the game—Odin.
+
+Odin is another source of a huge initiative swing. The turn after you buy him, you can potentially attack for up to 7 points of damage!
+
+**Question: Say you’re playing a Prismata game involving Odin. Which of the following openings is the strongest (and what does the answer depend on?)**
+
+ 
+
+**a) Player 2 turn 5 Odin**
+
+1) .. DD (storing 1 gold)
+
+2) .. DD (storing 4)
+
+3) .. DBB (storing 2)
+
+4) .. B (storing 9)
+
+5) .. Odin
+
+ 
+
+**b) Player 1 turn 6 Odin**
+
+1) DD
+
+2) DDE
+
+3) DDD (storing 1)
+
+4) DDDB
+
+5) BB (storing 6)
+
+6) Odin
+
+ 
+
+**c) Player 2 turn 6 Odin**
+
+1) .. DD (storing 1)
+
+2) .. DDE (storing 2)
+
+3) .. DDD (storing 4)
+
+4) .. DDDB (storing 4)
+
+5) .. DDDBB (storing 2)
+
+6) .. Odin
+
+ 
+
+**d) Player 1 turn 7 Odin**
+
+1) DD
+
+2) DDE
+
+3) DDD (storing 1)
+
+4) DDDB
+
+5) DDDS (storing 1)
+
+6) DSBB (storing 1)
+
+7) Odin
+
+ 
+
+**e) None of the above**
+
+ 
+
+The answer will be revealed next week! See you then!

@@ -1,0 +1,109 @@
+# Shalev's Rule in Prismata
+# Source: http://blog.lunarchstudios.com/2015/10/21/shalevs-rule-in-prismata
+# Words: 2220
+
+Hi everyone!
+
+First, a small item:  We have a brand new  Prismata unit balance survey  available. If you're interested in providing feedback on the latest Prismata unit balance changes, we'd really appreciate it! It should only take about 5-10 minutes, though you could spend more time on it if you want.
+
+On with today's topic: I figured it was about time that I explain one of the design concepts that has existed in Prismata since very early on in its development—the so-called "Shalev's Rule". There have been a number of questions posted on the topic (such as this one ) and there's actually quite a bit of misinformation floating around on the definitions involved. So I'm here to set the record straight, and explain a little about why the design rule exists, and how it influences our decisions in creating new Prismata units.
+
+Truth be told, we've never really discussed Shalev's Rule much in public. Public knowledge has mostly leaked out through small mentionings here and there, which led to gradual (and rather incomplete) dissemination of the concept through the Prismata community. The rough idea is essentially "stuff that's supposed to be good is never bad", but the rule actually goes much deeper than that, and its implications in Prismata's design induce a lot of really cool emergent properties.
+
+Obligatory random image that has nothing to do with the article's contents... but it's pretty awesome, agree? Coming soon!
+
+The History of Shalev's Rule(s)
+
+Internally, we actually don't use the term "Shalev's Rule". Within Lunarch, the concept is known as "SDR", which stands for "Shalev's Domination Rules" (indeed, "Rule S "—there are several of them!) When discussing unit designs or game rules, we'll call something SDR-breaking if it disobeys any of Shalev's Rules, and SDR-obeying otherwise.
+
+Before we get to the rules themselves, I want to answer one further question: who's Shalev?
+
+Actually, he's one of Lunarch's original dev team members . In addition to working with us for years on prototype versions of Prismata, Shalev also built the first ever Prismata AI and designed our MMR ranking algorithm. He's now a full-time PhD student at MIT studying fascinating things like theoretical quantum computing, but he's occasionally around to help crunch data or analyze our stats.
+
+The SDR concept was actually introduced 5 years ago in October of 2010, very early on in Prismata's development. At the time, we were experimenting with many radical and bizarre ideas for Prismata units, and some of these units created really weird situations. For example, we had a powerful unit called "Airship" that forcefully drained your resources every turn. We had an "Egg" unit that you could give to your opponent, and destroying it won you the game. And so on.
+
+Some of these units were really interesting, but as our designs got crazier and crazier, we became aware of a few problems. For one thing, dangerous combos might be possible. If you could give your opponent an Egg and then snipe it with a unit like Apollo for the win, then Prismata games involving Egg and Apollo were liable to be quite degenerate, or even lead to immediate wins for one of the two players. Moreover, even if Apollo couldn't snipe Egg (perhaps because Egg's HP was too high), the existence of Egg might still restrict the  design space available to us in the future by ruling out some possible unit designs that might interact with Egg in unpleasant ways.
+
+Having witnessed similar problems affect the design of other strategy games, we felt that we should try to establish some simple guidelines for the types of units that we'd work on while fleshing out Prismata's framework. Accordingly, Shalev proposed a set of guidelines that would later become known as SDR.
+
+Shalev's Domination Rules established some conditions under which one Prismata position would  dominate another. Here, domination refers to a mathematically rigourous notion meaning "one position is better than another". (Formally, the idea was that, supposing you were player 1, position A would dominate position B if the statement "position B is a theoretical win for player 1" could be shown to imply the statement "position A is a theoretical win for player 1".)
+
+The original SDR was a series of mathematical rules relating to domination. For example, the notion "owning something is better than not owning something" would be expressed mathematically as a statement of the form "if X, Y, and Z are sets of units with X a subset of Y, then the position [Y vs Z] dominates [X vs Z]". There were several other rules, but the general notions corresponded approximately to the following:
+
+It should be better to own more units.
+
+It should be better to own more resources.
+
+It should be better to kill the opponent's units than to leave them alive.
+
+Units with improved statuses should be better than units with worse ones (e.g. units with higher hp should be better than identical units with lower hp; units with higher remaining lifespan should be better than identical units with lower remaining lifespan, etc..)
+
+Note that there are immediate design consequences to these guidelines. For example, if we wanted to fully respect SDR, we'd never be able to design a unit whose ability was, "choose one of your opponent's units and steal it" (because then the opponent might not want to own a unit, or would prefer to own a weaker one over a stronger one).
+
+After some consideration, the team unanimously decided to adopt SDR as a core design principle used for all Prismata units in late 2010. This was intended to be somewhat temporary (we figured we'd get into SDR-breaking ideas a bit later once we were further along in our design process), but we actually still abide by SDR to this day. Initially, we had to axe several units and make modifications to the designs of many others, but it was worth it for a number of reasons.
+
+Five Reasons we obey Shalev's Rules
+
+There are several reasons why we all got on board with SDR. Here are the most important ones:
+
+1) Delaying the decision preserved our design space
+
+One argument was simply, "What is there to lose?" We always felt that we could disobey SDR as needed in the future when introducing new units (for example, we could add units with on-death triggers, and some of them could actually make you want to lose your own units .) Although we'd be under no obligation to do so, we'd be free to make the decision in the future when we were more experienced as designers and understood Prismata better. In a game with as many moving parts as Prismata, every powerful mechanic results in a small reduction in the available design space for new units, because abilities that combo too strongly with a powerful mechanic could break the game. SDR allowed us to move forward without using up our design space too quickly.
+
+2) Obeying SDR helped to guard against stalemates and degenerate situations
+
+SDR-breaking mechanics were notorious for creating awkward in-game situations, and the problem was exacerbated by Prismata's lack of randomness. If players found themselves in a situation where killing their opponent's units was a bad thing, they often just wouldn't attack. Similarly, if owning a unit was bad, players might just avoid making purchases. Adding SDR helped eliminate these sources of awkwardness, ensuring that Prismata games followed their natural progression to a conclusion.
+
+3) SDR reduced the burden imposed by minor rules changes
+
+During the initial development stages of Prismata, units like Tarsiers and Blastforges actually had to be clicked (or activated , as we called it back then) in order to produce attack and resources. However, SDR-breaking units sometimes caused situations where you  didn't want to click them (if, for example, attacking with the Tarsier would kill something you didn't want to kill). This would have made auto-attacking Tarsiers strategically weaker than click-to-attack Tarsiers (since the latter provide an additional strategic option). This was a detail that felt messy and inelegant, and added complexity to the decision of how to implement Prismata's user interface. (Should Tarsiers attack when clicked? Should they always attack? Or should they start out attacking and stop attacking when clicked?)
+
+Many of our design dilemmas became a lot more clear once SDR was introduced.
+
+4) SDR-breaking units are notorious for stifling interactivity
+
+Having studied other card games, we felt that a lot of SDR-breaking effects were responsible for many of the situations that were most often complained about by players. For example, the presence of strong board wipe cards in games like Magic: the Gathering tends to discourage players from casting the cards in their hands, leading to situations that lack the creature-on-creature combat that many players enjoy.
+
+Funnily enough, we were proven right twice in the case of Hearthstone a few years later, where two of the major nerfs since the game's release (the Buzzard-Unleash and Warsong-Patron combos) dealt with SDR-breaking cards that induced situations where players often didn't want to play the cards in their hands for fear of empowering their opponent's combo.
+
+(For reference, the Buzzard-Unleash combo allowed players to draw a card for each minion on the opponent's side of the board, and the Warsong-Patron combo allowed players to build up a huge army by repeatedly attacking into the opponent's minions to trigger a cloning effect on their own minions. Both effects caused players to obtain a better result if their opponent had more minions on the board, which would be a no-no according to SDR.)
+
+5) Obeying SDR made things easier for the AI
+
+This is probably the least important point, but SDR does simplify things a bit for our bots. When evaluating positions, SDR ensures that they can make a lot of simplifying assumptions without checking special cases. This improves both the strength and efficiency of the bot, as well as our own productivity in building the bot software.
+
+Exceptions to the Rule
+
+SDR has actually never really been formally specified to its fullest extent. It provides a set of guiding principles, but as designers, it's up to us to decide when we want to abide by those principles, and what really "counts".
+
+A hypothetical question: does SDR prevent us from implementing a "reverse-Apollo" that can only snipe things with 4 attack or greater?
+
+Maybe, if we think it's important to preserve the property "more attack is better". But perhaps it doesn't matter much.
+
+However, if you look very closely, you can already spot some Prismata unit attributes that seem like they ought to be strictly "better", but can actually be a liability in some cases. Here are a few examples:
+
+Promptness.  This is one that many players know. Being prompt isn't always a good thing. Prompt units are exposed to the forces of the enemy attackers, while non-prompt units get a turn of invulnerability. This can matter in situations where a breach is occurring and player desperately needs to keep a recently-bought unit alive.
+
+Invulnerability. Speaking of invulnerability, it's not always a good thing! Consider a situation where your opponent is attacking for 1 and you have a single Drone , an invulnerable Lucina, and no other units. If your Drone is invulnerable, the opponent will be able to take out Lucina. However, if the Drone is exhausted instead, the opponent will have to kill it before being able to attack the invulnerable Lucina (due to Prismata's overkill rule).
+
+We also developed some pretty interesting workarounds to build and test SDR-compliant versions of formerly SDR-breaking units. For example, we originally had a unit named "Plaguebearer" that blocked but generated damage when it died blocking. To keep the unit SDR-compliant, we gave it the ability to self-sacrifice (hence killing it is never a bad thing, since your opponent can suicide it anyway!)
+
+Of course, there's one final exception: we might simply decide to break the rules. Five years of experience in designing Prismata units has left us with a much better ability to anticipate the types of designs that can potentially be problematic, so we're feeling more confident in our ability to bend the rules of SDR a little to create some interesting new designs without inducing additional problems. That said, we don't have anything planned just yet (though after Prismata's release, we'll be look forward to creating all kinds of new content!)
+
+One Last Thing...
+
+SDR is a complex and fascinating topic, and I could continue discussing its ramifications for hours. Hopefully I've provided an overview that explains the ideas and where we're headed with them.
+
+Before I let you go, I'd like to plug our new  Prismata unit balance survey  just one more time. If you've experienced some of the recent changes during our alpha and want to give us feedback, this is the best way to do it. Thanks again.
+
+See you next time!
+
+---
+
+About Elyot Grant
+
+A former gold medalist in national competitions in both mathematics and computer science, Elyot has long refused to enjoy anything except video games. Elyot took more pride in winning the Reddit Starcraft Tournament than he did in earning the Computing Research Association's most prestigious research award in North America. Decried for wasting his talents, Elyot founded Lunarch Studios to pursue his true passion.
+
+View all posts by Elyot Grant ->
+
+---
