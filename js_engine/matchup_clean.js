@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * matchup_clean.js — Phase 7a/7b/7c/7d: Matchup runner (clean room rebuild)
+ * matchup_clean.js — Phase 7a/7b/7c/7d/7e: Matchup runner (clean room rebuild)
  *
  * Orchestrates Prismata games between C++ AI players and/or MCDSAI by:
  *   1. Verifying supply at init (rarity-based, no card.supply field)
@@ -11,6 +11,8 @@
  *   5. Stuck detection: abort as draw if state unchanged for N consecutive turns
  *   6. Multi-game: random card sets, per-game supply verification, tally results
  *   7. MCDSAI support: spawn workers, init per game, mixed C++/MCDSAI matchups
+ *   8. Parallel workers: distribute games across worker_threads for concurrent execution
+ *   9. Replay saving: optional per-game click sequence JSON files
  *
  * Usage:
  *   node matchup_clean.js                             # Base-set-only single game
@@ -24,11 +26,14 @@
  *   node matchup_clean.js --player MCDSAI             # Both sides use MCDSAI
  *   node matchup_clean.js --player-white MCDSAI --player-black OriginalHardestAI  # Mixed
  *   node matchup_clean.js --player MCDSAI --mcdsai-difficulty HardestAI  # Custom difficulty
+ *   node matchup_clean.js --games 6 --parallel 2      # 6 games across 2 parallel workers
+ *   node matchup_clean.js --games 4 --parallel 2 --save-replays replays/  # With replay saving
  */
 
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
+const { Worker } = require('worker_threads');
 
 const C = require('./C');
 const Analyzer = require('./Analyzer');
@@ -1051,7 +1056,189 @@ async function playMultipleGames(config, numGames, library) {
 }
 
 // ---------------------------------------------------------------------------
-// 10. Main
+// 10. Play multiple games in parallel with worker_threads (Phase 7e)
+// ---------------------------------------------------------------------------
+
+/**
+ * Path to the worker thread script for parallel game execution.
+ * @type {string}
+ */
+const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
+
+/**
+ * Play multiple games in parallel using worker_threads.
+ *
+ * Distributes games round-robin across `numWorkers` worker threads.
+ * Each worker thread loads its own card library, MCDSAI workers (if needed),
+ * and uses slot-specific temp files (e.g., _suggest_state_W0.json) for
+ * C++ --suggest calls to avoid file conflicts.
+ *
+ * Each worker runs its assigned games sequentially and posts results back
+ * to the main thread via parentPort.postMessage().
+ *
+ * Constraints (from CLAUDE.md):
+ *   - x86 OOM: max 4 concurrent C++ exe invocations
+ *   - MCDSAI: ~100MB per Emscripten module, so each worker pair costs ~200MB
+ *
+ * @param {Object} config - Game config (playerWhite, playerBlack, thinkTimeMs)
+ * @param {number} numGames - Total number of games to play
+ * @param {Map} library - Card library (not passed to workers; they load their own)
+ * @param {number} numWorkers - Number of parallel worker threads
+ * @param {string} mcdsaiDifficulty - MCDSAI difficulty name
+ * @param {string|null} saveReplaysDir - Directory for replay files (null = no saving)
+ * @param {boolean} verbose - Verbose output
+ * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
+ */
+async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose) {
+    // Distribute game numbers round-robin across worker slots
+    const slotsGames = Array.from({ length: numWorkers }, () => []);
+    for (let g = 0; g < numGames; g++) {
+        slotsGames[g % numWorkers].push(g + 1);  // 1-based game numbers
+    }
+
+    // Create replay directory if saving replays
+    if (saveReplaysDir) {
+        try {
+            fs.mkdirSync(saveReplaysDir, { recursive: true });
+            console.error(`[Parallel] Replay directory: ${saveReplaysDir}`);
+        } catch (err) {
+            console.error(`[Parallel] WARNING: Could not create replay dir: ${err.message}`);
+        }
+    }
+
+    console.error(`[Parallel] Launching ${numWorkers} worker threads for ${numGames} games`);
+    for (let i = 0; i < numWorkers; i++) {
+        console.error(`[Parallel]   Worker ${i}: ${slotsGames[i].length} games (${slotsGames[i].join(', ')})`);
+    }
+
+    // Collect all game results (indexed by game number for ordering)
+    const gameLogsByNum = new Map();
+    let whiteWins = 0, blackWins = 0, draws = 0, invalid = 0;
+    let totalTurns = 0, completedGames = 0;
+    let gamesReported = 0;
+
+    // Launch all workers and collect results
+    const workerPromises = slotsGames.map((gameNums, slotIdx) => {
+        // Skip empty slots (happens when numGames < numWorkers)
+        if (gameNums.length === 0) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            const worker = new Worker(WORKER_SCRIPT_PATH, {
+                workerData: {
+                    slotIndex: slotIdx,
+                    gameNums: gameNums,
+                    playerWhite: config.playerWhite,
+                    playerBlack: config.playerBlack,
+                    thinkTimeMs: config.thinkTimeMs,
+                    mcdsaiDifficulty: mcdsaiDifficulty,
+                    saveReplaysDir: saveReplaysDir,
+                    verbose: verbose
+                }
+            });
+
+            worker.on('message', (msg) => {
+                if (msg.type === 'game_result') {
+                    const log = msg.gameLog;
+                    gameLogsByNum.set(msg.gameNum, log);
+
+                    // Tally results immediately
+                    if (log.winner === 'invalid' || log.result === null) {
+                        invalid++;
+                    } else if (log.result === C.COLOR_WHITE) {
+                        whiteWins++;
+                        totalTurns += log.turns;
+                        completedGames++;
+                    } else if (log.result === C.COLOR_BLACK) {
+                        blackWins++;
+                        totalTurns += log.turns;
+                        completedGames++;
+                    } else {
+                        draws++;
+                        totalTurns += log.turns;
+                        completedGames++;
+                    }
+
+                    gamesReported++;
+                    const elapsed = (log.durationMs / 1000).toFixed(1);
+                    console.error(`[Parallel] Game ${msg.gameNum} (W${slotIdx}): ${log.winner} in ${log.turns} turns (${elapsed}s) [${gamesReported}/${numGames}]`);
+
+                    // Progress summary every 10 games
+                    if (numGames > 10 && gamesReported % 10 === 0) {
+                        const pct = (100 * gamesReported / numGames).toFixed(0);
+                        console.error(`[Parallel] Progress: ${gamesReported}/${numGames} (${pct}%) — W:${whiteWins} B:${blackWins} D:${draws} I:${invalid}`);
+                    }
+                } else if (msg.type === 'slot_done') {
+                    console.error(`[Parallel] Worker ${msg.slotIndex} done (${msg.gamesCompleted} games)`);
+                } else if (msg.type === 'error') {
+                    console.error(`[Parallel] Worker ${msg.slotIndex} error: ${msg.message}`);
+                }
+            });
+
+            worker.on('error', (err) => {
+                console.error(`[Parallel] Worker ${slotIdx} thread error: ${err.message}`);
+                reject(err);
+            });
+
+            worker.on('exit', (code) => {
+                if (code !== 0) {
+                    console.error(`[Parallel] Worker ${slotIdx} exited with code ${code}`);
+                    // Don't reject — some games may have completed before the crash
+                }
+                resolve();
+            });
+        });
+    });
+
+    // Wait for all workers to finish
+    await Promise.all(workerPromises);
+
+    // Build ordered games array (sorted by game number)
+    const games = [];
+    for (let g = 1; g <= numGames; g++) {
+        const log = gameLogsByNum.get(g);
+        if (log) {
+            games.push(log);
+        } else {
+            // Worker may have crashed before completing this game
+            games.push({
+                game: g,
+                cardSet: [],
+                winner: 'invalid',
+                result: null,
+                turns: 0,
+                errors: ['Worker thread crashed before completing this game'],
+                abortReason: 'Worker thread crash',
+                startTime: new Date().toISOString(),
+                endTime: new Date().toISOString(),
+                durationMs: 0,
+                supplyVerified: false,
+                attempts: 0
+            });
+            invalid++;
+        }
+    }
+
+    // Final tally
+    const avgTurns = completedGames > 0 ? Math.round(totalTurns / completedGames) : 0;
+    const tally = { white: whiteWins, black: blackWins, draws, invalid };
+
+    console.error(`\n[Parallel] ========== TALLY ==========`);
+    console.error(`[Parallel] Games:    ${numGames} (${numWorkers} workers)`);
+    console.error(`[Parallel] White:    ${whiteWins} (${numGames > 0 ? (100 * whiteWins / numGames).toFixed(1) : 0}%)`);
+    console.error(`[Parallel] Black:    ${blackWins} (${numGames > 0 ? (100 * blackWins / numGames).toFixed(1) : 0}%)`);
+    console.error(`[Parallel] Draws:    ${draws}`);
+    console.error(`[Parallel] Invalid:  ${invalid}`);
+    console.error(`[Parallel] Avg turns: ${avgTurns}`);
+    if (saveReplaysDir) console.error(`[Parallel] Replays:  ${saveReplaysDir}`);
+    console.error(`[Parallel] ================================\n`);
+
+    return { games, tally, avgTurns };
+}
+
+// ---------------------------------------------------------------------------
+// 11. Main
 // ---------------------------------------------------------------------------
 
 async function main() {
@@ -1065,6 +1252,8 @@ async function main() {
     let playerBlack = CONFIG.defaultPlayer;
     let thinkTimeMs = CONFIG.thinkTimeMs;
     let mcdsaiDifficulty = 'HardestAI';  // Default MCDSAI difficulty
+    let parallelWorkers = 1;             // Phase 7e: 1 = sequential (default)
+    let saveReplaysDir = null;           // Phase 7e: null = no replay saving
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--random') useRandom = true;
@@ -1078,6 +1267,15 @@ async function main() {
         if (args[i] === '--player-black' && args[i + 1]) { playerBlack = args[++i]; }
         if (args[i] === '--think-time' && args[i + 1]) { thinkTimeMs = parseInt(args[++i], 10); }
         if (args[i] === '--mcdsai-difficulty' && args[i + 1]) { mcdsaiDifficulty = args[++i]; }
+        if (args[i] === '--parallel' && args[i + 1]) { parallelWorkers = parseInt(args[++i], 10); }
+        if (args[i] === '--save-replays' && args[i + 1]) { saveReplaysDir = args[++i]; }
+    }
+
+    // Validate parallel workers count
+    if (parallelWorkers < 1) parallelWorkers = 1;
+    if (parallelWorkers > 8) {
+        console.error(`WARNING: --parallel ${parallelWorkers} is very high (x86 OOM risk). Clamping to 4.`);
+        parallelWorkers = 4;
     }
 
     // Detect MCDSAI players (case-insensitive matching)
@@ -1099,7 +1297,9 @@ async function main() {
 
     // Determine mode
     const isMultiGame = numGames > 1 && !singleTurnMode;
+    const isParallel = isMultiGame && parallelWorkers > 1;
     const modeLabel = singleTurnMode ? 'Single-Turn Test (Phase 7a)'
+                    : isParallel ? `Parallel Multi-Game (Phase 7e) — ${numGames} games, ${parallelWorkers} workers`
                     : isMultiGame ? `Multi-Game (Phase 7c/7d) — ${numGames} games`
                     : 'Single Game (Phase 7b/7d)';
     console.error(`=== ${modeLabel} ===`);
@@ -1110,25 +1310,28 @@ async function main() {
     if (!singleTurnMode) {
         console.error(`Max turns: ${CONFIG.maxTurns}, Stuck detection: ${CONFIG.stuckDetectionTurns} turns`);
     }
+    if (isParallel) console.error(`Parallel workers: ${parallelWorkers}`);
+    if (saveReplaysDir) console.error(`Replay saving: ${saveReplaysDir}`);
     console.error('');
 
     // 1. Load card library
     const library = loadCardLibrary();
     console.error(`Loaded card library: ${library.size} entries`);
 
-    // 2. Load MCDSAI dependencies (only when needed)
+    // 2. Load MCDSAI dependencies (only when needed, and NOT in parallel mode
+    //    where each worker_thread spawns its own MCDSAI workers)
     let fullParams = null;
     let shortParams = null;
     let mcdsaiWorkerWhite = null;
     let mcdsaiWorkerBlack = null;
 
-    if (anyMCDSAI) {
+    if (anyMCDSAI && !isParallel) {
         const MCDSAIWorker = require('./mcdsai_manager');
         const aiParams = require('./ai_params');
         fullParams = aiParams.loadFullParams();
         shortParams = aiParams.loadShortParams();
 
-        // Spawn MCDSAI workers
+        // Spawn MCDSAI workers (main thread — for sequential mode only)
         if (whiteIsMCDSAI) {
             mcdsaiWorkerWhite = new MCDSAIWorker('White');
             console.error('Spawning MCDSAI worker for White...');
@@ -1141,6 +1344,8 @@ async function main() {
             await mcdsaiWorkerBlack.spawn();
             console.error('MCDSAI worker for Black ready.');
         }
+    } else if (anyMCDSAI && isParallel) {
+        console.error('MCDSAI workers will be spawned in each worker thread (parallel mode).');
     }
 
     // Build MCDSAI config object (passed through to playSingleGame)
@@ -1272,25 +1477,46 @@ async function main() {
         }
 
         // -------------------------------------------------------------------
-        // Multi-game mode (Phase 7c/7d — --games N where N > 1)
+        // Multi-game mode — parallel (Phase 7e) or sequential (Phase 7c/7d)
         // -------------------------------------------------------------------
         if (isMultiGame) {
-            console.error(`\n--- Starting ${numGames} Games with Random Card Sets ---`);
-            const multiResult = await playMultipleGames(
-                { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig },
-                numGames,
-                library
-            );
+            let multiResult;
+
+            if (isParallel) {
+                // Phase 7e: Parallel execution via worker_threads
+                // Workers load their own card libraries and MCDSAI workers.
+                // No main-thread MCDSAI workers are spawned in parallel mode.
+                console.error(`\n--- Starting ${numGames} Games in Parallel (${parallelWorkers} workers) ---`);
+                multiResult = await playMultipleGamesParallel(
+                    { playerWhite, playerBlack, thinkTimeMs },
+                    numGames,
+                    library,
+                    parallelWorkers,
+                    mcdsaiDifficulty,
+                    saveReplaysDir,
+                    false  // verbose
+                );
+            } else {
+                // Phase 7c/7d: Sequential execution
+                console.error(`\n--- Starting ${numGames} Games with Random Card Sets ---`);
+                multiResult = await playMultipleGames(
+                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig },
+                    numGames,
+                    library
+                );
+            }
 
             // Output structured results as JSON to stdout
             const output = {
-                mode: 'multi-game',
+                mode: isParallel ? 'parallel-multi-game' : 'multi-game',
                 numGames: numGames,
                 tally: multiResult.tally,
                 avgTurns: multiResult.avgTurns,
                 players: { white: playerWhite, black: playerBlack },
                 thinkTimeMs: thinkTimeMs,
+                parallelWorkers: isParallel ? parallelWorkers : undefined,
                 mcdsaiDifficulty: anyMCDSAI ? mcdsaiDifficulty : undefined,
+                saveReplaysDir: saveReplaysDir || undefined,
                 games: multiResult.games
             };
             console.log(JSON.stringify(output, null, 2));
@@ -1366,6 +1592,7 @@ module.exports = {
     printStateSummary,
     playSingleGame,
     playMultipleGames,
+    playMultipleGamesParallel,
     getStateHash,
     resultToString,
     MCDSAI_PLAYER
