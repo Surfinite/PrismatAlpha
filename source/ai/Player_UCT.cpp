@@ -30,3 +30,8 @@ UCTSearchResults & Player_UCT::getResults()
 {
     return _search.getResults();
 }
+
+double Player_UCT::getBestRootWinRate()
+{
+    return _search.getBestRootWinRate();
+}
