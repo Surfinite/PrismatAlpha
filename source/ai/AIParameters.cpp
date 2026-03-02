@@ -714,11 +714,24 @@ PlayerPtr AIParameters::parsePlayer(const PlayerID player, const std::string & p
         {
             params.setEvalMethod(EvaluationMethods::WillScoreInflation);
         }
+        else if (evalMethodString == "NeuralNet")
+        {
+            params.setEvalMethod(EvaluationMethods::NeuralNet);
+        }
+        else if (evalMethodString == "NeuralNetPlusPlayout")
+        {
+            params.setEvalMethod(EvaluationMethods::NeuralNetPlusPlayout);
+
+            PRISMATA_ASSERT(args.HasMember("PlayoutPlayer"), "NeuralNetPlusPlayout requires PlayoutPlayer");
+
+            params.setPlayoutPlayer(Players::Player_One, parsePlayer(Players::Player_One, args["PlayoutPlayer"].GetString(), root));
+            params.setPlayoutPlayer(Players::Player_Two, parsePlayer(Players::Player_Two, args["PlayoutPlayer"].GetString(), root));
+        }
         else
         {
             PRISMATA_ASSERT(false, "Unknown UCT Evaluation Method Name: %s", evalMethodString.c_str());
         }
-        
+
         if (args.HasMember("UCTConstant") && args["UCTConstant"].IsDouble())
         {
             params.setCValue(args["UCTConstant"].GetDouble());
@@ -778,9 +791,27 @@ PlayerPtr AIParameters::parsePlayer(const PlayerID player, const std::string & p
         {
             params.setEvalMethod(EvaluationMethods::WillScoreInflation);
         }
+        else if (evalMethodString == "NeuralNet")
+        {
+            params.setEvalMethod(EvaluationMethods::NeuralNet);
+        }
+        else if (evalMethodString == "NeuralNetPlusPlayout")
+        {
+            params.setEvalMethod(EvaluationMethods::NeuralNetPlusPlayout);
+
+            PRISMATA_ASSERT(args.HasMember("PlayoutPlayer"), "NeuralNetPlusPlayout requires PlayoutPlayer");
+
+            params.setPlayoutPlayer(Players::Player_One, parsePlayer(Players::Player_One, args["PlayoutPlayer"].GetString(), root));
+            params.setPlayoutPlayer(Players::Player_Two, parsePlayer(Players::Player_Two, args["PlayoutPlayer"].GetString(), root));
+        }
         else
         {
             PRISMATA_ASSERT(false, "Unknown SAB Evaluation Method Name: %s", evalMethodString.c_str());
+        }
+
+        if (args.HasMember("BlendWeight") && args["BlendWeight"].IsDouble())
+        {
+            params.setBlendWeight(args["BlendWeight"].GetDouble());
         }
 
         if (playerClassName == "Player_AlphaBeta")
