@@ -1,15 +1,16 @@
 'use strict';
 
 /**
- * matchup_clean.js — Phase 7a/7b/7c: Matchup runner (clean room rebuild)
+ * matchup_clean.js — Phase 7a/7b/7c/7d: Matchup runner (clean room rebuild)
  *
- * Orchestrates Prismata games between C++ AI players by:
+ * Orchestrates Prismata games between C++ AI players and/or MCDSAI by:
  *   1. Verifying supply at init (rarity-based, no card.supply field)
  *   2. Initializing a JS game via Analyzer
- *   3. Looping: export state -> call C++ --suggest -> apply clicks -> check game over
+ *   3. Looping: export state -> call C++ --suggest or MCDSAI -> apply clicks -> check game over
  *   4. Handling errors: retry on malformed JSON, forfeit/abort on repeated failure
  *   5. Stuck detection: abort as draw if state unchanged for N consecutive turns
  *   6. Multi-game: random card sets, per-game supply verification, tally results
+ *   7. MCDSAI support: spawn workers, init per game, mixed C++/MCDSAI matchups
  *
  * Usage:
  *   node matchup_clean.js                             # Base-set-only single game
@@ -20,6 +21,9 @@
  *   node matchup_clean.js --player-white HardestAI --player-black LiveHardestAI
  *   node matchup_clean.js --think-time 5000           # Custom think time
  *   node matchup_clean.js --single-turn               # Phase 7a single-turn test mode
+ *   node matchup_clean.js --player MCDSAI             # Both sides use MCDSAI
+ *   node matchup_clean.js --player-white MCDSAI --player-black OriginalHardestAI  # Mixed
+ *   node matchup_clean.js --player MCDSAI --mcdsai-difficulty HardestAI  # Custom difficulty
  */
 
 const fs = require('fs');
@@ -28,7 +32,10 @@ const { execFileSync } = require('child_process');
 
 const C = require('./C');
 const Analyzer = require('./Analyzer');
-const { loadCardLibrary, buildMergedDeck, randomSet, getSupply, SUPPLY_BY_RARITY } = require('./card_library');
+const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getSupply, SUPPLY_BY_RARITY } = require('./card_library');
+
+// MCDSAI player identifier (case-insensitive matching in CLI parsing)
+const MCDSAI_PLAYER = 'MCDSAI';
 
 // Load config
 const CONFIG_PATH = path.join(__dirname, 'matchup_config.json');
@@ -338,6 +345,172 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
 }
 
 // ---------------------------------------------------------------------------
+// 5b. Play a single MCDSAI turn (Phase 7d)
+// ---------------------------------------------------------------------------
+
+/**
+ * Helper: check if a player name is MCDSAI (case-insensitive).
+ * @param {string} playerName
+ * @returns {boolean}
+ */
+function isMCDSAIPlayer(playerName) {
+    return playerName.toUpperCase() === MCDSAI_PLAYER;
+}
+
+/**
+ * Orchestrate one MCDSAI turn: get state, call MCDSAI worker, apply clicks.
+ *
+ * Follows the selfplay_main.js pattern for MCDSAI interaction:
+ *   1. Serialize game state via analyzer.gameState.toString()
+ *   2. Select AI params based on turn number
+ *   3. Call worker.getAIMove() with {gameState, aiPlayerName}
+ *   4. Strip control chars, parse JSON response
+ *   5. Handle resignation and 0-click failures
+ *   6. Convert clicks via StateUtil.convertToClicks()
+ *   7. Apply clicks via analyzer.recordClick()
+ *   8. Fall back to direct click application if convertToClicks throws
+ *
+ * @param {Analyzer} analyzer
+ * @param {Object[]} mergedDeck - Active mergedDeck for the game (unused but kept for API symmetry)
+ * @param {MCDSAIWorker} mcdsaiWorker - Spawned and initialized MCDSAI worker
+ * @param {string} difficulty - MCDSAI difficulty name (e.g., "HardestAI")
+ * @returns {Promise<{ ok: boolean, clickResult: Object|null, error: string|null }>}
+ */
+async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
+    // Lazy-load StateUtil (only needed when MCDSAI is actually used)
+    const StateUtil = require('./StateUtil');
+
+    const preTurn = analyzer.gameState.turn;
+    const preNumTurns = analyzer.gameState.numTurns;
+    const prePhase = analyzer.gameState.phase;
+
+    console.error(`\n[Turn] Player ${preTurn} (${preTurn === 0 ? 'White' : 'Black'}), ` +
+                  `numTurns=${preNumTurns}, phase=${prePhase} [MCDSAI]`);
+
+    // 1. Serialize game state
+    const stateStr = analyzer.gameState.toString();
+    const stateObj = JSON.parse(stateStr);
+
+    // 2. Build move request JSON
+    const moveJson = JSON.stringify({
+        gameState: stateObj,
+        aiPlayerName: difficulty
+    });
+
+    // 3. Call MCDSAI worker
+    console.error(`[Turn] Calling MCDSAI (difficulty=${difficulty})...`);
+    let response;
+    try {
+        const resultStr = await mcdsaiWorker.getAIMove(moveJson);
+        // CRITICAL: MCDSAI response contains control characters — strip before JSON.parse
+        const cleanResult = resultStr.replace(/[\x00-\x1f]/g, ' ');
+        response = JSON.parse(cleanResult);
+    } catch (err) {
+        console.error(`[Turn] MCDSAI error: ${err.message}`);
+        return { ok: false, clickResult: null, error: `MCDSAI error: ${err.message}` };
+    }
+
+    // 4. Handle resignation
+    if (response.airesign) {
+        console.error(`[Turn] MCDSAI resigned`);
+        // Record as loss for active player
+        analyzer.gameState.result = preTurn === 0 ? C.COLOR_BLACK : C.COLOR_WHITE;
+        return { ok: true, clickResult: { applied: 0, failed: 0, details: ['MCDSAI resigned'] }, error: null };
+    }
+
+    // 5. Handle 0 clicks (AI failure — missing card name, etc.)
+    const aiclicks = response.aiclicks || [];
+    if (aiclicks.length === 0) {
+        const thinkTime = response.aithinktime || 'unknown';
+        console.error(`[Turn] MCDSAI returned 0 clicks (${thinkTime}ms think) — AI failure`);
+        return { ok: false, clickResult: { applied: 0, failed: 0, details: [] }, error: `MCDSAI 0 clicks (${thinkTime}ms think)` };
+    }
+
+    console.error(`[Turn] MCDSAI returned ${aiclicks.length} AI clicks (${response.aithinktime || '?'}ms think)`);
+
+    // 6-8. Convert and apply clicks
+    let applied = 0;
+    let failed = 0;
+    const details = [];
+
+    try {
+        // Primary path: use StateUtil.convertToClicks for validated click resolution
+        const clicks = StateUtil.convertToClicks(aiclicks, analyzer.gameState, false);
+
+        for (let i = 0; i < clicks.length; i++) {
+            const click = clicks[i];
+            const result = analyzer.recordClick(false, false, click._type, click._id, click._params);
+            if (result.canClick) {
+                applied++;
+                details.push(`  [${i}] OK: ${click._type} id=${click._id}`);
+            } else {
+                failed++;
+                details.push(`  [${i}] FAIL: ${click._type} id=${click._id}`);
+            }
+        }
+    } catch (err) {
+        // Fallback: if convertToClicks fails (missing inst, illegal click), apply directly
+        console.error(`[Turn] convertToClicks failed (${err.message}), falling back to direct application`);
+        for (let i = 0; i < aiclicks.length; i++) {
+            const ac = aiclicks[i];
+            try {
+                let clickType = ac.type;
+                let clickId = -1;
+
+                if (clickType === C.CLICK_CARD || clickType === C.CLICK_CARD_SHIFT) {
+                    const card = analyzer.gameState.cardNameToCard(ac.args);
+                    if (card) clickId = card.cardId;
+                } else if (clickType === C.CLICK_INST || clickType === C.CLICK_INST_SHIFT) {
+                    clickId = StateUtil.findInstId(ac.args, analyzer);
+                }
+
+                const result = analyzer.recordClick(false, false, clickType, clickId);
+                if (result.canClick) {
+                    applied++;
+                    details.push(`  [${i}] OK (fallback): ${clickType} id=${clickId}`);
+                } else {
+                    failed++;
+                    details.push(`  [${i}] FAIL (fallback): ${clickType} id=${clickId}`);
+                }
+            } catch (clickErr) {
+                failed++;
+                details.push(`  [${i}] ERROR (fallback): ${ac.type} — ${clickErr.message}`);
+            }
+        }
+    }
+
+    // Auto-confirm: if we're in PHASE_CONFIRM after applying all MCDSAI clicks, auto-commit
+    // (same pattern as applyClicks() does for C++ suggest)
+    if (analyzer.gameState.phase === C.PHASE_CONFIRM && !analyzer.gameState.finished) {
+        const commitResult = analyzer.recordClick(false, false, C.CLICK_SPACE, -1);
+        if (commitResult.canClick) {
+            applied++;
+            details.push(`  [auto] OK: space clicked (confirm->commit)`);
+        } else {
+            details.push(`  [auto] FAIL: space clicked (confirm->commit)`);
+        }
+    }
+
+    console.error(`[Turn] MCDSAI clicks: ${applied} applied, ${failed} failed`);
+    if (failed > 0) {
+        for (const d of details) {
+            if (d.includes('FAIL') || d.includes('ERROR')) console.error(d);
+        }
+    }
+
+    // Post-turn state
+    const postTurn = analyzer.gameState.turn;
+    const postNumTurns = analyzer.gameState.numTurns;
+    const postPhase = analyzer.gameState.phase;
+    const finished = analyzer.gameState.finished;
+
+    console.error(`[Turn] After: player=${postTurn}, numTurns=${postNumTurns}, ` +
+                  `phase=${postPhase}, finished=${finished}`);
+
+    return { ok: true, clickResult: { applied, failed, details }, error: null };
+}
+
+// ---------------------------------------------------------------------------
 // 6. State summary printer
 // ---------------------------------------------------------------------------
 
@@ -464,27 +637,43 @@ function resultToString(result) {
  * Play a complete game from init to game-over (or abort).
  *
  * Alternates Player 0 (White) and Player 1 (Black) turns,
- * calling C++ --suggest for each turn and applying clicks to the JS engine.
+ * calling C++ --suggest or MCDSAI for each turn and applying clicks to the JS engine.
  *
  * Error handling:
  *   - Malformed JSON from --suggest: retry once (retryOnError), then forfeit
  *   - --suggest crash (non-zero exit): mark game invalid
  *   - --suggest timeout: mark game invalid
+ *   - MCDSAI error: retry once, then forfeit
  *   - recordClick failure: log and continue (applyClicks handles this)
  *   - Stuck detection: if state hash unchanged for stuckDetectionTurns
  *     consecutive turns, abort as draw
  *
  * @param {Object[]} activeDeck - Active mergedDeck cards
- * @param {{ playerWhite: string, playerBlack: string, thinkTimeMs: number }} config
- * @returns {{ result: number, winner: string, turns: number, errors: string[], abortReason: string|null }}
+ * @param {Object} config - Game configuration
+ * @param {string} config.playerWhite - White player name or "MCDSAI"
+ * @param {string} config.playerBlack - Black player name or "MCDSAI"
+ * @param {number} config.thinkTimeMs - Think time for C++ players
+ * @param {Object} [config.mcdsai] - MCDSAI configuration (required if any player is MCDSAI)
+ * @param {MCDSAIWorker|null} [config.mcdsai.workerWhite] - MCDSAI worker for white
+ * @param {MCDSAIWorker|null} [config.mcdsai.workerBlack] - MCDSAI worker for black
+ * @param {string} [config.mcdsai.difficulty] - MCDSAI difficulty name (default: "HardestAI")
+ * @param {string} [config.mcdsai.fullParams] - Full AI params string
+ * @param {string} [config.mcdsai.shortParams] - Short AI params string
+ * @param {Map} [config.mcdsai.library] - Card library for buildInitDeck
+ * @returns {Promise<{ result: number, winner: string, turns: number, errors: string[], abortReason: string|null }>}
  */
-function playSingleGame(activeDeck, config) {
+async function playSingleGame(activeDeck, config) {
     const playerWhite = config.playerWhite;
     const playerBlack = config.playerBlack;
     const thinkTimeMs = config.thinkTimeMs;
     const maxTurns = CONFIG.maxTurns || 200;
     const retryOnError = CONFIG.retryOnError || 1;
     const stuckThreshold = CONFIG.stuckDetectionTurns || 5;
+
+    // MCDSAI config (may be null if no MCDSAI players)
+    const mcdsaiConfig = config.mcdsai || null;
+    const whiteIsMCDSAI = isMCDSAIPlayer(playerWhite);
+    const blackIsMCDSAI = isMCDSAIPlayer(playerBlack);
 
     const errors = [];
     let abortReason = null;
@@ -494,8 +683,36 @@ function playSingleGame(activeDeck, config) {
     const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
     analyzer.loaderInit();
 
-    console.error('[Game] Initialized. White=' + playerWhite + ', Black=' + playerBlack);
+    const whiteLabel = whiteIsMCDSAI ? `MCDSAI(${mcdsaiConfig ? mcdsaiConfig.difficulty : '?'})` : playerWhite;
+    const blackLabel = blackIsMCDSAI ? `MCDSAI(${mcdsaiConfig ? mcdsaiConfig.difficulty : '?'})` : playerBlack;
+    console.error('[Game] Initialized. White=' + whiteLabel + ', Black=' + blackLabel);
     printStateSummary(analyzer, 'GAME START');
+
+    // Initialize MCDSAI workers for this game (per-game init with deck)
+    if ((whiteIsMCDSAI || blackIsMCDSAI) && mcdsaiConfig) {
+        const _sp = require('./ai_params').selectParams;
+        const fullParams = mcdsaiConfig.fullParams;
+        const shortParams = mcdsaiConfig.shortParams;
+        const difficulty = mcdsaiConfig.difficulty || 'HardestAI';
+        const library = mcdsaiConfig.library;
+
+        // Build init deck (includes AI param-referenced cards beyond the activeDeck)
+        const initDeck = buildInitDeck(activeDeck, library, fullParams, shortParams);
+        const initParams = JSON.parse(_sp(difficulty, 1, fullParams, shortParams));
+        const initJson = JSON.stringify({
+            mergedDeck: initDeck,
+            aiParameters: initParams
+        });
+
+        if (whiteIsMCDSAI && mcdsaiConfig.workerWhite) {
+            console.error('[Game] Initializing MCDSAI worker for White...');
+            await mcdsaiConfig.workerWhite.initializeAI(initJson);
+        }
+        if (blackIsMCDSAI && mcdsaiConfig.workerBlack) {
+            console.error('[Game] Initializing MCDSAI worker for Black...');
+            await mcdsaiConfig.workerBlack.initializeAI(initJson);
+        }
+    }
 
     // Stuck detection state
     const recentHashes = [];  // circular buffer of last N state hashes
@@ -508,14 +725,24 @@ function playSingleGame(activeDeck, config) {
         const activePlayer = analyzer.gameState.turn;
         const playerName = activePlayer === 0 ? playerWhite : playerBlack;
         const playerLabel = activePlayer === 0 ? 'White' : 'Black';
+        const isActiveMCDSAI = isMCDSAIPlayer(playerName);
 
-        console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}) ===`);
+        console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}${isActiveMCDSAI ? ' [MCDSAI]' : ''}) ===`);
 
         // --- Stuck detection: capture pre-turn state hash ---
         const preHash = getStateHash(analyzer);
 
-        // --- Call playSingleTurn with retry logic ---
-        let turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs);
+        // --- Call appropriate turn function with retry logic ---
+        let turnResult;
+        if (isActiveMCDSAI && mcdsaiConfig) {
+            const worker = activePlayer === 0 ? mcdsaiConfig.workerWhite : mcdsaiConfig.workerBlack;
+            turnResult = await playMCDSAITurn(
+                analyzer, activeDeck, worker,
+                mcdsaiConfig.difficulty || 'HardestAI'
+            );
+        } else {
+            turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs);
+        }
 
         if (!turnResult.ok) {
             // Retry once on error (malformed JSON, parse failure, etc.)
@@ -531,7 +758,15 @@ function playSingleGame(activeDeck, config) {
             }
 
             // Retry
-            turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs);
+            if (isActiveMCDSAI && mcdsaiConfig) {
+                const worker = activePlayer === 0 ? mcdsaiConfig.workerWhite : mcdsaiConfig.workerBlack;
+                turnResult = await playMCDSAITurn(
+                    analyzer, activeDeck, worker,
+                    mcdsaiConfig.difficulty || 'HardestAI'
+                );
+            } else {
+                turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs);
+            }
 
             if (!turnResult.ok) {
                 // Second failure — check error type for appropriate handling
@@ -549,7 +784,7 @@ function playSingleGame(activeDeck, config) {
                     console.error(`[Game] ABORT: ${abortReason}`);
                     break;
                 } else {
-                    // Malformed JSON or other: forfeit for this player
+                    // Malformed JSON, MCDSAI failure, or other: forfeit for this player
                     abortReason = `Forfeit by ${playerLabel} on turn ${turnCount}: ${errMsg}`;
                     console.error(`[Game] FORFEIT: ${abortReason}`);
                     // Set result to opponent wins
@@ -565,7 +800,7 @@ function playSingleGame(activeDeck, config) {
         if (turnResult.clickResult && turnResult.clickResult.failed > 0) {
             const failMsg = `Turn ${turnCount} (${playerLabel}): ${turnResult.clickResult.failed} click(s) failed`;
             errors.push(failMsg);
-            // Detailed click failures already logged by playSingleTurn
+            // Detailed click failures already logged by playSingleTurn/playMCDSAITurn
         }
 
         // --- Check for game over ---
@@ -657,12 +892,12 @@ function playSingleGame(activeDeck, config) {
  * ~5% of random card sets trigger AI exceptions (from selfplay_main.js experience).
  * On failure, retry with a different random set up to maxRetries times.
  *
- * @param {{ playerWhite: string, playerBlack: string, thinkTimeMs: number }} config
+ * @param {Object} config - Game config (playerWhite, playerBlack, thinkTimeMs, mcdsai)
  * @param {number} numGames - Number of games to play
  * @param {Map} library - Card library from loadCardLibrary()
- * @returns {{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }}
+ * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
-function playMultipleGames(config, numGames, library) {
+async function playMultipleGames(config, numGames, library) {
     const maxRetries = 3;  // Retry with different set if AI fails (~5% of sets)
     const games = [];
     let whiteWins = 0;
@@ -696,11 +931,11 @@ function playMultipleGames(config, numGames, library) {
                 console.error(`[Multi] Game ${gameNum}: Supply verification FAILED — logging and continuing`);
             }
 
-            // 4. Play the game
+            // 4. Play the game (async — MCDSAI workers use Promises)
             let gameResult;
             let gameError = null;
             try {
-                gameResult = playSingleGame(activeDeck, config);
+                gameResult = await playSingleGame(activeDeck, config);
             } catch (err) {
                 gameError = err.message || String(err);
                 console.error(`[Multi] Game ${gameNum}: Exception: ${gameError}`);
@@ -819,7 +1054,7 @@ function playMultipleGames(config, numGames, library) {
 // 10. Main
 // ---------------------------------------------------------------------------
 
-function main() {
+async function main() {
     const args = process.argv.slice(2);
 
     // Parse CLI args
@@ -829,6 +1064,7 @@ function main() {
     let playerWhite = CONFIG.defaultPlayer;
     let playerBlack = CONFIG.defaultPlayer;
     let thinkTimeMs = CONFIG.thinkTimeMs;
+    let mcdsaiDifficulty = 'HardestAI';  // Default MCDSAI difficulty
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--random') useRandom = true;
@@ -841,10 +1077,21 @@ function main() {
         if (args[i] === '--player-white' && args[i + 1]) { playerWhite = args[++i]; }
         if (args[i] === '--player-black' && args[i + 1]) { playerBlack = args[++i]; }
         if (args[i] === '--think-time' && args[i + 1]) { thinkTimeMs = parseInt(args[++i], 10); }
+        if (args[i] === '--mcdsai-difficulty' && args[i + 1]) { mcdsaiDifficulty = args[++i]; }
     }
 
-    // Check exe exists
-    if (!fs.existsSync(EXE_PATH)) {
+    // Detect MCDSAI players (case-insensitive matching)
+    const whiteIsMCDSAI = isMCDSAIPlayer(playerWhite);
+    const blackIsMCDSAI = isMCDSAIPlayer(playerBlack);
+    const anyMCDSAI = whiteIsMCDSAI || blackIsMCDSAI;
+
+    // Normalize MCDSAI player names to consistent casing
+    if (whiteIsMCDSAI) playerWhite = MCDSAI_PLAYER;
+    if (blackIsMCDSAI) playerBlack = MCDSAI_PLAYER;
+
+    // Check exe exists (only needed for C++ players)
+    const anyCpp = !whiteIsMCDSAI || !blackIsMCDSAI;
+    if (anyCpp && !fs.existsSync(EXE_PATH)) {
         console.error(`ERROR: C++ exe not found at ${EXE_PATH}`);
         console.error('Build with: MSBuild Prismata.sln /t:Rebuild /p:Configuration=Release /p:Platform=x86');
         process.exit(1);
@@ -853,12 +1100,13 @@ function main() {
     // Determine mode
     const isMultiGame = numGames > 1 && !singleTurnMode;
     const modeLabel = singleTurnMode ? 'Single-Turn Test (Phase 7a)'
-                    : isMultiGame ? `Multi-Game (Phase 7c) — ${numGames} games`
-                    : 'Single Game (Phase 7b)';
+                    : isMultiGame ? `Multi-Game (Phase 7c/7d) — ${numGames} games`
+                    : 'Single Game (Phase 7b/7d)';
     console.error(`=== ${modeLabel} ===`);
-    console.error(`Exe: ${EXE_PATH}`);
-    console.error(`White: ${playerWhite}, Black: ${playerBlack}`);
-    console.error(`Think time: ${thinkTimeMs}ms`);
+    if (anyCpp) console.error(`Exe: ${EXE_PATH}`);
+    console.error(`White: ${playerWhite}${whiteIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}`);
+    console.error(`Black: ${playerBlack}${blackIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}`);
+    if (anyCpp) console.error(`Think time: ${thinkTimeMs}ms`);
     if (!singleTurnMode) {
         console.error(`Max turns: ${CONFIG.maxTurns}, Stuck detection: ${CONFIG.stuckDetectionTurns} turns`);
     }
@@ -868,10 +1116,191 @@ function main() {
     const library = loadCardLibrary();
     console.error(`Loaded card library: ${library.size} entries`);
 
-    // -----------------------------------------------------------------------
-    // Single-turn mode (Phase 7a compatibility)
-    // -----------------------------------------------------------------------
-    if (singleTurnMode) {
+    // 2. Load MCDSAI dependencies (only when needed)
+    let fullParams = null;
+    let shortParams = null;
+    let mcdsaiWorkerWhite = null;
+    let mcdsaiWorkerBlack = null;
+
+    if (anyMCDSAI) {
+        const MCDSAIWorker = require('./mcdsai_manager');
+        const aiParams = require('./ai_params');
+        fullParams = aiParams.loadFullParams();
+        shortParams = aiParams.loadShortParams();
+
+        // Spawn MCDSAI workers
+        if (whiteIsMCDSAI) {
+            mcdsaiWorkerWhite = new MCDSAIWorker('White');
+            console.error('Spawning MCDSAI worker for White...');
+            await mcdsaiWorkerWhite.spawn();
+            console.error('MCDSAI worker for White ready.');
+        }
+        if (blackIsMCDSAI) {
+            mcdsaiWorkerBlack = new MCDSAIWorker('Black');
+            console.error('Spawning MCDSAI worker for Black...');
+            await mcdsaiWorkerBlack.spawn();
+            console.error('MCDSAI worker for Black ready.');
+        }
+    }
+
+    // Build MCDSAI config object (passed through to playSingleGame)
+    const mcdsaiConfig = anyMCDSAI ? {
+        workerWhite: mcdsaiWorkerWhite,
+        workerBlack: mcdsaiWorkerBlack,
+        difficulty: mcdsaiDifficulty,
+        fullParams: fullParams,
+        shortParams: shortParams,
+        library: library
+    } : null;
+
+    // Helper to clean up MCDSAI workers on exit
+    function terminateWorkers() {
+        if (mcdsaiWorkerWhite) {
+            console.error('Terminating MCDSAI worker for White...');
+            mcdsaiWorkerWhite.terminate();
+        }
+        if (mcdsaiWorkerBlack) {
+            console.error('Terminating MCDSAI worker for Black...');
+            mcdsaiWorkerBlack.terminate();
+        }
+    }
+
+    try {
+        // -------------------------------------------------------------------
+        // Single-turn mode (Phase 7a compatibility)
+        // -------------------------------------------------------------------
+        if (singleTurnMode) {
+            // Pick card set
+            let unitNames;
+            if (useRandom) {
+                unitNames = randomSet(library, 8);
+                console.error(`Random set: [${unitNames.join(', ')}]`);
+            } else {
+                unitNames = [];
+                console.error('Using base-set-only (no random units) for reproducibility');
+            }
+
+            const mergedDeck = buildMergedDeck(unitNames, library);
+            const activeDeck = mergedDeck.filter(c => !c._inactive);
+            console.error(`MergedDeck: ${mergedDeck.length} total, ${activeDeck.length} active`);
+
+            console.error('\n--- Supply Verification ---');
+            const supplyResult = verifySupply(activeDeck);
+            if (!supplyResult.ok) {
+                console.error('WARNING: Supply verification found mismatches (proceeding anyway)');
+            }
+
+            console.error('\n--- Game Initialization ---');
+            const gameInitInfo = buildGameInitInfo(activeDeck);
+            const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
+            analyzer.loaderInit();
+            console.error('Game initialized successfully.');
+
+            printStateSummary(analyzer, 'INITIAL STATE');
+
+            console.error('\n--- Playing Single Turn ---');
+            let turnResult;
+            if (whiteIsMCDSAI && mcdsaiConfig) {
+                // Initialize MCDSAI for this game
+                const aiParams = require('./ai_params');
+                const initDeck = buildInitDeck(activeDeck, library, fullParams, shortParams);
+                const initParams = JSON.parse(aiParams.selectParams(mcdsaiDifficulty, 1, fullParams, shortParams));
+                const initJson = JSON.stringify({ mergedDeck: initDeck, aiParameters: initParams });
+                await mcdsaiWorkerWhite.initializeAI(initJson);
+
+                turnResult = await playMCDSAITurn(
+                    analyzer, activeDeck, mcdsaiWorkerWhite,
+                    mcdsaiDifficulty
+                );
+            } else {
+                turnResult = playSingleTurn(analyzer, activeDeck, playerWhite, thinkTimeMs);
+            }
+
+            printStateSummary(analyzer, 'AFTER TURN');
+
+            // Verify results
+            console.error('\n--- Verification ---');
+            const postState = JSON.parse(analyzer.gameState.toString());
+            let verifyOk = true;
+
+            if (turnResult.ok && turnResult.clickResult) {
+                if (turnResult.clickResult.applied === 0) {
+                    console.error('WARNING: No clicks were applied');
+                    verifyOk = false;
+                } else {
+                    console.error(`OK: ${turnResult.clickResult.applied} clicks applied`);
+                }
+                if (turnResult.clickResult.failed > 0) {
+                    console.error(`WARNING: ${turnResult.clickResult.failed} clicks failed`);
+                    verifyOk = false;
+                }
+            }
+
+            if (turnResult.ok) {
+                if (postState.numTurns > 1 || postState.turn !== 0) {
+                    console.error('OK: Turn advanced (numTurns or active player changed)');
+                } else {
+                    console.error('NOTE: Turn did not advance (may still be in action phase if clicks failed)');
+                }
+            }
+
+            console.error('\n=== RESULT ===');
+            if (turnResult.ok && verifyOk) {
+                console.error('PASS: Single-turn matchup test completed successfully.');
+            } else if (turnResult.ok) {
+                console.error('PARTIAL: Turn succeeded but some clicks failed.');
+            } else {
+                console.error('FAIL: Turn failed.');
+            }
+
+            try { fs.unlinkSync(SUGGEST_TMP); } catch (e) { /* ignore */ }
+
+            // Output JSON (compatible with C++ suggest output format where applicable)
+            const output = {
+                mode: 'single-turn',
+                ok: turnResult.ok,
+                playerType: whiteIsMCDSAI ? 'MCDSAI' : 'cpp-suggest',
+                clicksApplied: turnResult.clickResult ? turnResult.clickResult.applied : 0,
+                clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0
+            };
+            // Include suggest response for C++ players (MCDSAI doesn't produce it)
+            if (turnResult.suggest && turnResult.suggest.response) {
+                output.suggest = turnResult.suggest.response;
+            }
+            console.log(JSON.stringify(output, null, 2));
+            return;
+        }
+
+        // -------------------------------------------------------------------
+        // Multi-game mode (Phase 7c/7d — --games N where N > 1)
+        // -------------------------------------------------------------------
+        if (isMultiGame) {
+            console.error(`\n--- Starting ${numGames} Games with Random Card Sets ---`);
+            const multiResult = await playMultipleGames(
+                { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig },
+                numGames,
+                library
+            );
+
+            // Output structured results as JSON to stdout
+            const output = {
+                mode: 'multi-game',
+                numGames: numGames,
+                tally: multiResult.tally,
+                avgTurns: multiResult.avgTurns,
+                players: { white: playerWhite, black: playerBlack },
+                thinkTimeMs: thinkTimeMs,
+                mcdsaiDifficulty: anyMCDSAI ? mcdsaiDifficulty : undefined,
+                games: multiResult.games
+            };
+            console.log(JSON.stringify(output, null, 2));
+            return;
+        }
+
+        // -------------------------------------------------------------------
+        // Single-game mode (Phase 7b/7d — default, --games 1 or no --games)
+        // -------------------------------------------------------------------
+
         // Pick card set
         let unitNames;
         if (useRandom) {
@@ -892,138 +1321,33 @@ function main() {
             console.error('WARNING: Supply verification found mismatches (proceeding anyway)');
         }
 
-        console.error('\n--- Game Initialization ---');
-        const gameInitInfo = buildGameInitInfo(activeDeck);
-        const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
-        analyzer.loaderInit();
-        console.error('Game initialized successfully.');
+        console.error('\n--- Starting Single Game ---');
+        const gameResult = await playSingleGame(activeDeck, {
+            playerWhite: playerWhite,
+            playerBlack: playerBlack,
+            thinkTimeMs: thinkTimeMs,
+            mcdsai: mcdsaiConfig
+        });
 
-        printStateSummary(analyzer, 'INITIAL STATE');
-
-        console.error('\n--- Playing Single Turn ---');
-        const turnResult = playSingleTurn(analyzer, activeDeck, playerWhite, thinkTimeMs);
-
-        printStateSummary(analyzer, 'AFTER TURN');
-
-        // Verify results
-        console.error('\n--- Verification ---');
-        const postState = JSON.parse(analyzer.gameState.toString());
-        let verifyOk = true;
-
-        if (turnResult.ok && turnResult.clickResult) {
-            if (turnResult.clickResult.applied === 0) {
-                console.error('WARNING: No clicks were applied');
-                verifyOk = false;
-            } else {
-                console.error(`OK: ${turnResult.clickResult.applied} clicks applied`);
-            }
-            if (turnResult.clickResult.failed > 0) {
-                console.error(`WARNING: ${turnResult.clickResult.failed} clicks failed`);
-                verifyOk = false;
-            }
-        }
-
-        if (turnResult.ok) {
-            if (postState.numTurns > 1 || postState.turn !== 0) {
-                console.error('OK: Turn advanced (numTurns or active player changed)');
-            } else {
-                console.error('NOTE: Turn did not advance (may still be in action phase if clicks failed)');
-            }
-        }
-
-        console.error('\n=== RESULT ===');
-        if (turnResult.ok && verifyOk) {
-            console.error('PASS: Single-turn matchup test completed successfully.');
-        } else if (turnResult.ok) {
-            console.error('PARTIAL: --suggest succeeded but some clicks failed.');
-        } else {
-            console.error('FAIL: --suggest failed.');
-        }
-
-        try { fs.unlinkSync(SUGGEST_TMP); } catch (e) { /* ignore */ }
-
-        if (turnResult.suggest && turnResult.suggest.response) {
-            const output = {
-                mode: 'single-turn',
-                ok: turnResult.ok,
-                suggest: turnResult.suggest.response,
-                clicksApplied: turnResult.clickResult ? turnResult.clickResult.applied : 0,
-                clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0
-            };
-            console.log(JSON.stringify(output, null, 2));
-        }
-        return;
-    }
-
-    // -----------------------------------------------------------------------
-    // Multi-game mode (Phase 7c — --games N where N > 1)
-    // -----------------------------------------------------------------------
-    if (isMultiGame) {
-        console.error(`\n--- Starting ${numGames} Games with Random Card Sets ---`);
-        const multiResult = playMultipleGames(
-            { playerWhite, playerBlack, thinkTimeMs },
-            numGames,
-            library
-        );
-
-        // Output structured results as JSON to stdout
+        // Output result as JSON to stdout
         const output = {
-            mode: 'multi-game',
-            numGames: numGames,
-            tally: multiResult.tally,
-            avgTurns: multiResult.avgTurns,
+            mode: 'single-game',
+            result: gameResult.result,
+            winner: gameResult.winner,
+            turns: gameResult.turns,
+            errors: gameResult.errors,
+            abortReason: gameResult.abortReason,
             players: { white: playerWhite, black: playerBlack },
             thinkTimeMs: thinkTimeMs,
-            games: multiResult.games
+            mcdsaiDifficulty: anyMCDSAI ? mcdsaiDifficulty : undefined,
+            cardSet: activeDeck.filter(c => !c.baseSet).map(c => c.UIName || c.name)
         };
         console.log(JSON.stringify(output, null, 2));
-        return;
+
+    } finally {
+        // Always clean up MCDSAI workers
+        terminateWorkers();
     }
-
-    // -----------------------------------------------------------------------
-    // Single-game mode (Phase 7b — default, --games 1 or no --games flag)
-    // -----------------------------------------------------------------------
-
-    // Pick card set
-    let unitNames;
-    if (useRandom) {
-        unitNames = randomSet(library, 8);
-        console.error(`Random set: [${unitNames.join(', ')}]`);
-    } else {
-        unitNames = [];
-        console.error('Using base-set-only (no random units) for reproducibility');
-    }
-
-    const mergedDeck = buildMergedDeck(unitNames, library);
-    const activeDeck = mergedDeck.filter(c => !c._inactive);
-    console.error(`MergedDeck: ${mergedDeck.length} total, ${activeDeck.length} active`);
-
-    console.error('\n--- Supply Verification ---');
-    const supplyResult = verifySupply(activeDeck);
-    if (!supplyResult.ok) {
-        console.error('WARNING: Supply verification found mismatches (proceeding anyway)');
-    }
-
-    console.error('\n--- Starting Single Game ---');
-    const gameResult = playSingleGame(activeDeck, {
-        playerWhite: playerWhite,
-        playerBlack: playerBlack,
-        thinkTimeMs: thinkTimeMs
-    });
-
-    // Output result as JSON to stdout
-    const output = {
-        mode: 'single-game',
-        result: gameResult.result,
-        winner: gameResult.winner,
-        turns: gameResult.turns,
-        errors: gameResult.errors,
-        abortReason: gameResult.abortReason,
-        players: { white: playerWhite, black: playerBlack },
-        thinkTimeMs: thinkTimeMs,
-        cardSet: activeDeck.filter(c => !c.baseSet).map(c => c.UIName || c.name)
-    };
-    console.log(JSON.stringify(output, null, 2));
 }
 
 // ---------------------------------------------------------------------------
@@ -1036,14 +1360,20 @@ module.exports = {
     callSuggest,
     applyClicks,
     playSingleTurn,
+    playMCDSAITurn,
+    isMCDSAIPlayer,
     buildGameInitInfo,
     printStateSummary,
     playSingleGame,
     playMultipleGames,
     getStateHash,
-    resultToString
+    resultToString,
+    MCDSAI_PLAYER
 };
 
 if (require.main === module) {
-    main();
+    main().catch(err => {
+        console.error('Fatal:', err.message);
+        process.exit(1);
+    });
 }
