@@ -113,9 +113,11 @@ Each click in the `clicks` array has `_type` (string) and `_id` (int).
 - `_id` = -1 (always)
 - Alternative end-turn signal used in some contexts
 
-## Multi-Instance Handling
+## Multi-Instance Handling (Shift Expansion)
 
-The C++ engine **expands shift-flagged actions** into individual `inst clicked` entries. When the AI wants to use the ability of multiple units of the same type, the output contains one `inst clicked` per instance (each with its own `_id`). The JS engine receives and applies these sequentially — no shift-click handling needed on the JS side.
+The C++ AI's `PartialPlayer_ActionAbility_EconomyDefault` creates a single shift-flagged `USE_ABILITY` action that internally activates ALL units of the same type (e.g., all 6 Drones in one `doAction` call). The `DoSuggest` code in `Benchmarks.cpp` **expands** this single action into individual `inst clicked` entries — one per unit instance — by checking the pre-move game state for all cards of the same type that `canUseAbility()`. The JS engine receives and applies these sequentially — no shift-click handling needed on the JS side.
+
+**Implementation note:** The expansion uses a pre-move state snapshot (saved before `player->getMove()`) because the post-move state has all abilities already marked as used. Only `USE_ABILITY` actions use shift; `BUY` actions from the search are always individual.
 
 ## Determinism
 

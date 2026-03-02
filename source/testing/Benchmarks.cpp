@@ -314,6 +314,12 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
         }
     }
 
+    // Save pre-move state for shift expansion in click generation
+    // Shift-flagged actions (e.g. EconomyDefault activating all Drones) produce ONE
+    // action in the Move that activates ALL cards of the same type internally.
+    // We need the pre-move state to know which cards were eligible for activation.
+    GameState preState(state);
+
     Move move;
     try
     {
@@ -337,21 +343,41 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
                 buys.push_back(CardType(action.getID()).getUIName());
                 break;
             case ActionTypes::USE_ABILITY:
-                abilities.push_back(state.getCardByID(action.getID()).getType().getUIName());
+                if (action.getShift())
+                {
+                    // Expand shift: count all cards of same type that were activated
+                    const CardType sourceType = preState.getCardByID(action.getID()).getType();
+                    for (size_t ci = 0; ci < preState.numCards(activePlayer); ++ci)
+                    {
+                        CardID cid = preState.getCardIDs(activePlayer)[ci];
+                        const Card & c = preState.getCardByID(cid);
+                        if (c.getType() == sourceType && c.canUseAbility())
+                        {
+                            abilities.push_back(c.getType().getUIName());
+                        }
+                    }
+                }
+                else
+                {
+                    abilities.push_back(preState.getCardByID(action.getID()).getType().getUIName());
+                }
                 break;
             case ActionTypes::ASSIGN_BLOCKER:
-                defense.push_back(state.getCardByID(action.getID()).getType().getUIName());
+                defense.push_back(preState.getCardByID(action.getID()).getType().getUIName());
+                break;
+            case ActionTypes::ASSIGN_FRONTLINE:
+                abilities.push_back(preState.getCardByID(action.getID()).getType().getUIName());
                 break;
             case ActionTypes::ASSIGN_BREACH:
-                breach.push_back(state.getCardByID(action.getID()).getType().getUIName());
+                breach.push_back(preState.getCardByID(action.getID()).getType().getUIName());
                 break;
             case ActionTypes::SNIPE:
-                abilities.push_back(state.getCardByID(action.getID()).getType().getUIName()
-                    + " snipe " + state.getCardByID(action.getTargetID()).getType().getUIName());
+                abilities.push_back(preState.getCardByID(action.getID()).getType().getUIName()
+                    + " snipe " + preState.getCardByID(action.getTargetID()).getType().getUIName());
                 break;
             case ActionTypes::CHILL:
-                abilities.push_back(state.getCardByID(action.getID()).getType().getUIName()
-                    + " chill " + state.getCardByID(action.getTargetID()).getType().getUIName());
+                abilities.push_back(preState.getCardByID(action.getID()).getType().getUIName()
+                    + " chill " + preState.getCardByID(action.getTargetID()).getType().getUIName());
                 break;
             default:
                 break; // END_PHASE, WIPEOUT, UNDO_*, SELL -- skip
@@ -392,20 +418,46 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
             }
             case ActionTypes::USE_ABILITY:
             {
-                int instId = state.getCardByID(action.getID()).getClientInstId();
+                if (action.getShift())
+                {
+                    // Shift-flagged: the C++ engine activated ALL cards of this type
+                    // in one doAction call, but recorded only one Move action.
+                    // Expand into individual clicks for the JS engine.
+                    const CardType sourceType = preState.getCardByID(action.getID()).getType();
+                    for (size_t ci = 0; ci < preState.numCards(activePlayer); ++ci)
+                    {
+                        CardID cid = preState.getCardIDs(activePlayer)[ci];
+                        const Card & c = preState.getCardByID(cid);
+                        if (c.getType() == sourceType && c.canUseAbility())
+                        {
+                            int instId = c.getClientInstId();
+                            appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                        }
+                    }
+                }
+                else
+                {
+                    int instId = preState.getCardByID(action.getID()).getClientInstId();
+                    appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                }
+                break;
+            }
+            case ActionTypes::ASSIGN_FRONTLINE:
+            {
+                int instId = preState.getCardByID(action.getID()).getClientInstId();
                 appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
                 break;
             }
             case ActionTypes::ASSIGN_BLOCKER:
             {
-                int instId = state.getCardByID(action.getID()).getClientInstId();
+                int instId = preState.getCardByID(action.getID()).getClientInstId();
                 appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
                 appendClick(clicksOut, hasPrevClick, "end swipe processed", instId);
                 break;
             }
             case ActionTypes::ASSIGN_BREACH:
             {
-                int instId = state.getCardByID(action.getID()).getClientInstId();
+                int instId = preState.getCardByID(action.getID()).getClientInstId();
                 appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
                 break;
             }
@@ -413,8 +465,8 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
             case ActionTypes::CHILL:
             {
                 // Two-step targeting: click source, then click target
-                int srcId = state.getCardByID(action.getID()).getClientInstId();
-                int tgtId = state.getCardByID(action.getTargetID()).getClientInstId();
+                int srcId = preState.getCardByID(action.getID()).getClientInstId();
+                int tgtId = preState.getCardByID(action.getTargetID()).getClientInstId();
                 appendClick(clicksOut, hasPrevClick, "inst clicked", srcId);
                 appendClick(clicksOut, hasPrevClick, "inst clicked", tgtId);
                 break;
