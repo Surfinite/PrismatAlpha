@@ -1,18 +1,21 @@
 'use strict';
 
 /**
- * matchup_clean.js — Phase 7b: Single-game matchup runner (clean room rebuild)
+ * matchup_clean.js — Phase 7a/7b/7c: Matchup runner (clean room rebuild)
  *
- * Orchestrates a complete Prismata game by:
+ * Orchestrates Prismata games between C++ AI players by:
  *   1. Verifying supply at init (rarity-based, no card.supply field)
  *   2. Initializing a JS game via Analyzer
  *   3. Looping: export state -> call C++ --suggest -> apply clicks -> check game over
  *   4. Handling errors: retry on malformed JSON, forfeit/abort on repeated failure
  *   5. Stuck detection: abort as draw if state unchanged for N consecutive turns
+ *   6. Multi-game: random card sets, per-game supply verification, tally results
  *
  * Usage:
  *   node matchup_clean.js                             # Base-set-only single game
- *   node matchup_clean.js --random                    # Random 8-unit set
+ *   node matchup_clean.js --random                    # Random 8-unit set (single game)
+ *   node matchup_clean.js --games 10                  # 10 games with random card sets
+ *   node matchup_clean.js --games 50 --think-time 1000  # 50 fast games
  *   node matchup_clean.js --player LiveHardestAI      # Same AI for both sides
  *   node matchup_clean.js --player-white HardestAI --player-black LiveHardestAI
  *   node matchup_clean.js --think-time 5000           # Custom think time
@@ -638,7 +641,182 @@ function playSingleGame(activeDeck, config) {
 }
 
 // ---------------------------------------------------------------------------
-// 9. Main
+// 9. Play multiple games with random card sets (Phase 7c)
+// ---------------------------------------------------------------------------
+
+/**
+ * Play multiple games with random card sets.
+ *
+ * For each game:
+ *   1. Generate a random card set (8 random units + base set)
+ *   2. Build mergedDeck from card library
+ *   3. Verify supply on the mergedDeck (assert per-game, not just first)
+ *   4. Call playSingleGame() with the random card set
+ *   5. Log per-game structured JSON
+ *
+ * ~5% of random card sets trigger AI exceptions (from selfplay_main.js experience).
+ * On failure, retry with a different random set up to maxRetries times.
+ *
+ * @param {{ playerWhite: string, playerBlack: string, thinkTimeMs: number }} config
+ * @param {number} numGames - Number of games to play
+ * @param {Map} library - Card library from loadCardLibrary()
+ * @returns {{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }}
+ */
+function playMultipleGames(config, numGames, library) {
+    const maxRetries = 3;  // Retry with different set if AI fails (~5% of sets)
+    const games = [];
+    let whiteWins = 0;
+    let blackWins = 0;
+    let draws = 0;
+    let invalid = 0;
+    let totalTurns = 0;
+    let completedGames = 0;
+
+    for (let g = 0; g < numGames; g++) {
+        const gameNum = g + 1;
+        let gameLog = null;
+        let attempts = 0;
+
+        while (attempts < maxRetries) {
+            attempts++;
+            const startTime = Date.now();
+
+            // 1. Generate random card set
+            const unitNames = randomSet(library, 8);
+            console.error(`\n[Multi] Game ${gameNum}/${numGames} (attempt ${attempts}/${maxRetries})`);
+            console.error(`[Multi] Card set: [${unitNames.join(', ')}]`);
+
+            // 2. Build mergedDeck
+            const mergedDeck = buildMergedDeck(unitNames, library);
+            const activeDeck = mergedDeck.filter(c => !c._inactive);
+
+            // 3. Verify supply BEFORE each game (not just first)
+            const supplyResult = verifySupply(activeDeck);
+            if (!supplyResult.ok) {
+                console.error(`[Multi] Game ${gameNum}: Supply verification FAILED — logging and continuing`);
+            }
+
+            // 4. Play the game
+            let gameResult;
+            let gameError = null;
+            try {
+                gameResult = playSingleGame(activeDeck, config);
+            } catch (err) {
+                gameError = err.message || String(err);
+                console.error(`[Multi] Game ${gameNum}: Exception: ${gameError}`);
+            }
+
+            const endTime = Date.now();
+
+            // Check if game produced a valid result
+            if (gameError) {
+                if (attempts < maxRetries) {
+                    console.error(`[Multi] Game ${gameNum}: Retrying with different card set...`);
+                    continue;
+                }
+                // Max retries exhausted — log as invalid
+                gameLog = {
+                    game: gameNum,
+                    cardSet: unitNames,
+                    winner: 'invalid',
+                    result: null,
+                    turns: 0,
+                    errors: [gameError],
+                    abortReason: `Exception after ${attempts} attempts: ${gameError}`,
+                    startTime: new Date(startTime).toISOString(),
+                    endTime: new Date(endTime).toISOString(),
+                    durationMs: endTime - startTime,
+                    supplyVerified: supplyResult.ok,
+                    attempts: attempts
+                };
+                break;
+            }
+
+            // Game completed (possibly with abort/forfeit)
+            if (gameResult.turns === 0 && attempts < maxRetries) {
+                console.error(`[Multi] Game ${gameNum}: 0 turns — AI failure, retrying...`);
+                continue;
+            }
+
+            // 5. Build per-game log
+            gameLog = {
+                game: gameNum,
+                cardSet: unitNames,
+                winner: gameResult.winner,
+                result: gameResult.result,
+                turns: gameResult.turns,
+                errors: gameResult.errors,
+                abortReason: gameResult.abortReason,
+                startTime: new Date(startTime).toISOString(),
+                endTime: new Date(endTime).toISOString(),
+                durationMs: endTime - startTime,
+                supplyVerified: supplyResult.ok,
+                attempts: attempts
+            };
+            break;
+        }
+
+        // If all retries failed without setting gameLog
+        if (!gameLog) {
+            gameLog = {
+                game: gameNum,
+                cardSet: [],
+                winner: 'invalid',
+                result: null,
+                turns: 0,
+                errors: [`All ${maxRetries} attempts failed`],
+                abortReason: `All ${maxRetries} attempts failed`,
+                startTime: new Date().toISOString(),
+                endTime: new Date().toISOString(),
+                durationMs: 0,
+                supplyVerified: false,
+                attempts: maxRetries
+            };
+        }
+
+        games.push(gameLog);
+
+        // Tally results
+        if (gameLog.winner === 'invalid' || gameLog.result === null) {
+            invalid++;
+        } else if (gameLog.result === C.COLOR_WHITE) {
+            whiteWins++;
+            totalTurns += gameLog.turns;
+            completedGames++;
+        } else if (gameLog.result === C.COLOR_BLACK) {
+            blackWins++;
+            totalTurns += gameLog.turns;
+            completedGames++;
+        } else {
+            // Draw (stalemate, mutual elimination, max turns, stuck)
+            draws++;
+            totalTurns += gameLog.turns;
+            completedGames++;
+        }
+
+        // Progress summary per game
+        const elapsed = (gameLog.durationMs / 1000).toFixed(1);
+        console.error(`[Multi] Game ${gameNum} result: ${gameLog.winner} in ${gameLog.turns} turns (${elapsed}s)`);
+    }
+
+    // Final tally
+    const avgTurns = completedGames > 0 ? Math.round(totalTurns / completedGames) : 0;
+    const tally = { white: whiteWins, black: blackWins, draws, invalid };
+
+    console.error(`\n[Multi] ========== TALLY ==========`);
+    console.error(`[Multi] Games:   ${numGames}`);
+    console.error(`[Multi] White:   ${whiteWins} (${numGames > 0 ? (100 * whiteWins / numGames).toFixed(1) : 0}%)`);
+    console.error(`[Multi] Black:   ${blackWins} (${numGames > 0 ? (100 * blackWins / numGames).toFixed(1) : 0}%)`);
+    console.error(`[Multi] Draws:   ${draws}`);
+    console.error(`[Multi] Invalid: ${invalid}`);
+    console.error(`[Multi] Avg turns: ${avgTurns}`);
+    console.error(`[Multi] ================================\n`);
+
+    return { games, tally, avgTurns };
+}
+
+// ---------------------------------------------------------------------------
+// 10. Main
 // ---------------------------------------------------------------------------
 
 function main() {
@@ -647,6 +825,7 @@ function main() {
     // Parse CLI args
     let useRandom = false;
     let singleTurnMode = false;
+    let numGames = 1;
     let playerWhite = CONFIG.defaultPlayer;
     let playerBlack = CONFIG.defaultPlayer;
     let thinkTimeMs = CONFIG.thinkTimeMs;
@@ -654,6 +833,7 @@ function main() {
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--random') useRandom = true;
         if (args[i] === '--single-turn') singleTurnMode = true;
+        if (args[i] === '--games' && args[i + 1]) { numGames = parseInt(args[++i], 10); }
         if (args[i] === '--player' && args[i + 1]) {
             playerWhite = args[++i];
             playerBlack = playerWhite;  // same player for both sides unless overridden
@@ -670,7 +850,11 @@ function main() {
         process.exit(1);
     }
 
-    const modeLabel = singleTurnMode ? 'Single-Turn Test (Phase 7a)' : 'Single Game (Phase 7b)';
+    // Determine mode
+    const isMultiGame = numGames > 1 && !singleTurnMode;
+    const modeLabel = singleTurnMode ? 'Single-Turn Test (Phase 7a)'
+                    : isMultiGame ? `Multi-Game (Phase 7c) — ${numGames} games`
+                    : 'Single Game (Phase 7b)';
     console.error(`=== ${modeLabel} ===`);
     console.error(`Exe: ${EXE_PATH}`);
     console.error(`White: ${playerWhite}, Black: ${playerBlack}`);
@@ -684,33 +868,30 @@ function main() {
     const library = loadCardLibrary();
     console.error(`Loaded card library: ${library.size} entries`);
 
-    // 2. Pick card set
-    let unitNames;
-    if (useRandom) {
-        unitNames = randomSet(library, 8);
-        console.error(`Random set: [${unitNames.join(', ')}]`);
-    } else {
-        // Fixed set: base set only (no random units) for maximum reproducibility
-        unitNames = [];
-        console.error('Using base-set-only (no random units) for reproducibility');
-    }
-
-    // 3. Build merged deck (active cards only)
-    const mergedDeck = buildMergedDeck(unitNames, library);
-    const activeDeck = mergedDeck.filter(c => !c._inactive);
-    console.error(`MergedDeck: ${mergedDeck.length} total, ${activeDeck.length} active`);
-
-    // 4. Verify supply
-    console.error('\n--- Supply Verification ---');
-    const supplyResult = verifySupply(activeDeck);
-    if (!supplyResult.ok) {
-        console.error('WARNING: Supply verification found mismatches (proceeding anyway)');
-    }
-
     // -----------------------------------------------------------------------
     // Single-turn mode (Phase 7a compatibility)
     // -----------------------------------------------------------------------
     if (singleTurnMode) {
+        // Pick card set
+        let unitNames;
+        if (useRandom) {
+            unitNames = randomSet(library, 8);
+            console.error(`Random set: [${unitNames.join(', ')}]`);
+        } else {
+            unitNames = [];
+            console.error('Using base-set-only (no random units) for reproducibility');
+        }
+
+        const mergedDeck = buildMergedDeck(unitNames, library);
+        const activeDeck = mergedDeck.filter(c => !c._inactive);
+        console.error(`MergedDeck: ${mergedDeck.length} total, ${activeDeck.length} active`);
+
+        console.error('\n--- Supply Verification ---');
+        const supplyResult = verifySupply(activeDeck);
+        if (!supplyResult.ok) {
+            console.error('WARNING: Supply verification found mismatches (proceeding anyway)');
+        }
+
         console.error('\n--- Game Initialization ---');
         const gameInitInfo = buildGameInitInfo(activeDeck);
         const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
@@ -775,8 +956,54 @@ function main() {
     }
 
     // -----------------------------------------------------------------------
-    // Single-game mode (Phase 7b — default)
+    // Multi-game mode (Phase 7c — --games N where N > 1)
     // -----------------------------------------------------------------------
+    if (isMultiGame) {
+        console.error(`\n--- Starting ${numGames} Games with Random Card Sets ---`);
+        const multiResult = playMultipleGames(
+            { playerWhite, playerBlack, thinkTimeMs },
+            numGames,
+            library
+        );
+
+        // Output structured results as JSON to stdout
+        const output = {
+            mode: 'multi-game',
+            numGames: numGames,
+            tally: multiResult.tally,
+            avgTurns: multiResult.avgTurns,
+            players: { white: playerWhite, black: playerBlack },
+            thinkTimeMs: thinkTimeMs,
+            games: multiResult.games
+        };
+        console.log(JSON.stringify(output, null, 2));
+        return;
+    }
+
+    // -----------------------------------------------------------------------
+    // Single-game mode (Phase 7b — default, --games 1 or no --games flag)
+    // -----------------------------------------------------------------------
+
+    // Pick card set
+    let unitNames;
+    if (useRandom) {
+        unitNames = randomSet(library, 8);
+        console.error(`Random set: [${unitNames.join(', ')}]`);
+    } else {
+        unitNames = [];
+        console.error('Using base-set-only (no random units) for reproducibility');
+    }
+
+    const mergedDeck = buildMergedDeck(unitNames, library);
+    const activeDeck = mergedDeck.filter(c => !c._inactive);
+    console.error(`MergedDeck: ${mergedDeck.length} total, ${activeDeck.length} active`);
+
+    console.error('\n--- Supply Verification ---');
+    const supplyResult = verifySupply(activeDeck);
+    if (!supplyResult.ok) {
+        console.error('WARNING: Supply verification found mismatches (proceeding anyway)');
+    }
+
     console.error('\n--- Starting Single Game ---');
     const gameResult = playSingleGame(activeDeck, {
         playerWhite: playerWhite,
@@ -812,6 +1039,7 @@ module.exports = {
     buildGameInitInfo,
     printStateSummary,
     playSingleGame,
+    playMultipleGames,
     getStateHash,
     resultToString
 };
