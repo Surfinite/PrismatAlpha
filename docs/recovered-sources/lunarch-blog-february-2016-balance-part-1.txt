@@ -1,0 +1,98 @@
+# February 2016 Unit Patch Notes - Part 1
+# Source: blog.lunarchstudios.com/2016/02/11/february-2016-unit-patch-notes-part-1/
+# Wayback: https://web.archive.org/web/20190719143808/http://blog.lunarchstudios.com/2016/02/11/february-2016-unit-patch-notes-part-1/
+# Retrieved: 2026-02-20
+
+We’re currently putting the finishing touches on a new **February 2016 Prismata Alpha unit patch** that will go live within the next week.
+
+With this patch, the total number of Prismata units will increase by 4. We are adding three new units, plus replacing the existing Deadeye Operative with *two* other units that replicate its current role.
+
+I won’t be spoiling the new units just yet, but I do wish to announce the bulk of the balance changes that we’ll be deploying. We’ll not be deploying as many balance changes as last time, but some of the new things we’re testing are quite important.
+
+### Survey Results
+
+Before announcing the changes, I want to talk about some of our motivations behind our balance adjustments.
+
+A number of weeks ago, we put out a **January 2016 Balance Survey** in which we asked alpha players several specific questions about a number of Prismata units. We also asked more general questions about what types of Prismata gameplay they would like to see more often or less often in the distribution of random sets that they encounter while playing games on the Prismata ladder.
+
+We’ve published the survey results here. The resulting data revealed a number of things, including the following:
+
+(1) A majority of players answered “WANT MORE” or “WANT SOMEWHAT MORE” when asked about games in which units of all three colours were purchased.
+
+[Image: 3color]
+
+(2) A sizable chunk of Prismata players want to see larger games more often and smaller games less often.
+
+[Image: econ]
+
+(3) About half of all players want to see Shadowfang get nerfed, and a similar fraction of players want to see fewer games with ultra-efficient attackers (hardly any players want to see more of them).
+
+[Image: shadowfang results]
+
+Now, it’s important to note that in designing Prismata, we take many things into account: the elegance and simplicity of the game’s rules, the amount of variety in-game experiences that players can have, and the amount of opportunity for stylistic and expressive play. Design-by-democracy is a poor process for achieving some of these goals—if we simply make every Prismata game more similar to what the average player wants, a huge number of players might end up missing the unique aspects that they cherish most.
+
+Despite that, it’s hard to ignore the general trends in our survey results. A substantial cohort of players want to see more bigger, slower, 3-colour games and want to see fewer rush games and fewer games involving hyper-efficient units like Shadowfang. We’ve seen a number of discussions pop up about the prevalence of games in which low-econ red rushing appears to be the only viable strategy, and while many players enjoy these games from time to time, we feel that the ideal fraction of Prismata games that turn out this way should likely be a slight bit lower than it is right now.
+
+Accordingly, a number of changes in this patch aim to modify red units that were often implicated in rush-forcing lines, either by directly weakening them or by adjusting them to allow for greater opportunities for counterplay.
+
+Before I get to the changes themselves, I wish to share a further bit of backstory.
+
+ 
+
+### The History of Shadowfang
+
+Shadowfang is the most-commonly cited example of an overpowered red unit that frequently forces a brutal low-econ fight due to its ruthless efficiency. Shadowfang is inarguably one of the most cost-effective sources of damage in the game at its current (soon-to-be-former) price of 7RRR. There are essentially no other attackers in Prismata that provide consistent damage at a lower cost-per-unit-attack.
+
+However, Shadowfang actually began its Prismata career at the even-more-insane cost of 6RRR, where it remained for many years in pre-alpha before we nerfed it in 2014. And we truly felt that it was balanced at 6RRR. What was so different?
+
+To answer that question, it makes sense to look at Shadowfang’s many weaknesses. Shadowfangs are highly breach vulnerable, meaning that players must invest in good defense to keep them alive. Since a Shadowfang requires RRR to produce, players generally need 2 Animuses if they want to get Shadowfangs. Red tech generally isn’t that great defensively, so players frequently waste red and make inefficient purchases in the late game when defending their Shadowfangs (hence the Rhino spam you often see in the final turns of a Shadowfang mirror before one of the players inevitably gets breached). Moreover, Shadowfang’s awkward cost also frequently forces players to waste a red when buying a Shadowfang, especially if Blastforges, Conduits, or other tech are purchased. It’s actually really difficult to plan and execute a Shadowfang build in which you employ your resources efficiently throughout the whole game. Additionally, taking a high-econ route is often not an option, since your opponent can rush you down with Shadowfangs!
+
+Alas, Shadowfang’s insane cost-effectiveness has historically been kept in check by the unit’s awkwardness and the resulting difficulty of spending red efficiently in games where players go for Shadowfangs. Shadowfang offers fantastic value, but players can seldom buy it without being wasteful at some point.
+
+So what changed?
+
+Well, we can’t point to any single balance update that made Shadowfang a problematic unit at 7RRR. It was more of a “boiling frog” effect that crept up on us gradually over the last year or so as units like Nitrocybe, Blood Phage, Corpus, and Ferritin Sac were introduced. As they were added, they joined Perforator and Flame Animus in a list of units that eased the burden of creating Shadowfangs by providing alternate red sources or efficient ways of spending red in the late game. With the addition of these units, Shadowfang could suddenly realize its true potential in a much larger fraction of games, and the unit’s insane level of cost-effectiveness became a design liability. The weakening of chill units like Frostbite and Cryo Ray also reduced the strength of available counterplay that sometimes made Shadowfang less desirable.
+
+Now, don’t get me wrong; we want Shadowfang to be strong! We also want Shadowfang’s strength to be influenced by other units, and made deliberate efforts to ensure this was the case. In particular, we want players to be challenged by the need to assess Shadowfang’s *situational effectiveness. *To find the best strategy in a Shadowfang game, players must evaluate how strong the unit is* *in the presence of* *the other available supporting units. That’s part of what makes the unit interesting.
+
+However, Shadowfang becomes far less interesting when the answer to the question *“how effective will Shadowfang be this game?”* is simply *“it’s a must-buy unit.” *Unfortunately, we found ourselves in a position where this appeared to be the case in a large percent of base+8 games involving Shadowfang, and our players weren’t too happy about it (as you can observe in the survey results above).
+
+Going forward, there were three options available to us. Doing nothing would be the easiest option, but our goal has always been to *find the best version of each Prismata unit*, and we certainly felt that potential improvements were worth exploring, especially in the face of a growing number of concerns from our players. Thus, we took aim at rebalancing the distribution of answers to the question “*how effective will Shadowfang be this game?*“, and found ourselves with two tools to do it: we could either nerf Shadowfang, or adjust a large number of other Prismata units to substantially weaken the average amount of situational effectiveness added by supporting units.
+
+As it turns out, we’re doing a bit of both. Though we experimented with the idea of simply leaving Shadowfang as-is and targeting a few of the more broken Shadowfang combo units (Corpus in particular), we ultimately felt that this approach had two shortcomings—it didn’t do enough to address the underlying problem (Shadowfang was still “too good, too often”), and it didn’t relieve us of the restriction that units like Shadowfang impose on our design space (all potential supporting units that strengthen Shadowfang could be potential future problems).
+
+I should point out that Shadowfang is only one example among many red units that have been affected by recent adjustments to the distribution of random units in Prismata. Though Shadowfang is probably the most egregious offender at the moment, we’ll be making changes to several other units in an effort to tone down the frequency of games in which low-econ red openings are the only viable strategy (though, as I mentioned above, we don’t want to eliminate those games entirely!)
+
+With that out of the way, let’s get to the balance changes themselves:
+
+ 
+
+### Changes in the February 2016 Balance Patch
+
+This isn’t a complete list, as we’re still finalizing a few things. However, it contains all the adjustments to red units that we’ve hinted at above.
+
+**Corpus: Cost decreased from 6RRR to 6RR. Comes with 1 Husk instead of 2 Husks. Click ability changed from “Pay 4RRR, construct 4 Husks” to “Pay 5R, construct 3 Husks”. **Prompted by problematic games involving Corpus and other heavy red units like Tatsu Nullifier and Shadowfang, this change is aimed at reshaping Corpus into a more middle-of-the-road red defender that can be flexibly used in a variety of situations, rather than employed as a cost-effective source of damage soak in games where a double Animus is purchased. Its efficiency has been drastically reduced, but its availability has been increased.
+
+**Shadowfang: Cost increased from 7RRR to 8RRR.** We experimented with a variety of other changes, including a 7RRRR Shadowfang, and various buildtime-2 variations. However, we found that an 8RRR Shadowfang was best for preserving the unit’s situational variability in value in the presence of other supporting units. At 8RRR, Shadowfang is still one of the most cost-effective Prismata attackers, but you can expect to see somewhat larger economies in many Shadowfang games, with fast Shadowfang rushes only occurring in situations where an ideal cocktail of supporting units are present.
+
+**Amporilla:**** Cost increased from 12RRR to 13RRR.** As with Shadowfang, we felt that recent red unit additions and other adjustments have made Amporilla too strong, too often. We’ve thus reverted Amporilla back to its old cost of 13RRR (how many of you can remember a time when Amporilla was 13RRR? It was a long time ago!)
+
+**Blood Phage: Cost changed from 7RRE to 8RE.** This change is aimed at reducing the frequency of turn 2 Animus builds that are frequently forced in Blood Phage sets. We’re never happy when a unit single-handedly reduces opening diversity to the extent that Blood Phage was doing. We experimented with a huge number of possible changes to the unit (including adding buildtime and removing the 1-gold-at-start-of-turn ability), but a simple cost change to 8RE ended up being the simplest solution to the problems we were seeing.
+
+**Gaussite Symbiote: Cost increased from 7RR to 8RR. Ability now produces 6 Gauss Charges instead of 5 Gauss Charges.** We’ve long been worried about Gaussite Symbiote being responsible for games in which early red-green rushes were essentially forced. In some cases, such rushes were nearly unbeatable by other strategies (especially with units like Feral Warden and Protoplasm present). We reduced Gaussite Symbiote’s cost from 8RR to 7RR many months ago (around the same time we changed Flame Animus’s cost from 8B to 7B) in order to experiment with more efficient tech/attacker combo units, but after months of feedback from our alpha players, we feel that the resulting units were simply too strong. However, we also feel that the old 8RR Symbiote was a bit lacklustre, so we’ve increased the power of its ability to compensate for the nerf in cost.
+
+**Wild Drone: Supply decreased from 10 to 4.** Though Wild Drone exhibits balanced player 1 and player 2 winrates on most of the Prismata ladder, the unit has become one of the most player-1-favouring units at high Elo levels (1800+). A number of players have suggested that a supply reduction will eliminate this by reducing the power of 4-Engineer Wild Drone openings. After some testing, we believe that such a change will be beneficial overall (though we will miss some of the games in which a large number of Wild Drones were bought!)
+
+**Asteri Cannon: HP decreased from 16 to 14. Click ability cost decreased from 5HP to 3HP.** Asteri Cannon’s buy rate decreased substantially when we changed it from producing Forcefields to producing Barriers, leading us to believe that we might have nerfed the unit too much. Consequently, we’re making a very minor adjustment that slightly buffs Asteri Cannon by allowing it to create one extra Barrier. This adjustment also slightly nerfs the unit in breachproof situations by reducing its HP.
+
+**Lancetooth:**** Cost changed from 7B + “pay 1 attack” to 6B + “pay 2 attack”.** A number of players and survey respondents have told us that they thought our recent buff to Lancetooth made the unit too strong. We considered simply reverting the change, but after playing with the “6B + pay 2 attack” version of the unit, we really like it! So we’re going to test this variation on the alpha server instead. We’ll be seeking your feedback.
+
+**Vai Mauronax: Cost changed from 14BRRR to 13BRRRR. **This change is aimed at a powerful combo involving Vai Mauronax and Chrono Filter. Though we didn’t feel that an auto-win situation was present, we did feel that the combo was too strong, to the point where games involving those two units often followed a highly scripted sequence of opening moves. This change should address that combo without affecting Vai too much in other situations.
+… (to be continued!)
+ 
+
+### New Units
+
+Part 1 has grown too long… the new units will have to wait until Part 2! Here are some image spoilers, though!
+
+[Image: spoiler]

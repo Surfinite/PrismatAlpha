@@ -1,0 +1,26 @@
+= UI Hacks =
+
+
+== The Code: ==
+
+<nowiki>
+javascript:(function(){rwf=function(){$(".footer").remove();$(".linkTable").remove();$("object").attr("width",$(window).width()-20).attr("height",$(window).height()-20)};$(window).resize(rwf);rwf();})()
+</nowiki>
+
+== How to Create a Bookmarklet: ==
+
+# Create a new Bookmark 
+# Copy the code above into the 'URL' portion of the bookmark and name it something fancy like 'Resize Prismata Screen'
+
+== Usage: == 
+
+# Goto http://play.prismata.net
+# Click on the bookmarklet to resize the screen.
+
+== Tweaking the Size: == 
+
+Resize the browser window, and the game should resize dynamically.
+
+== Known Issues: ==
+
+This is a crude hack and will likely stop working at some point. Hopefully by that time there will be a real resize feature on the official play page.

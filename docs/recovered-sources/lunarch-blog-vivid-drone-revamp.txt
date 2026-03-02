@@ -1,0 +1,65 @@
+# Prismata K-factor adjustments and Vivid Drone revamp
+# Source: http://blog.lunarchstudios.com/2016/09/29/prismata-k-factor-adjustments-vivid-drone-revamp
+# Words: 971
+
+Hi all.
+
+I have two announcements to make concerning changes that are coming to Ranked Play mode this week:
+
+A redesigned Vivid Drone will be going live on Friday.
+
+Effective immediately, we've adjusted the K-Factor scaling for highly-ranked players on the Ranked Play ladder.
+
+New Vivid Drone
+
+Vivid Drone has been a unit that we've been struggling with, design-wise, for quite some time. Last year, I described how the 4EEE Vivid Drone is unique in that it offers a different variety of options to player 1 and player 2 in each game—player 1 gets a consistently strong opening in the form of DD/DDE, while player 2 can choose from 3 or 4 different openings, each with their own strengths and weaknesses. This asymmetry in design leads to weaker players having a tougher time as player 2, while strong players in the 1900+ range actually experience a player 2 winrate closer to 50-50. In December, we attempted to  rebalance  the unit by increasing the number of Drones sacrificed from three to four, which helped out several of the player 2 lines. However, a few problems remain: Vivid Drone is still a bit more player 2-favouring than we would ideally like, and we still see Vivid Drone sets where one player or the other has a hard time finding a good line. Moreover, we weren't able to find any further adjustments we could make to the unit that would address these issues. Believe me, we tried.
+
+We considered simply removing the unit from the game, but there are a number of issues: Vivid Drone skins, a "Can't touch Vivid" emote, a team called Vivid E-sports, and several missions in our upcoming campaign where the unit plays a prominent role. Simply removing the unit would upset a lot of people and mess up a lot of things. Of course, we considered simply removing the skins/emotes in the upcoming reset, but a number of Vivid E-sports folks requested that we keep the "Can't touch Vivid" emote in the game.
+
+Instead, we decided to completely redesign the unit from the ground up, and introduce an entirely different campaign-only unit to fill the role that Vivid used to play (we already have a number of campaign-only units, so this is nothing new for us). When the campaign launches, you'll be seeing a 4EEE Drone with a completely different name and new artwork. And on Friday, Vivid Drone will be metamorphosizing into this:
+
+The new Vivid Drone , which will have 10 supply.
+
+This new Vivid Drone is actually derived from an independently designed unit that we'd been saving up to release later, but we've decided to put it on the ladder now as a replacement for Vivid. It facilitates a variety of new and interesting economic options, and we hope that you'll find it interesting!
+
+K-Factor Adjustment
+
+We've decided to make a change to the way rating updates are calculated after Ranked Play games. Players frequently complained that the leaderboard didn't accurately reflect who the best players were, and top players suggested that the existing ratings might be a little too volatile. Consequently, we'll be implementing something called "K-Factor Scaling".
+
+In the Elo rating system, there is a parameter "K" that determines how quickly player ratings converge. With a higher K-factor, players gain more points when they win and lose more points when they lose, making ratings more volatile. For example, if player A is 200 Elo points better than player B, then player A is expected to win about 75% of the time. With a K-factor of 40, player A would gain 10 points for a win, but lose 30 points for a loss. With a K-factor of 20, player A would gain 5 points for a win and would lose 15 points for a loss. In either case, if players A and B play a series of games and player A wins about 75% of them, then the 200-point gap between the two players will remain constant, regardless of the K-factor.
+
+Although Prismata doesn't use the Elo system, we use a related system whose ratings are commensurate with Elo ratings. We too have the ability to adjust the underlying logic in a way that mimics a change to the K-factor. However, we won't be applying a change across the board. Instead, we'll be reducing the K-factor for games involving highly-rated Tier X players, similarly to what chess organizations like FIDE do for chess ratings at the grandmaster level.
+
+The changes included are as follows:
+
+Average rating of the two players
+Relative K-factor adjustment
+
+1700 or below
+100% (no change)
+
+between 1700 and 2200
+(2700-X)/1000 * 100%, where X is the average rating
+
+2200 and above
+50%
+
+Players will hence observe the following:
+
+For Ranked Play games where the average rating is below 1700, there will be no changes.
+
+For Ranked Play games where the average rating is above 2200, players will gain or lose 50% as many points as they used to.
+
+For all other games, the amount of points gained or lost will scale linearly between 100% and 50% as the average rating varies from 1700 to 2200.
+
+We'll be keeping an eye on things to see whether further adjustments are needed; we're anticipating the possibility of seeing a bit of rating inflation when Prismata makes its debut on Steam, so the above values may need to be updated.
+
+---
+
+About Elyot Grant
+
+A former gold medalist in national competitions in both mathematics and computer science, Elyot has long refused to enjoy anything except video games. Elyot took more pride in winning the Reddit Starcraft Tournament than he did in earning the Computing Research Association's most prestigious research award in North America. Decried for wasting his talents, Elyot founded Lunarch Studios to pursue his true passion.
+
+View all posts by Elyot Grant ->
+
+---

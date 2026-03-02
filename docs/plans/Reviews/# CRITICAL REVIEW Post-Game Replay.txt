@@ -1,0 +1,338 @@
+# CRITICAL REVIEW: Post-Game Replay Commentary Pipeline Implementation Plan
+
+## 1. One-line verdict
+The plan is impressively detailed and well-researched but suffers from **over-engineering** in key areas while **under-specifying** critical error handling and testing strategies, potentially creating maintenance burden disproportionate to the project's scale.
+
+## 2. What's good (preserve as-is)
+
+**Preservation areas:**
+- **Two-stage LLM pipeline** — Research-backed separation of analysis from narrative is correct. Single-pass generation would produce mediocre results for complex strategy games.
+- **Haiku-first with Sonnet upgrade** — Smart cost optimization that maintains quality escape hatch.
+- **Reuse of existing patterns** — Leveraging `discord_knowledge_extractor.py` batch patterns is excellent. Don't reinvent proven code.
+- **Few-shot examples for style control** — Critical for quality. The dynamic selection based on game characteristics (upset, length) is particularly clever.
+- **Programmatic verification** — Essential for factual accuracy. Checking turn numbers, unit names, and eval values catches ~80% of LLM hallucinations.
+- **Intermediate file caching** — Enables rapid iteration on prompts without re-running expensive C++ analysis.
+
+## 3. Concerns & risks (ranked by severity)
+
+### High Risk (Address Immediately)
+
+**Risk 1: Over-engineered Phase 6 Quality Assurance**
+The plan proposes building an **A/B comparison tool** and **automated quality rubric** before the core pipeline is proven. This is premature optimization. The solo developer should:
+1. Build the core pipeline (Phases 1-4)
+2. Manually evaluate 10-20 commentaries
+3. *Then* consider automated QA tools if manual review becomes burdensome
+
+**Risk 2: Missing error recovery for C++ engine failures**
+The plan assumes `--analyze` and `--eval` always succeed. In practice:
+- C++ exe can OOM (x86 4GB limit)
+- Games >40 turns can timeout (>300s)
+- Resource validation has edge cases (buySac, complex abilities)
+
+The pipeline needs **graceful degradation paths**:
+- Fall back to `--eval-only` if `--analyze` times out
+- Skip neural eval entirely if C++ fails (`--validate-only` mode)
+- Log warnings for stepper reliability <80% and adjust confidence accordingly
+
+**Risk 3: Token inflation from few-shot examples**
+Including 1-2 full commentaries (3-4K tokens each) **doubles** input token count. This pushes narrative stage from ~6K to ~10K tokens, potentially exceeding 8K context budget. Solution: Use **extracted style templates** instead of full examples.
+
+### Medium Risk (Address During Implementation)
+
+**Risk 4: Unit knowledge extraction is underspecified**
+The plan says "extract relevant strategic notes" but doesn't specify **how much context** to include:
+- Just the unit's individual entry? (100-200 tokens)
+- Also mention synergistic units? (300-500 tokens)
+- Include opening theory for that unit? (500-800 tokens)
+
+Without clear boundaries, token counts will balloon unpredictably.
+
+**Risk 5: Narrative stage hallucinations beyond programmatic verification**
+The verification pass catches "turn 17 doesn't exist" but not:
+- "Player X's aggressive opening" when they actually played defensively
+- "The Plasmafier gambit" when no gambit occurred
+- "Time pressure caused the loss" when winner had 120s bank
+
+Need **sanity checks** on strategic claims against game data.
+
+**Risk 6: Batch mode complexity for marginal benefit**
+Batch processing saves 50% cost but:
+- Adds 24h latency (results "within 24h")
+- Requires checkpoint/resume logic
+- Complicates error handling (some games succeed, some fail)
+
+For a small community posting ~5 commentaries/week, the complexity may outweigh savings. Sync mode at $0.02/game is acceptable.
+
+### Low Risk (Monitor)
+
+**Risk 7: Discord formatting edge cases**
+The `== MESSAGE N ==` format works for 3-5 messages but what about:
+- 1-message games (short rushes)?
+- 8+ message epics (40-turn grinds)?
+- Special characters in unit names breaking Discord markdown?
+
+**Risk 8: Maintenance burden from new prompt files**
+Three new prompt files (`analysis_system.md`, `narrative_system.md`, `narrative_user_template.md`) plus schema JSON creates **prompt drift risk**. Any change to commentary style requires updating multiple files.
+
+## 4. Suggested changes (actionable modifications)
+
+### Simplify Phase 6: Postpone Automated QA
+**Instead of:** Building A/B comparison tool and quality rubric upfront
+**Do:** Add manual evaluation checklist in Phase 4, defer automation to Phase 7 if needed
+```python
+# In Phase 4 CLI, add --verbose flag that prints:
+[✓] Factual: All referenced turns exist (12/12)
+[✓] Factual: All unit names in deck (8/8)
+[✓] Coverage: Mentions biggest eval swing (T8, +14.5%)
+[✓] Structure: 3 messages, all <2000 chars
+[?] Quality: Subjective assessment needed
+```
+
+### Add Graceful Degradation Paths
+**Add to Phase 1:** Sequential fallback for data extraction:
+1. Try `--analyze` (full AI comparison) ← ideal
+2. If timeout/OOM → fallback to `--eval-only` (neural eval only)
+3. If C++ fails entirely → fallback to `--validate-only` (resource validation only)
+4. If validation fails (stepper unreliable) → warn user and continue with unvalidated clicks
+
+**Add to Phase 2:** Analysis stage should handle incomplete data (e.g., no eval if C++ failed).
+
+### Optimize Few-Shot Token Usage
+**Instead of:** Including entire commentaries (3-4K tokens each)
+**Do:** Extract **style templates** (200-400 tokens each):
+```
+EXAMPLE_STYLE = """
+== MESSAGE 1 ==
+[Opening analysis] Player X opened with [UNIT PATTERN]. This signals [STRATEGY INTENTION]. Meanwhile, Player Y opted for [ALTERNATIVE]...
+
+== MESSAGE 2 ==  
+[Midgame turning point] The critical moment came on turn [N] when [SPECIFIC ACTION]. Before this, eval was [X]%; after, [Y]%...
+
+== MESSAGE 3 ==
+[Endgame and verdict] With [FINAL SITUATION], Player Z secured victory because [DECISIVE FACTOR]. Key takeaways: [INSIGHT 1], [INSIGHT 2]...
+"""
+```
+
+### Specify Unit Knowledge Boundaries
+**Add to Phase 1:** Precise extraction rules:
+- Extract ONLY the section for units in random set
+- Include: cost, stats, abilities, tier (rare/legendary)
+- Include: 1-2 sentences of strategic context
+- **Exclude:** Synergy discussions unless both units are in set
+- **Exclude:** Opening theory (too context-dependent)
+- **Exclude:** Historical examples/player anecdotes
+- Maximum 200 tokens per unit, 1000 tokens total for set
+
+### Add Strategic Claim Verification
+**Add to Phase 2c verification pass:**
+- Check "Player X played aggressively" → verify they purchased attackers earlier than average
+- Check "Unit Y was pivotal" → verify it was purchased and used
+- Check "Time pressure influenced decision" → verify player had <30s bank on that turn
+- Flag subjective claims for human review in `--verbose` mode
+
+### Simplify Batch Mode (Phase 5)
+**Instead of:** Full batch pipeline immediately
+**Do:** Start with serial processing (1 game → 1 API call) but with **Batch API for cost savings**:
+- Submit analysis stage for all games as batch
+- Submit narrative stage for all games as batch
+- Still process sequentially but get 50% discount
+- Simpler error handling (failed game doesn't block batch)
+
+### Improve Error Handling Specification
+**Add to each phase:** Explicit error handling:
+- Phase 1: C++ timeout → fallback, still produce JSON with `"eval_available": false`
+- Phase 2: API failure → retry 2x with exponential backoff, then exit with error
+- Phase 3: Output validation failures → attempt repair (split long messages), log warning
+- All phases: Clean up partial files on failure
+
+## 5. Alternatives worth considering
+
+### Alternative A: Single-Stage with Structured Narrative
+**Instead of:** Analysis (JSON) → Narrative (free text)
+**Consider:** Single call with structured narrative output:
+```json
+{
+  "messages": [
+    {"header": "Opening", "content": "..."},
+    {"header": "Midgame", "content": "..."},
+    {"header": "Endgame", "content": "..."}
+  ]
+}
+```
+**Pros:** One API call, guaranteed structure
+**Cons:** May produce mechanical-sounding prose, research suggests two-stage is better
+
+### Alternative B: Extract → Template Fill Approach
+**Instead of:** LLM generating prose from scratch
+**Consider:** LLM fills predefined templates with game data:
+```
+[PLAYER1] ({RATING1}) vs [PLAYER2] ({RATING2}) in a [LENGTH]-turn battle featuring [UNIT1], [UNIT2], and [UNIT3].
+
+The key moment came on turn [TURN] when [PLAYER] [ACTION], swinging the evaluation from [EVAL_BEFORE]% to [EVAL_AFTER]%...
+```
+**Pros:** Guaranteed structure, no hallucinations, cheaper
+**Cons:** Inflexible, can't capture nuanced game narratives
+
+**Recommendation:** Stick with two-stage LLM but use **tighter prompts** to reduce hallucination risk.
+
+### Alternative C: Different Model Split
+**Instead of:** Haiku for both stages
+**Consider:** Sonnet for analysis (structured reasoning), Haiku for narrative (prose generation)
+**Rationale:** Analysis requires deeper strategic understanding, narrative is more stylistic
+**Cost impact:** ~$0.04/game vs $0.02/game (Haiku-only) vs $0.10/game (Sonnet-only)
+
+## 6. Additions (missing from plan)
+
+### 1. Hallucination Mitigation Beyond Basic Verification
+The plan misses **contradiction detection**:
+- "Player dominated economy" but they had fewer Drones
+- "Brilliant Apollo play" but Apollo wasn't purchased
+- "Comeback victory" but winner was ahead whole game
+
+**Add:** Cross-reference key narrative claims against game data before final output.
+
+### 2. Game Length Adaptation
+The plan treats all games equally. A 40-turn grind needs different handling than an 8-turn rush:
+- **Short games (<15 turns):** Focus on opening mistakes, quick breach
+- **Long games (>25 turns):** Emphasize resource management, tech transitions
+- **Very long games (>35 turns):** Risk token overflow
+
+**Add:** Dynamic token budgeting based on game length.
+
+### 3. Output Format Validation
+The plan checks `== MESSAGE N ==` format but not:
+- Discord markdown escaping (`` `code` ``, `**bold**`, `*italic*`)
+- Special character escaping for unit names with asterisks (`*Vai Mauronax*`)
+- Message length after Discord rendering (markdown doesn't count toward 2000 chars)
+
+**Add:** Post-processing to escape Discord markdown properly.
+
+### 4. Cost Tracking with Budget Limits
+The plan prints cost but doesn't enforce limits. A bug could rack up hundreds of dollars.
+
+**Add:** `--max-cost 1.00` flag that aborts if estimated cost exceeds limit.
+
+### 5. Idempotency and Replay Protection
+If commentary for `FxCfR-K49T+` already exists, the plan says "rename first" but doesn't specify strategy.
+
+**Add:** Standard naming convention with versioning:
+```
+commentary_FxCfR-K49T+_v1.txt
+commentary_FxCfR-K49T+_v2.txt
+commentary_FxCfR-K49T+_latest.txt  # symlink to latest
+```
+
+## 7. Removals (from plan)
+
+### Remove: Phase 6 A/B Comparison Tool
+**Reason:** Premature optimization. Manual comparison of 2-3 variants is sufficient for now. Building a comparison framework adds complexity without immediate value.
+
+**Instead:** Add `--compare VARIANT-A VARIANT-B` that runs pipeline twice with different settings and prints side-by-side diff. No need for full framework.
+
+### Remove: Quality Rubric Automation
+**Reason:** Factual accuracy checks (Phase 2c) are sufficient. Narrative quality cannot be automated meaningfully at this scale (dozens of games/week).
+
+**Instead:** Rely on human review with checklist (factual accuracy, coverage, structure).
+
+### Remove: Dynamic Few-Shot Selection Complexity
+**Reason:** The plan proposes dynamic selection based on game characteristics (upset, length). This adds code complexity for marginal benefit.
+
+**Instead:** Use **one** well-chosen example that works for all games. The example should be medium-length (20 turns), balanced matchup, with common units.
+
+### Remove: Separate Prompt Files for Each Stage
+**Reason:** Three separate prompt files (`analysis_system.md`, `narrative_system.md`, `narrative_user_template.md`) creates maintenance burden.
+
+**Instead:** Use **Python string templates** in the main script with clear sections. Easier to modify holistically.
+
+## 8. Minor / nits
+
+### CLI Interface Polish
+- `--eval-only` vs `--validate-only` naming is confusing. Rename to `--no-ai` (skip C++) and `--no-validation` (skip resource validation)?
+- Add `--dry-run` flag that shows token estimates and cost without making API calls.
+- Add `--version` flag that prints pipeline version and model used.
+
+### Output Directory Structure
+The plan outputs to `bin/commentary/` but this mixes:
+- Generated commentaries
+- Intermediate JSON files
+- Analysis outputs
+- Batch status files
+
+**Suggest:** Subdirectories:
+```
+bin/commentary/
+  games/           # commentary_FxCfR-K49T+.txt
+  analysis/        # analysis_FxCfR-K49T+.json  
+  data/            # data_FxCfR-K49T+.json
+  batches/         # batch_status.json
+```
+
+### Cost Estimate Accuracy
+The plan estimates $0.02/game for Haiku sync. With 10K input + 5K output tokens:
+- Input: 10K × $1/MTok = $0.01
+- Output: 5K × $5/MTok = $0.025
+- **Total: $0.035** (75% higher than estimate)
+
+Recalculate with realistic token counts:
+- Analysis stage: 4K in, 2K out = $0.004 + $0.01 = $0.014
+- Narrative stage: 6K in, 3K out = $0.006 + $0.015 = $0.021
+- **Total: $0.035** (matches above)
+
+Batch discount (50%) brings to **$0.0175/game**.
+
+### Documentation Gaps
+- No mention of **rate limiting** (Anthropic has 10 RPM free tier, 40 RPM paid)
+- No **environment variable** for API key validation at startup
+- No **logging strategy** (debug vs production logging levels)
+
+## 9. Assumptions I'm making (needs validation)
+
+### Assumption 1: `generate_commentary_data.py` is modular enough
+I assume the existing 690-line script can be extended with `--json-output` without major refactoring. If it's a monolith, this may be difficult.
+
+**Ask author:** Is the script structured with clear functions for each analysis mode?
+
+### Assumption 2: C++ engine outputs consistent JSON
+I assume `--analyze` and `--eval` produce JSON with consistent schemas that can be parsed reliably. Edge cases (empty games, crashes) may produce malformed JSON.
+
+**Ask author:** Does the C++ engine handle all replay codes gracefully, including corrupted replays?
+
+### Assumption 3: ResourceTracker accuracy is sufficient
+I assume the 80% stepper reliability threshold is adequate for most games. The plan doesn't specify what happens when reliability is <80%.
+
+**Ask author:** What percentage of expert replays have >80% stepper reliability?
+
+### Assumption 4: Discord message splitting is trivial
+I assume splitting at `== MESSAGE N ==` boundaries and checking <2000 chars is sufficient. Discord's character counting with markdown may be non-obvious.
+
+**Ask author:** Has the `== MESSAGE N ==` format been tested with Discord's actual character limit?
+
+### Assumption 5: Prompt caching works as described
+I assume structuring system prompts with shared prefix + game-specific suffix triggers Anthropic's prompt caching correctly. The 90% read savings claim needs verification.
+
+**Ask author:** Has prompt caching been verified in `discord_knowledge_extractor.py` with actual API responses showing cache read tokens?
+
+### Assumption 6: Unit knowledge extraction is straightforward
+I assume `docs/commentary-knowledge/03-advanced-units.md` has consistent formatting (unit name headers, followed by paragraphs) that can be parsed with simple regex.
+
+**Ask author:** Is the advanced units file consistently formatted? Are there edge cases (units with multiple names, cross-references)?
+
+## Final Recommendation
+
+The plan is **85% sound** but needs **surgical simplification** in three areas:
+
+1. **Defer automation tools** (Phase 6) until core pipeline is proven
+2. **Add graceful degradation** for C++ engine failures  
+3. **Optimize token usage** by replacing full few-shot examples with style templates
+
+With these adjustments, the pipeline will be **maintainable** by a solo developer while delivering **quality matching manual examples** at **acceptable cost** (~$0.035/game sync, ~$0.0175/game batch).
+
+**Priority order for implementation:**
+1. Phase 1 (JSON output) with fallback modes
+2. Phase 2 (Analysis stage) with strategic claim verification
+3. Phase 3 (Narrative stage) with style templates instead of full examples
+4. Phase 4 (CLI integration) with robust error handling
+5. Phase 5 (Batch mode) simplified as serial processing with Batch API discount
+6. Skip Phase 6 (QA automation) or implement only manual comparison tool
+
+The result will be a **production-ready pipeline** that can be iteratively improved based on community feedback, not a **research project** that collapses under its own complexity.

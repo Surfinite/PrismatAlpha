@@ -1,0 +1,297 @@
+# Balancing Prismata Openings Through Unit Design – part 3: Variable Rush Timings
+# Source: blog.lunarchstudios.com/2015/06/10/balancing-prismata-openings-part-3/
+# Wayback: https://web.archive.org/web/20200922113853/http://blog.lunarchstudios.com/2015/06/10/balancing-prismata-openings-part-3/
+# Retrieved: 2026-02-20
+
+Hi everyone!
+
+Continuing from where we left off last time, we’re going to talk about one of my favourite Prismata topics—rush timings. Every Prismata player has been in a situation where they’ve been caught off guard and lost to their opponent’s early Redeemer, Shadowfangs, or Tia Thurnax. But when do these rushes work, when do they fail, and how do we modify our unit designs to ensure that that they don’t lead to autowins?
+[Image: Redeemer's new look.]
+
+Sick of fighting, this Redeemer took up a new career.
+
+The answer is a bit complex, and requires a deep understanding of when rushes themselves are strongest. Get ready for a somewhat theoretical (but fun) discussion!
+
+ 
+
+## Optimizing Rush Timings
+
+Say you’re playing a game of Prismata involving the base set, plus two strong rushy units—**Shadowfang** and **Feral Warden**. We’ll use this example for most of the rest of the article. Shadowfang and Feral Warden seem like a good combo that could yield strong pressure if bought early, and it’s likely that the optimal strategy in [base set + Shadowfang + Feral Warden] relies heavily on these two units. But how quickly should you rush them? What’s the optimal economy size if you want to start pumping out Shadowfangs? Is it better to be player 1 or player 2? And what other factors might influence the answers to these questions?
+
+I’m not going to fully reveal the answers, but I want to establish a few theoretical notions about optimal timings for these types of builds, using Shadowfang/Feral Warden as an example throughout. In all of the following scenarios, we suppose that both players plan on opening with Drones (and possibly Engineers), eventually buying 2 Animuses and a Conduit and switching to Shadowfangs, Feral Wardens, Rhinos, and Forcefields. Let’s try to establish some general principles concerning the optimal way to execute such a build.
+
+ 
+
+**Fact 1: When economy sizes are small, buying attackers first is a losing play.**
+
+Suppose you’re player 1, and consider the following (bad) line of play:
+
+1) DD, DD
+
+2) C, DDC
+
+3) AA, DA
+
+4) Shadowfang
+
+…
+
+It’s not too hard for player 2 to hold off the rush by growing a larger economy and getting Shadowfangs a couple of turns later. Super early rushes rarely lead to instant wins in Prismata—the lead in initiative from rushing early is usually countered by the opponent’s defenses absorbing much of the early damage, and the resulting loss in tempo is usually fatal.
+
+ 
+
+**Fact 2: When economy sizes are large, buying attackers first is a winning play.**
+
+Suppose you’re player 1, and both players have gone for econ-heavy openings like the following:
+
+1) DD, DD
+
+2) DDE, DDE
+
+3) DDD, DDDE
+
+4) DDD, DDDD
+
+Though these moves may not have been optimal, at this stage, it’s likely correct for player 1 to start pumping attackers as quickly as possible with a double Animus to go straight into Shadowfangs. Once economy sizes grow sufficiently large, the lead in initiative obtained from being the first one with attackers is usually favourable, because having a large economy ensures that you’ll be able to pump enough attackers to counteract your opponent’s absorbing defenders.
+
+ 
+
+**Fact 3: The strength of “buying attackers first” generally increases as both players’ economies get larger.**
+
+This more-or-less follows from the first two facts. Trying out different build timings, you can observer the following ordering of “first Shadowfang” timings:
+
+- First Shadowfang on p1, turn 4 – **WEAKEST **(first Shadowfang purchaser at a big disadvantage)
+
+- First Shadowfang on p2, turn 4
+
+- First Shadowfang on p1, turn 5
+
+- First Shadowfang on p2, turn 5
+
+- First Shadowfang on p1, turn 6 – **STRONGEST **(first Shadowfang purchaser has an advantage)
+
+Note that in some cases, there are multiple paths to the same result—a p2 t4 Shadowfang can be acquired through a DD/DD/DAA opening, a DD/DA/TA opening, or even a DD/DC/AA opening. But in general, the strength of the position of the purchaser of the first Shadowfang increases as the timing of that purchase grows later in the game.
+
+Another way of understanding it is the following: if we define “the rusher” to be the person who constructs the first Shadowfang, then I’m essentially saying that **being “the rusher” is more desirable as the number of Drones increases**. That last point is a bit subtle, so make sure you understand it before reading on.
+
+Fact 3 is very important. In fact, it’s necessary that Fact 3 is true in Prismata for the game to function at all. If Fact 3 didn’t hold, then both players would be incentivized to buy Drones forever!
+
+ 
+
+**Fact 4: The rusher decides the rush timing.**
+
+This one’s pretty basic, but I’m just stating it for clarity. If player 1 grabs the first Shadowfang, then generally speaking, player 1 was the player who first constructed a double Animus, committing to a specific Shadowfang timing. Until that point, both players retained the option of waiting. See the following lovely MS Paint diagram:
+[Image: Oversimplified "decision tree" showing ]
+
+Oversimplified “decision tree” showing both players’ choices in determining the timing of the Shadowfang rush. Ultimately, the “rusher” is the first one to say “yes”, and hence, “the rusher decides the rush timing”.
+
+ 
+
+**Fact 5: The best time to commit to buying a Shadowfang is “as soon as it’s not losing”.**
+
+This is implied by facts 3 and 4, but let’s demonstrate it through an example.
+
+Suppose you’re player 2, and it’s your second turn after an opening of (1) DD, DD (2) DD. You now have a choice; you could play something like DA, DC, or DD, allowing yourself the potential of getting the first Shadowfang on turn 4, seizing a powerful initiative. Or, you could execute the high-tempo “natural conduit” opening by playing DDC, attempting to win through a lead in resource production, but forgoing the option of a turn 4 Shadowfang (since your 11 Drones would not be sufficient to construct a double Animus on turn 3). What should you play?
+
+Well, if the turn 4 Shadowfang plays are all losing, then you definitely shouldn’t play them. But what if they’re roughly balanced, and you estimate that, say, (2) .. DD into (3) .. DAA gives you a 50/50 shot of winning? Then you should *definitely* play it. Why? Because if you don’t, and you allow player 1 to get the first Shadowfang on turn 5, then you’ll have *less* than a 50/50 shot of winning.
+
+To see why, remember fact 3—**being “the rusher” gets more and more desirable as the number of Drones increases**. This means that if you think you’re 50/50 to win off of a turn 4 Shadowfang, then player 1 is likely to be *better than 50/50 to win* if they are allowed to build the first Shadowfang on turn 5. So by not going for the turn 4 Shadowfang, you’d be allowing player 1 the option of a build that would leave you at a disadvantage.
+[Image: a]
+
+Possible set of optimal choices highlighted in green, though the true optimal choices depend on the win percentages of each specific rush timing, which depend on available units and many other factors. In this example, player 2 chooses to be “the rusher” because it’s better than allowing player 1 the option of doing so.
+
+ 
+
+**Fact 6: When both players play optimally, win percentages in rushes are (usually) close to 50/50.**
+
+This is where it all comes together. Fact 5 implies that it’s correct to start rushing as soon as it seems like a reasonable 50/50 option, because waiting longer allows the opponent to rush first.
+
+In fact, one can mathematically show that in a game tree of the above form, as long as the payoffs for rushing increase as you move down the page, the “game-theoretically optimal” line of play will always terminate at “whichever rush timing has a winrate closest to 50/50”. Exercise for the mathematically inclined: prove it formally!
+
+ 
+
+## A real-world example
+
+ 
+
+The true complexity of the Feral Warden + Shadowfang game is staggering. In fact, a number of viable rush timings/variations seem to lead to balanced midgames, and there are a huge number of tactical options because of the defensive flexibility available to players with Rhinos, Feral Wardens, Engineers, and Forcefields. I honestly don’t know who wins, or what the optimal rush timing is, though I suspect that player 2 turn 4 is actually too soon (player 1 turn 5 seems more likely).
+[Image: In]
+
+Electrovore, sporting a new “Infernal” look. Coming soon!
+
+A better example involves Electrovore. Because Electrovore rush has always been a highly threatening opening in Prismata, we’ve studied [base set + Electrovore] and many related variations quite a bit to ensure that Electrovore rushes aren’t too strong. Many players have noticed that, in the [base + Electrovore] situation, a player 2 turn 2 Animus seems to win against a player 1 turn 3 Animus. However, when a rush seems too strong, our logic above tells us that the optimal response is likely to *aim for an earlier rush timing*. Indeed, a player 1 turn 2 Animus actually leads to quite a complex, balanced game. Try opening DD/A/T+Electrovore next time you’re player 1 in an aggressive Electrovore set. You might be surprised by its effectiveness.
+
+ 
+
+ 
+
+## Exceptions to the Rule
+
+This whole concept sounds great. If all rushes lead to 50/50 winrates, then there’s no need at all to agonize over unit balance!
+
+I only wish it were always that simple…
+
+Indeed, there are a number of reasons that a *50/50 winrate timing* just doesn’t exist for some specific rushes. Here are a few of the possible reasons:
+
+ 
+
+**Reason 1: the earliest possible rush is too strong**.
+
+We know that being the first to attack becomes stronger as the game progresses, but what if the earliest possible attack is still so strong that it forces a win? In the entire history of working on Prismata, this was discovered **once**, back in mid 2011. It resulted in a 2-unit autowin involving Cynestra (which used to have GRRR tech instead of GGGR tech) and a deleted unit called Welding Kit which was priced at 2E and could be sacrificed like a Pixie to give +GR immediately (one green and one red resource). With Welding Kits and a single Animus, one of the two players could simply get the earliest possible Cynestra and force a win by spamming them.
+
+We’ve since become very cautious about quick-fix tech units like Welding Kit, eventually replacing it with more dynamic units like Chrono Filter and Centrifuge.
+
+ 
+
+**Reason 2: half of a turn makes too huge of a difference.**
+
+In situations like Shadowfang + Feral Warden, small differences in timing usually aren’t the end of the world. A first Shadowfang on p1 t4 might be losing, a p2 t4 Shadowfang slightly weak, p1 t5 balanced, p2 t5 a little strong, and p1 t6 a bit stronger. But overall, a half-turn usually yields only a small change in the value of the rush, so missing the timing by a hair might put you at a slight disadvantage, but often doesn’t cause an outright loss.
+
+However, in some situations (particularly with bursty attackers), timing is so important that a completely winning rush can be terrible if executed half a turn earlier. The most recent example of this is **Wincer**. At its old cost of 8GBRR, it was possible for player 1 to get a turn 4 Wincer with a DD/C/BA opening. However, this build was terrible, losing to any reasonable defense by player 2. Player 2’s DD/DDC/BA/Wincer build was significantly stronger at many skill levels on the ladder, despite being only half a turn later. After seeing the stats (a 60.5% winrate for player 2 overall), we had no other choice but to change the unit.
+
+ 
+
+**Reason 3: particular timings can advantage one side too much.**
+
+We saw this with the old 16BBB Drake, before its cost was nerfed to 17BBB. Player 1’s turn 6 Drake (with the DD/DDE/DDD/DDDB/SBB opening) was so resource-efficient that there was a substantial increase in winrate over player 2’s turn 5 Drake rush. This was exacerbated by the fact that player 2 had great difficulty getting a second Drake.
+
+ 
+
+**Other effects**
+
+I could write a whole separate article about the effects of other unit availabilities toward rush timings. Of course, strong defenders generally make early rushes worse, but strong attackers and economic units don’t always have predictable effects on the optimal rush timings. Some powerful early attackers actually push optimal rush timings *later* because of their ability to “punish” players who don’t econ hard enough to both rush and defend.
+
+At the end of the day, Prismata’s really complicated, and guessing the optimal timings for rushes on the fly can be exceptionally difficult. Even the best Prismata players often don’t know whether to go for a turn 2 Animus, or whether it would be better to wait and potentially defend against their opponent’s rush. Your best bet is just to try out a lot of rushes. Even if you fail, you’ll still build strong intuition and will be better at predicting optimal rush timings in the future.
+
+ 
+
+## So, what about Odin?
+
+There’s one thing left to discuss. Last time, I asked the following question:
+
+ 
+
+**Question: Say you’re playing a Prismata game involving Odin. Which of the following openings is the strongest (and what does the answer depend on?)**
+
+**a) Player 2 turn 5 Odin**
+
+1) .. DD (storing 1 gold)
+
+2) .. DD (storing 4)
+
+3) .. DBB (storing 2)
+
+4) .. B (storing 9)
+
+5) .. Odin
+
+ 
+
+**b) Player 1 turn 6 Odin**
+
+1) DD
+
+2) DDE
+
+3) DDD (storing 1)
+
+4) DDDB
+
+5) BB (storing 6)
+
+6) Odin
+
+ 
+
+**c) Player 2 turn 6 Odin**
+
+1) .. DD (storing 1)
+
+2) .. DDE (storing 2)
+
+3) .. DDD (storing 4)
+
+4) .. DDDB (storing 4)
+
+5) .. DDDBB (storing 2)
+
+6) .. Odin
+
+ 
+
+**d) Player 1 turn 7 Odin**
+
+1) DD
+
+2) DDE
+
+3) DDD (storing 1)
+
+4) DDDB
+
+5) DDDS (storing 1)
+
+6) DSBB (storing 1)
+
+7) Odin
+
+ 
+
+**e) None of the above**
+
+ 
+
+This was a bit of a trick question. Truthfully, the answer is *really complicated*. Odin is both an exceptionally strong burst attacker (threatening 7 damage immediately after you buy it) as well as a powerful defender (defending for 5 whenever you don’t click it). So it seems both a good unit to rush (because of its burst damage), as well as a good unit to defend against rushes with (because of its powerful damage absorption).
+[Image: a]
+
+Bazooka Odin will blow you away. Literally.
+
+However, one thing is certain. Odin is an exceptionally good counter to most other common rushy builds (such as Tarsier spam), because it both defends against the pressure, and applies a lot of counter-pressure. So it’s almost certain that in [base set + Odin], it’s correct to go for Odin, and probably fairly early on. Accordingly, Odin makes its way into a lot of builds, and we’ve often been worried that certain timings might favour one player over the other.
+
+However, if you play test games with just the base set and Odin, you’ll notice the following:
+
+- p2 t5 Odin loses to p1 t6 Odin
+
+- p1 t6 Odin loses to p2 t6 Odin
+
+- p2 t6 Odin loses to p1 t7 Odin
+
+This seems to indicate that Odin’s optimal rush timings are actually pretty late. In fact, *even later Odin timings can do even better*. Here’s a build that I think is close to optimal in base set + Odin:
+
+**Player 2 turn 8 Odin**
+
+1) .. DD (storing 1)
+
+2) .. DDE (storing 2)
+
+3) .. DDDE (storing 2)
+
+4) .. DDDDE (storing 2)
+
+5) .. DDDDDB
+
+6) .. DDDDBW
+
+7) .. WSABEE (storing 2) (assuming p1 went for a t7 Odin, but many other plays are possible)
+
+8) .. TT + Odin
+
+This looks a little crazy, literally buying *all the Drones* as fast as possible. However, just try it against the p1 t7 Odin; you’ll see that it does quite well!
+
+Of course, player 2 can deviate if player 1 aims for an Odin earlier than turn 7. But the following point remains: it seems that if both players are playing optimally, the Odins should be among the first attackers, but should come down *really really late.* Note that this can change drastically if other strong blue units are present. But try it yourself!
+
+ 
+
+## More next time…
+
+I’ll continue this discussion in the next article with a few more stories about some of the unit changes that we’ve made as a consequence of balance issues in the opening. We don’t tend to find pure autowins very often (the Flame Animus + Hannibull example is somewhat of an outlier), but we often notice statistical imbalances or specific builds that need addressing.
+
+Until then, here’s a rush you can think about (using Feral Warden and Grimbotch)
+
+(1) .. DD
+
+(2) .. AC
+
+(3) .. Feral Warden + Grimbotch every turn until win.
+
+It seems fairly strong for player 2, but it actually can be beaten. Do you see a counter for player 1?

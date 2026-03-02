@@ -1,0 +1,158 @@
+================================================================================
+ PrismataAI Baseline Tournament Results — origin/master (Phase 0.5)
+================================================================================
+
+Date:           2026-03-02
+Commit:         f7c3a28 (origin/master, "opt level")
+Build:          Release|x86, PlatformToolset=v145 (VS 2025)
+Assert Level:   All Asserts
+Config:         Default config.txt (unmodified from origin/master)
+Tournament:     AIDifficulties
+Rounds Config:  10000 (stopped early at ~524 rounds per matchup)
+Random Cards:   8 (Base + 8 random dominion cards)
+Games Played:   7,880
+Time Elapsed:   18m 14s
+Throughput:     7.2 games/sec
+
+================================================================================
+ TOURNAMENT CONFIGURATION
+================================================================================
+
+Players (6, round-robin):
+  1. DocileAI   — PPSequence: DefenseSolver, ACDocile, BuyDocile, BreachGK
+  2. RandomAI   — PPSequence: DefenseRandom, ACRandom, BuyRandom, BreachRandom
+  3. EasyAI     — RandomFromIterator (EasyIterator)
+  4. MediumAI   — RandomFromIterator (HardIterator_Root)
+  5. Playout    — PPSequence: DefenseSolver, ACAvoidBreach_ChillSolver, BuyCGA, BreachGK
+  6. ExpertAI   — StackAlphaBeta, 1s time limit, MaxDepth=1, 40 children
+
+================================================================================
+ WIN RATE MATRIX (row player win% vs column player)
+================================================================================
+
+Values from HTML output (precise to 6 decimal places):
+
+             DocileAI   RandomAI   EasyAI     MediumAI   Playout    ExpertAI
+DocileAI     -          12.97%     0.00%      0.00%      0.00%      0.00%
+RandomAI     87.03%     -          1.33%      0.00%      0.00%      0.00%
+EasyAI       100.00%    98.67%     -          8.21%      2.67%      0.95%
+MediumAI     100.00%    100.00%    91.79%     -          28.24%     7.63%
+Playout      100.00%    100.00%    97.33%     71.76%     -          9.73%
+ExpertAI     100.00%    100.00%    99.05%     92.36%     90.27%     -
+
+================================================================================
+ OVERALL PLAYER STATISTICS
+================================================================================
+
+Player      Score    Games   Wins    Losses  Draws   Turns   Turns/G  MS/Turn  MaxMS
+DocileAI    2.60%    2632    65      2560    7       52670   20.01    0.670    164
+RandomAI    17.72%   2632    463     2162    7       42642   16.20    0.004    2
+EasyAI      42.19%   2624    1107    1517    0       37105   14.14    0.007    34
+MediumAI    65.59%   2624    1720    902     2       41363   15.76    0.082    40
+Playout     75.80%   2624    1987    633     4       38943   14.84    0.016    24
+ExpertAI    96.34%   2624    2527    95      2       38315   14.60    25.575   390
+
+================================================================================
+ AVERAGE TURNS PER GAME (row vs column)
+================================================================================
+
+             DocileAI   RandomAI   EasyAI     MediumAI   Playout    ExpertAI
+DocileAI     -          67.78      33.23      36.04      32.75      32.70
+RandomAI     67.78      -          24.88      25.01      23.13      23.56
+EasyAI       33.23      24.88      -          30.81      27.27      27.68
+MediumAI     36.04      25.01      30.81      -          35.73      32.57
+Playout      32.75      23.13      27.27      35.73      -          32.06
+ExpertAI     32.70      23.56      27.68      32.57      32.06      -
+
+================================================================================
+ RANKINGS (by overall score)
+================================================================================
+
+  1. ExpertAI  — 96.34% overall win rate (2527W / 95L / 2D)
+  2. Playout   — 75.80% overall win rate (1987W / 633L / 4D)
+  3. MediumAI  — 65.59% overall win rate (1720W / 902L / 2D)
+  4. EasyAI    — 42.19% overall win rate (1107W / 1517L / 0D)
+  5. RandomAI  — 17.72% overall win rate (463W / 2162L / 7D)
+  6. DocileAI  —  2.60% overall win rate (65W / 2560L / 7D)
+
+================================================================================
+ KEY OBSERVATIONS
+================================================================================
+
+1. CLEAR DIFFICULTY HIERARCHY: ExpertAI >> Playout >> MediumAI >> EasyAI >> RandomAI >> DocileAI.
+   The AI difficulty levels are well-separated and form a strict ordering.
+
+2. ExpertAI DOMINANCE: ExpertAI (Alpha-Beta with 1s time limit, depth 1) wins >90%
+   against all opponents except EasyAI and below (where it wins >99%). Even against
+   Playout (the second strongest), ExpertAI wins 90.27%.
+
+3. PLAYOUT VS MEDIUM: Playout (no search, just PPSequence with good heuristics) beats
+   MediumAI (random move from HardIterator_Root) 71.76% of the time. This shows that
+   the PPSequence heuristic ordering matters significantly.
+
+4. GAME LENGTH PATTERNS:
+   - DocileAI vs RandomAI produces the longest games (67.78 turns avg) — both are weak
+     and can't close out games efficiently.
+   - RandomAI vs stronger opponents produces short games (~23-25 turns) — RandomAI
+     collapses quickly.
+   - Evenly matched opponents produce moderate-length games (30-36 turns).
+
+5. COMPUTATION TIME:
+   - ExpertAI: 25.6ms/turn average (max 390ms) — search is the bottleneck
+   - All other players: <1ms/turn — negligible computation
+   - Overall throughput: 7.2 games/sec across all matchups
+
+6. DRAW RATE: Very low (16 draws out of 7,880 games = 0.2%). Almost all games produce
+   a decisive result within the 200-turn limit.
+
+7. NO ERRORS OR WARNINGS: The tournament ran cleanly with no assert failures or crashes.
+   origin/master baseline code is stable for this tournament configuration.
+
+================================================================================
+ RAW CONSOLE OUTPUT (first table + initialization)
+================================================================================
+
+Benchmarks!
+Initializing card library
+Base     set has 11 cards
+Dominion set has 93 cards
+Parsing AI Parameters
+Reading AI Parameters File: asset/config/config.txt
+Parsing Buy Limits...
+Parsing Card Filters...
+Parsing Opening Books...
+Parsing Partial Players...
+Parsing Move Iterators...
+Parsing Players...
+Parsing States...
+States Parsed: 1
+Parsing Complete!
+Opening Books:      2
+Partial Players:    60, parses: 120
+Move Iterators:     8, parses: 16
+Players:            17, parses: 32
+States:             1
+Parse Time:         93.9308ms
+
+================================================================================
+ HTML OUTPUT
+================================================================================
+
+Tournament HTML saved to:
+  bin/tests/Tournament_AIDifficulties_2026-03-02_12-46-11.html
+
+================================================================================
+ NOTES
+================================================================================
+
+- Tournament was stopped after ~524 rounds (of 10,000 configured) because win rates
+  had clearly stabilized. 7,880 games is sufficient for statistically significant
+  baseline measurements.
+- Built with PlatformToolset=v145 because origin/master uses v142 (VS 2019) which is
+  not installed. v145 (VS 2025) compiled without errors for Engine, AI, Testing, and
+  Standalone projects. GUI failed (expected — SFML headers not found).
+- This is the UNMODIFIED origin/master code (Dave Churchill's baseline). No neural net,
+  no LiveHardestAI, no defense-reset fix, no other modifications.
+- The "HardestAI" and "HardAI" players defined in config.txt were NOT included in this
+  tournament. Only the 6 "AIDifficulties" players ran. HardestAI (7s) and HardAI (3s)
+  would be significantly slower to tournament.

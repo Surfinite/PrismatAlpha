@@ -1,0 +1,120 @@
+= Replay API =
+
+'''Note: the contents or subject of this page may change dramatically without warning in the future'''
+
+Given a match's replay code, you can access all the stored data about that Prismata match, including players, winner, units, time controls, and more.
+
+To access the replay data, access the following URL, replacing <code>REPLA-YCODE</code> with the replay code of the match. Special character <code>+</code> will need to replaced by <code>%2B</code>.
+
+http://saved-games-alpha.s3-website-us-east-1.amazonaws.com/REPLA-YCODE.json.gz
+
+The page will return a gzipped JSON file called <code>temp</code>. Sample JSON can be viewed [http://pastebin.com/BgmTxFvj here].
+
+== Replay Codes ==
+
+The regex <code>/^[a-z0-9@+]{5}-[a-z0-9@+]{5}$/i</code> exactly matches valid replay codes. This does not mean the given replay actually exists; you'll need to examine the response from the URL above to determine that. All valid replay codes will match that regex, though. [https://regex101.com/r/iF3rE2/1 Check it out here].
+
+== Units ==
+
+The units available for purchase in a game are in the <code>mergedDeck</code> array under the top-level <code>deckInfo</code> hash.
+
+Nivo Charge unit information
+<pre>{
+    "targetAmount": 5,
+    "toughness": 1,
+    "name": "Volatile Blast",
+    "assignedBlocking": 0,
+    "lifespan": 1,
+    "defaultBlocking": 0,
+    "buyCost": "2G",
+    "score": "0",
+    "targetAction": "disrupt",
+    "abilityScript": {
+        "selfsac": true
+    },
+    "rarity": "normal",
+    "UIName": "Nivo Charge"
+},
+</pre>
+
+== Terminology ==
+
+Some of the terminology used in the JSON reflects the history of Prismata, and are not the terms we use today. The most noticeable perhaps is the name of the units; they are universally referred to by their "name" attribute apart from their entry in the "mergedDeck" array, which you can use to pair them up to their better known "UIName".
+
+{| class="wikitable sortable"
+|-
+! JSON term !! Common term !! Notes
+|-
+| toughness || Health || 
+|-
+| rarity || Supply || 'trinket' = 20; 'normal' = 10; 'rare' = 4; 'legendary' = 1
+|-
+| undefendable || Frontline || 
+|-
+| buySac || Sacrifice || Forcefield, for example
+|-
+| disrupt || Chill || 
+|-
+| receive || || '1' = 1 Gold; 'A' = 1 Attack; 'G' = 1 green; 'B' = 1 Blue; 'C' = 1 red; 'H' = 1 energy;
+|-
+| abilityScript || Click Ability ||
+|-
+| delay || Exhaust ||
+|-
+|}
+
+Game results
+
+{| class="wikitable sortable"
+|-
+! Game result !! Status code !! Notes
+|-
+| RESULT_ONGOING || -1 || 
+|-
+| RESULT_WHITE || 0 || White won
+|-
+| RESULT_BLACK || 1 || Black won
+|-
+| RESULT_DRAW || 2 || Game Drawn
+|-
+| RESULT_ABORT || 3 || Game aborted (does not affect rating)
+|-
+| RESULT_UNKNOWN || -10 || 
+|-
+| RESULT_RAIDWON || 10 ||
+|-
+| RESULT_RAIDLOST || 11 || 
+|}
+
+Game end conditions
+
+{| class=wikitable sortable"
+|-
+! End condition !! End code !! Notes
+|-
+| ENDCON_RESIGN || 0 || A player resigned
+|-
+| ENDCON_ELIMINATE || 1 || A player was eliminated
+|-
+| ENDCON_TIME || 2 || A player lost due to running out of time
+|-
+| ENDCON_NOSHOW || 3 ||
+|-
+| ENDCON_AGREEDRAW || 10 || Players agreed to a draw
+|-
+| ENDCON_FORCEDRAW || 11 || Players ended up in a draw by repetition
+|-
+| ENDCON_DOUBLENOSHOW || 12 ||
+|-
+| ENDCON_FAIL || 20 || User failed a mission
+|-
+| ENDCON_SUCCEED || 21 || User cleared a mission
+|-
+| ENDCON_DISCONNECT || 30 || A player disconnected
+|-
+| ENDCON_DOUBLEDISCONNECT || 31 || Both players disconnected
+|-
+| ENDCON_TOOLONG || 32 || Game took too long
+|-
+| ENDCON_UNKNOWN || -1 ||
+|}

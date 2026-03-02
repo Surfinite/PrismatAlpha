@@ -1,0 +1,40 @@
+{
+  "selfplay": {
+    "enabled": false,
+    "instance_type": "c5.2xlarge",
+    "games_per_instance": 2000,
+    "think_time": 1,
+    "vm_multiplier": 2,
+    "auto_relaunch": true,
+    "spot_only": true
+  },
+  "gcp": {
+    "enabled": false,
+    "instance_type": "n2-standard-8",
+    "games_per_instance": 2000,
+    "think_time": 1,
+    "vm_multiplier": 2,
+    "auto_relaunch": true,
+    "project": "prismata-selfplay",
+    "zone": "us-central1-a"
+  },
+  "azure": {
+    "enabled": false,
+    "vm_size": "Standard_D8als_v7",
+    "games_per_instance": 5000,
+    "think_time": 1,
+    "vm_multiplier": 2,
+    "auto_relaunch": false,
+    "resource_group": "prismata-selfplay",
+    "location": "northeurope"
+  },
+  "eval": {
+    "enabled": false,
+    "instance_type": "c5.2xlarge",
+    "rounds": 1500
+  },
+  "s3_sync": {
+    "enabled": true,
+    "interval_minutes": 10
+  }
+}

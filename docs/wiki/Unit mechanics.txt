@@ -1,0 +1,49 @@
+= Unit mechanics =
+
+'''Unit mechanics''' are a collection of common features of many [[Prismata]] [[unit]]s.
+
+==Basic mechanics==
+This particular mechanics are seen on nearly every [[unit]].
+;Cost
+:Units aren't free. They typically require some basic [[resource]]s to purchase them.
+
+;{{ticon|buildtime}} [[Build time]]
+:Most units do not become active immediately after being purchased. Build time is the number of [[turn]]s before this happens. For most units, this is simply one turn.
+
+;{{ticon|health}} [[Health]]
+:Health is the amount of [[attack]] required to destroy a unit. Most units heal from any damage they survive between turns.
+
+==Special mechanics==
+;{{ticon|blocker}} [[Blocker]]
+:This unit adds its health to a player's [[defense]] value during a turn. With some exceptions, opponents must damage blockers before any other units.
+
+;{{ticon|click}} [[Ability]]
+:A click ability is an optional effect a unit can have on a turn. This is usually a tradeoff: when blockers use their ability, their health is no longer added to defense for that turn.
+
+;{{ticon|attack}} [[Attack]]
+:Attack is the amount of damage a unit can contribute in attacking opponent units between [[turn]]s. Some units contribute this automatically at the start of a turn, but many others must use their click ability to contribute to it. This damage becomes part of a player's attack value during a turn.
+
+;{{ticon|chill}} [[Chill]]
+:Chill is similar to damage in that it is added to attack value, helping to overcome defense, but it can only prevent enemy units from blocking. This happens only if an enemy unit is chilled for an amount equal to its health.
+
+;{{ticon|prompt}} [[Prompt]]
+:Prompt units are blockers with zero build time and begin blocking the same turn they are purchased. They cannot use their click ability on that round, however.
+
+;{{ticon|Fragile}} [[Fragile]]
+:Fragile units do not heal from damage.
+
+;{{ticon|stamina}} [[Stamina]]
+:Some units have limited stamina and can only use their click ability a set number of times.
+
+;{{ticon|exhaust}} [[Exhaust]]
+:Exhaust can apply to either a unit's turn-start effect or to its click ability. Exhaust indicates that the respective feature is disabled for a set number of turns after use.
+
+;{{ticon|lifespan}} [[Lifespan]]
+:Some units have a set lifespan of a specific number of turns.
+
+;{{ticon|frontline}} [[Frontline]]
+:Players can directly assign damage to enemy units with [[Frontline]], even without wiping out or breaching.
+
+;[[Self-sacrifice]]
+:Some units sacrifice themselves as part of their start-turn effect, while others do so when they use their click ability.
+[[Category:Contents]]

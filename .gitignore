@@ -1,41 +1,243 @@
-visualstudio/Release
-visualstudio/Debug
-visualstudio/Static Release
+# ===========================================
+# PrismataAI .gitignore
+# ===========================================
+
+# --- Visual Studio build artifacts ---
+visualstudio/Release/
+visualstudio/Debug/
+visualstudio/Static Release/
 visualstudio/*.sdf
 visualstudio/*.suo
 visualstudio/*.opensdf
 visualstudio/*.psess
 visualstudio/*.vsp
 visualstudio/*.vspx
-visualstudio/.vs
-bin/*.iobj
-bin/*.ipdb
-bin/__ab.txt
-bin/__uct.txt
-bin/mcds_error_log.txt
-bin/*.bsc
-bin/*.png
+visualstudio/.vs/
+visualstudio/Prismata_GUI/
+
+# --- Build outputs (bin/) ---
 bin/*.exe
+bin/*_d.exe
 bin/*.pdb
 bin/*.ilk
+bin/*.iobj
+bin/*.ipdb
+bin/*.bsc
 bin/*.bmp
 bin/*.dat
 bin/*.swc
 bin/*.swf
-bin/*.txt
-bin/tests/*.html
-bin/qtdeploy
-bin/states
-bin/html/*
-qt/build-PrismataAI-Desktop_Qt_5_6_0_MSVC2013_32bit-Release
-qt/build-PrismataAI-Desktop_Qt_5_6_0_MSVC2013_32bit-Debug
+bin/__ab.txt
+bin/__uct.txt
+bin/mcds_error_log.txt
+bin/tests/
+bin/qtdeploy/
+bin/html/
+bin/graphviz/
+bin/debug_state.txt
+bin/NUL
+
+# --- Replays (large, generated) ---
+bin/asset/replays/
+
+# --- Neural net weights (8.8MB, needed by CI for self-play data export) ---
+# bin/asset/config/neural_weights.bin  # UN-IGNORED: committed for GitHub Actions
+
+# --- Self-play binary output in bin/ (large, generated) ---
+bin/training/
+
+# --- Training data & models (2GB+, regenerated) ---
+training/data/train.pt
+training/data/val.pt
+training/data_test/
+training/models/
+training/models_test/
+training/runs/
+training/__pycache__/
+
+# --- Opening book analysis outputs (regenerated from scripts) ---
+training/data/pair_opening_analysis.json
+training/data/triple_opening_analysis.json
+training/data/tech_timing.json
+training/data/unit_opening_impact.json
+training/data/universal_openings.json
+training/data/opening_book_*/
+
+# --- Build/pipeline logs ---
+build_output.txt
+build_stderr.txt
+pipeline_log.txt
+pipeline_stderr.txt
+stderr.txt
+
+# --- Temp batch scripts ---
+build_and_run.bat
+compile_test.bat
+do_rebuild.bat
+rebuild.bat
+run_pipeline.bat
+
+# --- Test output in bin/ ---
+bin/test_output.txt
+bin/test_stderr.txt
+
+# --- Claude Code local settings ---
+.claude/
+.claude.local.md
+
+# --- Windows artifacts ---
+NUL
+Thumbs.db
+Desktop.ini
+
+# --- Old context files (moved to docs/session-logs/) ---
+CLAUDE_*.md
+
+# --- Garbled filename artifact (moved to docs/artifacts/ for human review) ---
+docs/artifacts/
+
+# --- Object files (Linux/GCC builds) ---
 source/*.o
 source/main/*.o
 source/benchmark/*.o
 source/json/*.o
+
+# --- IDE / editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.user
+
+# --- Python environments & packaging ---
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Garbled test output filename (UTF-8 artifact) ---
+c\357\200\272*
+
+# --- IDE workspace files ---
+*.code-workspace
+
+# --- Run logs (generated) ---
+bin/selfplay_10k_log.txt
+bin/threadtest_output.txt
+chroma.log
+
+# --- Validation output (generated) ---
+bin/validation_*
+bin/asset/config/validation_*
+
+# --- Synthetic training data (generated) ---
+training/data/selfplay_synthetic/
+
+# --- Doc backups (local) ---
+docs/backup_claude_md_2026-02-14/
+
+# --- GCP credentials & temp files ---
+gcp/.aws_credentials
+gcp/.ec2_config_check.txt
+gcp/.gcp_config_check.txt
+
+# --- Azure credentials & debug scripts with secrets ---
+azure/.aws_credentials
+azure/.startup_debug.ps1
+
+# --- Watcher runtime state (changes every 5 min) ---
+aws/watcher_log.txt
+aws/watcher_status.json
+
+# --- AWS temp/test files ---
+aws/.log_stdout_spot.txt
+aws/.s3_config.txt
+aws/.test_shard.bin
+
+# --- Decompiled/decompressed SWF (large, not source) ---
+prismata_decompiled/
+prismata_decompressed.swf
+
+# --- Run output logs ---
+bin/selfplay_log.txt
+bin/tournament_log.txt
+bin/tournament_eval_log*.txt
+bin/prismata_capture.log
+training/exp*.log
+
+# --- Junk output dir ---
+--output
+
+# --- Dashboard ---
+dashboard/node_modules/
+
+# --- Temporary eval directories (contain binaries + replays) ---
+bin_eval_*/
+
+# --- Playwright MCP artifacts ---
+.playwright-mcp/
+
+# --- Other ---
 *.zip
 *.stackdump
 emscripten/*.js
 emscripten/*.data
 emscripten/*.mem
-bin/graphviz/
+qt/build-PrismataAI-*
+
+# --- Temp PowerShell scripts and scratch files in root ---
+tmp_*.ps1
+tmp_*.json
+tmp/
+
+# --- bin/ generated/debug/log files ---
+bin/*.log
+bin/*.txt
+bin/*.json
+bin/replays_test/
+
+# --- Archived neural weight variants (keep only committed neural_weights.bin) ---
+bin/asset/config/neural_weights_*.bin
+
+# --- Dashboard screenshots and logs ---
+dashboard/logs/
+dashboard/*.png
+dashboard/*.md
+dashboard_*.png
+
+# --- GCP temp/debug dot-scripts and output files ---
+gcp/.*
+gcp/*.log
+gcp/*.txt
+
+# --- AWS log copies ---
+aws/log_copy/
+
+# --- Training run logs ---
+training/*.log
+
+# --- docs/wiki binary files ---
+docs/wiki/*.pdf
+
+# --- Python cache in tools/ ---
+tools/__pycache__/
+
+# --- Discord extraction working files (large, regenerated) ---
+tools/discord_extraction/chunks/
+tools/discord_extraction/batch_status.json
+tools/discord_extraction/processed_chunks.json
+tools/discord_extraction/processed_chunks_extractions_sonnet.json
+
+# --- SWF binary extraction temp files ---
+tmp_swf_extract/
+
+# --- Temp stdout/stderr captures ---
+tmp_stdout.txt
+tmp_stderr.txt
+
+# --- Stats visualization scripts & output (local tools) ---
+tools/*_stats.py
+tools/*_excalidraw.py
+tools/*.excalidraw

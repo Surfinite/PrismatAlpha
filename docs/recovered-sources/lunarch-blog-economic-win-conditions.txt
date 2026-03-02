@@ -1,0 +1,63 @@
+# Economic Win Conditions in Prismata?
+# Source: http://blog.lunarchstudios.com/2016/04/15/economic-win-conditions-prismata
+# Words: 867
+
+Hi everyone!
+
+Before I get to the main article, I wanted to mention a few experimental things we're trying out on the alpha server right now:
+
+Bots that resign when they think they're losing.
+
+Bots that use emotes.
+
+Coloured usernames in the chat boxes.
+
+These are not final, but we're trying them out for now to see what people think. Let us know if you love or hate them, or would like to see changes!
+
+On with the main topic, which relates to TODAY'S EVENT...
+
+Economic Victory?
+
+A number of turn-based strategy, tactics, and board games include so-called  economic victory conditions , which provide a mechanism for players to win the game without eliminating their opponents. The Civilization series is perhaps the most well-known example, with the standard rules allowing a number of alternate victory conditions , including scientific, diplomatic, and cultural victories. There are a number of nuances involved, but the key point is the following: it's possible to win without fighting your opponent, simply by collecting tons of resources and upgrading/teching your way to victory.
+
+A simple question naturally arose: could such a mechanic work in Prismata?
+
+Unfortunately, a naive implementation of economic victory never really panned out in Prismata's ruleset. Games with rules like "first to 100 gold wins" turned out to be a snooze-fest. Prismata has no territory to capture, resources to fight over, or neutral creatures to fight, and without these incentives for interaction, economic battles turn into 2-player solitaire. Worse, that specific form of 2-player solitaire is often quite uninteresting.
+
+It didn't take us long to give up on the idea. However, a related idea held some promise.
+
+Economic Almost-Victory
+
+Early on in Prismata's history, when we were still figuring out the exact implementation of our technology tree, we contemplated the existence of ultra-powerful high-tech units that didn't win the game outright, but would have such a powerful effect on the board state as to "almost win", and thus would strongly incentivize players to go for them. Our design goal was somewhat similar to that of the ultimate spells used by planeswalkers in Magic: the Gathering—we didn't want units that had a pure "buy this and you win" effect, but instead said something that roughly translated to "buy this and you probably win, unless something crazy happens!"
+
+One such ultimate unit was the infamous "Fire Spinner", which was briefly reintroduced on April Fools Day in 2015.
+
+Yes, its cost is *20 red*. That means you'll likely need to exhaust your Animus supply to get it.
+
+These types of designs never really worked. Balance was problematic. If an ultimate unit was too weak, nobody would go for it. If it was too strong, then players would race to purchase them, and whoever got there first would often have a huge lead and win the game outright. Unfortunately, there isn't much design room in between the two extremes of too weak and too strong ; the situational nature of Prismata unit sets tends to add a lot of game-to-game variance in the power level of units like Fire Spinner. Accordingly, we witnessed some pretty degenerate games when Fire Spinner was really good , and we couldn't prevent these degenerate situations from arising without nerfing the unit until it was terrible.
+
+We even experimented with special rules like "you can only level up your tech once per turn" to find balance in these types of unit designs, but we kept hitting problems with player advantage and never really found something that worked.
+
+Alas, the power level of these ultimate units had to come down to what we now see in units like Odin , Lucina Spinos , and Zemora Voidbringer (though we had better luck when experimenting with units like Arka Sodara that provided a small benefit to the player who buys it second).
+
+That said, we're not done with Fire Spinner entirely...
+
+This Week's Event
+
+Even though Fire Spinner proved to be too degenerate to make the final roster of competitive Prismata units, a lot of players had fun exploring the possibilities with Fire Spinner when we ran it last year during April Fool's Day. Many of our players have requested that we bring Fire Spinner back, so we've decided to do so, along with a few of his friends. As per tradition, I requested that Alex provide the illustrations, and you can witness his exquisite artistic flair below:
+
+In theory, you can buy this thing off of a single Conduit , if the game goes long enough...
+
+Is this the largest blocker in Prismata? Is he throwing two Blastforges ?
+
+Today's event will feature all three units in all event games. As usual, the event starts at 4pm Eastern, and there will be an encore next Tuesday.
+
+---
+
+About Elyot Grant
+
+A former gold medalist in national competitions in both mathematics and computer science, Elyot has long refused to enjoy anything except video games. Elyot took more pride in winning the Reddit Starcraft Tournament than he did in earning the Computing Research Association's most prestigious research award in North America. Decried for wasting his talents, Elyot founded Lunarch Studios to pursue his true passion.
+
+View all posts by Elyot Grant ->
+
+---

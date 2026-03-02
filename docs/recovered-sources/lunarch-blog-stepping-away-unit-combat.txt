@@ -1,0 +1,125 @@
+# Prismata departs from unit-on-unit combat
+# Source: blog.lunarchstudios.com/2014/07/22/stepping-away-from-unit-on-unit-combat/
+# Wayback: https://web.archive.org/web/20191022143917/http://blog.lunarchstudios.com/2014/07/22/stepping-away-from-unit-on-unit-combat/
+# Retrieved: 2026-02-20
+
+[Image: making prismata ma]
+
+ 
+
+Armies fighting Aliens. Warriors teaming up to land a hit on a Dragon. Almost every RPG, strategy game, and card game containing battle of some sort has the concept of *unit-on-unit combat*—the notion of “I am commanding friendly unit A to attack enemy unit B”. After all, it makes perfect sense given our understanding of how warfare proceeds in real life. And it works extremely well as a gameplay mechanic.
+
+Prismata is different. Our combat system contains no unit-on-unit combat at all. Given its traditional role in competitive games, why on earth would Prismata choose to abandon unit-on-unit combat?
+
+> 
+
+*In the **Making Prismata** series, we’ll explain our decisions in the design of the core gameplay mechanics and units. As a hybrid strategy game incorporating many different elements from real-time strategy games and card games, every element of Prismata’s final design has been endlessly scrutinized. Nothing was left unquestioned because it “worked”.*
+
+In Prismata, you do not command each unit to attack a specific target. Instead, you collect attack damage from all of your attacking units and pool it together, forming your *total attack*. At the end of your turn, your opponent must assign those points of damage to his or her *defenders*. If all defenders are killed, then *you* get to assign any leftover points of damage to whichever units you like. That’s it. The origin of each point of damage is forgotten. It doesn’t matter whether the fire from my Steelsplitter or my Gauss Cannon killed your Drone.
+[Image: A diagram explaining how combat works in Prismata. Probably made in MS Paint.]
+
+A diagram explaining how combat works in Prismata. Probably made in MS Paint.
+
+ 
+
+Prismata’s combat system may sound simple, because it is. Combat in Prismata lacks many of the interesting tactics that result from unit-on-unit combat—tactics that have led to deep, interesting gameplay in a variety of other card games, strategy games, and RPGs. In this article, we’ll explore why we chose to do away with unit-on-unit combat in favour of our simpler system, and how this has led to profound improvements in gameplay.
+
+ 
+
+### One-On-One Fighting
+
+In many collectible card games like Magic: the Gathering and Hearthstone, units have attack and health values (Magic players call them *power* and *toughness*) that determine the result of unit-on-unit fights. When two units enter combat, they deal damage to each other equal to their attack, and die if they run out of health (zero, one, or both units can die whenever two units fight one another). So a 3/4 (3 attack, 4 health) unit is efficient at fighting a 3/3 (3 attack, health) unit, because the 3/3 will suffer 3 damage and die, but our 3/4 will suffer 3 damage and live. Meanwhile, a 3/4 is inefficient at fighting a 4/4 unit, as the 4/4 unit’s 4 attack points is enough to kill our 3/4, but our unit’s 3 attack points will leave the 4/4 unit alive. During complex situations, decisions concerning which units to send into the fray can get very tricky.
+[Image: Unit-on-unit combat in Hearthstone and StarCraft. Those poor zerglings.]
+
+Unit-on-unit combat in Hearthstone and StarCraft 2. Those poor zerglings.
+
+In real-time strategy games, unit-on-unit combat facilitates strategic gameplay in a similar manner—by allowing some units to be extra efficient at fighting specific types of units. In medieval RTS games, cannons are effective at destroying buildings, but archers aren’t. In the StarCraft 2 screenshot above, a group of Terran Hellions are roasting a squad of Zerglings. The hellions are super effective at defeating Zerglings for three reasons: their long column of fire can damage multiple Zerglings at once, their mobility allows them to kite (evade Zergling attacks while attacking themselves), and they deal bonus damage to Zerglings and other light units. Mechanics like these make games like StarCraft more complex and interesting by encouraging variety in army composition.
+
+As we’ll see, a high amount of complexity is not always desirable in a combat system.
+
+ 
+
+### **A Complete Mindfuck**
+
+Let me take a detour to a different class of games, where there is no hidden information or randomness.
+[Image: chess]
+
+A chess position from a recent grandmaster-level game.
+
+Admittedly, I’m a novice-level chess player. In a position like the one above, there is a high “branching factor”—I can see dozens of possible moves, each with dozens of potential responses from my opponent. As a beginner with no ability to spot the key moves and responses that deserve my attention, I have to consider everything. Making sense of this position is well beyond my abillities the position is a complete mindfuck to grasp and analyze. My tactical naivety leaves me focusing solely on trying to keep all my pieces alive, and hopefully being on the winning side of a fork or pin in the next couple of moves. Thinking about long-term strategy is almost entirely useless. I’ve heard my friends talk about things like “keeping my bishop on the long diagonal when my opponent weakens his king-side light squares”. I have no idea what it actually means, even though it sounds really interesting! The sad reality is that I’m miles behind where I need to be in terms of tactical skill in order to appreciate and apply such strategic subtleties.
+
+What does this have to do with unit-on-unit combat? Like chess, Prismata is a deterministic game of perfect information, and having unit-on-unit combat makes the tree of possible moves branch way too wide. Hearthstone or Magic players might imagine a variant of the game in which both players’ hands and the orders of the cards in their decks are perpetually revealed, and all random elements of the game are removed (such a game is related to the *DeckHand* game discussed in last week’s article). The entire focus of the game would be on precise tactical calculations involving the optimization of exact minion engagements that would occur in the next few combat phases; any long-term strategy, such as attempting to answer “who is the control deck” would not be worth thinking about.
+
+Indeed, this isn’t just a thought experiment. During Prismata’s four-year development period, we spent many months prototyping and testing various incarnations of the combat system. All of the versions with unit-on-unit combat were bogged down by myopic calculations.
+
+ 
+
+### Stepping Away
+
+We needed a way to deal with the burdensome tactical calculations in Prismata. As we described above, our solution was to make combat *stupidly simple*. Doing so actually *increased* the depth of the strategy in Prismata.
+
+You might ask, “How can making a game simpler increase the depth of strategy?” The answer can be summed up in one single sentence—a core truth uncovered after 4 years of experimentation:
+
+> 
+
+Simplifying the tactics of a game exposes the strategic elements.
+
+The amazing thing about Prismata is that even when gamestates get huge, with dozens (sometimes 100 or more) units on the table, you never find yourself feeling mindfucked by combat tactics. Combat is brisk: each unit simply charges headlong, contributing to your sum of attack damage. The exact composition of your offensive forces doesn’t matter on a microscopic level until the endgame, when the dust has settled and only a few units remain. Then, and only then, do exact tactical calculations become useful.
+
+ 
+
+### **So What’s Going Through A Prismata Player’s Mind?**
+
+Prismata players don’t spend a lot of time grinding precise tactics; instead, they focus on strategic ideas. Here are some sample decisions a player has to make:
+
+- Do I have enough time to go for a greedy economic build here, or will the harassment from my opponent’s early attacking units disrupt me too much?
+
+- If I plan my build order for a timing attack 5 turns from now, will it deal enough damage to justify how much it delayed my tech?
+
+- Is it worthwhile for me to upgrade my Drones (economic worker units) to be sturdier? This would favour me in the late game after we breach each others’ defenses and start hitting each others’ Drones, because mine would take much longer to kill; I would take on the role of the “control player”, and this would allow me to threaten moves that make the game last longer.
+
+Note that none of these decisions involve numbers or calculation. Moreover, actually calculating the answers to these questions is impractical, as the huge number of economic and combat options available to each player cause the “branching factor” of Prismata to be far too large, even for a strong AI. (Nevertheless, we’ve developed many techniques that help our AI play strongly without exhaustively searching the game tree, though that’s a story for another day!) In practice, exact calculations more than one turn ahead are not useful in Prismata; it’s much more efficient to rely on your strategic intuition instead.
+[Image: A Prismata endgame. Here, with only a few units left on each side, one small mistake can be fatal (or lead to a rare but hilarious draw in which neither side has enough attackers left to win.]
+
+A Prismata endgame. With only a few units left on each side, one small mistake can be fatal (or lead to a rare but hilarious draw in which neither side has enough attackers left to win.)
+
+ 
+
+As we mentioned above, there is one situation in which tactical calculation can be more valuable—endgames. In a small fraction of games, when each side has very few units left, it becomes possible to calculate turn-by-turn tactics and think several moves ahead. However, most of the thinking typically takes place before the endgame. In some sense, Prismata has a great deal of what we call “clarity”—it is possible to envision roughly what the endgame will look like, long before it happens. You can often predict the trajectory of the game from the very start and plan your build order around potential turning points. Early economic and tech decisions can produce monumental rippling effects that influence the entire game.
+
+ 
+
+### **Intuition of the Ages**
+
+In games like chess, there’s no doubt that many people find tactical positions incredibly interesting and addictive to analyze, especially with a fresh brain. It feels really good when your opponent falls into your tactical trap. Chess has some remarkable little maneuvers that can blow your mind. But at the end of the day, chess’s deep positional strategy is a big part of what makes it so competitive. For me, the thought of tiring tactical calculation is what finally makes me go to sleep instead of playing one more game.
+
+We really wanted Prismata to be focused on strategic intuition, with a sprinkling of tactics on top. Of all the games I have ever played, Prismata is the one where I find myself following my gut the most often. This makes Prismata with lightning-speed time controls incredibly fun; it features the rush of fast decision-making like in blitz chess, without the worry of messing up a calculation. Even to beginners, fast Prismata games are more “blunder-friendly” than blitz chess. Every decision you make is incremental to your economy, army, and technology; you can’t suddenly hang your Queen.
+
+ 
+
+### Design Space
+
+There are some additional properties of our decision to not have unit-on-unit combat. One unfortunate consequence is that we lost a lot of design space. Our mechanics rule out many of the staples of competitive strategy games; for example, it would be awkward to include stealth units that couldn’t be damaged except by detector units, or a rabid space bunny that had an attack bonus versus carrot-shaped enemies. We could expand the rules of the game to allow for such possibilities in the future, but at the time being, it doesn’t feel necessary.
+[Image: The Cyber Bunny from Richard Garfield's board game "King of Tokyo". Prismata doesn't have one of these... yet.]
+
+The Cyber Bunny from King of Tokyo. Prismata doesn’t have one of these… yet.
+
+Even without stealth units and space bunnies, Prismata has ample room for tactics. There can be a ton of trickery in how an attacker’s pool of damage is actually assigned. Defense can offer a huge variety of options, depending on what the defending player is willing to lose. The attacking player can freeze some of his opponent’s defenders to limit the defending possibilities. And so on. However, tactics in Prismata usually earn players much smaller, more incremental advantages than they do in chess. Like unit micromanagement in StarCraft, Prismata tactics can give you an edge, but usually you’ll have more important decisions on your mind.
+
+ 
+
+### **No Barriers To Strategy**
+
+From the start, it was always clear that we wanted Prismata to be a game of perfect information with no luck. This meant that tactics needed to be as simple as possible to avoid chess-like complexity, because most people find strategic intuition more fun than tactical calculation. Prismata is ultimately all about strategic intuition, where you slowly shape your economy and technology around your opponent’s choices, planting seeds that hope to win you the game much, much later. Without tactical complexity to act as a hurdle to deep strategic understanding, even new players can appreciate the implications of their choices.
+
+Our motto really is, *“No barriers to strategy.”*
+
+Beginners in chess practice forks, skewers, pins, and endgame theory. Beginners in StarCraft hone build order execution and unit micromanagement. Beginners in poker memorize probabilities. Beginners in Prismata learn to compare two clearly visible numbers—their total attack and the opponent’s total defense—and can then immediately begin learning strategy.
+
+ 
+
+**Next time:**
+
+In the next *Making Prismata* article, I’ll explain one other property of Prismata’s combat system—the fact that attackers do not take damage when attacking. This has several far-reaching implications as the game progresses, as army sizes tend to keep growing until both players have demolished each other’s economies.
+
+[Image: prismata.net]

@@ -1,0 +1,71 @@
+# Prismata December Balance Patch - part 1
+# Source: blog.lunarchstudios.com/2015/12/01/prismata-december-balance-patch-part-1/
+# Wayback: https://web.archive.org/web/20201031195623/http://blog.lunarchstudios.com/2015/12/01/prismata-december-balance-patch-part-1/
+# Retrieved: 2026-02-20
+
+Hi all,
+
+I’ve been eager to formally reveal the changes we’ll be pushing in our upcoming December balance patch, but that list of changes has grown quite long, so I’m going to be breaking things up across a couple of articles.
+
+Today, I want to go in-depth on a couple of units that have proven really tricky for us in design, and talk about some of the experimentation we’ve been doing to improve them. The units in question are **Vivid Drone** and **Trinity Drone:**
+
+### The Most Imbalanced Units in Prismata
+
+These two units have proven tricky for a couple of reasons. Statistically, they’re the two most player-imbalanced units in Prismata, with Vivid exhibiting almost a 5% player 1 advantage, and Trinity exhibiting more than a 5% advantage for player 2. They’re also pretty difficult units to change—there aren’t a whole lot of small tweaks available for us to use as fine-tuning knobs to adjust the behaviour of them. Normally, units with more than a couple of percent of player advantage would be definite candidates for balance changes. However, that single winrate statistic doesn’t tell the whole story.
+
+Top players are still divided on the subject. On Vivid Drone specifically, we’ve talked to top players with wildly varying opinions on the matter, ranging from “*Vivid Drone is completely fine and you can always find good openings for both players*” to “*Vivid Drone is terrible and should be removed from the game.*” Though we don’t agree fully with either of these sentiments, one interesting and unusual phenomenon we’ve observed is that the severity of player advantage seen in games involving these units tends to peak around ratings of about 1700, and actually drops off as ratings increase after that. We see a greater amount of imbalance in games involving lower-ranked Master Tier players than we do in games between super-elite players in the 1900+ range.
+
+This phenomenon is pretty unusual. Most imbalanced units we’ve seen in the past tend to exhibit worse and worse balance statistics as ratings increase, because players are better able to leverage imbalances to their advantage as their skill grows. With Vivid and Trinity, the opposite is true. Instead, it seems that players on the weaker side (p2 in Vivid games and p1 in Trinity games) have more to gain as skill increases and they make stronger plays.
+
+I’ve mentioned in previous articles that Vivid and Trinity are unique in that there is a huge amount of *asymmetry* in terms of opening availability between player 1 and player 2. In Vivid Drone games, player 2 has a choice of at least four different Vivid opening lines in the first two turns, while player 1 almost always opens DD/DDE every game. This underlies our current hypothesis behind the phenomenon of us observing less imbalance in games involving super-elite players. Better players choose the best opening as p2 more often, bringing their winrate closer to 50%. Trinity Drone exhibits similar properties, offering a wide gamut of options for player 1.
+
+ 
+
+### An Experiment
+
+One thought we’ve always had is the following: *Can we educate players to bring these winrates closer to 50-50? *If top Master Tier players aren’t doing as badly as p2 in Vivid sets and p1 in Trinity sets, can we transfer some of their knowledge to weaker players and observe a similar change in winrates? As a crude experiment, we posted this video on the finer details of player two Vivid Drone openings, as well as the aforementioned article on player one Trinity Drone openings.
+
+The result? Negative.
+
+We didn’t observe any statistically significant changes in winrates after those materials were posted.
+
+Thus, it seemed that the observed winrate statistics likely weren’t going to resolve themselves. With that in mind, we sought out to find solutions to cool off these two units and reduce player advantage. We felt that we could do better than the status quo without removing the units, and thus a fury of new experimentation began.
+
+ 
+
+### Back to the Drawing Board
+
+**Trinity Drone** was definitely the easier of the two units to deal with. In fact, a previous iteration of Trinity Drone (costing 2EG instead of 2G, in addition to requiring two Drone sacrifices) exhibited better winrate balance across all skill levels, so the option to revert back to that design was always present. However, the 2EG Trinity was also one of the least-bought economic units in Prismata (due mainly to its clunky nature and lack of value outside of breachproof situations) and many players complained that it felt a bit pointless. That said, from a design perspective, the 2EG Trinity Drone could easily be augmented with an additional ability to bring more value to players who went for it. Thus, we tried giving the old 2EG Trinity some click abilities, and found several that we liked.
+
+The resource-to-gold abilities of Blood Phage and Thorium Dynamo have been well-received, so we settled on a G-to-gold conversion as a click ability for Trinity, matching the unit’s flavour and desired use. We have plenty of backup ideas if it doesn’t end up working out, but it seemed to play quite well in test games.
+
+**Vivid Drone** was tougher. We looked at 5EE and 5EEE as potential alternate costs, and we also tried adjusting the number of Drones that Vivid Drone “consumed” upon construction (currently 3).
+
+A 5EEE Vivid Drone still had value in Prismata, but felt like a comparatively tame unit that didn’t lead to nearly as many radical opening choices and tense late-game situations, and it would need an additional ability to be interesting. 5EE led to openings very similar to those for the existing Wild Drone.
+
+The most interesting variation we found was a 4EEE Vivid with *four* Drones consumed on purchase (i.e. a Vivid Drone costing 4EEE + sac 4 Drones, and producing 6 gold per turn). It led to three big changes:
+
+- Builds with Vivid Drone were much riskier (especially crazy rush builds), as players had fewer Drones available to hold back or turn into Forcefields.
+
+- Player 2 gained some ground on player 1 in many situations, because player 1 doesn’t have enough Drones to make a third Vivid on turn 5, whereas player 2 does after an opening like DD/DDEE. In many situations, player 1 couldn’t even make a third Vivid on turn 6.
+
+- Getting four Vivid Drones was actually pretty hard in most games, because you need sixteen Drones. The effective cost of the fourth Vivid Drone was much higher, and represented a more interesting strategic decision.
+
+In test games, we found that the player who got more Vivid Drones often lost. It was pretty remarkable that such a small change could produce such a large difference, and Vivid Drone felt like a much more interesting unit as a result. Thus, we decided that we’re going to unleash the “eat 4 Drones” variant of Vivid Drone on the alpha server and see how it does. The 5EEE and 5EE Vivid Drones and variations thereof are available as backups if things don’t pan out, but we want to give 4EEE Vivid one more chance. Of course, we won’t know the true effect on player balance until we gather the statistics from hundreds of games, but we’re optimistic given how the unit looks on paper. The feedback from our internal balance team and our Prismata luminary group has been pretty good as well.
+
+ 
+
+### The Conclusion
+
+ 
+
+The final changes to Vivid Drone and Trinity Drone will be the following:
+
+- **Trinity Drone: **Cost increased from 2G + sac two Drones to 2EG + sac two Drones. Now has a click ability—convert one green to one gold.
+
+- **Vivid Drone: **Cost increased from 4EEE + sac three Drones to 4EEE + sac four Drones. Now produces six gold per turn instead of five gold per turn.
+
+These changes, alongside many others (soon to be announced), will go live this weekend.
+[Image: Yep, more skins are coming this month as well.]
+
+Yep, more skins are coming this month as well.

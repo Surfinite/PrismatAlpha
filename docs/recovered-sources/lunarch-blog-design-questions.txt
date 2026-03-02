@@ -1,0 +1,178 @@
+# 10 Common Prismata Game Design Questions
+# Source: blog.lunarchstudios.com/2014/08/26/10-prismata-design-questions/
+# Wayback: https://web.archive.org/web/20191115222702/http://blog.lunarchstudios.com/2014/08/26/10-prismata-design-questions/
+# Retrieved: 2026-02-20
+
+After releasing our how-to-play video two weeks ago, we’ve been getting more questions than ever about how Prismata was designed, what Prismata matches feel like, and why we made such unconventional decisions in crafting the game itself.
+
+Prismata is unique in that it combines aspects of both card games and real-time strategy games, which led to many difficulties and challenges in its design. This article will attempt to shed some light on the design decisions that seem *really bizarre *to first time players, and answer other common questions.
+
+### 
+
+### 1) When can I play Prismata?
+
+Soon™ (we promise!)
+
+Currently we’ve leaked a small number of beta keys to our closest friends and fans. They’ve been playing LOTS of games on our server, which gives us more than enough data and server logs to pour over. We’ve noticed a few bugs and performance issues that almost certainly need to be fixed before the beta grows any larger, but it shouldn’t take long.
+
+The most important thing you can do, if you haven’t already, is sign up for the beta right now. We distribute the beta keys mainly on a first-come, first-serve basis, so the sooner you get your name on our beta list, the sooner you’ll get a beta key. Tell your friends, too!
+
+If you want to try out Prismata THIS WEEK and live near Toronto, Canada, you can come see us at FanExpo, where we’ll be demoing the game. Our booth will be set up near Riot Games, Teletoon, and Hasbro.
+
+ 
+
+### 2) How long do games of Prismata take?
+
+Some games of Prismata can take a very long time …
+
+Depending on the time control you select, it could be anywhere from 2 minutes to 2 hours (or more).
+
+Back in the very early days of Prismata development when the game itself was played with pencil and paper, there was no software available to keep track of the gamestate, and no chessclocks were used whatsoever. Prismata was tedious to play, mainly because both players had to manually count money and perform all defense calculations by hand. The pace of play was much slower, and games often took multiple hours to complete.
+
+Nowadays, with our functional user interface and many keyboard shortcuts, Prismata plays much faster. A time limit of 30 seconds per player per turn is perfectly reasonable. Games often finish in 10-15 turns, with the first few turns progressing much faster, so the total length of a 30-second-per-turn game averages about 10 minutes.
+
+Of course, longer time controls (including no time limit at all) are available for friendly games. We actually developed a “play by mail” format where players could literally spend days thinking about each of their turns. Ultimately, the format wasn’t too popular, so it’s been shelved for the time being. We could bring it back if demand exists.
+
+Blitz mode (lightning-fast gameplay with shorter turns) is something that has proven quite popular. We’ve experimented with increasingly small time controls to the point where the game becomes barely playable. But turns that last 10, 7, or even 5 seconds take advantage of Prismata’s vast array of keyboard shortcuts and allow experienced players to see their strategy play out almost immediately. Here’s a 1v1 game I played with Alex using 10 second turns.
+
+ 
+
+### 3) Seriously, can you actually play Prismata at 5 seconds per turn? What’s the level of play like?
+
+As blitz time controls become more extreme, both mistakes and adrenaline get to be increasingly common. Here’s how it all plays out:
+
+**10 seconds/turn: **The game is perfectly playable. You have to think fast, but you almost always have enough time to complete your turn. Dexterity is seldom an issue. Experienced players love this mode because it cuts out waiting time and gets right to the core of gameplay.
+
+**7 seconds/turn: **Some turns, especially those involving lots of targeting or chill, feel pretty tight. You have to think quickly, click quickly, and mistakes are costly. Being good at using hotkeys is important, because it saves a lot of time.
+
+**5 seconds/turn:** StarCraft players will feel right at home. You have to click quickly and accurately, spam hotkeys, and think very carefully about your plays. Many games are decided by costly mistakes made due to time pressure. Certain strategies (e.g. constructing a lot of units with chill) become difficult to execute, while strategies requiring few clicks per turn (like spamming Gauss Cannons) gain popularity because mistakes are less expensive.
+
+**3 seconds/turn: **This is the Prismata equivalent of 300APM professional StarCraft, which is unplayable to most people. A vanishingly small fraction of players can manage to keep up. It’s harder than 1 second/turn chess, because you often need to click 10-15 times per turn and high-precision targeting is almost impossible. Imagine moving several chess pieces at once with only 3 seconds of lead-time.
+
+**2 seconds/turn:** WTF is this shit.
+
+Is this how you’re supposed to feel after playing 2-second blitz?
+
+### 
+
+### 4) How do you decide what types of units/mechanics to include?
+
+Early on in the development process we created a core design philosophy that emphasizes what we consider to be most important:
+
+- Keep the game mechanics as easy-to-understand as possible
+
+- Ensure that these simple game mechanics spawn rich emergent interactions
+
+- Emphasize strategic and tactical decision making in high-level play, rather than huge amounts of calculation or memorization
+
+- Maximize gameplay diversity by putting players in a wide variety of situations, so games don’t feel repetitive or bland
+
+- Reward skill as much as possible
+
+We’ve probably tested over 50 different unit abilities for Prismata. Ultimately, we settled on those abilities (Fragile, Lifespan, Frontline, Chill, etc.) that best optimized the competing objectives of being easy to understand, while simultaneously leading to a lot of deep emergent complexity. In short, we play-tested. A LOT.
+
+ 
+
+### 5) Is it ever incorrect to buy two Drones on the first turn?
+
+Opening your game of Prismata with two Drones is so common that we considered making the two players start with 7/8 Drones instead of 6/7 so that the first turn wasn’t as inevitable. Instead, we kept 6/7 because it aesthetically shows players that the two colours are balanced. You can choose to open DD so the Drone count becomes 7/8, and you can clearly see when it’s your turn because you’ll be one Drone behind.
+
+There are also some situations where DD is not optimal, even for the first turn. The most obvious is when there are other economic units in the base set, because Drones are not always the most cost-effective worker in the current deck. There are about 6 other types of Drones: Wild drone, Doomed drone, Vivid drone, and so on, that all cost different amounts and yield a different return.
+
+In Prismata it’s usually optimal to develop your economy before getting tech for the same reason as in Starcraft, but this isn’t always true. It’s more common to get early technology as the second player because you can open with a Drone and conduit, which produces the green resource needed to make Trinity drones and other units that are useful in the early-game.
+
+Avoiding a DD opening also allows for degenerate rushes, which are particularly effective in blitz games when your opponent has very little time to rationalize and defend. From a game-theoretical standpoint, Prismata ensures that your opponent will usually have enough time to defend or counter attack before you can amass a huge rush, but that depends on what cards are available. Some types of rushes can be very testing for your opponent if there are strong attackers available, or if your army can breach before the opponent’s timed push.
+
+ 
+
+### 6) Why isn’t it correct to just keep buying Drones forever?
+
+Drones are not the most efficient way of spending your resources as the game progresses. Attackers yield a much better return on investment. Consider the following example:
+
+**To build one Wall per turn**, you need five Drones and a Blastforge, which costs a total of *20 gold and 5 energy*.
+
+**To destroy one Wall per turn**, you could buy just three Tarsiers, which costs a total of just *12 gold and 3 red****.***
+
+Clearly, the three Tarsiers are cheaper. In the long run, if you’re buying Drones and your opponent is buying Tarsiers, you’re going to fall behind. You should only buy enough Drones to get your economy started, and then spend most of the rest of your resources on ramping up your attack.
+
+ 
+
+### 7) Why do supplies exist?
+
+Prismata’s units each have a finite supply counter: you begin every battle with a limited number of “seeds” for each unit, and these seeds are consumed every time that unit is constructed. Once a unit’s seeds have all been consumed, the unit can no longer be purchased.
+
+In many games of Prismata, the unit supply limits aren’t relevant, because players will finish the entire game without exhausting any unit’s supply. We wanted to avoid introducing this mechanic if possible, but we eventually settled on including unit supplies because it led to a number of benefits. These benefits, roughly in order of importance, are:
+
+- **Games are forced to end.** Before we introduced supply limits, some games of Prismata ended in bizarre “infinite loop draws” where, for example, one player would build a Wall every turn, the opponent would destroy a Wall every turn, and neither side would make any additional progress. We felt strongly that the attacker should win in such situations, and supply limits guarantee that.
+
+- **Economies are limited.** We mentioned above that buying Drones forever is an incorrect strategy in Prismata. But that doesn’t stop some players from trying! We discovered that many beginners loved buying Drones, and beginner versus beginner matches often turned into huge, grindey slug-fests with 40 or more Drones per side. Games of this scale are difficult to play, take a long time, and most players enjoy them less. Limiting the supply of Drones and other economic units therefore protects beginners from certain tendencies that lead to tedious games.
+
+- **Increased design space.** We discovered that varying the supply of a unit could lead to dramatic changes in the way it plays. We could create units with low supply that were extremely powerful, but couldn’t be massed. Ultimately, this led to the creation of “omega” or “legendary” units—units that can only be constructed once, but are extremely powerful. These units lead to some really interesting gameplay situations, and are a welcome addition to Prismata.
+
+Another noteworthy detail is that seeds are **NOT **shared between players. We experimented with this, but it ultimately led to unfun situations because players would rush to obtain the last remaining supplies of certain key units. Their opponents would often find themselves at a huge disadvantage if they could no longer buy a unit, and this felt unfair as there were few methods of counterplay available.
+
+ 
+
+### **8) Why is ‘kill everything’ the goal of the game, instead of ‘reduce your opponent’s life to zero’?**
+
+This has a nicer ring to it, don’t you think?
+
+We tried many different win conditions for Prismata, including:
+
+- Destroy everything your opponent has
+
+- Destroy all of your opponent’s Drones
+
+- Reduce your opponent’s life to zero
+
+Ultimately, the first one led to the largest amount of gameplay variety, while having life—like in Magic: the Gathering or Hearthstone—actually *decreased* gameplay variety substantially. Having life rarely introduced interesting strategies (you can’t really play a “burn deck” in Prismata) and it destroyed play styles that involved making lots of high HP units and no defense (if you did this, the opponent could just attack your face and win). In the vast majority of games, having health actually changed nothing, because players would almost always prefer to destroy their opponents’ economies rather than deal damage to their opponent’s face. In order to make attacking the player’s character a viable option, we had to reduce the life totals so much that many other strategies were no longer viable.
+
+What makes attacking player characters interesting in a game like Hearthstone is the so-called *aggro/control dynamic*. Because minion-on-minion engagements are symmetric, at most one of the players (the *control player*) typically wants a given minion-on-minion engagement to happen, while the other player (the *aggro player*) would prefer to attack the opponent’s face. Since Prismata has no unit-on-unit combat, Prismata lacks this dynamic. Instead, players enjoy a completely different set of emergent interactions that stem from Prismata’s combat system.
+
+ 
+
+### 9) WTF, you have to CLICK your Drones every turn to get gold? Is this some farmville crap?
+
+I want to play a game, too! (Hint: It’s not Farmville.) (Second hint: It’s Prismata.)
+
+No… we promise! There’s a reason.
+
+At one point long ago, you actually had to click EVERYTHING in Prismata—even the Blastforge, Conduit, Tarsier, and other units that did absolutely nothing if you don’t click them. It was strictly correct to click these units at the start of every turn; failing to click them was always a mistake (and one that players frequently made). These types of errors really frustrated players, especially when they failed to click a Conduit and lost out on the storable green resource it could have produced. So, we made Conduit and other similar units automatically click themselves.
+
+Why not the Drones?
+
+Because when you *don’t* click them, they defend instead!
+
+In Prismata, the units that require clicking are precisely those units for which there is some trade-off when their ability is activated. In the case of Drones or Steelsplitter, they only block when they are left unclicked. In the case of some other units, their abilities have a cost that must be paid, and you might not always want to pay the cost required to activate their abilities. We might still have some uselessly clickable units, like the old Conduit, in the very first tutorial missions only, just because we’ve found that new players get a bit confused when they obtain resources without having to click anything first.
+
+ 
+
+ 
+
+### **10) What made you want to get away from “asymmetrical forces” in Prismata? Why can’t you “configure a character” or “build a deck”?**
+
+It never seemed necessary. Our initial goal was to make the game as competitive as possible, so removing any pre-game simultaneous player choice eliminated the implicit “yomi luck” inherent in getting automatched against an opponent. Given that the game itself is randomly set up, there was really no need for it.
+
+One of the big drawbacks of a game like StarCraft is that to be a professional player, you only need to be good at one race, which constitutes 3 of the 9 match-ups. I used to select *Random* as my race in StarCraft because I wanted to experience the whole game, but eventually almost every player needs to focus their improvement goals on one race if they want to improve more quickly. With our game’s setup, you have access to all three branches of tech in every game and you can choose what you want to build based on what’s available. If you like mechs, then you can go blue every game, but it’s not always the best choice to do so.
+
+ 
+
+### **Bonus Question: Is Prismata Solvable?**
+
+We get this question a lot. Could somebody write a “chess computer” for Prismata that could defeat the best human players? Could a computer AI solve the game and prove that the first (or second) player had a guaranteed way to win?
+
+The answer… **Not even close.**
+
+We’ve done many experiments with our Prismata AI. One early goal we had was to write an AI that could determine which player wins with only a few units available: Drone, Engineer, Blastforge, Wall, and Steelsplitter. An MIT expert and a StarCraft AI Competition winner have both given it a shot. Find out how they did in a future article!
+
+ 
+
+### Have your own question?
+
+Send it over Facebook or Twitter, or ask me on Reddit!
+
+ 
+
+ 
+
+[Image: Interested in Prismata? Sign up for the beta at prismata.net]
