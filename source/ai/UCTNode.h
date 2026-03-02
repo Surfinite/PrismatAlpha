@@ -15,7 +15,8 @@ class UCTNode
     size_t                      _numVisits;         // total visits to this node
     double                      _numWins;           // wins from this node
     double                      _uctVal;            // previous computed UCT value
-            
+    double                      _policyPrior;       // PUCT policy prior (default 1.0 = uniform)
+
     PlayerID                    _playerWhoMoved;    // the player who made a move to generate this node
     Move                        _move;              // the move that generated this node
 
@@ -36,6 +37,7 @@ public:
     const size_t            numChildren()               const;
     const double            numWins()                   const;
     const double            getUCTVal()                 const;
+    const double            getPolicyPrior()            const;
     bool              hasChildren()               const;
     bool              hasChildrenToGenerate()     const;
     const PlayerID          getPlayerWhoMoved()         const;
@@ -51,6 +53,7 @@ public:
     UCTNode &               bestUCTValueChild(bool maxPlayer, const UCTSearchParameters & params);
 
     void                    setUCTVal(double val);
+    void                    setPolicyPrior(double prior);
     void                    incVisits();
     void                    addWins(double val);
     void                    setDescription(std::string & desc);

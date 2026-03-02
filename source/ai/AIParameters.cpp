@@ -737,6 +737,16 @@ PlayerPtr AIParameters::parsePlayer(const PlayerID player, const std::string & p
             params.setCValue(args["UCTConstant"].GetDouble());
         }
 
+        if (args.HasMember("BlendWeight") && args["BlendWeight"].IsDouble())
+        {
+            params.setBlendWeight(args["BlendWeight"].GetDouble());
+        }
+
+        if (args.HasMember("UsePUCT") && args["UsePUCT"].IsBool())
+        {
+            params.setUsePUCT(args["UsePUCT"].GetBool());
+        }
+
         //params.setGraphVizFilename("uct.png");
         
         playerPtr = PlayerPtr(new Player_UCT(player, params));
