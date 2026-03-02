@@ -113,7 +113,8 @@ Card::Card(const rapidjson::Value & cardValue)
         }
         else if (prop == "instId")
         {
-            // do nothing, we use our own instID
+            PRISMATA_ASSERT(val.IsInt(), "GameState JSON instId was not an Int");
+            m_clientInstId = val.GetInt();
         }
         else if (prop == "deadness") 
         { 
@@ -329,6 +330,11 @@ HealthType Card::currentChill() const
 int Card::getStatus() const
 {
     return m_status;
+}
+
+int Card::getClientInstId() const
+{
+    return m_clientInstId;
 }
 
 int Card::getAliveStatus() const
