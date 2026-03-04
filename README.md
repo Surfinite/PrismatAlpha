@@ -7,7 +7,7 @@ This project extends the original with neural network evaluation, self-play trai
 ## What's Here
 
 - **C++ Engine** — Full Prismata game simulation with Alpha-Beta and UCT/MCTS search
-- **Neural Network Eval** — ResNet value head trained on 700K+ self-play games, used alongside traditional search
+- **Neural Network Eval** — ResNet value head for position evaluation, used alongside traditional search
 - **SFML GUI** — Watch AI vs AI games, with card images and debug overlays
 - **JS Engine** — Transpiled game engine for running matchups and AI analysis outside C++
 - **Training Pipeline** — PyTorch training on self-play data with binary shard I/O and streaming support
@@ -24,7 +24,7 @@ Produces three executables in `bin/`:
 
 ## Current Status
 
-The neural net (256 hidden, 3 layers) achieves **~52% win rate vs OriginalHardestAI** (the original strongest AI) over 2,000+ games. Trained on 700K+ self-play games using value-only prediction with tanh+MSE loss.
+Work in progress. The C++ engine has been audited against the original AS3 source, with several logic fixes applied. A JavaScript transpilation of the game engine enables matchup analysis and AI-vs-AI testing outside C++. The neural net training pipeline is ready — next step is generating clean self-play data and training a model on bug-free game simulations.
 
 ## Key References
 
