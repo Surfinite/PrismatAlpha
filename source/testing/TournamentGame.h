@@ -12,13 +12,15 @@ class TournamentGame
     std::string     _playerNames[2];
     size_t          _playerTotalTimeMS[2];
     size_t          _maxTimeMS[2];
-        
+    PlayerID        _adjudicatedWinner = Players::Player_None;
+
 public:
 
     TournamentGame(GameState & initialState, const std::string & p1name, PlayerPtr p1, const std::string & p2name, const PlayerPtr p2);
 
     void playGame();
 
+    PlayerID getWinner() const;
     const std::string & getPlayerName(const PlayerID player) const;
     const GameState & getFinalGameState() const;
     const size_t getTotalTimeMS(const PlayerID player) const;

@@ -68,10 +68,22 @@ class GUIState_Play : public GUIState
     GUICard * getClickedCard(const int x, const int y);
     GUICardBuyable * getClickedCardBuyable(const int x, const int y);
 
-    
+    // Replay mode
+    bool                        m_replayMode = false;
+    size_t                      m_replayIndex = 0;
+    std::string                 m_replayP0;
+    std::string                 m_replayP1;
+    int                         m_replayWinner = -1;
+
+    void advanceReplayState();
+    void rewindReplayState();
+    void drawReplayHUD();
+
 public:
 
     GUIState_Play(GUIEngine & game, const GameState & state);
+    GUIState_Play(GUIEngine & game, std::vector<GameState> replayStates,
+                  const std::string & p0, const std::string & p1, int winner);
 
     void onFrame();
 };

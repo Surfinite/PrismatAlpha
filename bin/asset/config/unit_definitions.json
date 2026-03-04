@@ -1,0 +1,2299 @@
+{
+  "description": "Authoritative unit definitions for all 116 valid Prismata units. Source: mergedDeck from recent rated replays (post-patch, rating >1500), March 2026. Keyed by display name.",
+  "source": "Server replay mergedDeck (ground truth)",
+  "extractionDate": "2026-03-03",
+  "unitCount": 116,
+  "units": {
+    "Aegis": {
+      "displayName": "Aegis",
+      "internalName": "Aegis",
+      "buyCost": "6GGG",
+      "toughness": 5,
+      "rarity": "normal",
+      "buildTime": 0,
+      "fragile": true,
+      "defaultBlocking": 1,
+      "score": "10",
+      "supply": 20
+    },
+    "Amporilla": {
+      "displayName": "Amporilla",
+      "internalName": "Amporilla",
+      "buyCost": "13CCC",
+      "toughness": 3,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "needs": [
+        "Tarsier"
+      ],
+      "resonate": "Tarsier",
+      "supply": 4
+    },
+    "Animus": {
+      "displayName": "Animus",
+      "internalName": "Animus",
+      "buyCost": "6",
+      "toughness": 2,
+      "rarity": "normal",
+      "baseSet": true,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "CC"
+      },
+      "score": "5",
+      "supply": 10
+    },
+    "Antima Comet": {
+      "displayName": "Antima Comet",
+      "internalName": "Antima Comet",
+      "buyCost": "3GBC",
+      "toughness": 0,
+      "rarity": "legendary",
+      "buildTime": 2,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "selfsac": true
+      },
+      "needs": [
+        "Engineer"
+      ],
+      "resonate": "Engineer",
+      "supply": 1
+    },
+    "Apollo": {
+      "displayName": "Apollo",
+      "internalName": "Apollo",
+      "buyCost": "13BBB",
+      "toughness": 4,
+      "rarity": "legendary",
+      "buildTime": 2,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "targetAction": "snipe",
+      "description": "destroy an enemy unit with 3 or less health",
+      "potentiallyMoreAttack": 1,
+      "condition": {
+        "healthAtMost": 3
+      },
+      "supply": 1
+    },
+    "Arka Sodara": {
+      "displayName": "Arka Sodara",
+      "internalName": "Arka Sodara",
+      "buyCost": "7BBCAAAAAAA",
+      "toughness": 7,
+      "rarity": "legendary",
+      "buildTime": 0,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAAA"
+      },
+      "score": "16BBBB",
+      "supply": 1
+    },
+    "Arms Race": {
+      "displayName": "Arms Race",
+      "internalName": "Arms Race",
+      "buyCost": "8GBC",
+      "toughness": 1,
+      "rarity": "rare",
+      "buildTime": 0,
+      "spell": true,
+      "defaultBlocking": 0,
+      "buyScript": {
+        "create": [
+          [
+            "Tarsier",
+            "own",
+            1,
+            2
+          ],
+          [
+            "Gauss Cannon",
+            "own"
+          ],
+          [
+            "Steelsplitter",
+            "own"
+          ],
+          [
+            "Engineer",
+            "opponent",
+            4
+          ]
+        ]
+      },
+      "needs": [
+        "Engineer",
+        "Tarsier",
+        "Steelsplitter",
+        "Gauss Cannon"
+      ],
+      "fullDescription_en": [
+        "[spell] <FONT COLOR=\"#55e595\">Effect: </FONT>construct a <FONT COLOR=\"#bbbbff\">Tarsier</FONT> with [clock,2,true], a <FONT COLOR=\"#bbbbff\">Gauss Cannon</FONT>, and a <FONT COLOR=\"#bbbbff\">Steelsplitter</FONT>. Construct 4 <FONT COLOR=\"#bbbbff\">Engineers</FONT> for your opponent"
+      ],
+      "supply": 4
+    },
+    "Asteri Cannon": {
+      "displayName": "Asteri Cannon",
+      "internalName": "Asteri Cannon",
+      "buyCost": "16GGGG",
+      "toughness": 16,
+      "rarity": "rare",
+      "fragile": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "create": [
+          [
+            "Barrier",
+            "own",
+            1,
+            0
+          ]
+        ]
+      },
+      "beginOwnTurnScript": {
+        "receive": "AAA"
+      },
+      "needs": [
+        "Barrier"
+      ],
+      "HPUsed": 3,
+      "supply": 4
+    },
+    "Auric Impulse": {
+      "displayName": "Auric Impulse",
+      "internalName": "Auric Impulse",
+      "buyCost": "3H",
+      "toughness": 0,
+      "rarity": "trinket",
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "4",
+        "selfsac": true
+      },
+      "supply": 20
+    },
+    "Auride Core": {
+      "displayName": "Auride Core",
+      "internalName": "Auride Core",
+      "buyCost": "1B",
+      "toughness": 1,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "A",
+      "abilityScript": {
+        "receive": "2"
+      },
+      "supply": 4
+    },
+    "Barrier": {
+      "displayName": "Barrier",
+      "internalName": "Barrier",
+      "buyCost": "1G",
+      "toughness": 1,
+      "rarity": "trinket",
+      "buildTime": 0,
+      "lifespan": 1,
+      "defaultBlocking": 1,
+      "supply": 20
+    },
+    "Blastforge": {
+      "displayName": "Blastforge",
+      "internalName": "Blastforge",
+      "buyCost": "5",
+      "toughness": 3,
+      "rarity": "normal",
+      "baseSet": true,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "B"
+      },
+      "score": "4",
+      "supply": 10
+    },
+    "Blood Pact": {
+      "displayName": "Blood Pact",
+      "internalName": "Blood Pact",
+      "buyCost": "3C",
+      "toughness": 1,
+      "rarity": "normal",
+      "buildTime": 0,
+      "spell": true,
+      "defaultBlocking": 0,
+      "buyScript": {
+        "create": [
+          [
+            "Husk",
+            "own",
+            4,
+            0
+          ],
+          [
+            "Grimbotch",
+            "opponent",
+            1,
+            1,
+            3
+          ]
+        ]
+      },
+      "needs": [
+        "Husk",
+        "Grimbotch"
+      ],
+      "supply": 20
+    },
+    "Blood Phage": {
+      "displayName": "Blood Phage",
+      "internalName": "Blood Phage",
+      "buyCost": "6CH",
+      "toughness": 2,
+      "rarity": "rare",
+      "buildTime": 2,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "C",
+      "abilityScript": {
+        "receive": "1"
+      },
+      "beginOwnTurnScript": {
+        "receive": "1A"
+      },
+      "supply": 4
+    },
+    "Bloodrager": {
+      "displayName": "Bloodrager",
+      "internalName": "Bloodrager",
+      "buyCost": "7CAAA",
+      "toughness": 2,
+      "rarity": "normal",
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "AA"
+      },
+      "score": "10CC",
+      "supply": 20
+    },
+    "Bombarder": {
+      "displayName": "Bombarder",
+      "internalName": "Bombarder",
+      "buyCost": "8BBC",
+      "toughness": 4,
+      "rarity": "rare",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "charge": 2,
+      "abilityScript": {
+        "receive": "AAA"
+      },
+      "supply": 4
+    },
+    "Borehole Patroller": {
+      "displayName": "Borehole Patroller",
+      "internalName": "Borehole Patroller",
+      "buyCost": "6GB",
+      "toughness": 2,
+      "rarity": "normal",
+      "defaultBlocking": 1,
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "buyScript": {
+        "create": [
+          [
+            "Pixie",
+            "own",
+            1
+          ]
+        ]
+      },
+      "score": "7",
+      "needs": [
+        "Pixie"
+      ],
+      "UIShortname": "Patroller",
+      "supply": 20
+    },
+    "Cauterizer": {
+      "displayName": "Cauterizer",
+      "internalName": "Cauterizer",
+      "buyCost": "11BCC",
+      "toughness": 3,
+      "rarity": "rare",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityCost": "HHHH",
+      "abilityScript": {
+        "receive": "AA"
+      },
+      "buyScript": {
+        "create": [
+          [
+            "Engineer",
+            "own",
+            4
+          ]
+        ]
+      },
+      "score": "1BCC",
+      "needs": [
+        "Engineer"
+      ],
+      "supply": 4
+    },
+    "Centrifuge": {
+      "displayName": "Centrifuge",
+      "internalName": "Centrifuge",
+      "buyCost": "5",
+      "toughness": 0,
+      "rarity": "legendary",
+      "buildTime": 3,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "3BBCCGG",
+        "selfsac": true
+      },
+      "group": "GBR",
+      "supply": 1
+    },
+    "Centurion": {
+      "displayName": "Centurion",
+      "internalName": "Centurion",
+      "buyCost": "18GGBBC",
+      "toughness": 6,
+      "rarity": "legendary",
+      "buildTime": 0,
+      "defaultBlocking": 1,
+      "beginOwnTurnScript": {
+        "receive": "AA"
+      },
+      "supply": 1
+    },
+    "Chieftain": {
+      "displayName": "Chieftain",
+      "internalName": "Chieftain",
+      "buyCost": "8GGB",
+      "toughness": 7,
+      "rarity": "normal",
+      "fragile": true,
+      "lifespan": 3,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AA"
+      },
+      "supply": 20
+    },
+    "Chrono Filter": {
+      "displayName": "Chrono Filter",
+      "internalName": "Chrono Filter",
+      "buyCost": "4",
+      "toughness": 2,
+      "rarity": "legendary",
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "BC",
+        "delay": 2
+      },
+      "group": "BR",
+      "supply": 1
+    },
+    "Cluster Bolt": {
+      "displayName": "Cluster Bolt",
+      "internalName": "Cluster Bolt",
+      "buyCost": "GGGG",
+      "toughness": 1,
+      "rarity": "normal",
+      "buildTime": 0,
+      "spell": true,
+      "defaultBlocking": 0,
+      "buyScript": {
+        "create": [
+          [
+            "Gauss Charge",
+            "own",
+            4
+          ],
+          [
+            "Gauss Charge",
+            "opponent",
+            1
+          ]
+        ]
+      },
+      "needs": [
+        "Gauss Charge"
+      ],
+      "supply": 20
+    },
+    "Colossus": {
+      "displayName": "Colossus",
+      "internalName": "Colossus",
+      "buyCost": "15GBBCC",
+      "toughness": 8,
+      "rarity": "rare",
+      "fragile": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAA"
+      },
+      "supply": 4
+    },
+    "Conduit": {
+      "displayName": "Conduit",
+      "internalName": "Conduit",
+      "buyCost": "4",
+      "toughness": 3,
+      "rarity": "normal",
+      "baseSet": true,
+      "fragile": true,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "G"
+      },
+      "score": "3",
+      "supply": 10
+    },
+    "Corpus": {
+      "displayName": "Corpus",
+      "internalName": "Corpus",
+      "buyCost": "6CC",
+      "toughness": 2,
+      "rarity": "rare",
+      "buildTime": 0,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "charge": 2,
+      "abilityCost": "4C",
+      "abilityScript": {
+        "create": [
+          [
+            "Husk",
+            "own",
+            3,
+            0
+          ]
+        ]
+      },
+      "buyScript": {
+        "create": [
+          [
+            "Husk",
+            "own",
+            1,
+            0
+          ]
+        ]
+      },
+      "needs": [
+        "Husk"
+      ],
+      "supply": 4
+    },
+    "Cryo Ray": {
+      "displayName": "Cryo Ray",
+      "internalName": "Cryo Ray",
+      "buyCost": "1G",
+      "toughness": 3,
+      "rarity": "normal",
+      "fragile": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "targetAction": "disrupt",
+      "targetAmount": 1,
+      "HPUsed": 1,
+      "supply": 20
+    },
+    "Cynestra": {
+      "displayName": "Cynestra",
+      "internalName": "Cynestra",
+      "buyCost": "12CGGG",
+      "toughness": 2,
+      "rarity": "rare",
+      "fragile": true,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "AAA"
+      },
+      "supply": 4
+    },
+    "Deadeye Operative": {
+      "displayName": "Deadeye Operative",
+      "internalName": "Deadeye Operative",
+      "buyCost": "5BB",
+      "toughness": 2,
+      "rarity": "rare",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "charge": 3,
+      "needs": [
+        "Drone"
+      ],
+      "abilityNetherfy": true,
+      "UIShortname": "Deadeye",
+      "description": "destroy a non-blocking enemy <FONT COLOR=\"#bbbbff\">Drone</FONT>. (Only units named exactly 'Drone' can be destroyed) ",
+      "supply": 4
+    },
+    "Defense Grid": {
+      "displayName": "Defense Grid",
+      "internalName": "Defense Grid",
+      "buyCost": "16BBB",
+      "toughness": 7,
+      "rarity": "legendary",
+      "lifespan": 7,
+      "defaultBlocking": 1,
+      "beginOwnTurnScript": {
+        "create": [
+          [
+            "Drone",
+            "own"
+          ]
+        ]
+      },
+      "needs": [
+        "Drone"
+      ],
+      "supply": 1
+    },
+    "Doomed Drone": {
+      "displayName": "Doomed Drone",
+      "internalName": "Doomed Drone",
+      "buyCost": "2H",
+      "toughness": 1,
+      "rarity": "normal",
+      "lifespan": 4,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "1"
+      },
+      "supply": 20
+    },
+    "Doomed Mech": {
+      "displayName": "Doomed Mech",
+      "internalName": "Doomed Mech",
+      "buyCost": "9BB",
+      "toughness": 5,
+      "rarity": "normal",
+      "lifespan": 5,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AA"
+      },
+      "supply": 20
+    },
+    "Doomed Wall": {
+      "displayName": "Doomed Wall",
+      "internalName": "Doomed Wall",
+      "buyCost": "7B",
+      "toughness": 4,
+      "rarity": "normal",
+      "buildTime": 0,
+      "lifespan": 3,
+      "defaultBlocking": 1,
+      "score": "8",
+      "supply": 20
+    },
+    "Drake": {
+      "displayName": "Drake",
+      "internalName": "Drake",
+      "buyCost": "12BB",
+      "toughness": 4,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AA"
+      },
+      "beginOwnTurnScript": {
+        "receive": "AA"
+      },
+      "needs": [
+        "Blastforge"
+      ],
+      "abilitySac": [
+        [
+          "Blastforge"
+        ]
+      ],
+      "supply": 4
+    },
+    "Drone": {
+      "displayName": "Drone",
+      "internalName": "Drone",
+      "buyCost": "3H",
+      "toughness": 1,
+      "rarity": "trinket",
+      "baseSet": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "1"
+      },
+      "supply": 20
+    },
+    "Ebb Turbine": {
+      "displayName": "Ebb Turbine",
+      "internalName": "Ebb Turbine",
+      "buyCost": "6HB",
+      "toughness": 4,
+      "rarity": "normal",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "3H"
+      },
+      "beginOwnTurnScript": {
+        "receive": "2"
+      },
+      "needs": [
+        "Drone"
+      ],
+      "abilitySac": [
+        [
+          "Drone"
+        ]
+      ],
+      "supply": 20
+    },
+    "Electrovore": {
+      "displayName": "Electrovore",
+      "internalName": "Electrovore",
+      "buyCost": "4C",
+      "toughness": 2,
+      "rarity": "normal",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityCost": "H",
+      "abilityScript": {
+        "receive": "A"
+      },
+      "supply": 20
+    },
+    "Endotherm Kit": {
+      "displayName": "Endotherm Kit",
+      "internalName": "Endotherm Kit",
+      "buyCost": "5GGGC",
+      "toughness": 1,
+      "rarity": "legendary",
+      "buildTime": 0,
+      "spell": true,
+      "defaultBlocking": 0,
+      "buyScript": {
+        "create": [
+          [
+            "Frostbite",
+            "own",
+            4,
+            4
+          ],
+          [
+            "Cryo Ray",
+            "own",
+            4,
+            4
+          ]
+        ]
+      },
+      "needs": [
+        "Frostbite",
+        "Cryo Ray"
+      ],
+      "supply": 1
+    },
+    "Energy Matrix": {
+      "displayName": "Energy Matrix",
+      "internalName": "Energy Matrix",
+      "buyCost": "8BB",
+      "toughness": 5,
+      "rarity": "rare",
+      "buildTime": 0,
+      "defaultBlocking": 1,
+      "score": "10.01",
+      "supply": 4
+    },
+    "Engineer": {
+      "displayName": "Engineer",
+      "internalName": "Engineer",
+      "buyCost": "2",
+      "toughness": 1,
+      "rarity": "trinket",
+      "baseSet": true,
+      "defaultBlocking": 1,
+      "beginOwnTurnScript": {
+        "receive": "H"
+      },
+      "score": "2.01",
+      "supply": 20
+    },
+    "Feral Warden": {
+      "displayName": "Feral Warden",
+      "internalName": "Feral Warden",
+      "buyCost": "5GC",
+      "toughness": 3,
+      "rarity": "normal",
+      "buildTime": 0,
+      "fragile": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "A"
+      },
+      "score": "5G",
+      "supply": 20
+    },
+    "Ferritin Sac": {
+      "displayName": "Ferritin Sac",
+      "internalName": "Ferritin Sac",
+      "buyCost": "1C",
+      "toughness": 1,
+      "rarity": "normal",
+      "buildTime": 2,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "1B",
+        "selfsac": true
+      },
+      "supply": 20
+    },
+    "Fission Turret": {
+      "displayName": "Fission Turret",
+      "internalName": "Fission Turret",
+      "buyCost": "4G",
+      "toughness": 1,
+      "rarity": "normal",
+      "lifespan": 5,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "HHH",
+      "abilityScript": {
+        "receive": "GGG",
+        "selfsac": true
+      },
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "supply": 20
+    },
+    "Flame Animus": {
+      "displayName": "Flame Animus",
+      "internalName": "Flame Animus",
+      "buyCost": "5B",
+      "toughness": 2,
+      "rarity": "rare",
+      "buildTime": 2,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "CA"
+      },
+      "group": "BR",
+      "supply": 4
+    },
+    "Forcefield": {
+      "displayName": "Forcefield",
+      "internalName": "Forcefield",
+      "buyCost": "1G",
+      "toughness": 2,
+      "rarity": "trinket",
+      "baseSet": true,
+      "buildTime": 0,
+      "fragile": true,
+      "defaultBlocking": 1,
+      "needs": [
+        "Drone"
+      ],
+      "buySac": [
+        [
+          "Drone"
+        ]
+      ],
+      "supply": 20
+    },
+    "Frost Brooder": {
+      "displayName": "Frost Brooder",
+      "internalName": "Frost Brooder",
+      "buyCost": "5CC",
+      "toughness": 2,
+      "rarity": "rare",
+      "lifespan": 6,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "create": [
+          [
+            "Frostbite",
+            "own",
+            1,
+            1,
+            3
+          ]
+        ]
+      },
+      "needs": [
+        "Frostbite"
+      ],
+      "supply": 4
+    },
+    "Frostbite": {
+      "displayName": "Frostbite",
+      "internalName": "Frostbite",
+      "buyCost": "2C",
+      "toughness": 1,
+      "rarity": "trinket",
+      "buildTime": 2,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "selfsac": true
+      },
+      "targetAction": "disrupt",
+      "targetAmount": 3,
+      "supply": 20
+    },
+    "Galvani Drone": {
+      "displayName": "Galvani Drone",
+      "internalName": "Galvani Drone",
+      "buyCost": "1H",
+      "toughness": 1,
+      "rarity": "normal",
+      "undefendable": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "H",
+      "abilityScript": {
+        "receive": "1"
+      },
+      "supply": 20
+    },
+    "Gauss Cannon": {
+      "displayName": "Gauss Cannon",
+      "internalName": "Gauss Cannon",
+      "buyCost": "6G",
+      "toughness": 5,
+      "rarity": "normal",
+      "baseSet": true,
+      "fragile": true,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "supply": 10
+    },
+    "Gauss Charge": {
+      "displayName": "Gauss Charge",
+      "internalName": "Gauss Charge",
+      "buyCost": "1G",
+      "toughness": 0,
+      "rarity": "trinket",
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "A",
+        "selfsac": true
+      },
+      "supply": 20
+    },
+    "Gauss Fabricator": {
+      "displayName": "Gauss Fabricator",
+      "internalName": "Gauss Fabricator",
+      "buyCost": "12GGGG",
+      "toughness": 10,
+      "rarity": "legendary",
+      "fragile": true,
+      "lifespan": 8,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "create": [
+          [
+            "Gauss Cannon",
+            "own"
+          ]
+        ]
+      },
+      "needs": [
+        "Gauss Cannon"
+      ],
+      "UIShortname": "Fabricator",
+      "supply": 1
+    },
+    "Gaussite Symbiote": {
+      "displayName": "Gaussite Symbiote",
+      "internalName": "Gaussite Symbiote",
+      "buyCost": "8CC",
+      "toughness": 2,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "GGG",
+      "abilityScript": {
+        "create": [
+          [
+            "Gauss Charge",
+            "own",
+            6
+          ]
+        ],
+        "selfsac": true
+      },
+      "beginOwnTurnScript": {
+        "receive": "GA"
+      },
+      "needs": [
+        "Gauss Charge"
+      ],
+      "group": "RG",
+      "UIShortname": "Symbiote",
+      "supply": 4
+    },
+    "Grenade Mech": {
+      "displayName": "Grenade Mech",
+      "internalName": "Grenade Mech",
+      "buyCost": "10BB",
+      "toughness": 4,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "1",
+      "abilityScript": {
+        "create": [
+          [
+            "Pixie",
+            "own",
+            3
+          ]
+        ]
+      },
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "buyScript": {
+        "create": [
+          [
+            "Pixie",
+            "own",
+            3
+          ]
+        ]
+      },
+      "score": "5B",
+      "needs": [
+        "Pixie",
+        "Blastforge"
+      ],
+      "abilitySac": [
+        [
+          "Blastforge"
+        ]
+      ],
+      "supply": 4
+    },
+    "Grimbotch": {
+      "displayName": "Grimbotch",
+      "internalName": "Grimbotch",
+      "buyCost": "4C",
+      "toughness": 2,
+      "rarity": "normal",
+      "lifespan": 4,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "A"
+      },
+      "supply": 20
+    },
+    "Hannibull": {
+      "displayName": "Hannibull",
+      "internalName": "Hannibull",
+      "buyCost": "10BC",
+      "toughness": 7,
+      "rarity": "rare",
+      "undefendable": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "A"
+      },
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "supply": 4
+    },
+    "Hellhound": {
+      "displayName": "Hellhound",
+      "internalName": "Hellhound",
+      "buyCost": "5BC",
+      "toughness": 1,
+      "rarity": "normal",
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "buyScript": {
+        "create": [
+          [
+            "Engineer",
+            "own"
+          ]
+        ]
+      },
+      "score": "5C",
+      "needs": [
+        "Engineer"
+      ],
+      "supply": 20
+    },
+    "Husk": {
+      "displayName": "Husk",
+      "internalName": "Husk",
+      "buyCost": "2C",
+      "toughness": 1,
+      "rarity": "trinket",
+      "buildTime": 0,
+      "defaultBlocking": 1,
+      "score": "2",
+      "supply": 20
+    },
+    "Iceblade Golem": {
+      "displayName": "Iceblade Golem",
+      "internalName": "Iceblade Golem",
+      "buyCost": "7BC",
+      "toughness": 6,
+      "rarity": "normal",
+      "undefendable": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "targetAction": "disrupt",
+      "targetAmount": 2,
+      "UIShortname": "Iceblade",
+      "supply": 20
+    },
+    "Immolite": {
+      "displayName": "Immolite",
+      "internalName": "Immolite",
+      "buyCost": "3C",
+      "toughness": 1,
+      "rarity": "trinket",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "A",
+        "delay": 2
+      },
+      "supply": 20
+    },
+    "Infusion Grid": {
+      "displayName": "Infusion Grid",
+      "internalName": "Infusion Grid",
+      "buyCost": "5B",
+      "toughness": 4,
+      "rarity": "normal",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityCost": "C",
+      "abilityScript": {
+        "create": [
+          [
+            "Husk",
+            "own",
+            4,
+            0
+          ]
+        ],
+        "selfsac": true
+      },
+      "needs": [
+        "Husk"
+      ],
+      "supply": 20
+    },
+    "Innervi Field": {
+      "displayName": "Innervi Field",
+      "internalName": "Innervi Field",
+      "buyCost": "4GG",
+      "toughness": 3,
+      "rarity": "normal",
+      "buildTime": 0,
+      "fragile": true,
+      "lifespan": 3,
+      "defaultBlocking": 1,
+      "HPGained": 1,
+      "HPMax": 5,
+      "supply": 20
+    },
+    "Iso Kronus": {
+      "displayName": "Iso Kronus",
+      "internalName": "Iso Kronus",
+      "buyCost": "5G",
+      "toughness": 5,
+      "rarity": "normal",
+      "buildTime": 2,
+      "fragile": true,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "AA",
+        "delay": 2
+      },
+      "score": "6GG",
+      "supply": 20
+    },
+    "Kinetic Driver": {
+      "displayName": "Kinetic Driver",
+      "internalName": "Kinetic Driver",
+      "buyCost": "5G",
+      "toughness": 1,
+      "rarity": "rare",
+      "lifespan": 6,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "2",
+      "abilityScript": {
+        "selfsac": true
+      },
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "targetAction": "snipe",
+      "description": "destroy an enemy <FONT COLOR=\"#bbbbff\">Animus</FONT>, <FONT COLOR=\"#bbbbff\">Blastforge</FONT>, or <FONT COLOR=\"#bbbbff\">Conduit</FONT>",
+      "condition": {
+        "isABC": 1
+      },
+      "supply": 4
+    },
+    "Lancetooth": {
+      "displayName": "Lancetooth",
+      "internalName": "Lancetooth",
+      "buyCost": "6BAA",
+      "toughness": 4,
+      "rarity": "normal",
+      "buildTime": 2,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AA"
+      },
+      "score": "10BB",
+      "supply": 20
+    },
+    "Lucina Spinos": {
+      "displayName": "Lucina Spinos",
+      "internalName": "Lucina Spinos",
+      "buyCost": "17CCCC",
+      "toughness": 1,
+      "rarity": "legendary",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "C",
+      "abilityScript": {
+        "create": [
+          [
+            "Perforator",
+            "own"
+          ]
+        ]
+      },
+      "beginOwnTurnScript": {
+        "receive": "AAAA"
+      },
+      "needs": [
+        "Perforator",
+        "Drone"
+      ],
+      "abilitySac": [
+        [
+          "Drone"
+        ]
+      ],
+      "supply": 1
+    },
+    "Mahar Rectifier": {
+      "displayName": "Mahar Rectifier",
+      "internalName": "Mahar Rectifier",
+      "buyCost": "11GG",
+      "toughness": 5,
+      "rarity": "normal",
+      "fragile": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AA"
+      },
+      "score": "18GG",
+      "HPGained": 2,
+      "UIShortname": "Rectifier",
+      "supply": 20
+    },
+    "Manticore": {
+      "displayName": "Manticore",
+      "internalName": "Manticore",
+      "buyCost": "3BB",
+      "toughness": 4,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "AA",
+      "abilityScript": {
+        "receive": 3
+      },
+      "beginOwnTurnScript": {
+        "receive": "AA"
+      },
+      "needs": [
+        "Steelsplitter"
+      ],
+      "buySac": [
+        [
+          "Steelsplitter"
+        ]
+      ],
+      "supply": 4
+    },
+    "Mega Drone": {
+      "displayName": "Mega Drone",
+      "internalName": "Mega Drone",
+      "buyCost": "5HHHAAAA",
+      "toughness": 4,
+      "rarity": "legendary",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "4"
+      },
+      "supply": 1
+    },
+    "Militia": {
+      "displayName": "Militia",
+      "internalName": "Militia",
+      "buyCost": "3B",
+      "toughness": 4,
+      "rarity": "normal",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "A",
+      "abilityScript": {
+        "receive": 1
+      },
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "needs": [
+        "Drone"
+      ],
+      "buySac": [
+        [
+          "Drone"
+        ]
+      ],
+      "supply": 20
+    },
+    "Mobile Animus": {
+      "displayName": "Mobile Animus",
+      "internalName": "Mobile Animus",
+      "buyCost": "4",
+      "toughness": 1,
+      "rarity": "normal",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "2",
+      "abilityScript": {
+        "create": [
+          [
+            "Rhino",
+            "own",
+            1,
+            0
+          ]
+        ],
+        "selfsac": true
+      },
+      "beginOwnTurnScript": {
+        "receive": "C"
+      },
+      "needs": [
+        "Rhino"
+      ],
+      "supply": 20
+    },
+    "Nitrocybe": {
+      "displayName": "Nitrocybe",
+      "internalName": "Nitrocybe",
+      "buyCost": "1C",
+      "toughness": 1,
+      "rarity": "trinket",
+      "buildTime": 2,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "A",
+        "selfsac": true
+      },
+      "supply": 20
+    },
+    "Nivo Charge": {
+      "displayName": "Nivo Charge",
+      "internalName": "Nivo Charge",
+      "buyCost": "2G",
+      "toughness": 1,
+      "rarity": "normal",
+      "lifespan": 1,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "selfsac": true
+      },
+      "targetAction": "disrupt",
+      "targetAmount": 5,
+      "score": "0",
+      "supply": 20
+    },
+    "Odin": {
+      "displayName": "Odin",
+      "internalName": "Odin",
+      "buyCost": "20BBB",
+      "toughness": 3,
+      "rarity": "legendary",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAAA"
+      },
+      "buyScript": {
+        "create": [
+          [
+            "Steelsplitter",
+            "own",
+            3
+          ]
+        ]
+      },
+      "score": "10",
+      "needs": [
+        "Steelsplitter"
+      ],
+      "fullDescription_en": [
+        "<FONT COLOR=\"#55e595\">When bought: </FONT>construct 3 <FONT COLOR=\"#bbbbff\">Steelsplitters</FONT>",
+        "--",
+        "<FONT COLOR=\"#55e595\">Click: </FONT>consume a <FONT COLOR=\"#bbbbff\">Steelsplitter</FONT> to  gain{AAAA}"
+      ],
+      "abilitySac": [
+        [
+          "Steelsplitter"
+        ]
+      ],
+      "supply": 1
+    },
+    "Omega Splitter": {
+      "displayName": "Omega Splitter",
+      "internalName": "Omega Splitter",
+      "buyCost": "15BBB",
+      "toughness": 6,
+      "rarity": "rare",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAA"
+      },
+      "UIShortname": "Omega",
+      "supply": 4
+    },
+    "Ossified Drone": {
+      "displayName": "Ossified Drone",
+      "internalName": "Ossified Drone",
+      "buyCost": "2C",
+      "toughness": 2,
+      "rarity": "legendary",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityCost": "C",
+      "abilityScript": {
+        "create": [
+          [
+            "Ossified Drone",
+            "own"
+          ]
+        ]
+      },
+      "beginOwnTurnScript": {
+        "receive": "1"
+      },
+      "score": "4H",
+      "needs": [
+        "Drone"
+      ],
+      "abilitySac": [
+        [
+          "Drone"
+        ]
+      ],
+      "buySac": [
+        [
+          "Drone"
+        ]
+      ],
+      "supply": 1
+    },
+    "Oxide Mixer": {
+      "displayName": "Oxide Mixer",
+      "internalName": "Oxide Mixer",
+      "buyCost": "3B",
+      "toughness": 2,
+      "rarity": "rare",
+      "lifespan": 4,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "create": [
+          [
+            "Pixie",
+            "own"
+          ]
+        ]
+      },
+      "needs": [
+        "Pixie"
+      ],
+      "supply": 4
+    },
+    "Perforator": {
+      "displayName": "Perforator",
+      "internalName": "Perforator",
+      "buyCost": "3C",
+      "toughness": 2,
+      "rarity": "normal",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityCost": "C",
+      "abilityScript": {
+        "receive": "A"
+      },
+      "supply": 20
+    },
+    "Photonic Fibroid": {
+      "displayName": "Photonic Fibroid",
+      "internalName": "Photonic Fibroid",
+      "buyCost": "3GC",
+      "toughness": 2,
+      "rarity": "normal",
+      "buildTime": 0,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "AA",
+        "selfsac": true
+      },
+      "score": "2BB",
+      "UIShortname": "Fibroid",
+      "supply": 20
+    },
+    "Pixie": {
+      "displayName": "Pixie",
+      "internalName": "Pixie",
+      "buyCost": "1B",
+      "toughness": 1,
+      "rarity": "trinket",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "A",
+        "selfsac": true
+      },
+      "supply": 20
+    },
+    "Plasmafier": {
+      "displayName": "Plasmafier",
+      "internalName": "Plasmafier",
+      "buyCost": "12GGGB",
+      "toughness": 4,
+      "rarity": "rare",
+      "fragile": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAAA"
+      },
+      "needs": [
+        "Drone"
+      ],
+      "abilitySac": [
+        [
+          "Drone"
+        ]
+      ],
+      "supply": 4
+    },
+    "Plexo Cell": {
+      "displayName": "Plexo Cell",
+      "internalName": "Plexo Cell",
+      "buyCost": "2GG",
+      "toughness": 4,
+      "rarity": "normal",
+      "buildTime": 0,
+      "lifespan": 1,
+      "defaultBlocking": 1,
+      "score": "0",
+      "needs": [
+        "Drone"
+      ],
+      "buySac": [
+        [
+          "Drone"
+        ]
+      ],
+      "supply": 20
+    },
+    "Polywall": {
+      "displayName": "Polywall",
+      "internalName": "Polywall",
+      "buyCost": "10B",
+      "toughness": 6,
+      "rarity": "normal",
+      "buildTime": 0,
+      "undefendable": true,
+      "defaultBlocking": 1,
+      "score": "12",
+      "supply": 20
+    },
+    "Protoplasm": {
+      "displayName": "Protoplasm",
+      "internalName": "Protoplasm",
+      "buyCost": "7GGCC",
+      "toughness": 4,
+      "rarity": "normal",
+      "buildTime": 0,
+      "fragile": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAAA",
+        "selfsac": true
+      },
+      "score": "6GGCC",
+      "supply": 20
+    },
+    "Redeemer": {
+      "displayName": "Redeemer",
+      "internalName": "Redeemer",
+      "buyCost": "10GB",
+      "toughness": 4,
+      "rarity": "rare",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAA"
+      },
+      "buyScript": {
+        "create": [
+          [
+            "Gauss Charge",
+            "opponent",
+            6,
+            3
+          ]
+        ]
+      },
+      "score": "15CCC",
+      "needs": [
+        "Gauss Charge"
+      ],
+      "supply": 4
+    },
+    "Resophore": {
+      "displayName": "Resophore",
+      "internalName": "Resophore",
+      "buyCost": "1CG",
+      "toughness": 4,
+      "rarity": "legendary",
+      "buildTime": 5,
+      "fragile": true,
+      "defaultBlocking": 0,
+      "needs": [
+        "Forcefield"
+      ],
+      "resonate": "Forcefield",
+      "supply": 1
+    },
+    "Rhino": {
+      "displayName": "Rhino",
+      "internalName": "Rhino",
+      "buyCost": "5C",
+      "toughness": 2,
+      "rarity": "normal",
+      "baseSet": true,
+      "buildTime": 0,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "charge": 2,
+      "abilityScript": {
+        "receive": "A"
+      },
+      "score": "4C",
+      "supply": 10
+    },
+    "Savior": {
+      "displayName": "Savior",
+      "internalName": "Savior",
+      "buyCost": "6",
+      "toughness": 4,
+      "rarity": "legendary",
+      "buildTime": 4,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "create": [
+          [
+            "Plasmafier",
+            "own"
+          ]
+        ]
+      },
+      "beginOwnTurnScript": {
+        "receive": ""
+      },
+      "needs": [
+        "Plasmafier",
+        "Drone"
+      ],
+      "goldResonate": "Drone",
+      "buySac": [
+        [
+          "Drone",
+          6
+        ]
+      ],
+      "abilitySac": [
+        [
+          "Drone",
+          1
+        ]
+      ],
+      "supply": 1
+    },
+    "Scorchilla": {
+      "displayName": "Scorchilla",
+      "internalName": "Scorchilla",
+      "buyCost": "3GC",
+      "toughness": 3,
+      "rarity": "normal",
+      "buildTime": 3,
+      "fragile": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAA",
+        "delay": 3
+      },
+      "supply": 20
+    },
+    "Sentinel": {
+      "displayName": "Sentinel",
+      "internalName": "Sentinel",
+      "buyCost": "6CG",
+      "toughness": 3,
+      "rarity": "normal",
+      "fragile": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "charge": 3,
+      "abilityScript": {
+        "receive": "A",
+        "create": [
+          [
+            "Engineer",
+            "own"
+          ]
+        ]
+      },
+      "needs": [
+        "Engineer"
+      ],
+      "supply": 20
+    },
+    "Shadowfang": {
+      "displayName": "Shadowfang",
+      "internalName": "Shadowfang",
+      "buyCost": "8CCC",
+      "toughness": 1,
+      "rarity": "normal",
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "AA"
+      },
+      "supply": 20
+    },
+    "Shiver Yeti": {
+      "displayName": "Shiver Yeti",
+      "internalName": "Shiver Yeti",
+      "buyCost": "5C",
+      "toughness": 2,
+      "rarity": "normal",
+      "buildTime": 0,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "targetAction": "disrupt",
+      "targetAmount": 2,
+      "score": "4C",
+      "supply": 20
+    },
+    "Shredder": {
+      "displayName": "Shredder",
+      "internalName": "Shredder",
+      "buyCost": "5B",
+      "toughness": 4,
+      "rarity": "normal",
+      "undefendable": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "A"
+      },
+      "supply": 20
+    },
+    "Steelforge": {
+      "displayName": "Steelforge",
+      "internalName": "Steelforge",
+      "buyCost": "4",
+      "toughness": 4,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "1BB",
+      "abilityScript": {
+        "create": [
+          [
+            "Steelsplitter",
+            "own"
+          ]
+        ]
+      },
+      "beginOwnTurnScript": {
+        "receive": "BB"
+      },
+      "score": "7BG",
+      "needs": [
+        "Blastforge",
+        "Drone",
+        "Steelsplitter"
+      ],
+      "abilitySac": [
+        [
+          "Drone"
+        ]
+      ],
+      "buySac": [
+        [
+          "Blastforge"
+        ]
+      ],
+      "supply": 4
+    },
+    "Steelsplitter": {
+      "displayName": "Steelsplitter",
+      "internalName": "Steelsplitter",
+      "buyCost": "6B",
+      "toughness": 3,
+      "rarity": "normal",
+      "baseSet": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "A"
+      },
+      "supply": 10
+    },
+    "Synthesizer": {
+      "displayName": "Synthesizer",
+      "internalName": "Synthesizer",
+      "buyCost": "6B",
+      "toughness": 4,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "GGG",
+      "abilityScript": {
+        "receive": "BB"
+      },
+      "beginOwnTurnScript": {
+        "receive": "GG"
+      },
+      "group": "GB",
+      "supply": 4
+    },
+    "Tantalum Ray": {
+      "displayName": "Tantalum Ray",
+      "internalName": "Tantalum Ray",
+      "buyCost": "7GG",
+      "toughness": 11,
+      "rarity": "normal",
+      "fragile": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "create": [
+          [
+            "Gauss Charge",
+            "own",
+            1
+          ]
+        ]
+      },
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "needs": [
+        "Gauss Charge"
+      ],
+      "HPUsed": 3,
+      "fullDescription_en": [
+        "[hp] <FONT COLOR=\"#ffd854\">Fragile: </FONT>can be damaged",
+        "--",
+        "<FONT COLOR=\"#55e595\">Start of turn: </FONT>gain{A}",
+        "<FONT COLOR=\"#55e595\">Click: </FONT>pay[hp,3,true] to construct a  <FONT COLOR=\"#bbbbff\">Gauss Charge</FONT>"
+      ],
+      "supply": 20
+    },
+    "Tarsier": {
+      "displayName": "Tarsier",
+      "internalName": "Tarsier",
+      "buyCost": "4C",
+      "toughness": 1,
+      "rarity": "normal",
+      "baseSet": true,
+      "buildTime": 2,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "score": "5C",
+      "supply": 10
+    },
+    "Tatsu Nullifier": {
+      "displayName": "Tatsu Nullifier",
+      "internalName": "Tatsu Nullifier",
+      "buyCost": "12CCCC",
+      "toughness": 2,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "AA"
+      },
+      "targetAction": "disrupt",
+      "targetAmount": 5,
+      "supply": 4
+    },
+    "Tesla Coil": {
+      "displayName": "Tesla Coil",
+      "internalName": "Tesla Coil",
+      "buyCost": "11GGB",
+      "toughness": 3,
+      "rarity": "rare",
+      "fragile": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAA"
+      },
+      "buyScript": {
+        "create": [
+          [
+            "Engineer",
+            "own",
+            2
+          ]
+        ]
+      },
+      "score": "7GB",
+      "needs": [
+        "Engineer"
+      ],
+      "fullDescription_en": [
+        "<FONT COLOR=\"#55e595\">When bought</FONT>: construct 2 <FONT COLOR=\"#bbbbff\">Engineers</FONT>",
+        "[hp] <FONT COLOR=\"#ffd854\">Fragile: </FONT>can be damaged",
+        "--",
+        "<FONT COLOR=\"#55e595\">Click: </FONT>consume an <FONT COLOR=\"#bbbbff\">Engineer</FONT> to  gain{AAA}"
+      ],
+      "abilitySac": [
+        [
+          "Engineer"
+        ]
+      ],
+      "supply": 4
+    },
+    "The Wincer": {
+      "displayName": "The Wincer",
+      "internalName": "The Wincer",
+      "buyCost": "9GBBC",
+      "toughness": 5,
+      "rarity": "legendary",
+      "buildTime": 3,
+      "fragile": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAAAAAAAAAAAAAA",
+        "delay": 3
+      },
+      "score": "30",
+      "needs": [
+        "Drone"
+      ],
+      "abilitySac": [
+        [
+          "Drone",
+          5
+        ]
+      ],
+      "UIShortname": "Wincer",
+      "supply": 1
+    },
+    "Thermite Core": {
+      "displayName": "Thermite Core",
+      "internalName": "Thermite Core",
+      "buyCost": "1B",
+      "toughness": 1,
+      "rarity": "rare",
+      "lifespan": 5,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "AA",
+      "abilityScript": {
+        "create": [
+          [
+            "Pixie",
+            "own",
+            2
+          ]
+        ]
+      },
+      "needs": [
+        "Pixie"
+      ],
+      "supply": 4
+    },
+    "Thorium Dynamo": {
+      "displayName": "Thorium Dynamo",
+      "internalName": "Thorium Dynamo",
+      "buyCost": "5H",
+      "toughness": 8,
+      "rarity": "rare",
+      "buildTime": 2,
+      "fragile": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "GGG",
+      "abilityScript": {
+        "receive": "3"
+      },
+      "beginOwnTurnScript": {
+        "receive": "5G"
+      },
+      "needs": [
+        "Drone"
+      ],
+      "buySac": [
+        [
+          "Drone",
+          3
+        ]
+      ],
+      "UIShortname": "Dynamo",
+      "supply": 4
+    },
+    "Thunderhead": {
+      "displayName": "Thunderhead",
+      "internalName": "Thunderhead",
+      "buyCost": "15GGGGGB",
+      "toughness": 11,
+      "rarity": "legendary",
+      "lifespan": 3,
+      "undefendable": true,
+      "defaultBlocking": 1,
+      "beginOwnTurnScript": {
+        "receive": "AAAA"
+      },
+      "supply": 1
+    },
+    "Tia Thurnax": {
+      "displayName": "Tia Thurnax",
+      "internalName": "Tia Thurnax",
+      "buyCost": "7GGGC",
+      "toughness": 4,
+      "rarity": "legendary",
+      "buildTime": 0,
+      "fragile": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "charge": 3,
+      "abilityScript": {
+        "receive": "AAAAAAA"
+      },
+      "score": "25GGGC",
+      "needs": [
+        "Drone"
+      ],
+      "buySac": [
+        [
+          "Drone",
+          7
+        ]
+      ],
+      "supply": 1
+    },
+    "Trinity Drone": {
+      "displayName": "Trinity Drone",
+      "internalName": "Trinity Drone",
+      "buyCost": "2GH",
+      "toughness": 5,
+      "rarity": "normal",
+      "fragile": true,
+      "defaultBlocking": 0,
+      "abilityCost": "G",
+      "abilityScript": {
+        "receive": "1"
+      },
+      "beginOwnTurnScript": {
+        "receive": 3
+      },
+      "score": "9HHH",
+      "needs": [
+        "Drone"
+      ],
+      "buySac": [
+        [
+          "Drone",
+          2
+        ]
+      ],
+      "supply": 20
+    },
+    "Tyranno Smorcus": {
+      "displayName": "Tyranno Smorcus",
+      "internalName": "Tyranno Smorcus",
+      "buyCost": "5CC",
+      "toughness": 2,
+      "rarity": "rare",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "CC",
+      "abilityScript": {
+        "receive": "A"
+      },
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "fullDescription_en": [
+        "<FONT COLOR=\"#55e595\">Start of turn: </FONT>gain{A}",
+        "<FONT COLOR=\"#55e595\">Click: </FONT>pay{CC} to gain an  additional{A}"
+      ],
+      "UIShortname": "Smorcus",
+      "supply": 4
+    },
+    "Urban Sentry": {
+      "displayName": "Urban Sentry",
+      "internalName": "Urban Sentry",
+      "buyCost": "5GB",
+      "toughness": 3,
+      "rarity": "normal",
+      "defaultBlocking": 1,
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "supply": 20
+    },
+    "Vai Mauronax": {
+      "displayName": "Vai Mauronax",
+      "internalName": "Vai Mauronax",
+      "buyCost": "13BCCCC",
+      "toughness": 6,
+      "rarity": "legendary",
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "A",
+      "beginOwnTurnScript": {
+        "receive": "AAA"
+      },
+      "targetAction": "disrupt",
+      "targetAmount": 7,
+      "supply": 1
+    },
+    "Valkyrion": {
+      "displayName": "Valkyrion",
+      "internalName": "Valkyrion",
+      "buyCost": "12GGBC",
+      "toughness": 4,
+      "rarity": "rare",
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "receive": "AAAA",
+        "create": [
+          [
+            "Barrier",
+            "opponent",
+            2,
+            1
+          ]
+        ]
+      },
+      "needs": [
+        "Barrier"
+      ],
+      "fullDescription": [
+        "<FONT COLOR=\"#55e595\">Click: </FONT>gain{AAAA} and construct 2 <FONT COLOR=\"#bbbbff\">Barriers</FONT> with [delay,1,true] for your opponent (they cannot block until next turn)"
+      ],
+      "supply": 4
+    },
+    "Venge Cannon": {
+      "displayName": "Venge Cannon",
+      "internalName": "Venge Cannon",
+      "buyCost": "1GGG",
+      "toughness": 9,
+      "rarity": "normal",
+      "fragile": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "GGGG",
+      "abilityScript": {
+        "create": [
+          [
+            "Gauss Charge",
+            "own",
+            3
+          ]
+        ]
+      },
+      "beginOwnTurnScript": {
+        "receive": "AA"
+      },
+      "needs": [
+        "Gauss Charge",
+        "Drone"
+      ],
+      "HPUsed": 2,
+      "buySac": [
+        [
+          "Drone",
+          3
+        ]
+      ],
+      "supply": 20
+    },
+    "Vivid Drone": {
+      "displayName": "Vivid Drone",
+      "internalName": "Vivid Drone",
+      "buyCost": "2HH",
+      "toughness": 1,
+      "rarity": "normal",
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": "3"
+      },
+      "needs": [
+        "Drone"
+      ],
+      "buySac": [
+        [
+          "Drone",
+          2
+        ]
+      ],
+      "supply": 20
+    },
+    "Wall": {
+      "displayName": "Wall",
+      "internalName": "Wall",
+      "buyCost": "5B",
+      "toughness": 3,
+      "rarity": "normal",
+      "baseSet": true,
+      "buildTime": 0,
+      "defaultBlocking": 1,
+      "score": "6",
+      "supply": 10
+    },
+    "Wild Drone": {
+      "displayName": "Wild Drone",
+      "internalName": "Wild Drone",
+      "buyCost": "2H",
+      "toughness": 2,
+      "rarity": "normal",
+      "buildTime": 2,
+      "undefendable": true,
+      "defaultBlocking": 0,
+      "beginOwnTurnScript": {
+        "receive": 1
+      },
+      "supply": 20
+    },
+    "Xaetron": {
+      "displayName": "Xaetron",
+      "internalName": "Xaetron",
+      "buyCost": "11GGGGG",
+      "toughness": 4,
+      "rarity": "legendary",
+      "buildTime": 0,
+      "fragile": true,
+      "defaultBlocking": 1,
+      "assignedBlocking": 0,
+      "abilityScript": {
+        "create": [
+          [
+            "Gauss Charge",
+            "own",
+            5
+          ]
+        ]
+      },
+      "needs": [
+        "Gauss Charge"
+      ],
+      "HPGained": 4,
+      "HPMax": 12,
+      "HPUsed": 7,
+      "fullDescription_en": [
+        "[gold-shield] <FONT COLOR=\"#ffd854\">Prompt: </FONT>blocks immediately",
+        "[hp] <FONT COLOR=\"#ffd854\">Fragile: </FONT>can be damaged",
+        "--",
+        "<FONT COLOR=\"#55e595\">Start of turn: </FONT>restore[hp,4,true] (up to a maximum of[hp,12,false])",
+        "<FONT COLOR=\"#55e595\">Click: </FONT>pay[hp,7,true] to construct 5  <FONT COLOR=\"#bbbbff\">Gauss</FONT> <FONT COLOR=\"#bbbbff\">Charges</FONT>"
+      ],
+      "supply": 1
+    },
+    "Xeno Guardian": {
+      "displayName": "Xeno Guardian",
+      "internalName": "Xeno Guardian",
+      "buyCost": "5GBB",
+      "toughness": 4,
+      "rarity": "normal",
+      "defaultBlocking": 1,
+      "beginOwnTurnScript": {
+        "receive": "A"
+      },
+      "supply": 20
+    },
+    "Zemora Voidbringer": {
+      "displayName": "Zemora Voidbringer",
+      "internalName": "Zemora Voidbringer",
+      "buyCost": "5GGG",
+      "toughness": 20,
+      "rarity": "legendary",
+      "buildTime": 6,
+      "fragile": true,
+      "defaultBlocking": 0,
+      "assignedBlocking": 0,
+      "abilityCost": "GGGGGGGG",
+      "abilityScript": {
+        "receive": "8AAAAAAAA"
+      },
+      "score": "50",
+      "UIShortname": "Zemora",
+      "supply": 1
+    }
+  }
+}

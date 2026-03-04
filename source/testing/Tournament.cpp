@@ -104,8 +104,8 @@ void Tournament::playGame(TournamentGame & game)
 
 void Tournament::parseTournamentGameResult(const TournamentGame & game)
 {
-    int winnerID = game.getFinalGameState().winner();
-    int loserID = (game.getFinalGameState().winner() + 1) % 2;
+    int winnerID = game.getWinner();
+    int loserID = (game.getWinner() + 1) % 2;
 
     int playerIndex[2] = {getPlayerIndex(game.getPlayerName(0)), getPlayerIndex(game.getPlayerName(1))};
 

@@ -23,8 +23,9 @@ const C = require('./C');
 const State = require('./State');
 const Analyzer = require('./Analyzer');
 const StateUtil = require('./StateUtil');
+const { adjudicateByMaterial } = require('./matchup_clean');
 const MCDSAIWorker = require('./mcdsai_manager');
-const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet } = require('./card_library');
+const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getSupply } = require('./card_library');
 const { loadFullParams, loadShortParams, selectParams } = require('./ai_params');
 const { stateToTrainingExample } = require('./state_adapter');
 
@@ -44,7 +45,8 @@ function buildGameInitInfo(mergedDeck) {
     const randomizer = [];
 
     for (const card of mergedDeck) {
-        const supply = card.supply !== undefined ? card.supply : 20;
+        // Needs-only cards get supply 0 — present for script references, not buyable
+        const supply = card._needsOnly ? 0 : getSupply(card);
         if (card.baseSet) {
             base.push([card.name, supply]);
         } else {
@@ -207,8 +209,9 @@ async function playGame(workerWhite, workerBlack, mergedDeck, difficulty,
         // nothing but passing for 400 turns).
         if (analyzer.gameState.colorIsStagnated(C.COLOR_WHITE) ||
             analyzer.gameState.colorIsStagnated(C.COLOR_BLACK)) {
-            analyzer.gameState.result = C.COLOR_DRAW_STALEMATE;
-            console.error(`Game ${gameId} turn ${turnCount}: Stagnation draw detected`);
+            const adj = adjudicateByMaterial(analyzer, 'Stagnation', turnCount);
+            analyzer.gameState.result = adj.result;
+            console.error(`Game ${gameId} turn ${turnCount}: ${adj.abortReason}`);
             break;
         }
     }
@@ -224,7 +227,7 @@ async function playGame(workerWhite, workerBlack, mergedDeck, difficulty,
     // Extract card set names for reporting
     const cardSet = [];
     for (const card of activeDeck) {
-        if (!card.baseSet) {
+        if (!card.baseSet && !card._needsOnly) {
             cardSet.push(card.UIName || card.name);
         }
     }

@@ -187,10 +187,12 @@ emscripten/*.data
 emscripten/*.mem
 qt/build-PrismataAI-*
 
-# --- Temp PowerShell scripts and scratch files in root ---
+# --- Temp PowerShell scripts, scratch files, and temp directories in root ---
 tmp_*.ps1
 tmp_*.json
+tmp_*.js
 tmp/
+tmp_*/
 
 # --- bin/ generated/debug/log files ---
 bin/*.log
@@ -237,7 +239,40 @@ tmp_swf_extract/
 tmp_stdout.txt
 tmp_stderr.txt
 
-# --- Stats visualization scripts & output (local tools) ---
-tools/*_stats.py
-tools/*_excalidraw.py
-tools/*.excalidraw
+# --- Tools directory (sniffer, advisor, stats — local only) ---
+tools/
+
+# --- Cloud config (resource IDs, project names) ---
+cloud-config.env
+
+# --- Generated results directories ---
+eval-results/
+matchup-results/
+replays/
+validation_results/
+
+# --- js_engine generated data, logs, and temp files ---
+js_engine/_suggest_state_*.json
+js_engine/*.jsonl
+js_engine/*.log
+js_engine/*.txt
+js_engine/all_codes_*.json
+js_engine/prepatch_*.json
+js_engine/cloud_results/
+js_engine/matchup_replays/
+js_engine/overnight_run/
+js_engine/stuck_replays/
+js_engine/validation_results.json
+js_engine/test_movejson.json
+js_engine/test_suggest_state.json
+
+# --- Training data directories (large, generated) ---
+training/data_*/
+training_*.log
+
+# --- Misc generated files in bin/ ---
+bin/eval_history.csv
+bin/test_dump.jsonl
+
+# --- Batch launcher (personal config) ---
+run_prismata_tools.bat
