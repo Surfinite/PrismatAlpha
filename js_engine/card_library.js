@@ -18,12 +18,13 @@ const path = require('path');
  */
 
 const CARD_LIBRARY_PATH = path.resolve(__dirname, '../bin/asset/config/cardLibrary.jso');
+const VALID_UNITS_PATH = path.resolve(__dirname, '../bin/asset/config/valid_units.json');
 
 /** Supply per rarity (AS3 convention) */
 const SUPPLY_BY_RARITY = {
     legendary: 1,
     rare: 4,
-    normal: 20,
+    normal: 10,
     trinket: 20
 };
 
@@ -88,26 +89,57 @@ function buildMergedDeck(unitNames, library) {
         activeSet.add(uiName);
     }
 
-    // Include ALL cards from the library in the mergedDeck.
-    // MCDSAI's AI parameters reference cards by name (opening books, strategies).
-    // If a referenced card isn't registered, CardType::getCardType() asserts and
-    // aborts the entire move computation. By including all cards (with supply=0
-    // for non-game cards), MCDSAI can look up any card without failing.
-    // Base set and active random cards get normal supply.
+    // Snapshot before needs resolution — cards added only by needs get supply=0
+    // (present for script cross-references but not buyable)
+    const drawnSet = new Set(activeSet);
+
+    // Resolve 'needs' dependencies — cards like Pixie and House (Husk) are tokens
+    // created by other cards' scripts. They must be active when their parent is.
+    let changed = true;
+    while (changed) {
+        changed = false;
+        for (const uiName of activeSet) {
+            const intName = uiNameToInternal.get(uiName);
+            if (!intName) continue;
+            const card = library.get(intName);
+            if (!card || !card.needs) continue;
+            for (const neededInternal of card.needs) {
+                const neededUI = internalToUIName.get(neededInternal) || neededInternal;
+                if (!activeSet.has(neededUI)) {
+                    activeSet.add(neededUI);
+                    changed = true;
+                }
+            }
+        }
+    }
+
+    // Include cards from the library in the mergedDeck.
+    // Only include valid units (from valid_units.json) — cardLibrary.jso contains
+    // deprecated/renamed units (e.g., "Forcefield2") that the C++ engine can't
+    // resolve, causing "None" entries in the GUI supply panel.
+    // MCDSAI uses buildInitDeck() separately with its own targeted card set.
+    const validUnits = loadValidUnits();
+    const validSet = validUnits
+        ? new Set([...validUnits.baseSet, ...validUnits.randomUnits])
+        : null;
+
     for (const [internalName, card] of library) {
-        // Skip unbuyable cards — they cause Emscripten abort() when added
-        // to the mergedDeck (heap issue in MCDSAI3441.js, Feb 2017 build).
-        // Behemoth is referenced by AI params but the soft assert from its
-        // absence doesn't prevent AI player loading.
         if (card.rarity === 'unbuyable') {
+            continue;
+        }
+        // Skip cards whose display name isn't a valid game unit
+        // (e.g., "Forcefield2", "Blasto", "Corracks" are deprecated)
+        if (validSet && !validSet.has(card.UIName)) {
             continue;
         }
         const entry = buildDeckEntry(card, internalToUIName);
         if (!activeSet.has(card.UIName)) {
-            // Not in this game's card set — include but mark inactive (0 supply).
-            // MCDSAI AI params reference card names (opening books, strategies)
-            // and getCardType() asserts if a name isn't registered.
             entry._inactive = true;
+        } else if (!drawnSet.has(card.UIName)) {
+            // Card was added by needs resolution, not drawn randomly.
+            // Must be in deck for script cross-references (create, sac)
+            // but should not be buyable (supply = 0).
+            entry._needsOnly = true;
         }
         deck.push(entry);
     }
@@ -120,7 +152,7 @@ function buildMergedDeck(unitNames, library) {
  */
 function getActiveCardNames(mergedDeck) {
     return mergedDeck
-        .filter(c => !c._inactive && !c.baseSet)
+        .filter(c => !c._inactive && !c._needsOnly && !c.baseSet)
         .map(c => c.name);
 }
 
@@ -148,6 +180,11 @@ function buildDeckEntry(card, nameMap) {
     // MCDSAI's Card.as uses obj.name as cardName for click matching.
     // Must be the display name (UIName), not the internal name.
     entry.name = card.UIName;
+    // Preserve UIName after translateNames — when a display name collides
+    // with an internal name (e.g., "Forcefield" is both Blood Barrier's UIName
+    // and the deprecated Forcefield card's internal name), translateNames
+    // incorrectly converts it to "Forcefield2".
+    entry.UIName = card.UIName;
     return entry;
 }
 
@@ -173,9 +210,34 @@ function translateNames(value, nameMap) {
 }
 
 /**
+ * Load the valid units list from valid_units.json.
+ * Returns { baseSet: string[], randomUnits: string[] } or null if file missing.
+ */
+function loadValidUnits() {
+    try {
+        const raw = fs.readFileSync(VALID_UNITS_PATH, 'utf-8');
+        return JSON.parse(raw);
+    } catch (e) {
+        return null;
+    }
+}
+
+/**
  * Get all available advanced (non-base-set) unit display names.
+ * Filters against valid_units.json if available (116 canonical units).
  */
 function getAdvancedUnitNames(library) {
+    const validUnits = loadValidUnits();
+    if (validUnits && validUnits.randomUnits) {
+        // Use the authoritative 105 random units from valid_units.json
+        // Verify each exists in the library
+        const uiNames = new Set();
+        for (const [, card] of library) {
+            uiNames.add(card.UIName);
+        }
+        return validUnits.randomUnits.filter(name => uiNames.has(name));
+    }
+    // Fallback: all non-base, non-unbuyable from cardLibrary
     const names = [];
     for (const [, card] of library) {
         if (!card.baseSet && card.rarity !== 'unbuyable') {
@@ -309,6 +371,7 @@ function buildInitDeck(activeDeck, library, fullParamsStr, shortParamsStr) {
 
 module.exports = {
     loadCardLibrary,
+    loadValidUnits,
     buildMergedDeck,
     buildInitDeck,
     buildDeckEntry,
@@ -317,5 +380,6 @@ module.exports = {
     randomSet,
     getSupply,
     SUPPLY_BY_RARITY,
-    CARD_LIBRARY_PATH
+    CARD_LIBRARY_PATH,
+    VALID_UNITS_PATH
 };

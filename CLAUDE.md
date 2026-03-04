@@ -3,7 +3,9 @@
 > **Full project history** (sections 1-29, completed milestones, tournament results): see `docs/PROJECT_HISTORY.md`
 > **Execution plan** for self-play training: see `docs/plans/2026-02-15-selfplay-training-master-plan.md`
 
-## Current Status (Feb 20, 2026)
+## Current Status (Mar 4, 2026)
+
+**gui-integration branch (Mar 4).** GUI menu overhaul (card set selection, AI player config, game mode selection in `GUIState_Menu`), debug overlays in `GUIState_Play`, matchup runner enhancements (player-switch mode, WillScore adjudication, `--cards` filtering). Base set unit supply fixed — Drones/Engineers now get correct per-player supply in both C++ (`GameState.cpp`) and JS (`card_library.js`, `matchup_clean.js`). Needs dependency fix: cards added via `needs` arrays get `supply=0` (unbuyable but script-creatable). Parallel matchup workers + replay saving working.
 
 **305K-game 256h model: 45.3% WR vs OriginalHardestAI** (4,032 games, CI [43.8%, 46.8%], 24 EC2 c5.2xlarge). Massive improvement from 26.7% with 63K games. Trained on 330K games (12.2M records), 256h, LR=1e-5, tanh+MSE, 86.1% val accuracy. Weights: `bin/asset/config/neural_weights_305k.bin` (deployed as `neural_weights.bin`). Previous models: `neural_weights_selfplay_v1.bin` (iter 1, 77% val acc, 10K games), `neural_weights_expert_backup.bin` (expert-trained).
 

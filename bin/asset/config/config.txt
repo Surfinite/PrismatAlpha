@@ -252,25 +252,8 @@
     "BreachDefault" :           { "type":"Breach_Default"},
     "BreachRandom" :            { "type":"Breach_Random"},
     "BreachGreedyKnapsack" :    { "type":"Breach_GreedyKnapsack", "lowTechPriority":true},
-    "BreachGreedyKnapsack_Legacy" : { "type":"Breach_GreedyKnapsack", "lowTechPriority":true, "legacy":true},
-    
     "BlueTurn2_BuyOB" :         { "type":"ActionBuy_OpeningBook", "openingBook" : "BlueTurnTwoOpeningBook"},
-    "BlueTurn2_Ability" :       { "type":"ActionAbility_Combination", "combination": ["ACDefault", "BlueTurn2_BuyOB", "AvoidBreach_SolveChill"] },
-
-    "BuyGK_WillScore_Legacy" :      { "type":"ActionBuy_GreedyKnapsack", "heuristic":"BuyWillScore",   "filter":"BuyGK_Filter", "legacy":true},
-    "BuyGK_AttackValue_Legacy" :    { "type":"ActionBuy_GreedyKnapsack", "heuristic":"BuyAttackValue", "filter":"BuyGK_Filter", "legacy":true},
-    "BuyGK_BlockValue_Legacy" :     { "type":"ActionBuy_GreedyKnapsack", "heuristic":"BuyBlockValue",  "filter":"BuyGK_Filter", "legacy":true},
-    "BuyTech_Elyot_Legacy" :        { "type":"ActionBuy_TechHeuristic", "heuristic":"ElyotFormula", "legacy":true},
-    "BuySafeguard_Legacy" :         { "type":"ActionBuy_Combination", "combination": ["AbilityAvoidEconomyWaste", "BuyGK_AttackValue_Legacy", "BuyEcon", "BuyTech_Elyot_Legacy"] },
-    "BuySafeguardRoot_Legacy" :     { "type":"ActionBuy_Combination", "combination": ["BuySafeguard_Legacy", "AbilityAvoidAttackWaste"] },
-    "BuyComboGreedyAttack_Legacy" : { "type":"ActionBuy_Combination", "combination": ["BuyGK_AttackValue_Legacy", "BuyGK_WillScore_Legacy", "BuyEconLimited", "BuyTech_Elyot_Legacy", "BuySafeguard_Legacy"] },
-    "BuyComboGreedyWill_Legacy" :   { "type":"ActionBuy_Combination", "combination": ["BuyGK_WillScore_Legacy", "BuyGK_AttackValue_Legacy", "BuyEconLimited", "BuyTech_Elyot_Legacy", "BuySafeguard_Legacy"] },
-    "BuyComboGreedyDefense_Legacy" :{ "type":"ActionBuy_Combination", "combination": ["BuyGK_BlockValue_Legacy", "BuyGK_AttackValue_Legacy", "BuyEconLimited", "BuyTech_Elyot_Legacy", "BuySafeguard_Legacy"] },
-    "BuyEconTech_Legacy" :          { "type":"ActionBuy_Combination", "combination": ["BuyEcon", "BuyTech_Elyot_Legacy", "BuySafeguard_Legacy"] },
-    "BuyTechEcon_Legacy" :          { "type":"ActionBuy_Combination", "combination": ["BuyOneDrone", "BuyTech_Elyot_Legacy", "BuyEcon", "BuySafeguard_Legacy"] },
-    "BCGAttack_Root_Legacy" :       { "type":"ActionBuy_Combination", "combination": ["BuyGK_AttackValue_Legacy", "BuyGK_WillScore_Legacy", "BuySafeguardRoot_Legacy"] },
-    "BCGWill_Root_Legacy" :         { "type":"ActionBuy_Combination", "combination": ["BuyGK_WillScore_Legacy", "BuySafeguardRoot_Legacy"] },
-    "BCGDef_Root_Legacy" :          { "type":"ActionBuy_Combination", "combination": ["BuyComboGreedyDefense_Legacy", "BuyGK_WillScore_Legacy", "BuySafeguardRoot_Legacy"] }
+    "BlueTurn2_Ability" :       { "type":"ActionAbility_Combination", "combination": ["ACDefault", "BlueTurn2_BuyOB", "AvoidBreach_SolveChill"] }
 },
 
 "Move Iterators" :
@@ -289,11 +272,7 @@
     "Live_BaseIterator" :       { "type":"PPPortfolio", "PartialPlayers": [ ["DefenseSolver"], [], ["Live_BuyEconTech", "Live_BuyTechEcon", "Live_BuyComboGreedyAttack", "Live_BuyComboGreedyWill", "Live_BuyComboGreedyDefense"], ["BreachGreedyKnapsack"] ] },
     "Live_BaseIterator_Root" :  { "type":"PPPortfolio", "PartialPlayers": [ ["DefenseSolver"], [], ["Live_BuyEconTech", "Live_BuyTechEcon", "Live_BCGAttack_Root", "Live_BCGWill_Root", "Live_BCGDef_Root"], ["BreachGreedyKnapsack"] ] },
     "LiveHardestAI_Iterator" :  { "type":"PPPortfolio", "include":"Live_BaseIterator", "PartialPlayers": [ [], ["Live_ACAvoidBreach_CS"], [], [] ] },
-    "LiveHardestAI_Root" :      { "type":"PPPortfolio", "include":"Live_BaseIterator_Root", "PartialPlayers": [ [], ["Live_ACAvoidBreach_CS2", "Live_ACAvoidBreach_CS", "Live_ACAvoidBreach_CSNF", "Live_ACAvoidBreach_CSClickNC", "Live_ACAvoidBreach_CSClickNF"], [], [] ] },
-
-    "BaseIterator_Legacy" :     { "type":"PPPortfolio", "PartialPlayers": [ ["DefenseSolver"], [], ["BuyEconTech_Legacy", "BuyTechEcon_Legacy", "BuyComboGreedyAttack_Legacy", "BuyComboGreedyWill_Legacy", "BuyComboGreedyDefense_Legacy"], ["BreachGreedyKnapsack_Legacy"] ] },
-    "HardIterator_Root_Legacy" :{ "type":"PPPortfolio", "PartialPlayers": [ ["DefenseSolver"], ["ACAvoidBreach_ChillSolver"], ["BuyEconTech_Legacy", "BuyTechEcon_Legacy", "BCGAttack_Root_Legacy", "BCGWill_Root_Legacy", "BCGDef_Root_Legacy"], ["BreachGreedyKnapsack_Legacy"] ] },
-    "HardIterator_Legacy" :     { "type":"PPPortfolio", "include":"BaseIterator_Legacy", "PartialPlayers": [ [], ["ACAvoidBreach_ChillSolver"], [], [] ] }
+    "LiveHardestAI_Root" :      { "type":"PPPortfolio", "include":"Live_BaseIterator_Root", "PartialPlayers": [ [], ["Live_ACAvoidBreach_CS2", "Live_ACAvoidBreach_CS", "Live_ACAvoidBreach_CSNF", "Live_ACAvoidBreach_CSClickNC", "Live_ACAvoidBreach_CSClickNF"], [], [] ] }
 },
 
 "Players" :
@@ -311,7 +290,6 @@
     "PrismatAI_UCT_c03" :    { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet", "UCTConstant":0.3 },
     "PrismatAI_UCT_c07" :    { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet", "UCTConstant":0.7 },
     "PrismatAI_UCT_c10" :    { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet", "UCTConstant":1.0 },
-    "PrismatAI_AB_Legacy" :  { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"NeuralNet" },
     "BlendUCT_50" :             { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNetPlusPlayout", "PlayoutPlayer":"Playout", "BlendWeight":0.5 },
     "BlendUCT_25" :             { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNetPlusPlayout", "PlayoutPlayer":"Playout", "BlendWeight":0.25 },
     "BlendUCT_10" :             { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNetPlusPlayout", "PlayoutPlayer":"Playout", "BlendWeight":0.10 },
@@ -337,19 +315,15 @@
     "LiveHardestAI" :          { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
     "LiveHardestAIUCT" :       { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
 
-    "Playout_Legacy" :         { "type":"Player_PPSequence", "PartialPlayers":["DefenseSolver", "ACAvoidBreach_ChillSolver", "BuyComboGreedyAttack_Legacy", "BreachGreedyKnapsack"]},
-    "OriginalHardestAI" :      { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAIUCT" :   { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-
-    "OriginalHardestAI_Copy" :    { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAI_1s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAI_Copy_1s" : { "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAI_2s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":2000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAI_Copy_2s" : { "type":"Player_StackAlphaBeta", "TimeLimit":2000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAI_3s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":3000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAI_4s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":4000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAI_5s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":5000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"},
-    "OriginalHardestAI_6s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":6000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root_Legacy", "MoveIterator":"HardIterator_Legacy", "Eval":"Playout", "PlayoutPlayer":"Playout_Legacy"}
+    "HardestAI_Copy" :        { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+    "HardestAI_1s" :           { "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+    "HardestAI_Copy_1s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+    "HardestAI_2s" :           { "type":"Player_StackAlphaBeta", "TimeLimit":2000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+    "HardestAI_Copy_2s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":2000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+    "HardestAI_3s" :           { "type":"Player_StackAlphaBeta", "TimeLimit":3000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+    "HardestAI_4s" :           { "type":"Player_StackAlphaBeta", "TimeLimit":4000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+    "HardestAI_5s" :           { "type":"Player_StackAlphaBeta", "TimeLimit":5000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+    "HardestAI_6s" :           { "type":"Player_StackAlphaBeta", "TimeLimit":6000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"}
 },
 
 "States" :
@@ -376,11 +350,11 @@
     { "run":false, "type":"PlayerBenchmark", "name":"UCT300",   "PlayerOne":"HardAI300UCT", "PlayerTwo":"HardAI300UCT", "TimeLimitSec":60000, "RandomCards":8, "UpdateIntervalSec":5, "DoClickString":false, "DoUnitStats":false, "DoEvalStats":false, "DoPlayoutEvalStats":false, "DoSearchStats":false},
     
     { "run":false, "type":"Tournament", "name":"AIDifficulties", "rounds":10000, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"DocileAI","group":1}, {"name":"RandomAI","group":2}, {"name":"EasyAI","group":3}, {"name":"MediumAI","group":4}, {"name":"Playout","group":5},{"name":"ExpertAI","group":6}] },
-    { "run":false, "type":"Tournament", "name":"NeuralTest", "rounds":1500, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAI_UCT","group":1}, {"name":"OriginalHardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"NeuralTest", "rounds":1500, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAI_UCT","group":1}, {"name":"HardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"NeuralTestFast", "rounds":1, "UpdateIntervalSec":2, "RandomCards":8, "players":[ {"name":"PrismatAI_UCT_Fast","group":1}, {"name":"HardestAIUCT_Fast","group":2}] },
     { "run":false, "type":"Tournament", "name":"NeuralAB", "rounds":2, "UpdateIntervalSec":5, "RandomCards":5, "players":[ {"name":"PrismatAI_AB","group":1}, {"name":"HardestAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"NeuralAB_vs_Original", "rounds":1500, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"PrismatAI_AB_Legacy","group":1}, {"name":"OriginalHardestAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"NeuralUCT_cValue", "rounds":25, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"PrismatAI_UCT_c03","group":1}, {"name":"PrismatAI_UCT_c05","group":2}, {"name":"PrismatAI_UCT_c07","group":3}, {"name":"PrismatAI_UCT_c10","group":4}, {"name":"OriginalHardestAI","group":5}] },
+    { "run":false, "type":"Tournament", "name":"NeuralAB_vs_HardestAI", "rounds":1500, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"PrismatAI_AB","group":1}, {"name":"HardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"NeuralUCT_cValue", "rounds":25, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"PrismatAI_UCT_c03","group":1}, {"name":"PrismatAI_UCT_c05","group":2}, {"name":"PrismatAI_UCT_c07","group":3}, {"name":"PrismatAI_UCT_c10","group":4}, {"name":"HardestAI","group":5}] },
     { "run":false, "type":"Tournament", "name":"HardAI", "rounds":10000, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"HardAI300","group":1}, {"name":"HardAI300OrigP","group":2}, {"name":"HardAI300Eval","group":3}, {"name":"HardAI3002","group":4}] },
     { "run":false, "type":"Tournament", "name":"Playout", "rounds":10000, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"Playout","group":1}, {"name":"PlayoutNew","group":2}] },
     { "run":false, "type":"Tournament", "name":"HardPlayoutTest2", "rounds":10000, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"HardAI300","group":1}, {"name":"HardAI300Solver","group":2}, {"name":"HardAI300Combo","group":3}, {"name":"HardAI300SolverCombo","group":4}, {"name":"HardAI300Eval","group":5}] },
@@ -389,36 +363,34 @@
     { "run":false, "type":"Tournament", "name":"UCTTest", "rounds":10000, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"HardAI300UCT","group":1}, {"name":"HardAI300UCTSimple","group":2}, {"name":"HardAI300UCTRand","group":3}, {"name":"ExpertAI","group":4}, {"name":"MediumAI","group":5}] },
 
     { "run":false, "type":"Tournament", "name":"NeuralVsMedium", "rounds":15, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"PrismatAI_UCT","group":1}, {"name":"MediumAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"ImprovedVsOriginal", "rounds":25, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"HardestAI","group":1}, {"name":"OriginalHardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"HardestAI_SelfTest", "rounds":25, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"HardestAI","group":1}, {"name":"HardestAI_Copy","group":2}] },
 
     { "run":false, "type":"Tournament", "name":"RandomBaseline", "rounds":25, "UpdateIntervalSec":2, "RandomCards":8, "players":[ {"name":"RandomAI","group":1}, {"name":"MediumAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"EasyBaseline", "rounds":25, "UpdateIntervalSec":2, "RandomCards":8, "players":[ {"name":"EasyAI","group":1}, {"name":"MediumAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"NeuralAB_vsMedium", "rounds":16, "UpdateIntervalSec":10, "RandomCards":8, "players":[ {"name":"PrismatAI_AB","group":1}, {"name":"MediumAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"NeuralUCT_c03_vsMedium", "rounds":16, "UpdateIntervalSec":10, "RandomCards":8, "players":[ {"name":"PrismatAI_UCT_c03","group":1}, {"name":"MediumAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"BlendSweep_vsMedium", "rounds":16, "Threads":4, "UpdateIntervalSec":10, "RandomCards":8, "players":[ {"name":"BlendUCT_50","group":1}, {"name":"BlendUCT_25","group":2}, {"name":"BlendUCT_10","group":3}, {"name":"BlendAB_50","group":4}, {"name":"BlendAB_25","group":5}, {"name":"MediumAI","group":6}] },
-    { "run":false, "type":"Tournament", "name":"BlendVsOriginal", "rounds":16, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_50","group":1}, {"name":"BlendAB_50","group":2}, {"name":"OriginalHardestAI","group":3}] },
+    { "run":false, "type":"Tournament", "name":"BlendVsHardestAI", "rounds":16, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_50","group":1}, {"name":"BlendAB_50","group":2}, {"name":"HardestAI","group":3}] },
     { "run":false, "type":"Tournament", "name":"BlendCrashTest", "rounds":1, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"BlendAB_50","group":1}, {"name":"MediumAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"BlendQuick_10", "rounds":4, "Threads":4, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_10","group":1}, {"name":"OriginalHardestAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"BlendQuick_05", "rounds":4, "Threads":4, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_05","group":1}, {"name":"OriginalHardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"BlendQuick_10", "rounds":4, "Threads":4, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_10","group":1}, {"name":"HardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"BlendQuick_05", "rounds":4, "Threads":4, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_05","group":1}, {"name":"HardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"NeuralUCT_vsHardestAI", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAI_UCT","group":1}, {"name":"HardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"NeuralAB_vsHardestAI", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAI_AB","group":1}, {"name":"HardestAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"ImprovedVsOriginal_Full", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"HardestAI","group":1}, {"name":"OriginalHardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"HardestAI_SelfTest_Full", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"HardestAI","group":1}, {"name":"HardestAI_Copy","group":2}] },
 
-    { "run":false, "type":"Tournament", "name":"SelfPlayTimingTest", "rounds":5, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
-    { "run":false, "type":"Tournament", "name":"ThreadSafetyTest", "rounds":8, "Threads":8, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_threadtest/"}, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
-    { "run":false, "type":"Tournament", "name":"LiveHardestAI_Smoke", "rounds":2, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"LiveHardestAI","group":1}, {"name":"OriginalHardestAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"LiveVsOriginal", "rounds":1500, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"LiveHardestAI","group":1}, {"name":"OriginalHardestAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"SelfPlay_Smoke", "rounds":3, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_smoke/"}, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
-    { "run":false, "type":"Tournament", "name":"SelfPlay_Preview", "rounds":8, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "SkipColorSwap":true, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_preview/"}, "players":[ {"name":"OriginalHardestAI_2s","group":1}, {"name":"OriginalHardestAI_Copy_2s","group":2}] },
-    { "run":false, "type":"Tournament", "name":"AutoDetectTest", "rounds":1, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":false}, "players":[ {"name":"OriginalHardestAI_2s","group":1}, {"name":"OriginalHardestAI_Copy_2s","group":2}] },
-    { "run":false, "type":"Tournament", "name":"SelfPlay_HardestAI_1s", "rounds":1000, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":false, "SkipColorSwap":true, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay/"}, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
-    { "run":false, "type":"Tournament", "name":"SelfPlay_CI", "rounds":1000, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":false, "SkipColorSwap":true, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay/"}, "players":[ {"name":"OriginalHardestAI_1s","group":1}, {"name":"OriginalHardestAI_Copy_1s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"SelfPlayTimingTest", "rounds":5, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "players":[ {"name":"HardestAI_1s","group":1}, {"name":"HardestAI_Copy_1s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"ThreadSafetyTest", "rounds":8, "Threads":8, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_threadtest/"}, "players":[ {"name":"HardestAI_1s","group":1}, {"name":"HardestAI_Copy_1s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"LiveHardestAI_Smoke", "rounds":2, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"LiveHardestAI","group":1}, {"name":"HardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"LiveVsHardestAI", "rounds":1500, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"LiveHardestAI","group":1}, {"name":"HardestAI","group":2}] },
+    { "run":false, "type":"Tournament", "name":"SelfPlay_Smoke", "rounds":3, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_smoke/"}, "players":[ {"name":"HardestAI_1s","group":1}, {"name":"HardestAI_Copy_1s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"SelfPlay_Preview", "rounds":8, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "SkipColorSwap":true, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay_preview/"}, "players":[ {"name":"HardestAI_2s","group":1}, {"name":"HardestAI_Copy_2s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"AutoDetectTest", "rounds":1, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":false, "SelfPlayDataExport":{"Enabled":false}, "players":[ {"name":"HardestAI_2s","group":1}, {"name":"HardestAI_Copy_2s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"SelfPlay_HardestAI_1s", "rounds":1000, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":false, "SkipColorSwap":true, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay/"}, "players":[ {"name":"HardestAI_1s","group":1}, {"name":"HardestAI_Copy_1s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"SelfPlay_CI", "rounds":1000, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":false, "SkipColorSwap":true, "SelfPlayDataExport":{"Enabled":true, "OutputDir":"training/data/selfplay/"}, "players":[ {"name":"HardestAI_1s","group":1}, {"name":"HardestAI_Copy_1s","group":2}] },
 
-    { "run":false, "type":"Tournament", "name":"ThinkTimeSweep", "rounds":25, "Threads":8, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"OriginalHardestAI_2s","group":1}, {"name":"OriginalHardestAI_3s","group":2}, {"name":"OriginalHardestAI_4s","group":3}, {"name":"OriginalHardestAI_5s","group":4}, {"name":"OriginalHardestAI_6s","group":5}, {"name":"OriginalHardestAI","group":6}] },
+    { "run":false, "type":"Tournament", "name":"ThinkTimeSweep", "rounds":25, "Threads":8, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"HardestAI_2s","group":1}, {"name":"HardestAI_3s","group":2}, {"name":"HardestAI_4s","group":3}, {"name":"HardestAI_5s","group":4}, {"name":"HardestAI_6s","group":5}, {"name":"HardestAI","group":6}] },
 
-    { "run":false, "type":"Tournament", "name":"HeuristicEval_NeuralVsOriginal", "rounds":42, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"PrismatAI_AB","group":1}, {"name":"OriginalHardestAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"HeuristicEval_PlayoutVsOriginal", "rounds":16, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"HardestAI","group":1}, {"name":"OriginalHardestAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"HeuristicEval_ImprovedVsLegacy", "rounds":16, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"PrismatAI_AB","group":1}, {"name":"PrismatAI_AB_Legacy","group":2}] },
+    { "run":false, "type":"Tournament", "name":"NeuralAB_vs_HardestAI_Full", "rounds":42, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"PrismatAI_AB","group":1}, {"name":"HardestAI","group":2}] },
 
     { "run":false, "type":"RandomSetTest", "name":"Random Set Uniformity", "NumTrials":100000, "CardsPerSet":8 }
 ]

@@ -1974,9 +1974,21 @@ void GameState::setStartingState(const PlayerID startPlayer, const CardID numDom
     // Add base set cards
     for (size_t c(0); c<CardTypes::GetBaseSetCardTypes().size(); ++c)
     {
-        addBuyableCardType(CardTypes::GetBaseSetCardTypes()[c]);
+        CardType type = CardTypes::GetBaseSetCardTypes()[c];
+        if (type.getName() == "Drone")
+        {
+            // Drone supply: startPlayer gets 6 Drones + 21 supply = 27 total
+            //               enemy gets 7 Drones + 20 supply = 27 total
+            SupplyType p1Supply = (startPlayer == Players::Player_One) ? 21 : 20;
+            SupplyType p2Supply = (startPlayer == Players::Player_Two) ? 21 : 20;
+            m_cards.addBuyableCard(CardBuyable(type, p1Supply, p2Supply, 0, 0));
+        }
+        else
+        {
+            addBuyableCardType(type);
+        }
     }
-    
+
     std::vector<size_t> pool;
     for (size_t c(0); c<CardTypes::GetDominionCardTypes().size(); ++c)
     {
@@ -1990,7 +2002,7 @@ void GameState::setStartingState(const PlayerID startPlayer, const CardID numDom
         std::swap(pool[r], pool.back());
         pool.pop_back();
     }
-    
+
     if (CardTypes::CardTypeExists("Drone"))     addCard(startPlayer, CardTypes::GetCardType("Drone"),    6, CardCreationMethod::Manual, 0, 0);
 	if (CardTypes::CardTypeExists("Engineer"))  addCard(startPlayer, CardTypes::GetCardType("Engineer"), 2, CardCreationMethod::Manual, 0, 0);
 

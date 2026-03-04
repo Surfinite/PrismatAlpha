@@ -27,7 +27,13 @@
  *   node matchup_clean.js --player-white MCDSAI --player-black OriginalHardestAI  # Mixed
  *   node matchup_clean.js --player MCDSAI --mcdsai-difficulty HardestAI  # Custom difficulty
  *   node matchup_clean.js --games 6 --parallel 2      # 6 games across 2 parallel workers
- *   node matchup_clean.js --games 4 --parallel 2 --save-replays replays/  # With replay saving
+ *   node matchup_clean.js --games 4 --parallel 2 --save-replays                    # Replays to bin/asset/replays/YYYY-MM-DD_HH-MM-SS/
+ *   node matchup_clean.js --games 4 --parallel 2 --save-replays mcdsai_test      # Replays to bin/asset/replays/YYYY-MM-DD_HH-MM-SS_mcdsai_test/
+ *   node matchup_clean.js --cards "Tarsier,Rhino,Steelsplitter"                   # Fixed advanced units (base set always included)
+ *   node matchup_clean.js --games 20 --player-switch --parallel 4                 # 10 pairs, swapped sides per pair
+ *   node matchup_clean.js --cards "Apollo,Cynestra" --player-switch --games 4       # 2 pairs with fixed set
+ *   
+ *   node matchup_clean.js --games 16 --parallel 4 --player-switch --think-time 5000 --player-white LiveHardestAI --player-black MCDSAI --save-replays TEST 2>matchup_run.log
  */
 
 const fs = require('fs');
@@ -37,7 +43,7 @@ const { Worker } = require('worker_threads');
 
 const C = require('./C');
 const Analyzer = require('./Analyzer');
-const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getSupply, SUPPLY_BY_RARITY } = require('./card_library');
+const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getAdvancedUnitNames, getSupply, SUPPLY_BY_RARITY } = require('./card_library');
 
 // MCDSAI player identifier (case-insensitive matching in CLI parsing)
 const MCDSAI_PLAYER = 'MCDSAI';
@@ -70,7 +76,7 @@ const SUGGEST_TMP = path.join(__dirname, '_suggest_state.json');
 function verifySupply(mergedDeck) {
     const mismatches = [];
     for (const card of mergedDeck) {
-        if (card._inactive) continue;
+        if (card._inactive || card._needsOnly) continue;
 
         const supply = getSupply(card);
         const expectedByRarity = SUPPLY_BY_RARITY[card.rarity];
@@ -577,14 +583,24 @@ function printStateSummary(analyzer, label) {
  * @returns {Object} gameInitInfo suitable for Analyzer constructor
  */
 function buildGameInitInfo(mergedDeck) {
-    const base = [];
+    const baseWhite = [];
+    const baseBlack = [];
     const randomizer = [];
 
     for (const card of mergedDeck) {
-        // Use getSupply for rarity-based supply -- NOT card.supply
-        const supply = getSupply(card);
+        // Needs-only cards get supply 0 — present for script references, not buyable.
+        // Cards created via ability scripts bypass supply checks entirely.
+        const supply = card._needsOnly ? 0 : getSupply(card);
         if (card.baseSet) {
-            base.push([card.name, supply]);
+            if (card.name === 'Drone') {
+                // White starts with 6 Drones, Black with 7 — supply must
+                // compensate so both have equal total: 6+21 = 7+20 = 27
+                baseWhite.push([card.name, supply + 1]);  // 21
+                baseBlack.push([card.name, supply]);       // 20
+            } else {
+                baseWhite.push([card.name, supply]);
+                baseBlack.push([card.name, supply]);
+            }
         } else {
             randomizer.push([card.name, supply]);
         }
@@ -593,7 +609,7 @@ function buildGameInitInfo(mergedDeck) {
     return {
         laneInfo: [{
             initResources: ['0', '0'],
-            base: [base, base],
+            base: [baseWhite, baseBlack],
             randomizer: [randomizer, randomizer],
             initCards: [
                 [[6, 'Drone'], [2, 'Engineer']],   // White starts
@@ -637,6 +653,88 @@ function resultToString(result) {
     if (result === C.COLOR_NONE) return 'Ongoing';
     return `Unknown (${result})`;
 }
+
+// ---------------------------------------------------------------------------
+// 8a. WillScore material evaluation (mirrors C++ Eval::WillScoreSum)
+// ---------------------------------------------------------------------------
+
+// Resource weights from C++ Heuristics.cpp:7-14
+const WILL_VALUE_ATTACK = 2.25;
+const WILL_VALUE_BLUE   = 1.50;
+const WILL_VALUE_GREEN  = 1.20;
+const WILL_VALUE_MONEY  = 1.00;
+const WILL_VALUE_RED    = 0.90;
+const WILL_VALUE_ENERGY = 0.50;
+
+// Material advantage threshold (matches C++ PlayerShouldResign Stage 1)
+const WILL_SCORE_THRESHOLD = 1.3;
+
+/**
+ * Compute WillScore material evaluation for a player.
+ * Mirrors C++ Eval::WillScoreSum / Heuristics::CalculateBuyManaCost.
+ *
+ * For each non-dead unit owned by the player, sums the cost-weighted
+ * buy cost using Churchill's resource multipliers. Skips doomed units
+ * (lifespan === 1) since they're about to die.
+ *
+ * @param {State} state - Game state (state.table is AS3Dictionary of Inst)
+ * @param {number} playerIndex - 0 or 1
+ * @returns {number} WillScore sum (higher = more material)
+ */
+function computeWillScoreSum(state, playerIndex) {
+    let sum = 0;
+    state.table.forEach((inst) => {
+        if (inst.owner !== playerIndex) return;
+        if (inst.dead) return;
+        if (inst.lifespan === 1) return;  // Doomed — about to expire
+
+        const cost = inst.card.buyCost;
+        sum += cost.amountOf(C.MANA_P) * WILL_VALUE_MONEY
+             + cost.amountOf(C.MANA_G) * WILL_VALUE_GREEN
+             + cost.amountOf(C.MANA_B) * WILL_VALUE_BLUE
+             + cost.amountOf(C.MANA_R) * WILL_VALUE_RED
+             + cost.amountOf(C.MANA_H) * WILL_VALUE_ENERGY
+             + cost.attack * WILL_VALUE_ATTACK;
+    });
+    return sum;
+}
+
+/**
+ * Adjudicate a terminated game by material advantage.
+ *
+ * Called when stagnation, stuck detection, or max turns fires.
+ * Computes WillScoreSum for both players and awards win if one
+ * has >= 1.3x the other's material. Otherwise declares draw.
+ *
+ * @param {Object} analyzer - Game analyzer (analyzer.gameState)
+ * @param {string} reason - Termination reason label (e.g. "Stagnation", "Stuck", "Max turns")
+ * @param {number} turnCount - Current turn number
+ * @returns {{ result: number, abortReason: string }}
+ */
+function adjudicateByMaterial(analyzer, reason, turnCount) {
+    const ws0 = computeWillScoreSum(analyzer.gameState, 0);
+    const ws1 = computeWillScoreSum(analyzer.gameState, 1);
+    console.error(`[${reason}] WillScore: P0=${ws0.toFixed(1)}, P1=${ws1.toFixed(1)}`);
+
+    const maxWs = Math.max(ws0, ws1);
+    const minWs = Math.min(ws0, ws1);
+
+    if (maxWs >= (minWs + 0.01) * WILL_SCORE_THRESHOLD) {
+        const winner = ws0 > ws1 ? 0 : 1;
+        return {
+            result: winner,
+            abortReason: `${reason}: P${winner} wins by material (${ws0.toFixed(1)} vs ${ws1.toFixed(1)}) at turn ${turnCount}`
+        };
+    }
+    return {
+        result: C.COLOR_DRAW_STALEMATE,
+        abortReason: `${reason} draw at turn ${turnCount} (material close: ${ws0.toFixed(1)} vs ${ws1.toFixed(1)})`
+    };
+}
+
+// ---------------------------------------------------------------------------
+// 8b. Play a single complete game (Phase 7b)
+// ---------------------------------------------------------------------------
 
 /**
  * Play a complete game from init to game-over (or abort).
@@ -817,8 +915,9 @@ async function playSingleGame(activeDeck, config) {
         // --- Check stagnation (AS3-style) ---
         if (analyzer.gameState.colorIsStagnated(C.COLOR_WHITE) ||
             analyzer.gameState.colorIsStagnated(C.COLOR_BLACK)) {
-            analyzer.gameState.result = C.COLOR_DRAW_STALEMATE;
-            abortReason = `Stagnation draw detected at turn ${turnCount}`;
+            const adj = adjudicateByMaterial(analyzer, 'Stagnation', turnCount);
+            analyzer.gameState.result = adj.result;
+            abortReason = adj.abortReason;
             console.error(`[Game] ${abortReason}`);
             break;
         }
@@ -836,9 +935,10 @@ async function playSingleGame(activeDeck, config) {
         if (recentHashes.length >= stuckThreshold) {
             const allSame = recentHashes.every(h => h === recentHashes[0]);
             if (allSame) {
-                abortReason = `Stuck: state unchanged for ${stuckThreshold} consecutive turns at turn ${turnCount}`;
-                console.error(`[Game] ABORT: ${abortReason}`);
-                analyzer.gameState.result = C.COLOR_DRAW_STALEMATE;
+                const adj = adjudicateByMaterial(analyzer, 'Stuck', turnCount);
+                analyzer.gameState.result = adj.result;
+                abortReason = adj.abortReason;
+                console.error(`[Game] ${abortReason}`);
                 break;
             }
         }
@@ -846,9 +946,10 @@ async function playSingleGame(activeDeck, config) {
 
     // Max turns reached
     if (!analyzer.gameState.finished && !abortReason && turnCount >= maxTurns) {
-        abortReason = `Max turns reached (${maxTurns})`;
-        console.error(`[Game] ABORT: ${abortReason}`);
-        analyzer.gameState.result = C.COLOR_DRAW_STALEMATE;
+        const adj = adjudicateByMaterial(analyzer, 'Max turns', turnCount);
+        analyzer.gameState.result = adj.result;
+        abortReason = adj.abortReason;
+        console.error(`[Game] ${abortReason}`);
     }
 
     // Final state
@@ -902,7 +1003,8 @@ async function playSingleGame(activeDeck, config) {
  * @param {Map} library - Card library from loadCardLibrary()
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
-async function playMultipleGames(config, numGames, library) {
+async function playMultipleGames(config, numGames, library, options = {}) {
+    const { playerSwitch = false, fixedCards = null } = options;
     const maxRetries = 3;  // Retry with different set if AI fails (~5% of sets)
     const games = [];
     let whiteWins = 0;
@@ -912,8 +1014,10 @@ async function playMultipleGames(config, numGames, library) {
     let totalTurns = 0;
     let completedGames = 0;
 
-    for (let g = 0; g < numGames; g++) {
-        const gameNum = g + 1;
+    /**
+     * Play a single game with retry logic. Returns a gameLog object.
+     */
+    async function playOneGame(gameNum, totalGames, unitNames, gameConfig, attemptOffset = 0) {
         let gameLog = null;
         let attempts = 0;
 
@@ -921,102 +1025,79 @@ async function playMultipleGames(config, numGames, library) {
             attempts++;
             const startTime = Date.now();
 
-            // 1. Generate random card set
-            const unitNames = randomSet(library, 8);
-            console.error(`\n[Multi] Game ${gameNum}/${numGames} (attempt ${attempts}/${maxRetries})`);
-            console.error(`[Multi] Card set: [${unitNames.join(', ')}]`);
+            // Generate card set (on retry: new random set unless fixed)
+            const currentUnits = (attempts > 1 && !fixedCards) ? randomSet(library, 8) : unitNames;
+            const label = playerSwitch ? '[Pair]' : '[Multi]';
+            console.error(`\n${label} Game ${gameNum}/${totalGames} (attempt ${attempts}/${maxRetries})`);
+            console.error(`${label} Card set: [${currentUnits.join(', ')}]`);
 
-            // 2. Build mergedDeck
-            const mergedDeck = buildMergedDeck(unitNames, library);
+            const mergedDeck = buildMergedDeck(currentUnits, library);
             const activeDeck = mergedDeck.filter(c => !c._inactive);
 
-            // 3. Verify supply BEFORE each game (not just first)
             const supplyResult = verifySupply(activeDeck);
             if (!supplyResult.ok) {
-                console.error(`[Multi] Game ${gameNum}: Supply verification FAILED — logging and continuing`);
+                console.error(`${label} Game ${gameNum}: Supply verification FAILED — logging and continuing`);
             }
 
-            // 4. Play the game (async — MCDSAI workers use Promises)
             let gameResult;
             let gameError = null;
             try {
-                gameResult = await playSingleGame(activeDeck, config);
+                gameResult = await playSingleGame(activeDeck, gameConfig);
             } catch (err) {
                 gameError = err.message || String(err);
-                console.error(`[Multi] Game ${gameNum}: Exception: ${gameError}`);
+                console.error(`${label} Game ${gameNum}: Exception: ${gameError}`);
             }
 
             const endTime = Date.now();
 
-            // Check if game produced a valid result
             if (gameError) {
                 if (attempts < maxRetries) {
-                    console.error(`[Multi] Game ${gameNum}: Retrying with different card set...`);
+                    console.error(`${label} Game ${gameNum}: Retrying...`);
                     continue;
                 }
-                // Max retries exhausted — log as invalid
                 gameLog = {
-                    game: gameNum,
-                    cardSet: unitNames,
-                    winner: 'invalid',
-                    result: null,
-                    turns: 0,
-                    errors: [gameError],
+                    game: gameNum, cardSet: currentUnits, winner: 'invalid', result: null,
+                    turns: 0, errors: [gameError],
                     abortReason: `Exception after ${attempts} attempts: ${gameError}`,
                     startTime: new Date(startTime).toISOString(),
                     endTime: new Date(endTime).toISOString(),
                     durationMs: endTime - startTime,
-                    supplyVerified: supplyResult.ok,
-                    attempts: attempts
+                    supplyVerified: supplyResult.ok, attempts: attempts
                 };
                 break;
             }
 
-            // Game completed (possibly with abort/forfeit)
             if (gameResult.turns === 0 && attempts < maxRetries) {
-                console.error(`[Multi] Game ${gameNum}: 0 turns — AI failure, retrying...`);
+                console.error(`${label} Game ${gameNum}: 0 turns — AI failure, retrying...`);
                 continue;
             }
 
-            // 5. Build per-game log
             gameLog = {
-                game: gameNum,
-                cardSet: unitNames,
-                winner: gameResult.winner,
-                result: gameResult.result,
-                turns: gameResult.turns,
-                errors: gameResult.errors,
+                game: gameNum, cardSet: currentUnits,
+                winner: gameResult.winner, result: gameResult.result,
+                turns: gameResult.turns, errors: gameResult.errors,
                 abortReason: gameResult.abortReason,
                 startTime: new Date(startTime).toISOString(),
                 endTime: new Date(endTime).toISOString(),
                 durationMs: endTime - startTime,
-                supplyVerified: supplyResult.ok,
-                attempts: attempts
+                supplyVerified: supplyResult.ok, attempts: attempts
             };
             break;
         }
 
-        // If all retries failed without setting gameLog
         if (!gameLog) {
             gameLog = {
-                game: gameNum,
-                cardSet: [],
-                winner: 'invalid',
-                result: null,
-                turns: 0,
-                errors: [`All ${maxRetries} attempts failed`],
+                game: gameNum, cardSet: [], winner: 'invalid', result: null,
+                turns: 0, errors: [`All ${maxRetries} attempts failed`],
                 abortReason: `All ${maxRetries} attempts failed`,
-                startTime: new Date().toISOString(),
-                endTime: new Date().toISOString(),
-                durationMs: 0,
-                supplyVerified: false,
-                attempts: maxRetries
+                startTime: new Date().toISOString(), endTime: new Date().toISOString(),
+                durationMs: 0, supplyVerified: false, attempts: maxRetries
             };
         }
+        return gameLog;
+    }
 
-        games.push(gameLog);
-
-        // Tally results
+    function tallyGame(gameLog) {
         if (gameLog.winner === 'invalid' || gameLog.result === null) {
             invalid++;
         } else if (gameLog.result === C.COLOR_WHITE) {
@@ -1028,15 +1109,123 @@ async function playMultipleGames(config, numGames, library) {
             totalTurns += gameLog.turns;
             completedGames++;
         } else {
-            // Draw (stalemate, mutual elimination, max turns, stuck)
             draws++;
             totalTurns += gameLog.turns;
             completedGames++;
         }
-
-        // Progress summary per game
         const elapsed = (gameLog.durationMs / 1000).toFixed(1);
-        console.error(`[Multi] Game ${gameNum} result: ${gameLog.winner} in ${gameLog.turns} turns (${elapsed}s)`);
+        const label = playerSwitch ? '[Pair]' : '[Multi]';
+        console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner} in ${gameLog.turns} turns (${elapsed}s)`);
+    }
+
+    if (playerSwitch) {
+        // --- Pair-mode: games in pairs, same card set, swapped sides ---
+        const numPairs = numGames / 2;
+        const pairResults = { aWins2: 0, bWins2: 0, splits: 0, invalidPairs: 0 };
+        let playerAWins = 0;
+
+        // Build swapped config (reverse player assignment and MCDSAI workers)
+        const swappedConfig = {
+            ...config,
+            playerWhite: config.playerBlack,
+            playerBlack: config.playerWhite,
+            mcdsai: config.mcdsai ? {
+                ...config.mcdsai,
+                workerWhite: config.mcdsai.workerBlack,
+                workerBlack: config.mcdsai.workerWhite
+            } : null
+        };
+
+        for (let p = 0; p < numPairs; p++) {
+            const gameNumA = p * 2 + 1;
+            const gameNumB = p * 2 + 2;
+            const unitNames = fixedCards || randomSet(library, 8);
+
+            console.error(`\n[Pair] === Pair ${p + 1}/${numPairs} ===`);
+            console.error(`[Pair] Card set: [${unitNames.join(', ')}]`);
+
+            // Game A: original assignment
+            const logA = await playOneGame(gameNumA, numGames, unitNames, config);
+            logA.pairId = p + 1;
+            logA.swapped = false;
+            games.push(logA);
+            tallyGame(logA);
+
+            // Game B: swapped assignment (same card set)
+            const logB = await playOneGame(gameNumB, numGames, unitNames, swappedConfig);
+            logB.pairId = p + 1;
+            logB.swapped = true;
+            games.push(logB);
+            tallyGame(logB);
+
+            // Compute pair outcome from Player A's perspective
+            // Game A: white win = Player A win. Game B: black win = Player A win.
+            const aWinsInA = (logA.result === C.COLOR_WHITE) ? 1 : 0;
+            const aWinsInB = (logB.result === C.COLOR_BLACK) ? 1 : 0;
+            const aWinsThisPair = aWinsInA + aWinsInB;
+            playerAWins += aWinsThisPair;
+
+            if (logA.winner === 'invalid' || logB.winner === 'invalid') {
+                pairResults.invalidPairs++;
+            } else if (aWinsThisPair === 2) {
+                pairResults.aWins2++;
+            } else if (aWinsThisPair === 0) {
+                pairResults.bWins2++;
+            } else {
+                pairResults.splits++;
+            }
+
+            console.error(`[Pair] Pair ${p + 1} outcome: A=${aWinsInA}, B(swapped)=${aWinsInB}`);
+        }
+
+        // Compute player win rates (seat-independent)
+        // Use playerA/playerB keys to stay unambiguous even when both names are identical
+        const validGames = numGames - invalid;
+        const playerBWins = validGames - playerAWins - draws;
+        const playerWinRates = {
+            playerA: { name: config.playerWhite, wins: playerAWins, winRate: 0 },
+            playerB: { name: config.playerBlack, wins: playerBWins, winRate: 0 }
+        };
+        if (validGames > 0) {
+            playerWinRates.playerA.winRate = parseFloat((100 * playerAWins / validGames).toFixed(1));
+            playerWinRates.playerB.winRate = parseFloat((100 * playerBWins / validGames).toFixed(1));
+        }
+
+        // Final tally
+        const avgTurns = completedGames > 0 ? Math.round(totalTurns / completedGames) : 0;
+        const tally = { white: whiteWins, black: blackWins, draws, invalid };
+
+        console.error(`\n[Pair] ========== TALLY ==========`);
+        console.error(`[Pair] Games:    ${numGames} (${numPairs} pairs)`);
+        console.error(`[Pair] White:    ${whiteWins} (${numGames > 0 ? (100 * whiteWins / numGames).toFixed(1) : 0}%)`);
+        console.error(`[Pair] Black:    ${blackWins} (${numGames > 0 ? (100 * blackWins / numGames).toFixed(1) : 0}%)`);
+        console.error(`[Pair] Draws:    ${draws}`);
+        console.error(`[Pair] Invalid:  ${invalid}`);
+        console.error(`[Pair] Avg turns: ${avgTurns}`);
+        const labelA = `Player A [${config.playerWhite}]`;
+        const labelB = `Player B [${config.playerBlack}]`;
+        console.error(`[Pair] --- Pair Results (A=initially White, B=initially Black) ---`);
+        console.error(`[Pair] ${labelA} sweeps (2-0): ${pairResults.aWins2}`);
+        console.error(`[Pair] ${labelB} sweeps (2-0): ${pairResults.bWins2}`);
+        console.error(`[Pair] Splits (1-1):  ${pairResults.splits}`);
+        console.error(`[Pair] Invalid pairs:  ${pairResults.invalidPairs}`);
+        if (validGames > 0) {
+            console.error(`[Pair] --- Win Rates (seat-independent) ---`);
+            console.error(`[Pair] ${labelA}: ${playerWinRates.playerA.winRate}%`);
+            console.error(`[Pair] ${labelB}: ${playerWinRates.playerB.winRate}%`);
+        }
+        console.error(`[Pair] ================================\n`);
+
+        return { games, tally, avgTurns, pairResults, playerWinRates };
+    }
+
+    // --- Standard mode (no player-switch) ---
+    for (let g = 0; g < numGames; g++) {
+        const gameNum = g + 1;
+        const unitNames = fixedCards || randomSet(library, 8);
+        const gameLog = await playOneGame(gameNum, numGames, unitNames, config);
+        games.push(gameLog);
+        tallyGame(gameLog);
     }
 
     // Final tally
@@ -1089,11 +1278,22 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  * @param {boolean} verbose - Verbose output
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
-async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose) {
-    // Distribute game numbers round-robin across worker slots
+async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose, options = {}) {
+    const { playerSwitch = false, fixedCards = null } = options;
+
+    // Distribute game numbers across worker slots
     const slotsGames = Array.from({ length: numWorkers }, () => []);
-    for (let g = 0; g < numGames; g++) {
-        slotsGames[g % numWorkers].push(g + 1);  // 1-based game numbers
+    if (playerSwitch) {
+        // Distribute PAIRS round-robin — keep each pair on the same worker
+        const numPairs = numGames / 2;
+        for (let p = 0; p < numPairs; p++) {
+            const w = p % numWorkers;
+            slotsGames[w].push(p * 2 + 1, p * 2 + 2);  // Keep pair together
+        }
+    } else {
+        for (let g = 0; g < numGames; g++) {
+            slotsGames[g % numWorkers].push(g + 1);  // 1-based game numbers
+        }
     }
 
     // Create replay directory if saving replays
@@ -1134,7 +1334,9 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     thinkTimeMs: config.thinkTimeMs,
                     mcdsaiDifficulty: mcdsaiDifficulty,
                     saveReplaysDir: saveReplaysDir,
-                    verbose: verbose
+                    verbose: verbose,
+                    playerSwitch: playerSwitch,
+                    fixedCards: fixedCards
                 }
             });
 
@@ -1232,9 +1434,64 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
     console.error(`[Parallel] Invalid:  ${invalid}`);
     console.error(`[Parallel] Avg turns: ${avgTurns}`);
     if (saveReplaysDir) console.error(`[Parallel] Replays:  ${saveReplaysDir}`);
+
+    // Pair-level tallying (computed from game logs, not from worker messages)
+    let pairResults = null;
+    let playerWinRates = null;
+    if (playerSwitch) {
+        pairResults = { aWins2: 0, bWins2: 0, splits: 0, invalidPairs: 0 };
+        let playerAWins = 0;
+        const numPairs = numGames / 2;
+
+        for (let p = 0; p < numPairs; p++) {
+            const logA = games[p * 2];      // Game A: original assignment
+            const logB = games[p * 2 + 1];  // Game B: swapped assignment
+
+            // Game A: white win = Player A win. Game B: black win = Player A win.
+            const aWinsInA = (logA && logA.result === C.COLOR_WHITE) ? 1 : 0;
+            const aWinsInB = (logB && logB.result === C.COLOR_BLACK) ? 1 : 0;
+            const aWinsThisPair = aWinsInA + aWinsInB;
+            playerAWins += aWinsThisPair;
+
+            if (!logA || !logB || logA.winner === 'invalid' || logB.winner === 'invalid') {
+                pairResults.invalidPairs++;
+            } else if (aWinsThisPair === 2) {
+                pairResults.aWins2++;
+            } else if (aWinsThisPair === 0) {
+                pairResults.bWins2++;
+            } else {
+                pairResults.splits++;
+            }
+        }
+
+        const validGames = numGames - invalid;
+        const playerBWins = validGames - playerAWins - draws;
+        playerWinRates = {
+            playerA: { name: config.playerWhite, wins: playerAWins, winRate: 0 },
+            playerB: { name: config.playerBlack, wins: playerBWins, winRate: 0 }
+        };
+        if (validGames > 0) {
+            playerWinRates.playerA.winRate = parseFloat((100 * playerAWins / validGames).toFixed(1));
+            playerWinRates.playerB.winRate = parseFloat((100 * playerBWins / validGames).toFixed(1));
+        }
+
+        const labelA = `Player A [${config.playerWhite}]`;
+        const labelB = `Player B [${config.playerBlack}]`;
+        console.error(`[Parallel] --- Pair Results (A=initially White, B=initially Black) ---`);
+        console.error(`[Parallel] ${labelA} sweeps (2-0): ${pairResults.aWins2}`);
+        console.error(`[Parallel] ${labelB} sweeps (2-0): ${pairResults.bWins2}`);
+        console.error(`[Parallel] Splits (1-1):  ${pairResults.splits}`);
+        console.error(`[Parallel] Invalid pairs:  ${pairResults.invalidPairs}`);
+        if (validGames > 0) {
+            console.error(`[Parallel] --- Win Rates (seat-independent) ---`);
+            console.error(`[Parallel] ${labelA}: ${playerWinRates.playerA.winRate}%`);
+            console.error(`[Parallel] ${labelB}: ${playerWinRates.playerB.winRate}%`);
+        }
+    }
+
     console.error(`[Parallel] ================================\n`);
 
-    return { games, tally, avgTurns };
+    return { games, tally, avgTurns, pairResults, playerWinRates };
 }
 
 // ---------------------------------------------------------------------------
@@ -1254,6 +1511,8 @@ async function main() {
     let mcdsaiDifficulty = 'HardestAI';  // Default MCDSAI difficulty
     let parallelWorkers = 1;             // Phase 7e: 1 = sequential (default)
     let saveReplaysDir = null;           // Phase 7e: null = no replay saving
+    let playerSwitch = false;            // --player-switch: run games in pairs with swapped sides
+    let fixedCards = null;               // --cards "A,B,C": fixed advanced units (null = random)
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--random') useRandom = true;
@@ -1268,7 +1527,35 @@ async function main() {
         if (args[i] === '--think-time' && args[i + 1]) { thinkTimeMs = parseInt(args[++i], 10); }
         if (args[i] === '--mcdsai-difficulty' && args[i + 1]) { mcdsaiDifficulty = args[++i]; }
         if (args[i] === '--parallel' && args[i + 1]) { parallelWorkers = parseInt(args[++i], 10); }
-        if (args[i] === '--save-replays' && args[i + 1]) { saveReplaysDir = args[++i]; }
+        if (args[i] === '--player-switch') playerSwitch = true;
+        if (args[i] === '--cards' && args[i + 1]) {
+            fixedCards = args[++i].split(',').map(s => s.trim()).filter(s => s.length > 0);
+        }
+        if (args[i] === '--save-replays') {
+            // Flat folder under bin/asset/replays/ with timestamp prefix.
+            // Format: YYYY-MM-DD_HH-MM-SS[_label]/
+            // GUI loads replays from immediate subdirectories of replays/.
+            const now = new Date();
+            const ts = now.getFullYear()
+                + '-' + String(now.getMonth() + 1).padStart(2, '0')
+                + '-' + String(now.getDate()).padStart(2, '0')
+                + '_' + String(now.getHours()).padStart(2, '0')
+                + '-' + String(now.getMinutes()).padStart(2, '0')
+                + '-' + String(now.getSeconds()).padStart(2, '0');
+            const replaysRoot = path.join(__dirname, '..', 'bin', 'asset', 'replays');
+            if (args[i + 1] && !args[i + 1].startsWith('--')) {
+                const label = args[++i];
+                // If label looks like a path (contains / or \), use it directly
+                if (label.includes('/') || label.includes('\\') || path.isAbsolute(label)) {
+                    saveReplaysDir = label;
+                } else {
+                    saveReplaysDir = path.join(replaysRoot, ts + '_' + label);
+                }
+            } else {
+                // No label — timestamp only
+                saveReplaysDir = path.join(replaysRoot, ts);
+            }
+        }
     }
 
     // Validate parallel workers count
@@ -1276,6 +1563,22 @@ async function main() {
     if (parallelWorkers > 8) {
         console.error(`WARNING: --parallel ${parallelWorkers} is very high (x86 OOM risk). Clamping to 4.`);
         parallelWorkers = 4;
+    }
+
+    // Validate --player-switch
+    if (playerSwitch) {
+        if (singleTurnMode) {
+            console.error('WARNING: --player-switch ignored in single-turn mode');
+            playerSwitch = false;
+        } else if (numGames % 2 !== 0) {
+            numGames++;
+            console.error(`WARNING: --player-switch requires even game count. Rounded up to ${numGames}.`);
+        }
+    }
+
+    // --cards implies not random (for single-game path)
+    if (fixedCards) {
+        useRandom = false;
     }
 
     // Detect MCDSAI players (case-insensitive matching)
@@ -1311,12 +1614,38 @@ async function main() {
         console.error(`Max turns: ${CONFIG.maxTurns}, Stuck detection: ${CONFIG.stuckDetectionTurns} turns`);
     }
     if (isParallel) console.error(`Parallel workers: ${parallelWorkers}`);
+    if (playerSwitch) console.error(`Player switch: enabled (${numGames / 2} pairs)`);
+    if (fixedCards) console.error(`Fixed cards: [${fixedCards.join(', ')}]`);
     if (saveReplaysDir) console.error(`Replay saving: ${saveReplaysDir}`);
     console.error('');
 
     // 1. Load card library
     const library = loadCardLibrary();
     console.error(`Loaded card library: ${library.size} entries`);
+
+    // Validate --cards names against library (must be advanced/non-base units)
+    if (fixedCards) {
+        if (fixedCards.length > 11) {
+            console.error(`ERROR: --cards has ${fixedCards.length} units (max 11 advanced units per game).`);
+            process.exit(1);
+        }
+        const advancedNames = new Set(getAdvancedUnitNames(library));
+        for (const name of fixedCards) {
+            if (!advancedNames.has(name)) {
+                // Check if it's a base set name for a better error message
+                let isBase = false;
+                for (const [, card] of library) {
+                    if (card.UIName === name && card.baseSet) { isBase = true; break; }
+                }
+                if (isBase) {
+                    console.error(`ERROR: "${name}" is a base set unit — --cards should only list advanced units.`);
+                } else {
+                    console.error(`ERROR: Unknown card name "${name}". Use display names (e.g., Tarsier, not Tesla Tower).`);
+                }
+                process.exit(1);
+            }
+        }
+    }
 
     // 2. Load MCDSAI dependencies (only when needed, and NOT in parallel mode
     //    where each worker_thread spawns its own MCDSAI workers)
@@ -1486,7 +1815,7 @@ async function main() {
                 // Phase 7e: Parallel execution via worker_threads
                 // Workers load their own card libraries and MCDSAI workers.
                 // No main-thread MCDSAI workers are spawned in parallel mode.
-                console.error(`\n--- Starting ${numGames} Games in Parallel (${parallelWorkers} workers) ---`);
+                console.error(`\n--- Starting ${numGames} Games in Parallel (${parallelWorkers} workers)${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGamesParallel(
                     { playerWhite, playerBlack, thinkTimeMs },
                     numGames,
@@ -1494,15 +1823,17 @@ async function main() {
                     parallelWorkers,
                     mcdsaiDifficulty,
                     saveReplaysDir,
-                    false  // verbose
+                    false,  // verbose
+                    { playerSwitch, fixedCards }
                 );
             } else {
                 // Phase 7c/7d: Sequential execution
-                console.error(`\n--- Starting ${numGames} Games with Random Card Sets ---`);
+                console.error(`\n--- Starting ${numGames} Games${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGames(
                     { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig },
                     numGames,
-                    library
+                    library,
+                    { playerSwitch, fixedCards }
                 );
             }
 
@@ -1516,6 +1847,10 @@ async function main() {
                 thinkTimeMs: thinkTimeMs,
                 parallelWorkers: isParallel ? parallelWorkers : undefined,
                 mcdsaiDifficulty: anyMCDSAI ? mcdsaiDifficulty : undefined,
+                playerSwitch: playerSwitch || undefined,
+                fixedCards: fixedCards || undefined,
+                pairResults: multiResult.pairResults || undefined,
+                playerWinRates: multiResult.playerWinRates || undefined,
                 saveReplaysDir: saveReplaysDir || undefined,
                 games: multiResult.games
             };
@@ -1529,7 +1864,10 @@ async function main() {
 
         // Pick card set
         let unitNames;
-        if (useRandom) {
+        if (fixedCards) {
+            unitNames = fixedCards;
+            console.error(`Fixed card set: [${unitNames.join(', ')}]`);
+        } else if (useRandom) {
             unitNames = randomSet(library, 8);
             console.error(`Random set: [${unitNames.join(', ')}]`);
         } else {
@@ -1566,7 +1904,7 @@ async function main() {
             players: { white: playerWhite, black: playerBlack },
             thinkTimeMs: thinkTimeMs,
             mcdsaiDifficulty: anyMCDSAI ? mcdsaiDifficulty : undefined,
-            cardSet: activeDeck.filter(c => !c.baseSet).map(c => c.UIName || c.name)
+            cardSet: activeDeck.filter(c => !c.baseSet && !c._needsOnly).map(c => c.UIName || c.name)
         };
         console.log(JSON.stringify(output, null, 2));
 
@@ -1595,6 +1933,9 @@ module.exports = {
     playMultipleGamesParallel,
     getStateHash,
     resultToString,
+    computeWillScoreSum,
+    adjudicateByMaterial,
+    WILL_SCORE_THRESHOLD,
     MCDSAI_PLAYER
 };
 

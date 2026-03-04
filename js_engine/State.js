@@ -1444,6 +1444,10 @@ class State {
             if (this.helper.allOppUnitsDoomed) {
                 return this.turn;
             }
+            // Opponent has only under-construction units — cannot defend or attack
+            if (this.helper.oppAllUnitsTotal > 0 && this.helper.oppNonInvTotal === 0) {
+                return this.turn;
+            }
             return C.COLOR_NONE;
         }
         // Mission objectives not supported in headless PvP

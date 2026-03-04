@@ -30,6 +30,27 @@ GUIState_Play::GUIState_Play(GUIEngine & game, const GameState & state)
     loadPlayers();
 }
 
+GUIState_Play::GUIState_Play(GUIEngine & game, std::vector<GameState> replayStates,
+                             const std::string & p0, const std::string & p1, int winner)
+    : GUIState(game)
+    , m_currentState(replayStates.front())
+    , m_replayMode(true)
+    , m_replayP0(p0)
+    , m_replayP1(p1)
+    , m_replayWinner(winner)
+{
+    m_stateHistory = std::move(replayStates);
+
+    m_view.setWindowSize(Vec2(m_game.window().getSize().x, m_game.window().getSize().y));
+    m_view.setView(m_game.window().getView());
+
+    m_text.setFont(Assets::Instance().getFont("Consolas"));
+    m_text.setPosition(10, 5);
+    m_text.setCharacterSize(10);
+
+    loadPlayers();
+}
+
 void GUIState_Play::init()
 {
 
@@ -245,6 +266,47 @@ void GUIState_Play::activateWorkers()
 }
 
 
+void GUIState_Play::advanceReplayState()
+{
+    if (!m_replayMode) return;
+    if (m_replayIndex >= m_stateHistory.size() - 1) return;
+    m_replayIndex++;
+    setState(m_stateHistory[m_replayIndex]);
+}
+
+void GUIState_Play::rewindReplayState()
+{
+    if (!m_replayMode) return;
+    if (m_replayIndex == 0) return;
+    m_replayIndex--;
+    setState(m_stateHistory[m_replayIndex]);
+}
+
+void GUIState_Play::drawReplayHUD()
+{
+    if (!m_replayMode) return;
+
+    std::string winnerName = m_replayWinner == 0 ? m_replayP0 : (m_replayWinner == 1 ? m_replayP1 : "Draw");
+
+    std::stringstream ss;
+    ss << m_replayP0 << " vs " << m_replayP1
+       << "   Turn " << m_replayIndex << "/" << (m_stateHistory.size() - 1)
+       << "   Winner: " << winnerName;
+
+    auto wSize = m_game.window().getSize();
+    GUITools::DrawString(sf::Vector2f(220, 8), ss.str(), sf::Color::Yellow, &m_game.window(), 16);
+
+    // Replay controls hint at bottom-left
+    int spacing = 15;
+    int top = 140;
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top),                    "Right/Space: Next Step" , sf::Color(127, 127, 127), &m_game.window());
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 1*spacing),        "Left/Z:      Prev Step", sf::Color(127, 127, 127), &m_game.window());
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 2*spacing),        "ESC:         Main Menu", sf::Color(127, 127, 127), &m_game.window());
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 3*spacing),        "TAB:         Buy Pane", sf::Color(127, 127, 127), &m_game.window());
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 4*spacing),        "M:           Toggle Mouseover", sf::Color(127, 127, 127), &m_game.window());
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 5*spacing),        "Tilde:       Toggle Debug", sf::Color(127, 127, 127), &m_game.window());
+}
+
 void GUIState_Play::sUserInput()
 {
     // if an AI move is being carried out, don't allow any input
@@ -262,6 +324,24 @@ void GUIState_Play::sUserInput()
         // this event is triggered when a key is pressed
         if (event.type == sf::Event::KeyPressed)
         {
+            if (m_replayMode)
+            {
+                switch (event.key.code)
+                {
+                    case sf::Keyboard::Escape:  { m_game.popState(); break; }
+                    case sf::Keyboard::Right:
+                    case sf::Keyboard::Space:   { advanceReplayState(); break; }
+                    case sf::Keyboard::Left:
+                    case sf::Keyboard::Z:       { rewindReplayState(); break; }
+                    case sf::Keyboard::Tab:     { toggleBool(m_drawBaseSetCards); break; }
+                    case sf::Keyboard::M:       { toggleBool(m_drawMouseOver); break; }
+                    case sf::Keyboard::X:       { toggleBool(m_drawPotentials); break; }
+                    case sf::Keyboard::Tilde:   { toggleBool(m_drawDebugInfo); break; }
+                    default: break;
+                }
+            }
+            else
+            {
             switch (event.key.code)
             {
                 case sf::Keyboard::Escape:  { m_game.popState(); break; }
@@ -288,6 +368,7 @@ void GUIState_Play::sUserInput()
                 case sf::Keyboard::Down:    { menuIndexChange =  1; break; }
 
                 default:                    { break; }
+            }
             }
 
             // change the ai menu selected item based on the input above
@@ -692,6 +773,7 @@ void GUIState_Play::sRender()
     // render all the relevant game information
     drawInterface();
     drawCards();
+    if (m_replayMode) { drawReplayHUD(); }
     drawInformation();
     drawAIMenu();
     drawDebugInfo();
