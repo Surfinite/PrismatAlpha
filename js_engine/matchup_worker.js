@@ -38,7 +38,7 @@ process.stderr.write = function(chunk, encoding, callback) {
 // Load dependencies (each worker gets its own copies)
 const C = require('./C');
 const Analyzer = require('./Analyzer');
-const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getSupply } = require('./card_library');
+const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getAdvancedUnitNames, getSupply } = require('./card_library');
 const { stateToCppJSON, buildReplayJSON } = require('./replay_exporter');
 
 // Import shared functions from matchup_clean.js
@@ -450,6 +450,19 @@ async function runWorkerSlot() {
     // Load card library (worker-local)
     const library = loadCardLibrary();
 
+    // Resolve "R" slots in fixedCards with random picks from the advanced unit pool
+    function resolveRandomSlots(cards) {
+        if (!cards || !cards.some(n => n === 'R')) return cards;
+        const pinned = new Set(cards.filter(n => n !== 'R'));
+        const available = getAdvancedUnitNames(library).filter(n => !pinned.has(n));
+        for (let i = available.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [available[i], available[j]] = [available[j], available[i]];
+        }
+        let ri = 0;
+        return cards.map(name => (name === 'R') ? available[ri++] : name);
+    }
+
     // Load MCDSAI dependencies (worker-local, if needed)
     let mcdsaiWorkerWhite = null;
     let mcdsaiWorkerBlack = null;
@@ -497,8 +510,13 @@ async function runWorkerSlot() {
             attempts++;
             const startTime = Date.now();
 
-            // On retry: new random set unless fixed cards
-            const currentUnits = (attempts > 1 && !fixedCards) ? randomSet(library, 8) : unitNames;
+            // On retry: new random set unless fully-fixed cards (R slots re-resolve)
+            let currentUnits = unitNames;
+            if (attempts > 1 && !fixedCards) {
+                currentUnits = randomSet(library, 8);
+            } else if (attempts > 1 && fixedCards && fixedCards.some(n => n === 'R')) {
+                currentUnits = resolveRandomSlots(fixedCards);
+            }
             console.error(`\n${label} Game ${gameNum} (attempt ${attempts}/${maxRetries})`);
             console.error(`${label} Card set: [${currentUnits.join(', ')}]`);
 
@@ -632,7 +650,7 @@ async function runWorkerSlot() {
             const pairIdx = Math.floor(i / 2) + 1;
             const totalPairs = gameNums.length / 2;
 
-            const unitNames = fixedCards || randomSet(library, 8);
+            const unitNames = (fixedCards ? resolveRandomSlots(fixedCards) : null) || randomSet(library, 8);
 
             console.error(`\n[Pair] === Pair ${pairIdx}/${totalPairs} ===`);
             console.error(`[Pair] Card set: [${unitNames.join(', ')}]`);
@@ -660,7 +678,7 @@ async function runWorkerSlot() {
     } else {
         // --- Standard mode ---
         for (const gameNum of gameNums) {
-            const unitNames = fixedCards || randomSet(library, 8);
+            const unitNames = (fixedCards ? resolveRandomSlots(fixedCards) : null) || randomSet(library, 8);
             const gameLog = await playOneGameInSlot(
                 gameNum, unitNames,
                 playerWhite, playerBlack,
