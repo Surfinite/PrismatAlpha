@@ -158,7 +158,8 @@ function playSingleTurnSlot(analyzer, mergedDeck, playerName, thinkTimeMs) {
     }
 
     console.error('[Turn] Applying clicks to JS engine...');
-    const clickResult = matchup.applyClicks(analyzer, clicks);
+    const actionStates = [];
+    const clickResult = matchup.applyClicks(analyzer, clicks, actionStates);
 
     console.error(`[Turn] Clicks: ${clickResult.applied} applied, ${clickResult.failed} failed`);
     if (clickResult.failed > 0) {
@@ -175,7 +176,7 @@ function playSingleTurnSlot(analyzer, mergedDeck, playerName, thinkTimeMs) {
     console.error(`[Turn] After: player=${postTurn}, numTurns=${postNumTurns}, ` +
                   `phase=${postPhase}, finished=${finished}`);
 
-    return { ok: true, suggest: suggestResult, clickResult, error: null };
+    return { ok: true, suggest: suggestResult, clickResult, actionStates, error: null };
 }
 
 /**
@@ -243,7 +244,9 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
 
     // Replay data collection (if saving replays)
     const replayTurns = [];
-    const replayStates = [];  // Per-turn GameState snapshots for GUI replay
+    const allActionStates = [];    // Per-action state snapshots (parallel to allActionLabels)
+    const allActionLabels = [];    // Human-readable action labels
+    const turnBoundaries = [];     // Indices into allActionStates where each turn starts
 
     // Main game loop
     while (!analyzer.gameState.finished && turnCount < maxTurns) {
@@ -256,9 +259,12 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
 
         console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}${isActiveMCDSAI ? ' [MCDSAI]' : ''}) ===`);
 
-        // Capture pre-turn state snapshot for GUI replay
-        try { replayStates.push(stateToCppJSON(analyzer.gameState)); }
-        catch (e) { /* non-critical */ }
+        // Capture pre-turn state snapshot (turn boundary + "Start of Turn")
+        try {
+            turnBoundaries.push(allActionStates.length);
+            allActionStates.push(stateToCppJSON(analyzer.gameState));
+            allActionLabels.push('Start of Turn');
+        } catch (e) { /* non-critical */ }
 
         // Stuck detection: capture pre-turn state hash
         const preHash = matchup.getStateHash(analyzer);
@@ -316,6 +322,14 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
                 }
             } else {
                 errors.push(`Turn ${turnCount} (${playerLabel}): recovered after retry`);
+            }
+        }
+
+        // Collect per-action state snapshots from the turn result
+        if (turnResult.actionStates && turnResult.actionStates.length > 0) {
+            for (const entry of turnResult.actionStates) {
+                allActionStates.push(entry.state);
+                allActionLabels.push(entry.action);
             }
         }
 
@@ -391,9 +405,11 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
 
     console.error(`\n[Game] RESULT: ${winner} in ${turnCount} turns`);
 
-    // Capture final state for GUI replay
-    try { replayStates.push(stateToCppJSON(analyzer.gameState)); }
-    catch (e) { /* non-critical */ }
+    // Capture final post-game state
+    try {
+        allActionStates.push(stateToCppJSON(analyzer.gameState));
+        allActionLabels.push('Game Over');
+    } catch (e) { /* non-critical */ }
 
     // Clean up slot-specific temp file
     try { fs.unlinkSync(SUGGEST_TMP); } catch (e) { /* ignore */ }
@@ -405,7 +421,9 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
         errors: errors,
         abortReason: abortReason,
         replayTurns: replayTurns,
-        replayStates: replayStates
+        allActionStates: allActionStates,
+        allActionLabels: allActionLabels,
+        turnBoundaries: turnBoundaries
     };
 }
 
@@ -545,7 +563,9 @@ async function runWorkerSlot() {
                 durationMs: endTime - startTime,
                 supplyVerified: supplyResult.ok, attempts: attempts,
                 replayTurns: gameResult.replayTurns || [],
-                replayStates: gameResult.replayStates || []
+                allActionStates: gameResult.allActionStates || [],
+                allActionLabels: gameResult.allActionLabels || [],
+                turnBoundaries: gameResult.turnBoundaries || []
             };
             break;
         }
@@ -568,14 +588,15 @@ async function runWorkerSlot() {
      */
     function finishGame(gameLog, pWhite, pBlack) {
         // Save replay file if requested
-        const hasStates = gameLog && gameLog.replayStates && gameLog.replayStates.length > 0;
+        const hasStates = gameLog && gameLog.allActionStates && gameLog.allActionStates.length > 0;
         if (saveReplaysDir && hasStates) {
             try {
                 const winnerInt = gameLog.result === C.COLOR_WHITE ? 0 :
                                   gameLog.result === C.COLOR_BLACK ? 1 : -1;
                 const replayData = buildReplayJSON(
-                    gameLog.replayStates, pWhite, pBlack,
-                    winnerInt, gameLog.turns, gameLog.cardSet
+                    gameLog.allActionStates, pWhite, pBlack,
+                    winnerInt, gameLog.turns, gameLog.cardSet,
+                    gameLog.allActionLabels, gameLog.turnBoundaries
                 );
                 const replayPath = path.join(saveReplaysDir, `game_${String(gameLog.game).padStart(4, '0')}.json`);
                 fs.writeFileSync(replayPath, JSON.stringify(replayData, null, 2));
@@ -587,7 +608,9 @@ async function runWorkerSlot() {
         // Remove large replay data from log sent to parent
         const logForParent = Object.assign({}, gameLog);
         delete logForParent.replayTurns;
-        delete logForParent.replayStates;
+        delete logForParent.allActionStates;
+        delete logForParent.allActionLabels;
+        delete logForParent.turnBoundaries;
 
         parentPort.postMessage({
             type: 'game_result',

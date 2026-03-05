@@ -124,20 +124,24 @@ function stateToCppJSON(state) {
  * @param {number} winner - 0 for white, 1 for black, -1 for draw/ongoing
  * @param {number} turns - Number of turns played
  * @param {string[]} cardSet - Display names of the random units in this game
+ * @param {string[]} [actions] - Per-state action labels (parallel to gameStateJSONs). Omitted from JSON if undefined.
+ * @param {number[]} [turnBoundaries] - Indices into gameStateJSONs where each turn starts. Omitted from JSON if undefined.
  * @returns {Object} Complete replay JSON
  */
-function buildReplayJSON(gameStateJSONs, p0, p1, winner, turns, cardSet) {
+function buildReplayJSON(gameStateJSONs, p0, p1, winner, turns, cardSet, actions, turnBoundaries) {
     const winnerName = winner === 0 ? p0 : winner === 1 ? p1 : 'Draw';
 
     return {
-        replay:     true,
-        p0:         p0,
-        p1:         p1,
-        winner:     winner,
-        winnerName: winnerName,
-        turns:      turns,
-        cardSet:    cardSet,
-        states:     gameStateJSONs
+        replay:         true,
+        p0:             p0,
+        p1:             p1,
+        winner:         winner,
+        winnerName:     winnerName,
+        turns:          turns,
+        cardSet:        cardSet,
+        states:         gameStateJSONs,
+        actions:        actions || undefined,
+        turnBoundaries: turnBoundaries || undefined
     };
 }
 
