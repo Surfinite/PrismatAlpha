@@ -104,8 +104,12 @@ const CONFIG = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
 // C++ exe path (Release build)
 const EXE_PATH = path.join(__dirname, '..', 'bin', CONFIG.exePath);
 
-// Temp file for --suggest state JSON
-const SUGGEST_TMP = path.join(__dirname, '_suggest_state.json');
+// Temp file for --suggest state JSON (PID-suffixed to avoid races between
+// concurrent --parallel 1 processes sharing the same directory)
+const SUGGEST_TMP = path.join(__dirname, `_suggest_state_${process.pid}.json`);
+
+// Clean up PID-specific temp file on exit
+process.on('exit', () => { try { fs.unlinkSync(SUGGEST_TMP); } catch (_) {} });
 
 // ---------------------------------------------------------------------------
 // 1. Supply verification
@@ -386,7 +390,6 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
     console.error(`[Turn] Buys: [${(resp.buy || []).join(', ')}]`);
     console.error(`[Turn] Abilities: [${(resp.abilities || []).join(', ')}]`);
     console.error(`[Turn] Clicks: ${(resp.clicks || []).length} total`);
-
     // Apply clicks to JS engine
     const clicks = resp.clicks || [];
     if (clicks.length === 0) {
@@ -896,6 +899,11 @@ async function playSingleGame(activeDeck, config) {
     const recentHashes = [];  // circular buffer of last N state hashes
     let turnCount = 0;
 
+    // Replay data collection
+    const allActionStates = [];
+    const allActionLabels = [];
+    const turnBoundaries = [];
+
     // Main game loop
     while (!analyzer.gameState.finished && turnCount < maxTurns) {
         turnCount++;
@@ -906,6 +914,13 @@ async function playSingleGame(activeDeck, config) {
         const isActiveMCDSAI = isMCDSAIPlayer(playerName);
 
         console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}${isActiveMCDSAI ? ' [MCDSAI]' : ''}) ===`);
+
+        // Capture pre-turn state snapshot for replay
+        try {
+            turnBoundaries.push(allActionStates.length);
+            allActionStates.push(stateToCppJSON(analyzer.gameState));
+            allActionLabels.push('Start of Turn');
+        } catch (e) { /* non-critical */ }
 
         // --- Stuck detection: capture pre-turn state hash ---
         const preHash = getStateHash(analyzer);
@@ -981,6 +996,14 @@ async function playSingleGame(activeDeck, config) {
             // Detailed click failures already logged by playSingleTurn/playMCDSAITurn
         }
 
+        // Collect per-action state snapshots for replay
+        if (turnResult.actionStates && turnResult.actionStates.length > 0) {
+            for (const entry of turnResult.actionStates) {
+                allActionStates.push(entry.state);
+                allActionLabels.push(entry.action);
+            }
+        }
+
         // --- Check for game over ---
         if (analyzer.gameState.finished) {
             console.error(`[Game] Game over detected after turn ${turnCount}`);
@@ -1027,6 +1050,12 @@ async function playSingleGame(activeDeck, config) {
         console.error(`[Game] ${abortReason}`);
     }
 
+    // Capture final state for replay
+    try {
+        allActionStates.push(stateToCppJSON(analyzer.gameState));
+        allActionLabels.push('Game Over');
+    } catch (e) { /* non-critical */ }
+
     // Final state
     const finalResult = analyzer.gameState.result;
     const winner = resultToString(finalResult);
@@ -1052,7 +1081,10 @@ async function playSingleGame(activeDeck, config) {
         winner: winner,
         turns: turnCount,
         errors: errors,
-        abortReason: abortReason
+        abortReason: abortReason,
+        allActionStates: allActionStates,
+        allActionLabels: allActionLabels,
+        turnBoundaries: turnBoundaries
     };
 }
 
@@ -1079,8 +1111,24 @@ async function playSingleGame(activeDeck, config) {
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
 async function playMultipleGames(config, numGames, library, options = {}) {
-    const { playerSwitch = false, fixedCards = null } = options;
+    const { playerSwitch = false, fixedCards = null, saveReplaysDir = null } = options;
     const maxRetries = 3;  // Retry with different set if AI fails (~5% of sets)
+
+    // Resolve "R" slots in fixedCards with random picks from the advanced unit pool
+    function resolveRandomSlots(cards) {
+        if (!cards || !cards.some(n => n === 'R')) return cards;
+        const pinned = new Set(cards.filter(n => n !== 'R'));
+        const available = getAdvancedUnitNames(library).filter(n => !pinned.has(n));
+        for (let i = available.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [available[i], available[j]] = [available[j], available[i]];
+        }
+        let ri = 0;
+        return cards.map(name => {
+            if (name === 'R') return available[ri++];
+            return name;
+        });
+    }
     const games = [];
     let whiteWins = 0;
     let blackWins = 0;
@@ -1160,7 +1208,10 @@ async function playMultipleGames(config, numGames, library, options = {}) {
                 startTime: new Date(startTime).toISOString(),
                 endTime: new Date(endTime).toISOString(),
                 durationMs: endTime - startTime,
-                supplyVerified: supplyResult.ok, attempts: attempts
+                supplyVerified: supplyResult.ok, attempts: attempts,
+                allActionStates: gameResult.allActionStates || [],
+                allActionLabels: gameResult.allActionLabels || [],
+                turnBoundaries: gameResult.turnBoundaries || []
             };
             break;
         }
@@ -1198,6 +1249,31 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner} in ${gameLog.turns} turns (${elapsed}s)`);
     }
 
+    function saveAndStripReplay(gameLog, pWhite, pBlack) {
+        const hasStates = gameLog && gameLog.allActionStates && gameLog.allActionStates.length > 0;
+        if (saveReplaysDir && hasStates) {
+            try {
+                fs.mkdirSync(saveReplaysDir, { recursive: true });
+                const winnerInt = gameLog.result === C.COLOR_WHITE ? 0 :
+                                  gameLog.result === C.COLOR_BLACK ? 1 : -1;
+                const replayData = buildReplayJSON(
+                    gameLog.allActionStates, pWhite, pBlack,
+                    winnerInt, gameLog.turns, gameLog.cardSet,
+                    gameLog.allActionLabels, gameLog.turnBoundaries
+                );
+                const replayPath = path.join(saveReplaysDir, `game_${String(gameLog.game).padStart(4, '0')}.json`);
+                fs.writeFileSync(replayPath, JSON.stringify(replayData, null, 2));
+                console.error(`[Replay] Saved ${replayPath}`);
+            } catch (err) {
+                console.error(`[Replay] Game ${gameLog.game}: Failed to save: ${err.message}`);
+            }
+        }
+        // Strip heavy replay data from in-memory log
+        delete gameLog.allActionStates;
+        delete gameLog.allActionLabels;
+        delete gameLog.turnBoundaries;
+    }
+
     if (playerSwitch) {
         // --- Pair-mode: games in pairs, same card set, swapped sides ---
         const numPairs = numGames / 2;
@@ -1228,6 +1304,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             const logA = await playOneGame(gameNumA, numGames, unitNames, config);
             logA.pairId = p + 1;
             logA.swapped = false;
+            saveAndStripReplay(logA, config.playerWhite, config.playerBlack);
             games.push(logA);
             tallyGame(logA);
 
@@ -1235,6 +1312,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             const logB = await playOneGame(gameNumB, numGames, unitNames, swappedConfig);
             logB.pairId = p + 1;
             logB.swapped = true;
+            saveAndStripReplay(logB, swappedConfig.playerWhite, swappedConfig.playerBlack);
             games.push(logB);
             tallyGame(logB);
 
@@ -1304,6 +1382,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         const gameNum = g + 1;
         const unitNames = (fixedCards ? resolveRandomSlots(fixedCards) : null) || randomSet(library, 8);
         const gameLog = await playOneGame(gameNum, numGames, unitNames, config);
+        saveAndStripReplay(gameLog, config.playerWhite, config.playerBlack);
         games.push(gameLog);
         tallyGame(gameLog);
     }
@@ -1937,7 +2016,7 @@ async function main() {
                     { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig },
                     numGames,
                     library,
-                    { playerSwitch, fixedCards }
+                    { playerSwitch, fixedCards, saveReplaysDir }
                 );
             }
 
