@@ -44,9 +44,57 @@ const { Worker } = require('worker_threads');
 const C = require('./C');
 const Analyzer = require('./Analyzer');
 const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getAdvancedUnitNames, getSupply, SUPPLY_BY_RARITY } = require('./card_library');
+const { stateToCppJSON, buildReplayJSON } = require('./replay_exporter');
 
 // MCDSAI player identifier (case-insensitive matching in CLI parsing)
 const MCDSAI_PLAYER = 'MCDSAI';
+
+// ---------------------------------------------------------------------------
+// Per-action click description
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate a human-readable label for a click action.
+ * @param {Object} click - Click object with _type and _id
+ * @param {Object} state - Current game state (after click was applied)
+ * @returns {string} Human-readable action label
+ */
+function describeClick(click, state) {
+    const phase = state.phase;
+    switch (click._type) {
+        case C.CLICK_CARD:
+        case C.CLICK_CARD_SHIFT: {
+            // Buy action -- look up card name from the cards array
+            const cardIdx = click._id;
+            if (state.cards && cardIdx >= 0 && cardIdx < state.cards.length) {
+                return 'Buy ' + state.cards[cardIdx].UIName;
+            }
+            return 'Buy card #' + cardIdx;
+        }
+        case C.CLICK_INST:
+        case C.CLICK_INST_SHIFT: {
+            // Instance click -- look up unit name from table
+            const inst = state.table.get(click._id);
+            if (inst) {
+                const name = inst.card.UIName;
+                // In defense phase, it's blocking; in action phase, it's ability/assign
+                if (phase === C.PHASE_DEFENSE) {
+                    return 'Block with ' + name;
+                }
+                return 'Use ' + name;
+            }
+            return 'Click inst #' + click._id;
+        }
+        case C.CLICK_SPACE:
+            return 'End Phase';
+        case C.CLICK_END_SWIPE:
+            return 'End Defense';
+        case C.CLICK_REVERT:
+            return 'Undo';
+        default:
+            return click._type;
+    }
+}
 
 // Load config
 const CONFIG_PATH = path.join(__dirname, 'matchup_config.json');
@@ -249,7 +297,7 @@ function callSuggest(stateJson, playerName, thinkTimeMs) {
  * @param {Object[]} clicks - Array of {_type, _id} objects
  * @returns {{ applied: number, failed: number, details: string[] }}
  */
-function applyClicks(analyzer, clicks) {
+function applyClicks(analyzer, clicks, actionStates) {
     let applied = 0;
     let failed = 0;
     const details = [];
@@ -263,6 +311,12 @@ function applyClicks(analyzer, clicks) {
         if (result.canClick) {
             applied++;
             details.push(`  [${i}] OK: ${clickType} id=${clickId}`);
+            if (actionStates) {
+                actionStates.push({
+                    state: stateToCppJSON(analyzer.gameState),
+                    action: describeClick(click, analyzer.gameState)
+                });
+            }
         } else {
             failed++;
             details.push(`  [${i}] FAIL: ${clickType} id=${clickId}`);
@@ -277,6 +331,12 @@ function applyClicks(analyzer, clicks) {
         if (commitResult.canClick) {
             applied++;
             details.push(`  [auto] OK: space clicked (confirm->commit)`);
+            if (actionStates) {
+                actionStates.push({
+                    state: stateToCppJSON(analyzer.gameState),
+                    action: 'End Turn'
+                });
+            }
         } else {
             details.push(`  [auto] FAIL: space clicked (confirm->commit)`);
         }
@@ -334,7 +394,8 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
     }
 
     console.error('[Turn] Applying clicks to JS engine...');
-    const clickResult = applyClicks(analyzer, clicks);
+    const actionStates = [];
+    const clickResult = applyClicks(analyzer, clicks, actionStates);
 
     console.error(`[Turn] Clicks: ${clickResult.applied} applied, ${clickResult.failed} failed`);
     if (clickResult.failed > 0) {
@@ -352,7 +413,7 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
     console.error(`[Turn] After: player=${postTurn}, numTurns=${postNumTurns}, ` +
                   `phase=${postPhase}, finished=${finished}`);
 
-    return { ok: true, suggest: suggestResult, clickResult, error: null };
+    return { ok: true, suggest: suggestResult, clickResult, actionStates, error: null };
 }
 
 // ---------------------------------------------------------------------------
@@ -443,6 +504,7 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
     let applied = 0;
     let failed = 0;
     const details = [];
+    const actionStates = [];
 
     try {
         // Primary path: use StateUtil.convertToClicks for validated click resolution
@@ -454,6 +516,10 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
             if (result.canClick) {
                 applied++;
                 details.push(`  [${i}] OK: ${click._type} id=${click._id}`);
+                actionStates.push({
+                    state: stateToCppJSON(analyzer.gameState),
+                    action: describeClick(click, analyzer.gameState)
+                });
             } else {
                 failed++;
                 details.push(`  [${i}] FAIL: ${click._type} id=${click._id}`);
@@ -479,6 +545,10 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
                 if (result.canClick) {
                     applied++;
                     details.push(`  [${i}] OK (fallback): ${clickType} id=${clickId}`);
+                    actionStates.push({
+                        state: stateToCppJSON(analyzer.gameState),
+                        action: describeClick({ _type: clickType, _id: clickId }, analyzer.gameState)
+                    });
                 } else {
                     failed++;
                     details.push(`  [${i}] FAIL (fallback): ${clickType} id=${clickId}`);
@@ -497,6 +567,10 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
         if (commitResult.canClick) {
             applied++;
             details.push(`  [auto] OK: space clicked (confirm->commit)`);
+            actionStates.push({
+                state: stateToCppJSON(analyzer.gameState),
+                action: 'End Turn'
+            });
         } else {
             details.push(`  [auto] FAIL: space clicked (confirm->commit)`);
         }
@@ -518,7 +592,7 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
     console.error(`[Turn] After: player=${postTurn}, numTurns=${postNumTurns}, ` +
                   `phase=${postPhase}, finished=${finished}`);
 
-    return { ok: true, clickResult: { applied, failed, details }, error: null };
+    return { ok: true, clickResult: { applied, failed, details }, actionStates, error: null };
 }
 
 // ---------------------------------------------------------------------------
@@ -1923,6 +1997,7 @@ module.exports = {
     exportStateForSuggest,
     callSuggest,
     applyClicks,
+    describeClick,
     playSingleTurn,
     playMCDSAITurn,
     isMCDSAIPlayer,

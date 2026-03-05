@@ -75,15 +75,26 @@ class GUIState_Play : public GUIState
     std::string                 m_replayP1;
     int                         m_replayWinner = -1;
 
+    // Per-action replay metadata (empty for legacy per-turn replays)
+    std::vector<std::string>    m_actionLabels;      // Human-readable label per state
+    std::vector<size_t>         m_turnBoundaries;    // Indices where turns start
+    int                         m_totalTurns = 0;    // Total turn count from replay
+
     void advanceReplayState();
     void rewindReplayState();
+    void jumpToNextTurn();
+    void jumpToPrevTurn();
     void drawReplayHUD();
+    size_t getCurrentTurnIndex() const;
 
 public:
 
     GUIState_Play(GUIEngine & game, const GameState & state);
     GUIState_Play(GUIEngine & game, std::vector<GameState> replayStates,
-                  const std::string & p0, const std::string & p1, int winner);
+                  const std::string & p0, const std::string & p1, int winner,
+                  std::vector<std::string> actionLabels = {},
+                  std::vector<size_t> turnBoundaries = {},
+                  int totalTurns = 0);
 
     void onFrame();
 };

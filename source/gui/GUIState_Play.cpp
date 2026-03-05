@@ -31,7 +31,10 @@ GUIState_Play::GUIState_Play(GUIEngine & game, const GameState & state)
 }
 
 GUIState_Play::GUIState_Play(GUIEngine & game, std::vector<GameState> replayStates,
-                             const std::string & p0, const std::string & p1, int winner)
+                             const std::string & p0, const std::string & p1, int winner,
+                             std::vector<std::string> actionLabels,
+                             std::vector<size_t> turnBoundaries,
+                             int totalTurns)
     : GUIState(game)
     , m_currentState(replayStates.front())
     , m_replayMode(true)
@@ -40,6 +43,9 @@ GUIState_Play::GUIState_Play(GUIEngine & game, std::vector<GameState> replayStat
     , m_replayWinner(winner)
 {
     m_stateHistory = std::move(replayStates);
+    m_actionLabels = std::move(actionLabels);
+    m_turnBoundaries = std::move(turnBoundaries);
+    m_totalTurns = totalTurns;
 
     m_view.setWindowSize(Vec2(m_game.window().getSize().x, m_game.window().getSize().y));
     m_view.setView(m_game.window().getView());
@@ -282,29 +288,110 @@ void GUIState_Play::rewindReplayState()
     setState(m_stateHistory[m_replayIndex]);
 }
 
+size_t GUIState_Play::getCurrentTurnIndex() const
+{
+    if (m_turnBoundaries.empty()) return m_replayIndex;
+    // Find which turn we're in by scanning boundaries
+    size_t turnIdx = 0;
+    for (size_t i = 1; i < m_turnBoundaries.size(); i++)
+    {
+        if (m_turnBoundaries[i] <= m_replayIndex) { turnIdx = i; }
+        else { break; }
+    }
+    return turnIdx;
+}
+
+void GUIState_Play::jumpToNextTurn()
+{
+    if (!m_replayMode || m_turnBoundaries.empty()) return;
+    for (size_t i = 0; i < m_turnBoundaries.size(); i++)
+    {
+        if (m_turnBoundaries[i] > m_replayIndex)
+        {
+            m_replayIndex = m_turnBoundaries[i];
+            setState(m_stateHistory[m_replayIndex]);
+            return;
+        }
+    }
+}
+
+void GUIState_Play::jumpToPrevTurn()
+{
+    if (!m_replayMode || m_turnBoundaries.empty()) return;
+    // Find the start of the current turn, then go to the previous one
+    size_t currentTurn = getCurrentTurnIndex();
+    if (currentTurn > 0)
+    {
+        m_replayIndex = m_turnBoundaries[currentTurn - 1];
+    }
+    else
+    {
+        m_replayIndex = 0;
+    }
+    setState(m_stateHistory[m_replayIndex]);
+}
+
 void GUIState_Play::drawReplayHUD()
 {
     if (!m_replayMode) return;
 
     std::string winnerName = m_replayWinner == 0 ? m_replayP0 : (m_replayWinner == 1 ? m_replayP1 : "Draw");
+    bool hasActions = !m_actionLabels.empty();
 
     std::stringstream ss;
-    ss << m_replayP0 << " vs " << m_replayP1
-       << "   Turn " << m_replayIndex << "/" << (m_stateHistory.size() - 1)
-       << "   Winner: " << winnerName;
+    ss << m_replayP0 << " vs " << m_replayP1;
+
+    if (hasActions && !m_turnBoundaries.empty())
+    {
+        // Per-action mode: show turn and action context
+        size_t turnIdx = getCurrentTurnIndex();
+        size_t turnStart = m_turnBoundaries[turnIdx];
+        size_t turnEnd = (turnIdx + 1 < m_turnBoundaries.size()) ? m_turnBoundaries[turnIdx + 1] : m_stateHistory.size();
+        size_t actionInTurn = m_replayIndex - turnStart + 1;
+        size_t actionsInTurn = turnEnd - turnStart;
+
+        ss << "   Turn " << (turnIdx + 1) << "/" << m_totalTurns;
+        ss << "   [" << actionInTurn << "/" << actionsInTurn << "]";
+
+        // Show current action label
+        if (m_replayIndex < m_actionLabels.size())
+        {
+            ss << "   " << m_actionLabels[m_replayIndex];
+        }
+    }
+    else
+    {
+        // Legacy per-turn mode
+        ss << "   Turn " << m_replayIndex << "/" << (m_stateHistory.size() - 1);
+    }
+
+    ss << "   Winner: " << winnerName;
 
     auto wSize = m_game.window().getSize();
     GUITools::DrawString(sf::Vector2f(220, 8), ss.str(), sf::Color::Yellow, &m_game.window(), 16);
 
+    // Step counter at top-right
+    {
+        std::stringstream sc;
+        sc << "Step " << m_replayIndex << "/" << (m_stateHistory.size() - 1);
+        GUITools::DrawString(sf::Vector2f(wSize.x - 160, 8), sc.str(), sf::Color(180, 180, 180), &m_game.window(), 14);
+    }
+
     // Replay controls hint at bottom-left
     int spacing = 15;
-    int top = 140;
-    GUITools::DrawString(sf::Vector2f(5, wSize.y - top),                    "Right/Space: Next Step" , sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 1*spacing),        "Left/Z:      Prev Step", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 2*spacing),        "ESC:         Main Menu", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 3*spacing),        "TAB:         Buy Pane", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 4*spacing),        "M:           Toggle Mouseover", sf::Color(127, 127, 127), &m_game.window());
-    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 5*spacing),        "Tilde:       Toggle Debug", sf::Color(127, 127, 127), &m_game.window());
+    int top = hasActions ? 170 : 140;
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top),                    "Right/Space: Next Action" , sf::Color(127, 127, 127), &m_game.window());
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 1*spacing),        "Left/Z:      Prev Action", sf::Color(127, 127, 127), &m_game.window());
+    if (hasActions)
+    {
+        GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 2*spacing),    "Up:          Next Turn", sf::Color(127, 127, 127), &m_game.window());
+        GUITools::DrawString(sf::Vector2f(5, wSize.y - top + 3*spacing),    "Down:        Prev Turn", sf::Color(127, 127, 127), &m_game.window());
+    }
+    int offset = hasActions ? 4 : 2;
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + offset*spacing),       "ESC:         Main Menu", sf::Color(127, 127, 127), &m_game.window());
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + (offset+1)*spacing),   "TAB:         Buy Pane", sf::Color(127, 127, 127), &m_game.window());
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + (offset+2)*spacing),   "M:           Toggle Mouseover", sf::Color(127, 127, 127), &m_game.window());
+    GUITools::DrawString(sf::Vector2f(5, wSize.y - top + (offset+3)*spacing),   "Tilde:       Toggle Debug", sf::Color(127, 127, 127), &m_game.window());
 }
 
 void GUIState_Play::sUserInput()
@@ -333,6 +420,8 @@ void GUIState_Play::sUserInput()
                     case sf::Keyboard::Space:   { advanceReplayState(); break; }
                     case sf::Keyboard::Left:
                     case sf::Keyboard::Z:       { rewindReplayState(); break; }
+                    case sf::Keyboard::Up:      { jumpToNextTurn(); break; }
+                    case sf::Keyboard::Down:    { jumpToPrevTurn(); break; }
                     case sf::Keyboard::Tab:     { toggleBool(m_drawBaseSetCards); break; }
                     case sf::Keyboard::M:       { toggleBool(m_drawMouseOver); break; }
                     case sf::Keyboard::X:       { toggleBool(m_drawPotentials); break; }

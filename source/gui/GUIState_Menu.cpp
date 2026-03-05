@@ -131,7 +131,38 @@ void GUIState_Menu::loadReplay(const std::string & filepath)
         return;
     }
 
-    m_game.pushState(std::make_shared<GUIState_Play>(m_game, std::move(replayStates), p0, p1, winner));
+    // Parse optional per-action replay metadata
+    std::vector<std::string> actionLabels;
+    std::vector<size_t> turnBoundaries;
+    int totalTurns = 0;
+
+    if (doc.HasMember("actions") && doc["actions"].IsArray())
+    {
+        const auto & actions = doc["actions"];
+        actionLabels.reserve(actions.Size());
+        for (rapidjson::SizeType i = 0; i < actions.Size(); ++i)
+        {
+            actionLabels.push_back(actions[i].GetString());
+        }
+    }
+
+    if (doc.HasMember("turnBoundaries") && doc["turnBoundaries"].IsArray())
+    {
+        const auto & boundaries = doc["turnBoundaries"];
+        turnBoundaries.reserve(boundaries.Size());
+        for (rapidjson::SizeType i = 0; i < boundaries.Size(); ++i)
+        {
+            turnBoundaries.push_back(static_cast<size_t>(boundaries[i].GetUint64()));
+        }
+    }
+
+    if (doc.HasMember("turns") && doc["turns"].IsInt())
+    {
+        totalTurns = doc["turns"].GetInt();
+    }
+
+    m_game.pushState(std::make_shared<GUIState_Play>(m_game, std::move(replayStates), p0, p1, winner,
+                                                      std::move(actionLabels), std::move(turnBoundaries), totalTurns));
 }
 
 void GUIState_Menu::onFrame()
