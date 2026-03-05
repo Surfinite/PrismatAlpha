@@ -428,10 +428,9 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
             case ActionTypes::SNIPE:
             case ActionTypes::CHILL:
             {
-                // Two-step targeting: click source, then click target
-                int srcId = preState.getCardByID(action.getID()).getClientInstId();
+                // Target-only click: USE_ABILITY already clicked the source card
+                // (sets m_targetAbilityCardClicked flag in JS engine).
                 int tgtId = preState.getCardByID(action.getTargetID()).getClientInstId();
-                appendClick(clicksOut, hasPrevClick, "inst clicked", srcId);
                 appendClick(clicksOut, hasPrevClick, "inst clicked", tgtId);
                 break;
             }
