@@ -343,24 +343,8 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
                 buys.push_back(CardType(action.getID()).getUIName());
                 break;
             case ActionTypes::USE_ABILITY:
-                if (action.getShift())
-                {
-                    // Expand shift: count all cards of same type that were activated
-                    const CardType sourceType = preState.getCardByID(action.getID()).getType();
-                    for (size_t ci = 0; ci < preState.numCards(activePlayer); ++ci)
-                    {
-                        CardID cid = preState.getCardIDs(activePlayer)[ci];
-                        const Card & c = preState.getCardByID(cid);
-                        if (c.getType() == sourceType && c.canUseAbility())
-                        {
-                            abilities.push_back(c.getType().getUIName());
-                        }
-                    }
-                }
-                else
-                {
-                    abilities.push_back(preState.getCardByID(action.getID()).getType().getUIName());
-                }
+                abilities.push_back(preState.getCardByID(action.getID()).getType().getUIName()
+                    + (action.getShift() ? " (shift)" : ""));
                 break;
             case ActionTypes::ASSIGN_BLOCKER:
                 defense.push_back(preState.getCardByID(action.getID()).getType().getUIName());
@@ -385,27 +369,15 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
     }
 
     // 8. Build click-ready actions for protocol injection
-    //    Mirrors Move::toClientString() logic for automatic END_PHASE insertion
+    //    Emit END_PHASE actions as space clicks directly from the Move.
+    //    The C++ AI's Move contains explicit END_PHASE for each phase transition.
+    //    Shift-flagged USE_ABILITY emits "inst shift clicked" (JS handles batch).
     std::stringstream clicksOut;
     clicksOut << "[";
     bool hasPrevClick = false;
     for (size_t i = 0; i < move.size(); ++i)
     {
         const Action & action = move.getAction(i);
-
-        // Insert END_PHASE between blockers and non-blockers
-        if (i > 0 && action.getType() != ActionTypes::ASSIGN_BLOCKER
-            && move.getAction(i - 1).getType() == ActionTypes::ASSIGN_BLOCKER)
-        {
-            appendClick(clicksOut, hasPrevClick, "space clicked", -1);
-        }
-
-        // Insert END_PHASE before first breach action
-        if (i > 0 && action.getType() == ActionTypes::ASSIGN_BREACH
-            && move.getAction(i - 1).getType() != ActionTypes::ASSIGN_BREACH)
-        {
-            appendClick(clicksOut, hasPrevClick, "space clicked", -1);
-        }
 
         switch (action.getType())
         {
@@ -420,20 +392,12 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
             {
                 if (action.getShift())
                 {
-                    // Shift-flagged: the C++ engine activated ALL cards of this type
-                    // in one doAction call, but recorded only one Move action.
-                    // Expand into individual clicks for the JS engine.
-                    const CardType sourceType = preState.getCardByID(action.getID()).getType();
-                    for (size_t ci = 0; ci < preState.numCards(activePlayer); ++ci)
-                    {
-                        CardID cid = preState.getCardIDs(activePlayer)[ci];
-                        const Card & c = preState.getCardByID(cid);
-                        if (c.getType() == sourceType && c.canUseAbility())
-                        {
-                            int instId = c.getClientInstId();
-                            appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
-                        }
-                    }
+                    // Shift-flagged: emit a single "inst shift clicked" and let the
+                    // JS engine handle batch activation natively. This avoids issues
+                    // with preState having stale card statuses (e.g., Drones still
+                    // Assigned from previous turn during defense-phase moves).
+                    int instId = preState.getCardByID(action.getID()).getClientInstId();
+                    appendClick(clicksOut, hasPrevClick, "inst shift clicked", instId);
                 }
                 else
                 {
@@ -472,14 +436,19 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
                 break;
             }
             case ActionTypes::END_PHASE:
-                // Skip -- we insert END_PHASE automatically above
+            {
+                // Emit as space click (phase transition)
+                // Defense END_PHASE: JS MOVE_END_DEFENSE calls swoosh() which sets
+                // phase=ACTION directly — no intermediate confirm phase.
+                // Action END_PHASE: JS MOVE_ENTER_CONFIRM → confirm. The auto-commit
+                // in applyClicks handles the second space (confirm→commit).
+                appendClick(clicksOut, hasPrevClick, "space clicked", -1);
                 break;
+            }
             default:
                 break;
         }
     }
-    // Final END_PHASE to commit the turn
-    appendClick(clicksOut, hasPrevClick, "space clicked", -1);
     clicksOut << "]";
 
     // 9. Build JSON output
