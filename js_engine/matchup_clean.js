@@ -30,6 +30,7 @@
  *   node matchup_clean.js --games 4 --parallel 2 --save-replays                    # Replays to bin/asset/replays/YYYY-MM-DD_HH-MM-SS/
  *   node matchup_clean.js --games 4 --parallel 2 --save-replays mcdsai_test      # Replays to bin/asset/replays/YYYY-MM-DD_HH-MM-SS_mcdsai_test/
  *   node matchup_clean.js --cards "Tarsier,Rhino,Steelsplitter"                   # Fixed advanced units (base set always included)
+ *   node matchup_clean.js --cards "Doomed Drone,R,R,R,R,R,R,R"                   # 1 fixed + 7 random (re-rolled per game)
  *   node matchup_clean.js --games 20 --player-switch --parallel 4                 # 10 pairs, swapped sides per pair
  *   node matchup_clean.js --cards "Apollo,Cynestra" --player-switch --games 4       # 2 pairs with fixed set
  *   
@@ -1099,8 +1100,13 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             attempts++;
             const startTime = Date.now();
 
-            // Generate card set (on retry: new random set unless fixed)
-            const currentUnits = (attempts > 1 && !fixedCards) ? randomSet(library, 8) : unitNames;
+            // Generate card set (on retry: new random set unless fully-fixed; R slots re-resolve)
+            let currentUnits = unitNames;
+            if (attempts > 1 && !fixedCards) {
+                currentUnits = randomSet(library, 8);
+            } else if (attempts > 1 && fixedCards && fixedCards.some(n => n === 'R')) {
+                currentUnits = resolveRandomSlots(fixedCards);
+            }
             const label = playerSwitch ? '[Pair]' : '[Multi]';
             console.error(`\n${label} Game ${gameNum}/${totalGames} (attempt ${attempts}/${maxRetries})`);
             console.error(`${label} Card set: [${currentUnits.join(', ')}]`);
@@ -1213,7 +1219,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         for (let p = 0; p < numPairs; p++) {
             const gameNumA = p * 2 + 1;
             const gameNumB = p * 2 + 2;
-            const unitNames = fixedCards || randomSet(library, 8);
+            const unitNames = (fixedCards ? resolveRandomSlots(fixedCards) : null) || randomSet(library, 8);
 
             console.error(`\n[Pair] === Pair ${p + 1}/${numPairs} ===`);
             console.error(`[Pair] Card set: [${unitNames.join(', ')}]`);
@@ -1296,7 +1302,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
     // --- Standard mode (no player-switch) ---
     for (let g = 0; g < numGames; g++) {
         const gameNum = g + 1;
-        const unitNames = fixedCards || randomSet(library, 8);
+        const unitNames = (fixedCards ? resolveRandomSlots(fixedCards) : null) || randomSet(library, 8);
         const gameLog = await playOneGame(gameNum, numGames, unitNames, config);
         games.push(gameLog);
         tallyGame(gameLog);
@@ -1697,7 +1703,8 @@ async function main() {
     const library = loadCardLibrary();
     console.error(`Loaded card library: ${library.size} entries`);
 
-    // Validate --cards names against library (must be advanced/non-base units)
+    // Validate --cards names against library (must be advanced/non-base units, or "R" for random)
+    const hasRandomSlots = fixedCards && fixedCards.some(name => name === 'R');
     if (fixedCards) {
         if (fixedCards.length > 11) {
             console.error(`ERROR: --cards has ${fixedCards.length} units (max 11 advanced units per game).`);
@@ -1705,6 +1712,7 @@ async function main() {
         }
         const advancedNames = new Set(getAdvancedUnitNames(library));
         for (const name of fixedCards) {
+            if (name === 'R') continue;  // Random slot — resolved per game
             if (!advancedNames.has(name)) {
                 // Check if it's a base set name for a better error message
                 let isBase = false;
@@ -1719,6 +1727,28 @@ async function main() {
                 process.exit(1);
             }
         }
+        if (hasRandomSlots) {
+            const numRandom = fixedCards.filter(n => n === 'R').length;
+            const numFixed = fixedCards.length - numRandom;
+            console.error(`Cards template: ${numFixed} fixed + ${numRandom} random slots`);
+        }
+    }
+
+    // Resolve "R" slots in fixedCards with random picks from the advanced unit pool
+    function resolveRandomSlots(cards) {
+        if (!cards || !cards.some(n => n === 'R')) return cards;
+        const pinned = new Set(cards.filter(n => n !== 'R'));
+        const available = getAdvancedUnitNames(library).filter(n => !pinned.has(n));
+        // Shuffle available pool
+        for (let i = available.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [available[i], available[j]] = [available[j], available[i]];
+        }
+        let ri = 0;
+        return cards.map(name => {
+            if (name === 'R') return available[ri++];
+            return name;
+        });
     }
 
     // 2. Load MCDSAI dependencies (only when needed, and NOT in parallel mode
@@ -1939,7 +1969,7 @@ async function main() {
         // Pick card set
         let unitNames;
         if (fixedCards) {
-            unitNames = fixedCards;
+            unitNames = resolveRandomSlots(fixedCards);
             console.error(`Fixed card set: [${unitNames.join(', ')}]`);
         } else if (useRandom) {
             unitNames = randomSet(library, 8);
