@@ -51,7 +51,7 @@
 16. **LiveHardestAI config ported from SWF** (Feb 23). Extracted live game's complete AI configuration from decompiled SWF: LiveOpeningBook (4 entries), LiveOpeningBook2 (50 unit-specific entries), Live_Ability_Filter (includes Odin), 5 ActionAbility strategy variants, complete Live_ partial player hierarchy (31 components), 15 move iterators, 48 player definitions. All prefixed with `Live_` in `config.txt`. Smoke test validated — all components parse and execute correctly (reached turn 23 with 7s think time). Tournament `LiveHardestAI_Smoke` defined but disabled (`run: false`).
 17. **Replay code database** — COMPLETE (Feb 23). SQLite at `c:\libraries\prismata-replay-parser\replays.db`. 128,978 unique codes from 7 source types (expert, v2 per-player, reddit, discord, tournament, sniffer, balance results). Junction table with triggers, CLI tool (`replay_cli.py status` for dashboard). Build: `python build_replay_db.py` (~68s full rebuild). Incremental: `python build_replay_db.py --incremental --source <file>`. 4 files: `replay_db.py` (schema), `build_replay_db.py` (import), `replay_queries.py` (queries), `replay_cli.py` (CLI). 2 code reviews applied (6 fixes: trigger UNIQUE, transaction safety, backfill guard, junction detection, source dedup, executescript replacement). Plan: `docs/plans/2026-02-23-replay-database-plan-v2.md`. Meta-review: `docs/plans/META-REVIEW-2026-02-23-replay-database-plan.md`.
 
-**Current neural net strength:** **Run B 256h/3L 722K model = 51.9% WR** vs OriginalHardestAI (2,016 games, CI [49.7%, 54.1%], AB search + NeuralNet eval, Feb 21). First model to cross 50%. Up from 45.3% with 305K model (256h/2L). Previous: E2b (63K) = 26.7%, E1b (512h, 63K) = 19.6%, unfixed model = 3.6%. Historical: ~42% WR vs MediumAI (expert UCT). Churchill got 58.8% WR vs playout with 500K games -- we are at 51.9% with 722K games, closing the gap.
+**Neural net weights status: ALL GARBAGE.** All committed `neural_weights.bin` weights (and all previously trained models) were trained on a broken engine. Do not use for AI decisions. The clean rebuild does not use NN eval — LiveHardestAI and all matchup-runner players use `"Eval":"Playout"`. Previous WR results (51.9%, 45.3%, 26.7%...) used a broken engine and are invalid. Retraining deferred until clean engine self-play data is available.
 
 ## What This Project Is
 
@@ -153,6 +153,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **Legacy mode**: `"legacy": true` preserves original AI behavior. `OriginalHardestAI` is the stable baseline. Never modify legacy behavior.
 - **Feature schema contract**: `training/schema.json` + `training/FEATURES.md`. State dim = 1785 (161 units × 11 + 14 global). Changes must sync across `vectorize.py`, `NeuralNet.cpp`, and `schema.json`.
 - **NeuralNet.cpp diagnostics**: Gated behind `#ifdef NEURAL_NET_DEBUG`.
+- **NN weights are garbage — skip in `--suggest` mode**: All `neural_weights.bin` weights were trained on a broken engine. `main.cpp` now skips NN loading when `isSuggestMode` is true (commit on gui-integration). LiveHardestAI and matchup-runner players use `"Eval":"Playout"` — NN eval is never needed.
 - **PRISMATA_ASSERT**: Soft assert — prints to **stdout** (`std::cout` in `PrismataAssert.cpp:30`), does NOT abort. Use `std::ifstream` instead of `FileUtils::ReadFile` when stdout must stay clean (e.g., `--suggest` mode).
 - **x86 OOM — 4 threads max per process**: `/LARGEADDRESSAWARE` gives 4GB. Use `"Threads": 4` + multiple bat instances. Process dies silently at ~1400 games — config uses 1000 rounds/batch, `run_selfplay.bat` loops automatically.
 - **x86 OOM with large vectors**: Don't pre-allocate large `std::vector<GameState>` upfront. Allocate per-batch. Symptom: silent exit with no `[SelfPlay] COMPLETE` message.
@@ -212,7 +213,7 @@ node extract_training_data.js   # extract from S3 (incremental, see args below)
 - **PID-based random seeding**: All 3 exe entry points use `srand(time ^ PID)` — prevents identical sequences when launching multiple instances in the same second.
 - **Game_id namespacing**: `load_selfplay.py` offsets game_ids by 1M per source dir to prevent collisions across runs and train/val split leakage. `audit_selfplay_s3.py` uses `(shard_index, game_id)` composite keys. **Any new code touching game_ids must scope them per-shard** — each selfplay process starts its counter at 0.
 - **Value-only model export**: `export_weights.py` exports zero-initialized policy tensors for value-only models (4 extra). C++ loader requires all 26 tensors — a 22-tensor export will fail.
-- **SelfPlayDataExport requires loaded neural net**: If `neural_weights.bin` fails to load, exe writes ZERO shards silently. Only stderr warning. Always verify 26 tensors.
+- ~~**SelfPlayDataExport requires loaded neural net**~~: **INCORRECT — SelfPlayDataSink.cpp and TournamentGame.cpp have zero NN usage.** Self-play generation does not require `neural_weights.bin` to be loaded. (The old warning was wrong.)
 
 ### Training
 
@@ -374,7 +375,7 @@ Action → Breach (if wipeout) → Confirm → Defense (if enemy has attack) →
 
 **Will Score** heuristic (`source/ai/Heuristics.cpp`): resource values ATTACK=2.25, BLUE=1.50, GREEN=1.20, GOLD=1.00, RED=0.90, ENERGY=0.50. Cost-based material counting — not strategic value.
 
-**Neural net**: ResNet, state_dim=1785, policy+value heads. C++ inference via `NeuralNet::Instance()`. ~2,000 evals/sec/core. Hidden dim AND num_layers are dynamic (read from weight file header) — current best: 256h/3L (R12_smooth90). Can deploy 256h/2L, 256h/3L, or 512h by swapping weight files, no C++ rebuild needed.
+**Neural net**: ResNet infrastructure exists (state_dim=1785, policy+value heads, C++ inference via `NeuralNet::Instance()`). **All committed weights are garbage — trained on a broken engine.** Hidden dim and num_layers are dynamic (from weight file header). Not used in the clean rebuild — all players use playout eval.
 
 **Three HardestAI baselines**: `OriginalHardestAI` (Dave Churchill's original with Legacy components), `HardestAI` (our modified — different opening books, 1 root ability variant), `LiveHardestAI` (exact match to live Prismata SWF — 5 root ability variants, 50-entry unit-specific opening book, Odin in ability filter). Use `LiveHardestAI` when comparing against the actual game. Tournament configs: `LiveHardestAI_Smoke` (2 rounds), `LiveVsOriginal` (1500 rounds).
 
@@ -417,7 +418,7 @@ AMD Ryzen 7 5700X3D (8c/16t), ASUS TUF Gaming X570-PLUS (Wi-Fi), 4x8GB Crucial B
 |---|---|
 | `bin/asset/config/config.txt` | AI player definitions, tournament configs |
 | `bin/asset/config/cardLibrary.jso` | Master unit definitions (105+11 units) |
-| `bin/asset/config/neural_weights.bin` | Neural network weights (8.8 MB, committed for CI) |
+| `bin/asset/config/neural_weights.bin` | Neural network weights (8.8 MB, committed) — **GARBAGE: trained on broken engine, do not use** |
 | `source/ai/NeuralNet.h/cpp` | Neural network inference engine |
 | `source/ai/UCTSearch.cpp` | UCT/MCTS search |
 | `source/ai/StackAlphaBetaSearch.cpp` | Stack Alpha-Beta search |
