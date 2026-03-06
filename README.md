@@ -26,7 +26,7 @@ Produces three executables in `bin/`:
 
 The C++ engine has been thoroughly audited against the original AS3 source and is now considered an accurate replication of the live game. The JavaScript engine (transpiled from AS3) passes 100% replay validation and is used to verify C++ AI moves match the real game's expectations.
 
-LiveHardestAI is the best available open-source recreation of the live MasterBot — parameters extracted directly from the game's SWF, with decompiled source code available for inspection. This is the baseline we're training against.
+LiveHardestAI is the best available open-source recreation of the live MasterBot — parameters extracted directly from the game's SWF, with decompiled source code available for inspection. However, it falls short of the actual live MasterBot (MCDSAI wins ~78% against it in testing), likely due to internal tuning not visible in the extracted parameters. MCDSAI — accessible via the JS engine — is the actual training baseline.
 
 Training is starting fresh from accurate game data for the first time. Previous training runs used an engine with known logic bugs and are discarded. The new pipeline will generate self-play data using the bug-free engine and train a neural network value function using PyTorch.
 
