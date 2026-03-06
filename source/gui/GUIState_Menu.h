@@ -38,6 +38,8 @@ protected:
     bool                        m_inReplayFolder = false;
     size_t                      m_selectedReplayFolder = 0;
     size_t                      m_selectedReplayFile = 0;
+    int                         m_menuScrollOffset = 0;
+    int                         m_replayScrollOffset = 0;
 
     void init(const std::string & menuConfig);
     void onFrame();

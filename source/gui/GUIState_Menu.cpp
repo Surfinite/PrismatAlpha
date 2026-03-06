@@ -270,6 +270,7 @@ void GUIState_Menu::sUserInput()
                             // Replay folder
                             m_selectedReplayFolder = m_selectedMenuIndex - m_separatorIndex - 1;
                             m_selectedReplayFile = 0;
+                            m_replayScrollOffset = 0;
                             m_inReplayFolder = true;
                         }
                         break;
@@ -298,11 +299,25 @@ void GUIState_Menu::sRender()
         m_game.window().draw(m_menuText);
 
         m_menuText.setCharacterSize(32);
+        const float itemHeight = 34.0f;
+        const float topY = 50.0f;
+        const float bottomY = (float)m_game.window().getSize().y - 60.0f;
+        int visibleItems = std::max(1, (int)((bottomY - topY) / itemHeight));
+
+        // Auto-scroll to keep selection visible
+        if ((int)m_selectedReplayFile < m_replayScrollOffset)
+            m_replayScrollOffset = (int)m_selectedReplayFile;
+        if ((int)m_selectedReplayFile >= m_replayScrollOffset + visibleItems)
+            m_replayScrollOffset = (int)m_selectedReplayFile - visibleItems + 1;
+
         for (size_t i = 0; i < folder.files.size(); i++)
         {
+            float y = topY + ((int)i - m_replayScrollOffset) * itemHeight;
+            if (y < topY - itemHeight || y > bottomY) continue;
+
             m_menuText.setString(folder.files[i].displayName);
             m_menuText.setFillColor(i == m_selectedReplayFile ? sf::Color::Yellow : sf::Color(127, 127, 127));
-            m_menuText.setPosition(sf::Vector2f(32.0f, 50.0f + i * 34.0f));
+            m_menuText.setPosition(sf::Vector2f(32.0f, y));
             m_game.window().draw(m_menuText);
         }
 
@@ -322,28 +337,38 @@ void GUIState_Menu::sRender()
         m_game.window().draw(m_menuText);
 
         m_menuText.setCharacterSize(32);
-        const int filesPerLine = 38;
+        const float menuItemHeight = (float)m_menuText.getCharacterSize() + 2;
+        const float menuTopY = 50.0f;
+        const float menuBottomY = (float)m_game.window().getSize().y - 60.0f;
+        int menuVisibleItems = std::max(1, (int)((menuBottomY - menuTopY) / menuItemHeight));
+
+        // Auto-scroll to keep selection visible
+        if ((int)m_selectedMenuIndex < m_menuScrollOffset)
+            m_menuScrollOffset = (int)m_selectedMenuIndex;
+        if ((int)m_selectedMenuIndex >= m_menuScrollOffset + menuVisibleItems)
+            m_menuScrollOffset = (int)m_selectedMenuIndex - menuVisibleItems + 1;
+
         for (size_t i = 0; i < m_menuStrings.size(); i++)
         {
+            float y = menuTopY + ((int)i - m_menuScrollOffset) * menuItemHeight;
+            if (y < menuTopY - menuItemHeight || y > menuBottomY) continue;
+
             m_menuText.setString(m_menuStrings[i]);
 
             if (i == m_separatorIndex)
             {
-                // Separator line — dark gray, not selectable
                 m_menuText.setFillColor(sf::Color(80, 80, 80));
             }
             else if (i > m_separatorIndex)
             {
-                // Replay folder items
                 m_menuText.setFillColor(i == m_selectedMenuIndex ? sf::Color::Yellow : sf::Color(100, 200, 200));
             }
             else
             {
-                // State items
                 m_menuText.setFillColor(i == m_selectedMenuIndex ? sf::Color::Yellow : sf::Color(127, 127, 127));
             }
 
-            m_menuText.setPosition(sf::Vector2f(32.0f + (float)(i/filesPerLine)*450, 50.0f + (i%filesPerLine) * (float)m_menuText.getCharacterSize()+2));
+            m_menuText.setPosition(sf::Vector2f(32.0f, y));
             m_game.window().draw(m_menuText);
         }
 
