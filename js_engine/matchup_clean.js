@@ -312,6 +312,18 @@ function applyClicks(analyzer, clicks, actionStates) {
         const clickType = click._type;
         const clickId = click._id !== undefined ? click._id : -1;
 
+        // Auto end-swipe: C++ --suggest doesn't emit end-swipe clicks.
+        // A stale swipe (e.g., SWIPEPURPOSE_ASSIGN from a Rhino ability) blocks
+        // subsequent clicks of different purpose (e.g., melee on opponent's unit).
+        // Same pattern as StateUtil.convertToClicks() for MCDSAI clicks.
+        if (analyzer.controller.inSwipe && clickType !== C.CLICK_END_SWIPE) {
+            const swipeResult = analyzer.recordClick(false, false, C.CLICK_END_SWIPE, -1);
+            if (swipeResult.canClick) {
+                applied++;
+                details.push(`  [auto] OK: end swipe processed`);
+            }
+        }
+
         // Auto-commit: C++ AI Move has ONE space click for action→confirm,
         // but JS engine needs TWO (action→confirm + confirm→commit→defense).
         // If we're in confirm phase and next click is a defense click (inst/endswipe),
@@ -352,6 +364,8 @@ function applyClicks(analyzer, clicks, actionStates) {
                 const inst = gs.instIdToInst(clickId);
                 if (inst) {
                     diag += ` | inst: ${inst.card.cardName} owner=P${inst.owner} role=${inst.role} hp=${inst.health} dead=${inst.deadness}`;
+                    diag += ` dmg=${inst.damage} blocking=${inst.blocking} undef=${inst.card.undefendable}`;
+                    diag += ` partDmg=${inst.isPartiallyDamaged} cTime=${inst.constructionTime}`;
                     if (inst.card.abilityScript) diag += ` hasAbility`;
                     if (inst.role === 'assigned') diag += ` assigned`;
                     if (inst.role === 'inert') diag += ` INERT`;
