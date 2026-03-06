@@ -10,7 +10,7 @@ This project extends the original with neural network evaluation, self-play trai
 - **Neural Network Eval** — ResNet value head for position evaluation, used alongside traditional search
 - **SFML GUI** — Watch AI vs AI games, with card images and debug overlays
 - **JS Engine** — Transpiled game engine for running matchups and AI analysis outside C++
-- **LiveHardestAI** — Exact replication of the live Prismata MasterBot, extracted from the original SWF (50-entry unit-specific opening book, 5 root ability variants, full parameter match)
+- **LiveHardestAI** — Best-effort recreation of the live Prismata MasterBot using parameters extracted from the original SWF (50-entry unit-specific opening book, 5 root ability variants). Falls short of the actual MasterBot (MCDSAI) due to internal tuning that isn't visible in the extracted parameters.
 - **Cloud Infrastructure** — Scripts for AWS/GCP self-play generation and GPU training
 
 ## Building
