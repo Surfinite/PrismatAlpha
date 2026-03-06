@@ -50,8 +50,12 @@ const CONFIG_PATH = path.join(__dirname, 'matchup_config.json');
 const CONFIG = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
 const EXE_PATH = path.join(__dirname, '..', 'bin', CONFIG.exePath);
 
-// Slot-specific temp file for --suggest state JSON
-const SUGGEST_TMP = path.join(__dirname, `_suggest_state_W${slotIndex}.json`);
+// Slot-specific temp file for --suggest state JSON (includes parent PID
+// so two concurrent --parallel N processes don't collide on the same slots)
+const SUGGEST_TMP = path.join(__dirname, `_suggest_state_${process.pid}_W${slotIndex}.json`);
+
+// Clean up temp file on exit
+process.on('exit', () => { try { fs.unlinkSync(SUGGEST_TMP); } catch (_) {} });
 
 /**
  * Call C++ --suggest using this worker's slot-specific temp file.
