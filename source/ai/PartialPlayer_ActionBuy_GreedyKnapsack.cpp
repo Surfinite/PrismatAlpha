@@ -201,6 +201,7 @@ void PartialPlayer_ActionBuy_GreedyKnapsack::calculateStateData(const GameState 
     }
     
     // determine the cost of activating all our attackers
+    _totalAbilityActivateCost = Resources();
     for (const auto & cardID : state.getCardIDs(_playerID))
     {
         const Card & card = state.getCardByID(cardID);
