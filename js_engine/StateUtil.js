@@ -29,8 +29,10 @@ class StateUtil {
         let id = 0;
 
         for (let i = 0; i < clickObject.length; i++) {
-            // Auto end-swipe for daveAI (MCDSAI doesn't emit end-swipe clicks)
-            if (tempAnalyzer.controller.inSwipe && daveAI) {
+            // Auto end-swipe: neither MCDSAI nor C++ --suggest emit end-swipe clicks.
+            // Must auto-insert before each click to prevent stale swipe state
+            // (e.g., BREACH swipe blocking OVERKILL clicks on under-construction units).
+            if (tempAnalyzer.controller.inSwipe) {
                 tempClicks.push(new Click(C.CLICK_END_SWIPE));
                 tempAnalyzer.noUpdateClick(C.CLICK_END_SWIPE);
             }
