@@ -312,6 +312,20 @@ function applyClicks(analyzer, clicks, actionStates) {
         const clickType = click._type;
         const clickId = click._id !== undefined ? click._id : -1;
 
+        // Auto-commit: C++ AI Move has ONE space click for action→confirm,
+        // but JS engine needs TWO (action→confirm + confirm→commit→defense).
+        // If we're in confirm phase and next click is a defense click (inst/endswipe),
+        // auto-commit so defense clicks reach the defense phase handler.
+        if (analyzer.gameState.phase === C.PHASE_CONFIRM && !analyzer.gameState.finished &&
+            clickType !== C.CLICK_SPACE && clickType !== 'revert clicked' &&
+            clickType !== 'undo clicked' && clickType !== 'redo clicked') {
+            const commitResult = analyzer.recordClick(false, false, C.CLICK_SPACE, -1);
+            if (commitResult.canClick) {
+                applied++;
+                details.push(`  [auto] OK: space clicked (confirm->commit)`);
+            }
+        }
+
         const result = analyzer.recordClick(false, false, clickType, clickId);
         if (result.canClick) {
             applied++;
@@ -324,7 +338,29 @@ function applyClicks(analyzer, clicks, actionStates) {
             }
         } else {
             failed++;
-            details.push(`  [${i}] FAIL: ${clickType} id=${clickId}`);
+            // Diagnostic: why did this click fail?
+            const gs = analyzer.gameState;
+            let diag = `phase=${gs.phase}`;
+            if (gs.glassBroken) diag += ` glassBroken`;
+            if (gs.inEndBO) diag += ` inEndBO`;
+            if (gs.wouldWipeout) diag += ` wouldWipeout`;
+            if (gs.finished) diag += ` FINISHED`;
+            diag += ` canBreach=${gs.canBreach} canOverkill=${gs.canOverkill}`;
+            diag += ` oppNonInv=${gs.helper.oppNonInvTotal} oppDef=${gs.helper.oppDefense}`;
+            diag += ` atk=${gs.turnMana.attack}`;
+            if (clickType === 'inst clicked' || clickType === 'inst shift clicked') {
+                const inst = gs.instIdToInst(clickId);
+                if (inst) {
+                    diag += ` | inst: ${inst.card.cardName} owner=P${inst.owner} role=${inst.role} hp=${inst.health} dead=${inst.deadness}`;
+                    if (inst.card.abilityScript) diag += ` hasAbility`;
+                    if (inst.role === 'assigned') diag += ` assigned`;
+                    if (inst.role === 'inert') diag += ` INERT`;
+                    if (inst.constructionTime > 0) diag += ` building(${inst.constructionTime})`;
+                } else {
+                    diag += ` | inst NOT FOUND`;
+                }
+            }
+            details.push(`  [${i}] FAIL: ${clickType} id=${clickId} [${diag}]`);
         }
     }
 
@@ -526,7 +562,29 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
                 });
             } else {
                 failed++;
-                details.push(`  [${i}] FAIL: ${click._type} id=${click._id}`);
+                // Diagnostic: why did this click fail?
+                const gs = analyzer.gameState;
+                let diag = `phase=${gs.phase}`;
+                if (gs.glassBroken) diag += ` glassBroken`;
+                if (gs.inEndBO) diag += ` inEndBO`;
+                if (gs.wouldWipeout) diag += ` wouldWipeout`;
+                if (gs.finished) diag += ` FINISHED`;
+                diag += ` canBreach=${gs.canBreach} canOverkill=${gs.canOverkill}`;
+                diag += ` oppNonInv=${gs.helper.oppNonInvTotal} oppDef=${gs.helper.oppDefense}`;
+                diag += ` atk=${gs.turnMana.attack}`;
+                if (click._type === 'inst clicked' || click._type === 'inst shift clicked') {
+                    const inst = gs.instIdToInst(click._id);
+                    if (inst) {
+                        diag += ` | inst: ${inst.card.cardName} owner=P${inst.owner} role=${inst.role} hp=${inst.health} dead=${inst.deadness}`;
+                        if (inst.card.abilityScript) diag += ` hasAbility`;
+                        if (inst.role === 'assigned') diag += ` assigned`;
+                        if (inst.role === 'inert') diag += ` INERT`;
+                        if (inst.constructionTime > 0) diag += ` building(${inst.constructionTime})`;
+                    } else {
+                        diag += ` | inst NOT FOUND`;
+                    }
+                }
+                details.push(`  [${i}] FAIL: ${click._type} id=${click._id} [${diag}]`);
             }
         }
     } catch (err) {
