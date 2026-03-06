@@ -444,6 +444,12 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
                 appendClick(clicksOut, hasPrevClick, "space clicked", -1);
                 break;
             }
+            case ActionTypes::UNDO_USE_ABILITY:
+            {
+                int instId = preState.getCardByID(action.getID()).getClientInstId();
+                appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                break;
+            }
             default:
                 break;
         }
