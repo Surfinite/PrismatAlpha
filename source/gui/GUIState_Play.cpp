@@ -646,7 +646,7 @@ void GUIState_Play::drawInformation()
     }
 
     // print status message
-    sf::Vector2f space = m_currentState.getActivePlayer() != 0 ? sf::Vector2f(m_game.window().getSize().x/2 - 200, 8) : sf::Vector2f(m_game.window().getSize().x/2 - 200, m_game.window().getSize().y - 24);
+    sf::Vector2f space = m_currentState.getActivePlayer() != 0 ? sf::Vector2f(m_game.window().getSize().x/2 - 200, 30) : sf::Vector2f(m_game.window().getSize().x/2 - 200, m_game.window().getSize().y - 24);
     std::string status = "";
 
     if (m_currentState.isLegal(Action(m_currentState.getActivePlayer(), ActionTypes::END_PHASE, 0)))
@@ -666,18 +666,18 @@ void GUIState_Play::drawInformation()
     if (m_drawPotentials && !m_currentState.isTargetAbilityCardClicked())
     {
         auto wSize = m_game.window().getSize();
-        sf::Vector2f atkPos[2] = { sf::Vector2f(BuyablePaneSize.x + 20, wSize.y/2 + 20), sf::Vector2f(BuyablePaneSize.x + 20, wSize.y/2 - 70) };
+        float leftX = BuyablePaneSize.x + 20;
+        float rightX = wSize.x - 160;
+        float bottomY = wSize.y/2 + 20;
+        float topY = wSize.y/2 - 70;
         HealthType def[2] = { m_currentState.getTotalAvailableDefense(0), m_currentState.getTotalAvailableDefense(1) };
 
         for (PlayerID p(0); p < 2; ++p)
         {
-            std::stringstream ss;
-            ss << "Defense: " << def[p] << "\n";
-        
             HealthType atk = 0;
             if (m_currentState.getActivePlayer() == p)
             {
-                atk = m_currentState.getAttack(p);   
+                atk = m_currentState.getAttack(p);
             }
             else
             {
@@ -686,9 +686,19 @@ void GUIState_Play::drawInformation()
                 atk = atkState.getAttack(p);
             }
 
-            ss << "Attack:  " << atk;
+            std::string defStr = "Defense: " + std::to_string(def[p]);
+            std::string atkStr = "Attack:  " + std::to_string(atk);
 
-            GUITools::DrawString(atkPos[p], ss.str(), sf::Color::White, &m_game.window(), 24);
+            if (p == 0) // bottom player: defense left, attack right
+            {
+                GUITools::DrawString(sf::Vector2f(leftX, bottomY), defStr, sf::Color::White, &m_game.window(), 24);
+                GUITools::DrawString(sf::Vector2f(rightX, bottomY), atkStr, sf::Color::White, &m_game.window(), 24);
+            }
+            else // top player: attack left, defense right
+            {
+                GUITools::DrawString(sf::Vector2f(leftX, topY), atkStr, sf::Color::White, &m_game.window(), 24);
+                GUITools::DrawString(sf::Vector2f(rightX, topY), defStr, sf::Color::White, &m_game.window(), 24);
+            }
         }
     }
 
