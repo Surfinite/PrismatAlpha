@@ -354,7 +354,7 @@ function applyClicks(analyzer, clicks, actionStates) {
             // against buy resource requirements. JS correctly rejects unaffordable buys.
             // Silently skip — the game continues correctly without the extra buy.
             skippedBuys++;
-            details.push(`  [${i}] SKIP (buy): card clicked id=${clickId}`);
+            details.push(`  [${i}] WARNING: buy rejected — C++ over-planned Red spend (Perforator ability cost not netted against buy budget)`);
         } else {
             failed++;
             // Diagnostic: why did this click fail?
@@ -458,11 +458,10 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
     const actionStates = [];
     const clickResult = applyClicks(analyzer, clicks, actionStates);
 
-    console.error(`[Turn] Clicks: ${clickResult.applied} applied, ${clickResult.failed} failed, ${clickResult.skippedBuys} skipped buys`);
-    if (clickResult.failed > 0) {
-        for (const d of clickResult.details) {
-            if (d.includes('FAIL')) console.error(d);
-        }
+    const warnStr = clickResult.skippedBuys > 0 ? `, ${clickResult.skippedBuys} buy warning(s)` : '';
+    console.error(`[Turn] Clicks: ${clickResult.applied} applied, ${clickResult.failed} failed${warnStr}`);
+    for (const d of clickResult.details) {
+        if (d.includes('FAIL') || d.includes('WARNING:')) console.error(d);
     }
 
     // Post-turn state
@@ -1325,7 +1324,13 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         }
         const elapsed = (gameLog.durationMs / 1000).toFixed(1);
         const label = playerSwitch ? '[Pair]' : '[Multi]';
-        console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner} in ${gameLog.turns} turns (${elapsed}s)`);
+        const totalDone = whiteWins + blackWins + draws + invalid;
+        const validDone = whiteWins + blackWins + draws;
+        const whitePct = validDone > 0 ? (100 * whiteWins / validDone).toFixed(1) : '—';
+        const blackPct = validDone > 0 ? (100 * blackWins / validDone).toFixed(1) : '—';
+        const warnings = gameLog.errors && gameLog.errors.length > 0 ? ` [${gameLog.errors.length} error(s)]` : '';
+        console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner.toUpperCase()} in ${gameLog.turns} turns (${elapsed}s)${warnings}`);
+        console.error(`${label} Running: ${totalDone}/${numGames} — White ${whiteWins} (${whitePct}%) | Black ${blackWins} (${blackPct}%) | Draws ${draws} | Invalid ${invalid}`);
     }
 
     function saveAndStripReplay(gameLog, pWhite, pBlack) {
