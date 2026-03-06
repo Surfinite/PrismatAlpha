@@ -10,7 +10,7 @@ This project extends the original with neural network evaluation, self-play trai
 - **Neural Network Eval** — ResNet value head for position evaluation, used alongside traditional search
 - **SFML GUI** — Watch AI vs AI games, with card images and debug overlays
 - **JS Engine** — Transpiled game engine for running matchups and AI analysis outside C++
-- **Training Pipeline** — PyTorch training on self-play data with binary shard I/O and streaming support
+- **LiveHardestAI** — Exact replication of the live Prismata MasterBot, extracted from the original SWF (50-entry unit-specific opening book, 5 root ability variants, full parameter match)
 - **Cloud Infrastructure** — Scripts for AWS/GCP self-play generation and GPU training
 
 ## Building
@@ -24,7 +24,11 @@ Produces three executables in `bin/`:
 
 ## Current Status
 
-Work in progress. The C++ engine has been audited against the original AS3 source, with several logic fixes applied. A JavaScript transpilation of the game engine enables matchup analysis and AI-vs-AI testing outside C++. The neural net training pipeline is ready — next step is generating clean self-play data and training a model on bug-free game simulations.
+The C++ engine has been thoroughly audited against the original AS3 source and is now considered an accurate replication of the live game. The JavaScript engine (transpiled from AS3) passes 100% replay validation and is used to verify C++ AI moves match the real game's expectations.
+
+LiveHardestAI is the best available open-source recreation of the live MasterBot — parameters extracted directly from the game's SWF, with decompiled source code available for inspection. This is the baseline we're training against.
+
+Training is starting fresh from accurate game data for the first time. Previous training runs used an engine with known logic bugs and are discarded. The new pipeline will generate self-play data using the bug-free engine and train a neural network value function using PyTorch.
 
 ## Key References
 
