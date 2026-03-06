@@ -305,6 +305,7 @@ function callSuggest(stateJson, playerName, thinkTimeMs) {
 function applyClicks(analyzer, clicks, actionStates) {
     let applied = 0;
     let failed = 0;
+    let skippedBuys = 0;
     const details = [];
 
     for (let i = 0; i < clicks.length; i++) {
@@ -348,6 +349,12 @@ function applyClicks(analyzer, clicks, actionStates) {
                     action: describeClick(click, analyzer.gameState)
                 });
             }
+        } else if (clickType === 'card clicked') {
+            // C++ buy planning doesn't net ability costs (e.g. Perforator uses Red before buys)
+            // against buy resource requirements. JS correctly rejects unaffordable buys.
+            // Silently skip — the game continues correctly without the extra buy.
+            skippedBuys++;
+            details.push(`  [${i}] SKIP (buy): card clicked id=${clickId}`);
         } else {
             failed++;
             // Diagnostic: why did this click fail?
@@ -359,7 +366,7 @@ function applyClicks(analyzer, clicks, actionStates) {
             if (gs.finished) diag += ` FINISHED`;
             diag += ` canBreach=${gs.canBreach} canOverkill=${gs.canOverkill}`;
             diag += ` oppNonInv=${gs.helper.oppNonInvTotal} oppDef=${gs.helper.oppDefense}`;
-            diag += ` atk=${gs.turnMana.attack}`;
+            diag += ` gold=${gs.turnMana.money} grn=${gs.turnMana.pool[1]} blu=${gs.turnMana.pool[2]} red=${gs.turnMana.pool[3]} nrg=${gs.turnMana.pool[4]} atk=${gs.turnMana.attack}`;
             if (clickType === 'inst clicked' || clickType === 'inst shift clicked') {
                 const inst = gs.instIdToInst(clickId);
                 if (inst) {
@@ -397,7 +404,7 @@ function applyClicks(analyzer, clicks, actionStates) {
         }
     }
 
-    return { applied, failed, details };
+    return { applied, failed, skippedBuys, details };
 }
 
 // ---------------------------------------------------------------------------
@@ -451,7 +458,7 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
     const actionStates = [];
     const clickResult = applyClicks(analyzer, clicks, actionStates);
 
-    console.error(`[Turn] Clicks: ${clickResult.applied} applied, ${clickResult.failed} failed`);
+    console.error(`[Turn] Clicks: ${clickResult.applied} applied, ${clickResult.failed} failed, ${clickResult.skippedBuys} skipped buys`);
     if (clickResult.failed > 0) {
         for (const d of clickResult.details) {
             if (d.includes('FAIL')) console.error(d);
@@ -585,7 +592,7 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
                 if (gs.finished) diag += ` FINISHED`;
                 diag += ` canBreach=${gs.canBreach} canOverkill=${gs.canOverkill}`;
                 diag += ` oppNonInv=${gs.helper.oppNonInvTotal} oppDef=${gs.helper.oppDefense}`;
-                diag += ` atk=${gs.turnMana.attack}`;
+                diag += ` gold=${gs.turnMana.money} grn=${gs.turnMana.pool[1]} blu=${gs.turnMana.pool[2]} red=${gs.turnMana.pool[3]} nrg=${gs.turnMana.pool[4]} atk=${gs.turnMana.attack}`;
                 if (click._type === 'inst clicked' || click._type === 'inst shift clicked') {
                     const inst = gs.instIdToInst(click._id);
                     if (inst) {
@@ -2050,7 +2057,8 @@ async function main() {
                 ok: turnResult.ok,
                 playerType: whiteIsMCDSAI ? 'MCDSAI' : 'cpp-suggest',
                 clicksApplied: turnResult.clickResult ? turnResult.clickResult.applied : 0,
-                clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0
+                clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0,
+                clicksSkippedBuys: turnResult.clickResult ? (turnResult.clickResult.skippedBuys || 0) : 0
             };
             // Include suggest response for C++ players (MCDSAI doesn't produce it)
             if (turnResult.suggest && turnResult.suggest.response) {
