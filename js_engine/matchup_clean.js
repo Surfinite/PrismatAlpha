@@ -305,7 +305,6 @@ function callSuggest(stateJson, playerName, thinkTimeMs) {
 function applyClicks(analyzer, clicks, actionStates) {
     let applied = 0;
     let failed = 0;
-    let skippedBuys = 0;
     const details = [];
 
     for (let i = 0; i < clicks.length; i++) {
@@ -349,12 +348,6 @@ function applyClicks(analyzer, clicks, actionStates) {
                     action: describeClick(click, analyzer.gameState)
                 });
             }
-        } else if (clickType === 'card clicked') {
-            // C++ buy planning doesn't net ability costs (e.g. Perforator uses Red before buys)
-            // against buy resource requirements. JS correctly rejects unaffordable buys.
-            // Silently skip — the game continues correctly without the extra buy.
-            skippedBuys++;
-            details.push(`  [${i}] WARNING: buy rejected — C++ over-planned Red spend (Perforator ability cost not netted against buy budget)`);
         } else {
             failed++;
             // Diagnostic: why did this click fail?
@@ -366,7 +359,7 @@ function applyClicks(analyzer, clicks, actionStates) {
             if (gs.finished) diag += ` FINISHED`;
             diag += ` canBreach=${gs.canBreach} canOverkill=${gs.canOverkill}`;
             diag += ` oppNonInv=${gs.helper.oppNonInvTotal} oppDef=${gs.helper.oppDefense}`;
-            diag += ` gold=${gs.turnMana.money} grn=${gs.turnMana.pool[1]} blu=${gs.turnMana.pool[2]} red=${gs.turnMana.pool[3]} nrg=${gs.turnMana.pool[4]} atk=${gs.turnMana.attack}`;
+            diag += ` atk=${gs.turnMana.attack}`;
             if (clickType === 'inst clicked' || clickType === 'inst shift clicked') {
                 const inst = gs.instIdToInst(clickId);
                 if (inst) {
@@ -404,7 +397,7 @@ function applyClicks(analyzer, clicks, actionStates) {
         }
     }
 
-    return { applied, failed, skippedBuys, details };
+    return { applied, failed, details };
 }
 
 // ---------------------------------------------------------------------------
@@ -458,10 +451,11 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
     const actionStates = [];
     const clickResult = applyClicks(analyzer, clicks, actionStates);
 
-    const warnStr = clickResult.skippedBuys > 0 ? `, ${clickResult.skippedBuys} buy warning(s)` : '';
-    console.error(`[Turn] Clicks: ${clickResult.applied} applied, ${clickResult.failed} failed${warnStr}`);
-    for (const d of clickResult.details) {
-        if (d.includes('FAIL') || d.includes('WARNING:')) console.error(d);
+    console.error(`[Turn] Clicks: ${clickResult.applied} applied, ${clickResult.failed} failed`);
+    if (clickResult.failed > 0) {
+        for (const d of clickResult.details) {
+            if (d.includes('FAIL')) console.error(d);
+        }
     }
 
     // Post-turn state
@@ -591,7 +585,7 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
                 if (gs.finished) diag += ` FINISHED`;
                 diag += ` canBreach=${gs.canBreach} canOverkill=${gs.canOverkill}`;
                 diag += ` oppNonInv=${gs.helper.oppNonInvTotal} oppDef=${gs.helper.oppDefense}`;
-                diag += ` gold=${gs.turnMana.money} grn=${gs.turnMana.pool[1]} blu=${gs.turnMana.pool[2]} red=${gs.turnMana.pool[3]} nrg=${gs.turnMana.pool[4]} atk=${gs.turnMana.attack}`;
+                diag += ` atk=${gs.turnMana.attack}`;
                 if (click._type === 'inst clicked' || click._type === 'inst shift clicked') {
                     const inst = gs.instIdToInst(click._id);
                     if (inst) {
@@ -1324,13 +1318,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         }
         const elapsed = (gameLog.durationMs / 1000).toFixed(1);
         const label = playerSwitch ? '[Pair]' : '[Multi]';
-        const totalDone = whiteWins + blackWins + draws + invalid;
-        const validDone = whiteWins + blackWins + draws;
-        const whitePct = validDone > 0 ? (100 * whiteWins / validDone).toFixed(1) : '—';
-        const blackPct = validDone > 0 ? (100 * blackWins / validDone).toFixed(1) : '—';
-        const warnings = gameLog.errors && gameLog.errors.length > 0 ? ` [${gameLog.errors.length} error(s)]` : '';
-        console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner.toUpperCase()} in ${gameLog.turns} turns (${elapsed}s)${warnings}`);
-        console.error(`${label} Running: ${totalDone}/${numGames} — White ${whiteWins} (${whitePct}%) | Black ${blackWins} (${blackPct}%) | Draws ${draws} | Invalid ${invalid}`);
+        console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner} in ${gameLog.turns} turns (${elapsed}s)`);
     }
 
     function saveAndStripReplay(gameLog, pWhite, pBlack) {
@@ -2062,8 +2050,7 @@ async function main() {
                 ok: turnResult.ok,
                 playerType: whiteIsMCDSAI ? 'MCDSAI' : 'cpp-suggest',
                 clicksApplied: turnResult.clickResult ? turnResult.clickResult.applied : 0,
-                clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0,
-                clicksSkippedBuys: turnResult.clickResult ? (turnResult.clickResult.skippedBuys || 0) : 0
+                clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0
             };
             // Include suggest response for C++ players (MCDSAI doesn't produce it)
             if (turnResult.suggest && turnResult.suggest.response) {
