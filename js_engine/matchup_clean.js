@@ -275,6 +275,100 @@ function callSuggest(stateJson, playerName, thinkTimeMs) {
 }
 
 // ---------------------------------------------------------------------------
+// 3b. Auto-breach: exhaust remaining attack on weakest opponent units
+// ---------------------------------------------------------------------------
+
+/**
+ * When glassBroken=true and inEndBO=false, the JS engine requires all breach
+ * damage to be assigned before allowing END_PHASE. The C++ engine has a separate
+ * Breach phase, so its Move may not include enough ASSIGN_BREACH actions to
+ * fully exhaust attack in the JS engine's single-phase model.
+ *
+ * This function auto-clicks the weakest opponent units until inEndBO becomes
+ * true, then retries the space click to end the turn.
+ *
+ * @param {Analyzer} analyzer
+ * @param {string[]} details - Log details array (mutated)
+ * @returns {{ applied: number, failed: number }}
+ */
+function autoBreachIfNeeded(analyzer, details) {
+    const gs = analyzer.gameState;
+    let applied = 0;
+    let failed = 0;
+
+    if (!gs.glassBroken || gs.inEndBO || gs.finished ||
+        gs.phase !== C.PHASE_ACTION) {
+        return { applied, failed };
+    }
+
+    const opponent = 1 - gs.turn;
+    let safety = 200; // prevent infinite loop
+
+    while (gs.glassBroken && !gs.inEndBO && !gs.finished && safety-- > 0) {
+        // End any active swipe before breach click
+        if (analyzer.controller.inSwipe) {
+            const swipeResult = analyzer.recordClick(false, false, C.CLICK_END_SWIPE, -1);
+            if (swipeResult.canClick) {
+                applied++;
+                details.push(`  [auto-breach] OK: end swipe`);
+            }
+        }
+
+        // Find weakest breachable opponent unit
+        const atk = gs.turnMana.attack;
+        let weakest = null;
+        let weakestDmg = Infinity;
+
+        gs.table.forEach((inst) => {
+            if (inst.owner === opponent && !inst.dead &&
+                inst.constructionTime === 0 &&
+                inst.damageReqdToInjure <= atk &&
+                inst.damageReqdToInjure < weakestDmg) {
+                weakest = inst;
+                weakestDmg = inst.damageReqdToInjure;
+            }
+        });
+
+        if (!weakest) break; // no breachable target found
+
+        const result = analyzer.recordClick(false, false, C.CLICK_INST, weakest.instId);
+        if (result.canClick) {
+            applied++;
+            details.push(`  [auto-breach] OK: inst clicked id=${weakest.instId} (${weakest.card.cardName}, hp=${weakest.health})`);
+        } else {
+            failed++;
+            details.push(`  [auto-breach] FAIL: inst clicked id=${weakest.instId} (${weakest.card.cardName})`);
+            break; // stop if click rejected
+        }
+    }
+
+    if (applied > 0) {
+        // End breach swipe if active
+        if (analyzer.controller.inSwipe) {
+            const swipeResult = analyzer.recordClick(false, false, C.CLICK_END_SWIPE, -1);
+            if (swipeResult.canClick) {
+                applied++;
+                details.push(`  [auto-breach] OK: end swipe (done)`);
+            }
+        }
+
+        // Try space click to enter confirm
+        const spaceResult = analyzer.recordClick(false, false, C.CLICK_SPACE, -1);
+        if (spaceResult.canClick) {
+            applied++;
+            details.push(`  [auto-breach] OK: space clicked (action->confirm)`);
+        } else {
+            failed++;
+            details.push(`  [auto-breach] FAIL: space clicked (action->confirm)`);
+        }
+
+        console.error(`[Turn] Auto-breach: ${applied} applied, ${failed} failed`);
+    }
+
+    return { applied, failed };
+}
+
+// ---------------------------------------------------------------------------
 // 4. Apply clicks from --suggest response
 // ---------------------------------------------------------------------------
 
@@ -377,6 +471,13 @@ function applyClicks(analyzer, clicks, actionStates) {
             details.push(`  [${i}] FAIL: ${clickType} id=${clickId} [${diag}]`);
         }
     }
+
+    // Auto-breach: C++ has a separate Breach phase, so its Move may emit a
+    // space click (action->breach) that JS rejects. After all clicks, if breach
+    // damage remains unspent, auto-click weakest opponent units to exhaust it.
+    const breachResult = autoBreachIfNeeded(analyzer, details);
+    applied += breachResult.applied;
+    failed += breachResult.failed;
 
     // C++ DoSuggest adds ONE "space clicked" at the end (action->confirm),
     // but Prismata requires TWO to fully end a turn (action->confirm->commit).
@@ -635,6 +736,11 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
             }
         }
     }
+
+    // Auto-breach: MCDSAI may not fully assign breach damage (same C++/JS phase mismatch)
+    const breachResult = autoBreachIfNeeded(analyzer, details);
+    applied += breachResult.applied;
+    failed += breachResult.failed;
 
     // Auto-confirm: if we're in PHASE_CONFIRM after applying all MCDSAI clicks, auto-commit
     // (same pattern as applyClicks() does for C++ suggest)
