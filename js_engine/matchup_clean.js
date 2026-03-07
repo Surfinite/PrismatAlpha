@@ -468,6 +468,17 @@ function applyClicks(analyzer, clicks, actionStates) {
                     diag += ` | inst NOT FOUND`;
                 }
             }
+            if (clickType === C.CLICK_CARD || clickType === C.CLICK_CARD_SHIFT) {
+                // Buy failure: show resources + card cost for divergence diagnosis
+                const m = gs.turnMana;
+                diag += ` | resources: ${m.gold}g ${m.green}G ${m.blue}B ${m.red}R ${m.energy}E`;
+                const card = gs.mergedDeck[clickId];
+                if (card) {
+                    diag += ` | buy: ${card.cardName} cost=${card.buyCost} supply=${card.supply}`;
+                } else {
+                    diag += ` | card NOT FOUND at deck[${clickId}]`;
+                }
+            }
             details.push(`  [${i}] FAIL: ${clickType} id=${clickId} [${diag}]`);
         }
     }
@@ -697,6 +708,16 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
                         if (inst.constructionTime > 0) diag += ` building(${inst.constructionTime})`;
                     } else {
                         diag += ` | inst NOT FOUND`;
+                    }
+                }
+                if (click._type === C.CLICK_CARD || click._type === C.CLICK_CARD_SHIFT) {
+                    const m = gs.turnMana;
+                    diag += ` | resources: ${m.gold}g ${m.green}G ${m.blue}B ${m.red}R ${m.energy}E`;
+                    const card = gs.mergedDeck[click._id];
+                    if (card) {
+                        diag += ` | buy: ${card.cardName} cost=${card.buyCost} supply=${card.supply}`;
+                    } else {
+                        diag += ` | card NOT FOUND at deck[${click._id}]`;
                     }
                 }
                 details.push(`  [${i}] FAIL: ${click._type} id=${click._id} [${diag}]`);
