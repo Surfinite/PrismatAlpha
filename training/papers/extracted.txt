@@ -1,0 +1,420 @@
+=== Unknown paper 1 (2511.07312v1.pdf) ===
+Superhuman AI for Stratego Using Self-Play
+Reinforcement Learning and Test-Time Search
+Samuel Sokota1, Eugene Vinitsky2, Hengyuan Hu3, J. Zico Kolter1, and
+Gabriele Farina4
+1Carnegie Mellon University
+2NYU Tandon School of Engineering
+3Stanford University
+4Massachusetts Institute of Technology
+Abstract
+Few classical games have been regarded as such significant benchmarks of artificial intel-
+ligence as to have justified training costs in the millions of dollars. Among these, Stratego—
+a board wargame exemplifying the challenge of strategic decision making under massive
+amounts of hidden information—stands apart as a case where such efforts failed to produce
+performance at the level of top humans. This work establishes a step change in both perfor-
+mance and cost for Stratego, showing that it is now possible not only to reach the level of
+top humans, but to achieve vastly superhuman level—and that doing so requires not an in-
+dustrial budget, but merely a few thousand dollars. We achieved this result by developing
+general approaches for self-play reinforcement learning and test-time search under imperfect
+information.
+Stratego is a board wargame resembling military chess (see Figure 1). It is distinctive among
+classical games regarded as major benchmarks of artificial intelligence (AI) in that it possesses a
+massive amount of hidden information. This contrasts not only with games that have no hidden
+information, like chess and Go, but also with games that have so little that AI systems can ex-
+plicitly enumerate all possibilities, like Texas hold’em. The approaches that achieved superhuman
+performance in these other games [1, 2, 3, 4, 5, 6, 7, 8, 9] cannot even be meaningfully applied in
+settings with as much hidden information as Stratego.
+Stratego also stands apart for its sheer difficulty as a benchmark. It has been the subject of
+research efforts spanning multiple years, involving dozens of researchers, and culminating in the
+expenditure of computational resources with commercial costs in the millions of dollars [10]. Yet,
+top human players have remained superior, perhaps making it the only classical game in which
+such well-resourced efforts failed to produce superhuman performance.
+1
+arXiv:2511.07312v1  [cs.LG]  10 Nov 2025
+In this work, we introduce Ataraxos, an AI for Stratego. In a 20-game series, Ataraxos defeated
+the most decorated Stratego player of all time by a margin of victory unprecedented at the highest
+level of play: 15 wins, 4 draws, and 1 loss. Ataraxos achieved this result while only costing a few
+thousand dollars to train.
+This simultaneous step change in performance and cost was made possible by innovations in
+reinforcement learning and search. The simplicity and generality of these innovations suggest
+that superhuman decision-making systems may now be attainable at modest computational cost in
+many strategic settings.
+10
+9
+8
+7
+6
+5
+4
+3
+2
+💣️
+Bomb
+9
+Gen
+💣️
+Bomb
+💣️
+Bomb
+2
+Sct
+2
+Sct
+8
+Col
+7
+Maj
+5
+Lt
+2
+Sct
+7
+Maj
+4
+Sgt
+5
+Lt
+4
+Sgt
+
+
+=== Unknown paper 2 (May 2025) (2505.12109v3.pdf) ===
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+Matthew Landers 1 Taylor W. Killian 2 Thomas Hartvigsen 1 Afsaneh Doryab 1
+Abstract
+The combinatorial structure of many real-world
+action spaces leads to exponential growth in the
+number of possible actions, limiting the effec-
+tiveness of conventional reinforcement learning
+algorithms. Recent approaches for combinato-
+rial action spaces impose factorized or sequential
+structures over sub-actions, failing to capture com-
+plex joint behavior. We introduce the Sub-Action
+Interaction Network using Transformers (SAINT),
+a novel policy architecture that represents multi-
+component actions as unordered sets and mod-
+els their dependencies via self-attention condi-
+tioned on the global state. SAINT is permutation-
+invariant, sample-efficient, and compatible with
+standard policy optimization algorithms. In 18
+distinct combinatorial environments across three
+task domains, including environments with 1.35×
+1018 possible actions, SAINT consistently outper-
+forms strong baselines. 1
+1. Introduction
+Reinforcement learning (RL) has achieved remarkable suc-
+cess across a range of domains, primarily through methods
+designed for either small, discrete action spaces (Hessel
+et al., 2018; Mnih et al., 2015; van Hasselt et al., 2015;
+Mnih et al., 2016) or continuous control (Fujimoto et al.,
+2018; Haarnoja et al., 2018; Lillicrap et al., 2015; Schul-
+man et al., 2017). Many real-world problems, however, in-
+volve action spaces that lie between these extremes. These
+large discrete combinatorial spaces are defined as Carte-
+sian products of multiple subspaces, where each joint ac-
+tion a = (a1, . . . , aA) consists of several coordinated sub-
+actions. Such settings, which arise in critical applications
+like traffic signal control (Rasheed et al., 2020) and drug
+selection (Tang et al., 2022), require learning policies that
+can effectively represent and reason about exponentially
+1University of Virginia
+2MBZUAI. Correspondence to:
+Matthew Landers <qwp4pk@virginia.edu>.
+Preprint. February 2, 2026.
+1Code
+is
+available
+at
+https://github.com/
+matthewlanders/SAINT
+large, structured action spaces.
+Traditional RL methods model discrete action spaces with
+a flat categorical policy, but this becomes intractable in
+combinatorial settings where the number of actions scales
+as QA
+d=1 md for A sub-action dimensions with md choices
+each. To mitigate this combinatorial explosion, existing
+approaches (Dulac-Arnold et al., 2015; Pierrot et al., 2021;
+Tavakoli et al., 2018; Zhang et al., 2018) rely on simplifying
+assumptions that constrain the representational capacity of
+the policy class. One family of methods (Tavakoli et al.,
+2018; Pierrot et al., 2021; Tang et al., 2022; Beeson et al.,
+2024) factorizes the policy as π(a | s) = Q
+i πi(ai | s),
+which cannot represent interactions between sub-actions.
+Another class of approaches (Zhang et al., 2018) imposes
+a fixed autoregressive order, specifying a policy class of
+
+
+=== Hubert 2021 (hubert21a.pdf) ===
+Learning and Planning in Complex Action Spaces
+Thomas Hubert * 1 Julian Schrittwieser * 1 Ioannis Antonoglou 1 Mohammadamin Barekatain 1
+Simon Schmitt 1 David Silver 1
+Abstract
+Many important real-world problems have action
+spaces that are high-dimensional, continuous or
+both, making full enumeration of all possible ac-
+tions infeasible. Instead, only small subsets of
+actions can be sampled for the purpose of pol-
+icy evaluation and improvement. In this paper,
+we propose a general framework to reason in a
+principled way about policy evaluation and im-
+provement over such sampled action subsets. This
+sample-based policy iteration framework can in
+principle be applied to any reinforcement learning
+algorithm based upon policy iteration. Concretely,
+we propose Sampled MuZero, an extension of
+the MuZero algorithm that is able to learn in do-
+mains with arbitrarily complex action spaces by
+planning over sampled actions. We demonstrate
+this approach on the classical board game of Go
+and on two continuous control benchmark do-
+mains: DeepMind Control Suite and Real-World
+RL Suite.
+1. Introduction
+Real-world environments abound with complexity in their
+action space. Physical reality is continuous both in space
+and time; hence many important problems, most notably
+physical control tasks, have continuous multi-dimensional
+action spaces. The joints of a robotic hand can assume ar-
+bitrary angles; the acceleration of a self-driving car should
+vary smoothly to minimise discomfort for passengers. Dis-
+crete problems also often have high-dimensional action
+spaces, leading to an exponential number of possible ac-
+tions. Many other domains have richly structured actions
+spaces such as sentences, queries, images, or serialised ob-
+jects. Consequently, a truly general reinforcement learning
+(RL) algorithm must be able to deal with such complex
+action spaces in order to be successfully applied to those
+*Equal contribution 1DeepMind, London, UK. Correspondence
+to: Thomas Hubert <tkhubert@google.com>.
+Proceedings of the 38 th International Conference on Machine
+Learning, PMLR 139, 2021. Copyright 2021 by the author(s).
+real-world problems.
+Recent advances in deep learning and RL have indeed led
+to remarkable progress in model-free RL algorithms for
+continuous action spaces (Lillicrap et al., 2015; Schulman
+et al., 2017; Barth-Maron et al., 2018; Abdolmaleki et al.,
+2018; Hoffman et al., 2020) and other complex action spaces
+(Dulac-Arnold et al., 2016). Simultaneously, planning based
+methods have enjoyed huge successes in domains with dis-
+crete action spaces, surpassing human performance in the
+classical games of chess and Go (Silver et al., 2018) or poker
+(Brown & Sandholm, 2018; Moravˇc´ık et al., 2017). The
+prospect of combining these two areas of research holds
+great promise for real-world applications.
+The model-based MuZero (Schrittwieser et al., 2020) RL
+algorithm took a step towards applicability in real-world
+problems by learning a model of the environment and
+
+=== Policy improvement by planning (1088_policy_improvement_by_planning.pdf) ===
+Published as a conference paper at ICLR 2022
+POLICY IMPROVEMENT BY PLANNING WITH GUMBEL
+Ivo Danihelka1 2, Arthur Guez1, Julian Schrittwieser1, David Silver1 2
+1DeepMind, London, UK
+2University College London
+danihelka@google.com
+ABSTRACT
+AlphaZero is a powerful reinforcement learning algorithm based on approximate
+policy iteration and tree search. However, AlphaZero can fail to improve its policy
+network, if not visiting all actions at the root of a search tree. To address this issue,
+we propose a policy improvement algorithm based on sampling actions without
+replacement. Furthermore, we use the idea of policy improvement to replace the
+more heuristic mechanisms by which AlphaZero selects and uses actions, both at
+root nodes and at non-root nodes. Our new algorithms, Gumbel AlphaZero and
+Gumbel MuZero, respectively without and with model-learning, match the state
+of the art on Go, chess, and Atari, and signiﬁcantly improve prior performance
+when planning with few simulations.
+1
+INTRODUCTION
+In 2018, AlphaZero (Silver et al., 2018) demonstrated a single algorithm achieving state-of-the-art
+results on Go, chess, and Shogi. The community reacted quickly. Leela Chess Zero (Linscott et al.,
+2018) was created to reproduce AlphaZero results on chess, winning Top Chess Engine Champi-
+onship in 2019. Soon, all top-rated classical chess engines replaced traditional evaluations functions
+with Efﬁciently Updatable Neural Network (Nasu, 2018).
+AlphaZero was itself generalized by MuZero (Schrittwieser et al., 2020). While AlphaZero requires
+a black-box model of the environment, MuZero learns an abstract model of the environment. Essen-
+tially, MuZero learns the rules of Go, chess, and Shogi from interactions with the environment. This
+allows MuZero to excel also at Atari and continuous control from pixels (Hubert et al., 2021).
+In this work, we redesign and improve AlphaZero. In particular, we consider the mechanisms by
+which AlphaZero selects and uses actions, which are based upon a variety of heuristic ideas that
+have proven especially effective in Go, chess, and Atari (Silver et al., 2018; Schrittwieser et al.,
+2020). However when using a small number of simulations, some of AlphaZero’s mechanisms
+perform poorly. We use the principle of policy improvement to suggest new mechanisms with a
+better theoretical foundation. More speciﬁcally, we consider each mechanism in turn, alongside our
+proposed modiﬁcations:
+• Selecting actions to search at the root node. To explore different actions during train-
+ing, AlphaZero selects actions by adding Dirichlet noise to its policy network, and then
+performs a search using the perturbed policy. However, this does not ensure a policy
+improvement. We instead propose to sample actions without replacement by using the
+Gumbel-Top-k trick (Section 2), and perform a search using the same Gumbel values to in-
+ﬂuence the selection of the best action (Section 3.3), and show that this guarantees a policy
+improvement when action-value
+
+=== Prismata GAIP3 (prismata_gaip3.pdf) ===
+361
+30
+Hierarchical Portfolio 
+Search in Prismata
+David Churchill and Michael Buro
+30.1 Introduction
+Many unique challenges are faced when trying to write an AI system for a modern online 
+strategy game. Players can control groups of tens or even hundreds of units, each with their 
+own unique properties and strategies, making for a gigantic number of possible actions 
+to consider at any given state of the game. Even state-of-the-art search algorithms such as 
+Monte-Carlo Tree Search (MCTS) are unable to cope with such large action spaces, as they 
+typically require the exploration of all possible actions from a given state in a search tree. 
+In addition to the difficulty of dealing with large state and action spaces, other design fea-
+tures must be considered such as varying difficulty settings, robustness to game changes, 
+and single player replay value.
+In this chapter we will discuss the AI system designed for Prismata, the online strat-
+egy game developed by Lunarch Studios. For the Prismata AI, a new algorithm called 
+Hierarchical Portfolio Search (HPS) was created which reduces the action space for com-
+plex strategy games, which helps deal with all of the challenges listed above. This results 
+in a powerful search-based system capable of producing intelligent actions while using a 
+modular design which is robust to changes in game properties.
+30.1 Introduction
+30.2 AI Design Goals
+30.3 Prismata Gameplay 
+Overview
+30.4 Hierarchical Portfolio 
+Search
+30.5 Evaluation of HPS Playing 
+Strength
+30.6 Conclusion
+References
+362
+30. Hierarchical Portfolio Search in Prismata
+30.2 AI Design Goals
+In addition to creating an intelligent AI system for strategy games, other design decisions 
+should also be considered in order to ensure an enjoyable user experience. When design-
+ing Prismata, the following design goals were laid out for the AI system: 
+ •
+New Player Tutorial: Strategy games often have complex rules, many different unit
+types, and a variety of scenarios that the player must adjust to. All of this leads to a 
+steep learning curve. Our primary goal with the Prismata AI was to aid new play-
+ers as they learned to play the game, so that they would eventually become ready
+to face other players on the online ladder. This required the creation of several
+different difficulty settings so that players could continue to be challenged from
+beginner all the way up to expert play.
+ •
+Single Player Replay Value: Single player missions in video games are sometimes
+designed as rule-based sequences of events that players must navigate to achieve
+some goal. In Prismata, that goal is to destroy all of the enemy units, which can
+become quite boring if the AI does the same thing every time it encounters simi-
+lar situations. Our goal was to build a dynamic AI system capable of using a vari-
+ety of strategies so that it does not employ the exact same tactics each time.
+ •
+Robust to Change: Unlike games in the past which were finalized, shipped, and
+forgotten abo
+
+=== Churchill 2015 (aiide15_churchill_prismata.pdf) ===
+Hierarchical Portfolio Search:
+Prismata’s Robust AI Architecture for Games with Large Search Spaces
+David Churchill and Michael Buro
+University of Alberta, Edmonton, T6G 2E8, Canada
+Email: dave.churchill@gmail.com,mburo@ualberta.ca
+Abstract
+Online strategy video games oﬀer several unique challenges
+to the ﬁeld of AI research. Due to their large state and action
+spaces, existing search algorithms have diﬃculties in mak-
+ing strategically strong decisions. Additionally, the nature of
+competitive on-line video games adds the requirement that
+game designers be able to tweak game properties regularly
+when strategic imbalances are found. This means that an AI
+system for a game like this needs to be robust to such changes
+and less reliant on expert knowledge. This paper makes two
+main contributions to advancing the state of the art for AI in
+modern strategy video games which have large state and ac-
+tion spaces. The ﬁrst is a novel method for performing hier-
+archical search using a portfolio of algorithms to reduce the
+search space while maintaining strong action candidates. The
+second contribution is an overall AI architecture for strategy
+video games using this portfolio search method. The proposed
+methods are used as the AI system for Prismata, an online
+turn-based strategy game by Lunarch Studios. This system
+is evaluated using three experiments: on-line play vs. human
+players, oﬀ-line AI tournaments to test the relative strengths of
+the AI bots, and a survey to determine user satisfaction of the
+system so far. Our result show that this system achieves a skill
+level in the top 25% of human players on the ranked ladder,
+can be modiﬁed quickly to create diﬀerent diﬃculty settings,
+is robust to changes in game unit properties, and creates an
+overall AI experience which is user rated more enjoyable than
+those currently found in similar video games.
+Introduction
+Creating AI systems for modern (video) games is compli-
+cated by their decision complexity, players expecting to be
+tutored about how to play and being challenged and enter-
+tained as they become better players, and the high cost of
+maintaining software in the presence of frequent game ad-
+justments such as balancing or adding new game features.
+AI programmers are therefore looking for ways to automate
+decision making beyond relying solely on manually tuned be-
+havior, creating AI systems that are more robust with respect
+to game changes, and also making them better adjust to hu-
+man players’ preferences and playing strength.
+AI successes in abstract games such as Checkers (Scha-
+eﬀer et al. 1996), Chess, Go, and recently heads-up limit
+Poker (Bowling et al. 2015) have taught us the great value of
+Copyright c⃝2015, Association for the Advancement of Artiﬁcial
+Intelligence (www.aaai.org). All rights reserved.
+fast look-ahead search and vast pre-computed databases stor-
+ing perfect state evaluations or moves. Applying these tech-
+niques to complex video games requires simpliﬁcations in
+form of sta
+
+=== Churchill 2019 (aiide2019ws_prismata.pdf) ===
+Machine Learning State Evaluation in Prismata
+Anonymous
+Abstract—Strategy games are a unique and interesting testbed
+for AI protocols due their complex rules and large state and
+action spaces. Recent work in game AI has shown that strong,
+robust AI agents can be created by combining existing techniques
+of deep learning and heuristic search. Heuristic search techniques
+typically make use of an evaluation function to judge the value
+of a game state, however these functions have historically been
+hand-coded by game experts. Recent results have shown that it
+is possible to use modern deep learning techniques to learn these
+evaluation functions, bypassing the need for expert knowledge.
+In this paper, we explore the implementation of this idea in Pris-
+mata, an online strategy game by Lunarch Studios. By generating
+game trace training data with existing state-of-the-art AI agents,
+we are able to learn a more accurate evaluation function which
+when combined with the existing Prismata Hierarchical Portfolio
+Search system, produces a new AI agent which is able to defeat
+the previously strongest agents.
+I. Introduction
+Developing sophisticated AI for computer strategy games
+has historically presented many interesting challenges due to
+the complexity in their decision making. These games often
+have state and action spaces which rival and frequently exceed
+that of their strategy board-game ancestors, such as Chess
+and GO. The amount of possible actions available in strategy
+games may be so large that classic tree search strategies and
+even state-of-the-art techniques such as Monte Carlo Tree
+Search (MCTS) cannot be used in real time.
+Lunarch Studio’s turn-based strategy game Prismata imple-
+ments a search technique called Hierarchical Portfolio Search
+(HPS), which reduces the action space of Prismata in an eﬀort
+to mitigate the deﬁciencies of other searching algorithms. Even
+with the action space reduction, HPS is unable to search the
+entirety of the remaining tree and, as such, needs to perform
+an evaluation procedure on non-terminal leaf nodes which
+will be encountered at the end of a search. The process of
+evaluating leaf nodes, called state evaluation, was initially
+done using a hard-coded heuristic, but this heuristic was time-
+consuming to construct. It was found that a technique known as
+symmetric playout, which involved conducting games between
+players with identical policies from leaf nodes, produced better
+results than the hard-coded heuristic but developing players to
+perform these playouts was also a time-consuming process.
+In this paper, in an eﬀort to improve state evaluation
+in Prismata, we present a machine learning solution where,
+instead of playing out a full game from leaf node states,
+we perform inference on a neural network trained on data
+from games between the strongest available players. We test
+this approach against other advanced Prismata AI agents by
+entering them into a round-robin tournament and assigning
+them a score based on th

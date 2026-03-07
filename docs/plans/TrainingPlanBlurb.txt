@@ -1,0 +1,84 @@
+CONTEXT FOR REVIEWERS — PrismataAI Training Plan V1
+====================================================
+
+THE GAME
+--------
+Prismata is a two-player, perfect-information, turn-based strategy game. Both players start with a small set of economic units that produce resources, which are spent to purchase additional units across three categories: economic (produce more resources), aggressive (generate attack), and defensive (block incoming attack). There are no cards in hand, no hidden information, and no randomness during play — the only randomness is the selection of 8 random units at game start, chosen from a pool of 105, which both players share access to. Each turn consists of an ordered sequence of phases (defense, action/ability, buy, breach), and victory is achieved by destroying all of the opponent's units.
+
+Despite being deterministic and perfect-information, Prismata has an exceptionally large branching factor — a single turn may involve dozens of sequential buy, ability, and defense decisions, producing millions of possible composite actions. This makes brute-force search intractable and places heavy demands on position evaluation quality.
+
+THE AI SYSTEM
+-------------
+The current AI uses Alpha-Beta search with Hierarchical Portfolio Search (HPS) to manage the branching factor, evaluating non-terminal positions with a hand-coded heuristic. The goal of this training plan is to replace that hand-coded heuristic with a neural network trained on expert human games, following the approach established by Churchill (2019) but using a newly-built accurate game engine and a larger, cleaner dataset.
+
+Prior work: Churchill (2019) achieved 58.8% win rate vs the playout AI baseline using 500,000 self-play games (15M records) and a 2-layer MLP. This plan aims to exceed that using expert human data and a more accurate engine.
+
+THE DATASET
+-----------
+102,697 expert human games (both players rated 1500+, rated/competitive only) yielding approximately 6.2 million position records. All games have been balance-validated — every unit's cost and supply in every replay matches the current game rules. 740 unique players contribute, with a mean combined rating of ~3,909 (per-player average ~1,954). The dataset spans all eras of the game's history and is dominated by high-level play: 38.9% of games have both players rated 2000+, 47.2% in 1800-1999.
+
+For comparison, Churchill's dataset was 15M records from 500K self-play games — our human dataset is ~2.4x smaller in record count but arguably higher quality (expert play vs AI self-play).
+
+THE ENGINE
+----------
+The game engine used for training data extraction is a JavaScript transpilation of the original ActionScript 3 source code — the same code that runs in the live game client. It has been validated against replay data (100% pass rate on 500 replays). This is a fresh start: all previous training work used a C++ engine with known bugs. Those results, models, and data have been discarded.
+
+
+WHAT WE'RE ASKING FOR
+=====================
+
+Please review the attached training plan and provide feedback structured as follows:
+
+1. BLOCKING CONCERNS
+   Issues that would cause training to fail or waste significant compute
+   if not addressed first. Things like: wrong loss function, data leakage,
+   fundamental architecture mismatch, missing validation step.
+
+2. DESIGN DISAGREEMENTS
+   Places where you'd make a different architectural or methodological
+   choice, with reasoning. For example: feature encoding, label strategy,
+   training schedule, evaluation protocol.
+
+3. MISSING CONSIDERATIONS
+   Anything important the plan doesn't address — failure modes, edge cases,
+   known pitfalls from similar projects.
+
+4. SPECIFIC QUESTIONS (if you have opinions)
+
+   Q1. Feature richness: Is "type-count + aggregate instance flags" (Option 2)
+       the right starting point, or should we begin with Churchill-exact
+       (Option 1) or per-instance encoding (Option 3)?
+
+   Q2. Data efficiency: With 6.2M records (~2.4x smaller than Churchill's 15M),
+       what regularization or data augmentation strategies would you prioritize
+       beyond symmetry mirroring?
+
+   Q3. Temporal soft labels: The plan uses Elo-interpolated soft labels to
+       reduce noise from early-game positions where outcome is uncertain.
+       Do you have experience with alternative approaches for game position
+       evaluation label smoothing?
+
+   Q4. Evaluation protocol: What's the minimum number of games needed for a
+       statistically meaningful comparison between two AI configurations?
+       The plan uses 512-game matchups.
+
+   Q5. Architecture: Plain MLP vs residual MLP blocks — is there a strong
+       reason to prefer one for flat (non-spatial) game state vectors?
+
+   Q6. MCDSAI calibration: The plan benchmarks against "MCDSAI" (the
+       strongest available AI opponent). Is beating a fixed AI opponent a
+       meaningful training milestone, vs other metrics like prediction
+       accuracy on held-out expert games?
+
+5. MINOR SUGGESTIONS
+   Nice-to-haves, wording, presentation, things that would help but
+   aren't critical.
+
+
+WHAT THIS PLAN DOES NOT COVER
+=============================
+- Specific hyperparameter grid search methodology (planned after architecture selection)
+- Cloud compute provisioning (planned once data scale confirmed)
+- Policy learning beyond move ordering in search
+- Multi-GPU training (not needed at this data scale)
+- Self-play reinforcement learning (future phase, not in this plan)
