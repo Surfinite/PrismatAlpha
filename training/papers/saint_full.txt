@@ -1,0 +1,1761 @@
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+Matthew Landers 1 Taylor W. Killian 2 Thomas Hartvigsen 1 Afsaneh Doryab 1
+Abstract
+The combinatorial structure of many real-world
+action spaces leads to exponential growth in the
+number of possible actions, limiting the effec-
+tiveness of conventional reinforcement learning
+algorithms. Recent approaches for combinato-
+rial action spaces impose factorized or sequential
+structures over sub-actions, failing to capture com-
+plex joint behavior. We introduce the Sub-Action
+Interaction Network using Transformers (SAINT),
+a novel policy architecture that represents multi-
+component actions as unordered sets and mod-
+els their dependencies via self-attention condi-
+tioned on the global state. SAINT is permutation-
+invariant, sample-efficient, and compatible with
+standard policy optimization algorithms. In 18
+distinct combinatorial environments across three
+task domains, including environments with 1.35×
+1018 possible actions, SAINT consistently outper-
+forms strong baselines. 1
+1. Introduction
+Reinforcement learning (RL) has achieved remarkable suc-
+cess across a range of domains, primarily through methods
+designed for either small, discrete action spaces (Hessel
+et al., 2018; Mnih et al., 2015; van Hasselt et al., 2015;
+Mnih et al., 2016) or continuous control (Fujimoto et al.,
+2018; Haarnoja et al., 2018; Lillicrap et al., 2015; Schul-
+man et al., 2017). Many real-world problems, however, in-
+volve action spaces that lie between these extremes. These
+large discrete combinatorial spaces are defined as Carte-
+sian products of multiple subspaces, where each joint ac-
+tion a = (a1, . . . , aA) consists of several coordinated sub-
+actions. Such settings, which arise in critical applications
+like traffic signal control (Rasheed et al., 2020) and drug
+selection (Tang et al., 2022), require learning policies that
+can effectively represent and reason about exponentially
+1University of Virginia
+2MBZUAI. Correspondence to:
+Matthew Landers <qwp4pk@virginia.edu>.
+Preprint. February 2, 2026.
+1Code
+is
+available
+at
+https://github.com/
+matthewlanders/SAINT
+large, structured action spaces.
+Traditional RL methods model discrete action spaces with
+a flat categorical policy, but this becomes intractable in
+combinatorial settings where the number of actions scales
+as QA
+d=1 md for A sub-action dimensions with md choices
+each. To mitigate this combinatorial explosion, existing
+approaches (Dulac-Arnold et al., 2015; Pierrot et al., 2021;
+Tavakoli et al., 2018; Zhang et al., 2018) rely on simplifying
+assumptions that constrain the representational capacity of
+the policy class. One family of methods (Tavakoli et al.,
+2018; Pierrot et al., 2021; Tang et al., 2022; Beeson et al.,
+2024) factorizes the policy as π(a | s) = Q
+i πi(ai | s),
+which cannot represent interactions between sub-actions.
+Another class of approaches (Zhang et al., 2018) imposes
+a fixed autoregressive order, specifying a policy class of
+distributions of the form π(a|s) = Q
+i πi(ai|s, a<i). This
+introduces an arbitrary sequence over sub-actions, breaking
+permutation invariance and impairing learning when the
+imposed order misaligns with the true dependency structure.
+Many real-world tasks violate both the independence and
+fixed-order assumptions. In healthcare, for example, drug
+combinations can exhibit complex interaction effects —
+treatments may be safe individually but harmful together,
+motivating permutation-invariant models for combinatorial
+action spaces. Our work targets precisely these settings:
+combinatorial action spaces wherein sub-action indexing is
+arbitrary or only weakly meaningful, and the fundamental
+structure lies in sub-action interactions rather than in any
+prescribed ordering.
+We introduce the Sub-Action Interaction Network using
+Transformers (SAINT), a policy architecture that learns
+explicit representations of combinatorial actions by treat-
+ing them as unordered sets of sub-actions. Through self-
+attention conditioned on the global state, SAINT captures
+dependencies among sub-actions to produce expressive yet
+tractable policies. SAINT proceeds in three stages. First,
+global state information is injected into initial sub-action
+representations. Next, self-attention (Vaswani et al., 2017)
+is applied over the set of state-conditioned representations
+to capture sub-action dependencies while preserving per-
+mutation equivariance. Finally, the representations are de-
+coded in parallel, producing action distributions that pre-
+serve the modeled interactions while remaining computa-
+tionally tractable.
+1
+arXiv:2505.12109v3  [cs.LG]  29 Jan 2026
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+More broadly, SAINT reflects a design principle for learning
+in large combinatorial action spaces: when sub-action in-
+dexing is uninformative or only weakly informative, policy
+classes should be permutation-equivariant while remaining
+expressive enough to capture dependencies. Commonly
+used factorized and autoregressive policies encode strong
+structural assumptions — conditional independence or fixed
+ordering — that are misaligned with this setting. SAINT
+instead defines a policy class that is expressive over sub-
+action interactions, permutation-equivariant by construction,
+and compatible with standard policy optimization methods.
+We evaluate SAINT on challenging benchmark tasks, which
+exhibit both state-independent and state-dependent sub-
+action dependencies, including traffic light control (Zhang
+et al., 2019), navigation (Landers et al., 2024), and dis-
+cretized DM Control locomotion tasks (Beeson et al., 2024).
+Our results demonstrate that by learning a more expres-
+sive representation of the action space’s internal structure,
+SAINT consistently outperforms strong factorized and au-
+toregressive baselines, scaling to environments with up to
+1.35 × 1018 discrete actions. Targeted ablations validate
+the role of state conditioning, demonstrate compatibility
+with a range of standard online and offline RL learning
+objectives, and show that the additional cost of modeling
+dependencies is often offset by substantial gains in sample
+efficiency. Together, these findings establish that learning
+explicit representations of sub-action interactions is a prac-
+tical and scalable approach to decision-making in complex
+combinatorial domains.
+2. Related Work
+Combinatorial Action Spaces
+Combinatorial action
+spaces arise naturally in sequential decision problems such
+as traffic signal control, games, and resource allocation.
+Prior work has introduced task-specific architectures, im-
+posed domain-specific assumptions, or exploited problem-
+specific structure (Bello et al., 2016; Chen et al., 2023; De-
+larue et al., 2020; He et al., 2015; 2016; Nazari et al., 2018;
+Zahavy et al., 2018; Farquhar et al., 2020). Such methods
+typically lack generality and require manual design effort.
+A parallel body of work addresses continuous control prob-
+lems by discretizing the action space (Barth-Maron et al.,
+2018; Metz et al., 2017; Tang & Agrawal, 2020; Van de
+Wiele et al., 2020), which contrasts with our focus on inher-
+ently discrete action spaces with combinatorial structure.
+A number of general-purpose architectures have been de-
+veloped to scale RL to large combinatorial action spaces.
+One strategy reduces complexity by assuming conditional
+independence across sub-actions (Tavakoli et al., 2018; Pier-
+rot et al., 2021; Tang et al., 2022; Beeson et al., 2024),
+while another imposes an autoregressive order (Zhang et al.,
+2018). These approaches improve tractability but either ig-
+nore dependencies among sub-actions or introduce arbitrary
+orderings that break permutation symmetry. Retrieval-based
+methods such as Wolpertinger (Wol-DDPG) (Dulac-Arnold
+et al., 2015) scale to large discrete spaces by embedding and
+pruning candidate actions, but similarly fail to capture the
+joint structure of unordered sub-actions (Chen et al., 2023).
+These limitations motivate approaches that can represent de-
+pendencies across sub-actions while preserving permutation
+invariance. In offline RL, SPIN (Landers et al., 2026) fol-
+lows a representation-first approach: it pretrains and freezes
+an action-structure model before learning a policy. SAINT,
+by contrast, is an end-to-end policy parameterization that
+applies under both offline and online objectives, and can be
+used either directly as the policy or as a component within
+modular frameworks like SPIN.
+Transformers in Reinforcement Learning
+The success
+of the Transformer architecture (Vaswani et al., 2017) in
+sequence modeling has led to its widespread adoption in RL.
+Prominent examples include Decision Transformer (DT)
+(Chen et al., 2021) and Trajectory Transformer (TT) (Janner
+et al., 2021), which model trajectories of states, actions,
+and returns as sequences and autoregressively predict future
+actions in offline RL. Transformers have also been applied
+beyond trajectory modeling, including Transformer-based
+Q-learning in partially observable environments (Esslinger
+et al., 2022), predictive world modeling (Micheli et al., 2022;
+Seo et al., 2023), and high-dimensional state representation
+learning (Kargar & Kyrki, 2021; 2022). In multi-agent and
+relational RL settings, attention has proven effective for
+aggregating information across agents or entities, improv-
+ing reasoning and sample efficiency (Iqbal & Sha, 2019;
+Zambaldi et al., 2018).
+A parallel line of work explores Transformers for action
+representation.
+Methods such as RT-1 (Brohan et al.,
+2022) and RT-2 (Zitkovich et al., 2023) tokenize robot
+control trajectories and decode actions autoregressively,
+while Q-Transformer (Chebotar et al., 2023) autoregresses
+across action dimensions within a timestep. Learned to-
+kenizers like FAST (Pertsch et al., 2025) compress con-
+tinuous control signals into discrete vocabularies for vi-
+sion–language–action training, and other extensions inter-
+leave state and action tokens or design state-aware tokeniza-
+tions for multi-component actions (Chen et al., 2021; Shang
+et al., 2022). While these approaches demonstrate the ef-
+fectiveness of Transformers for action encoding, they are
+largely designed for continuous control, offline RL, or VLA
+settings, and rely on sequential decompositions that impose
+arbitrary ordering over action components. SAINT instead
+uses self-attention to model relationships among sub-actions
+within a single timestep, rather than across time, agents, or
+external entities. It treats each joint action as an unordered
+set and applies permutation-equivariant attention (Lee et al.,
+2
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+State Conditioning
+Transformer Block
+Decision 
+MLP
+Sample 
+Sub-Action
+Concat
+𝑠
+Sub-Action 
+Embedding Table
+𝐄
+෨𝐄
+𝐗
+params𝑖
+𝑎𝑖
+𝒂
+× 𝐴
+× 𝐿
+Figure 1. Overview of SAINT. Initial sub-action embeddings are conditioned on the global state s to produce state-aware representations.
+Stacked Transformer blocks then model dependencies among sub-actions. The resulting context-aware representations are passed to
+independent Decision MLPs, which output per-sub-action policy distributions used for factorized sampling.
+2019), avoiding the independence assumptions of factored
+policies and the ordering bias of autoregressive approaches
+while remaining expressive and tractable.
+3. Preliminaries
+Combinatorial Action Spaces
+We consider RL problems
+formalized as a Markov Decision Process, defined by the
+tuple M = ⟨S, A, p, r, γ, µ⟩. Here, S denotes the state
+space, A the action space, p(s′ | s, a) the transition function,
+r(s, a) the reward function, γ ∈[0, 1] the discount factor,
+and µ the initial state distribution. A policy π maps states
+to distributions over actions, π : S →P(A), which defines
+the agent’s behavior in the environment.
+In this work we assume actions have an explicit composi-
+tional structure. Specifically, the action space is a product
+of sub-action domains, A = A1 × · · · × AA, where each
+sub-action space Ai is a discrete set. A single action thus
+comprises A sub-decisions, a = (a1, . . . , aA), with each
+ai ∈Ai. This representation gives rise to high-dimensional
+action spaces with potentially complex dependencies among
+sub-actions.
+Attention
+Attention is a general computational primi-
+tive that allows a model to selectively aggregate infor-
+mation from a set of inputs based on learned relevance
+scores (Vaswani et al., 2017). Formally, given a set of
+queries Q ∈Rnq×d, keys K ∈Rnk×d, and values V ∈
+Rnk×d, the scaled dot-product attention computes output
+Attn(Q, K, V ) = softmax(QK⊤/
+√
+d)V . Multi-head self-
+attention extends this by learning multiple independent pro-
+jections and aggregating their outputs, enabling the model
+to capture different interactions in parallel. Transformers,
+which stack layers of multi-head self-attention with feed-
+forward components, have been widely adopted in domains
+requiring flexible modeling of structured dependencies.
+4. Sub-Action Interaction Network using
+Transformers (SAINT)
+We introduce the Sub-Action Interaction Network using
+Transformers (SAINT), a policy architecture that learns a
+state-conditioned, permutation-equivariant representation
+of the action space, enabling efficient computation of ex-
+pressive action distributions. The SAINT architecture com-
+prises three stages: (1) state conditioning, which injects
+global state information into sub-action representations;
+(2) interaction modeling, which applies self-attention to
+model higher-order relationships among sub-actions while
+preserving permutation equivariance; and (3) action decod-
+ing, which transforms each sub-action representation into
+a distribution over its discrete choices, with all sub-actions
+decoded in parallel to maintain tractability. An overview of
+the SAINT architecture is shown in Figure 1.
+4.1. State Conditioning
+SAINT represents each sub-action i ∈{1, . . . , A} with a
+learnable embedding vector ei = Embed(i) ∈Rd, drawn
+from a table Embed ∈RA×d. With d treated as a fixed hy-
+perparameter shared across all sub-actions, each sub-action
+is represented by a d-dimensional embedding independent
+of its original cardinality |Ai|, yielding a shared space for
+uniform processing by the subsequent Transformer layers.
+Because sub-action identity alone is insufficient for decision-
+making, SAINT augments each base embedding ei with
+information from the global state s ∈Rds, enabling de-
+pendencies to be modeled in a state-aware manner. While
+several conditioning mechanisms such as cross-attention or
+concatenation are possible, we adopt Feature-wise Linear
+Modulation (FiLM) (Perez et al., 2018), which we found to
+be effective and parameter-efficient (Appendix D). Notably,
+FiLM preserves the d-dimensional width of each sub-action
+embedding, introducing no additional projection dimen-
+sions. Its prior success in incorporating state information in
+RL (Brohan et al., 2022) further supports this choice.
+3
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+An MLP g : Rds →R2d processes the global state s once
+to produce FiLM parameters (γ, β) = g(s), which are then
+applied uniformly to all sub-action embeddings via an affine
+transformation:
+˜ei = γ ⊙ei + β .
+4.2. Interaction Modeling
+The matrix of state-aware sub-action representations ˜E ∈
+RA×d is then processed by a stack of L Transformer blocks,
+with positional encodings omitted to preserve permutation
+equivariance. Letting X(0) = ˜E, each block ℓ= 1, . . . , L
+performs multi-head self-attention followed by a feed-
+forward network (FFN). Specifically, queries, keys, and
+values are obtained by linear projections of the previous
+layer’s output:
+Q, K, V = X(ℓ−1)W Q, X(ℓ−1)W K, X(ℓ−1)W V ,
+which are then used in scaled dot-product attention to model
+interactions among sub-actions. The attention output is then
+passed through a position-wise FFN applied independently
+to each sub-action embedding. This design allows SAINT to
+model state-conditioned dependencies between sub-actions
+while maintaining permutation equivariance.
+4.3. Action Decoding
+In the final stage, each context-aware sub-action represen-
+tation xi is passed through a sub-action-specific decision
+MLP, fi : Rd →RKi, which outputs a vector of Ki logits.
+These logits are then transformed into a probability distri-
+bution over the Ki discrete choices for sub-action i via the
+softmax function. The resulting policy for sub-action i is
+thus given by:
+πi(ai | s) = Categorical(softmax(fi(xi))) .
+Because each sub-action representation xi from the Interac-
+tion Modeling stage is conditioned on the global state and
+incorporates information from the other sub-actions, the pol-
+icy can be expressed as independent sub-action distributions
+without loss of modeling capacity, preserving tractability
+in combinatorial spaces where representing the full joint
+distribution would be infeasible.
+4.4. Compatibility with RL Algorithms
+The SAINT architecture is compatible with any RL algo-
+rithm for which the actor objective maximizes the log-
+likelihood of sampled joint actions a, weighted by some
+functional wΦ(s, a):
+max
+θ
+E(s,a)∼µ
+
+wΦ(s, a) log πθ(a | s)
+
+,
+where µ denotes the sampling distribution over (s, a), aris-
+ing either from an online policy or from a fixed dataset in the
+Algorithm 1 Policy Learning with the SAINT Architecture
+1: Initialize policy πθ and value network Vϕ
+2: for each training iteration do
+3:
+Collect a batch of transitions (st, at, rt, donet)
+4:
+Compute Rt and wΦ(st, at, Rt) for each transition
+5:
+Compute log-probs ℓt ←LOGPROBS(st, at)
+6:
+Update θ by ascending Et[wΦ(st, at) · ℓt]
+7:
+Update ϕ by descending Et[(Vϕ(st) −Rt)2]
+8: end for
+9: function LOGPROBS(S, Ataken)
+10:
+Get embeddings E ←[Embed(1), . . . , Embed(A)]⊤
+11:
+Inject state information ˜E ←StateCondition(S, E)
+12:
+Model interactions X ←TransformerBlocks(˜E)
+13:
+Get logits Logitsi ←fi(X[:,i]) for i = 1, . . . , A
+14:
+Compute log-probs for i = 1, . . . , A:
+log P[:,i] ←log πi(Ataken[:,i] | Logitsi)
+15:
+return PA
+i=1 log P[:,i]
+16: end function
+offline setting. The weight wΦ(s, a) ≥0 is an algorithm-
+dependent scalar, such as an advantage term or a score
+derived from QΦ.
+Compatible methods include standard online algorithms
+such as PPO (Schulman et al., 2017) and A2C (Mnih et al.,
+2016), as well as offline approaches such as IQL (Kostrikov
+et al., 2021) and AWAC (Nair et al., 2020). SAINT also
+supports selection-based actor updates as in BCQ (Fuji-
+moto et al., 2019), where the policy is trained on candidate
+joint actions drawn from a dataset or proposal distribution.
+SAINT remains compatible even when wΦ(s, a) is com-
+puted with a factorized critic, since the critic is used only to
+produce a scalar weight for each sampled joint action from
+µ. The actor is always updated toward the observed joint
+action a, not an action reconstructed or optimized over by
+the critic.
+Incompatibility arises when the actor objective requires
+global operations over the entire combinatorial action space,
+such as Ea′∼πθ[QΦ(s, a′)] or maxa′ QΦ(s, a′). These op-
+erations are computationally intractable unless QΦ is factor-
+ized; however, this changes the structure of the actor target,
+decomposing it into uncoordinated per-dimension terms
+and discarding cross-dimensional structure. This breaks
+alignment with SAINT’s objective of modeling dependen-
+cies among sub-actions. SAINT’s learning procedure is
+provided in Algorithm 1.
+5. Experimental Evaluation
+Our experiments evaluate the efficacy of different action
+representations for modeling complex sub-action interac-
+tions across two settings — primarily state-independent
+sub-action dependencies and state-dependent sub-action de-
+4
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+pendencies — with results reported in Sections 5.1 and 5.2,
+respectively. We then evaluate SAINT in the offline RL
+setting in Section 5.3. Section 5.4 analyzes key architectural
+choices, quantifying the trade-off between representational
+power and computational cost, and robustness to Trans-
+former structural parameters.
+We compare SAINT to four baselines reflecting the stan-
+dard representational assumptions for combinatorial action
+spaces: (1) a factorized policy (Tavakoli et al., 2018; Tang
+et al., 2022; Beeson et al., 2024), assuming fully indepen-
+dent sub-actions; (2) an autoregressive model (Zhang et al.,
+2018), imposing a fixed sequential order; (3) Wol-DDPG
+(Dulac-Arnold et al., 2015), using a continuous embedding;
+and (4) a flat RL algorithm, which learns a monolithic rep-
+resentation of the full action space without exploiting its
+combinatorial structure.
+These four baselines instantiate the dominant structural as-
+sumptions used to scale RL to large combinatorial action
+spaces. The flat policy corresponds to a monolithic model
+that ignores compositional structure and treats each joint
+action as an atomic symbol. The factorized policy enforces
+independent per-dimension decisions, preventing it from
+modeling necessary coordination between sub-actions. The
+autoregressive model imposes a fixed sequential ordering
+over sub-actions, which can be misaligned with the true,
+permutation-invariant dependency structure. Wol-DDPG
+embeds each joint action as a single continuous vector, col-
+lapsing the internal structure needed to capture interactions
+among sub-actions. Our experiments in Sections 5.1-5.3
+are designed to test whether these structural assumptions re-
+main sufficient when sub-action indexing is arbitrary or only
+weakly meaningful, or whether a set-based alternative such
+as SAINT is required. For completeness, we also evaluate
+a CTDE baseline in Appendix C; however, it did not out-
+perform the factorized policy, suggesting that performance
+is limited by execution-time policy expressivity rather than
+critic information. All results are averaged over five random
+seeds.
+5.1. State-Independent Sub-Action Dependencies
+To evaluate SAINT in environments where sub-action de-
+pendencies are primarily state-independent, we use the
+CityFlow traffic control benchmark (Zhang et al., 2019),
+where each action corresponds to simultaneous phase deci-
+sions across multiple intersections. While coordination is
+necessary for global traffic efficiency, the structure of these
+dependencies remains largely unchanged across states.
+We consider two configurations: (1) CityFlow-Linear, where
+three traffic signals are arranged in a row, yielding 729 pos-
+sible joint signal combinations; and (2) CityFlow-Irregular,
+with four closely spaced, asymmetric intersections and vary-
+ing road capacities, resulting in 375 valid joint action com-
+SAINT
+Factored
+AR
+PPO
+0
+100 k
+200 k
+300 k
+400 k
+500 k
+Environment Steps
+45000
+40000
+35000
+30000
+25000
+20000
+15000
+Episode Reward
+(a) CityFlow-Linear
+0
+100 k
+200 k
+300 k
+400 k
+500 k
+Environment Steps
+19000
+18000
+17000
+16000
+15000
+14000
+13000
+Episode Reward
+(b) CityFlow-Irregular
+Figure 2. SAINT outperforms all baselines in both learning speed
+and final reward, across both the CityFlow environments.
+binations. These networks are illustrated in Appendix A.1.
+We adopt PPO as the standard RL algorithm in this setting.
+SAINT, the pure factorized baseline, and the AR baseline,
+use the same PPO implementation and hyperparameters,
+isolating the impact of architectural differences. Wol-DDPG
+performs poorly in this environment and is excluded from
+the main learning curves; full training curves, including
+Wol-DDPG, are included in Appendix A.2. Wol-DDPG’s
+ineffectiveness aligns with prior observations that it is ill-
+suited to environments with unordered sub-actions (Chen
+et al., 2023).
+The results in Figure 2, demonstrate the advantage of
+SAINT’s set-based action representation. In both environ-
+ments, SAINT learns faster and achieves higher final per-
+formance. The factorized approach is structurally incapable
+of modeling coordination between intersections and thus
+performs poorly. The autoregressive model is restricted
+by its fixed sequential prior, which is misaligned with the
+unordered nature of traffic-signal control. The flat PPO
+baseline, which cannot exploit combinatorial structure, fails
+to learn an effective policy.
+5.2. State-Dependent Sub-Action Dependencies
+Next, we evaluate SAINT in environments where sub-action
+dependencies are strongly state-dependent. In these do-
+5
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+|A|
+SAINT
+Factored
+AR
+Wol-DDPG
+A2C
+∼16k
+-8.3 ± 0.0
+−11.9 ± 1.0
+-8.3 ± 0.0
+−586.2 ± 62.4
+−593.7 ± 51.7
+∼65k
+-9.9 ± 0.6
+−45.8 ± 16.7
+−22.3 ± 8.1
+−691.5 ± 51.3
+−641.0 ± 78.0
+∼260k
+-12.5 ± 1.6
+−51.6 ± 23.0
+−20.4 ± 2.6
+−712.0 ± 64.0
+−756.3 ± 37.2
+∼1M
+-12.2 ± 1.3
+−50.9 ± 20.7
+−28.6 ± 3.1
+−674.5 ± 25.3
+−801.1 ± 14.4
+∼4M
+-14.4 ± 0.8
+−36.6 ± 6.0
+−28.0 ± 2.7
+−929.3 ± 43.3
+−846.6 ± 4.2
+∼17M
+-13.4 ± 2.6
+−44.1 ± 16.2
+−33.9 ± 10.8
+−873.2 ± 59.7
+–
+Table 1. Performance in CoNE as action dimensionality increases. SAINT achieves the highest reward across all action space sizes.
+Factorized and AR baselines plateau at substantially lower reward levels, while Wol-DDPG and A2C fail to learn viable policies.
+mains, the relationships among sub-actions vary signifi-
+cantly with the environment state, requiring policies to
+model context-sensitive joint decisions. To study this setting,
+we use the Combinatorial Navigation Environment (CoNE)
+(Landers et al., 2024), a configurable high-dimensional con-
+trol domain designed to evaluate policy architectures under
+large, discrete, and structured action spaces.
+The agent begins at a fixed origin s0 and must reach a pre-
+defined goal g. At each timestep, it selects a joint action by
+activating multiple discrete sub-actions, each corresponding
+to movement along a distinct dimension of the environ-
+ment. These sub-actions are executed in parallel to produce
+a single composite transition. The agent receives a reward
+r = −ρ(s, g) at each step based on the Euclidean distance
+to the goal. Episodes terminate either upon reaching the
+goal (reward +10) or entering a terminal failure state (pit),
+which incurs a penalty of r = −10 · ρ(s0, g) to discourage
+reward hacking through early failure.
+In CoNE, both the action and state spaces grow exponen-
+tially with dimensionality: the number of joint actions scales
+as |A| = 22D, and the number of states as |S| = M D in a D-
+dimensional environment with M positions per axis. In our
+largest setting, the environment comprises over 200 million
+states and nearly 17 million joint actions per state. Beyond
+scale, CoNE introduces strong sub-action dependencies —
+some combinations enable efficient movement, others can-
+cel out, and some lead to catastrophic failure. Crucially,
+these sub-action interactions are highly state-dependent; a
+combination that is optimal in one state may lead to a pit in
+another, making effective decision-making highly sensitive
+to global context. CoNE is highly configurable, allowing
+us to systematically vary the number of dimensions and pit
+density to assess the impact of increasing action space size
+and sub-action dependence.
+In this setting, SAINT, the factorized baseline, and the AR
+baseline use identical A2C implementations to ensure a
+controlled comparison.
+Varying Dimensionality
+To evaluate SAINT’s effective-
+ness as the number of possible actions increases, we scale
+the dimensionality of CoNE from 7 (yielding over 16 thou-
+sand possible action combinations) to 12 (with nearly 17
+million combinations). In CoNE environments without pits,
+the agent can learn a trivial policy, as the optimal solution
+involves selecting the same action in every state. Thus, to in-
+troduce meaningful complexity and prevent this degenerate
+behavior, we place pits in 25% of interior states.
+The results in Table 1 show that SAINT maintains strong per-
+formance as action dimensionality increases, significantly
+outperforming all baselines at every scale. While the fac-
+torized and autoregressive baselines achieve modest per-
+formance in lower dimensions, their performance degrades
+or plateaus as the number of sub-actions grows. This sug-
+gests their fixed representational priors — assuming either
+complete independence or a single fixed order — are insuf-
+ficient to capture the complex interactions that emerge at
+scale. SAINT’s relative advantage increases in the largest
+settings, where it maintains low variance and stable perfor-
+mance. Wol-DDPG and A2C perform poorly throughout,
+highlighting their inability to form a tractable and meaning-
+ful representation of large, unordered action spaces. Note
+that A2C is omitted at the highest dimensionality due to the
+computational intractability of modeling the full joint action
+space with a flat categorical policy. Full learning curves are
+provided in Appendix B.2.
+Varying Dependence
+To assess SAINT’s robustness to
+different levels of sub-action dependence, we incrementally
+increased the number of pits in the 12-dimensional CoNE
+environment. Higher pit densities impose stronger coordina-
+tion requirements, as more sub-action combinations must
+be carefully selected to avoid pits. To ensure that a valid
+path from the start state to the goal always exists, pits were
+placed only in interior (non-boundary) states. We generate
+environments with 10%, 25%, 50%, 75%, and 100% of
+interior states occupied by pits. Note that even in the 100%
+setting, all boundary states remain pit-free, guaranteeing the
+existence of at least one (possibly inefficient) path to the
+goal region. We exclude monolithic A2C from this exper-
+iment due to the computational intractability of modeling
+such a large discrete action space (nearly 17 million actions)
+6
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+Pit %
+SAINT
+Factored
+AR
+Wol-DDPG
+10
+-13.5 ± 2.7
+−44.1 ± 16.2
+−33.9 ± 10.8
+−873.2 ± 59.7
+25
+-15.5 ± 2.6
+−33.3 ± 4.1
+−42.2 ± 10.7
+−822.3 ± 36.8
+50
+-18.4 ± 1.2
+−78.6 ± 29.7
+−38.8 ± 4.4
+−863.0 ± 22.9
+75
+-19.7 ± 0.0
+−58.0 ± 11.9
+−27.8 ± 3.1
+−841.1 ± 39.5
+100
+-19.7 ± 0.0
+−54.8 ± 7.1
+−28.6 ± 4.1
+−879.5 ± 33.4
+Table 2. Performance in 12-D CoNE (∼17M actions) as sub-action dependence increases (controlled via pit density). SAINT consistently
+achieves the highest rewards across all settings and remains robust even as the sub-actions become highly dependent. Other methods
+degrade more rapidly, especially the factorized baseline. Wol-DDPG failed to learn meaningful policies in this setting.
+with a flat categorical distribution.
+The results in Table 2 demonstrate that SAINT is more
+robust to increasing sub-action dependence than all base-
+lines. As pit density increases from 10% to 100%, SAINT
+maintains high performance with low variance, while the
+factorized and autoregressive baselines generally degrade.
+Wol-DDPG was unable to learn meaningful policies at any
+pit density. These results highlight SAINT’s ability to cap-
+ture complex, context-sensitive dependencies between sub-
+actions that are critical in many real-world combinatorial
+environments. Full learning curves for these results are
+provided in Appendix B.3.
+5.3. Offline RL
+Finally, we evaluate whether SAINT can be used effec-
+tively as a policy architecture in offline RL. Specifically,
+we use the medium-expert datasets from the discretized
+DM Control tasks cheetah run, finger spin, humanoid stand,
+quadruped walk, and dog trot introduced by Beeson et al.
+(2024). Across these environments, the number of sub-
+actions ranges from six to 38, yielding joint action spaces
+spanning several orders of magnitude, from hundreds to
+338 ≈1.35 × 1018 possible actions.
+In this section, we report results using Batch-Constrained
+Q-learning (BCQ) (Fujimoto et al., 2019) as the offline RL
+objective. Additional offline evaluations with AWAC and
+IQL are provided in Appendix E. Given the limitations of
+PPO and Wol-DDPG identified in Sections 5.1 and 5.2, we
+restrict our comparison to the pure factorized and autore-
+gressive baselines, using identical PPO implementations to
+ensure a controlled evaluation.
+As shown in Table 3, SAINT-BCQ achieves the strongest
+performance across all domains, demonstrating that explic-
+itly modeling sub-action interactions improves policy qual-
+ity even when learning is restricted to logged trajectories.
+5.4. Analyses and Ablations
+To evaluate SAINT’s design choices and robustness, we
+conduct three analyses. First, we compare FiLM-based
+Task
+SAINT
+Factored
+AR
+cheetah
+676.1 ± 30.9
+629.6 ± 36.5
+629.6 ± 38.8
+finger
+809.6 ± 29.0
+692.3 ± 71.7
+762.1 ± 50.9
+humanoid
+676.5 ± 48.2
+594.1 ± 47.7
+592.4 ± 58.5
+quadruped
+851.5 ± 32.5
+835.2 ± 52.0
+692.2 ± 99.7
+dog
+586.1 ± 30.5
+415.2 ± 40.4
+423.3 ± 72.6
+Table 3. SAINT outperforms all baselines across all offline DM
+Control tasks.
+state conditioning to alternative mechanisms. Second, we
+assess the trade-off between representational power and
+computational cost, quantifying how modeling sub-action
+interactions affects sample efficiency. These evaluations
+are performed in the CityFlow-Irregular environment and in
+the 10-dimensional CoNE setting with pits occupying 25%
+of interior states. Finally, we test SAINT’s robustness to
+architectural hyperparameters using CityFlow-Irregular.
+State Conditioning
+We compare SAINT’s FiLM-based
+state conditioning to four alternatives: (1) applying cross-
+attention to the state before self-attention, (2) applying
+cross-attention to the state after self-attention, (3) inter-
+leaving cross-attention and self-attention layers, and (4)
+appending the state as an additional token within the sub-
+action self-attention block. As shown in Appendix D, FiLM
+achieves higher final performance and more stable training
+in CityFlow, and performs at least as well as the alterna-
+tives in CoNE. These results indicate that while multiple
+conditioning mechanisms are effective, FiLM provides a
+consistent performance advantage and stabilizes training.
+Representational Power vs. Sample Efficiency
+To iso-
+late the computational overhead of modeling sub-action de-
+pendencies via self-attention, we compare SAINT’s runtime
+to that of the pure factorization baseline. We also evaluate a
+variant of SAINT, called SAINT-IP, that replaces standard
+self-attention with an inducing point mechanism (Lee et al.,
+2019), which approximates full attention using a fixed set
+of learned summary vectors. This technique reduces the
+quadratic cost of attention by attending first from the induc-
+7
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+SAINT
+SAINT-IP
+Factored
+CityFlow
+Total training time
+5204.2
+5412.4
+3936.2
+Time to baseline
+1088.53
+1087.49
+3936.2
+CoNE
+Total training time
+966.5
+980.9
+535.9
+Time to baseline
+395.76
+504.97
+535.9
+Table 4. Total wall-clock training time and time to reach the
+factored baseline’s final performance (in seconds).
+ing points to the inputs, and then from the inputs back to
+the summaries. All experiments were conducted on a sin-
+gle NVIDIA A40 GPU using Python 3.9 and PyTorch 2.6.
+We report wall-clock time per training episode in seconds,
+averaged over 5 runs.
+As shown in Table 4, SAINT requires more training time
+than the pure factorization baseline, reflecting the added cost
+of modeling sub-action dependencies with self-attention.
+SAINT-IP incurs further overhead from the Induced Set At-
+tention Block (ISAB), which performs two attention passes
+per layer, compared to one in standard self-attention. While
+the number of sub-actions in our environments is nontrivial,
+it remains small relative to domains such as large language
+modeling or 3-D vision, for which inducing points were
+introduced (Lee et al., 2019). Consequently, the quadratic
+cost of full self-attention is not prohibitive, and ISAB’s
+asymptotic advantage does not yield runtime benefits.
+However, in practical settings efficiency is better measured
+by wall-clock time to reach a target return. The “time to
+baseline” metric shows that SAINT and SAINT-IP reach the
+factorized baseline’s asymptotic return in less than one-third
+of the time in CityFlow and about 30% faster in CoNE. This
+indicates that the added computation of explicit action repre-
+sentations is outweighed by faster learning — by modeling
+dependency structure, SAINT achieves stronger policies in
+less time. Full learning curves are provided in Appendix F.
+Robustness to Architectural Hyperparameters
+We eval-
+uated SAINT’s sensitivity to architectural hyperparameters
+by sweeping the number of self-attention blocks {1, 3, 5}
+and attention heads {1, 2, 4, 8}, for a total of 12 configura-
+tions. As shown in Appendix G, performance varied within
+a narrow range — the best setting (3 blocks × 1 head) out-
+performed the weakest (1 block × 8 heads) by only ∼7%.
+Even the weakest configuration exceeded all baselines, un-
+derscoring SAINT’s robustness to attention parameters.
+6. Discussion and Conclusion
+We introduce SAINT, a policy architecture that treats learn-
+ing in large discrete action spaces as a representation learn-
+ing problem. Instead of assuming conditional indepen-
+dence or a fixed ordering, SAINT learns a state-conditioned,
+permutation-equivariant set representation of the combina-
+torial action space. Self-attention models the interactions
+within this set, yielding expressive and tractable policies for
+combinatorial domains.
+While SAINT achieves strong performance, several limita-
+tions remain. First, while section 5.4 shows that the cost of
+self-attention is often offset by improved sample efficiency,
+lighter-weight attention variants such as sparse attention
+(Child et al., 2019) could benefit resource-constrained set-
+tings. Second, our analyses also validate FiLM as an ef-
+fective state-conditioning mechanism, yet performance in
+new domains may depend on the capacity of this network,
+motivating exploration of more expressive state-injection
+methods such as those proposed in multi-agent RL (Iqbal &
+Sha, 2019). Third, SAINT is designed for domains wherein
+a joint action is naturally represented as a set of parallel sub-
+actions for which indexing is arbitrary or weakly structured.
+In settings with highly structured and known priors, a fully
+permutation-equivariant prior may not be the most effective
+representation. In such settings hybrid architectures that
+combine structured embeddings with partial equivariance
+are a promising direction for future work. Finally, although
+our experiments assume a fixed set of sub-actions, many
+real-world domains, such as road closures or reconfigurable
+network topologies, involve dynamically changing action
+sets. Because SAINT represents actions as an unordered set,
+it naturally supports such variability via masking. System-
+atically evaluating this capability is an important research
+direction.
+In this work we show that learning explicit representa-
+tions of sub-action interactions is an effective and prac-
+tical approach for control in combinatorial action spaces.
+SAINT represents actions as unordered sets and applies
+self-attention to capture sub-action dependencies, yielding
+expressive yet tractable policies. This modeling delivers
+substantial gains in sample efficiency, accelerating conver-
+gence to high-performing policies. In environments with
+up to 1.35 × 1018 joint actions, SAINT consistently outper-
+forms baselines that assume independence, impose ordering,
+or learn flat policies, demonstrating the effectiveness of
+modeling sub-action interactions for scalable combinatorial
+control.
+Impact Statement
+This paper presents work whose goal is to advance the field
+of Machine Learning. There are many potential societal
+consequences of our work, none which we feel must be
+specifically highlighted here.
+8
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+References
+Barth-Maron, G., Hoffman, M. W., Budden, D., Dabney,
+W., Horgan, D., Tb, D., Muldal, A., Heess, N., and Lil-
+licrap, T. Distributed distributional deterministic policy
+gradients. arXiv preprint arXiv:1804.08617, 2018.
+Beeson, A., Ireland, D., and Montana, G. An investigation
+of offline reinforcement learning in factorisable action
+spaces. arXiv preprint arXiv:2411.11088, 2024.
+Bello, I., Pham, H., Le, Q. V., Norouzi, M., and Bengio,
+S. Neural combinatorial optimization with reinforcement
+learning. arXiv preprint arXiv:1611.09940, 2016.
+Brohan, A., Brown, N., Carbajal, J., Chebotar, Y., Dabis, J.,
+Finn, C., Gopalakrishnan, K., Hausman, K., Herzog, A.,
+Hsu, J., et al. Rt-1: Robotics transformer for real-world
+control at scale. arXiv preprint arXiv:2212.06817, 2022.
+Chebotar, Y., Vuong, Q., Hausman, K., Xia, F., Lu, Y., Irpan,
+A., Kumar, A., Yu, T., Herzog, A., Pertsch, K., et al.
+Q-transformer: Scalable offline reinforcement learning
+via autoregressive q-functions. In Conference on Robot
+Learning, pp. 3909–3928. PMLR, 2023.
+Chen, C., Karunasena, R., Nguyen, T., Sinha, A., and
+Varakantham, P. Generative modelling of stochastic ac-
+tions with arbitrary constraints in reinforcement learning.
+Advances in Neural Information Processing Systems, 36:
+39842–39854, 2023.
+Chen, L., Lu, K., Rajeswaran, A., Lee, K., Grover, A.,
+Laskin, M., Abbeel, P., Srinivas, A., and Mordatch, I. De-
+cision transformer: Reinforcement learning via sequence
+modeling. Advances in neural information processing
+systems, 34:15084–15097, 2021.
+Child, R., Gray, S., Radford, A., and Sutskever, I. Gen-
+erating long sequences with sparse transformers. arXiv
+preprint arXiv:1904.10509, 2019.
+Delarue, A., Anderson, R., and Tjandraatmadja, C. Rein-
+forcement learning with combinatorial actions: An appli-
+cation to vehicle routing. Advances in Neural Information
+Processing Systems, 33:609–620, 2020.
+Dulac-Arnold, G., Evans, R., van Hasselt, H., Sunehag, P.,
+Lillicrap, T., Hunt, J., Mann, T., Weber, T., Degris, T., and
+Coppin, B. Deep reinforcement learning in large discrete
+action spaces. arXiv preprint arXiv:1512.07679, 2015.
+Esslinger, K., Platt, R., and Amato, C. Deep transformer q-
+networks for partially observable reinforcement learning.
+arXiv preprint arXiv:2206.01078, 2022.
+Farquhar, G., Gustafson, L., Lin, Z., Whiteson, S., Usunier,
+N., and Synnaeve, G. Growing action spaces. In Interna-
+tional Conference on Machine Learning, pp. 3040–3051.
+PMLR, 2020.
+Fujimoto, S., Hoof, H., and Meger, D. Addressing function
+approximation error in actor-critic methods. In Interna-
+tional conference on machine learning, pp. 1587–1596.
+PMLR, 2018.
+Fujimoto, S., Meger, D., and Precup, D. Off-policy deep
+reinforcement learning without exploration. In Interna-
+tional conference on machine learning, pp. 2052–2062.
+PMLR, 2019.
+Haarnoja, T., Zhou, A., Abbeel, P., and Levine, S. Soft
+actor-critic: Off-policy maximum entropy deep reinforce-
+ment learning with a stochastic actor. In International
+conference on machine learning, pp. 1861–1870. Pmlr,
+2018.
+He, J., Chen, J., He, X., Gao, J., Li, L., Deng, L., and
+Ostendorf, M. Deep reinforcement learning with a natural
+language action space. arXiv preprint arXiv:1511.04636,
+2015.
+He, J., Ostendorf, M., He, X., Chen, J., Gao, J., Li, L., and
+Deng, L. Deep reinforcement learning with a combina-
+torial action space for predicting popular reddit threads.
+arXiv preprint arXiv:1606.03667, 2016.
+Hessel, M., Modayil, J., Van Hasselt, H., Schaul, T., Os-
+trovski, G., Dabney, W., Horgan, D., Piot, B., Azar, M.,
+and Silver, D. Rainbow: Combining improvements in
+deep reinforcement learning. In Proceedings of the AAAI
+conference on artificial intelligence, volume 32, 2018.
+Iqbal, S. and Sha, F. Actor-attention-critic for multi-agent
+reinforcement learning. In International conference on
+machine learning, pp. 2961–2970. PMLR, 2019.
+Janner, M., Li, Q., and Levine, S. Offline reinforcement
+learning as one big sequence modeling problem. In Ad-
+vances in Neural Information Processing Systems, 2021.
+Kargar, E. and Kyrki, V. Vision transformer for learning
+driving policies in complex multi-agent environments.
+arXiv preprint arXiv:2109.06514, 2021.
+Kargar, E. and Kyrki, V. Vision transformer for learning
+driving policies in complex and dynamic environments.
+In 2022 IEEE Intelligent Vehicles Symposium (IV), pp.
+1558–1564. IEEE, 2022.
+Kostrikov, I., Nair, A., and Levine, S. Offline reinforce-
+ment learning with implicit q-learning. arXiv preprint
+arXiv:2110.06169, 2021.
+Landers, M., Killian, T. W., Barnes, H., Hartvigsen, T., and
+Doryab, A. Offline reinforcement learning with combi-
+natorial action spaces. arXiv preprint arXiv:2410.21151,
+2024.
+9
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+Landers, M., Killian, T. W., Hartvigsen, T., and Doryab,
+A. Improving and accelerating offline rl in large discrete
+action spaces with structured policy initialization. arXiv
+preprint arXiv:2601.04441, 2026.
+Lee, J., Lee, Y., Kim, J., Kosiorek, A., Choi, S., and Teh,
+Y. W. Set transformer: A framework for attention-based
+permutation-invariant neural networks. In International
+conference on machine learning, pp. 3744–3753. PMLR,
+2019.
+Lillicrap, T. P., Hunt, J. J., Pritzel, A., Heess, N., Erez,
+T., Tassa, Y., Silver, D., and Wierstra, D. Continuous
+control with deep reinforcement learning. arXiv preprint
+arXiv:1509.02971, 2015.
+Lioris, J., Kurzhanskiy, A., and Varaiya, P. Adaptive max
+pressure control of network of signalized intersections.
+IFAC-PapersOnLine, 49(22):19–24, 2016.
+Metz, L., Ibarz, J., Jaitly, N., and Davidson, J. Discrete
+sequential prediction of continuous actions for deep rl.
+arXiv preprint arXiv:1705.05035, 2017.
+Micheli, V., Alonso, E., and Fleuret, F.
+Transform-
+ers are sample-efficient world models. arXiv preprint
+arXiv:2209.00588, 2022.
+Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness,
+J., Bellemare, M. G., Graves, A., Riedmiller, M., Fidje-
+land, A. K., Ostrovski, G., et al. Human-level control
+through deep reinforcement learning. nature, 518(7540):
+529–533, 2015.
+Mnih, V., Badia, A. P., Mirza, M., Graves, A., Lillicrap,
+T., Harley, T., Silver, D., and Kavukcuoglu, K. Asyn-
+chronous methods for deep reinforcement learning. In
+International conference on machine learning, pp. 1928–
+1937. PmLR, 2016.
+Nair, A., Gupta, A., Dalal, M., and Levine, S. Awac: Accel-
+erating online reinforcement learning with offline datasets.
+arXiv preprint arXiv:2006.09359, 2020.
+Nazari, M., Oroojlooy, A., Snyder, L., and Tak´ac, M. Rein-
+forcement learning for solving the vehicle routing prob-
+lem. Advances in neural information processing systems,
+31, 2018.
+Perez, E., Strub, F., De Vries, H., Dumoulin, V., and
+Courville, A. Film: Visual reasoning with a general con-
+ditioning layer. In Proceedings of the AAAI conference
+on artificial intelligence, volume 32, 2018.
+Pertsch, K., Stachowicz, K., Ichter, B., Driess, D., Nair,
+S., Vuong, Q., Mees, O., Finn, C., and Levine, S. Fast:
+Efficient action tokenization for vision-language-action
+models. arXiv preprint arXiv:2501.09747, 2025.
+Pierrot, T., Mac´e, V., Sevestre, J.-B., Monier, L., Laterre,
+A., Perrin, N., Beguir, K., and Sigaud, O. Factored action
+spaces in deep reinforcement learning. 2021.
+Rasheed, F., Yau, K.-L. A., Noor, R. M., Wu, C., and Low,
+Y.-C. Deep reinforcement learning for traffic signal con-
+trol: A review. IEEE Access, 8:208016–208044, 2020.
+Rashid, T., Samvelyan, M., De Witt, C. S., Farquhar, G.,
+Foerster, J., and Whiteson, S. Monotonic value function
+factorisation for deep multi-agent reinforcement learning.
+Journal of Machine Learning Research, 21(178):1–51,
+2020.
+Schulman, J., Wolski, F., Dhariwal, P., Radford, A., and
+Klimov, O. Proximal policy optimization algorithms.
+arXiv preprint arXiv:1707.06347, 2017.
+Seo, Y., Hafner, D., Liu, H., Liu, F., James, S., Lee, K., and
+Abbeel, P. Masked world models for visual control. In
+Conference on Robot Learning, pp. 1332–1344. PMLR,
+2023.
+Shang, J., Kahatapitiya, K., Li, X., and Ryoo, M. S. Star-
+former: Transformer with state-action-reward represen-
+tations for visual reinforcement learning. In European
+conference on computer vision, pp. 462–479. Springer,
+2022.
+Tang, S., Makar, M., Sjoding, M., Doshi-Velez, F., and
+Wiens, J. Leveraging factored action spaces for efficient
+offline reinforcement learning in healthcare. Advances
+in Neural Information Processing Systems, 35:34272–
+34286, 2022.
+Tang, Y. and Agrawal, S. Discretizing continuous action
+space for on-policy optimization. In Proceedings of the
+aaai conference on artificial intelligence, volume 34, pp.
+5981–5988, 2020.
+Tavakoli, A., Pardo, F., and Kormushev, P. Action branching
+architectures for deep reinforcement learning. In Pro-
+ceedings of the aaai conference on artificial intelligence,
+volume 32, 2018.
+Van de Wiele, T., Warde-Farley, D., Mnih, A., and
+Mnih, V.
+Q-learning in enormous action spaces via
+amortized approximate maximization. arXiv preprint
+arXiv:2001.08116, 2020.
+van Hasselt, H., Guez, A., and Silver, D.
+Deep rein-
+forcement learning with double q-learning, 2015. URL
+https://arxiv.org/abs/1509.06461.
+Varaiya, P. Max pressure control of a network of signalized
+intersections. Transportation Research Part C: Emerging
+Technologies, 36:177–195, 2013.
+10
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones,
+L., Gomez, A. N., Kaiser, Ł., and Polosukhin, I. At-
+tention is all you need. Advances in neural information
+processing systems, 30, 2017.
+Yu, C., Velu, A., Vinitsky, E., Gao, J., Wang, Y., Bayen, A.,
+and Wu, Y. The surprising effectiveness of ppo in cooper-
+ative multi-agent games. Advances in neural information
+processing systems, 35:24611–24624, 2022.
+Zahavy, T., Haroush, M., Merlis, N., Mankowitz, D. J., and
+Mannor, S. Learn what not to learn: Action elimination
+with deep reinforcement learning. Advances in neural
+information processing systems, 31, 2018.
+Zambaldi, V., Raposo, D., Santoro, A., Bapst, V., Li, Y.,
+Babuschkin, I., Tuyls, K., Reichert, D., Lillicrap, T.,
+Lockhart, E., et al. Relational deep reinforcement learn-
+ing. arXiv preprint arXiv:1806.01830, 2018.
+Zhang, H., Feng, S., Liu, C., Ding, Y., Zhu, Y., Zhou, Z.,
+Zhang, W., Yu, Y., Jin, H., and Li, Z. Cityflow: A multi-
+agent reinforcement learning environment for large scale
+city traffic scenario. In The world wide web conference,
+pp. 3620–3624, 2019.
+Zhang, Y., Vuong, Q. H., Song, K., Gong, X.-Y., and Ross,
+K. W. Efficient entropy for policy gradient with multidi-
+mensional action space. arXiv preprint arXiv:1806.00589,
+2018.
+Zitkovich, B., Yu, T., Xu, S., Xu, P., Xiao, T., Xia, F.,
+Wu, J., Wohlhart, P., Welker, S., Wahid, A., et al. Rt-2:
+Vision-language-action models transfer web knowledge
+to robotic control. In Conference on Robot Learning, pp.
+2165–2183. PMLR, 2023.
+11
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+A. Learning in CityFlow
+A.1. Environmental Setup
+(a) CityFlow-Linear
+(b) CityFlow-Irregular
+Figure 3. Visualizations of the two CityFlow traffic control configurations used in our experiments. CityFlow-Linear (Figure 3a) has three
+intersections arranged in a row, yielding 729 possible joint actions. CityFlow-Irregular (Figure 3b) has 375 joint actions but exhibits
+greater coordination demands and more diverse traffic interactions.
+In both CityFlow-Linear (Figure 3a) and CityFlow-Irregular (Figure 3b), the state is represented as a flat integer vector, in
+which each value indicates the number of waiting vehicles on an incoming lane and its paired outgoing lane. The reward at
+each step is the negative of the average “pressure” across intersections, where an intersection’s pressure is defined as the
+absolute difference between its total incoming and outgoing vehicle counts. Pressure is a standard metric in traffic signal
+control literature, commonly used to quantify imbalance in intersection flow (Lioris et al., 2016; Varaiya, 2013).
+12
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+A.2. Learning Curves Including Wol-DDPG
+SAINT
+Factored
+AR
+Wol-DDPG
+PPO
+0
+100 k
+200 k
+300 k
+400 k
+500 k
+Environment Steps
+150000
+125000
+100000
+75000
+50000
+25000
+Episode Reward
+(a) CityFlow-Linear
+0
+100 k
+200 k
+300 k
+400 k
+500 k
+Environment Steps
+35000
+30000
+25000
+20000
+15000
+Episode Reward
+(b) CityFlow-Irregular
+Figure 4. Full learning curves for all baselines in CityFlow, including Wol-DDPG. Wol-DDPG performs poorly, consistent with its known
+limitations in environments with unordered sub-actions.
+Figure 4 presents the full training curves for all methods in the CityFlow environments, including Wol-DDPG. As noted in
+Section 5.1, Wol-DDPG consistently underperforms relative to other methods. This poor performance is consistent with
+prior findings (Chen et al., 2023), which show that Wol-DDPG is ill-suited to settings with unordered sub-actions. Learning
+curves excluding Wol-DDPG are presented in Figure 2.
+13
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+B. CoNE Learning Curves
+B.1. Environmental Setup
+The Combinatorial Navigation Environment (CoNE) (Landers et al., 2024) is designed to evaluate RL algorithms in settings
+with high-dimensional, combinatorial action spaces and strong, state-dependent sub-action dependencies. In CoNE, actions
+are formed by simultaneously selecting discrete sub-actions, each specifying movement along a different dimension. These
+sub-actions are executed in parallel to produce a composite transition, which may advance the agent toward the goal or
+result in failure by entering a pit.
+CoNE supports scaling along two axes, action dimensionality and pit density. As the number of dimensions increases, both
+the state and action spaces grow exponentially; our largest configuration contains over 200 million states and nearly 17
+million discrete joint actions per state. In CoNE, sub-action interactions are complex: some combinations are efficient,
+others cancel each other out, and many must be avoided. These dependencies are highly state-sensitive, requiring effective
+decision-making to account for both structure and context.
+To our knowledge, no other existing benchmarks offer the combination of large-scale action spaces and tunable sub-action
+dependencies found in CoNE.
+B.2. Varying Dimensionality
+SAINT
+Factored
+AR
+Wol-DDPG
+PPO
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+700
+600
+500
+400
+300
+200
+100
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+20
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+40
+20
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+40
+20
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+40
+20
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+1000
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+40
+20
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+40
+20
+Figure 5. Learning curves in CoNE environments as the number of sub-action dimensions increases from 7 to 12 (corresponding to joint
+action spaces ranging from ∼16k to ∼17M actions). SAINT consistently achieves higher final rewards than all baselines, with its
+advantage widening in higher-dimensional settings. Factorized and autoregressive baselines struggle to scale beyond moderate dimensions,
+while Wol-DDPG and A2C fail to learn meaningful policies across all tasks. Results are averaged over 5 seeds; shaded regions indicate
+one standard deviation.
+Figure 5 provides the full learning curves corresponding to the results in Table 1, which reports performance in CoNE as the
+number of sub-action dimensions increases. As dimensionality grows, the joint action space expands exponentially — from
+roughly 16 thousand to nearly 17 million possible joint actions.
+Across all settings, SAINT consistently outperforms baselines. Notably, SAINT maintains stable learning dynamics and low
+variance even at the largest scales, whereas factorized and autoregressive baselines generally plateau. Wol-DDPG and A2C
+fail to learn viable policies in any configuration, highlighting their inability to handle large, unordered combinatorial action
+spaces. These results underscore SAINT’s scalability and its robustness to increasing combinatorial complexity.
+14
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+B.3. Varying Dependence
+SAINT
+Factored
+AR
+Wol-DDPG
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+40
+20
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+40
+20
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+60
+40
+20
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+60
+40
+20
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+60
+40
+20
+Figure 6. Learning curves in the 12-D CoNE environment as pit density increases from 10% to 100%, inducing progressively stronger
+sub-action dependencies. SAINT consistently outperforms all baselines, maintaining stable performance even as coordination requirements
+become increasingly stringent. Factored and autoregressive baselines generally plateau, while Wol-DDPG fails to learn meaningful
+policies. Results are averaged over 5 seeds; shaded regions denote one standard deviation.
+Figure 6 shows the full learning curves corresponding to the results in Table 2, which reports performance in the 12-D CoNE
+environment as sub-action dependence increases via pit density. As more interior states are occupied by pits, successful
+navigation requires greater coordination among sub-actions to avoid failure states.
+SAINT maintains stable learning and strong final performance across all pit densities, even as coordination requirements
+grow substantially. Factorized policies degrade, while autoregressive policies consistently underperform relative to SAINT.
+Wol-DDPG fails to make progress in any environment. A2C was excluded from this experiment due to the computational
+intractability of modeling such a large discrete action space (nearly 17 million actions) with a flat categorical distribution.
+These results highlight SAINT’s robustness to state-dependent sub-action dependencies.
+15
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+C. Comparison to CTDE Architecture
+Centralized Training, Decentralized Execution (CTDE) is a widely used paradigm in cooperative multi-agent RL (Iqbal &
+Sha, 2019; Rashid et al., 2020; Yu et al., 2022). It is motivated by settings wherein execution is inherently decentralized —
+agents must act from local information (e.g., due to communication or latency constraints) — while training can exploit
+globally aggregated experience. CTDE is particularly well-suited to problems with heterogeneous observations and truly
+distinct decision-makers.
+In the combinatorial action settings we consider, control is frequently centralized — a single policy outputs the entire joint
+action. In this regime, the “agents” are not distinct learners, so the usual CTDE motivation applies only weakly. Framing
+sub-actions as “agents” is therefore simply a modeling choice that imposes a factorized execution-time policy:
+π(a | s) =
+Y
+i
+πi(ai | oi) ,
+for some choice of per-sub-action observations oi. Under this construction, CTDE largely evaluates whether providing
+global information to the value function can offset the restriction to a factorized policy at execution time, rather than directly
+addressing how to represent dependencies in the joint-action distribution.
+For completeness — and because CityFlow admits a natural multi-agent interpretation with heterogeneous local observations
+across intersections, particularly in the Irregular setting — we report a CTDE baseline, MAPPO (Yu et al., 2022).
+SAINT
+Factored
+AR
+PPO
+MAPPO
+0
+100 k
+200 k
+300 k
+400 k
+500 k
+Environment Steps
+19000
+18000
+17000
+16000
+15000
+14000
+13000
+Episode Reward
+Figure 7. Comparison to MAPPO on CityFlow Irregular. MAPPO underperforms the fully factorized policy and exhibits greater training
+instability, indicating that centralized critic information is insufficient to induce coordinated behavior. Curves are averaged over 5 seeds;
+shaded regions show ±1 standard deviation.
+As shown in Figure 7, this CTDE baseline does not outperform the fully factorized policy and exhibits greater training
+instability. These results indicate that, even in a setting wherein CTDE is most well-motivated, centralized critic information
+alone is insufficient; policy representations must also capture joint-action dependencies.
+16
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+D. State Conditioning
+We compare SAINT’s pre-attention FiLM-based state conditioning to four alternative mechanisms: (1) applying cross-
+attention to the state before self-attention, (2) applying cross-attention to the state after self-attention, (3) interleaving
+cross-attention and self-attention layers, and (4) appending the state as an additional token within the sub-action self-attention
+block.
+FiLM
+Cross Before
+Cross After
+Interleaved
+Token
+0
+100 k
+200 k
+300 k
+400 k
+500 k
+Environment Steps
+19000
+18000
+17000
+16000
+15000
+14000
+13000
+Episode Reward
+(a) CityFlow
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+40
+20
+(b) 10-D CoNE with 25% pits
+Figure 8. Comparison of state conditioning strategies in CityFlow (left) and 10-D CoNE (right). SAINT’s pre-attention FiLM-based
+conditioning outperforms alternatives more clearly in CityFlow, while all strategies perform similarly in CoNE. Results are averaged over
+5 seeds; shaded regions indicate one standard deviation.
+As shown in Figure 8, FiLM achieves higher final reward and exhibits more stable learning than the alternatives in CityFlow.
+In the 10-dimensional CoNE environment, all state conditioning strategies perform comparably, with pre-attention FiLM-
+based conditioning achieving slightly better final performance. These results suggest that while multiple conditioning
+mechanisms are viable, FiLM offers an advantage and may contribute to more stable training dynamics.
+17
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+E. Robustness to Offline RL Training Objective
+The results in Section 5.3 show that SAINT’s set-based, permutation-invariant architecture learns effective representations
+for offline RL in combinatorial action spaces when trained with an BCQ objective. To assess whether these advantages
+persist across different offline RL methods, we also evaluate SAINT with two additional objectives, Advantage Weighted
+Actor Critic (AWAC) (Nair et al., 2020) and Implicit Q-learning (IQL) (Kostrikov et al., 2021). These experiments use the
+same medium-expert datasets considered in Section 5.3 and follow an identical controlled protocol: for each algorithm,
+we instantiate factorized, autoregressive, and SAINT-based policy parameterizations while keeping the critic, training
+procedure, and hyperparameters fixed.
+E.1. AWAC
+Task
+SAINT
+Factored
+AR
+cheetah
+668.5 ± 21.9
+657.5 ± 25.9
+646.6 ± 22.4
+finger
+638.6 ± 324.7
+1.0 ± 1.0
+1.1 ± 1.4
+humanoid
+694.7 ± 29.1
+639.4 ± 29.2
+682.9 ± 36.3
+quadruped
+837.0 ± 34.9
+834.2 ± 37.6
+822.3 ± 46.1
+dog
+543.9 ± 60.3
+423.0 ± 51.7
+449.5 ± 43.3
+Average Return
+676.5
+511.0
+520.5
+Table 5. Mean ± std performance on offline DM Control tasks with AWAC variants.
+E.2. IQL
+Task
+SAINT
+Factored
+AR
+cheetah
+627.5 ± 39.6
+588.7 ± 48.0
+615.9 ± 37.8
+finger
+847.0 ± 13.6
+841.2 ± 16.2
+843.5 ± 16.1
+humanoid
+613.1 ± 58.9
+589.9 ± 40.8
+568.2 ± 55.5
+quadruped
+863.7 ± 30.5
+863.2 ± 36.5
+857.0 ± 30.8
+dog
+596.1 ± 53.2
+497.8 ± 35.9
+539.8 ± 33.6
+Average Return
+709.5
+676.2
+684.9
+Table 6. Mean ± std performance on offline DM Control tasks with IQL variants.
+Tables 5 and 6 show that SAINT achieves the strongest performance across all domains under both AWAC and IQL,
+consistent with the BCQ results in the main text. This indicates that the benefits of modeling sub-action interactions extend
+across offline RL objectives and are not tied to a specific learning algorithm.
+18
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+F. SAINT’s Computation Cost
+SAINT
+SAINT-IP
+Factored
+0
+100 k
+200 k
+300 k
+400 k
+500 k
+Environment Steps
+19000
+18000
+17000
+16000
+15000
+14000
+13000
+Episode Reward
+(a) CityFlow
+0
+10 k
+20 k
+30 k
+40 k
+50 k
+Environment Steps
+800
+600
+400
+200
+0
+Episode Reward
+20 k
+25 k
+30 k
+35 k
+40 k
+45 k
+50 k
+40
+20
+(b) CoNE
+Figure 9. Learning curves comparing SAINT, SAINT with inducing points (SAINT-IP), and the pure factorized baseline in CityFlow and
+CoNE. Despite higher per-step computation cost, both SAINT and SAINT-IP reach the factored baseline’s final performance much faster
+and achieve higher final rewards. In CityFlow, SAINT-IP’s policy is worse than SAINT’s, but still outperforms the baseline. Results are
+averaged over 5 seeds; shaded regions denote one standard deviation.
+Figure 9 shows training curves for SAINT, SAINT with inducing points (SAINT-IP), and the factorized baseline in the
+CityFlow and CoNE environments. While SAINT and SAINT-IP incur higher per-step computational costs due to the
+Transformer blocks, both methods achieve the factorized baseline’s final performance in less total training time. This reflects
+their ability to reach performant policies with fewer training episodes. In CityFlow, SAINT-IP exhibits a degradation in
+asymptotic reward relative to SAINT, but still outperforms the factorized baseline. These results illustrate that the overhead
+of modeling sub-action dependencies can be offset by more efficient use of training experience.
+19
+SAINT: Attention-Based Policies for Discrete Combinatorial Action Spaces
+G. Robustness to Architectural Hyperparameters
+We systematically evaluated SAINT’s sensitivity to architectural hyperparameters by sweeping over the number of self-
+attention blocks {1, 3, 5} and attention heads {1, 2, 4, 8}, yielding twelve configurations.
+Configuration
+Mean Return
+1 block × 1 head
+−13376.6 ± 973.3
+1 block × 2 heads
+−13416.6 ± 1003.6
+1 block × 4 heads
+−13058.6 ± 725.5
+1 block × 8 heads
+−13744.5 ± 900.6
+3 blocks × 1 head
+−12834.6 ± 499.8
+3 blocks × 2 heads
+−13195.0 ± 618.8
+3 blocks × 4 heads
+−13209.5 ± 778.8
+3 blocks × 8 heads
+−13156.5 ± 581.9
+5 blocks × 1 head
+−13320.7 ± 831.7
+5 blocks × 2 heads
+−13658.8 ± 855.6
+5 blocks × 4 heads
+−13664.3 ± 961.5
+5 blocks × 8 heads
+−13664.8 ± 822.3
+Factored PPO
+−14200.5 ± 1127.4
+AR PPO
+−13995.9 ± 789.4
+Standard PPO
+−14442.5 ± 1180.0
+Table 7. Mean episodic return ± standard deviation on CityFlow Irregular. We varied the number of attention blocks {1, 3, 5} and the
+number of attention heads {1, 2, 4, 8}, for a total of 12 configurations. All SAINT variants outperform Factored, AR, and PPO baselines.
+The best SAINT configuration is in bold, the worst is in italics.
+A consistent pattern emerges in Table 7. Moderate depth (3 blocks) with 2–4 heads yields strong and stable performance,
+while very high head counts (8) tend to degrade results. Crucially, every SAINT variant outperforms all baselines, including
+Factored PPO, AR-PPO, and standard PPO. This robustness implies that SAINT’s architectural advantages are not narrowly
+tied to a specific hyperparameter regime but instead generalize across a broad design space. Careful tuning can yield an
+additional 5–10% improvement, yet even suboptimal choices consistently achieve better outcomes than state of the art
+methods.
+20
