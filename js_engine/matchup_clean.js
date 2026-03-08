@@ -33,7 +33,8 @@
  *   node matchup_clean.js --cards "Doomed Drone,R,R,R,R,R,R,R"                   # 1 fixed + 7 random (re-rolled per game)
  *   node matchup_clean.js --games 20 --player-switch --parallel 4                 # 10 pairs, swapped sides per pair
  *   node matchup_clean.js --cards "Apollo,Cynestra" --player-switch --games 4       # 2 pairs with fixed set
- *   
+ *   node matchup_clean.js --resign 1.5                                              # C++ players resign when opponent has 1.5x material (0 = disable)
+ *
  *   node matchup_clean.js --games 16 --parallel 4 --player-switch --think-time 5000 --player-white LiveHardestAI --player-black MCDSAI --save-replays TEST 2>matchup_run.log
  */
 
@@ -1049,6 +1050,8 @@ async function playSingleGame(activeDeck, config) {
     const maxTurns = CONFIG.maxTurns || 200;
     const retryOnError = CONFIG.retryOnError || 1;
     const stuckThreshold = CONFIG.stuckDetectionTurns || 5;
+    const resignRatio = config.resignThreshold || 0;  // 0 = disabled
+    const MIN_RESIGN_TURN = 10;  // Don't resign before turn 10 (early economy investment is misleading)
 
     // MCDSAI config (may be null if no MCDSAI players)
     const mcdsaiConfig = config.mcdsai || null;
@@ -1207,6 +1210,27 @@ async function playSingleGame(activeDeck, config) {
         if (analyzer.gameState.finished) {
             console.error(`[Game] Game over detected after turn ${turnCount}`);
             break;
+        }
+
+        // --- WillScore resignation for non-MCDSAI players ---
+        if (resignRatio > 0 && !isActiveMCDSAI && turnCount >= MIN_RESIGN_TURN) {
+            const selfScore = computeWillScoreSum(analyzer.gameState, activePlayer);
+            const opponentPlayer = activePlayer === 0 ? 1 : 0;
+            const oppScore = computeWillScoreSum(analyzer.gameState, opponentPlayer);
+
+            // Don't resign if opponent has no attack capability
+            let oppHasAttack = false;
+            analyzer.gameState.table.forEach((inst) => {
+                if (inst.owner !== opponentPlayer || inst.dead) return;
+                if (inst.card.totalAttack > 0) oppHasAttack = true;
+            });
+
+            if (oppHasAttack && selfScore * resignRatio < oppScore) {
+                console.error(`[Turn] ${playerName} resigns by WillScore (self=${selfScore.toFixed(1)}, opponent=${oppScore.toFixed(1)}, ratio=${(oppScore / Math.max(selfScore, 0.01)).toFixed(1)}x, threshold=${resignRatio}x)`);
+                analyzer.gameState.result = activePlayer === 0 ? C.COLOR_BLACK : C.COLOR_WHITE;
+                abortReason = `${playerLabel} resigned by WillScore at turn ${turnCount}`;
+                break;
+            }
         }
 
         // --- Check stagnation (AS3-style) ---
@@ -1637,7 +1661,7 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
 async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose, options = {}) {
-    const { playerSwitch = false, fixedCards = null } = options;
+    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD } = options;
 
     // Distribute game numbers across worker slots
     const slotsGames = Array.from({ length: numWorkers }, () => []);
@@ -1694,7 +1718,8 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     saveReplaysDir: saveReplaysDir,
                     verbose: verbose,
                     playerSwitch: playerSwitch,
-                    fixedCards: fixedCards
+                    fixedCards: fixedCards,
+                    resignThreshold: resignThreshold
                 }
             });
 
@@ -1871,6 +1896,7 @@ async function main() {
     let saveReplaysDir = null;           // Phase 7e: null = no replay saving
     let playerSwitch = false;            // --player-switch: run games in pairs with swapped sides
     let fixedCards = null;               // --cards "A,B,C": fixed advanced units (null = random)
+    let resignThreshold = WILL_SCORE_THRESHOLD;  // --resign <ratio>: WillScore resign threshold for C++ players (0 = disabled)
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--random') useRandom = true;
@@ -1888,6 +1914,16 @@ async function main() {
         if (args[i] === '--player-switch') playerSwitch = true;
         if (args[i] === '--cards' && args[i + 1]) {
             fixedCards = args[++i].split(',').map(s => s.trim()).filter(s => s.length > 0);
+        }
+        if (args[i] === '--resign' && args[i + 1]) {
+            const val = parseFloat(args[++i]);
+            if (val === 0) {
+                resignThreshold = 0;  // Disabled
+            } else if (val >= 1.0) {
+                resignThreshold = val;
+            } else {
+                console.error(`WARNING: --resign ${val} is < 1.0 (nonsensical). Using default ${WILL_SCORE_THRESHOLD}.`);
+            }
         }
         if (args[i] === '--save-replays') {
             // Flat folder under bin/asset/replays/ with timestamp prefix.
@@ -1970,6 +2006,11 @@ async function main() {
     if (anyCpp) console.error(`Think time: ${thinkTimeMs}ms`);
     if (!singleTurnMode) {
         console.error(`Max turns: ${CONFIG.maxTurns}, Stuck detection: ${CONFIG.stuckDetectionTurns} turns`);
+        if (resignThreshold > 0) {
+            console.error(`Resign threshold: ${resignThreshold}x WillScore (C++ players only)`);
+        } else {
+            console.error(`Resign: disabled`);
+        }
     }
     if (isParallel) console.error(`Parallel workers: ${parallelWorkers}`);
     if (playerSwitch) console.error(`Player switch: enabled (${numGames / 2} pairs)`);
@@ -2206,13 +2247,13 @@ async function main() {
                     mcdsaiDifficulty,
                     saveReplaysDir,
                     false,  // verbose
-                    { playerSwitch, fixedCards }
+                    { playerSwitch, fixedCards, resignThreshold }
                 );
             } else {
                 // Phase 7c/7d: Sequential execution
                 console.error(`\n--- Starting ${numGames} Games${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGames(
-                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig },
+                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig, resignThreshold },
                     numGames,
                     library,
                     { playerSwitch, fixedCards, saveReplaysDir }
@@ -2272,7 +2313,8 @@ async function main() {
             playerWhite: playerWhite,
             playerBlack: playerBlack,
             thinkTimeMs: thinkTimeMs,
-            mcdsai: mcdsaiConfig
+            mcdsai: mcdsaiConfig,
+            resignThreshold: resignThreshold
         });
 
         // Output result as JSON to stdout

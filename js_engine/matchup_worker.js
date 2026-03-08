@@ -201,6 +201,8 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
     const maxTurns = CONFIG.maxTurns || 200;
     const retryOnError = CONFIG.retryOnError || 1;
     const stuckThreshold = CONFIG.stuckDetectionTurns || 5;
+    const resignRatio = config.resignThreshold || 0;  // 0 = disabled
+    const MIN_RESIGN_TURN = 10;
 
     const whiteIsMCDSAI = matchup.isMCDSAIPlayer(playerWhite);
     const blackIsMCDSAI = matchup.isMCDSAIPlayer(playerBlack);
@@ -370,6 +372,26 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
             break;
         }
 
+        // WillScore resignation for non-MCDSAI players
+        if (resignRatio > 0 && !isActiveMCDSAI && turnCount >= MIN_RESIGN_TURN) {
+            const selfScore = matchup.computeWillScoreSum(analyzer.gameState, activePlayer);
+            const opponentPlayer = activePlayer === 0 ? 1 : 0;
+            const oppScore = matchup.computeWillScoreSum(analyzer.gameState, opponentPlayer);
+
+            let oppHasAttack = false;
+            analyzer.gameState.table.forEach((inst) => {
+                if (inst.owner !== opponentPlayer || inst.dead) return;
+                if (inst.card.totalAttack > 0) oppHasAttack = true;
+            });
+
+            if (oppHasAttack && selfScore * resignRatio < oppScore) {
+                console.error(`[Turn] ${playerName} resigns by WillScore (self=${selfScore.toFixed(1)}, opponent=${oppScore.toFixed(1)}, ratio=${(oppScore / Math.max(selfScore, 0.01)).toFixed(1)}x, threshold=${resignRatio}x)`);
+                analyzer.gameState.result = activePlayer === 0 ? C.COLOR_BLACK : C.COLOR_WHITE;
+                abortReason = `${playerLabel} resigned by WillScore at turn ${turnCount}`;
+                break;
+            }
+        }
+
         // Check stagnation
         if (analyzer.gameState.colorIsStagnated(C.COLOR_WHITE) ||
             analyzer.gameState.colorIsStagnated(C.COLOR_BLACK)) {
@@ -444,7 +466,8 @@ async function runWorkerSlot() {
         saveReplaysDir,
         verbose,
         playerSwitch = false,
-        fixedCards = null
+        fixedCards = null,
+        resignThreshold = 0
     } = workerData;
 
     const whiteIsMCDSAI = matchup.isMCDSAIPlayer(playerWhite);
@@ -542,7 +565,8 @@ async function runWorkerSlot() {
                     mcdsaiDifficulty,
                     mcdsaiFullParams: fullParams,
                     mcdsaiShortParams: shortParams,
-                    mcdsaiLibrary: library
+                    mcdsaiLibrary: library,
+                    resignThreshold
                 }, mWorkerWhite, mWorkerBlack);
             } catch (err) {
                 gameError = err.message || String(err);
