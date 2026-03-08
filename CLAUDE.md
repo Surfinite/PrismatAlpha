@@ -64,6 +64,16 @@ python training/export_weights.py training/models/best_model.pt bin/asset/config
 node js_engine/matchup_clean.js --games 10 --parallel 4 --think-time 3000
 ```
 
+**Replay viewers:**
+```bash
+# Per-game HTML from matchup replay JSON:
+node js_engine/replay_to_html.js bin/asset/replays/.../game_0001.json
+
+# Build self-contained viewer (15MB HTML, all card art embedded):
+node js_engine/build_replay_viewer.js [output.html]
+# Output: bin/prismata_replay_viewer.html — drag-drop .json.gz or enter replay code
+```
+
 **Expert replay pipeline** (at `c:\libraries\prismata-replay-parser\`):
 ```bash
 node fetch_expert_replays.js    # fetch from API (incremental)
@@ -289,6 +299,10 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 | `training/data/unit_index.json` | 161 canonical unit names |
 | `js_engine/matchup_clean.js` | JS matchup runner (LiveHardestAI vs MCDSAI) |
 | `js_engine/matchup_worker.js` | Parallel worker script |
+| `js_engine/replay_to_html.js` | Per-game HTML replay viewer generator |
+| `js_engine/build_replay_viewer.js` | Self-contained replay viewer builder (15MB HTML) |
+| `js_engine/replay_exporter.js` | JS State → C++ GameState JSON converter |
+| `js_engine/replay_validator.js` | S3 replay validator (click-by-click) |
 | `tools/verify_selfplay.py` | Validates self-play binary output |
 | `tools/analyze_tournament.py` | Tournament HTML → Wilson CI, z-test |
 | `bin/run_selfplay.bat` | Crash-safe self-play launcher |
