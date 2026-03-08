@@ -597,6 +597,26 @@ void GUIState_Play::drawInterface()
     sf::Vector2f p2Origin(BuyablePaneSize.x, m_game.window().getSize().y/2);
     GUITools::DrawRect(p2Origin, sf::Vector2f(m_game.window().getSize().x-BuyablePaneSize.x, 3), sf::Color(127, 127, 127, 127), &m_game.window()); // horizontal board sep
     GUITools::DrawRect(p1Origin, sf::Vector2f(3, m_game.window().getSize().y), sf::Color(127, 127, 127, 64), &m_game.window()); // vertical buy sep
+
+    // Player name labels near center divider
+    auto wSize = m_game.window().getSize();
+    float labelX = wSize.x - 180;
+    float midY = wSize.y / 2.0f;
+
+    std::string topName, botName;
+    if (m_replayMode)
+    {
+        topName = m_replayP1;
+        botName = m_replayP0;
+    }
+    else
+    {
+        topName = m_selectedPlayerName[1].empty() ? "Player 1" : m_selectedPlayerName[1];
+        botName = m_selectedPlayerName[0].empty() ? "Player 0" : m_selectedPlayerName[0];
+    }
+
+    GUITools::DrawString(sf::Vector2f(labelX, midY - 22), topName, sf::Color(255, 120, 100), &m_game.window(), 16);
+    GUITools::DrawString(sf::Vector2f(labelX, midY + 8), botName, sf::Color(100, 140, 255), &m_game.window(), 16);
 }
 
 // draws resources, attack amounts, phase, etc
@@ -658,7 +678,19 @@ void GUIState_Play::drawInformation()
     sf::Vector2f space = m_currentState.getActivePlayer() != 0 ? sf::Vector2f(m_game.window().getSize().x/2 - 200, 30) : sf::Vector2f(m_game.window().getSize().x/2 - 200, m_game.window().getSize().y - 24);
     std::string status = "";
 
-    if (m_currentState.isLegal(Action(m_currentState.getActivePlayer(), ActionTypes::END_PHASE, 0)))
+    if (m_replayMode)
+    {
+        // In replay mode, show clean phase labels without interactive prompts
+        switch (m_currentState.getActivePhase())
+        {
+            case Phases::Action:  { status = "ACTION PHASE"; break; }
+            case Phases::Confirm: { status = "CONFIRM PHASE"; break; }
+            case Phases::Defense: { status = "DEFENSE PHASE"; break; }
+            case Phases::Breach:  { status = "BREACH PHASE"; break; }
+            case Phases::Swoosh:  { status = "SWOOSH"; break; }
+        }
+    }
+    else if (m_currentState.isLegal(Action(m_currentState.getActivePlayer(), ActionTypes::END_PHASE, 0)))
     {
         status = m_currentState.getActivePhase() == Phases::Action ? "ACTION PHASE - PRESS SPACE TO END PHASE" : "PRESS SPACE TO CONFIRM END PHASE";
     }
