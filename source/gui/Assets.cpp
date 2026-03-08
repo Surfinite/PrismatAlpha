@@ -37,6 +37,11 @@ const sf::Texture & Assets::getTexture(const std::string & textureName) const
     return m_textureMap.at(textureName);
 }
 
+bool Assets::hasTexture(const std::string & textureName) const
+{
+    return m_textureMap.find(textureName) != m_textureMap.end();
+}
+
 void Assets::addFont(const std::string & fontName, const std::string & path)
 {
     m_fontMap[fontName] = sf::Font();
