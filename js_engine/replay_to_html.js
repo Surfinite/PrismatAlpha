@@ -42,15 +42,20 @@ function buildCardMetadata(cardLibrary, usedCardNames) {
         const uiName = card.UIName || internalName;
         if (!usedCardNames.has(uiName)) continue;
 
-        // Determine attack value from beginOwnTurnScript or abilityScript
-        let attack = 0;
+        // Determine attack: auto-attack from beginOwnTurnScript, ability-attack from abilityScript
+        let autoAttack = 0;
+        let abilityAttack = 0;
         if (card.beginOwnTurnScript && card.beginOwnTurnScript.receive) {
-            const recv = card.beginOwnTurnScript.receive;
-            // Count 'A' characters for attack
-            for (const ch of recv) {
-                if (ch === 'A') attack++;
+            for (const ch of card.beginOwnTurnScript.receive) {
+                if (ch === 'A') autoAttack++;
             }
         }
+        if (card.abilityScript && card.abilityScript.receive) {
+            for (const ch of card.abilityScript.receive) {
+                if (ch === 'A') abilityAttack++;
+            }
+        }
+        const attack = autoAttack + abilityAttack;
 
         // Lane assignment properties (matching GUICard::getLane())
         const hasAbility = !!(card.abilityScript || card.targetAction);
@@ -61,6 +66,8 @@ function buildCardMetadata(cardLibrary, usedCardNames) {
 
         byUIName[uiName] = {
             attack,
+            autoAttack,
+            abilityAttack,
             toughness: card.toughness || 0,
             hasAbility,
             hasTargetAbility,
@@ -281,7 +288,7 @@ const ASSET_DATA = ${JSON.stringify(assets)};
     // Parse mana string into resource object
     // ---------------------------------------------------------------------------
     function parseMana(manaStr) {
-        const res = { gold: 0, blue: 0, green: 0, red: 0, energy: 0 };
+        const res = { gold: 0, blue: 0, green: 0, red: 0, energy: 0, attack: 0 };
         if (!manaStr) return res;
         let numBuf = '';
         for (const ch of manaStr) {
@@ -294,6 +301,7 @@ const ASSET_DATA = ${JSON.stringify(assets)};
                     case 'G': res.green++; break;
                     case 'C': res.red++; break;
                     case 'H': res.energy++; break;
+                    case 'A': res.attack++; break;
                 }
             }
         }
@@ -302,21 +310,38 @@ const ASSET_DATA = ${JSON.stringify(assets)};
     }
 
     // ---------------------------------------------------------------------------
-    // Compute attack totals from table
+    // Compute attack totals — matches GUIState_Play.cpp:675-687
+    // Active player: current attack from mana resources
+    // Inactive player: predict next-turn attack from card abilities
     // ---------------------------------------------------------------------------
     function computeAttack(state, player) {
-        let total = 0;
-        if (!state.table) return total;
+        const isActive = state.turn === player;
+        if (isActive) {
+            // Active player: attack is the 'A' count in their mana string
+            const mana = player === 0 ? parseMana(state.whiteMana) : parseMana(state.blackMana);
+            return mana.attack;
+        }
+        // Inactive player: predict next-turn attack (approximates PredictEnemyNextTurn).
+        // At start of their turn: construction ticks down (const 1→0), beginOwnTurnScript
+        // fires (autoAttack), and abilities become usable (abilityAttack).
+        let predicted = 0;
+        if (!state.table) return predicted;
         for (const card of state.table) {
             if (card.owner !== player) continue;
-            if (card.constructionTime > 0) continue;
             if (card.deadness !== 'alive') continue;
+            if (card.delay > 0) continue;
             const meta = CARD_META[card.cardName];
-            if (meta && meta.attack > 0) {
-                total += meta.attack;
+            if (!meta) continue;
+            if (card.constructionTime <= 1) {
+                // Ready now or finishing next turn — autoAttack will fire
+                predicted += (meta.autoAttack || 0);
+            }
+            if (card.constructionTime === 0) {
+                // Already ready — can use ability next turn
+                predicted += (meta.abilityAttack || 0);
             }
         }
-        return total;
+        return predicted;
     }
 
     // ---------------------------------------------------------------------------
@@ -827,7 +852,7 @@ const ASSET_DATA = ${JSON.stringify(assets)};
         ctx.fillRect(BUY_PANE_WIDTH, 0, W - BUY_PANE_WIDTH, 28);
 
         // Turn info
-        let turnStr = REPLAY.p0 + ' vs ' + REPLAY.p1;
+        let turnStr = '\u2191 ' + REPLAY.p1 + ' vs ' + REPLAY.p0 + ' \u2193';
 
         if (REPLAY.turnBoundaries && REPLAY.turnBoundaries.length > 0) {
             // Find current turn
@@ -856,11 +881,34 @@ const ASSET_DATA = ${JSON.stringify(assets)};
         ctx.font = 'bold 16px Consolas, monospace';
         ctx.fillText(turnStr, BUY_PANE_WIDTH + 10, 20);
 
+        // Player name labels — top player (P1) left of step counter, bottom player (P0) mirrored
+        ctx.font = 'bold 14px Consolas, monospace';
+        const stepStr = 'Step ' + stateIndex + '/' + (totalStates - 1);
+        const stepW = ctx.measureText(stepStr).width;
+        const stepX = W - stepW - 10;
+
+        // P1 label (top) — to the left of step counter
+        ctx.fillStyle = '#ff8866';
+        const p1Label = REPLAY.p1;
+        const p1LabelW = ctx.measureText(p1Label).width;
+        ctx.fillText(p1Label, stepX - p1LabelW - 15, 20);
+
         // Step counter (top-right)
         ctx.fillStyle = '#888';
         ctx.font = '14px Consolas, monospace';
-        const stepStr = 'Step ' + stateIndex + '/' + (totalStates - 1);
-        ctx.fillText(stepStr, W - 160, 20);
+        ctx.fillText(stepStr, stepX, 20);
+
+        // P0 label (bottom) — mirrored position at bottom-right
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillRect(stepX - p1LabelW - 25, H - 28, W - stepX + p1LabelW + 25, 28);
+        ctx.font = 'bold 14px Consolas, monospace';
+        ctx.fillStyle = '#6688ff';
+        const p0Label = REPLAY.p0;
+        const p0LabelW = ctx.measureText(p0Label).width;
+        ctx.fillText(p0Label, stepX - p0LabelW - 15, H - 10);
+        ctx.fillStyle = '#888';
+        ctx.font = '14px Consolas, monospace';
+        ctx.fillText(stepStr, stepX, H - 10);
 
         // Controls hint (inside the second buy pane column, below the additional units)
         const H = canvas.height;
