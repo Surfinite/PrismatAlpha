@@ -407,17 +407,13 @@ function applyClicks(analyzer, clicks, actionStates) {
         const clickType = click._type;
         const clickId = click._id !== undefined ? click._id : -1;
 
-        // Auto end-swipe: C++ --suggest doesn't emit end-swipe clicks.
-        // A stale swipe (e.g., SWIPEPURPOSE_ASSIGN from a Rhino ability) blocks
-        // subsequent clicks of different purpose (e.g., melee on opponent's unit).
-        // Same pattern as StateUtil.convertToClicks() for MCDSAI clicks.
-        if (analyzer.controller.inSwipe && clickType !== C.CLICK_END_SWIPE) {
-            const swipeResult = analyzer.recordClick(false, false, C.CLICK_END_SWIPE, -1);
-            if (swipeResult.canClick) {
-                applied++;
-                details.push(`  [auto] OK: end swipe processed`);
-            }
-        }
+        // Smart auto end-swipe: The AS3/JS Controller handles most swipe
+        // transitions internally (space clicks, card clicks, same-purpose inst clicks).
+        // But some transitions fail without an explicit end-swipe — e.g., activating
+        // a targeting ability (like Iceblade Golem/CHILL) while in a SWIPEPURPOSE_ASSIGN
+        // swipe from a previous non-targeting ability (like Steelsplitter).
+        // Strategy: try the click first; if it fails AND we're in a swipe, retry
+        // with an end-swipe inserted before it.
 
         // Auto-commit: C++ AI Move has ONE space click for action→confirm,
         // but JS engine needs TWO (action→confirm + confirm→commit→defense).
@@ -433,7 +429,20 @@ function applyClicks(analyzer, clicks, actionStates) {
             }
         }
 
-        const result = analyzer.recordClick(false, false, clickType, clickId);
+        let result = analyzer.recordClick(false, false, clickType, clickId);
+
+        // Retry with end-swipe: if click failed while in a swipe, end the swipe
+        // and try again. This handles cross-purpose transitions (e.g., non-targeting
+        // ability swipe → targeting ability click) that the controller can't auto-resolve.
+        if (!result.canClick && analyzer.controller.inSwipe && clickType !== C.CLICK_END_SWIPE) {
+            const swipeResult = analyzer.recordClick(false, false, C.CLICK_END_SWIPE, -1);
+            if (swipeResult.canClick) {
+                details.push(`  [auto] OK: end swipe (retry)`);
+                applied++;
+                result = analyzer.recordClick(false, false, clickType, clickId);
+            }
+        }
+
         if (result.canClick) {
             applied++;
             details.push(`  [${i}] OK: ${clickType} id=${clickId}`);
