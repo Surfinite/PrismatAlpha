@@ -4,6 +4,7 @@
 #include "GUITools.h"
 #include "AITools.h"
 #include "PrismataAI.h"
+#include "Assets.h"
 
 #include <fstream>
 #include <iostream>
@@ -642,7 +643,15 @@ void GUIState_Play::drawInformation()
             GUITools::DrawTexturedRect(midPoint - sf::Vector2f(attackSize.x/2, attackSize.y/2), sf::Vector2f(attackSize.x, attackSize.y), "TexAttackBigRed", white, &m_game.window());
         }
 
-        GUITools::DrawTexturedRect(midPoint - sf::Vector2f(numSize.x/2, numSize.y/2), sf::Vector2f(numSize.x/2, numSize.y/2), std::to_string(attack), white, &m_game.window());
+        std::string attackStr = std::to_string(attack);
+        if (Assets::Instance().hasTexture(attackStr))
+        {
+            GUITools::DrawTexturedRect(midPoint - sf::Vector2f(numSize.x/2, numSize.y/2), sf::Vector2f(numSize.x/2, numSize.y/2), attackStr, white, &m_game.window());
+        }
+        else
+        {
+            GUITools::DrawString(midPoint - sf::Vector2f(numSize.x/4, numSize.y/4), attackStr, white, &m_game.window(), 32);
+        }
     }
 
     // print status message

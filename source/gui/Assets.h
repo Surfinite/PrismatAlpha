@@ -25,6 +25,7 @@ public:
     void addSound(const std::string& fontName, const std::string& path);
 
     const sf::Texture & getTexture(const std::string & textureName) const;
+    bool hasTexture(const std::string & textureName) const;
     const sf::Font &    getFont(const std::string & fontName) const;
     sf::Sound &         getSound(const std::string& soundName);
 };
