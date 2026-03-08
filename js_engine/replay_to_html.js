@@ -30,6 +30,12 @@ const ICON_RESOURCE_DIR = path.join(BIN_DIR, 'asset', 'images', 'icons', 'resour
 const CARD_LIBRARY_PATH = path.join(BIN_DIR, 'asset', 'config', 'cardLibrary.jso');
 
 // ---------------------------------------------------------------------------
+// Display name mapping — rename internal AI names for public-facing replays
+// ---------------------------------------------------------------------------
+const DISPLAY_NAMES = { 'LiveHardestAI': 'HardestAI' };
+function displayName(name) { return DISPLAY_NAMES[name] || name; }
+
+// ---------------------------------------------------------------------------
 // Card metadata extraction from cardLibrary.jso
 // ---------------------------------------------------------------------------
 
@@ -200,7 +206,7 @@ function buildHTML(replay, assets, cardMeta) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${replay.p0} vs ${replay.p1} — Prismata Replay</title>
+<title>${displayName(replay.p0)} vs ${displayName(replay.p1)} — Prismata Replay</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #1a1a2e; overflow: hidden; font-family: Consolas, monospace; }
@@ -212,10 +218,10 @@ canvas { display: block; }
 <script>
 // === EMBEDDED DATA ===
 const REPLAY = ${JSON.stringify({
-        p0: replay.p0,
-        p1: replay.p1,
+        p0: displayName(replay.p0),
+        p1: displayName(replay.p1),
         winner: replay.winner,
-        winnerName: replay.winnerName,
+        winnerName: displayName(replay.winnerName),
         turns: replay.turns,
         cardSet: replay.cardSet,
         states: replay.states,
@@ -683,6 +689,41 @@ const ASSET_DATA = ${JSON.stringify(assets)};
         ctx.fillText('⚔ ' + p0atk, indXRight, midY + 26);
 
         // ---------------------------------------------------------------------------
+        // Defense phase: big sword overlay showing remaining incoming attack
+        // Matches GUIState_Play.cpp:651-674 — TexAttackBig drawn during Defense/Breach
+        // ---------------------------------------------------------------------------
+        if (state.phase === 'defense' || state.phase === 'confirm') {
+            // The defending player is the active player (turn owner)
+            const defender = state.turn;
+            const attacker = 1 - defender;
+            const incomingAttack = computeAttack(state, attacker);
+            // Only draw if there's actual incoming attack (mana 'A' from attacker)
+            const atkMana = attacker === 0 ? parseMana(state.whiteMana) : parseMana(state.blackMana);
+            if (atkMana.attack > 0) {
+                // Position sword on the defender's side of the board
+                const swordSize = 200;
+                const centerX = playX + (W - playX) / 2;
+                const swordY = defender === 0
+                    ? midY + (H - midY) / 2 - swordSize / 2    // P0 bottom half
+                    : midY / 2 - swordSize / 2 + 20;           // P1 top half
+
+                // Draw sword icon at 40% opacity
+                ctx.globalAlpha = 0.4;
+                if (images['icon_attack']) {
+                    ctx.drawImage(images['icon_attack'], centerX - swordSize / 2, swordY, swordSize, swordSize);
+                }
+                ctx.globalAlpha = 1.0;
+
+                // Draw remaining attack number — large, white, centered on sword
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 64px Consolas, monospace';
+                const atkStr = String(atkMana.attack);
+                const atkTextW = ctx.measureText(atkStr).width;
+                ctx.fillText(atkStr, centerX - atkTextW / 2, swordY + swordSize / 2 + 22);
+            }
+        }
+
+        // ---------------------------------------------------------------------------
         // Buy pane sidebar
         // ---------------------------------------------------------------------------
         drawBuyPane(state);
@@ -846,6 +887,7 @@ const ASSET_DATA = ${JSON.stringify(assets)};
     // ---------------------------------------------------------------------------
     function drawHUD(state) {
         const W = canvas.width;
+        const H = canvas.height;
 
         // Top bar background
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -910,8 +952,23 @@ const ASSET_DATA = ${JSON.stringify(assets)};
         ctx.font = '14px Consolas, monospace';
         ctx.fillText(stepStr, stepX, H - 10);
 
+        // Phase label — on active player's side, matching GUIState_Play.cpp:678
+        // Active player 1 (top) → near top; active player 0 (bottom) → near bottom
+        const phaseLabels = {
+            'action': 'ACTION PHASE',
+            'defense': 'DEFENSE PHASE - ASSIGN BLOCKERS',
+            'confirm': 'CONFIRM PHASE',
+            'breach': 'BREACH PHASE'
+        };
+        const phaseText = phaseLabels[state.phase] || state.phase.toUpperCase();
+        ctx.font = 'bold 16px Consolas, monospace';
+        ctx.fillStyle = '#fff';
+        const phaseW = ctx.measureText(phaseText).width;
+        const phaseCenterX = BUY_PANE_WIDTH + (W - BUY_PANE_WIDTH) / 2;
+        const phaseY = state.turn === 1 ? 46 : H - 10;
+        ctx.fillText(phaseText, phaseCenterX - phaseW / 2, phaseY);
+
         // Controls hint (inside the second buy pane column, below the additional units)
-        const H = canvas.height;
         ctx.fillStyle = '#555';
         ctx.font = '11px Consolas, monospace';
         const hints = [

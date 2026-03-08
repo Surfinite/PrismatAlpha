@@ -26,6 +26,9 @@
  *   node matchup_clean.js --player MCDSAI             # Both sides use MCDSAI
  *   node matchup_clean.js --player-white MCDSAI --player-black OriginalHardestAI  # Mixed
  *   node matchup_clean.js --player MCDSAI --mcdsai-difficulty HardestAI  # Custom difficulty
+ *   node matchup_clean.js --player SteamAI             # Both sides use Steam's PrismataAI.exe
+ *   node matchup_clean.js --player-white SteamAI --player-black LiveHardestAI  # Mixed Steam/C++
+ *   node matchup_clean.js --player SteamAI --steam-difficulty HardAI  # Custom Steam difficulty
  *   node matchup_clean.js --games 6 --parallel 2      # 6 games across 2 parallel workers
  *   node matchup_clean.js --games 4 --parallel 2 --save-replays                    # Replays to bin/asset/replays/YYYY-MM-DD_HH-MM-SS/
  *   node matchup_clean.js --games 4 --parallel 2 --save-replays mcdsai_test      # Replays to bin/asset/replays/YYYY-MM-DD_HH-MM-SS_mcdsai_test/
@@ -51,6 +54,9 @@ const { stateToCppJSON, buildReplayJSON } = require('./replay_exporter');
 // MCDSAI player identifier (case-insensitive matching in CLI parsing)
 const MCDSAI_PLAYER = 'MCDSAI';
 
+// SteamAI player identifier — uses Steam's native PrismataAI.exe
+const STEAM_AI_PLAYER = 'STEAMAI';
+
 // ---------------------------------------------------------------------------
 // Per-action click description
 // ---------------------------------------------------------------------------
@@ -61,7 +67,7 @@ const MCDSAI_PLAYER = 'MCDSAI';
  * @param {Object} state - Current game state (after click was applied)
  * @returns {string} Human-readable action label
  */
-function describeClick(click, state) {
+function describeClick(click, state, preClickPhase) {
     const phase = state.phase;
     switch (click._type) {
         case C.CLICK_CARD:
@@ -79,16 +85,25 @@ function describeClick(click, state) {
             const inst = state.table.get(click._id);
             if (inst) {
                 const name = inst.card.UIName;
-                // In defense phase, it's blocking; in action phase, it's ability/assign
                 if (phase === C.PHASE_DEFENSE) {
                     return 'Block with ' + name;
+                }
+                // Clicking opponent's unit (target for chill/snipe) — just show the name
+                if (inst.owner !== state.turn) {
+                    return name;
                 }
                 return 'Use ' + name;
             }
             return 'Click inst #' + click._id;
         }
-        case C.CLICK_SPACE:
+        case C.CLICK_SPACE: {
+            // Use pre-click phase to distinguish which phase is ending
+            const p = preClickPhase || phase;
+            if (p === C.PHASE_ACTION) return 'End Action';
+            if (p === C.PHASE_DEFENSE) return 'End Defense';
+            if (p === C.PHASE_CONFIRM) return 'Confirm';
             return 'End Phase';
+        }
         case C.CLICK_END_SWIPE:
             return 'End Defense';
         case C.CLICK_REVERT:
@@ -429,6 +444,7 @@ function applyClicks(analyzer, clicks, actionStates) {
             }
         }
 
+        const prePhase = analyzer.gameState.phase;
         let result = analyzer.recordClick(false, false, clickType, clickId);
 
         // Retry with end-swipe: if click failed while in a swipe, end the swipe
@@ -449,7 +465,7 @@ function applyClicks(analyzer, clicks, actionStates) {
             if (actionStates) {
                 actionStates.push({
                     state: stateToCppJSON(analyzer.gameState),
-                    action: describeClick(click, analyzer.gameState)
+                    action: describeClick(click, analyzer.gameState, prePhase)
                 });
             }
         } else {
@@ -606,6 +622,147 @@ function isMCDSAIPlayer(playerName) {
 }
 
 /**
+ * Helper: check if a player name is SteamAI (case-insensitive).
+ */
+function isSteamAIPlayer(playerName) {
+    return playerName.toUpperCase() === STEAM_AI_PLAYER;
+}
+
+/**
+ * Orchestrate one SteamAI turn: send full request to PrismataAI.exe, apply clicks.
+ *
+ * The Steam client sends ALL fields every turn (mergedDeck, gameState, aiParameters,
+ * aiPlayerName) — unlike MCDSAI which only sends gameState + aiPlayerName per turn.
+ * AI params are selected based on turn number (full params for turns 1-16, short after).
+ *
+ * @param {Analyzer} analyzer
+ * @param {Object[]} activeDeck - Active mergedDeck cards
+ * @param {SteamAI} steamAI - SteamAI instance
+ * @param {string} difficulty - AI difficulty name (e.g., "HardestAI")
+ * @param {Object} steamConfig - { fullParams, shortParams, initDeck }
+ * @returns {Promise<{ ok: boolean, clickResult: Object|null, error: string|null, actionStates: Array }>}
+ */
+async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamConfig) {
+    const StateUtil = require('./StateUtil');
+    const { selectParams } = require('./ai_params');
+
+    const preTurn = analyzer.gameState.turn;
+    const preNumTurns = analyzer.gameState.numTurns;
+    const prePhase = analyzer.gameState.phase;
+
+    console.error(`\n[Turn] Player ${preTurn} (${preTurn === 0 ? 'White' : 'Black'}), ` +
+                  `numTurns=${preNumTurns}, phase=${prePhase} [SteamAI]`);
+
+    // 1. Serialize game state
+    const stateStr = analyzer.gameState.toString();
+    const stateObj = JSON.parse(stateStr);
+
+    // 2. Select AI params based on turn number (matching AIThreadHandler.as:297-303)
+    const aiParamsStr = selectParams(difficulty, preNumTurns,
+        steamConfig.fullParams, steamConfig.shortParams);
+    const aiParams = JSON.parse(aiParamsStr);
+
+    // 3. Build full request (matching getExeMoveRequestString, AIThreadHandler.as:309)
+    const requestJson = JSON.stringify({
+        mergedDeck: steamConfig.initDeck,
+        gameState: stateObj,
+        aiParameters: aiParams,
+        aiPlayerName: difficulty
+    });
+
+    // 4. Call SteamAI
+    console.error(`[Turn] Calling SteamAI (difficulty=${difficulty})...`);
+    let response;
+    try {
+        response = await steamAI.getMove(requestJson);
+    } catch (err) {
+        console.error(`[Turn] SteamAI error: ${err.message}`);
+        return { ok: false, clickResult: null, error: `SteamAI error: ${err.message}`, actionStates: [] };
+    }
+
+    // 5. Handle resignation
+    if (response.airesign) {
+        console.error(`[Turn] SteamAI resigned`);
+        analyzer.gameState.result = preTurn === 0 ? C.COLOR_BLACK : C.COLOR_WHITE;
+        return { ok: true, clickResult: { applied: 0, failed: 0, details: ['SteamAI resigned'] }, error: null, actionStates: [] };
+    }
+
+    // 6. Handle 0 clicks
+    const aiclicks = response.aiclicks || [];
+    if (aiclicks.length === 0) {
+        const thinkTime = response.aithinktime || 'unknown';
+        console.error(`[Turn] SteamAI returned 0 clicks (${thinkTime}ms think)`);
+        return { ok: false, clickResult: { applied: 0, failed: 0, details: [] }, error: `SteamAI 0 clicks (${thinkTime}ms think)`, actionStates: [] };
+    }
+
+    console.error(`[Turn] SteamAI returned ${aiclicks.length} AI clicks (${response.aithinktime || '?'}ms think)`);
+
+    // 7. Convert and apply clicks (same as playMCDSAITurn)
+    let applied = 0;
+    let failed = 0;
+    const details = [];
+    const actionStates = [];
+
+    try {
+        const clicks = StateUtil.convertToClicks(aiclicks, analyzer.gameState, false);
+        for (let i = 0; i < clicks.length; i++) {
+            const click = clicks[i];
+            const clickPrePhase = analyzer.gameState.phase;
+            const result = analyzer.recordClick(false, false, click._type, click._id, click._params);
+            if (result.canClick) {
+                applied++;
+                details.push(`  [${i}] OK: ${click._type} id=${click._id}`);
+                actionStates.push({
+                    state: stateToCppJSON(analyzer.gameState),
+                    action: describeClick(click, analyzer.gameState, clickPrePhase)
+                });
+            } else {
+                failed++;
+                const gs = analyzer.gameState;
+                let diag = `phase=${gs.phase}`;
+                if (gs.glassBroken) diag += ` glassBroken`;
+                if (gs.inEndBO) diag += ` inEndBO`;
+                console.error(`[Turn] SteamAI click ${i} FAILED: ${click._type} id=${click._id} (${diag})`);
+                details.push(`  [${i}] FAIL: ${click._type} id=${click._id} (${diag})`);
+            }
+        }
+    } catch (convertErr) {
+        console.error(`[Turn] SteamAI convertToClicks error: ${convertErr.message}`);
+        console.error(`[Turn] Falling back to direct click application...`);
+
+        // Fallback: apply raw aiclicks directly
+        for (let i = 0; i < aiclicks.length; i++) {
+            const ac = aiclicks[i];
+            let clickType = ac.type || ac._type;
+            let clickId = -1;
+            if (clickType === C.CLICK_INST || clickType === C.CLICK_INST_SHIFT) {
+                clickId = StateUtil.findInstId(ac.args, analyzer);
+            }
+            const clickPrePhase = analyzer.gameState.phase;
+            const result = analyzer.recordClick(false, false, clickType, clickId);
+            if (result.canClick) {
+                applied++;
+                details.push(`  [${i}] OK (fallback): ${clickType} id=${clickId}`);
+                actionStates.push({
+                    state: stateToCppJSON(analyzer.gameState),
+                    action: describeClick({ _type: clickType, _id: clickId }, analyzer.gameState, clickPrePhase)
+                });
+            } else {
+                failed++;
+                details.push(`  [${i}] FAIL (fallback): ${clickType} id=${clickId}`);
+            }
+        }
+    }
+
+    console.error(`[Turn] SteamAI clicks: ${applied} applied, ${failed} failed`);
+    if (failed > 0) {
+        console.error(`[Turn] SteamAI click details:\n${details.join('\n')}`);
+    }
+
+    return { ok: true, clickResult: { applied, failed, details }, error: null, actionStates };
+}
+
+/**
  * Orchestrate one MCDSAI turn: get state, call MCDSAI worker, apply clicks.
  *
  * Follows the selfplay_main.js pattern for MCDSAI interaction:
@@ -688,13 +845,14 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
 
         for (let i = 0; i < clicks.length; i++) {
             const click = clicks[i];
+            const prePhase = analyzer.gameState.phase;
             const result = analyzer.recordClick(false, false, click._type, click._id, click._params);
             if (result.canClick) {
                 applied++;
                 details.push(`  [${i}] OK: ${click._type} id=${click._id}`);
                 actionStates.push({
                     state: stateToCppJSON(analyzer.gameState),
-                    action: describeClick(click, analyzer.gameState)
+                    action: describeClick(click, analyzer.gameState, prePhase)
                 });
             } else {
                 failed++;
@@ -749,13 +907,14 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
                     clickId = StateUtil.findInstId(ac.args, analyzer);
                 }
 
+                const prePhase = analyzer.gameState.phase;
                 const result = analyzer.recordClick(false, false, clickType, clickId);
                 if (result.canClick) {
                     applied++;
                     details.push(`  [${i}] OK (fallback): ${clickType} id=${clickId}`);
                     actionStates.push({
                         state: stateToCppJSON(analyzer.gameState),
-                        action: describeClick({ _type: clickType, _id: clickId }, analyzer.gameState)
+                        action: describeClick({ _type: clickType, _id: clickId }, analyzer.gameState, prePhase)
                     });
                 } else {
                     failed++;
@@ -1067,6 +1226,11 @@ async function playSingleGame(activeDeck, config) {
     const whiteIsMCDSAI = isMCDSAIPlayer(playerWhite);
     const blackIsMCDSAI = isMCDSAIPlayer(playerBlack);
 
+    // SteamAI config (may be null if no SteamAI players)
+    const steamConfig = config.steam || null;
+    const whiteIsSteamAI = isSteamAIPlayer(playerWhite);
+    const blackIsSteamAI = isSteamAIPlayer(playerBlack);
+
     const errors = [];
     let abortReason = null;
 
@@ -1075,8 +1239,10 @@ async function playSingleGame(activeDeck, config) {
     const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
     analyzer.loaderInit();
 
-    const whiteLabel = whiteIsMCDSAI ? `MCDSAI(${mcdsaiConfig ? mcdsaiConfig.difficulty : '?'})` : playerWhite;
-    const blackLabel = blackIsMCDSAI ? `MCDSAI(${mcdsaiConfig ? mcdsaiConfig.difficulty : '?'})` : playerBlack;
+    const whiteLabel = whiteIsMCDSAI ? `MCDSAI(${mcdsaiConfig ? mcdsaiConfig.difficulty : '?'})` :
+                       whiteIsSteamAI ? `SteamAI(${steamConfig ? steamConfig.difficulty : '?'})` : playerWhite;
+    const blackLabel = blackIsMCDSAI ? `MCDSAI(${mcdsaiConfig ? mcdsaiConfig.difficulty : '?'})` :
+                       blackIsSteamAI ? `SteamAI(${steamConfig ? steamConfig.difficulty : '?'})` : playerBlack;
     console.error('[Game] Initialized. White=' + whiteLabel + ', Black=' + blackLabel);
     printStateSummary(analyzer, 'GAME START');
 
@@ -1106,6 +1272,15 @@ async function playSingleGame(activeDeck, config) {
         }
     }
 
+    // Initialize SteamAI for this game (process spawns fresh per turn — one-shot exe)
+    if ((whiteIsSteamAI || blackIsSteamAI) && steamConfig) {
+        // Build init deck for SteamAI (same approach as MCDSAI — includes AI param-referenced cards)
+        const sFull = steamConfig.fullParams;
+        const sShort = steamConfig.shortParams;
+        steamConfig.initDeck = buildInitDeck(activeDeck, steamConfig.library, sFull, sShort);
+        console.error('[Game] SteamAI configured (processes spawn per turn)');
+    }
+
     // Stuck detection state
     const recentHashes = [];  // circular buffer of last N state hashes
     let turnCount = 0;
@@ -1123,8 +1298,9 @@ async function playSingleGame(activeDeck, config) {
         const playerName = activePlayer === 0 ? playerWhite : playerBlack;
         const playerLabel = activePlayer === 0 ? 'White' : 'Black';
         const isActiveMCDSAI = isMCDSAIPlayer(playerName);
+        const isActiveSteamAI = isSteamAIPlayer(playerName);
 
-        console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}${isActiveMCDSAI ? ' [MCDSAI]' : ''}) ===`);
+        console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}${isActiveMCDSAI ? ' [MCDSAI]' : ''}${isActiveSteamAI ? ' [SteamAI]' : ''}) ===`);
 
         // Capture pre-turn state snapshot for replay
         try {
@@ -1138,7 +1314,13 @@ async function playSingleGame(activeDeck, config) {
 
         // --- Call appropriate turn function with retry logic ---
         let turnResult;
-        if (isActiveMCDSAI && mcdsaiConfig) {
+        if (isActiveSteamAI && steamConfig) {
+            const steamWorker = activePlayer === 0 ? steamConfig.workerWhite : steamConfig.workerBlack;
+            turnResult = await playSteamAITurn(
+                analyzer, activeDeck, steamWorker,
+                steamConfig.difficulty || 'HardestAI', steamConfig
+            );
+        } else if (isActiveMCDSAI && mcdsaiConfig) {
             const worker = activePlayer === 0 ? mcdsaiConfig.workerWhite : mcdsaiConfig.workerBlack;
             turnResult = await playMCDSAITurn(
                 analyzer, activeDeck, worker,
@@ -1162,7 +1344,13 @@ async function playSingleGame(activeDeck, config) {
             }
 
             // Retry
-            if (isActiveMCDSAI && mcdsaiConfig) {
+            if (isActiveSteamAI && steamConfig) {
+                const steamWorker = activePlayer === 0 ? steamConfig.workerWhite : steamConfig.workerBlack;
+                turnResult = await playSteamAITurn(
+                    analyzer, activeDeck, steamWorker,
+                    steamConfig.difficulty || 'HardestAI', steamConfig
+                );
+            } else if (isActiveMCDSAI && mcdsaiConfig) {
                 const worker = activePlayer === 0 ? mcdsaiConfig.workerWhite : mcdsaiConfig.workerBlack;
                 turnResult = await playMCDSAITurn(
                     analyzer, activeDeck, worker,
@@ -1222,7 +1410,7 @@ async function playSingleGame(activeDeck, config) {
         }
 
         // --- WillScore resignation for non-MCDSAI players ---
-        if (resignRatio > 0 && !isActiveMCDSAI && turnCount >= MIN_RESIGN_TURN) {
+        if (resignRatio > 0 && !isActiveMCDSAI && !isActiveSteamAI && turnCount >= MIN_RESIGN_TURN) {
             const selfScore = computeWillScoreSum(analyzer.gameState, activePlayer);
             const opponentPlayer = activePlayer === 0 ? 1 : 0;
             const oppScore = computeWillScoreSum(analyzer.gameState, opponentPlayer);
@@ -1521,6 +1709,11 @@ async function playMultipleGames(config, numGames, library, options = {}) {
                 ...config.mcdsai,
                 workerWhite: config.mcdsai.workerBlack,
                 workerBlack: config.mcdsai.workerWhite
+            } : null,
+            steam: config.steam ? {
+                ...config.steam,
+                workerWhite: config.steam.workerBlack,
+                workerBlack: config.steam.workerWhite
             } : null
         };
 
@@ -1670,7 +1863,7 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
 async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose, options = {}) {
-    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD } = options;
+    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI' } = options;
 
     // Distribute game numbers across worker slots
     const slotsGames = Array.from({ length: numWorkers }, () => []);
@@ -1724,6 +1917,7 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     playerBlack: config.playerBlack,
                     thinkTimeMs: config.thinkTimeMs,
                     mcdsaiDifficulty: mcdsaiDifficulty,
+                    steamDifficulty: steamDifficulty,
                     saveReplaysDir: saveReplaysDir,
                     verbose: verbose,
                     playerSwitch: playerSwitch,
@@ -1901,6 +2095,7 @@ async function main() {
     let playerBlack = CONFIG.defaultPlayer;
     let thinkTimeMs = CONFIG.thinkTimeMs;
     let mcdsaiDifficulty = 'HardestAI';  // Default MCDSAI difficulty
+    let steamDifficulty = 'HardestAI';   // Default SteamAI difficulty
     let parallelWorkers = 1;             // Phase 7e: 1 = sequential (default)
     let saveReplaysDir = null;           // Phase 7e: null = no replay saving
     let playerSwitch = false;            // --player-switch: run games in pairs with swapped sides
@@ -1919,6 +2114,7 @@ async function main() {
         if (args[i] === '--player-black' && args[i + 1]) { playerBlack = args[++i]; }
         if (args[i] === '--think-time' && args[i + 1]) { thinkTimeMs = parseInt(args[++i], 10); }
         if (args[i] === '--mcdsai-difficulty' && args[i + 1]) { mcdsaiDifficulty = args[++i]; }
+        if (args[i] === '--steam-difficulty' && args[i + 1]) { steamDifficulty = args[++i]; }
         if (args[i] === '--parallel' && args[i + 1]) { parallelWorkers = parseInt(args[++i], 10); }
         if (args[i] === '--player-switch') playerSwitch = true;
         if (args[i] === '--cards' && args[i + 1]) {
@@ -1993,8 +2189,17 @@ async function main() {
     if (whiteIsMCDSAI) playerWhite = MCDSAI_PLAYER;
     if (blackIsMCDSAI) playerBlack = MCDSAI_PLAYER;
 
+    // Detect SteamAI players (case-insensitive matching)
+    const whiteIsSteamAI = isSteamAIPlayer(playerWhite);
+    const blackIsSteamAI = isSteamAIPlayer(playerBlack);
+    const anySteamAI = whiteIsSteamAI || blackIsSteamAI;
+
+    // Normalize SteamAI player names to consistent casing
+    if (whiteIsSteamAI) playerWhite = STEAM_AI_PLAYER;
+    if (blackIsSteamAI) playerBlack = STEAM_AI_PLAYER;
+
     // Check exe exists (only needed for C++ players)
-    const anyCpp = !whiteIsMCDSAI || !blackIsMCDSAI;
+    const anyCpp = (!whiteIsMCDSAI && !whiteIsSteamAI) || (!blackIsMCDSAI && !blackIsSteamAI);
     if (anyCpp && !fs.existsSync(EXE_PATH)) {
         console.error(`ERROR: C++ exe not found at ${EXE_PATH}`);
         console.error('Build with: MSBuild Prismata.sln /t:Rebuild /p:Configuration=Release /p:Platform=x86');
@@ -2010,8 +2215,8 @@ async function main() {
                     : 'Single Game (Phase 7b/7d)';
     console.error(`=== ${modeLabel} ===`);
     if (anyCpp) console.error(`Exe: ${EXE_PATH}`);
-    console.error(`White: ${playerWhite}${whiteIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}`);
-    console.error(`Black: ${playerBlack}${blackIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}`);
+    console.error(`White: ${playerWhite}${whiteIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}${whiteIsSteamAI ? ` (SteamAI difficulty=${steamDifficulty})` : ''}`);
+    console.error(`Black: ${playerBlack}${blackIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}${blackIsSteamAI ? ` (SteamAI difficulty=${steamDifficulty})` : ''}`);
     if (anyCpp) console.error(`Think time: ${thinkTimeMs}ms`);
     if (!singleTurnMode) {
         console.error(`Max turns: ${CONFIG.maxTurns}, Stuck detection: ${CONFIG.stuckDetectionTurns} turns`);
@@ -2119,7 +2324,54 @@ async function main() {
         library: library
     } : null;
 
-    // Helper to clean up MCDSAI workers on exit
+    // 3. Set up SteamAI (native PrismataAI.exe) — sequential mode only
+    //    SteamAI processes are started/stopped per game inside playSingleGame.
+    let steamWorkerWhite = null;
+    let steamWorkerBlack = null;
+    let steamFullParams = fullParams;
+    let steamShortParams = shortParams;
+
+    if (anySteamAI && !isParallel) {
+        const SteamAI = require('./steam_ai');
+        // Load AI params if not already loaded by MCDSAI setup
+        if (!steamFullParams || !steamShortParams) {
+            const aiParams = require('./ai_params');
+            steamFullParams = aiParams.loadFullParams();
+            steamShortParams = aiParams.loadShortParams();
+        }
+
+        if (whiteIsSteamAI) {
+            steamWorkerWhite = new SteamAI('White', { timeout: Math.max(thinkTimeMs * 3, 30000) });
+            console.error(`SteamAI for White: ${steamWorkerWhite.exePath}`);
+        }
+        if (blackIsSteamAI) {
+            steamWorkerBlack = new SteamAI('Black', { timeout: Math.max(thinkTimeMs * 3, 30000) });
+            console.error(`SteamAI for Black: ${steamWorkerBlack.exePath}`);
+        }
+
+        // Verify PrismataAI.exe exists
+        const exePath = (steamWorkerWhite || steamWorkerBlack).exePath;
+        if (!fs.existsSync(exePath)) {
+            console.error(`ERROR: PrismataAI.exe not found at ${exePath}`);
+            console.error('Expected in Steam installation: C:/Program Files (x86)/Steam/steamapps/common/Prismata/AI/PrismataAI.exe');
+            process.exit(1);
+        }
+    } else if (anySteamAI && isParallel) {
+        console.error('SteamAI workers will be created in each worker thread (parallel mode).');
+    }
+
+    // Build SteamAI config object (passed through to playSingleGame)
+    const steamConfig = anySteamAI ? {
+        workerWhite: steamWorkerWhite,
+        workerBlack: steamWorkerBlack,
+        difficulty: steamDifficulty,
+        fullParams: steamFullParams,
+        shortParams: steamShortParams,
+        initDeck: null,  // Set per-game from activeDeck
+        library: library
+    } : null;
+
+    // Helper to clean up MCDSAI workers and SteamAI processes on exit
     function terminateWorkers() {
         if (mcdsaiWorkerWhite) {
             console.error('Terminating MCDSAI worker for White...');
@@ -2129,6 +2381,8 @@ async function main() {
             console.error('Terminating MCDSAI worker for Black...');
             mcdsaiWorkerBlack.terminate();
         }
+        if (steamWorkerWhite) steamWorkerWhite.stop();
+        if (steamWorkerBlack) steamWorkerBlack.stop();
     }
 
     try {
@@ -2166,7 +2420,17 @@ async function main() {
 
             console.error('\n--- Playing Single Turn ---');
             let turnResult;
-            if (whiteIsMCDSAI && mcdsaiConfig) {
+            if (whiteIsSteamAI && steamConfig) {
+                // Start SteamAI process and build init deck
+                const aiParams = require('./ai_params');
+                steamConfig.initDeck = buildInitDeck(activeDeck, library, steamFullParams, steamShortParams);
+                steamWorkerWhite.start();
+                turnResult = await playSteamAITurn(
+                    analyzer, activeDeck, steamWorkerWhite,
+                    steamDifficulty, steamConfig
+                );
+                steamWorkerWhite.stop();
+            } else if (whiteIsMCDSAI && mcdsaiConfig) {
                 // Initialize MCDSAI for this game
                 const aiParams = require('./ai_params');
                 const initDeck = buildInitDeck(activeDeck, library, fullParams, shortParams);
@@ -2225,7 +2489,7 @@ async function main() {
             const output = {
                 mode: 'single-turn',
                 ok: turnResult.ok,
-                playerType: whiteIsMCDSAI ? 'MCDSAI' : 'cpp-suggest',
+                playerType: whiteIsSteamAI ? 'SteamAI' : whiteIsMCDSAI ? 'MCDSAI' : 'cpp-suggest',
                 clicksApplied: turnResult.clickResult ? turnResult.clickResult.applied : 0,
                 clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0
             };
@@ -2256,13 +2520,13 @@ async function main() {
                     mcdsaiDifficulty,
                     saveReplaysDir,
                     false,  // verbose
-                    { playerSwitch, fixedCards, resignThreshold }
+                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty }
                 );
             } else {
                 // Phase 7c/7d: Sequential execution
                 console.error(`\n--- Starting ${numGames} Games${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGames(
-                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig, resignThreshold },
+                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold },
                     numGames,
                     library,
                     { playerSwitch, fixedCards, saveReplaysDir }
@@ -2323,6 +2587,7 @@ async function main() {
             playerBlack: playerBlack,
             thinkTimeMs: thinkTimeMs,
             mcdsai: mcdsaiConfig,
+            steam: steamConfig,
             resignThreshold: resignThreshold
         });
 
@@ -2337,12 +2602,13 @@ async function main() {
             players: { white: playerWhite, black: playerBlack },
             thinkTimeMs: thinkTimeMs,
             mcdsaiDifficulty: anyMCDSAI ? mcdsaiDifficulty : undefined,
+            steamDifficulty: anySteamAI ? steamDifficulty : undefined,
             cardSet: activeDeck.filter(c => !c.baseSet && !c._needsOnly).map(c => c.UIName || c.name)
         };
         console.log(JSON.stringify(output, null, 2));
 
     } finally {
-        // Always clean up MCDSAI workers
+        // Always clean up MCDSAI workers and SteamAI processes
         terminateWorkers();
     }
 }
@@ -2359,7 +2625,9 @@ module.exports = {
     describeClick,
     playSingleTurn,
     playMCDSAITurn,
+    playSteamAITurn,
     isMCDSAIPlayer,
+    isSteamAIPlayer,
     buildGameInitInfo,
     printStateSummary,
     playSingleGame,
@@ -2370,7 +2638,8 @@ module.exports = {
     computeWillScoreSum,
     adjudicateByMaterial,
     WILL_SCORE_THRESHOLD,
-    MCDSAI_PLAYER
+    MCDSAI_PLAYER,
+    STEAM_AI_PLAYER
 };
 
 if (require.main === module) {
