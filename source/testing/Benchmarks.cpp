@@ -416,7 +416,6 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
             {
                 int instId = preState.getCardByID(action.getID()).getClientInstId();
                 appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
-                appendClick(clicksOut, hasPrevClick, "end swipe processed", instId);
                 break;
             }
             case ActionTypes::ASSIGN_BREACH:

@@ -29,13 +29,10 @@ class StateUtil {
         let id = 0;
 
         for (let i = 0; i < clickObject.length; i++) {
-            // Auto end-swipe: neither MCDSAI nor C++ --suggest emit end-swipe clicks.
-            // Must auto-insert before each click to prevent stale swipe state
-            // (e.g., BREACH swipe blocking OVERKILL clicks on under-construction units).
-            if (tempAnalyzer.controller.inSwipe) {
-                tempClicks.push(new Click(C.CLICK_END_SWIPE));
-                tempAnalyzer.noUpdateClick(C.CLICK_END_SWIPE);
-            }
+            // Smart end-swipe: The AS3/JS Controller handles most swipe transitions
+            // internally (space clicks, card clicks, same-purpose inst clicks chain
+            // as MIDDLE_OF_CHAIN). Only insert end-swipe when a click would fail
+            // due to stale swipe state (e.g., breach→overkill, ability→targeting ability).
 
             if (clickObject[i].type === C.CLICK_INST) {
                 id = StateUtil.findInstId(clickObject[i].args, tempAnalyzer);
@@ -43,12 +40,24 @@ class StateUtil {
                     throw new Error('**WARNING**: Isomorphic Inst Not Found on click ' + i +
                         ': ' + JSON.stringify(clickObject[i]));
                 }
-                if (!tempAnalyzer.analyzerCanClick(clickObject[i].type, id)) {
+                // Probe the click. When canClick=false, Controller does NOT modify
+                // state, so the probe is safe. If it fails due to an active swipe,
+                // insert end-swipe and retry — this handles all cross-purpose conflicts
+                // (e.g., ASSIGN swipe blocking BREACH, ability swipe blocking targeting).
+                let probeOk = tempAnalyzer.controller.processClick(
+                    true, false, false, false, false, false, clickObject[i].type, id).canClick;
+                if (!probeOk && tempAnalyzer.controller.inSwipe) {
+                    tempClicks.push(new Click(C.CLICK_END_SWIPE));
+                    tempAnalyzer.noUpdateClick(C.CLICK_END_SWIPE);
+                    probeOk = tempAnalyzer.controller.processClick(
+                        true, false, false, false, false, false, clickObject[i].type, id).canClick;
+                }
+                if (!probeOk) {
                     throw new Error('**WARNING**: Illegal Inst click imminent on click ' + i +
                         ': ' + JSON.stringify(clickObject[i]));
                 }
+                // Probe succeeded and already modified state — just record the click
                 tempClicks.push(new Click(clickObject[i].type, id));
-                tempAnalyzer.noUpdateClick(clickObject[i].type, id);
             } else if (clickObject[i].type === C.CLICK_INST_SHIFT) {
                 id = StateUtil.findInstId(clickObject[i].args, tempAnalyzer);
                 if (id !== -1) {
