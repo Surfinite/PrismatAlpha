@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "description": "PrismatAI V1 feature schema — 116 competitive units, Option 2 (type-count + instance flags + supply + card-set indicator)",
+  "date": "2026-03-09",
+  "plan_reference": "docs/plans/2026-03-09-training-plan-v3-READY-v3.md",
+
+  "state_dim": 1290,
+  "num_units": 116,
+  "features_per_unit": 11,
+  "num_global_features": 14,
+  "policy_dim": 116,
+
+  "unit_index_file": "training/data/unit_index.json",
+  "unit_index_hash": "54cdda43ffa8a14f49bef59c7b735d26aa44dd569191d1e6fa82e8da2d73cfca",
+  "unit_ordering": "base_set_first_then_random_alphabetical",
+
+  "player_convention": "P0 = Player_One (game index 0, white). P1 = Player_Two (game index 1, black). Active player stored as input feature, NOT used to rotate P0/P1 slots. Absolute player numbering.",
+  "value_target": "P(Player_0_wins) — probability that P0 wins, regardless of whose turn it is.",
+
+  "per_unit_layout": {
+    "offset_formula": "unitIdx * 11",
+    "features": [
+      {"offset": 0, "name": "p0_ready",        "description": "P0 count of this unit type in ready state (can use ability, not constructing, not assigned)"},
+      {"offset": 1, "name": "p0_exhausted",     "description": "P0 count of this unit type exhausted (ability used or cannot use ability, not constructing, not assigned)"},
+      {"offset": 2, "name": "p0_constructing",  "description": "P0 count of this unit type under construction"},
+      {"offset": 3, "name": "p0_blocking",      "description": "P0 count of this unit type assigned as blocker"},
+      {"offset": 4, "name": "p1_ready",         "description": "P1 count of this unit type in ready state"},
+      {"offset": 5, "name": "p1_exhausted",     "description": "P1 count of this unit type exhausted"},
+      {"offset": 6, "name": "p1_constructing",  "description": "P1 count of this unit type under construction"},
+      {"offset": 7, "name": "p1_blocking",      "description": "P1 count of this unit type assigned as blocker"},
+      {"offset": 8, "name": "p0_supply",        "description": "P0 remaining supply of this unit type (raw count)"},
+      {"offset": 9, "name": "p1_supply",        "description": "P1 remaining supply of this unit type (raw count)"},
+      {"offset": 10, "name": "in_card_set",     "description": "1.0 if this unit type is buyable in this game, 0.0 otherwise"}
+    ],
+    "status_classification": {
+      "constructing": "isUnderConstruction() / constructionTime > 0",
+      "blocking": "assigned as blocker (CardStatus::Assigned in C++, role=assigned && blocking in JS)",
+      "ready": "can use ability, not constructing, not assigned (canUseAbility() in C++)",
+      "exhausted": "everything else (ability used, cannot use ability, not constructing, not blocking)"
+    },
+    "normalization": "raw_count (no normalization on unit features)"
+  },
+
+  "global_features": [
+    {"index": 1276, "name": "p0_gold",    "normalization": "clamp_divide", "cap": 25, "description": "Player 0 current gold resource"},
+    {"index": 1277, "name": "p0_blue",    "normalization": "clamp_divide", "cap": 4,  "description": "Player 0 current blue resource"},
+    {"index": 1278, "name": "p0_red",     "normalization": "clamp_divide", "cap": 8,  "description": "Player 0 current red resource"},
+    {"index": 1279, "name": "p0_green",   "normalization": "clamp_divide", "cap": 16, "description": "Player 0 current green resource"},
+    {"index": 1280, "name": "p0_energy",  "normalization": "clamp_divide", "cap": 8,  "description": "Player 0 current energy resource"},
+    {"index": 1281, "name": "p0_attack",  "normalization": "clamp_divide", "cap": 30, "description": "Player 0 current attack value"},
+    {"index": 1282, "name": "p1_gold",    "normalization": "clamp_divide", "cap": 25, "description": "Player 1 current gold resource"},
+    {"index": 1283, "name": "p1_blue",    "normalization": "clamp_divide", "cap": 4,  "description": "Player 1 current blue resource"},
+    {"index": 1284, "name": "p1_red",     "normalization": "clamp_divide", "cap": 8,  "description": "Player 1 current red resource"},
+    {"index": 1285, "name": "p1_green",   "normalization": "clamp_divide", "cap": 16, "description": "Player 1 current green resource"},
+    {"index": 1286, "name": "p1_energy",  "normalization": "clamp_divide", "cap": 8,  "description": "Player 1 current energy resource"},
+    {"index": 1287, "name": "p1_attack",  "normalization": "clamp_divide", "cap": 30, "description": "Player 1 current attack value"},
+    {"index": 1288, "name": "turn_number","normalization": "clamp_divide", "cap": 50, "description": "Current ply index (per player-turn). Input feature only — distinct from ply_index used in label computation."},
+    {"index": 1289, "name": "active_player", "normalization": "raw", "cap": null, "description": "Whose turn it is: 0 = P0, 1 = P1. Raw binary, no normalization."}
+  ],
+
+  "normalization_caps": {
+    "gold": 25,
+    "blue": 4,
+    "red": 8,
+    "green": 16,
+    "energy": 8,
+    "attack": 30,
+    "turn_number": 50,
+    "_note": "Initial estimates from WillScore resource values and gameplay patterns. Phase 0d audit will compute actual percentile distributions and adjust so <1% of values are clipped."
+  },
+
+  "label_strategies": {
+    "A": {"name": "hard_binary", "description": "Raw 0/1 labels (outcome_p0)"},
+    "B": {"name": "temporal_sample_weighting", "description": "Hard 0/1 labels with sample_weight based on ply_index progress"},
+    "C": {"name": "elo_interpolated", "description": "Blend outcome_p0 with Elo-based p0_win_prior, decaying over ply_index"},
+    "D": {"name": "neutral_prior", "description": "Blend outcome_p0 with 0.5 prior, decaying over ply_index"},
+    "_selected": null,
+    "_note": "Selection deferred to Phase 3 ablation results"
+  },
+
+  "loss": {
+    "primary": "BCEWithLogitsLoss",
+    "description": "Model outputs raw logit z. Loss = BCE(sigmoid(z), y) where y in [0,1]. Numerically stable via WithLogits variant.",
+    "inference_path": "Path A: logit output -> C++ applies 2*sigmoid(z)-1 for [-1,1] range"
+  },
+
+  "record_metadata": {
+    "replay_code": "string — unique game identifier",
+    "ply_index": "uint16 — 0-based player-turn index within game",
+    "total_plies": "uint16 — total player-turns in game. Never an input feature.",
+    "rating_p0": "uint16 — P0 rating at game time",
+    "rating_p1": "uint16 — P1 rating at game time",
+    "game_date": "uint32 — unix timestamp",
+    "card_set": "uint8[8] — indices of 8 random units in this game",
+    "_note": "Metadata stored separately from feature vector. Extraction test must verify no metadata field appears in feature vector indices."
+  },
+
+  "mirror_augmentation": {
+    "default": false,
+    "description": "NOT applied by default. Phase 3 ablation tests turn-gated mirroring (only after ply N where starting Drone asymmetry <10% of mean economy).",
+    "p0_block_indices": "0 to num_units*11-1, offsets 0-3 and 8 per unit",
+    "p1_block_indices": "0 to num_units*11-1, offsets 4-7 and 9 per unit",
+    "swap_operation": "For each unit: swap offsets [0,1,2,3] with [4,5,6,7], swap offset 8 with 9. Flip active_player. Invert label."
+  },
+
+  "pov_convention": "absolute",
+
+  "compatibility": {
+    "cpp_inference": "NeuralNet.cpp reads num_units and state_dim from weight file header. No C++ code changes needed for 116-unit schema — C++ adapts dynamically.",
+    "cpp_activation_change": "Path A requires replacing tanhf(rawValue) with 2.0f*sigmoidf(rawValue)-1.0f in NeuralNet.cpp value head output.",
+    "weight_export_tensors": "26 tensors required: input_proj(2) + N*(linear1(2)+norm1(2)+linear2(2)+norm2(2)) + policy(2) + value(2)",
+    "weight_format": "PNET header (magic=0x504E4554, version, state_dim, num_units, hidden_dim, num_layers, num_tensors, num_unit_names) + named tensors + unit index"
+  }
+}
