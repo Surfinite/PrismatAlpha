@@ -62,6 +62,7 @@ python training/export_weights.py training/models/best_model.pt bin/asset/config
 **Matchup runner (JS engine):**
 ```bash
 node js_engine/matchup_clean.js --games 10 --parallel 4 --think-time 3000
+node js_engine/matchup_clean.js --player SteamAI --steam-difficulty HardestAI --games 10
 ```
 
 **Replay viewers:**
@@ -122,6 +123,8 @@ node extract_training_data.js   # extract from S3 (incremental)
 - **SWF developer mode patch**: Single byte at decompressed offset `0x1580196`: `0x27`→`0x26`. Requires hosts entry for load balancing bypass.
 - **matchup_clean.js auto end-swipe**: Applies to ALL AIs. Without it, stale BREACH swipes block OVERKILL clicks.
 - **matchup_clean.js confirm→defense auto-commit**: Auto-inserts commit click when confirm phase has incoming defense clicks.
+- **SteamAI is one-shot**: `PrismataAI.exe` exits after each response. Must spawn fresh process per turn. EPIPE if you reuse stdin.
+- **SteamAI protocol differs from MCDSAI**: SteamAI gets ALL 4 fields every turn (mergedDeck, gameState, aiParameters, aiPlayerName). MCDSAI only gets gameState + aiPlayerName per turn.
 - **Don't add LiveHardestAI resignation until click verification (V11) is complete**: Early resignation hides click failures.
 - **matchup log false positives**: Use `grep -E "[1-9][0-9]* failed"`, not bare keyword grep.
 - **Move representation**: `Player::getMove(state, move)` returns `Move` (sequence of `Action`s). BUY resolves via `CardType(action.getID()).getUIName()`.
@@ -242,7 +245,7 @@ Action → Breach (if wipeout) → Confirm → Defense (if enemy has attack) →
 
 **Will Score** heuristic (`source/ai/Heuristics.cpp`): ATTACK=2.25, BLUE=1.50, GREEN=1.20, GOLD=1.00, RED=0.90, ENERGY=0.50.
 
-**Three HardestAI baselines**: `OriginalHardestAI` (Churchill's original), `HardestAI` (our modified), `LiveHardestAI` (exact SWF match — 5 ability variants, 50-entry opening book, Odin filter). **Strength: LiveHardestAI < MCDSAI <= MasterBot (Steam).**
+**Three HardestAI baselines**: `OriginalHardestAI` (Churchill's original), `HardestAI` (our modified), `LiveHardestAI` (exact SWF match — 5 ability variants, 50-entry opening book, Odin filter). **Strength: LiveHardestAI < MCDSAI <= SteamAI ≈ MasterBot (Steam).**
 
 ### Training Approach
 
@@ -297,8 +300,9 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 | `training/schema.json` | Feature schema (state_dim=1785) |
 | `training/FEATURES.md` | Human-readable feature spec |
 | `training/data/unit_index.json` | 161 canonical unit names |
-| `js_engine/matchup_clean.js` | JS matchup runner (LiveHardestAI vs MCDSAI) |
+| `js_engine/matchup_clean.js` | JS matchup runner (LiveHardestAI, MCDSAI, SteamAI) |
 | `js_engine/matchup_worker.js` | Parallel worker script |
+| `js_engine/steam_ai.js` | SteamAI wrapper for Steam's PrismataAI.exe (one-shot process) |
 | `js_engine/replay_to_html.js` | Per-game HTML replay viewer generator |
 | `js_engine/build_replay_viewer.js` | Self-contained replay viewer builder (15MB HTML) |
 | `js_engine/replay_exporter.js` | JS State → C++ GameState JSON converter |
