@@ -266,6 +266,10 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
     const allActionLabels = [];    // Human-readable action labels
     const turnBoundaries = [];     // Indices into allActionStates where each turn starts
 
+    // Training data collection (--export-training)
+    const exportTraining = !!config.exportTraining;
+    const trainingExamples = [];
+
     // Main game loop
     while (!analyzer.gameState.finished && turnCount < maxTurns) {
         turnCount++;
@@ -284,6 +288,18 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
             allActionStates.push(stateToCppJSON(analyzer.gameState));
             allActionLabels.push('Start of Turn');
         } catch (e) { /* non-critical */ }
+
+        // Capture training example (pre-turn snapshot)
+        if (exportTraining) {
+            try {
+                const example = matchup.extractTrainingExample(
+                    analyzer.gameState, config.cardSet || [], turnCount - 1
+                );
+                trainingExamples.push(example);
+            } catch (e) {
+                console.error(`[Training] Turn ${turnCount}: extraction failed: ${e.message}`);
+            }
+        }
 
         // Stuck detection: capture pre-turn state hash
         const preHash = matchup.getStateHash(analyzer);
@@ -454,6 +470,16 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
 
     console.error(`\n[Game] RESULT: ${winner} in ${turnCount} turns`);
 
+    // Stamp training examples with outcome and total_plies
+    if (exportTraining && trainingExamples.length > 0) {
+        const outcome = finalResult === C.COLOR_WHITE ? 1.0 :
+                        finalResult === C.COLOR_BLACK ? 0.0 : 0.5;
+        for (const ex of trainingExamples) {
+            ex.outcome_p0 = outcome;
+            ex.total_plies = turnCount;
+        }
+    }
+
     // Capture final post-game state
     try {
         allActionStates.push(stateToCppJSON(analyzer.gameState));
@@ -472,7 +498,8 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
         replayTurns: replayTurns,
         allActionStates: allActionStates,
         allActionLabels: allActionLabels,
-        turnBoundaries: turnBoundaries
+        turnBoundaries: turnBoundaries,
+        trainingExamples: trainingExamples
     };
 }
 
@@ -490,7 +517,8 @@ async function runWorkerSlot() {
         verbose,
         playerSwitch = false,
         fixedCards = null,
-        resignThreshold = 0
+        resignThreshold = 0,
+        exportTrainingDir = null
     } = workerData;
 
     const whiteIsMCDSAI = matchup.isMCDSAIPlayer(playerWhite);
@@ -560,7 +588,8 @@ async function runWorkerSlot() {
             fullParams: fullParams,
             shortParams: shortParams,
             initDeck: null,  // Set per-game
-            library: library
+            library: library,
+            thinkTimeMs: thinkTimeMs
         };
         console.error(`SteamAI configured for slot ${slotIndex} (difficulty=${steamDifficulty})`);
     }
@@ -615,7 +644,9 @@ async function runWorkerSlot() {
                     mcdsaiFullParams: fullParams,
                     mcdsaiShortParams: shortParams,
                     mcdsaiLibrary: library,
-                    resignThreshold
+                    resignThreshold,
+                    exportTraining: !!exportTrainingDir,
+                    cardSet: currentUnits
                 }, mWorkerWhite, mWorkerBlack, sCfg);
             } catch (err) {
                 gameError = err.message || String(err);
@@ -660,7 +691,8 @@ async function runWorkerSlot() {
                 replayTurns: gameResult.replayTurns || [],
                 allActionStates: gameResult.allActionStates || [],
                 allActionLabels: gameResult.allActionLabels || [],
-                turnBoundaries: gameResult.turnBoundaries || []
+                turnBoundaries: gameResult.turnBoundaries || [],
+                trainingExamples: gameResult.trainingExamples || []
             };
             break;
         }
@@ -700,12 +732,35 @@ async function runWorkerSlot() {
             }
         }
 
+        // Save training data (per-worker JSONL file to avoid contention)
+        if (exportTrainingDir && gameLog.trainingExamples && gameLog.trainingExamples.length > 0 && gameLog.result !== null) {
+            try {
+                fs.mkdirSync(exportTrainingDir, { recursive: true });
+                const gameId = `matchup_g${String(gameLog.game).padStart(4, '0')}`;
+                const gameDate = gameLog.startTime || new Date().toISOString();
+                const lines = [];
+                for (const ex of gameLog.trainingExamples) {
+                    ex.replay_code = gameId;
+                    ex.game_date = gameDate;
+                    ex.rating_p0 = 0;
+                    ex.rating_p1 = 0;
+                    lines.push(JSON.stringify(ex));
+                }
+                const outFile = path.join(exportTrainingDir, `training_data_w${slotIndex}.jsonl`);
+                fs.appendFileSync(outFile, lines.join('\n') + '\n');
+                console.error(`[Training] Game ${gameLog.game}: ${gameLog.trainingExamples.length} examples → ${outFile}`);
+            } catch (err) {
+                console.error(`[Training] Game ${gameLog.game}: Failed to save: ${err.message}`);
+            }
+        }
+
         // Remove large replay data from log sent to parent
         const logForParent = Object.assign({}, gameLog);
         delete logForParent.replayTurns;
         delete logForParent.allActionStates;
         delete logForParent.allActionLabels;
         delete logForParent.turnBoundaries;
+        delete logForParent.trainingExamples;
 
         parentPort.postMessage({
             type: 'game_result',
