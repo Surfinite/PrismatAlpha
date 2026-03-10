@@ -39,6 +39,7 @@
  *   node matchup_clean.js --resign 1.5                                              # C++ players resign when opponent has 1.5x material (0 = disable)
  *
  *   node matchup_clean.js --games 16 --parallel 4 --player-switch --think-time 5000 --player-white LiveHardestAI --player-black MCDSAI --save-replays TEST 2>matchup_run.log
+ *   node matchup_clean.js --games 100 --player SteamAI --export-training training_out/  # JSONL training data (1 record/turn, no replays needed)
  */
 
 const fs = require('fs');
@@ -447,6 +448,14 @@ function applyClicks(analyzer, clicks, actionStates) {
         const prePhase = analyzer.gameState.phase;
         let result = analyzer.recordClick(false, false, clickType, clickId);
 
+        // Skip space clicks during breach: SteamAI emits end-swipe space clicks
+        // between breach target selections, but JS Controller doesn't accept them
+        // during glassBroken. These are cosmetic — breach targets chain naturally.
+        if (!result.canClick && clickType === C.CLICK_SPACE && analyzer.gameState.glassBroken) {
+            details.push(`  [${i}] SKIP: ${clickType} id=${clickId} (breach phase — harmless)`);
+            continue;
+        }
+
         // Retry with end-swipe: if click failed while in a swipe, end the swipe
         // and try again. This handles cross-purpose transitions (e.g., non-targeting
         // ability swipe → targeting ability click) that the controller can't auto-resolve.
@@ -662,6 +671,11 @@ async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamC
         steamConfig.fullParams, steamConfig.shortParams);
     const aiParams = JSON.parse(aiParamsStr);
 
+    // Override TimeLimit if thinkTimeMs is specified (default params have 7000ms)
+    if (steamConfig.thinkTimeMs && aiParams.Players && aiParams.Players[difficulty]) {
+        aiParams.Players[difficulty].TimeLimit = steamConfig.thinkTimeMs;
+    }
+
     // 3. Build full request (matching getExeMoveRequestString, AIThreadHandler.as:309)
     const requestJson = JSON.stringify({
         mergedDeck: steamConfig.initDeck,
@@ -717,6 +731,13 @@ async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamC
                     action: describeClick(click, analyzer.gameState, clickPrePhase)
                 });
             } else {
+                // Skip space clicks during breach: SteamAI emits end-swipe space clicks
+                // between breach target selections, but JS Controller doesn't accept them
+                // during glassBroken. These are cosmetic — breach targets chain naturally.
+                if (click._type === C.CLICK_SPACE && analyzer.gameState.glassBroken) {
+                    details.push(`  [${i}] SKIP: ${click._type} id=${click._id} (breach phase — harmless)`);
+                    continue;
+                }
                 failed++;
                 const gs = analyzer.gameState;
                 let diag = `phase=${gs.phase}`;
@@ -1179,6 +1200,85 @@ function adjudicateByMaterial(analyzer, reason, turnCount) {
 }
 
 // ---------------------------------------------------------------------------
+// 8b-pre. Training data extraction (--export-training)
+// ---------------------------------------------------------------------------
+
+/**
+ * Extract a training example from the current game state.
+ * Matches the JSONL schema expected by training/vectorize.py.
+ *
+ * @param {Object} gameState - The JS game state (analyzer.gameState)
+ * @param {string[]} cardSet - Display names of the 8 advanced units
+ * @param {number} plyIndex - 0-based ply index (turn number within game)
+ * @returns {Object} Training example (without outcome_p0/total_plies — stamped after game)
+ */
+function extractTrainingExample(gameState, cardSet, plyIndex) {
+    const p0Units = [];
+    const p1Units = [];
+
+    gameState.table.forEach((inst) => {
+        if (inst.dead) return;
+        const name = inst.card.UIName;
+        const building = inst.constructionTime > 0;
+        const blocking = inst.blocking === true;
+        const abilityUsed = inst.abilityUsed === true;
+        const entry = { name, building, blocking, abilityUsed };
+        if (inst.owner === 0) {
+            p0Units.push(entry);
+        } else {
+            p1Units.push(entry);
+        }
+    });
+
+    const p0Mana = gameState.playerMana(C.COLOR_WHITE);
+    const p1Mana = gameState.playerMana(C.COLOR_BLACK);
+
+    const p0Resources = {
+        gold: p0Mana.pool[C.MANA_P],
+        green: p0Mana.pool[C.MANA_G],
+        blue: p0Mana.pool[C.MANA_B],
+        red: p0Mana.pool[C.MANA_R],
+        energy: p0Mana.pool[C.MANA_H]
+    };
+    const p1Resources = {
+        gold: p1Mana.pool[C.MANA_P],
+        green: p1Mana.pool[C.MANA_G],
+        blue: p1Mana.pool[C.MANA_B],
+        red: p1Mana.pool[C.MANA_R],
+        energy: p1Mana.pool[C.MANA_H]
+    };
+    const p0Attack = p0Mana.pool[C.MANA_A];
+    const p1Attack = p1Mana.pool[C.MANA_A];
+
+    // Build supply dict: { "UnitName": [p0_supply, p1_supply], ... }
+    const supply = {};
+    for (let i = 0; i < gameState.cards.length; i++) {
+        const card = gameState.cards[i];
+        const ws = gameState.whiteSupply[i];
+        const bs = gameState.blackSupply[i];
+        if (ws > 0 || bs > 0) {
+            supply[card.UIName] = [ws, bs];
+        }
+    }
+
+    return {
+        ply_index: plyIndex,
+        card_set: cardSet,
+        state: {
+            p0_units: p0Units,
+            p1_units: p1Units,
+            p0_resources: p0Resources,
+            p1_resources: p1Resources,
+            p0_attack: p0Attack,
+            p1_attack: p1Attack,
+            supply: supply,
+            turn_number: gameState.numTurns,
+            active_player: gameState.turn
+        }
+    };
+}
+
+// ---------------------------------------------------------------------------
 // 8b. Play a single complete game (Phase 7b)
 // ---------------------------------------------------------------------------
 
@@ -1290,6 +1390,10 @@ async function playSingleGame(activeDeck, config) {
     const allActionLabels = [];
     const turnBoundaries = [];
 
+    // Training data collection (--export-training)
+    const exportTraining = !!config.exportTraining;
+    const trainingExamples = [];
+
     // Main game loop
     while (!analyzer.gameState.finished && turnCount < maxTurns) {
         turnCount++;
@@ -1308,6 +1412,18 @@ async function playSingleGame(activeDeck, config) {
             allActionStates.push(stateToCppJSON(analyzer.gameState));
             allActionLabels.push('Start of Turn');
         } catch (e) { /* non-critical */ }
+
+        // Capture training example (pre-turn snapshot)
+        if (exportTraining) {
+            try {
+                const example = extractTrainingExample(
+                    analyzer.gameState, config.cardSet || [], turnCount - 1
+                );
+                trainingExamples.push(example);
+            } catch (e) {
+                console.error(`[Training] Turn ${turnCount}: extraction failed: ${e.message}`);
+            }
+        }
 
         // --- Stuck detection: capture pre-turn state hash ---
         const preHash = getStateHash(analyzer);
@@ -1496,6 +1612,16 @@ async function playSingleGame(activeDeck, config) {
     // Clean up temp file
     try { fs.unlinkSync(SUGGEST_TMP); } catch (e) { /* ignore */ }
 
+    // Stamp training examples with outcome and total_plies
+    if (exportTraining && trainingExamples.length > 0) {
+        const outcome = finalResult === C.COLOR_WHITE ? 1.0 :
+                        finalResult === C.COLOR_BLACK ? 0.0 : 0.5;
+        for (const ex of trainingExamples) {
+            ex.outcome_p0 = outcome;
+            ex.total_plies = turnCount;
+        }
+    }
+
     return {
         result: finalResult,
         winner: winner,
@@ -1504,7 +1630,8 @@ async function playSingleGame(activeDeck, config) {
         abortReason: abortReason,
         allActionStates: allActionStates,
         allActionLabels: allActionLabels,
-        turnBoundaries: turnBoundaries
+        turnBoundaries: turnBoundaries,
+        trainingExamples: trainingExamples
     };
 }
 
@@ -1531,7 +1658,7 @@ async function playSingleGame(activeDeck, config) {
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
 async function playMultipleGames(config, numGames, library, options = {}) {
-    const { playerSwitch = false, fixedCards = null, saveReplaysDir = null } = options;
+    const { playerSwitch = false, fixedCards = null, saveReplaysDir = null, exportTrainingDir = null } = options;
     const maxRetries = 3;  // Retry with different set if AI fails (~5% of sets)
 
     // Resolve "R" slots in fixedCards with random picks from the advanced unit pool
@@ -1589,6 +1716,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
 
             let gameResult;
             let gameError = null;
+            gameConfig.cardSet = currentUnits;
             try {
                 gameResult = await playSingleGame(activeDeck, gameConfig);
             } catch (err) {
@@ -1631,7 +1759,8 @@ async function playMultipleGames(config, numGames, library, options = {}) {
                 supplyVerified: supplyResult.ok, attempts: attempts,
                 allActionStates: gameResult.allActionStates || [],
                 allActionLabels: gameResult.allActionLabels || [],
-                turnBoundaries: gameResult.turnBoundaries || []
+                turnBoundaries: gameResult.turnBoundaries || [],
+                trainingExamples: gameResult.trainingExamples || []
             };
             break;
         }
@@ -1694,6 +1823,41 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         delete gameLog.turnBoundaries;
     }
 
+    /**
+     * Write training JSONL for a completed game.
+     * Appends one JSON line per turn to a single .jsonl file per session.
+     */
+    function saveTrainingData(gameLog, pWhite, pBlack) {
+        if (!exportTrainingDir) return;
+        const examples = gameLog.trainingExamples;
+        if (!examples || examples.length === 0) return;
+        if (gameLog.result === null) return;  // skip invalid games
+
+        try {
+            fs.mkdirSync(exportTrainingDir, { recursive: true });
+            const gameId = `matchup_g${String(gameLog.game).padStart(4, '0')}`;
+            const gameDate = gameLog.startTime || new Date().toISOString();
+
+            const lines = [];
+            for (const ex of examples) {
+                ex.replay_code = gameId;
+                ex.game_date = gameDate;
+                ex.rating_p0 = 0;
+                ex.rating_p1 = 0;
+                lines.push(JSON.stringify(ex));
+            }
+
+            const outFile = path.join(exportTrainingDir, 'training_data.jsonl');
+            fs.appendFileSync(outFile, lines.join('\n') + '\n');
+            console.error(`[Training] Game ${gameLog.game}: ${examples.length} examples → ${outFile}`);
+        } catch (err) {
+            console.error(`[Training] Game ${gameLog.game}: Failed to save: ${err.message}`);
+        }
+
+        // Strip training data from in-memory log
+        delete gameLog.trainingExamples;
+    }
+
     if (playerSwitch) {
         // --- Pair-mode: games in pairs, same card set, swapped sides ---
         const numPairs = numGames / 2;
@@ -1730,6 +1894,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             logA.pairId = p + 1;
             logA.swapped = false;
             saveAndStripReplay(logA, config.playerWhite, config.playerBlack);
+            saveTrainingData(logA, config.playerWhite, config.playerBlack);
             games.push(logA);
             tallyGame(logA);
 
@@ -1738,6 +1903,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             logB.pairId = p + 1;
             logB.swapped = true;
             saveAndStripReplay(logB, swappedConfig.playerWhite, swappedConfig.playerBlack);
+            saveTrainingData(logB, swappedConfig.playerWhite, swappedConfig.playerBlack);
             games.push(logB);
             tallyGame(logB);
 
@@ -1808,6 +1974,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         const unitNames = (fixedCards ? resolveRandomSlots(fixedCards) : null) || randomSet(library, 8);
         const gameLog = await playOneGame(gameNum, numGames, unitNames, config);
         saveAndStripReplay(gameLog, config.playerWhite, config.playerBlack);
+        saveTrainingData(gameLog, config.playerWhite, config.playerBlack);
         games.push(gameLog);
         tallyGame(gameLog);
     }
@@ -1863,7 +2030,7 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
 async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose, options = {}) {
-    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI' } = options;
+    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', exportTrainingDir = null } = options;
 
     // Distribute game numbers across worker slots
     const slotsGames = Array.from({ length: numWorkers }, () => []);
@@ -1922,7 +2089,8 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     verbose: verbose,
                     playerSwitch: playerSwitch,
                     fixedCards: fixedCards,
-                    resignThreshold: resignThreshold
+                    resignThreshold: resignThreshold,
+                    exportTrainingDir: exportTrainingDir
                 }
             });
 
@@ -2101,6 +2269,7 @@ async function main() {
     let playerSwitch = false;            // --player-switch: run games in pairs with swapped sides
     let fixedCards = null;               // --cards "A,B,C": fixed advanced units (null = random)
     let resignThreshold = WILL_SCORE_THRESHOLD;  // --resign <ratio>: WillScore resign threshold for C++ players (0 = disabled)
+    let exportTrainingDir = null;        // --export-training <dir>: JSONL training data output
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--random') useRandom = true;
@@ -2155,13 +2324,20 @@ async function main() {
                 saveReplaysDir = path.join(replaysRoot, ts);
             }
         }
+        if (args[i] === '--export-training' && args[i + 1]) {
+            exportTrainingDir = args[++i];
+            // Resolve relative paths from cwd
+            if (!path.isAbsolute(exportTrainingDir)) {
+                exportTrainingDir = path.resolve(exportTrainingDir);
+            }
+        }
     }
 
     // Validate parallel workers count
     if (parallelWorkers < 1) parallelWorkers = 1;
-    if (parallelWorkers > 8) {
-        console.error(`WARNING: --parallel ${parallelWorkers} is very high (x86 OOM risk). Clamping to 4.`);
-        parallelWorkers = 4;
+    if (parallelWorkers > 16) {
+        console.error(`WARNING: --parallel ${parallelWorkers} is very high. Clamping to 16.`);
+        parallelWorkers = 16;
     }
 
     // Validate --player-switch
@@ -2179,6 +2355,9 @@ async function main() {
     if (fixedCards) {
         useRandom = false;
     }
+
+    // --export-training is supported in both sequential and parallel modes.
+    // In parallel mode, each worker writes to its own JSONL file.
 
     // Detect MCDSAI players (case-insensitive matching)
     const whiteIsMCDSAI = isMCDSAIPlayer(playerWhite);
@@ -2230,6 +2409,7 @@ async function main() {
     if (playerSwitch) console.error(`Player switch: enabled (${numGames / 2} pairs)`);
     if (fixedCards) console.error(`Fixed cards: [${fixedCards.join(', ')}]`);
     if (saveReplaysDir) console.error(`Replay saving: ${saveReplaysDir}`);
+    if (exportTrainingDir) console.error(`Training data export: ${exportTrainingDir}`);
     console.error('');
 
     // 1. Load card library
@@ -2368,7 +2548,8 @@ async function main() {
         fullParams: steamFullParams,
         shortParams: steamShortParams,
         initDeck: null,  // Set per-game from activeDeck
-        library: library
+        library: library,
+        thinkTimeMs: thinkTimeMs
     } : null;
 
     // Helper to clean up MCDSAI workers and SteamAI processes on exit
@@ -2520,16 +2701,16 @@ async function main() {
                     mcdsaiDifficulty,
                     saveReplaysDir,
                     false,  // verbose
-                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty }
+                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, exportTrainingDir }
                 );
             } else {
                 // Phase 7c/7d: Sequential execution
                 console.error(`\n--- Starting ${numGames} Games${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGames(
-                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold },
+                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold, exportTraining: !!exportTrainingDir },
                     numGames,
                     library,
-                    { playerSwitch, fixedCards, saveReplaysDir }
+                    { playerSwitch, fixedCards, saveReplaysDir, exportTrainingDir }
                 );
             }
 
@@ -2637,6 +2818,7 @@ module.exports = {
     resultToString,
     computeWillScoreSum,
     adjudicateByMaterial,
+    extractTrainingExample,
     WILL_SCORE_THRESHOLD,
     MCDSAI_PLAYER,
     STEAM_AI_PLAYER
