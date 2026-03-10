@@ -94,10 +94,18 @@ def write_split_h5(hf_in, indices, output_path):
     indices = np.array(indices, dtype=np.int64)
     n = len(indices)
 
+    # Aggregate stats datasets (not per-record) — copy as-is
+    aggregate_datasets = {"feature_mean", "feature_std", "feature_min", "feature_max"}
+
     with h5py.File(output_path, "w") as hf_out:
         for name in hf_in.keys():
             ds_in = hf_in[name]
             data = ds_in[:]
+
+            # Skip per-record indexing for aggregate stats
+            if name in aggregate_datasets:
+                hf_out.create_dataset(name, data=data, dtype=ds_in.dtype)
+                continue
 
             # Index into the data
             subset = data[indices]

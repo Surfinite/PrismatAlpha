@@ -364,24 +364,24 @@ void NeuralNet::extractFeatures(const GameState & state, std::vector<float> & fe
         const Resources & p0res = state.getResources(Players::Player_One);
         const Resources & p1res = state.getResources(Players::Player_Two);
 
-        // P0 resources with clamp_divide normalization (caps from schema.json)
-        features[globalBase + 0]  = std::min((float)p0res.amountOf(Resources::Gold),   20.0f) / 20.0f;
-        features[globalBase + 1]  = std::min((float)p0res.amountOf(Resources::Blue),    5.0f) /  5.0f;
-        features[globalBase + 2]  = std::min((float)p0res.amountOf(Resources::Red),     5.0f) /  5.0f;
-        features[globalBase + 3]  = std::min((float)p0res.amountOf(Resources::Green),  15.0f) / 15.0f;
-        features[globalBase + 4]  = std::min((float)p0res.amountOf(Resources::Energy), 10.0f) / 10.0f;
-        features[globalBase + 5]  = std::min((float)state.getAttack(Players::Player_One), 25.0f) / 25.0f;
+        // P0 resources with clamp_divide normalization (caps from schema_v1.json)
+        features[globalBase + 0]  = std::min((float)p0res.amountOf(Resources::Gold),   25.0f) / 25.0f;
+        features[globalBase + 1]  = std::min((float)p0res.amountOf(Resources::Blue),    4.0f) /  4.0f;
+        features[globalBase + 2]  = std::min((float)p0res.amountOf(Resources::Red),     8.0f) /  8.0f;
+        features[globalBase + 3]  = std::min((float)p0res.amountOf(Resources::Green),  16.0f) / 16.0f;
+        features[globalBase + 4]  = std::min((float)p0res.amountOf(Resources::Energy),  8.0f) /  8.0f;
+        features[globalBase + 5]  = std::min((float)state.getAttack(Players::Player_One), 30.0f) / 30.0f;
 
         // P1 resources with clamp_divide normalization
-        features[globalBase + 6]  = std::min((float)p1res.amountOf(Resources::Gold),   20.0f) / 20.0f;
-        features[globalBase + 7]  = std::min((float)p1res.amountOf(Resources::Blue),    5.0f) /  5.0f;
-        features[globalBase + 8]  = std::min((float)p1res.amountOf(Resources::Red),     5.0f) /  5.0f;
-        features[globalBase + 9]  = std::min((float)p1res.amountOf(Resources::Green),  15.0f) / 15.0f;
-        features[globalBase + 10] = std::min((float)p1res.amountOf(Resources::Energy), 10.0f) / 10.0f;
-        features[globalBase + 11] = std::min((float)state.getAttack(Players::Player_Two), 25.0f) / 25.0f;
+        features[globalBase + 6]  = std::min((float)p1res.amountOf(Resources::Gold),   25.0f) / 25.0f;
+        features[globalBase + 7]  = std::min((float)p1res.amountOf(Resources::Blue),    4.0f) /  4.0f;
+        features[globalBase + 8]  = std::min((float)p1res.amountOf(Resources::Red),     8.0f) /  8.0f;
+        features[globalBase + 9]  = std::min((float)p1res.amountOf(Resources::Green),  16.0f) / 16.0f;
+        features[globalBase + 10] = std::min((float)p1res.amountOf(Resources::Energy),  8.0f) /  8.0f;
+        features[globalBase + 11] = std::min((float)state.getAttack(Players::Player_Two), 30.0f) / 30.0f;
 
-        // Turn number: clamp to [0,30], divide by 30
-        features[globalBase + 12] = std::min((float)state.getTurnNumber(), 30.0f) / 30.0f;
+        // Turn number: clamp to [0,50], divide by 50
+        features[globalBase + 12] = std::min((float)state.getTurnNumber(), 50.0f) / 50.0f;
 
         // Active player: raw (0 or 1)
         features[globalBase + 13] = (float)state.getActivePlayer();
@@ -530,7 +530,9 @@ NeuralNet::NeuralOutput NeuralNet::evaluate(const GameState & state) const
 
     float rawValue = 0.0f;
     linearForward(_valueLinear2, valueHidden.data(), &rawValue);
-    output.value = tanhf(rawValue);
+    // Path A: sigmoid output mapped to [-1,1]. Model predicts P(P0_wins).
+    float sigmoid = 1.0f / (1.0f + expf(-rawValue));
+    output.value = 2.0f * sigmoid - 1.0f;
 
     return output;
 }
@@ -578,12 +580,14 @@ double NeuralNet::evaluateValue(const GameState & state, const PlayerID maxPlaye
 
     float rawValue = 0.0f;
     linearForward(_valueLinear2, valueHidden.data(), &rawValue);
-    float value = tanhf(rawValue);  // [-1, 1] from active player's perspective
+    // Path A: sigmoid output mapped to [-1,1]. Model predicts P(P0_wins).
+    float sigmoid = 1.0f / (1.0f + expf(-rawValue));
+    float value = 2.0f * sigmoid - 1.0f;  // [-1, 1] where +1 = P0 wins
 
-    // The network predicts from the active player's perspective.
-    // If maxPlayer == activePlayer, return as-is. Otherwise negate.
-    PlayerID activePlayer = state.getActivePlayer();
-    if (maxPlayer != activePlayer)
+    // The network predicts P(P0_wins) in absolute terms.
+    // Convert to maxPlayer's perspective: if maxPlayer is P0, return as-is.
+    // If maxPlayer is P1, negate (P1 winning = P0 losing).
+    if (maxPlayer != Players::Player_One)
     {
         value = -value;
     }
