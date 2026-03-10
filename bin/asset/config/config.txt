@@ -285,6 +285,7 @@
     "HardAIUCT" :           { "type":"Player_UCT", "TimeLimit":3000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "PrismatAI_UCT" :        { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet" },
     "PrismatAI_AB" :         { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet" },
+    "PrismatAI_UCT_2s" :     { "type":"Player_UCT", "TimeLimit":2000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet" },
     "PrismatAI_UCT_Fast" :   { "type":"Player_UCT", "TimeLimit":50, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet" },
     "PrismatAI_UCT_c05" :    { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet", "UCTConstant":0.5 },
     "PrismatAI_UCT_c03" :    { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet", "UCTConstant":0.3 },
@@ -314,6 +315,8 @@
     "Live_Playout" :           { "type":"Player_PPSequence", "PartialPlayers":["DefenseSolver", "Live_ACAvoidBreach_CS", "Live_BuyComboGreedyAttack", "BreachGreedyKnapsack"]},
     "LiveHardestAI" :          { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
     "LiveHardestAIUCT" :       { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
+    "LiveHardestAI_2s" :       { "type":"Player_StackAlphaBeta", "TimeLimit":2000, "MaxChildren":40, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
+    "PrismatAI_UCT_LiveOB_2s": { "type":"Player_UCT", "TimeLimit":2000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"NeuralNet" },
 
     "HardestAI_Copy" :        { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "HardestAI_1s" :           { "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
@@ -374,7 +377,8 @@
     { "run":false, "type":"Tournament", "name":"BlendCrashTest", "rounds":1, "Threads":1, "UpdateIntervalSec":5, "RandomCards":8, "players":[ {"name":"BlendAB_50","group":1}, {"name":"MediumAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"BlendQuick_10", "rounds":4, "Threads":4, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_10","group":1}, {"name":"HardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"BlendQuick_05", "rounds":4, "Threads":4, "UpdateIntervalSec":5, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"BlendUCT_05","group":1}, {"name":"HardestAI","group":2}] },
-    { "run":false, "type":"Tournament", "name":"NeuralUCT_vsHardestAI", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAI_UCT","group":1}, {"name":"HardestAI","group":2}] },
+    { "run":true, "type":"Tournament", "name":"NeuralUCT_vsHardestAI_2s", "rounds":50, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAI_UCT_2s","group":1}, {"name":"HardestAI_2s","group":2}] },
+    { "run":false, "type":"Tournament", "name":"NeuralUCT_vsHardestAI", "rounds":50, "Threads":4, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAI_UCT","group":1}, {"name":"HardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"NeuralAB_vsHardestAI", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "SaveReplays":true, "players":[ {"name":"PrismatAI_AB","group":1}, {"name":"HardestAI","group":2}] },
     { "run":false, "type":"Tournament", "name":"HardestAI_SelfTest_Full", "rounds":16, "UpdateIntervalSec":30, "RandomCards":8, "players":[ {"name":"HardestAI","group":1}, {"name":"HardestAI_Copy","group":2}] },
 

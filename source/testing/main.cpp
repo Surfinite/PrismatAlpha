@@ -49,15 +49,11 @@ int main(int argc, char* argv[])
     if (!isQuietMode) printf("Initializing card library\n");
     Prismata::InitFromCardLibrary(configDir + "cardLibrary.jso");
 
-    // Neural net weights are from old training on a broken engine — skip in suggest mode.
-    // LiveHardestAI and all matchup-runner players use playout eval, not NN eval.
-    if (!isSuggestMode)
+    // Load neural net weights (trained on 101K human expert replays, schema_v1)
+    if (!isQuietMode) printf("Loading neural network weights\n");
+    if (NeuralNet::Instance().loadWeights(configDir + "neural_weights.bin"))
     {
-        if (!isQuietMode) printf("Loading neural network weights\n");
-        if (NeuralNet::Instance().loadWeights(configDir + "neural_weights.bin"))
-        {
-            NeuralNet::Instance().buildCardTypeMapping();
-        }
+        NeuralNet::Instance().buildCardTypeMapping();
     }
 
     if (!isQuietMode) printf("Parsing AI Parameters\n");

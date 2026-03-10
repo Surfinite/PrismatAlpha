@@ -91,7 +91,7 @@
     "rating_p0": "uint16 — P0 rating at game time",
     "rating_p1": "uint16 — P1 rating at game time",
     "game_date": "uint32 — unix timestamp",
-    "card_set": "uint8[8] — indices of 8 random units in this game",
+    "card_set": "uint8[11] — indices of up to 11 random units in this game (255 = empty slot)",
     "_note": "Metadata stored separately from feature vector. Extraction test must verify no metadata field appears in feature vector indices."
   },
 

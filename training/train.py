@@ -192,25 +192,42 @@ class H5Dataset(Dataset):
 
     def __init__(self, h5_path, label_strategy="A", value_only=False,
                  rating_weight=False, game_weight=False):
-        self.h5_path = h5_path
         self.label_strategy = label_strategy
         self.value_only = value_only
-        self.rating_weight = rating_weight
-        self.game_weight = game_weight
-        self._h5 = None
 
-        # Read shape info (open briefly then close)
+        # Load everything into memory upfront (train.h5 ~290MB, fits in RAM)
+        print(f"    Loading {h5_path} into memory...")
         with h5py.File(h5_path, "r") as f:
-            self.n_examples = f["features"].shape[0]
-            self.state_dim = f["features"].shape[1]
-            # Validate required datasets exist
+            self.features = torch.from_numpy(f["features"][:].astype(np.float32))
+            self.n_examples = self.features.shape[0]
+            self.state_dim = self.features.shape[1]
+
             label_key = self._label_key()
             if label_key not in f:
                 raise ValueError(f"HDF5 file missing dataset '{label_key}' "
                                  f"for label strategy {label_strategy}")
-            if not value_only and "policy_target" not in f:
-                raise ValueError("HDF5 file missing 'policy_target' dataset "
-                                 "(required when not using --value-only)")
+            self.value_labels = torch.from_numpy(f[label_key][:].astype(np.float32))
+
+            if not value_only and "policy_target" in f:
+                self.policy = torch.from_numpy(f["policy_target"][:].astype(np.float32))
+            else:
+                self.policy = None
+
+            # Precompute sample weights
+            weights = np.ones(self.n_examples, dtype=np.float32)
+            if label_strategy == "B" and "label_B_weight" in f:
+                weights *= f["label_B_weight"][:].astype(np.float32)
+            if rating_weight and "rating_p0" in f:
+                r0 = f["rating_p0"][:].astype(np.float32)
+                r1 = f["rating_p1"][:].astype(np.float32)
+                weights *= ((r0 + r1) / 4000.0) ** 2
+            if game_weight and "total_plies" in f:
+                tp = f["total_plies"][:].astype(np.float32)
+                tp = np.maximum(tp, 1.0)
+                weights *= 1.0 / tp
+            self.weights = torch.from_numpy(weights)
+
+        print(f"    Loaded: {self.n_examples:,} examples, {self.features.nbytes/1e6:.0f} MB")
 
     def _label_key(self):
         """Return the HDF5 dataset name for the chosen label strategy."""
@@ -225,48 +242,15 @@ class H5Dataset(Dataset):
         else:
             raise ValueError(f"Unknown label strategy: {self.label_strategy}")
 
-    def _open(self):
-        """Lazily open HDF5 file (once per worker process)."""
-        if self._h5 is None:
-            self._h5 = h5py.File(self.h5_path, "r")
-
     def __len__(self):
         return self.n_examples
 
     def __getitem__(self, idx):
-        self._open()
-
-        features = torch.from_numpy(self._h5["features"][idx].astype(np.float32))
-
-        # Value label
-        label_key = self._label_key()
-        value_label = float(self._h5[label_key][idx])
-
-        # Policy target
-        if not self.value_only and "policy_target" in self._h5:
-            policy = torch.from_numpy(
-                self._h5["policy_target"][idx].astype(np.float32))
-        else:
-            policy = torch.zeros(1)  # placeholder
-
-        # Sample weight
-        weight = 1.0
-
-        if self.label_strategy == "B" and "label_B_weight" in self._h5:
-            weight *= float(self._h5["label_B_weight"][idx])
-
-        if self.rating_weight:
-            r0 = float(self._h5["rating_p0"][idx])
-            r1 = float(self._h5["rating_p1"][idx])
-            weight *= ((r0 + r1) / 4000.0) ** 2
-
-        if self.game_weight and "total_plies" in self._h5:
-            total_plies = float(self._h5["total_plies"][idx])
-            if total_plies > 0:
-                weight *= 1.0 / total_plies
-
-        return features, policy, torch.tensor(value_label, dtype=torch.float32), \
-            torch.tensor(weight, dtype=torch.float32)
+        features = self.features[idx]
+        value_label = self.value_labels[idx]
+        policy = self.policy[idx] if self.policy is not None else torch.zeros(1)
+        weight = self.weights[idx]
+        return features, policy, value_label, weight
 
 
 # ---------------------------------------------------------------------------

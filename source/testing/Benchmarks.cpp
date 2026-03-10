@@ -372,6 +372,23 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
     //    Emit END_PHASE actions as space clicks directly from the Move.
     //    The C++ AI's Move contains explicit END_PHASE for each phase transition.
     //    Shift-flagged USE_ABILITY emits "inst shift clicked" (JS handles batch).
+    //
+    //    UNDO_USE_ABILITY handling: UntapAvoidBreach may undo some econ abilities
+    //    (e.g., unsac Drones to use as blockers). The JS engine can't process undo
+    //    via "inst clicked" on a dead/sacced card. Fix: pre-scan for undone card IDs,
+    //    then for shift abilities, emit individual clicks excluding undone cards.
+
+    // Pass 1: Collect card IDs that were undone by UNDO_USE_ABILITY
+    std::vector<CardID> undoneCardIDs;
+    for (size_t i = 0; i < move.size(); ++i)
+    {
+        if (move.getAction(i).getType() == ActionTypes::UNDO_USE_ABILITY)
+        {
+            undoneCardIDs.push_back(move.getAction(i).getID());
+        }
+    }
+
+    // Pass 2: Generate clicks, handling shift+undo interactions
     std::stringstream clicksOut;
     clicksOut << "[";
     bool hasPrevClick = false;
@@ -392,12 +409,54 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
             {
                 if (action.getShift())
                 {
-                    // Shift-flagged: emit a single "inst shift clicked" and let the
-                    // JS engine handle batch activation natively. This avoids issues
-                    // with preState having stale card statuses (e.g., Drones still
-                    // Assigned from previous turn during defense-phase moves).
-                    int instId = preState.getCardByID(action.getID()).getClientInstId();
-                    appendClick(clicksOut, hasPrevClick, "inst shift clicked", instId);
+                    // Check if any cards of the same type were later undone
+                    const CardType & shiftType = preState.getCardByID(action.getID()).getType();
+                    bool hasUndos = false;
+                    for (const auto & undoID : undoneCardIDs)
+                    {
+                        if (preState.getCardByID(undoID).getType() == shiftType)
+                        {
+                            hasUndos = true;
+                            break;
+                        }
+                    }
+
+                    if (!hasUndos)
+                    {
+                        // No undos: emit shift click as before (JS handles batch)
+                        int instId = preState.getCardByID(action.getID()).getClientInstId();
+                        appendClick(clicksOut, hasPrevClick, "inst shift clicked", instId);
+                    }
+                    else
+                    {
+                        // Some cards undone: emit individual clicks for each card
+                        // that was NOT undone (net result matches C++ AI intent)
+                        PlayerID player = action.getPlayer();
+                        for (const auto & cardID : preState.getCardIDs(player))
+                        {
+                            const Card & card = preState.getCardByID(cardID);
+                            if (card.getType() != shiftType)
+                                continue;
+                            if (!card.canUseAbility())
+                                continue;
+
+                            // Skip cards that were undone
+                            bool wasUndone = false;
+                            for (const auto & undoID : undoneCardIDs)
+                            {
+                                if (undoID == cardID)
+                                {
+                                    wasUndone = true;
+                                    break;
+                                }
+                            }
+                            if (wasUndone)
+                                continue;
+
+                            int instId = card.getClientInstId();
+                            appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                        }
+                    }
                 }
                 else
                 {
@@ -445,8 +504,9 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
             }
             case ActionTypes::UNDO_USE_ABILITY:
             {
-                int instId = preState.getCardByID(action.getID()).getClientInstId();
-                appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
+                // Handled in Pass 1 — shift USE_ABILITY above already excludes
+                // undone cards. Don't emit a click (JS can't process undo on
+                // dead/sacced cards outside of an active swipe).
                 break;
             }
             default:

@@ -231,13 +231,13 @@ def compute_labels(outcome_p0, ply_index, total_plies, rating_p0, rating_p1):
     return label_a, label_b_weight, label_c, label_d
 
 
-def resolve_card_set_indices(card_set, unit_index, num_random=8):
-    """Convert card_set names to unit indices, padded/truncated to num_random.
+def resolve_card_set_indices(card_set, unit_index, max_random=11):
+    """Convert card_set names to unit indices, padded to max_random.
 
-    Returns uint8 array of length num_random. Unknown names get index 255.
+    Returns uint8 array of length max_random. Unknown/empty slots get index 255.
     """
-    indices = np.full(num_random, 255, dtype=np.uint8)
-    for i, name in enumerate(card_set[:num_random]):
+    indices = np.full(max_random, 255, dtype=np.uint8)
+    for i, name in enumerate(card_set[:max_random]):
         cname = clean_unit_name(name)
         if cname in unit_index:
             idx = unit_index[cname]
@@ -291,13 +291,30 @@ def process_file(input_path, unit_index, num_units, caps, output_path, schema,
                 unk_examples += 1
             scan_count += 1
 
+    # Collect replay codes that contain unknown units — these will be skipped entirely
+    skip_codes = set()
     if unk_names:
-        print(f"  WARNING: {len(unk_names)} unknown unit names ({sum(unk_names.values())} occurrences)")
-        print(f"  Examples with unknown units: {unk_examples}/{scan_count} "
-              f"({100*unk_examples/max(scan_count,1):.2f}%)")
+        print(f"  Found {len(unk_names)} unknown unit names ({sum(unk_names.values())} occurrences)")
         top_unk = sorted(unk_names.items(), key=lambda x: -x[1])[:10]
         for name, count in top_unk:
             print(f"    {name}: {count}")
+        # Second pass: collect replay codes to skip
+        with open(input_path, "r", encoding="utf-8") as f2:
+            for line in f2:
+                ex2 = json.loads(line)
+                for key in ("p0_units", "p1_units"):
+                    units = ex2.get("state", {}).get(key, [])
+                    if isinstance(units, list):
+                        for u in units:
+                            cname = clean_unit_name(u["name"])
+                            if cname not in unit_index:
+                                skip_codes.add(ex2.get("replay_code", ""))
+                                break
+                    if ex2.get("replay_code", "") in skip_codes:
+                        break
+        print(f"  Skipping {len(skip_codes)} replays ({unk_examples} records) with unknown units")
+        total_lines -= unk_examples
+        print(f"  Adjusted record count: {total_lines}")
     else:
         print(f"  No unknown unit names in {scan_count} records.")
 
@@ -357,8 +374,8 @@ def process_file(input_path, unit_index, num_units, caps, output_path, schema,
             maxshape=(None,), chunks=(min(chunk_size, total_lines),)
         )
         ds_card_set = hf.create_dataset(
-            "card_set_indices", shape=(total_lines, 8), dtype="uint8",
-            maxshape=(None, 8), chunks=(min(chunk_size, total_lines), 8)
+            "card_set_indices", shape=(total_lines, 11), dtype="uint8",
+            maxshape=(None, 11), chunks=(min(chunk_size, total_lines), 11)
         )
 
         # Running statistics accumulators
@@ -388,12 +405,19 @@ def process_file(input_path, unit_index, num_units, caps, output_path, schema,
                 chunk_date = []
                 chunk_cardset = []
 
-                for _ in range(chunk_size):
+                eof = False
+                while len(chunk_features) < chunk_size:
                     line = f.readline()
                     if not line:
+                        eof = True
                         break
 
                     ex = json.loads(line)
+
+                    # Skip replays with unknown units
+                    if ex.get("replay_code", "") in skip_codes:
+                        continue
+
                     state = ex["state"]
 
                     # Vectorize state
@@ -426,7 +450,7 @@ def process_file(input_path, unit_index, num_units, caps, output_path, schema,
                     chunk_cardset.append(resolve_card_set_indices(card_set, unit_index))
 
                 if not chunk_features:
-                    break
+                    break  # EOF with no remaining records
 
                 n = len(chunk_features)
                 end_idx = record_idx + n
