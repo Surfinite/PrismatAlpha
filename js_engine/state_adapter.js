@@ -72,6 +72,51 @@ function instToUnit(inst) {
 }
 
 /**
+ * Convert a single Inst object to a rich per-instance feature vector for DeepSets training.
+ *
+ * Extracts 10 instance-state features that capture much richer information than
+ * the basic instToUnit() above. Used for DeepSets architecture training data.
+ *
+ * HP semantics differ by unit type:
+ *   - Fragile units: inst.health tracks remaining HP directly
+ *   - Non-fragile units: currentHP = inst.health - inst.damage (damage accumulates)
+ *
+ * Role-based ability inference:
+ *   - is_blocking: role===ROLE_ASSIGNED AND inst.blocking===true
+ *   - ability_used: role===ROLE_ASSIGNED AND NOT blocking
+ *   Note: inst.abilityUsed does NOT exist on Inst; role-based inference matches
+ *   existing instToUnit() convention. At start-of-turn snapshots this is typically 0.
+ *
+ * @param {Inst} inst - Card instance from state.table (must be alive)
+ * @returns {Object} {
+ *   name, owner, is_constructing, turns_until_ready, is_blocking, ability_used,
+ *   current_hp, hp_fraction, is_frozen, lifespan_remaining, stamina_remaining
+ * }
+ */
+function instToRichUnit(inst) {
+    const card = inst.card;
+    const isBuilding = inst.constructionTime > 0;
+    const baseHealth = card.startingHealth || 1;
+    const currentHp = card.fragile
+        ? inst.health
+        : (inst.health - inst.damage);
+
+    return {
+        name:               card.UIName,
+        owner:              inst.owner,           // 0 or 1
+        is_constructing:    isBuilding ? 1 : 0,
+        turns_until_ready:  Math.max(inst.constructionTime, inst.delay),
+        is_blocking:        (inst.blocking && inst.role === C.ROLE_ASSIGNED) ? 1 : 0,
+        ability_used:       (inst.role === C.ROLE_ASSIGNED && !inst.blocking) ? 1 : 0,
+        current_hp:         Math.max(0, currentHp),
+        hp_fraction:        baseHealth > 0 ? Math.max(0, currentHp) / baseHealth : 0,
+        is_frozen:          inst.disruptDamage > 0 ? 1 : 0,
+        lifespan_remaining: inst.lifespan === -1 ? 0 : Math.max(0, inst.lifespan),
+        stamina_remaining:  inst.charge || 0
+    };
+}
+
+/**
  * Map the JS engine's state.result to vectorize.py's result convention.
  *
  * JS engine results (from C.js):
@@ -243,6 +288,7 @@ module.exports = {
     // Exported for testing
     _manaToResources: manaToResources,
     _instToUnit:      instToUnit,
+    _instToRichUnit:  instToRichUnit,
     _mapResult:       mapResult,
     _buildCardSet:    buildCardSet,
     _buildSupply:     buildSupply
