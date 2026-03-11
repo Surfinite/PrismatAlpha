@@ -51,6 +51,7 @@ const C = require('./C');
 const Analyzer = require('./Analyzer');
 const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getAdvancedUnitNames, getSupply, SUPPLY_BY_RARITY } = require('./card_library');
 const { stateToCppJSON, buildReplayJSON } = require('./replay_exporter');
+const { _instToRichUnit: instToRichUnit, _manaToResources: manaToResources } = require('./state_adapter');
 
 // MCDSAI player identifier (case-insensitive matching in CLI parsing)
 const MCDSAI_PLAYER = 'MCDSAI';
@@ -327,6 +328,7 @@ function autoBreachIfNeeded(analyzer, details) {
             const swipeResult = analyzer.recordClick(false, false, C.CLICK_END_SWIPE, -1);
             if (swipeResult.canClick) {
                 applied++;
+                recoveryStats.autoBreachSwipe++;
                 details.push(`  [auto-breach] OK: end swipe`);
             }
         }
@@ -351,6 +353,7 @@ function autoBreachIfNeeded(analyzer, details) {
         const result = analyzer.recordClick(false, false, C.CLICK_INST, weakest.instId);
         if (result.canClick) {
             applied++;
+            recoveryStats.autoBreach++;
             details.push(`  [auto-breach] OK: inst clicked id=${weakest.instId} (${weakest.card.cardName}, hp=${weakest.health})`);
         } else {
             failed++;
@@ -360,11 +363,19 @@ function autoBreachIfNeeded(analyzer, details) {
     }
 
     if (applied > 0) {
+        recoveryStats.recoveryLog.push({
+            type: 'autoBreach',
+            game: recoveryStats.totalGames,
+            turn: gs.numTurns,
+            targetsClicked: applied,
+            phase: gs.phase
+        });
         // End breach swipe if active
         if (analyzer.controller.inSwipe) {
             const swipeResult = analyzer.recordClick(false, false, C.CLICK_END_SWIPE, -1);
             if (swipeResult.canClick) {
                 applied++;
+                recoveryStats.autoBreachSwipe++;
                 details.push(`  [auto-breach] OK: end swipe (done)`);
             }
         }
@@ -413,10 +424,60 @@ function autoBreachIfNeeded(analyzer, details) {
  * @param {Object[]} clicks - Array of {_type, _id} objects
  * @returns {{ applied: number, failed: number, details: string[] }}
  */
+// Global recovery stats — tracks how often each auto-recovery fires.
+// Reset per-batch via resetRecoveryStats(), read via getRecoveryStats().
+const recoveryStats = {
+    autoCommitMid:    0,  // auto-commit mid-turn (PHASE_CONFIRM before defense clicks)
+    autoCommitEnd:    0,  // auto-commit at end of turn (PHASE_CONFIRM after all clicks)
+    endSwipeRetry:    0,  // end-swipe + retry (click failed during active swipe)
+    breachSpaceSkip:  0,  // space click skipped during glassBroken
+    autoBreach:       0,  // auto-breach target clicks inserted
+    autoBreachSwipe:  0,  // end-swipe during auto-breach
+    totalGames:       0,
+    totalTurns:       0,
+    // Per-occurrence log for non-trivial recoveries (end-swipe, auto-breach)
+    recoveryLog: []
+};
+function resetRecoveryStats() {
+    recoveryStats.autoCommitMid = 0;
+    recoveryStats.autoCommitEnd = 0;
+    recoveryStats.endSwipeRetry = 0;
+    recoveryStats.breachSpaceSkip = 0;
+    recoveryStats.autoBreach = 0;
+    recoveryStats.autoBreachSwipe = 0;
+    recoveryStats.totalGames = 0;
+    recoveryStats.totalTurns = 0;
+    recoveryStats.recoveryLog = [];
+}
+function getRecoveryStats() { return recoveryStats; }
+
+function printRecoveryStats(prefix) {
+    const s = recoveryStats;
+    console.error(`\n${prefix} ===== RECOVERY STATS =====`);
+    console.error(`${prefix} Games: ${s.totalGames}, Turns: ${s.totalTurns}`);
+    console.error(`${prefix} Auto-commit (mid-turn):   ${s.autoCommitMid}   [expected: protocol mismatch]`);
+    console.error(`${prefix} Auto-commit (end-turn):   ${s.autoCommitEnd}   [expected: protocol mismatch]`);
+    console.error(`${prefix} End-swipe retry:          ${s.endSwipeRetry}   [INVESTIGATE if > 0]`);
+    console.error(`${prefix} Breach space skip:        ${s.breachSpaceSkip}   [expected: cosmetic]`);
+    console.error(`${prefix} Auto-breach targets:      ${s.autoBreach}   [INVESTIGATE if > 0]`);
+    console.error(`${prefix} Auto-breach swipes:       ${s.autoBreachSwipe}   [INVESTIGATE if > 0]`);
+    if (s.recoveryLog.length > 0) {
+        console.error(`${prefix} --- Non-trivial recovery log (${s.recoveryLog.length} entries) ---`);
+        for (const entry of s.recoveryLog.slice(0, 50)) {
+            console.error(`${prefix}   [game ${entry.game}, turn ${entry.turn}] ${entry.type}: ${JSON.stringify(entry)}`);
+        }
+        if (s.recoveryLog.length > 50) {
+            console.error(`${prefix}   ... and ${s.recoveryLog.length - 50} more`);
+        }
+    }
+    console.error(`${prefix} ==========================\n`);
+}
+
 function applyClicks(analyzer, clicks, actionStates) {
     let applied = 0;
     let failed = 0;
     const details = [];
+    recoveryStats.totalTurns++;
 
     for (let i = 0; i < clicks.length; i++) {
         const click = clicks[i];
@@ -441,6 +502,7 @@ function applyClicks(analyzer, clicks, actionStates) {
             const commitResult = analyzer.recordClick(false, false, C.CLICK_SPACE, -1);
             if (commitResult.canClick) {
                 applied++;
+                recoveryStats.autoCommitMid++;
                 details.push(`  [auto] OK: space clicked (confirm->commit)`);
             }
         }
@@ -452,6 +514,7 @@ function applyClicks(analyzer, clicks, actionStates) {
         // between breach target selections, but JS Controller doesn't accept them
         // during glassBroken. These are cosmetic — breach targets chain naturally.
         if (!result.canClick && clickType === C.CLICK_SPACE && analyzer.gameState.glassBroken) {
+            recoveryStats.breachSpaceSkip++;
             details.push(`  [${i}] SKIP: ${clickType} id=${clickId} (breach phase — harmless)`);
             continue;
         }
@@ -462,6 +525,15 @@ function applyClicks(analyzer, clicks, actionStates) {
         if (!result.canClick && analyzer.controller.inSwipe && clickType !== C.CLICK_END_SWIPE) {
             const swipeResult = analyzer.recordClick(false, false, C.CLICK_END_SWIPE, -1);
             if (swipeResult.canClick) {
+                recoveryStats.endSwipeRetry++;
+                recoveryStats.recoveryLog.push({
+                    type: 'endSwipeRetry',
+                    game: recoveryStats.totalGames,
+                    turn: analyzer.gameState.numTurns,
+                    clickIndex: i,
+                    click: `${clickType} id=${clickId}`,
+                    phase: analyzer.gameState.phase
+                });
                 details.push(`  [auto] OK: end swipe (retry)`);
                 applied++;
                 result = analyzer.recordClick(false, false, clickType, clickId);
@@ -532,6 +604,7 @@ function applyClicks(analyzer, clicks, actionStates) {
         const commitResult = analyzer.recordClick(false, false, C.CLICK_SPACE, -1);
         if (commitResult.canClick) {
             applied++;
+            recoveryStats.autoCommitEnd++;
             details.push(`  [auto] OK: space clicked (confirm->commit)`);
             if (actionStates) {
                 actionStates.push({
@@ -716,6 +789,7 @@ async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamC
     let failed = 0;
     const details = [];
     const actionStates = [];
+    recoveryStats.totalTurns++;
 
     try {
         const clicks = StateUtil.convertToClicks(aiclicks, analyzer.gameState, false);
@@ -735,6 +809,7 @@ async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamC
                 // between breach target selections, but JS Controller doesn't accept them
                 // during glassBroken. These are cosmetic — breach targets chain naturally.
                 if (click._type === C.CLICK_SPACE && analyzer.gameState.glassBroken) {
+                    recoveryStats.breachSpaceSkip++;
                     details.push(`  [${i}] SKIP: ${click._type} id=${click._id} (breach phase — harmless)`);
                     continue;
                 }
@@ -1278,6 +1353,59 @@ function extractTrainingExample(gameState, cardSet, plyIndex) {
     };
 }
 
+/**
+ * Extract a V2 training example using rich per-instance feature vectors.
+ * Uses instToRichUnit() from state_adapter.js for DeepSets-compatible format.
+ *
+ * Unlike extractTrainingExample() which splits units by owner into p0_units/p1_units,
+ * this produces a flat `instances` array where each entry includes owner (0 or 1).
+ * Supply includes all units in the card set even if sold out (in_card_set flag).
+ *
+ * @param {Object} gameState - The JS game state (analyzer.gameState)
+ * @param {string[]} cardSet - Display names of the 8 advanced units
+ * @param {number} plyIndex - 0-based ply index (turn number within game)
+ * @returns {Object} V2 training example (without outcome_p0/total_plies — stamped after game)
+ */
+function extractTrainingExampleV2(gameState, cardSet, plyIndex) {
+    const instances = [];
+
+    gameState.table.forEach((inst) => {
+        if (inst.deadness !== C.DEADNESS_ALIVE) return;  // match state_adapter.js pattern
+        instances.push(instToRichUnit(inst));
+    });
+
+    const p0Mana = gameState.playerMana(C.COLOR_WHITE);
+    const p1Mana = gameState.playerMana(C.COLOR_BLACK);
+
+    // Supply — include ALL units in card set, even sold-out (supply=0).
+    // in_card_set flag must persist so model knows the unit was available.
+    const supply = {};
+    for (let i = 0; i < gameState.cards.length; i++) {
+        const card = gameState.cards[i];
+        const ws = gameState.whiteSupply[i] || 0;
+        const bs = gameState.blackSupply[i] || 0;
+        const inSet = cardSet.includes(card.UIName) ? 1 : 0;
+        // Include if unit has supply OR is in the card set (even if sold out)
+        if (ws > 0 || bs > 0 || inSet) {
+            supply[card.UIName] = [ws, bs, inSet];
+        }
+    }
+
+    return {
+        schema_version: "v2",
+        ply_index: plyIndex,
+        card_set: cardSet,
+        instances: instances,   // per-instance list (includes owner field)
+        supply: supply,
+        p0_resources: manaToResources(p0Mana),
+        p1_resources: manaToResources(p1Mana),
+        p0_attack: p0Mana.pool[C.MANA_A],
+        p1_attack: p1Mana.pool[C.MANA_A],
+        turn_number: gameState.numTurns,
+        active_player: gameState.turn
+    };
+}
+
 // ---------------------------------------------------------------------------
 // 8b. Play a single complete game (Phase 7b)
 // ---------------------------------------------------------------------------
@@ -1312,6 +1440,7 @@ function extractTrainingExample(gameState, cardSet, plyIndex) {
  * @returns {Promise<{ result: number, winner: string, turns: number, errors: string[], abortReason: string|null }>}
  */
 async function playSingleGame(activeDeck, config) {
+    recoveryStats.totalGames++;
     const playerWhite = config.playerWhite;
     const playerBlack = config.playerBlack;
     const thinkTimeMs = config.thinkTimeMs;
@@ -1416,9 +1545,9 @@ async function playSingleGame(activeDeck, config) {
         // Capture training example (pre-turn snapshot)
         if (exportTraining) {
             try {
-                const example = extractTrainingExample(
-                    analyzer.gameState, config.cardSet || [], turnCount - 1
-                );
+                const example = config.schemaV2
+                    ? extractTrainingExampleV2(analyzer.gameState, config.cardSet || [], turnCount - 1)
+                    : extractTrainingExample(analyzer.gameState, config.cardSet || [], turnCount - 1);
                 trainingExamples.push(example);
             } catch (e) {
                 console.error(`[Training] Turn ${turnCount}: extraction failed: ${e.message}`);
@@ -1810,9 +1939,11 @@ async function playMultipleGames(config, numGames, library, options = {}) {
                     winnerInt, gameLog.turns, gameLog.cardSet,
                     gameLog.allActionLabels, gameLog.turnBoundaries
                 );
-                const replayPath = path.join(saveReplaysDir, `game_${String(gameLog.game).padStart(4, '0')}.json`);
-                fs.writeFileSync(replayPath, JSON.stringify(replayData, null, 2));
-                console.error(`[Replay] Saved ${replayPath}`);
+                const replayJson = JSON.stringify(replayData, null, 2);
+                const replayPath = path.join(saveReplaysDir, `game_${String(gameLog.game).padStart(4, '0')}.json.gz`);
+                const zlib = require('zlib');
+                fs.writeFileSync(replayPath, zlib.gzipSync(replayJson));
+                console.error(`[Replay] Saved ${replayPath} (${(replayJson.length/1024).toFixed(0)}KB -> ${(fs.statSync(replayPath).size/1024).toFixed(0)}KB)`);
             } catch (err) {
                 console.error(`[Replay] Game ${gameLog.game}: Failed to save: ${err.message}`);
             }
@@ -1964,6 +2095,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             console.error(`[Pair] ${labelB}: ${playerWinRates.playerB.winRate}%`);
         }
         console.error(`[Pair] ================================\n`);
+        printRecoveryStats('[Pair]');
 
         return { games, tally, avgTurns, pairResults, playerWinRates };
     }
@@ -1991,6 +2123,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
     console.error(`[Multi] Invalid: ${invalid}`);
     console.error(`[Multi] Avg turns: ${avgTurns}`);
     console.error(`[Multi] ================================\n`);
+    printRecoveryStats('[Multi]');
 
     return { games, tally, avgTurns };
 }
@@ -2270,6 +2403,7 @@ async function main() {
     let fixedCards = null;               // --cards "A,B,C": fixed advanced units (null = random)
     let resignThreshold = WILL_SCORE_THRESHOLD;  // --resign <ratio>: WillScore resign threshold for C++ players (0 = disabled)
     let exportTrainingDir = null;        // --export-training <dir>: JSONL training data output
+    let schemaV2 = false;                // --schema-v2: use V2 per-instance training data format
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--random') useRandom = true;
@@ -2331,6 +2465,7 @@ async function main() {
                 exportTrainingDir = path.resolve(exportTrainingDir);
             }
         }
+        if (args[i] === '--schema-v2') schemaV2 = true;
     }
 
     // Validate parallel workers count
@@ -2409,7 +2544,7 @@ async function main() {
     if (playerSwitch) console.error(`Player switch: enabled (${numGames / 2} pairs)`);
     if (fixedCards) console.error(`Fixed cards: [${fixedCards.join(', ')}]`);
     if (saveReplaysDir) console.error(`Replay saving: ${saveReplaysDir}`);
-    if (exportTrainingDir) console.error(`Training data export: ${exportTrainingDir}`);
+    if (exportTrainingDir) console.error(`Training data export: ${exportTrainingDir}${schemaV2 ? ' (schema v2)' : ' (schema v1)'}`);
     console.error('');
 
     // 1. Load card library
@@ -2701,13 +2836,13 @@ async function main() {
                     mcdsaiDifficulty,
                     saveReplaysDir,
                     false,  // verbose
-                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, exportTrainingDir }
+                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, exportTrainingDir, schemaV2 }
                 );
             } else {
                 // Phase 7c/7d: Sequential execution
                 console.error(`\n--- Starting ${numGames} Games${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGames(
-                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold, exportTraining: !!exportTrainingDir },
+                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold, exportTraining: !!exportTrainingDir, schemaV2 },
                     numGames,
                     library,
                     { playerSwitch, fixedCards, saveReplaysDir, exportTrainingDir }
@@ -2819,9 +2954,13 @@ module.exports = {
     computeWillScoreSum,
     adjudicateByMaterial,
     extractTrainingExample,
+    extractTrainingExampleV2,
     WILL_SCORE_THRESHOLD,
     MCDSAI_PLAYER,
-    STEAM_AI_PLAYER
+    STEAM_AI_PLAYER,
+    getRecoveryStats,
+    resetRecoveryStats,
+    printRecoveryStats
 };
 
 if (require.main === module) {
