@@ -1,0 +1,41 @@
+{
+    "schema_version": "v2",
+    "architecture": "deepsets",
+    "num_units": 116,
+    "unit_index_hash": "c86aac391aed5530d7f9f9d6ae4567a40b39a128e6ff982c911c37b90d83ac2e",
+    "token_dim": 55,
+    "embedding_dim": 32,
+    "num_static_properties": 13,
+    "num_instance_features": 10,
+    "num_supply_features": 3,
+    "num_global_features": 14,
+    "max_instances": 200,
+    "normalization_caps": {
+        "gold": 20, "blue": 5, "red": 5, "green": 15,
+        "energy": 10, "attack": 25, "turn_number": 50
+    },
+    "instance_features": [
+        "owner", "is_constructing", "turns_until_ready", "is_blocking",
+        "ability_used", "current_hp", "hp_fraction", "is_frozen",
+        "lifespan_remaining", "stamina_remaining"
+    ],
+    "static_properties": [
+        "buy_cost_gold", "buy_cost_green", "buy_cost_blue", "buy_cost_red",
+        "buy_cost_energy", "base_health", "fragile", "default_blocking",
+        "base_build_time", "base_lifespan", "base_attack", "has_ability",
+        "max_stamina"
+    ],
+    "supply_features": ["p0_supply", "p1_supply", "in_card_set"],
+    "global_features": [
+        "p0_gold", "p0_blue", "p0_red", "p0_green", "p0_energy", "p0_attack",
+        "p1_gold", "p1_blue", "p1_red", "p1_green", "p1_energy", "p1_attack",
+        "turn_number", "active_player"
+    ],
+    "label_strategies": {
+        "A": "hard_binary_outcome_p0",
+        "B": "temporal_sample_weight",
+        "C": "elo_interpolated",
+        "D": "neutral_prior"
+    },
+    "loss": "BCEWithLogitsLoss"
+}
