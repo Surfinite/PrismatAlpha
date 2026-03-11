@@ -2163,7 +2163,7 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
 async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose, options = {}) {
-    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', exportTrainingDir = null } = options;
+    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', exportTrainingDir = null, schemaV2 = false } = options;
 
     // Distribute game numbers across worker slots
     const slotsGames = Array.from({ length: numWorkers }, () => []);
@@ -2223,7 +2223,8 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     playerSwitch: playerSwitch,
                     fixedCards: fixedCards,
                     resignThreshold: resignThreshold,
-                    exportTrainingDir: exportTrainingDir
+                    exportTrainingDir: exportTrainingDir,
+                    schemaV2: schemaV2
                 }
             });
 
