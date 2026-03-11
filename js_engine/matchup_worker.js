@@ -292,9 +292,9 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
         // Capture training example (pre-turn snapshot)
         if (exportTraining) {
             try {
-                const example = matchup.extractTrainingExample(
-                    analyzer.gameState, config.cardSet || [], turnCount - 1
-                );
+                const example = config.schemaV2
+                    ? matchup.extractTrainingExampleV2(analyzer.gameState, config.cardSet || [], turnCount - 1)
+                    : matchup.extractTrainingExample(analyzer.gameState, config.cardSet || [], turnCount - 1);
                 trainingExamples.push(example);
             } catch (e) {
                 console.error(`[Training] Turn ${turnCount}: extraction failed: ${e.message}`);
@@ -518,7 +518,8 @@ async function runWorkerSlot() {
         playerSwitch = false,
         fixedCards = null,
         resignThreshold = 0,
-        exportTrainingDir = null
+        exportTrainingDir = null,
+        schemaV2 = false
     } = workerData;
 
     const whiteIsMCDSAI = matchup.isMCDSAIPlayer(playerWhite);
@@ -646,6 +647,7 @@ async function runWorkerSlot() {
                     mcdsaiLibrary: library,
                     resignThreshold,
                     exportTraining: !!exportTrainingDir,
+                    schemaV2: schemaV2,
                     cardSet: currentUnits
                 }, mWorkerWhite, mWorkerBlack, sCfg);
             } catch (err) {
@@ -725,8 +727,10 @@ async function runWorkerSlot() {
                     winnerInt, gameLog.turns, gameLog.cardSet,
                     gameLog.allActionLabels, gameLog.turnBoundaries
                 );
-                const replayPath = path.join(saveReplaysDir, `game_${String(gameLog.game).padStart(4, '0')}.json`);
-                fs.writeFileSync(replayPath, JSON.stringify(replayData, null, 2));
+                const replayJson = JSON.stringify(replayData, null, 2);
+                const replayPath = path.join(saveReplaysDir, `game_${String(gameLog.game).padStart(4, '0')}.json.gz`);
+                const zlib = require('zlib');
+                fs.writeFileSync(replayPath, zlib.gzipSync(replayJson));
             } catch (err) {
                 console.error(`[Multi] Game ${gameLog.game}: Failed to save replay: ${err.message}`);
             }
