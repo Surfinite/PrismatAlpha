@@ -19,50 +19,51 @@ class NeuralNet
         int out_dim;
     };
 
-    struct LayerNormParams
+    struct DeepSetsConfig
     {
-        std::vector<float> gamma;   // [dim]
-        std::vector<float> beta;    // [dim]
-        int dim;
+        int num_units;              // 116
+        int d_embed;                // 32
+        int num_properties;         // 13
+        int num_instance_features;  // 10
+        int encoder_hidden;         // 128
+        int supply_hidden;          // 32
+        int value_hidden;           // 256
     };
 
-    struct ResidualBlock
-    {
-        LinearLayer linear1;
-        LayerNormParams norm1;
-        LinearLayer linear2;
-        LayerNormParams norm2;
-    };
+    DeepSetsConfig          _config;
 
-    int _stateDim;
-    int _numUnits;
-    int _hiddenDim;
-    int _numLayers;
+    // Unit-type embedding table (num_units x d_embed)
+    std::vector<float>      _embedding_table;
 
-    LinearLayer _inputProj;
-    std::vector<ResidualBlock> _trunkBlocks;
+    // Static property table (num_units x num_properties) -- loaded from DSN2 binary
+    std::vector<float>      _property_table;
 
-    LinearLayer _policyLinear1;
-    LinearLayer _policyLinear2;
+    // Shared instance encoder (2 linear layers with ReLU)
+    LinearLayer             _enc_linear1;    // (token_dim -> encoder_hidden)
+    LinearLayer             _enc_linear2;    // (encoder_hidden -> encoder_hidden)
 
-    LinearLayer _valueLinear1;
-    LinearLayer _valueLinear2;
+    // Supply encoder (2 linear layers with ReLU)
+    LinearLayer             _sup_linear1;    // (3 -> supply_hidden)
+    LinearLayer             _sup_linear2;    // (supply_hidden -> supply_hidden)
+
+    // Value head (3 linear layers: Linear->ReLU->Linear->ReLU->Linear)
+    LinearLayer             _val_linear1;    // (302 -> value_hidden)
+    LinearLayer             _val_linear2;    // (value_hidden -> value_hidden)
+    LinearLayer             _val_linear3;    // (value_hidden -> 1)
 
     // Unit display name -> unit_index position
     std::unordered_map<std::string, int> _unitNameToIndex;
 
     // Engine CardType ID -> unit_index position (-1 if unmapped)
-    std::vector<int> _cardTypeToUnitIndex;
+    std::vector<int>        _cardTypeToUnitIndex;
 
     bool _loaded;
 
     static void linearForward(const LinearLayer & layer, const float * input, float * output);
-    static void layerNormForward(const LayerNormParams & params, float * data);
     static void reluInPlace(float * data, int size);
 
-    bool readLinearLayer(std::ifstream & f, LinearLayer & layer, const std::string & expectedName);
-    bool readLayerNormParams(std::ifstream & f, LayerNormParams & params, const std::string & expectedName);
-    void validateSchema() const;
+    void extractInstanceFeatures(const Card & card, int unitIdx, float * out) const;
+    bool loadUnitIndex();
 
 public:
 
@@ -72,19 +73,17 @@ public:
     void buildCardTypeMapping();
     bool isLoaded() const;
 
-    void extractFeatures(const GameState & state, std::vector<float> & features) const;
-
+    // DeepSets is value-only; evaluate() kept for backward compatibility (returns empty policy)
     struct NeuralOutput
     {
-        std::vector<float> policy;  // [num_units] buy count predictions
-        float value;                // [-1, 1] win probability for active player
+        std::vector<float> policy;  // empty (DeepSets has no policy head)
+        float value;                // [-1, 1] win probability for P0
     };
 
     NeuralOutput evaluate(const GameState & state) const;
     double evaluateValue(const GameState & state, const PlayerID maxPlayer) const;
     int getUnitIndex(int cardTypeID) const;
-    int numUnits() const { return _numUnits; }
-    int stateDim() const { return _stateDim; }
+    int numUnits() const { return _config.num_units; }
 
     void dumpFeaturesToFile(const GameState & state, const std::string & path) const;
 

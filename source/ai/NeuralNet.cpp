@@ -5,15 +5,15 @@
 #include <cstring>
 #include <algorithm>
 
+#include "rapidjson/document.h"
+
 using namespace Prismata;
 
 NeuralNet::NeuralNet()
-    : _stateDim(0)
-    , _numUnits(0)
-    , _hiddenDim(0)
-    , _numLayers(0)
+    : _config()
     , _loaded(false)
 {
+    std::memset(&_config, 0, sizeof(_config));
 }
 
 NeuralNet & NeuralNet::Instance()
@@ -27,7 +27,9 @@ bool NeuralNet::isLoaded() const
     return _loaded;
 }
 
-// --- Binary file reading helpers ---
+// ---------------------------------------------------------------------------
+// Binary file reading helpers
+// ---------------------------------------------------------------------------
 
 static bool readU32(std::ifstream & f, uint32_t & val)
 {
@@ -81,34 +83,70 @@ static bool readTensor(std::ifstream & f, const std::string & expectedName,
     return readFloats(f, data, totalSize);
 }
 
-bool NeuralNet::readLinearLayer(std::ifstream & f, LinearLayer & layer, const std::string & expectedName)
+// ---------------------------------------------------------------------------
+// Unit index loading (JSON)
+// ---------------------------------------------------------------------------
+
+bool NeuralNet::loadUnitIndex()
 {
-    std::vector<uint32_t> shape;
+    const char * paths[] = {
+        "training/data/unit_index.json",
+        "../training/data/unit_index.json",
+        "asset/config/unit_index.json",
+    };
 
-    // Weight
-    if (!readTensor(f, expectedName + ".weight", layer.weight, shape)) return false;
-    layer.out_dim = shape[0];
-    layer.in_dim = shape[1];
+    std::ifstream f;
+    std::string foundPath;
+    for (const char * path : paths)
+    {
+        f.open(path);
+        if (f.good())
+        {
+            foundPath = path;
+            break;
+        }
+        f.clear();
+    }
 
-    // Bias
-    if (!readTensor(f, expectedName + ".bias", layer.bias, shape)) return false;
+    if (!f.is_open())
+    {
+        printf("NeuralNet: could not find unit_index.json\n");
+        return false;
+    }
 
+    std::string content((std::istreambuf_iterator<char>(f)),
+                         std::istreambuf_iterator<char>());
+    f.close();
+
+    rapidjson::Document doc;
+    doc.Parse(content.c_str());
+
+    if (doc.HasParseError())
+    {
+        printf("NeuralNet: unit_index.json parse error\n");
+        return false;
+    }
+
+    if (!doc.HasMember("units") || !doc["units"].IsObject())
+    {
+        printf("NeuralNet: unit_index.json missing 'units' object\n");
+        return false;
+    }
+
+    _unitNameToIndex.clear();
+    const auto & units = doc["units"];
+    for (auto it = units.MemberBegin(); it != units.MemberEnd(); ++it)
+    {
+        _unitNameToIndex[it->name.GetString()] = it->value.GetInt();
+    }
+
+    printf("NeuralNet: loaded %zu unit names from %s\n", _unitNameToIndex.size(), foundPath.c_str());
     return true;
 }
 
-bool NeuralNet::readLayerNormParams(std::ifstream & f, LayerNormParams & params, const std::string & expectedName)
-{
-    std::vector<uint32_t> shape;
-
-    // Gamma (weight)
-    if (!readTensor(f, expectedName + ".weight", params.gamma, shape)) return false;
-    params.dim = shape[0];
-
-    // Beta (bias)
-    if (!readTensor(f, expectedName + ".bias", params.beta, shape)) return false;
-
-    return true;
-}
+// ---------------------------------------------------------------------------
+// Load weights (DSN2 format)
+// ---------------------------------------------------------------------------
 
 bool NeuralNet::loadWeights(const std::string & filename)
 {
@@ -119,86 +157,119 @@ bool NeuralNet::loadWeights(const std::string & filename)
         return false;
     }
 
-    // Read header
-    uint32_t magic, version, numTensors, numUnitNames;
+    // Read DSN2 header: 9 x uint32 = 36 bytes
+    uint32_t magic = 0, version = 0, numTensors = 0;
     readU32(f, magic);
+
+    if (magic == 0x504E4554)
+    {
+        printf("NeuralNet: PNET (V1) format detected -- please use DSN2 format weights\n");
+        return false;
+    }
+
+    if (magic != 0x44534E32)
+    {
+        printf("NeuralNet: bad magic number %08x (expected DSN2 = 0x44534E32)\n", magic);
+        return false;
+    }
+
     readU32(f, version);
-    readU32(f, (uint32_t&)_stateDim);
-    readU32(f, (uint32_t&)_numUnits);
-    readU32(f, (uint32_t&)_hiddenDim);
-    readU32(f, (uint32_t&)_numLayers);
+    readU32(f, (uint32_t &)_config.num_units);
+    readU32(f, (uint32_t &)_config.d_embed);
+    readU32(f, (uint32_t &)_config.num_properties);
+    readU32(f, (uint32_t &)_config.encoder_hidden);
+    readU32(f, (uint32_t &)_config.supply_hidden);
+    readU32(f, (uint32_t &)_config.value_hidden);
     readU32(f, numTensors);
-    readU32(f, numUnitNames);
 
-    if (magic != 0x504E4554)
+    _config.num_instance_features = 10;  // fixed by design
+
+    printf("NeuralNet: loading DSN2 weights v%u (units=%d, d_embed=%d, props=%d, "
+           "enc_h=%d, sup_h=%d, val_h=%d, tensors=%u)\n",
+           version, _config.num_units, _config.d_embed, _config.num_properties,
+           _config.encoder_hidden, _config.supply_hidden, _config.value_hidden, numTensors);
+
+    if (numTensors != 16)
     {
-        printf("NeuralNet: bad magic number %08x\n", magic);
+        printf("NeuralNet: expected 16 tensors, got %u\n", numTensors);
         return false;
     }
 
-    printf("NeuralNet: loading weights (state_dim=%d, units=%d, hidden=%d, layers=%d)\n",
-           _stateDim, _numUnits, _hiddenDim, _numLayers);
+    // 1. Unit embedding (num_units x d_embed)
+    std::vector<uint32_t> shape;
+    if (!readTensor(f, "unit_embedding.weight", _embedding_table, shape)) return false;
 
-    // Read input projection
-    if (!readLinearLayer(f, _inputProj, "input_proj")) return false;
+    // 2-5. Instance encoder
+    if (!readTensor(f, "instance_encoder.0.weight", _enc_linear1.weight, shape)) return false;
+    _enc_linear1.out_dim = shape[0];
+    _enc_linear1.in_dim = shape[1];
+    if (!readTensor(f, "instance_encoder.0.bias", _enc_linear1.bias, shape)) return false;
 
-    // Read trunk blocks
-    _trunkBlocks.resize(_numLayers);
-    for (int i = 0; i < _numLayers; ++i)
+    if (!readTensor(f, "instance_encoder.2.weight", _enc_linear2.weight, shape)) return false;
+    _enc_linear2.out_dim = shape[0];
+    _enc_linear2.in_dim = shape[1];
+    if (!readTensor(f, "instance_encoder.2.bias", _enc_linear2.bias, shape)) return false;
+
+    // 6-9. Supply encoder
+    if (!readTensor(f, "supply_encoder.0.weight", _sup_linear1.weight, shape)) return false;
+    _sup_linear1.out_dim = shape[0];
+    _sup_linear1.in_dim = shape[1];
+    if (!readTensor(f, "supply_encoder.0.bias", _sup_linear1.bias, shape)) return false;
+
+    if (!readTensor(f, "supply_encoder.2.weight", _sup_linear2.weight, shape)) return false;
+    _sup_linear2.out_dim = shape[0];
+    _sup_linear2.in_dim = shape[1];
+    if (!readTensor(f, "supply_encoder.2.bias", _sup_linear2.bias, shape)) return false;
+
+    // 10-15. Value head (3 linear layers)
+    if (!readTensor(f, "value_head.0.weight", _val_linear1.weight, shape)) return false;
+    _val_linear1.out_dim = shape[0];
+    _val_linear1.in_dim = shape[1];
+    if (!readTensor(f, "value_head.0.bias", _val_linear1.bias, shape)) return false;
+
+    if (!readTensor(f, "value_head.3.weight", _val_linear2.weight, shape)) return false;
+    _val_linear2.out_dim = shape[0];
+    _val_linear2.in_dim = shape[1];
+    if (!readTensor(f, "value_head.3.bias", _val_linear2.bias, shape)) return false;
+
+    if (!readTensor(f, "value_head.6.weight", _val_linear3.weight, shape)) return false;
+    _val_linear3.out_dim = shape[0];
+    _val_linear3.in_dim = shape[1];
+    if (!readTensor(f, "value_head.6.bias", _val_linear3.bias, shape)) return false;
+
+    // 16. Property table (num_units x num_properties)
+    if (!readTensor(f, "property_table", _property_table, shape)) return false;
+
+    printf("NeuralNet: loaded 16 tensors from DSN2 binary\n");
+
+    // Validate expected dimensions
+    int tokenDim = _config.d_embed + _config.num_properties + _config.num_instance_features;
+    if (_enc_linear1.in_dim != tokenDim)
     {
-        std::string prefix = "trunk." + std::to_string(i);
-        if (!readLinearLayer(f, _trunkBlocks[i].linear1, prefix + ".linear1")) return false;
-        if (!readLayerNormParams(f, _trunkBlocks[i].norm1, prefix + ".norm1")) return false;
-        if (!readLinearLayer(f, _trunkBlocks[i].linear2, prefix + ".linear2")) return false;
-        if (!readLayerNormParams(f, _trunkBlocks[i].norm2, prefix + ".norm2")) return false;
+        printf("NeuralNet: WARNING: encoder input dim %d != expected token_dim %d\n",
+               _enc_linear1.in_dim, tokenDim);
     }
 
-    // Read policy head
-    if (!readLinearLayer(f, _policyLinear1, "policy.linear1")) return false;
-    if (!readLinearLayer(f, _policyLinear2, "policy.linear2")) return false;
-
-    // Read value head
-    if (!readLinearLayer(f, _valueLinear1, "value.linear1")) return false;
-    if (!readLinearLayer(f, _valueLinear2, "value.linear2")) return false;
-
-    // Read unit index
-    _unitNameToIndex.clear();
-    for (uint32_t i = 0; i < numUnitNames; ++i)
+    int combinedDim = _config.encoder_hidden * 2 + _config.supply_hidden + 14;
+    if (_val_linear1.in_dim != combinedDim)
     {
-        uint32_t idx, nameLen;
-        readU32(f, idx);
-        readU32(f, nameLen);
-
-        std::string name;
-        readString(f, name, nameLen);
-        _unitNameToIndex[name] = idx;
+        printf("NeuralNet: WARNING: value head input dim %d != expected combined_dim %d\n",
+               _val_linear1.in_dim, combinedDim);
     }
 
-    printf("NeuralNet: loaded %u tensors, %u unit names\n", numTensors, numUnitNames);
-
-    // Validate state_dim layout
-    int numGlobalFeatures = _stateDim - _numUnits * 11;
-    if (numGlobalFeatures < 0)
+    // Load unit name -> index mapping from unit_index.json
+    if (!loadUnitIndex())
     {
-        printf("NeuralNet: ERROR: state_dim=%d < numUnits*11=%d — weight file is corrupt\n",
-               _stateDim, _numUnits * 11);
-        return false;
+        printf("NeuralNet: WARNING: unit_index.json not loaded -- buildCardTypeMapping() will fail\n");
     }
-    if (numGlobalFeatures != 14 && numGlobalFeatures != 2)
-    {
-        printf("NeuralNet: WARNING: unexpected global feature count: %d (expected 14 or 2)\n",
-               numGlobalFeatures);
-    }
-    printf("NeuralNet: feature layout: %d unit slots × 11 + %d global = %d state_dim\n",
-           _numUnits, numGlobalFeatures, _stateDim);
 
     _loaded = true;
-
-    // Try to validate against schema.json if it exists
-    validateSchema();
-
     return true;
 }
+
+// ---------------------------------------------------------------------------
+// Card type mapping (engine CardType ID -> unit index)
+// ---------------------------------------------------------------------------
 
 void NeuralNet::buildCardTypeMapping()
 {
@@ -217,7 +288,7 @@ void NeuralNet::buildCardTypeMapping()
     int unmapped = 0;
     for (const auto & type : allTypes)
     {
-        // Try UIName (display name) first — this matches the training data
+        // Try UIName (display name) first -- this matches the training data
         auto it = _unitNameToIndex.find(type.getUIName());
         if (it != _unitNameToIndex.end())
         {
@@ -246,184 +317,11 @@ void NeuralNet::buildCardTypeMapping()
     }
 
     printf("NeuralNet: mapped %d / %zu engine card types (%d unmapped)\n", mapped, allTypes.size(), unmapped);
-
-#ifdef NEURAL_NET_DEBUG
-    printf("NeuralNet: _unitNameToIndex has %zu entries, _cardTypeToUnitIndex has %zu entries\n",
-           _unitNameToIndex.size(), _cardTypeToUnitIndex.size());
-
-    for (const auto & type : allTypes)
-    {
-        if (type.getUIName() == "Drone" || type.getUIName() == "Engineer" || type.getUIName() == "Thorium Dynamo")
-        {
-            int idx = (type.getID() < _cardTypeToUnitIndex.size()) ? _cardTypeToUnitIndex[type.getID()] : -999;
-            printf("NeuralNet: '%s' (id=%d) -> unitIdx=%d\n", type.getUIName().c_str(), type.getID(), idx);
-        }
-    }
-#endif
 }
 
-// --- Feature extraction ---
-// Converts a GameState into a 1785-dim feature vector for neural net inference.
-// Layout: 161 unit types × 11 features each + 14 global features.
-// Per-unit features (at unitIdx*11): [P0 ready, P0 constructing, P0 exhausted, P0 blocking,
-//   P1 ready, P1 constructing, P1 exhausted, P1 blocking, P0 supply, P1 supply, in_card_set]
-// Global features (at 161*11=1771): [P0 gold/blue/red/green/energy/attack, P1 same, turn, active_player]
-// All values normalized to ~[0,1] via clamp-divide (see training/FEATURES.md and training/schema.json).
-
-void NeuralNet::extractFeatures(const GameState & state, std::vector<float> & features) const
-{
-    static bool firstCall = true;
-
-    features.assign(_stateDim, 0.0f);
-
-    int unitsMapped = 0;
-    int unitsSkipped = 0;
-
-    // Per-player unit features
-    for (PlayerID player = 0; player < 2; ++player)
-    {
-        int offset = (player == 0) ? 0 : 4;
-        const CardIDVector & cardIDs = state.getCardIDs(player);
-
-        for (size_t c = 0; c < cardIDs.size(); ++c)
-        {
-            const Card & card = state.getCardByID(cardIDs[c]);
-            if (card.isDead()) continue;
-
-            CardID typeID = card.getType().getID();
-            if (typeID >= _cardTypeToUnitIndex.size())
-            {
-                unitsSkipped++;
-                continue;
-            }
-
-            int unitIdx = _cardTypeToUnitIndex[typeID];
-            if (unitIdx < 0)
-            {
-                unitsSkipped++;
-                continue;
-            }
-
-            int base = unitIdx * 11 + offset;
-
-            // Bounds safety: ensure we don't write past the unit feature region
-            if (base + 3 >= _numUnits * 11)
-            {
-                unitsSkipped++;
-                continue;
-            }
-
-            unitsMapped++;
-
-            if (card.isUnderConstruction())
-            {
-                features[base + 2] += 1.0f;  // constructing
-            }
-            else if (card.getStatus() == CardStatus::Assigned)
-            {
-                features[base + 3] += 1.0f;  // blocking
-            }
-            else if (card.canUseAbility())
-            {
-                features[base + 0] += 1.0f;  // ready
-            }
-            else
-            {
-                features[base + 1] += 1.0f;  // exhausted
-            }
-        }
-    }
-
-    // Supply and card set
-    int supplyMapped = 0;
-    for (CardID i = 0; i < state.numCardsBuyable(); ++i)
-    {
-        const CardBuyable & cb = state.getCardBuyableByIndex(i);
-        CardID typeID = cb.getType().getID();
-        if (typeID >= _cardTypeToUnitIndex.size()) continue;
-
-        int unitIdx = _cardTypeToUnitIndex[typeID];
-        if (unitIdx < 0) continue;
-
-        int base = unitIdx * 11;
-        if (base + 10 >= _numUnits * 11) continue;  // bounds safety
-        features[base + 8] = (float)cb.getSupplyRemaining(Players::Player_One);
-        features[base + 9] = (float)cb.getSupplyRemaining(Players::Player_Two);
-        features[base + 10] = 1.0f;  // in card set
-        supplyMapped++;
-    }
-
-    // Global features (14 total) — order and normalization MUST match schema.json / FEATURES.md
-    // Normalization: clamp_divide(value, cap) = min(value, cap) / cap → range [0, 1]
-    // Layout: p0 resources (6), p1 resources (6), turn_number (1), active_player (1)
-    int globalBase = _numUnits * 11;
-    int numGlobalSlots = _stateDim - globalBase;
-
-    if (numGlobalSlots >= 14)
-    {
-        const Resources & p0res = state.getResources(Players::Player_One);
-        const Resources & p1res = state.getResources(Players::Player_Two);
-
-        // P0 resources with clamp_divide normalization (caps from schema_v1.json)
-        features[globalBase + 0]  = std::min((float)p0res.amountOf(Resources::Gold),   25.0f) / 25.0f;
-        features[globalBase + 1]  = std::min((float)p0res.amountOf(Resources::Blue),    4.0f) /  4.0f;
-        features[globalBase + 2]  = std::min((float)p0res.amountOf(Resources::Red),     8.0f) /  8.0f;
-        features[globalBase + 3]  = std::min((float)p0res.amountOf(Resources::Green),  16.0f) / 16.0f;
-        features[globalBase + 4]  = std::min((float)p0res.amountOf(Resources::Energy),  8.0f) /  8.0f;
-        features[globalBase + 5]  = std::min((float)state.getAttack(Players::Player_One), 30.0f) / 30.0f;
-
-        // P1 resources with clamp_divide normalization
-        features[globalBase + 6]  = std::min((float)p1res.amountOf(Resources::Gold),   25.0f) / 25.0f;
-        features[globalBase + 7]  = std::min((float)p1res.amountOf(Resources::Blue),    4.0f) /  4.0f;
-        features[globalBase + 8]  = std::min((float)p1res.amountOf(Resources::Red),     8.0f) /  8.0f;
-        features[globalBase + 9]  = std::min((float)p1res.amountOf(Resources::Green),  16.0f) / 16.0f;
-        features[globalBase + 10] = std::min((float)p1res.amountOf(Resources::Energy),  8.0f) /  8.0f;
-        features[globalBase + 11] = std::min((float)state.getAttack(Players::Player_Two), 30.0f) / 30.0f;
-
-        // Turn number: clamp to [0,50], divide by 50
-        features[globalBase + 12] = std::min((float)state.getTurnNumber(), 50.0f) / 50.0f;
-
-        // Active player: raw (0 or 1)
-        features[globalBase + 13] = (float)state.getActivePlayer();
-    }
-    else if (numGlobalSlots >= 2)
-    {
-        // Legacy 2-feature layout (older weight files)
-        features[globalBase + 0] = std::min((float)state.getTurnNumber(), 30.0f) / 30.0f;
-        features[globalBase + 1] = (float)state.getActivePlayer();
-    }
-
-#ifdef NEURAL_NET_DEBUG
-    if (firstCall)
-    {
-        int nonZero = 0;
-        for (int i = 0; i < _stateDim; ++i)
-        {
-            if (features[i] != 0.0f) nonZero++;
-        }
-        printf("NeuralNet::extractFeatures DIAGNOSTIC (first call):\n");
-        printf("  Cards mapped: %d, skipped: %d\n", unitsMapped, unitsSkipped);
-        printf("  Supply types mapped: %d / %d\n", supplyMapped, (int)state.numCardsBuyable());
-        printf("  Non-zero features: %d / %d\n", nonZero, _stateDim);
-        printf("  _cardTypeToUnitIndex size: %zu\n", _cardTypeToUnitIndex.size());
-        printf("  Global feature slots: %d (at indices %d..%d)\n", numGlobalSlots, globalBase, _stateDim - 1);
-        if (numGlobalSlots >= 14)
-        {
-            printf("  P0 resources [gold=%g, blue=%g, red=%g, green=%g, energy=%g, attack=%g]\n",
-                   features[globalBase+0], features[globalBase+1], features[globalBase+2],
-                   features[globalBase+3], features[globalBase+4], features[globalBase+5]);
-        }
-        else if (numGlobalSlots >= 2)
-        {
-            printf("  Legacy global: [turn/50=%g, active_player=%g]\n",
-                   features[globalBase+0], features[globalBase+1]);
-        }
-        firstCall = false;
-    }
-#endif
-}
-
-// --- Forward pass primitives ---
+// ---------------------------------------------------------------------------
+// Forward pass primitives
+// ---------------------------------------------------------------------------
 
 void NeuralNet::linearForward(const LinearLayer & layer, const float * input, float * output)
 {
@@ -439,30 +337,6 @@ void NeuralNet::linearForward(const LinearLayer & layer, const float * input, fl
     }
 }
 
-void NeuralNet::layerNormForward(const LayerNormParams & params, float * data)
-{
-    const int dim = params.dim;
-    const float eps = 1e-5f;
-
-    float mean = 0.0f;
-    for (int i = 0; i < dim; ++i) mean += data[i];
-    mean /= dim;
-
-    float var = 0.0f;
-    for (int i = 0; i < dim; ++i)
-    {
-        float d = data[i] - mean;
-        var += d * d;
-    }
-    var /= dim;
-
-    float inv_std = 1.0f / sqrtf(var + eps);
-    for (int i = 0; i < dim; ++i)
-    {
-        data[i] = params.gamma[i] * (data[i] - mean) * inv_std + params.beta[i];
-    }
-}
-
 void NeuralNet::reluInPlace(float * data, int size)
 {
     for (int i = 0; i < size; ++i)
@@ -471,128 +345,215 @@ void NeuralNet::reluInPlace(float * data, int size)
     }
 }
 
-// --- Full inference ---
-// Runs the full neural net: extractFeatures → input projection → residual blocks → policy + value heads.
-// Returns NeuralOutput with:
-//   .policy: raw logits per unit type (161 values, NOT softmaxed — caller must softmax if needed)
-//   .value:  tanh output in [-1, 1] from the active player's perspective (positive = active player winning)
-// Architecture: Linear(1785→512) → N×ResBlock(512) → policy head (512→256→161) + value head (512→256→1→tanh)
-// Note: policy head output is currently unused by search (future: PUCT move ordering in UCTSearch).
+// ---------------------------------------------------------------------------
+// Instance feature extraction (10 floats per alive card instance)
+// ---------------------------------------------------------------------------
+// Feature order:
+//   [0] owner           -- 0.0 = P0, 1.0 = P1
+//   [1] is_constructing -- 1.0 if under construction
+//   [2] build_time      -- max(constructionTime, currentDelay)
+//   [3] is_blocking     -- 1.0 if Assigned AND ability NOT used this turn
+//   [4] ability_used    -- 1.0 if ability was used this turn
+//   [5] current_hp      -- raw HP (fragile: currentHealth; non-fragile: currentHealth - damageTaken)
+//   [6] hp_ratio        -- current_hp / base_health (0 if base_health == 0)
+//   [7] is_frozen       -- 1.0 if currentChill > 0
+//   [8] lifespan        -- remaining turns to live (0 if immortal / lifespan < 0)
+//   [9] charges         -- current charge count
 
-NeuralNet::NeuralOutput NeuralNet::evaluate(const GameState & state) const
+void NeuralNet::extractInstanceFeatures(const Card & card, int unitIdx, float * out) const
 {
-    NeuralOutput output;
+    out[0] = (float)card.getPlayer();
+    out[1] = card.isUnderConstruction() ? 1.0f : 0.0f;
+    out[2] = (float)std::max(card.getConstructionTime(), card.getCurrentDelay());
+    out[3] = (card.getStatus() == CardStatus::Assigned && !card.abilityUsedThisTurn()) ? 1.0f : 0.0f;
+    out[4] = card.abilityUsedThisTurn() ? 1.0f : 0.0f;
 
-    // Extract features
-    std::vector<float> features;
-    extractFeatures(state, features);
+    // base_health is at property index 5, fragile at index 6
+    float baseHP = _property_table[unitIdx * _config.num_properties + 5];
+    bool fragile = _property_table[unitIdx * _config.num_properties + 6] > 0.5f;
+    float currentHP = fragile
+        ? (float)card.currentHealth()
+        : (float)(card.currentHealth() - card.getDamageTaken());
+    out[5] = std::max(0.0f, currentHP);
+    out[6] = baseHP > 0 ? std::max(0.0f, currentHP) / baseHP : 0.0f;
+    out[7] = card.currentChill() > 0 ? 1.0f : 0.0f;
 
-    // Trunk: input projection
-    std::vector<float> h(_hiddenDim);
-    linearForward(_inputProj, features.data(), h.data());
-    reluInPlace(h.data(), _hiddenDim);
-
-    // Trunk: residual blocks
-    std::vector<float> blockOut(_hiddenDim);
-    for (int b = 0; b < _numLayers; ++b)
-    {
-        const auto & block = _trunkBlocks[b];
-
-        // First linear + layernorm + relu
-        linearForward(block.linear1, h.data(), blockOut.data());
-        layerNormForward(block.norm1, blockOut.data());
-        reluInPlace(blockOut.data(), _hiddenDim);
-
-        // Second linear + layernorm
-        std::vector<float> blockOut2(_hiddenDim);
-        linearForward(block.linear2, blockOut.data(), blockOut2.data());
-        layerNormForward(block.norm2, blockOut2.data());
-
-        // ReLU on block output, then residual add
-        for (int i = 0; i < _hiddenDim; ++i)
-        {
-            float relu_out = blockOut2[i] > 0.0f ? blockOut2[i] : 0.0f;
-            h[i] = h[i] + relu_out;
-        }
-    }
-
-    // Policy head
-    output.policy.resize(_numUnits);
-    std::vector<float> policyHidden(_policyLinear1.out_dim);
-    linearForward(_policyLinear1, h.data(), policyHidden.data());
-    reluInPlace(policyHidden.data(), _policyLinear1.out_dim);
-    linearForward(_policyLinear2, policyHidden.data(), output.policy.data());
-
-    // Value head
-    std::vector<float> valueHidden(_valueLinear1.out_dim);
-    linearForward(_valueLinear1, h.data(), valueHidden.data());
-    reluInPlace(valueHidden.data(), _valueLinear1.out_dim);
-
-    float rawValue = 0.0f;
-    linearForward(_valueLinear2, valueHidden.data(), &rawValue);
-    // Path A: sigmoid output mapped to [-1,1]. Model predicts P(P0_wins).
-    float sigmoid = 1.0f / (1.0f + expf(-rawValue));
-    output.value = 2.0f * sigmoid - 1.0f;
-
-    return output;
+    int lifespan = card.getCurrentLifespan();
+    out[8] = lifespan < 0 ? 0.0f : (float)std::max(0, lifespan);
+    out[9] = (float)card.getCurrentCharges();
 }
 
-// Value-only inference (skips policy head for speed). Returns [-1, 1] from maxPlayer's perspective.
-// If maxPlayer == activePlayer, returns the raw tanh output; otherwise negates it.
-// Used by AlphaBeta and UCT leaf evaluation when only the position score is needed.
+// ---------------------------------------------------------------------------
+// DeepSets value inference
+// ---------------------------------------------------------------------------
+// Architecture:
+//   1. For each alive unit instance:
+//      - Build token = [embedding(32) | properties(13) | instance_state(10)] = 55
+//      - Encode: Linear(55->128)->ReLU->Linear(128->128)->ReLU
+//      - Sum-pool into owner's accumulator (P0 or P1)
+//   2. For each of the 116 unit types:
+//      - Supply input = [p0_supply, p1_supply, in_card_set] (3 floats)
+//      - Encode: Linear(3->32)->ReLU->Linear(32->32)->ReLU
+//      - Sum-pool into supply accumulator
+//   3. Concatenate: [P0_pool(128) | P1_pool(128) | supply_pool(32) | globals(14)] = 302
+//   4. Value MLP: Linear(302->256)->ReLU->Linear(256->256)->ReLU->Linear(256->1)
+//   5. sigmoid -> map to [-1,1]
+
 double NeuralNet::evaluateValue(const GameState & state, const PlayerID maxPlayer) const
 {
-    // Extract features
-    std::vector<float> features;
-    extractFeatures(state, features);
+    const int ENC_H = _config.encoder_hidden;
+    const int SUP_H = _config.supply_hidden;
+    const int VAL_H = _config.value_hidden;
+    const int TOKEN_DIM = _config.d_embed + _config.num_properties + _config.num_instance_features;
+    const int COMBINED = ENC_H * 2 + SUP_H + 14;
 
-    // Trunk: input projection
-    std::vector<float> h(_hiddenDim);
-    linearForward(_inputProj, features.data(), h.data());
-    reluInPlace(h.data(), _hiddenDim);
+    // Zero-init per-player pooling accumulators
+    std::vector<float> p0_pool(ENC_H, 0.0f);
+    std::vector<float> p1_pool(ENC_H, 0.0f);
 
-    // Trunk: residual blocks
-    std::vector<float> blockOut(_hiddenDim);
-    for (int b = 0; b < _numLayers; ++b)
+    // Scratch buffers for instance encoding
+    std::vector<float> token(TOKEN_DIM);
+    std::vector<float> h1(ENC_H);
+    std::vector<float> encoded(ENC_H);
+
+    // --- 1. Process each alive unit instance ---
+    for (PlayerID player = 0; player < 2; ++player)
     {
-        const auto & block = _trunkBlocks[b];
-
-        linearForward(block.linear1, h.data(), blockOut.data());
-        layerNormForward(block.norm1, blockOut.data());
-        reluInPlace(blockOut.data(), _hiddenDim);
-
-        std::vector<float> blockOut2(_hiddenDim);
-        linearForward(block.linear2, blockOut.data(), blockOut2.data());
-        layerNormForward(block.norm2, blockOut2.data());
-
-        // ReLU on block output, then residual add
-        for (int i = 0; i < _hiddenDim; ++i)
+        const CardIDVector & cardIDs = state.getCardIDs(player);
+        for (size_t c = 0; c < cardIDs.size(); ++c)
         {
-            float relu_out = blockOut2[i] > 0.0f ? blockOut2[i] : 0.0f;
-            h[i] = h[i] + relu_out;
+            const Card & card = state.getCardByID(cardIDs[c]);
+            if (card.isDead()) continue;
+
+            CardID typeID = card.getType().getID();
+            if (typeID >= _cardTypeToUnitIndex.size()) continue;
+            int unitIdx = _cardTypeToUnitIndex[typeID];
+            if (unitIdx < 0) continue;
+
+            // Build token: [embedding(d_embed) | properties(num_properties) | instance_state(10)]
+            const float * emb = &_embedding_table[unitIdx * _config.d_embed];
+            std::memcpy(token.data(), emb, _config.d_embed * sizeof(float));
+
+            const float * props = &_property_table[unitIdx * _config.num_properties];
+            std::memcpy(token.data() + _config.d_embed, props, _config.num_properties * sizeof(float));
+
+            extractInstanceFeatures(card, unitIdx, token.data() + _config.d_embed + _config.num_properties);
+
+            // Shared encoder: Linear->ReLU->Linear->ReLU
+            linearForward(_enc_linear1, token.data(), h1.data());
+            reluInPlace(h1.data(), ENC_H);
+            linearForward(_enc_linear2, h1.data(), encoded.data());
+            reluInPlace(encoded.data(), ENC_H);
+
+            // Accumulate into owner's pool
+            float * pool = (card.getPlayer() == Players::Player_One) ? p0_pool.data() : p1_pool.data();
+            for (int i = 0; i < ENC_H; ++i)
+            {
+                pool[i] += encoded[i];
+            }
         }
     }
 
-    // Value head only
-    std::vector<float> valueHidden(_valueLinear1.out_dim);
-    linearForward(_valueLinear1, h.data(), valueHidden.data());
-    reluInPlace(valueHidden.data(), _valueLinear1.out_dim);
+    // --- 2. Process supply pathway (all 116 unit types) ---
+    // Build a lookup table from unit index -> (p0_supply, p1_supply, in_card_set)
+    // Default: [0, 0, 0] for units not in the card set
+    std::vector<float> supplyData(_config.num_units * 3, 0.0f);
 
-    float rawValue = 0.0f;
-    linearForward(_valueLinear2, valueHidden.data(), &rawValue);
-    // Path A: sigmoid output mapped to [-1,1]. Model predicts P(P0_wins).
-    float sigmoid = 1.0f / (1.0f + expf(-rawValue));
-    float value = 2.0f * sigmoid - 1.0f;  // [-1, 1] where +1 = P0 wins
+    for (CardID i = 0; i < state.numCardsBuyable(); ++i)
+    {
+        const CardBuyable & cb = state.getCardBuyableByIndex(i);
+        CardID typeID = cb.getType().getID();
+        if (typeID >= _cardTypeToUnitIndex.size()) continue;
+        int unitIdx = _cardTypeToUnitIndex[typeID];
+        if (unitIdx < 0) continue;
 
-    // The network predicts P(P0_wins) in absolute terms.
-    // Convert to maxPlayer's perspective: if maxPlayer is P0, return as-is.
-    // If maxPlayer is P1, negate (P1 winning = P0 losing).
+        supplyData[unitIdx * 3 + 0] = (float)cb.getSupplyRemaining(Players::Player_One);
+        supplyData[unitIdx * 3 + 1] = (float)cb.getSupplyRemaining(Players::Player_Two);
+        supplyData[unitIdx * 3 + 2] = 1.0f;  // in_card_set = true
+    }
+
+    // Encode each unit type's supply and sum into pool
+    std::vector<float> supply_pool(SUP_H, 0.0f);
+    std::vector<float> sh1(SUP_H);
+    std::vector<float> senc(SUP_H);
+
+    for (int u = 0; u < _config.num_units; ++u)
+    {
+        linearForward(_sup_linear1, &supplyData[u * 3], sh1.data());
+        reluInPlace(sh1.data(), SUP_H);
+        linearForward(_sup_linear2, sh1.data(), senc.data());
+        reluInPlace(senc.data(), SUP_H);
+
+        for (int j = 0; j < SUP_H; ++j)
+        {
+            supply_pool[j] += senc[j];
+        }
+    }
+
+    // --- 3. Build combined vector ---
+    // [p0_pool(ENC_H) | p1_pool(ENC_H) | supply_pool(SUP_H) | globals(14)] = COMBINED
+    std::vector<float> combined(COMBINED);
+    int pos = 0;
+    std::memcpy(combined.data() + pos, p0_pool.data(), ENC_H * sizeof(float));
+    pos += ENC_H;
+    std::memcpy(combined.data() + pos, p1_pool.data(), ENC_H * sizeof(float));
+    pos += ENC_H;
+    std::memcpy(combined.data() + pos, supply_pool.data(), SUP_H * sizeof(float));
+    pos += SUP_H;
+
+    // Global features (14): V2 normalization caps
+    const Resources & p0res = state.getResources(Players::Player_One);
+    const Resources & p1res = state.getResources(Players::Player_Two);
+
+    combined[pos++] = std::min((float)p0res.amountOf(Resources::Gold),   20.0f) / 20.0f;
+    combined[pos++] = std::min((float)p0res.amountOf(Resources::Blue),    5.0f) /  5.0f;
+    combined[pos++] = std::min((float)p0res.amountOf(Resources::Red),     5.0f) /  5.0f;
+    combined[pos++] = std::min((float)p0res.amountOf(Resources::Green),  15.0f) / 15.0f;
+    combined[pos++] = std::min((float)p0res.amountOf(Resources::Energy), 10.0f) / 10.0f;
+    combined[pos++] = std::min((float)state.getAttack(Players::Player_One), 25.0f) / 25.0f;
+
+    combined[pos++] = std::min((float)p1res.amountOf(Resources::Gold),   20.0f) / 20.0f;
+    combined[pos++] = std::min((float)p1res.amountOf(Resources::Blue),    5.0f) /  5.0f;
+    combined[pos++] = std::min((float)p1res.amountOf(Resources::Red),     5.0f) /  5.0f;
+    combined[pos++] = std::min((float)p1res.amountOf(Resources::Green),  15.0f) / 15.0f;
+    combined[pos++] = std::min((float)p1res.amountOf(Resources::Energy), 10.0f) / 10.0f;
+    combined[pos++] = std::min((float)state.getAttack(Players::Player_Two), 25.0f) / 25.0f;
+
+    combined[pos++] = std::min((float)state.getTurnNumber(), 50.0f) / 50.0f;
+    combined[pos++] = (float)state.getActivePlayer();
+
+    // --- 4. Value MLP: Linear->ReLU->Linear->ReLU->Linear ---
+    std::vector<float> vh1(VAL_H);
+    linearForward(_val_linear1, combined.data(), vh1.data());
+    reluInPlace(vh1.data(), VAL_H);
+
+    std::vector<float> vh2(VAL_H);
+    linearForward(_val_linear2, vh1.data(), vh2.data());
+    reluInPlace(vh2.data(), VAL_H);
+
+    float logit = 0.0f;
+    linearForward(_val_linear3, vh2.data(), &logit);
+
+    // Sigmoid -> [0,1] -> map to [-1,1]
+    float prob = 1.0f / (1.0f + expf(-logit));
+    float value = 2.0f * prob - 1.0f;  // [-1, 1] where +1 = P0 wins
+
+    // Convert to maxPlayer's perspective
     if (maxPlayer != Players::Player_One)
     {
         value = -value;
     }
 
     return (double)value;
+}
+
+// Backward-compatible full evaluate() -- returns NeuralOutput with empty policy
+NeuralNet::NeuralOutput NeuralNet::evaluate(const GameState & state) const
+{
+    NeuralOutput output;
+    output.value = (float)evaluateValue(state, Players::Player_One);
+    // DeepSets has no policy head; return empty policy vector
+    return output;
 }
 
 int NeuralNet::getUnitIndex(int cardTypeID) const
@@ -604,183 +565,86 @@ int NeuralNet::getUnitIndex(int cardTypeID) const
     return _cardTypeToUnitIndex[cardTypeID];
 }
 
-void NeuralNet::validateSchema() const
-{
-    // Try multiple paths for schema.json
-    const char * schemaPaths[] = {
-        "training/schema.json",
-        "../training/schema.json",
-        "asset/config/schema.json",
-    };
-
-    std::string schemaContent;
-    std::string foundPath;
-    for (const char * path : schemaPaths)
-    {
-        std::ifstream f(path);
-        if (f.good())
-        {
-            schemaContent.assign(std::istreambuf_iterator<char>(f),
-                                 std::istreambuf_iterator<char>());
-            foundPath = path;
-            break;
-        }
-    }
-
-    if (schemaContent.empty())
-    {
-        printf("NeuralNet: schema.json not found (Context 2 hasn't delivered it yet). "
-               "Skipping cross-language validation.\n");
-        return;
-    }
-
-    printf("NeuralNet: validating against %s\n", foundPath.c_str());
-
-    // Parse with RapidJSON
-    rapidjson::Document doc;
-    if (doc.Parse(schemaContent.c_str()).HasParseError())
-    {
-        printf("NeuralNet: WARNING: schema.json parse error\n");
-        return;
-    }
-
-    // Check feature_version
-    if (doc.HasMember("feature_version") && doc["feature_version"].IsInt())
-    {
-        printf("NeuralNet: schema feature_version = %d\n", doc["feature_version"].GetInt());
-    }
-
-    // Check state_dim
-    if (doc.HasMember("state_dim") && doc["state_dim"].IsInt())
-    {
-        int schemaStateDim = doc["state_dim"].GetInt();
-        if (schemaStateDim != _stateDim)
-        {
-            printf("NeuralNet: ERROR: state_dim mismatch! schema=%d, weights=%d\n",
-                   schemaStateDim, _stateDim);
-        }
-        else
-        {
-            printf("NeuralNet: state_dim matches schema: %d\n", _stateDim);
-        }
-    }
-
-    // Check unit_index_hash
-    if (doc.HasMember("unit_index_hash") && doc["unit_index_hash"].IsString())
-    {
-        const char * expectedHash = doc["unit_index_hash"].GetString();
-
-        // Compute hash of our unit names: SHA-256 of newline-joined sorted names
-        // For now, just report the expected hash — full SHA-256 requires a library
-        // or manual implementation. Report name count for sanity check.
-        std::vector<std::string> sortedNames;
-        for (const auto & pair : _unitNameToIndex)
-        {
-            sortedNames.push_back(pair.first);
-        }
-        std::sort(sortedNames.begin(), sortedNames.end());
-
-        printf("NeuralNet: schema expects unit_index_hash = %.16s...\n", expectedHash);
-        printf("NeuralNet: loaded %zu unit names (hash comparison requires SHA-256 impl)\n",
-               sortedNames.size());
-    }
-}
+// ---------------------------------------------------------------------------
+// Debug feature dump
+// ---------------------------------------------------------------------------
 
 void NeuralNet::dumpFeaturesToFile(const GameState & state, const std::string & path) const
 {
     if (!_loaded)
     {
-        printf("NeuralNet: cannot dump features — not loaded\n");
+        printf("NeuralNet: cannot dump features -- not loaded\n");
         return;
     }
 
-    // Extract features
-    std::vector<float> features;
-    extractFeatures(state, features);
-
-    // Write feature values
+    std::ofstream f(path);
+    if (!f.is_open())
     {
-        std::ofstream f(path);
-        if (!f.is_open())
-        {
-            printf("NeuralNet: cannot open %s for writing\n", path.c_str());
-            return;
-        }
-
-        f << _stateDim << "\n";
-        f.precision(8);
-        for (int i = 0; i < _stateDim; ++i)
-        {
-            f << features[i] << "\n";
-        }
-        printf("NeuralNet: dumped %d features to %s\n", _stateDim, path.c_str());
+        printf("NeuralNet: cannot open %s for writing\n", path.c_str());
+        return;
     }
 
-    // Write companion state description
-    std::string descPath = path + ".desc";
+    f << "=== DeepSets Instance Dump ===\n";
+    f << "Turn: " << state.getTurnNumber() << "\n";
+    f << "Active player: " << (int)state.getActivePlayer() << "\n";
+
+    const Resources & p0res = state.getResources(Players::Player_One);
+    const Resources & p1res = state.getResources(Players::Player_Two);
+    f << "\nP0 resources: gold=" << (int)p0res.amountOf(Resources::Gold)
+      << " blue=" << (int)p0res.amountOf(Resources::Blue)
+      << " red=" << (int)p0res.amountOf(Resources::Red)
+      << " green=" << (int)p0res.amountOf(Resources::Green)
+      << " energy=" << (int)p0res.amountOf(Resources::Energy)
+      << " attack=" << (int)state.getAttack(Players::Player_One) << "\n";
+    f << "P1 resources: gold=" << (int)p1res.amountOf(Resources::Gold)
+      << " blue=" << (int)p1res.amountOf(Resources::Blue)
+      << " red=" << (int)p1res.amountOf(Resources::Red)
+      << " green=" << (int)p1res.amountOf(Resources::Green)
+      << " energy=" << (int)p1res.amountOf(Resources::Energy)
+      << " attack=" << (int)state.getAttack(Players::Player_Two) << "\n";
+
+    float instFeats[10];
+    for (PlayerID p = 0; p < 2; ++p)
     {
-        std::ofstream f(descPath);
-        if (!f.is_open()) return;
-
-        f << "=== Game State Description ===\n";
-        f << "Turn: " << state.getTurnNumber() << "\n";
-        f << "Active player: " << (int)state.getActivePlayer() << "\n";
-        f << "Phase: " << state.getActivePhase() << "\n";
-
-        const Resources & p0res = state.getResources(Players::Player_One);
-        const Resources & p1res = state.getResources(Players::Player_Two);
-        f << "\nP0 resources: gold=" << (int)p0res.amountOf(Resources::Gold)
-          << " blue=" << (int)p0res.amountOf(Resources::Blue)
-          << " red=" << (int)p0res.amountOf(Resources::Red)
-          << " green=" << (int)p0res.amountOf(Resources::Green)
-          << " energy=" << (int)p0res.amountOf(Resources::Energy)
-          << " attack=" << (int)state.getAttack(Players::Player_One) << "\n";
-        f << "P1 resources: gold=" << (int)p1res.amountOf(Resources::Gold)
-          << " blue=" << (int)p1res.amountOf(Resources::Blue)
-          << " red=" << (int)p1res.amountOf(Resources::Red)
-          << " green=" << (int)p1res.amountOf(Resources::Green)
-          << " energy=" << (int)p1res.amountOf(Resources::Energy)
-          << " attack=" << (int)state.getAttack(Players::Player_Two) << "\n";
-
-        for (PlayerID p = 0; p < 2; ++p)
+        f << "\nPlayer " << (int)p << " instances:\n";
+        const CardIDVector & ids = state.getCardIDs(p);
+        for (size_t i = 0; i < ids.size(); ++i)
         {
-            f << "\nPlayer " << (int)p << " units:\n";
-            const CardIDVector & ids = state.getCardIDs(p);
-            for (size_t i = 0; i < ids.size(); ++i)
+            const Card & card = state.getCardByID(ids[i]);
+            if (card.isDead()) continue;
+            int unitIdx = getUnitIndex(card.getType().getID());
+            f << "  " << card.getType().getUIName()
+              << " (unitIdx=" << unitIdx << ")";
+            if (unitIdx >= 0)
             {
-                const Card & card = state.getCardByID(ids[i]);
-                if (card.isDead()) continue;
-                int unitIdx = getUnitIndex(card.getType().getID());
-                f << "  " << card.getType().getUIName()
-                  << " (typeID=" << card.getType().getID()
-                  << ", unitIdx=" << unitIdx
-                  << ", constr=" << card.isUnderConstruction()
-                  << ", canUse=" << card.canUseAbility()
-                  << ", assigned=" << (card.getStatus() == CardStatus::Assigned ? 1 : 0)
-                  << ")\n";
+                extractInstanceFeatures(card, unitIdx, instFeats);
+                f << " feats=[";
+                for (int fi = 0; fi < 10; ++fi)
+                {
+                    if (fi > 0) f << ", ";
+                    f << instFeats[fi];
+                }
+                f << "]";
             }
+            f << "\n";
         }
-
-        f << "\nBuyable cards: " << state.numCardsBuyable() << "\n";
-        for (CardID i = 0; i < state.numCardsBuyable(); ++i)
-        {
-            const CardBuyable & cb = state.getCardBuyableByIndex(i);
-            int unitIdx = getUnitIndex(cb.getType().getID());
-            f << "  " << cb.getType().getUIName()
-              << " (unitIdx=" << unitIdx
-              << ", p0_supply=" << cb.getSupplyRemaining(Players::Player_One)
-              << ", p1_supply=" << cb.getSupplyRemaining(Players::Player_Two)
-              << ")\n";
-        }
-
-        f << "\n=== Feature vector summary ===\n";
-        int nonZero = 0;
-        for (int i = 0; i < _stateDim; ++i)
-        {
-            if (features[i] != 0.0f) nonZero++;
-        }
-        f << "state_dim=" << _stateDim << ", nonzero=" << nonZero << "\n";
-
-        printf("NeuralNet: dumped state description to %s\n", descPath.c_str());
     }
+
+    f << "\nBuyable cards: " << state.numCardsBuyable() << "\n";
+    for (CardID i = 0; i < state.numCardsBuyable(); ++i)
+    {
+        const CardBuyable & cb = state.getCardBuyableByIndex(i);
+        int unitIdx = getUnitIndex(cb.getType().getID());
+        f << "  " << cb.getType().getUIName()
+          << " (unitIdx=" << unitIdx
+          << ", p0_supply=" << cb.getSupplyRemaining(Players::Player_One)
+          << ", p1_supply=" << cb.getSupplyRemaining(Players::Player_Two)
+          << ")\n";
+    }
+
+    // Compute and print the value
+    double val = evaluateValue(state, Players::Player_One);
+    f << "\nNeural value (P0 perspective): " << val << "\n";
+
+    printf("NeuralNet: dumped DeepSets features to %s\n", path.c_str());
 }
