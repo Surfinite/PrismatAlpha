@@ -186,12 +186,16 @@ class PrismataDeepSets(nn.Module):
         # ------------------------------------------------------------------ #
         # Token construction: [embedding | static_properties | instance_state]
         # ------------------------------------------------------------------ #
+        # Clamp unit IDs to valid range — padded slots may have out-of-range
+        # sentinel values (e.g. 255). The mask zeroes their contribution later.
+        safe_ids = instance_unit_ids.clamp(0, self._num_units - 1)
+
         # Unit-type embeddings: (B, MAX_INST, d_embed)
-        embeddings = self.unit_embedding(instance_unit_ids)
+        embeddings = self.unit_embedding(safe_ids)
 
         # Static properties from buffer: (B, MAX_INST, num_properties)
-        # property_table[instance_unit_ids] does a batched gather
-        properties = self.property_table[instance_unit_ids]
+        # property_table[safe_ids] does a batched gather
+        properties = self.property_table[safe_ids]
 
         # Concatenate to form token: (B, MAX_INST, token_dim=55)
         tokens = torch.cat([embeddings, properties, instance_features], dim=-1)
