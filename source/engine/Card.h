@@ -103,6 +103,7 @@ public:
     bool hasTarget() const;
     bool selfKilled() const;
     bool wasBreached() const;
+    bool abilityUsedThisTurn() const { return m_abilityUsedThisTurn; }
 
     void setStatus(int status);
     void takeDamage(const HealthType amount, const int damageSource);
