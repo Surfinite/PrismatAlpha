@@ -59,6 +59,22 @@ class NeuralNet
 
     bool _loaded;
 
+    // Pre-allocated scratch buffers for evaluateValue() (avoid per-call heap allocs)
+    // Mutable because evaluateValue() is const but needs to reuse these buffers.
+    // Thread safety: evaluation is single-threaded per NeuralNet instance.
+    struct ScratchBuffers
+    {
+        std::vector<float> p0_pool, p1_pool;
+        std::vector<float> token, h1, encoded;
+        std::vector<float> supplyData;
+        std::vector<float> supply_pool, sh1, senc;
+        std::vector<float> combined;
+        std::vector<float> vh1, vh2;
+    };
+    mutable ScratchBuffers _scratch;
+
+    void allocateScratchBuffers();
+
     static void linearForward(const LinearLayer & layer, const float * input, float * output);
     static void reluInPlace(float * data, int size);
 
