@@ -653,6 +653,10 @@ async function runWorkerSlot() {
             } catch (err) {
                 gameError = err.message || String(err);
                 console.error(`${label} Game ${gameNum}: Exception: ${gameError}`);
+                if (err.stack) {
+                    console.error(`${label} Stack: ${err.stack}`);
+                    try { require('fs').appendFileSync('crash_stacks.log', `Game ${gameNum}: ${err.stack}\n\n`); } catch(_) {}
+                }
             }
 
             const endTime = Date.now();

@@ -30,7 +30,7 @@ Community feedback (Spyrfyr, Discord) confirmed these gaps are strategically sig
 | Inference speed priority | Quality over speed | A superhuman model at 2-minute think time is a massive win. RL self-play uses shorter think times independently. |
 | Data sources | Single pipeline from replays | Human S3 replays, matchup_clean replays, and future self-play replays all go through one extraction path. |
 | Modified ability-spawned units | Same unit type, different instance properties | Endotherm Kit Frostbites (lifespan=4) are just Frostbites with lifespan_remaining=4. No special handling needed. |
-| Max instances | TBD from replay data analysis | Pad to a fixed MAX_INSTANCES (estimated 80-100 per player). Excess dropped by strategic priority. |
+| Max instances | 160 total (80 per player) | Analysis of 1.25M records: P99.9 = 152 total. Covers 99.9% of data. Excess dropped by strategic priority (Drones/Engineers first). |
 
 ## Architecture
 
@@ -232,8 +232,8 @@ This design **replaces Phase 1a (Unit Representation)** in Training Plan V3. Spe
 
 ## Open Questions
 
-1. **MAX_INSTANCES cap** — needs analysis of replay data to determine practical upper bound. Estimated 80-100 per player.
-2. **Instance drop priority** — when exceeding MAX_INSTANCES, which units to drop? Likely excess Drones/Engineers (least unique strategic value).
+1. ~~**MAX_INSTANCES cap**~~ — **RESOLVED**: 160 total (80 per player). Analysis of 1.25M records across expert human (254K) and MasterBot (500K+) data: mean ~48, P95 ~95, P99 ~119, P99.9 ~152, absolute max 224. Only 0.086% of expert player-states exceed 80 per player.
+2. **Instance drop priority** — when exceeding 160 total, drop excess Drones/Engineers first (least unique strategic value). Affects <0.1% of training data.
 3. **Normalization strategy** — should property features be normalized? Instance state features? Needs ablation.
 4. **Encoder depth/width** — 2×128 is a starting point. Phase 3 ablations should explore 2×64, 2×256, 3×128.
 5. **Policy head** — can be added later as a separate head on the pooled representation. Not in scope for initial design.

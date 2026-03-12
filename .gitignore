@@ -40,13 +40,20 @@ bin/NUL
 # --- Replays (large, generated) ---
 bin/asset/replays/
 
-# --- Neural net weights (8.8MB, needed by CI for self-play data export) ---
-# bin/asset/config/neural_weights.bin  # UN-IGNORED: committed for GitHub Actions
+# --- Neural net weights (generated, not for distribution) ---
+bin/asset/config/neural_weights.bin
 
 # --- Self-play binary output in bin/ (large, generated) ---
 bin/training/
 
 # --- Training data & models (2GB+, regenerated) ---
+training/data/*.h5
+training/data/*.jsonl
+training/data/*.pt
+training/data/splits/
+training/data/masterbot_fleet*/
+training/data/new_fleet*/
+training/data/raw_states*
 training/data/train.pt
 training/data/val.pt
 training/data_test/

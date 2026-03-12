@@ -82,23 +82,6 @@ node filter_expert_replays.js   # filter (instant)
 node extract_training_data.js   # extract from S3 (incremental)
 ```
 
-## TheWatcher (Persistent Multi-Cloud Monitor)
-
-**NEVER kill, stop, or unregister the `PrismataAI-TheWatcher` Task Scheduler job.** It runs every 5 minutes, manages cloud auto-relaunch and S3 sync. Harmless — only monitors and writes status.
-
-- **Check status**: Read `aws/watcher_status.json`
-- **Change behavior**: Edit `aws/watcher_config.json` (e.g., `selfplay.enabled: false`)
-- **View log**: Read `aws/watcher_log.txt` (append-only)
-- **Boot protection**: Won't auto-launch after PC restart or RAM thrashing (status stale >30 min). Launch instances manually first, then watcher resumes.
-- **Watcher hangs under memory pressure**: Recovery: `Stop-ScheduledTask -TaskName 'PrismataAI-TheWatcher'; Start-Sleep 2; Start-ScheduledTask -TaskName 'PrismataAI-TheWatcher'`
-
-| File | Purpose |
-|---|---|
-| `aws/watcher.ps1` | The script (Task Scheduler) |
-| `aws/watcher_config.json` | What to do (AWS, GCP, eval, S3 sync) |
-| `aws/watcher_status.json` | Current state |
-| `aws/watcher_log.txt` | Append-only log |
-
 ## Gotchas & Non-Obvious Patterns
 
 > Cloud provider operational details: `docs/cloud-ops-reference.md`
@@ -195,7 +178,6 @@ node extract_training_data.js   # extract from S3 (incremental)
 
 **Hooks** (`.claude/settings.local.json`):
 - PreToolUse: Blocks access to credential files
-- PreToolUse: Blocks TheWatcher unregister/stop commands
 - Stop: Reminds to run `/revise`
 
 **MCP**: context7 in `.mcp.json`. `npx`-based MCP servers need `cmd /c` wrapper on Windows.
@@ -310,7 +292,6 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 | `tools/verify_selfplay.py` | Validates self-play binary output |
 | `tools/analyze_tournament.py` | Tournament HTML → Wilson CI, z-test |
 | `bin/run_selfplay.bat` | Crash-safe self-play launcher |
-| `aws/watcher.ps1` | TheWatcher persistent monitor |
 | `.clang-format` | C++ code style |
 | `.mcp.json` | MCP server config |
 

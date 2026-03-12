@@ -168,6 +168,9 @@ def vectorize_state(state, unit_index, num_units, caps):
         if isinstance(supply, dict):
             p0_sup = supply.get("p0", 0)
             p1_sup = supply.get("p1", 0)
+        elif isinstance(supply, list) and len(supply) >= 2:
+            p0_sup = supply[0]
+            p1_sup = supply[1]
         else:
             p0_sup = supply
             p1_sup = supply
@@ -270,53 +273,60 @@ def process_file(input_path, unit_index, num_units, caps, output_path, schema,
         print("  ERROR: Input file is empty.")
         sys.exit(1)
 
-    # Pre-scan for unknown unit names
-    print("  Scanning for unknown unit names...")
-    unk_names = defaultdict(int)
-    unk_examples = 0
+    # Pre-scan for unknown unit names in card_set (skip games with non-indexed buyable units).
+    # Note: unknown units in p0_units/p1_units (tokens/spawned units) are expected and
+    # handled gracefully by vectorize_state() — only card_set matters for skipping.
+    print("  Scanning for unknown unit names in card_set...")
+    unk_cardset_names = defaultdict(int)
+    unk_state_names = defaultdict(int)
     scan_count = 0
+    skip_codes = set()
     with open(input_path, "r", encoding="utf-8") as f:
         for line in f:
             ex = json.loads(line)
-            has_unk = False
+            code = ex.get("replay_code", "")
+            scan_count += 1
+
+            # Check card_set for unknown units (these games must be skipped)
+            card_set = ex.get("card_set", [])
+            for card_name in card_set:
+                cname = clean_unit_name(card_name)
+                if cname not in unit_index:
+                    unk_cardset_names[cname] += 1
+                    skip_codes.add(code)
+
+            # Track state tokens for info only (not used for skipping)
             for key in ("p0_units", "p1_units"):
                 units = ex.get("state", {}).get(key, [])
                 if isinstance(units, list):
                     for u in units:
                         cname = clean_unit_name(u["name"])
                         if cname not in unit_index:
-                            unk_names[cname] += 1
-                            has_unk = True
-            if has_unk:
-                unk_examples += 1
-            scan_count += 1
+                            unk_state_names[cname] += 1
 
-    # Collect replay codes that contain unknown units — these will be skipped entirely
-    skip_codes = set()
-    if unk_names:
-        print(f"  Found {len(unk_names)} unknown unit names ({sum(unk_names.values())} occurrences)")
-        top_unk = sorted(unk_names.items(), key=lambda x: -x[1])[:10]
-        for name, count in top_unk:
+    if unk_cardset_names:
+        print(f"  Found {len(unk_cardset_names)} unknown card_set units — skipping those games:")
+        for name, count in sorted(unk_cardset_names.items(), key=lambda x: -x[1])[:10]:
             print(f"    {name}: {count}")
-        # Second pass: collect replay codes to skip
+
+    if unk_state_names:
+        print(f"  Found {len(unk_state_names)} token/spawned unit types in game states (OK, ignored):")
+        for name, count in sorted(unk_state_names.items(), key=lambda x: -x[1])[:10]:
+            print(f"    {name}: {count}")
+
+    if skip_codes:
+        # Count how many records belong to skipped games
+        unk_examples = 0
         with open(input_path, "r", encoding="utf-8") as f2:
             for line in f2:
                 ex2 = json.loads(line)
-                for key in ("p0_units", "p1_units"):
-                    units = ex2.get("state", {}).get(key, [])
-                    if isinstance(units, list):
-                        for u in units:
-                            cname = clean_unit_name(u["name"])
-                            if cname not in unit_index:
-                                skip_codes.add(ex2.get("replay_code", ""))
-                                break
-                    if ex2.get("replay_code", "") in skip_codes:
-                        break
-        print(f"  Skipping {len(skip_codes)} replays ({unk_examples} records) with unknown units")
+                if ex2.get("replay_code", "") in skip_codes:
+                    unk_examples += 1
+        print(f"  Skipping {len(skip_codes)} replays ({unk_examples} records) with unknown card_set units")
         total_lines -= unk_examples
         print(f"  Adjusted record count: {total_lines}")
     else:
-        print(f"  No unknown unit names in {scan_count} records.")
+        print(f"  No unknown card_set units in {scan_count} records.")
 
     # Create HDF5 file with resizable datasets
     print(f"\n  Creating HDF5 file: {output_path}")
