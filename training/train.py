@@ -16,12 +16,21 @@ Supports:
   - Rating-based and per-game sample weighting
   - SWA (Stochastic Weight Averaging) from last 20% of epochs
   - Early stopping, gradient clipping, LR warmup + cosine decay
+  - DeepSets model (--model deepsets) with V2 HDF5 data format
 
 Usage:
   python training/train.py --train-file training/data/splits/train.h5 \\
       --val-file training/data/splits/val.h5 --output-dir training/models/run_001 \\
       --hidden-dim 256 --num-layers 4 --epochs 100 --batch-size 512 --lr 3e-4 \\
       --patience 10 --value-only --label-strategy D
+
+  # DeepSets model (V2 HDF5 format):
+  python training/train.py --model deepsets \\
+      --train-file training/data/splits/train_v2.h5 \\
+      --val-file training/data/splits/val_v2.h5 \\
+      --property-table training/property_table.json \\
+      --output-dir training/models/deepsets_001 \\
+      --epochs 100 --batch-size 512 --lr 3e-4 --patience 10
 """
 
 import argparse
@@ -43,6 +52,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim.swa_utils import AveragedModel, SWALR
 from torch.utils.data import DataLoader, Dataset
+
+# DeepSets model — imported lazily in main() to keep V1 path unchanged
+# from model_deepsets import PrismataDeepSets
 
 
 # ---------------------------------------------------------------------------
@@ -191,40 +203,72 @@ class H5Dataset(Dataset):
     """
 
     def __init__(self, h5_path, label_strategy="A", value_only=False,
-                 rating_weight=False, game_weight=False):
+                 rating_weight=False, game_weight=False, max_records=None):
         self.label_strategy = label_strategy
         self.value_only = value_only
 
-        # Load everything into memory upfront (train.h5 ~290MB, fits in RAM)
+        # Load into memory (optionally capped to max_records via random sample)
         print(f"    Loading {h5_path} into memory...")
         with h5py.File(h5_path, "r") as f:
-            self.features = torch.from_numpy(f["features"][:].astype(np.float32))
+            n_total = f["features"].shape[0]
+            self.state_dim = f["features"].shape[1]
+
+            # Subsample if max_records specified
+            if max_records and max_records < n_total:
+                print(f"    Subsampling {max_records:,} / {n_total:,} records...")
+                rng = np.random.default_rng(42)
+                indices = np.sort(rng.choice(n_total, max_records, replace=False))
+            else:
+                indices = None
+
+            if indices is not None:
+                self.features = torch.from_numpy(f["features"][indices].astype(np.float32))
+            else:
+                self.features = torch.from_numpy(f["features"][:].astype(np.float32))
             self.n_examples = self.features.shape[0]
-            self.state_dim = self.features.shape[1]
 
             label_key = self._label_key()
             if label_key not in f:
                 raise ValueError(f"HDF5 file missing dataset '{label_key}' "
                                  f"for label strategy {label_strategy}")
-            self.value_labels = torch.from_numpy(f[label_key][:].astype(np.float32))
+            if indices is not None:
+                self.value_labels = torch.from_numpy(f[label_key][indices].astype(np.float32))
+            else:
+                self.value_labels = torch.from_numpy(f[label_key][:].astype(np.float32))
 
             if not value_only and "policy_target" in f:
-                self.policy = torch.from_numpy(f["policy_target"][:].astype(np.float32))
+                if indices is not None:
+                    self.policy = torch.from_numpy(f["policy_target"][indices].astype(np.float32))
+                else:
+                    self.policy = torch.from_numpy(f["policy_target"][:].astype(np.float32))
             else:
                 self.policy = None
 
             # Precompute sample weights
-            weights = np.ones(self.n_examples, dtype=np.float32)
-            if label_strategy == "B" and "label_B_weight" in f:
-                weights *= f["label_B_weight"][:].astype(np.float32)
-            if rating_weight and "rating_p0" in f:
-                r0 = f["rating_p0"][:].astype(np.float32)
-                r1 = f["rating_p1"][:].astype(np.float32)
-                weights *= ((r0 + r1) / 4000.0) ** 2
-            if game_weight and "total_plies" in f:
-                tp = f["total_plies"][:].astype(np.float32)
-                tp = np.maximum(tp, 1.0)
-                weights *= 1.0 / tp
+            if indices is not None:
+                weights = np.ones(self.n_examples, dtype=np.float32)
+                if label_strategy == "B" and "label_B_weight" in f:
+                    weights *= f["label_B_weight"][indices].astype(np.float32)
+                if rating_weight and "rating_p0" in f:
+                    r0 = f["rating_p0"][indices].astype(np.float32)
+                    r1 = f["rating_p1"][indices].astype(np.float32)
+                    weights *= ((r0 + r1) / 4000.0) ** 2
+                if game_weight and "total_plies" in f:
+                    tp = f["total_plies"][indices].astype(np.float32)
+                    tp = np.maximum(tp, 1.0)
+                    weights *= 1.0 / tp
+            else:
+                weights = np.ones(self.n_examples, dtype=np.float32)
+                if label_strategy == "B" and "label_B_weight" in f:
+                    weights *= f["label_B_weight"][:].astype(np.float32)
+                if rating_weight and "rating_p0" in f:
+                    r0 = f["rating_p0"][:].astype(np.float32)
+                    r1 = f["rating_p1"][:].astype(np.float32)
+                    weights *= ((r0 + r1) / 4000.0) ** 2
+                if game_weight and "total_plies" in f:
+                    tp = f["total_plies"][:].astype(np.float32)
+                    tp = np.maximum(tp, 1.0)
+                    weights *= 1.0 / tp
             self.weights = torch.from_numpy(weights)
 
         print(f"    Loaded: {self.n_examples:,} examples, {self.features.nbytes/1e6:.0f} MB")
@@ -251,6 +295,96 @@ class H5Dataset(Dataset):
         policy = self.policy[idx] if self.policy is not None else torch.zeros(1)
         weight = self.weights[idx]
         return features, policy, value_label, weight
+
+
+# ---------------------------------------------------------------------------
+# HDF5 Dataset V2 (DeepSets per-instance format)
+# ---------------------------------------------------------------------------
+
+class H5DatasetV2(Dataset):
+    """Load DeepSets per-instance HDF5 data (schema_v2 format).
+
+    Expected HDF5 structure:
+      - instance_features: float32 (N, MAX_INST, 10) — per-instance state features
+      - instance_unit_ids: int32   (N, MAX_INST)      — unit type index per instance
+      - instance_counts:   int32   (N,)               — actual (non-padded) count
+      - supply:            float32 (N, 116, 3)        — [p0_sup, p1_sup, in_set] per type
+      - globals:           float32 (N, 14)            — global game features
+      - label_A:           float32 (N,)               — hard binary winner label
+      (or label_B / label_C / label_D depending on strategy)
+
+    Data is loaded entirely into memory for performance. For very large datasets
+    use --max-records to cap the number of records loaded.
+    """
+
+    def __init__(self, h5_path, label_strategy='A', max_records=None):
+        self.label_strategy = label_strategy
+
+        print(f"    Loading V2 dataset {h5_path} into memory...")
+        with h5py.File(h5_path, 'r') as f:
+            n_total = f['instance_features'].shape[0]
+
+            # Subsample if max_records specified
+            if max_records and max_records < n_total:
+                print(f"    Subsampling {max_records:,} / {n_total:,} records...")
+                rng = np.random.default_rng(42)
+                indices = np.sort(rng.choice(n_total, max_records, replace=False))
+            else:
+                indices = None
+
+            def _load(key):
+                if indices is not None:
+                    return f[key][indices]
+                return f[key][:]
+
+            self.instance_features = torch.from_numpy(_load('instance_features').astype(np.float32))
+            self.instance_unit_ids = torch.from_numpy(_load('instance_unit_ids').astype(np.int64))
+            self.instance_counts   = torch.from_numpy(_load('instance_counts').astype(np.int64))
+            self.supply            = torch.from_numpy(_load('supply').astype(np.float32))
+            self.globals           = torch.from_numpy(_load('globals').astype(np.float32))
+
+            label_key = self._label_key()
+            if label_key not in f:
+                raise ValueError(
+                    f"HDF5 file missing dataset '{label_key}' "
+                    f"for label strategy '{label_strategy}'"
+                )
+            self.labels = torch.from_numpy(_load(label_key).astype(np.float32))
+
+        self.n_examples = self.instance_features.shape[0]
+        mem_mb = (
+            self.instance_features.nbytes
+            + self.instance_unit_ids.nbytes
+            + self.instance_counts.nbytes
+            + self.supply.nbytes
+            + self.globals.nbytes
+            + self.labels.nbytes
+        ) / 1e6
+        print(f"    Loaded V2: {self.n_examples:,} examples, {mem_mb:.0f} MB")
+
+    def _label_key(self):
+        """Return the HDF5 dataset name for the chosen label strategy."""
+        if self.label_strategy in ('A', 'B'):
+            return 'label_A'   # B uses A's labels with B's weights (weights not yet in V2)
+        elif self.label_strategy == 'C':
+            return 'label_C'
+        elif self.label_strategy == 'D':
+            return 'label_D'
+        else:
+            raise ValueError(f"Unknown label strategy: {self.label_strategy}")
+
+    def __len__(self):
+        return self.n_examples
+
+    def __getitem__(self, idx):
+        return {
+            'instance_features': self.instance_features[idx],
+            'instance_unit_ids': self.instance_unit_ids[idx],
+            'instance_counts':   self.instance_counts[idx],
+            'supply':            self.supply[idx],
+            'globals':           self.globals[idx],
+            'label':             self.labels[idx],
+        }
 
 
 # ---------------------------------------------------------------------------
@@ -289,10 +423,30 @@ def compute_policy_accuracy(pred, target):
 # Training and evaluation
 # ---------------------------------------------------------------------------
 
+def _forward_deepsets(model, batch, device):
+    """Run a DeepSets forward pass from a V2 dict batch.
+
+    Returns (value_logit, value_target, batch_size).
+    value_logit is squeezed to (B,) to match the V1 convention.
+    """
+    inst_feat = batch['instance_features'].to(device)
+    inst_ids  = batch['instance_unit_ids'].to(device)
+    inst_cnt  = batch['instance_counts'].to(device)
+    supply    = batch['supply'].to(device)
+    glb       = batch['globals'].to(device)
+    label     = batch['label'].to(device)
+    logit = model(inst_feat, inst_ids, inst_cnt, supply, glb).squeeze(-1)  # (B,)
+    return logit, label, inst_feat.shape[0]
+
+
 def train_epoch(model, loader, optimizer, device, value_criterion,
                 policy_weight=0.5, grad_clip=1.0, warmup_scheduler=None,
-                global_step=0):
-    """Train one epoch. Returns (metrics_dict, updated_global_step)."""
+                global_step=0, model_type='v1'):
+    """Train one epoch. Returns (metrics_dict, updated_global_step).
+
+    model_type: 'v1' uses flat feature batches (H5Dataset);
+                'deepsets' uses dict batches (H5DatasetV2).
+    """
     model.train()
     total_vloss = 0.0
     total_ploss = 0.0
@@ -300,18 +454,24 @@ def train_epoch(model, loader, optimizer, device, value_criterion,
     total_pacc = 0.0
     n_batches = 0
     n_policy_batches = 0
+    n_samples = 0
 
     for batch in loader:
-        features, policy_target, value_target, sample_weight = [
-            b.to(device) for b in batch
-        ]
-
         optimizer.zero_grad()
-        policy_pred, value_pred = model(features)
+
+        if model_type == 'deepsets':
+            value_pred, value_target, bs = _forward_deepsets(model, batch, device)
+            sample_weight = torch.ones(bs, device=device)
+            policy_pred = None
+        else:
+            features, policy_target, value_target, sample_weight = [
+                b.to(device) for b in batch
+            ]
+            policy_pred, value_pred = model(features)
+            bs = features.shape[0]
 
         # Weighted BCE loss
         if sample_weight.sum() > 0:
-            # Per-sample BCE with manual reduction for weighting
             bce_unreduced = F.binary_cross_entropy_with_logits(
                 value_pred, value_target, reduction="none")
             vloss = (bce_unreduced * sample_weight).sum() / sample_weight.sum()
@@ -337,6 +497,7 @@ def train_epoch(model, loader, optimizer, device, value_criterion,
         total_vloss += vloss.item()
         total_vacc += compute_value_accuracy(value_pred, value_target)
         n_batches += 1
+        n_samples += bs
         global_step += 1
 
     metrics = {
@@ -349,8 +510,13 @@ def train_epoch(model, loader, optimizer, device, value_criterion,
 
 
 @torch.no_grad()
-def eval_epoch(model, loader, device, value_criterion, policy_weight=0.5):
-    """Evaluate one epoch. Returns metrics dict."""
+def eval_epoch(model, loader, device, value_criterion, policy_weight=0.5,
+               model_type='v1'):
+    """Evaluate one epoch. Returns metrics dict.
+
+    model_type: 'v1' uses flat feature batches (H5Dataset);
+                'deepsets' uses dict batches (H5DatasetV2).
+    """
     model.eval()
     total_vloss = 0.0
     total_ploss = 0.0
@@ -369,22 +535,24 @@ def eval_epoch(model, loader, device, value_criterion, policy_weight=0.5):
     vpred_count = 0
 
     for batch in loader:
-        features, policy_target, value_target, sample_weight = [
-            b.to(device) for b in batch
-        ]
-
-        policy_pred, value_pred = model(features)
+        if model_type == 'deepsets':
+            value_pred, value_target, bs = _forward_deepsets(model, batch, device)
+        else:
+            features, policy_target, value_target, sample_weight = [
+                b.to(device) for b in batch
+            ]
+            policy_pred, value_pred = model(features)
+            bs = features.shape[0]
 
         vloss = value_criterion(value_pred, value_target)
         total_vloss += vloss.item()
         total_vacc += compute_value_accuracy(value_pred, value_target)
 
         # Brier score
-        bs = compute_brier_score(value_pred, value_target)
-        total_brier += bs * features.shape[0]
-        n_samples += features.shape[0]
+        total_brier += compute_brier_score(value_pred, value_target) * bs
+        n_samples += bs
 
-        if policy_pred is not None:
+        if model_type != 'deepsets' and policy_pred is not None:
             ploss = F.mse_loss(policy_pred, policy_target)
             total_ploss += ploss.item()
             total_pacc += compute_policy_accuracy(policy_pred, policy_target)
@@ -545,6 +713,14 @@ def main():
                         default="c:/libraries/PrismataAI/training/models",
                         help="Output directory for checkpoints and logs")
 
+    # Model selection
+    parser.add_argument("--model", type=str, default="v1",
+                        choices=["v1", "flat", "deepsets"],
+                        help="Model architecture: 'v1'/'flat' = PrismataNet (default), "
+                             "'deepsets' = PrismataDeepSets (requires --property-table)")
+    parser.add_argument("--property-table", type=str, default=None,
+                        help="Path to property_table.json (required for --model deepsets)")
+
     # Architecture
     parser.add_argument("--hidden-dim", type=int, default=256,
                         help="Hidden dimension for trunk (default 256)")
@@ -584,10 +760,21 @@ def main():
                         help="Device (default: auto-detect)")
     parser.add_argument("--num-workers", type=int, default=2,
                         help="DataLoader workers (default 2)")
+    parser.add_argument("--max-records", type=int, default=None,
+                        help="Cap training set to N records (random sample). Saves RAM.")
     parser.add_argument("--seed", type=int, default=None,
                         help="Random seed (random if not set)")
 
     args = parser.parse_args()
+
+    # Normalize model type
+    use_deepsets = args.model == 'deepsets'
+
+    # Validate DeepSets requirements
+    if use_deepsets and not args.property_table:
+        parser.error("--model deepsets requires --property-table <path>")
+    if use_deepsets and args.property_table and not os.path.exists(args.property_table):
+        parser.error(f"--property-table path does not exist: {args.property_table}")
 
     # --- Seed ---
     if args.seed is None:
@@ -643,46 +830,66 @@ def main():
 
     # --- Load data ---
     print("\nLoading data...")
-    train_n, train_state_dim = check_data_sanity(
-        args.train_file, args.label_strategy)
-    val_n, val_state_dim = check_data_sanity(
-        args.val_file, args.label_strategy)
 
-    assert train_state_dim == val_state_dim, \
-        f"State dim mismatch: train={train_state_dim}, val={val_state_dim}"
-    state_dim = train_state_dim
+    if use_deepsets:
+        # V2 HDF5 format — skip V1 sanity check, load V2 datasets directly
+        schema_version = "v2_deepsets"
 
-    # Read num_units from schema
-    schema_version = get_schema_version()
-    schema_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                               "schema_v1.json")
-    if os.path.exists(schema_path):
-        with open(schema_path) as f:
-            schema = json.load(f)
-        num_units = schema["num_units"]
-        expected_dim = schema["state_dim"]
-        if state_dim != expected_dim:
-            print(f"  WARNING: HDF5 state_dim={state_dim} != "
-                  f"schema state_dim={expected_dim}")
+        train_ds = H5DatasetV2(args.train_file, label_strategy=args.label_strategy,
+                               max_records=args.max_records)
+        val_ds = H5DatasetV2(args.val_file, label_strategy=args.label_strategy)
+
+        train_n = len(train_ds)
+        val_n = len(val_ds)
+        state_dim = None  # not used for DeepSets
+        num_units = 116   # canonical fixed value
+
+        print(f"\n  Train: {train_n:,} examples  (V2 DeepSets format)")
+        print(f"  Val:   {val_n:,} examples")
+        print(f"  Num units: {num_units}")
+        print(f"  Label strategy: {args.label_strategy}")
+        print(f"  Model: DeepSets (property_table={args.property_table})")
     else:
-        # Infer from state_dim: (state_dim - 14) / 11
-        num_units = (state_dim - 14) // 11
-        print(f"  WARNING: No schema_v1.json found. Inferred num_units={num_units}")
+        train_n, train_state_dim = check_data_sanity(
+            args.train_file, args.label_strategy)
+        val_n, val_state_dim = check_data_sanity(
+            args.val_file, args.label_strategy)
 
-    train_ds = H5Dataset(args.train_file, label_strategy=args.label_strategy,
-                         value_only=args.value_only,
-                         rating_weight=args.rating_weight,
-                         game_weight=args.game_weight)
-    val_ds = H5Dataset(args.val_file, label_strategy=args.label_strategy,
-                       value_only=args.value_only,
-                       rating_weight=False, game_weight=False)
+        assert train_state_dim == val_state_dim, \
+            f"State dim mismatch: train={train_state_dim}, val={val_state_dim}"
+        state_dim = train_state_dim
 
-    print(f"\n  Train: {train_n:,} examples")
-    print(f"  Val:   {val_n:,} examples")
-    print(f"  State dim: {state_dim}")
-    print(f"  Num units: {num_units}")
-    print(f"  Label strategy: {args.label_strategy}")
-    print(f"  Mode: {'value-only' if args.value_only else 'policy+value'}")
+        # Read num_units from schema
+        schema_version = get_schema_version()
+        schema_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                   "schema_v1.json")
+        if os.path.exists(schema_path):
+            with open(schema_path) as f:
+                schema = json.load(f)
+            num_units = schema["num_units"]
+            expected_dim = schema["state_dim"]
+            if state_dim != expected_dim:
+                print(f"  WARNING: HDF5 state_dim={state_dim} != "
+                      f"schema state_dim={expected_dim}")
+        else:
+            num_units = (state_dim - 14) // 11
+            print(f"  WARNING: No schema_v1.json found. Inferred num_units={num_units}")
+
+        train_ds = H5Dataset(args.train_file, label_strategy=args.label_strategy,
+                             value_only=args.value_only,
+                             rating_weight=args.rating_weight,
+                             game_weight=args.game_weight,
+                             max_records=args.max_records)
+        val_ds = H5Dataset(args.val_file, label_strategy=args.label_strategy,
+                           value_only=args.value_only,
+                           rating_weight=False, game_weight=False)
+
+        print(f"\n  Train: {train_n:,} examples")
+        print(f"  Val:   {val_n:,} examples")
+        print(f"  State dim: {state_dim}")
+        print(f"  Num units: {num_units}")
+        print(f"  Label strategy: {args.label_strategy}")
+        print(f"  Mode: {'value-only' if args.value_only else 'policy+value'}")
 
     use_workers = args.num_workers
     shuffle_gen = torch.Generator()
@@ -701,13 +908,23 @@ def main():
         persistent_workers=use_workers > 0)
 
     # --- Model ---
-    model = PrismataNet(
-        state_dim, num_units, hidden_dim=args.hidden_dim,
-        num_layers=args.num_layers, dropout=args.dropout,
-        value_only=args.value_only).to(device)
-    param_count = sum(p.numel() for p in model.parameters())
-    print(f"\nModel: {param_count:,} parameters "
-          f"(hidden={args.hidden_dim}, layers={args.num_layers})")
+    if use_deepsets:
+        from model_deepsets import PrismataDeepSets
+        model = PrismataDeepSets(
+            num_units=num_units,
+            dropout=args.dropout,
+        ).to(device)
+        model.load_property_table(args.property_table)
+        param_count = sum(p.numel() for p in model.parameters())
+        print(f"\nModel: PrismataDeepSets — {param_count:,} parameters")
+    else:
+        model = PrismataNet(
+            state_dim, num_units, hidden_dim=args.hidden_dim,
+            num_layers=args.num_layers, dropout=args.dropout,
+            value_only=args.value_only).to(device)
+        param_count = sum(p.numel() for p in model.parameters())
+        print(f"\nModel: PrismataNet — {param_count:,} parameters "
+              f"(hidden={args.hidden_dim}, layers={args.num_layers})")
 
     # --- Optimizer (exclude bias and LayerNorm from weight decay) ---
     decay_params = []
@@ -740,28 +957,34 @@ def main():
 
     # --- Run metadata ---
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    hparams = {
+        "epochs": args.epochs,
+        "batch_size": args.batch_size,
+        "lr": args.lr,
+        "warmup_steps": args.warmup_steps,
+        "dropout": args.dropout,
+        "policy_weight": args.policy_weight,
+        "patience": args.patience,
+        "weight_decay": args.weight_decay,
+        "label_strategy": args.label_strategy,
+        "seed": args.seed,
+        "model": args.model,
+    }
+    if use_deepsets:
+        hparams["property_table"] = os.path.abspath(args.property_table)
+    else:
+        hparams["hidden_dim"] = args.hidden_dim
+        hparams["num_layers"] = args.num_layers
+        hparams["value_only"] = args.value_only
+        hparams["rating_weight"] = args.rating_weight
+        hparams["game_weight"] = args.game_weight
+
     run_metadata = {
         "timestamp": timestamp,
         "git_hash": get_git_hash(),
         "schema_version": schema_version,
         "schema_hash": get_schema_hash(),
-        "hyperparameters": {
-            "epochs": args.epochs,
-            "batch_size": args.batch_size,
-            "lr": args.lr,
-            "warmup_steps": args.warmup_steps,
-            "hidden_dim": args.hidden_dim,
-            "num_layers": args.num_layers,
-            "dropout": args.dropout,
-            "policy_weight": args.policy_weight,
-            "patience": args.patience,
-            "value_only": args.value_only,
-            "weight_decay": args.weight_decay,
-            "label_strategy": args.label_strategy,
-            "rating_weight": args.rating_weight,
-            "game_weight": args.game_weight,
-            "seed": args.seed,
-        },
+        "hyperparameters": hparams,
         "data": {
             "train_file": os.path.abspath(args.train_file),
             "val_file": os.path.abspath(args.val_file),
@@ -793,14 +1016,15 @@ def main():
     patience_counter = 0
     global_step = 0
 
-    mode_str = "value-only" if args.value_only else "policy+value"
+    model_type_str = 'deepsets' if use_deepsets else 'v1'
+    mode_str = "deepsets" if use_deepsets else ("value-only" if args.value_only else "policy+value")
     print(f"\nTraining {mode_str} for {args.epochs} epochs "
           f"(batch={args.batch_size}, lr={args.lr}, "
           f"patience={args.patience}, swa_from={swa_start_epoch})")
     print()
 
-    # Header
-    if args.value_only:
+    # Header — DeepSets and value-only both use the compact value-only format
+    if use_deepsets or args.value_only:
         print(f"{'Ep':>4} {'TrVL':>7} {'TrVA':>6} {'VaVL':>7} {'VaVA':>6} "
               f"{'Brier':>6} {'VPred':>14} {'LR':>9} {'Time':>5} {'Note':>8}")
         print("-" * 88)
@@ -825,7 +1049,7 @@ def main():
             model, train_loader, optimizer, device, value_criterion,
             policy_weight=args.policy_weight, grad_clip=1.0,
             warmup_scheduler=active_scheduler if not swa_active else None,
-            global_step=global_step)
+            global_step=global_step, model_type=model_type_str)
 
         # SWA scheduler steps per-epoch (not per-batch)
         if swa_active:
@@ -833,7 +1057,8 @@ def main():
 
         # Evaluate
         val_metrics = eval_epoch(model, val_loader, device, value_criterion,
-                                 policy_weight=args.policy_weight)
+                                 policy_weight=args.policy_weight,
+                                 model_type=model_type_str)
 
         # SWA
         if epoch >= swa_start_epoch:
@@ -858,16 +1083,13 @@ def main():
             note = "*best"
 
             # Save best checkpoint
-            torch.save({
+            ckpt = {
                 "epoch": epoch,
                 "global_step": global_step,
                 "model_state_dict": model.state_dict(),
                 "optimizer_state_dict": optimizer.state_dict(),
-                "state_dim": state_dim,
+                "model_type": model_type_str,
                 "num_units": num_units,
-                "hidden_dim": args.hidden_dim,
-                "num_layers": args.num_layers,
-                "value_only": args.value_only,
                 "dropout": args.dropout,
                 "schema_version": schema_version,
                 "label_strategy": args.label_strategy,
@@ -875,7 +1097,15 @@ def main():
                 "val_value_acc": val_metrics["val_value_acc"],
                 "val_brier": val_metrics["val_brier"],
                 "hyperparameters": run_metadata["hyperparameters"],
-            }, os.path.join(args.output_dir, "best_model.pt"))
+            }
+            if use_deepsets:
+                ckpt["property_table_path"] = os.path.abspath(args.property_table)
+            else:
+                ckpt["state_dim"] = state_dim
+                ckpt["hidden_dim"] = args.hidden_dim
+                ckpt["num_layers"] = args.num_layers
+                ckpt["value_only"] = args.value_only
+            torch.save(ckpt, os.path.join(args.output_dir, "best_model.pt"))
         else:
             patience_counter += 1
 
@@ -885,7 +1115,7 @@ def main():
         # Print epoch
         tr = train_metrics
         va = val_metrics
-        if args.value_only:
+        if use_deepsets or args.value_only:
             print(f"{epoch:4d} {tr['train_value_loss']:7.4f} "
                   f"{tr['train_value_acc']:6.1%} "
                   f"{va['val_value_loss']:7.4f} {va['val_value_acc']:6.1%} "
@@ -933,19 +1163,24 @@ def main():
 
         # Periodic checkpoint
         if epoch % 10 == 0:
-            torch.save({
+            periodic_ckpt = {
                 "epoch": epoch,
                 "global_step": global_step,
                 "model_state_dict": model.state_dict(),
                 "optimizer_state_dict": optimizer.state_dict(),
-                "state_dim": state_dim,
+                "model_type": model_type_str,
                 "num_units": num_units,
-                "hidden_dim": args.hidden_dim,
-                "num_layers": args.num_layers,
-                "value_only": args.value_only,
                 "dropout": args.dropout,
                 "schema_version": schema_version,
-            }, os.path.join(args.output_dir, f"checkpoint_ep{epoch}.pt"))
+            }
+            if use_deepsets:
+                periodic_ckpt["property_table_path"] = os.path.abspath(args.property_table)
+            else:
+                periodic_ckpt["state_dim"] = state_dim
+                periodic_ckpt["hidden_dim"] = args.hidden_dim
+                periodic_ckpt["num_layers"] = args.num_layers
+                periodic_ckpt["value_only"] = args.value_only
+            torch.save(periodic_ckpt, os.path.join(args.output_dir, f"checkpoint_ep{epoch}.pt"))
 
         # Early stopping
         if args.patience > 0 and patience_counter >= args.patience:
@@ -965,23 +1200,29 @@ def main():
         except Exception as e:
             print(f"  WARNING: SWA BN update failed ({e}), saving without BN update")
 
-        torch.save({
+        swa_ckpt = {
             "epoch": epoch,
             "global_step": global_step,
             "model_state_dict": swa_model.module.state_dict(),
-            "state_dim": state_dim,
+            "model_type": model_type_str,
             "num_units": num_units,
-            "hidden_dim": args.hidden_dim,
-            "num_layers": args.num_layers,
-            "value_only": args.value_only,
             "dropout": args.dropout,
             "schema_version": schema_version,
             "swa_start_epoch": swa_start_epoch,
-        }, os.path.join(args.output_dir, "swa_model.pt"))
+        }
+        if use_deepsets:
+            swa_ckpt["property_table_path"] = os.path.abspath(args.property_table)
+        else:
+            swa_ckpt["state_dim"] = state_dim
+            swa_ckpt["hidden_dim"] = args.hidden_dim
+            swa_ckpt["num_layers"] = args.num_layers
+            swa_ckpt["value_only"] = args.value_only
+        torch.save(swa_ckpt, os.path.join(args.output_dir, "swa_model.pt"))
         print(f"  SWA model saved to {args.output_dir}/swa_model.pt")
 
         # Evaluate SWA model
-        swa_val = eval_epoch(swa_model, val_loader, device, value_criterion)
+        swa_val = eval_epoch(swa_model, val_loader, device, value_criterion,
+                             model_type=model_type_str)
         print(f"  SWA val_loss={swa_val['val_value_loss']:.4f}, "
               f"val_acc={swa_val['val_value_acc']:.1%}, "
               f"brier={swa_val['val_brier']:.4f}")
