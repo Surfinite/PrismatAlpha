@@ -158,8 +158,19 @@ bool NeuralNet::loadWeights(const std::string & filename)
     }
 
     // Read DSN2 header: 9 x uint32 = 36 bytes
-    uint32_t magic = 0, version = 0, numTensors = 0;
-    readU32(f, magic);
+    uint32_t header[9];
+    for (int i = 0; i < 9; ++i)
+    {
+        if (!readU32(f, header[i]))
+        {
+            printf("NeuralNet: failed to read header field %d\n", i);
+            return false;
+        }
+    }
+
+    uint32_t magic      = header[0];
+    uint32_t version    = header[1];
+    uint32_t numTensors = header[8];
 
     if (magic == 0x504E4554)
     {
@@ -173,15 +184,12 @@ bool NeuralNet::loadWeights(const std::string & filename)
         return false;
     }
 
-    readU32(f, version);
-    readU32(f, (uint32_t &)_config.num_units);
-    readU32(f, (uint32_t &)_config.d_embed);
-    readU32(f, (uint32_t &)_config.num_properties);
-    readU32(f, (uint32_t &)_config.encoder_hidden);
-    readU32(f, (uint32_t &)_config.supply_hidden);
-    readU32(f, (uint32_t &)_config.value_hidden);
-    readU32(f, numTensors);
-
+    _config.num_units           = (int)header[2];
+    _config.d_embed             = (int)header[3];
+    _config.num_properties      = (int)header[4];
+    _config.encoder_hidden      = (int)header[5];
+    _config.supply_hidden       = (int)header[6];
+    _config.value_hidden        = (int)header[7];
     _config.num_instance_features = 10;  // fixed by design
 
     printf("NeuralNet: loading DSN2 weights v%u (units=%d, d_embed=%d, props=%d, "
@@ -263,8 +271,32 @@ bool NeuralNet::loadWeights(const std::string & filename)
         printf("NeuralNet: WARNING: unit_index.json not loaded -- buildCardTypeMapping() will fail\n");
     }
 
+    allocateScratchBuffers();
+
     _loaded = true;
     return true;
+}
+
+void NeuralNet::allocateScratchBuffers()
+{
+    const int ENC_H = _config.encoder_hidden;
+    const int SUP_H = _config.supply_hidden;
+    const int VAL_H = _config.value_hidden;
+    const int TOKEN_DIM = _config.d_embed + _config.num_properties + _config.num_instance_features;
+    const int COMBINED = ENC_H * 2 + SUP_H + 14;
+
+    _scratch.p0_pool.resize(ENC_H);
+    _scratch.p1_pool.resize(ENC_H);
+    _scratch.token.resize(TOKEN_DIM);
+    _scratch.h1.resize(ENC_H);
+    _scratch.encoded.resize(ENC_H);
+    _scratch.supplyData.resize(_config.num_units * 3);
+    _scratch.supply_pool.resize(SUP_H);
+    _scratch.sh1.resize(SUP_H);
+    _scratch.senc.resize(SUP_H);
+    _scratch.combined.resize(COMBINED);
+    _scratch.vh1.resize(VAL_H);
+    _scratch.vh2.resize(VAL_H);
 }
 
 // ---------------------------------------------------------------------------
@@ -407,14 +439,14 @@ double NeuralNet::evaluateValue(const GameState & state, const PlayerID maxPlaye
     const int TOKEN_DIM = _config.d_embed + _config.num_properties + _config.num_instance_features;
     const int COMBINED = ENC_H * 2 + SUP_H + 14;
 
-    // Zero-init per-player pooling accumulators
-    std::vector<float> p0_pool(ENC_H, 0.0f);
-    std::vector<float> p1_pool(ENC_H, 0.0f);
-
-    // Scratch buffers for instance encoding
-    std::vector<float> token(TOKEN_DIM);
-    std::vector<float> h1(ENC_H);
-    std::vector<float> encoded(ENC_H);
+    // Zero-init per-player pooling accumulators (reuse pre-allocated scratch buffers)
+    std::fill(_scratch.p0_pool.begin(), _scratch.p0_pool.end(), 0.0f);
+    std::fill(_scratch.p1_pool.begin(), _scratch.p1_pool.end(), 0.0f);
+    float * p0_pool = _scratch.p0_pool.data();
+    float * p1_pool = _scratch.p1_pool.data();
+    float * token   = _scratch.token.data();
+    float * h1      = _scratch.h1.data();
+    float * encoded = _scratch.encoded.data();
 
     // --- 1. Process each alive unit instance ---
     for (PlayerID player = 0; player < 2; ++player)
@@ -432,21 +464,21 @@ double NeuralNet::evaluateValue(const GameState & state, const PlayerID maxPlaye
 
             // Build token: [embedding(d_embed) | properties(num_properties) | instance_state(10)]
             const float * emb = &_embedding_table[unitIdx * _config.d_embed];
-            std::memcpy(token.data(), emb, _config.d_embed * sizeof(float));
+            std::memcpy(token, emb, _config.d_embed * sizeof(float));
 
             const float * props = &_property_table[unitIdx * _config.num_properties];
-            std::memcpy(token.data() + _config.d_embed, props, _config.num_properties * sizeof(float));
+            std::memcpy(token + _config.d_embed, props, _config.num_properties * sizeof(float));
 
-            extractInstanceFeatures(card, unitIdx, token.data() + _config.d_embed + _config.num_properties);
+            extractInstanceFeatures(card, unitIdx, token + _config.d_embed + _config.num_properties);
 
             // Shared encoder: Linear->ReLU->Linear->ReLU
-            linearForward(_enc_linear1, token.data(), h1.data());
-            reluInPlace(h1.data(), ENC_H);
-            linearForward(_enc_linear2, h1.data(), encoded.data());
-            reluInPlace(encoded.data(), ENC_H);
+            linearForward(_enc_linear1, token, h1);
+            reluInPlace(h1, ENC_H);
+            linearForward(_enc_linear2, h1, encoded);
+            reluInPlace(encoded, ENC_H);
 
             // Accumulate into owner's pool
-            float * pool = (card.getPlayer() == Players::Player_One) ? p0_pool.data() : p1_pool.data();
+            float * pool = (card.getPlayer() == Players::Player_One) ? p0_pool : p1_pool;
             for (int i = 0; i < ENC_H; ++i)
             {
                 pool[i] += encoded[i];
@@ -457,7 +489,8 @@ double NeuralNet::evaluateValue(const GameState & state, const PlayerID maxPlaye
     // --- 2. Process supply pathway (all 116 unit types) ---
     // Build a lookup table from unit index -> (p0_supply, p1_supply, in_card_set)
     // Default: [0, 0, 0] for units not in the card set
-    std::vector<float> supplyData(_config.num_units * 3, 0.0f);
+    std::fill(_scratch.supplyData.begin(), _scratch.supplyData.end(), 0.0f);
+    float * supplyData = _scratch.supplyData.data();
 
     for (CardID i = 0; i < state.numCardsBuyable(); ++i)
     {
@@ -473,16 +506,17 @@ double NeuralNet::evaluateValue(const GameState & state, const PlayerID maxPlaye
     }
 
     // Encode each unit type's supply and sum into pool
-    std::vector<float> supply_pool(SUP_H, 0.0f);
-    std::vector<float> sh1(SUP_H);
-    std::vector<float> senc(SUP_H);
+    std::fill(_scratch.supply_pool.begin(), _scratch.supply_pool.end(), 0.0f);
+    float * supply_pool = _scratch.supply_pool.data();
+    float * sh1  = _scratch.sh1.data();
+    float * senc = _scratch.senc.data();
 
     for (int u = 0; u < _config.num_units; ++u)
     {
-        linearForward(_sup_linear1, &supplyData[u * 3], sh1.data());
-        reluInPlace(sh1.data(), SUP_H);
-        linearForward(_sup_linear2, sh1.data(), senc.data());
-        reluInPlace(senc.data(), SUP_H);
+        linearForward(_sup_linear1, &supplyData[u * 3], sh1);
+        reluInPlace(sh1, SUP_H);
+        linearForward(_sup_linear2, sh1, senc);
+        reluInPlace(senc, SUP_H);
 
         for (int j = 0; j < SUP_H; ++j)
         {
@@ -492,13 +526,13 @@ double NeuralNet::evaluateValue(const GameState & state, const PlayerID maxPlaye
 
     // --- 3. Build combined vector ---
     // [p0_pool(ENC_H) | p1_pool(ENC_H) | supply_pool(SUP_H) | globals(14)] = COMBINED
-    std::vector<float> combined(COMBINED);
+    float * combined = _scratch.combined.data();
     int pos = 0;
-    std::memcpy(combined.data() + pos, p0_pool.data(), ENC_H * sizeof(float));
+    std::memcpy(combined + pos, p0_pool, ENC_H * sizeof(float));
     pos += ENC_H;
-    std::memcpy(combined.data() + pos, p1_pool.data(), ENC_H * sizeof(float));
+    std::memcpy(combined + pos, p1_pool, ENC_H * sizeof(float));
     pos += ENC_H;
-    std::memcpy(combined.data() + pos, supply_pool.data(), SUP_H * sizeof(float));
+    std::memcpy(combined + pos, supply_pool, SUP_H * sizeof(float));
     pos += SUP_H;
 
     // Global features (14): V2 normalization caps
@@ -523,16 +557,16 @@ double NeuralNet::evaluateValue(const GameState & state, const PlayerID maxPlaye
     combined[pos++] = (float)state.getActivePlayer();
 
     // --- 4. Value MLP: Linear->ReLU->Linear->ReLU->Linear ---
-    std::vector<float> vh1(VAL_H);
-    linearForward(_val_linear1, combined.data(), vh1.data());
-    reluInPlace(vh1.data(), VAL_H);
+    float * vh1 = _scratch.vh1.data();
+    linearForward(_val_linear1, combined, vh1);
+    reluInPlace(vh1, VAL_H);
 
-    std::vector<float> vh2(VAL_H);
-    linearForward(_val_linear2, vh1.data(), vh2.data());
-    reluInPlace(vh2.data(), VAL_H);
+    float * vh2 = _scratch.vh2.data();
+    linearForward(_val_linear2, vh1, vh2);
+    reluInPlace(vh2, VAL_H);
 
     float logit = 0.0f;
-    linearForward(_val_linear3, vh2.data(), &logit);
+    linearForward(_val_linear3, vh2, &logit);
 
     // Sigmoid -> [0,1] -> map to [-1,1]
     float prob = 1.0f / (1.0f + expf(-logit));
