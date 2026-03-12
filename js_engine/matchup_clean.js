@@ -577,14 +577,17 @@ function applyClicks(analyzer, clicks, actionStates) {
             }
             if (clickType === C.CLICK_CARD || clickType === C.CLICK_CARD_SHIFT) {
                 // Buy failure: show resources + card cost for divergence diagnosis
-                const m = gs.turnMana;
-                diag += ` | resources: ${m.gold}g ${m.green}G ${m.blue}B ${m.red}R ${m.energy}E`;
-                const card = gs.mergedDeck[clickId];
-                if (card) {
-                    diag += ` | buy: ${card.cardName} cost=${card.buyCost} supply=${card.supply}`;
-                } else {
-                    diag += ` | card NOT FOUND at deck[${clickId}]`;
-                }
+                try {
+                    const m = gs.turnMana;
+                    if (m) diag += ` | resources: ${m.gold}g ${m.green}G ${m.blue}B ${m.red}R ${m.energy}E`;
+                    const deck = gs.mergedDeck || (analyzer && analyzer.gameInitInfo && analyzer.gameInitInfo.mergedDeck);
+                    const card = deck && deck[clickId];
+                    if (card) {
+                        diag += ` | buy: ${card.cardName} cost=${card.buyCost} supply=${card.supply}`;
+                    } else {
+                        diag += ` | card NOT FOUND at deck[${clickId}]`;
+                    }
+                } catch (_) { diag += ` | (diag error)`; }
             }
             details.push(`  [${i}] FAIL: ${clickType} id=${clickId} [${diag}]`);
         }
@@ -975,14 +978,17 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
                     }
                 }
                 if (click._type === C.CLICK_CARD || click._type === C.CLICK_CARD_SHIFT) {
-                    const m = gs.turnMana;
-                    diag += ` | resources: ${m.gold}g ${m.green}G ${m.blue}B ${m.red}R ${m.energy}E`;
-                    const card = gs.mergedDeck[click._id];
-                    if (card) {
-                        diag += ` | buy: ${card.cardName} cost=${card.buyCost} supply=${card.supply}`;
-                    } else {
-                        diag += ` | card NOT FOUND at deck[${click._id}]`;
-                    }
+                    try {
+                        const m = gs.turnMana;
+                        if (m) diag += ` | resources: ${m.gold}g ${m.green}G ${m.blue}B ${m.red}R ${m.energy}E`;
+                        const deck2 = gs.mergedDeck || (analyzer && analyzer.gameInitInfo && analyzer.gameInitInfo.mergedDeck);
+                        const card = deck2 && deck2[click._id];
+                        if (card) {
+                            diag += ` | buy: ${card.cardName} cost=${card.buyCost} supply=${card.supply}`;
+                        } else {
+                            diag += ` | card NOT FOUND at deck[${click._id}]`;
+                        }
+                    } catch (_) { diag += ` | (diag error)`; }
                 }
                 details.push(`  [${i}] FAIL: ${click._type} id=${click._id} [${diag}]`);
             }

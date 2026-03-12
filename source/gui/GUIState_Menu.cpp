@@ -68,8 +68,17 @@ void GUIState_Menu::scanReplayFolders()
         for (auto & fileEntry : std::filesystem::directory_iterator(folderPath))
         {
             if (!fileEntry.is_regular_file()) continue;
-            if (fileEntry.path().extension() != ".json") continue;
-            jsonFiles.push_back(fileEntry.path().filename().string());
+            auto ext = fileEntry.path().extension().string();
+            auto stem = fileEntry.path().stem().string();
+            // Accept .json and .json.gz files
+            if (ext == ".json")
+            {
+                jsonFiles.push_back(fileEntry.path().filename().string());
+            }
+            else if (ext == ".gz" && stem.size() > 5 && stem.substr(stem.size() - 5) == ".json")
+            {
+                jsonFiles.push_back(fileEntry.path().filename().string());
+            }
         }
         std::sort(jsonFiles.begin(), jsonFiles.end());
 
@@ -77,8 +86,15 @@ void GUIState_Menu::scanReplayFolders()
         {
             ReplayFileInfo fi;
             fi.path = folderPath + "/" + fileName;
-            // Strip .json extension for display
-            fi.displayName = fileName.substr(0, fileName.size() - 5);
+            // Strip .json or .json.gz extension for display
+            if (fileName.size() > 8 && fileName.substr(fileName.size() - 8) == ".json.gz")
+            {
+                fi.displayName = fileName.substr(0, fileName.size() - 8);
+            }
+            else
+            {
+                fi.displayName = fileName.substr(0, fileName.size() - 5);
+            }
             folder.files.push_back(fi);
         }
 
@@ -93,15 +109,48 @@ void GUIState_Menu::scanReplayFolders()
 
 void GUIState_Menu::loadReplay(const std::string & filepath)
 {
-    std::ifstream file(filepath);
-    if (!file.is_open())
-    {
-        std::cout << "Failed to open replay: " << filepath << std::endl;
-        return;
-    }
+    std::string content;
 
-    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-    file.close();
+    // Check if this is a .gz file that needs decompression
+    bool isGzip = filepath.size() > 3 && filepath.substr(filepath.size() - 3) == ".gz";
+
+    if (isGzip)
+    {
+        // Decompress using gzip from Git installation
+        std::string gzipExe = "C:\\PROGRA~1\\Git\\usr\\bin\\gzip.exe";
+        std::string cmd = gzipExe + " -dc \"" + filepath + "\"";
+        FILE * pipe = _popen(cmd.c_str(), "r");
+        if (!pipe)
+        {
+            std::cout << "Failed to run gzip: " << cmd << std::endl;
+            return;
+        }
+
+        char buffer[8192];
+        while (size_t n = fread(buffer, 1, sizeof(buffer), pipe))
+        {
+            content.append(buffer, n);
+        }
+
+        int exitCode = _pclose(pipe);
+        if (exitCode != 0 || content.empty())
+        {
+            std::cout << "gzip decompression failed for: " << filepath << std::endl;
+            return;
+        }
+    }
+    else
+    {
+        std::ifstream file(filepath);
+        if (!file.is_open())
+        {
+            std::cout << "Failed to open replay: " << filepath << std::endl;
+            return;
+        }
+
+        content.assign((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        file.close();
+    }
 
     rapidjson::Document doc;
     doc.Parse(content.c_str());

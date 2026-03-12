@@ -111,6 +111,7 @@ New-Item -ItemType Directory -Force -Path \$steamAIDir | Out-Null
 Read-S3Object -BucketName \$bucket -Key "deploy/masterbot/PrismataAI.exe" -File "\$steamAIDir\PrismataAI.exe"
 
 Read-S3Object -BucketName \$bucket -Key "deploy/masterbot/bin/asset/config/cardLibrary.jso" -File "C:\masterbot\bin\asset\config\cardLibrary.jso"
+Read-S3Object -BucketName \$bucket -Key "deploy/masterbot/bin/asset/config/valid_units.json" -File "C:\masterbot\bin\asset\config\valid_units.json"
 Read-S3Object -BucketName \$bucket -Key "deploy/masterbot/js_engine/matchup_config.json" -File "C:\masterbot\js_engine\matchup_config.json"
 
 Write-Host "Downloading js_engine files..."
@@ -158,6 +159,7 @@ Write-Host "Using Node.js: \$(& \$nodeExe --version 2>&1)"
     "--think-time", "\$thinkTimeMs",
     "--parallel", "\$parallel",
     "--export-training", "C:\masterbot\training_output\\",
+    "--save-replays", "C:\masterbot\replays",
     "--resign", "0"
 )
 
@@ -186,6 +188,15 @@ function Sync-ToS3 {
             Write-S3Object -BucketName \$bucket -Key "results/\$runId/training/\$(\$f.Name)" -File "\$tempDir\\\$(\$f.Name)"
             \$syncCount++
         } catch { Write-Host "[Sync] Warning: \$(\$f.Name): \$_" }
+    }
+
+    # Sync replay files (.json.gz)
+    \$replayFiles = Get-ChildItem "C:\masterbot\replays\*" -File -ErrorAction SilentlyContinue
+    foreach (\$f in \$replayFiles) {
+        try {
+            Write-S3Object -BucketName \$bucket -Key "results/\$runId/replays/\$(\$f.Name)" -File \$f.FullName
+            \$syncCount++
+        } catch { Write-Host "[Sync] Warning: replay \$(\$f.Name): \$_" }
     }
 
     foreach (\$logFile in @("C:\masterbot\matchup.log", "C:\masterbot\matchup_stdout.log")) {

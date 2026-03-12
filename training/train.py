@@ -326,16 +326,14 @@ class H5DatasetV2(Dataset):
 
             # Subsample if max_records specified
             if max_records and max_records < n_total:
-                print(f"    Subsampling {max_records:,} / {n_total:,} records...")
-                rng = np.random.default_rng(42)
-                indices = np.sort(rng.choice(n_total, max_records, replace=False))
+                print(f"    Subsampling {max_records:,} / {n_total:,} records "
+                      f"(contiguous slice for fast I/O)...")
+                sl = slice(0, max_records)
             else:
-                indices = None
+                sl = slice(None)
 
             def _load(key):
-                if indices is not None:
-                    return f[key][indices]
-                return f[key][:]
+                return f[key][sl]
 
             self.instance_features = torch.from_numpy(_load('instance_features').astype(np.float32))
             self.instance_unit_ids = torch.from_numpy(_load('instance_unit_ids').astype(np.int64))

@@ -44,6 +44,10 @@ if [ "$1" = "--upload" ]; then
     aws s3 cp "c:/libraries/PrismataAI/bin/asset/config/cardLibrary.jso" \
         "s3://$BUCKET/deploy/masterbot/bin/asset/config/cardLibrary.jso" --region "$REGION"
 
+    echo "Uploading valid_units.json..."
+    aws s3 cp "c:/libraries/PrismataAI/bin/asset/config/valid_units.json" \
+        "s3://$BUCKET/deploy/masterbot/bin/asset/config/valid_units.json" --region "$REGION"
+
     echo "Uploading matchup_config.json..."
     aws s3 cp "c:/libraries/PrismataAI/js_engine/matchup_config.json" \
         "s3://$BUCKET/deploy/masterbot/js_engine/matchup_config.json" --region "$REGION"
@@ -139,6 +143,9 @@ Write-Host "PrismataAI.exe installed to $steamAIDir"
 
 # Card library
 Read-S3Object -BucketName $bucket -Key "deploy/masterbot/bin/asset/config/cardLibrary.jso" -File "C:\masterbot\bin\asset\config\cardLibrary.jso"
+
+# Valid units filter (restricts random sets to indexed units only)
+Read-S3Object -BucketName $bucket -Key "deploy/masterbot/bin/asset/config/valid_units.json" -File "C:\masterbot\bin\asset\config\valid_units.json"
 
 # matchup_config.json
 Read-S3Object -BucketName $bucket -Key "deploy/masterbot/js_engine/matchup_config.json" -File "C:\masterbot\js_engine\matchup_config.json"

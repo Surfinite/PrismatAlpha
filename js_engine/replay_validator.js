@@ -141,7 +141,13 @@ function validateReplay(replay, code) {
         totalTurns: totalTurns,
         error: null,
         engineResult: null,
-        replayResult: replay.result
+        replayResult: replay.result,
+        // Recovery detection: what matchup_clean would have auto-fixed
+        recoveryWouldFire: {
+            endSwipeRetry: 0,
+            breachSpaceSkip: 0,
+            autoCommitMid: 0
+        }
     };
 
     try {
@@ -179,6 +185,14 @@ function validateReplay(replay, code) {
             }
 
             try {
+                // Detect: would matchup_clean auto-commit here? (PHASE_CONFIRM + non-space click)
+                const cmdType = String(cmd._type);
+                if (analyzer.gameState.phase === C.PHASE_CONFIRM && !analyzer.gameState.finished &&
+                    cmdType !== C.CLICK_SPACE && cmdType !== 'revert clicked' &&
+                    cmdType !== 'undo clicked' && cmdType !== 'redo clicked') {
+                    result.recoveryWouldFire.autoCommitMid++;
+                }
+
                 const clickResult = analyzer.recordClick(
                     false, false,
                     cmd._type,
@@ -189,6 +203,15 @@ function validateReplay(replay, code) {
                 if (clickResult.canClick) {
                     result.appliedClicks++;
                 } else {
+                    // Detect: would matchup_clean breach-space-skip here?
+                    if (cmdType === C.CLICK_SPACE && analyzer.gameState.glassBroken) {
+                        result.recoveryWouldFire.breachSpaceSkip++;
+                    }
+                    // Detect: would matchup_clean end-swipe-retry here?
+                    if (analyzer.controller && analyzer.controller.inSwipe && cmdType !== C.CLICK_END_SWIPE) {
+                        result.recoveryWouldFire.endSwipeRetry++;
+                    }
+
                     // Click failed — categorize as info click or real failure
                     const isInfoClick = isLikelyInfoClick(cmd, analyzer);
                     if (isInfoClick) {
@@ -313,6 +336,8 @@ async function batchValidate(codes, options) {
     const byCategory = { short: { pass: 0, fail: 0 }, mid: { pass: 0, fail: 0 },
                          long: { pass: 0, fail: 0 }, stagnation: { pass: 0, fail: 0 } };
     let passed = 0, failed = 0, errors = 0;
+    // Aggregate recovery detection across all replays
+    const recoveryTotals = { endSwipeRetry: 0, breachSpaceSkip: 0, autoCommitMid: 0 };
 
     // Process in batches for concurrency control
     for (let i = 0; i < codes.length; i += concurrency) {
@@ -341,6 +366,13 @@ async function batchValidate(codes, options) {
         for (const result of batchResults) {
             results.push(result);
             const cat = categorizeLength(result.totalTurns);
+
+            // Accumulate recovery detection stats
+            if (result.recoveryWouldFire) {
+                recoveryTotals.endSwipeRetry += result.recoveryWouldFire.endSwipeRetry;
+                recoveryTotals.breachSpaceSkip += result.recoveryWouldFire.breachSpaceSkip;
+                recoveryTotals.autoCommitMid += result.recoveryWouldFire.autoCommitMid;
+            }
 
             if (result.error) {
                 errors++;
@@ -374,14 +406,14 @@ async function batchValidate(codes, options) {
         }
     }
 
-    return { passed, failed, errors, results, byCategory };
+    return { passed, failed, errors, results, byCategory, recoveryTotals };
 }
 
 /**
  * Print a summary report of batch validation results.
  */
 function printReport(summary, totalCodes) {
-    const { passed, failed, errors, byCategory } = summary;
+    const { passed, failed, errors, byCategory, recoveryTotals } = summary;
     const tested = passed + failed;
     const passRate = tested > 0 ? (100 * passed / tested).toFixed(1) : '0.0';
 
@@ -398,6 +430,13 @@ function printReport(summary, totalCodes) {
             const catRate = (100 * counts.pass / catTotal).toFixed(1);
             console.log(`  ${cat.padEnd(12)} ${counts.pass}/${catTotal} (${catRate}%)`);
         }
+    }
+    if (recoveryTotals) {
+        console.log('');
+        console.log('Recovery detection (what matchup_clean would auto-fix):');
+        console.log(`  Auto-commit (mid-turn):  ${recoveryTotals.autoCommitMid}   [expected: protocol]`);
+        console.log(`  End-swipe retry:         ${recoveryTotals.endSwipeRetry}   [INVESTIGATE if > 0]`);
+        console.log(`  Breach space skip:       ${recoveryTotals.breachSpaceSkip}   [expected: cosmetic]`);
     }
     console.log('================================\n');
 }
@@ -458,6 +497,7 @@ async function main() {
             errors: summary.errors,
             passRate: summary.passed / (summary.passed + summary.failed) || 0,
             byCategory: summary.byCategory,
+            recoveryTotals: summary.recoveryTotals,
             failures: summary.results.filter(r => !r.pass)
         }, null, 2));
         console.log(`Detailed results written to ${outPath}`);

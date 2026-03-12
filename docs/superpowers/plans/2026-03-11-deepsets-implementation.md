@@ -361,7 +361,7 @@ Key differences from vectorize.py:
   - `globals`: float32, shape `(N, 14)`
   - Labels: same 4 strategies as v1
   - Metadata: same as v1 (replay_code, ply_index, etc.)
-- **MAX_INSTANCES**: start with 200 total across both players (padded with zeros). Spec estimates 80-100 per player; 200 provides headroom. Validate against actual replay data before large-scale training — bump to 256 if needed.
+- **MAX_INSTANCES**: 160 total across both players (padded with zeros). Analysis of 1.25M records (expert human + MB fleet) shows: mean ~48, P99 ~119, P99.9 ~152, absolute max 224. 160 covers 99.9% with minimal waste. The 0.1% exceeding this cap are extreme stalemate games — truncate by dropping lowest-value units (excess Drones/Engineers).
 - **Instance ordering**: P0 units first, then P1 units (within each player, order doesn't matter for DeepSets — but deterministic ordering helps debugging)
 - **Property vectors are NOT stored in HDF5** — they're static per unit type and loaded from `property_table.json` at training time
 
