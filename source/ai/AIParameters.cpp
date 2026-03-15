@@ -1130,3 +1130,24 @@ bool AIParameters::playersHaveSameConfig(const std::string & name1, const std::s
     if (!v1 || !v2) return false;
     return *v1 == *v2;
 }
+
+std::string AIParameters::getPlayerWeightsFile(const std::string & playerName)
+{
+    for (size_t i = 0; i < _playerKeyNames.size(); ++i)
+    {
+        if (_rootValue.HasMember(_playerKeyNames[i].c_str()))
+        {
+            const auto & section = _rootValue[_playerKeyNames[i].c_str()];
+            if (section.HasMember(playerName.c_str()))
+            {
+                const auto & player = section[playerName.c_str()];
+                if (player.HasMember("WeightsFile") && player["WeightsFile"].IsString())
+                {
+                    return player["WeightsFile"].GetString();
+                }
+                return "";
+            }
+        }
+    }
+    return "";
+}

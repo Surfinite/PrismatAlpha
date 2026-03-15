@@ -318,6 +318,12 @@
     "LiveHardestAI_2s" :       { "type":"Player_StackAlphaBeta", "TimeLimit":2000, "MaxChildren":40, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
     "PrismatAI_UCT_LiveOB_2s": { "type":"Player_UCT", "TimeLimit":2000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"NeuralNet" },
 
+    "DSNN_MBonly" :            { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"NeuralNet", "WeightsFile":"neural_weights_mbonly.bin" },
+    "DSNN_MBonly_SWA" :        { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"NeuralNet", "WeightsFile":"neural_weights_mbonly_swa.bin" },
+    "DSNN_Human" :             { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"NeuralNet", "WeightsFile":"neural_weights_human.bin" },
+    "DSNN_Mixed" :             { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"NeuralNet", "WeightsFile":"neural_weights_mixed.bin" },
+    "DSNN_Mixed_SWA" :         { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"NeuralNet", "WeightsFile":"neural_weights_mixed_swa.bin" },
+
     "HardestAI_Copy" :        { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "HardestAI_1s" :           { "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "HardestAI_Copy_1s" :      { "type":"Player_StackAlphaBeta", "TimeLimit":1000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},

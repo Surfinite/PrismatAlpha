@@ -521,8 +521,10 @@ def process_file(input_path, unit_index, output_path, schema, chunk_size=5000):
                     # Vectorize globals
                     gvec = vectorize_globals(rec, caps)
 
-                    # Labels
+                    # Labels — draws (outcome_p0=2) mapped to 0.5
                     outcome_p0 = rec.get("outcome_p0", 0)
+                    if outcome_p0 == 2:
+                        outcome_p0 = 0.5
                     ply = rec.get("ply_index", 0)
                     total_p = rec.get("total_plies", 0)
                     r0 = rec.get("rating_p0", 1500)

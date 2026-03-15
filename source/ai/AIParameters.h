@@ -84,6 +84,7 @@ public:
     const std::vector<std::string> & getPartialPlayerNames() const;
 
     bool playersHaveSameConfig(const std::string & name1, const std::string & name2);
+    std::string getPlayerWeightsFile(const std::string & playerName);
 
 };
 }

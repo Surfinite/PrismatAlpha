@@ -62,20 +62,25 @@ process.on('exit', () => { try { fs.unlinkSync(SUGGEST_TMP); } catch (_) {} });
  * Duplicates the logic from matchup_clean.callSuggest but with a
  * different temp file path to avoid conflicts between parallel workers.
  */
-function callSuggestSlot(stateJson, playerName, thinkTimeMs) {
+function callSuggestSlot(stateJson, playerName, thinkTimeMs, weightsFile) {
     const { execFileSync } = require('child_process');
 
     fs.writeFileSync(SUGGEST_TMP, JSON.stringify(stateJson));
 
     const timeout = thinkTimeMs * CONFIG.timeoutMultiplier;
 
+    const exeArgs = [
+        '--suggest', SUGGEST_TMP,
+        '--player', playerName,
+        '--think-time', String(thinkTimeMs)
+    ];
+    if (weightsFile) {
+        exeArgs.push('--weights', weightsFile);
+    }
+
     let stdout;
     try {
-        stdout = execFileSync(EXE_PATH, [
-            '--suggest', SUGGEST_TMP,
-            '--player', playerName,
-            '--think-time', String(thinkTimeMs)
-        ], {
+        stdout = execFileSync(EXE_PATH, exeArgs, {
             timeout: timeout,
             encoding: 'utf-8',
             maxBuffer: 10 * 1024 * 1024,
@@ -130,7 +135,7 @@ function callSuggestSlot(stateJson, playerName, thinkTimeMs) {
  * Play a single turn using C++ --suggest with slot-specific temp file.
  * Mirrors matchup_clean.playSingleTurn but uses callSuggestSlot.
  */
-function playSingleTurnSlot(analyzer, mergedDeck, playerName, thinkTimeMs) {
+function playSingleTurnSlot(analyzer, mergedDeck, playerName, thinkTimeMs, weightsFile) {
     const preTurn = analyzer.gameState.turn;
     const preNumTurns = analyzer.gameState.numTurns;
     const prePhase = analyzer.gameState.phase;
@@ -142,7 +147,7 @@ function playSingleTurnSlot(analyzer, mergedDeck, playerName, thinkTimeMs) {
     console.error('[Turn] State exported for --suggest');
 
     console.error(`[Turn] Calling --suggest with player=${playerName}, thinkTime=${thinkTimeMs}ms...`);
-    const suggestResult = callSuggestSlot(stateJson, playerName, thinkTimeMs);
+    const suggestResult = callSuggestSlot(stateJson, playerName, thinkTimeMs, weightsFile);
 
     if (!suggestResult.ok) {
         console.error(`[Turn] --suggest FAILED: ${suggestResult.error}`);
@@ -198,6 +203,7 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
     const playerWhite = config.playerWhite;
     const playerBlack = config.playerBlack;
     const thinkTimeMs = config.thinkTimeMs;
+    const weightsFile = config.weightsFile || null;
     const maxTurns = CONFIG.maxTurns || 200;
     const retryOnError = CONFIG.retryOnError || 1;
     const stuckThreshold = CONFIG.stuckDetectionTurns || 5;
@@ -318,7 +324,7 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
             );
         } else {
             // Use slot-specific suggest for C++ players
-            turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, thinkTimeMs);
+            turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, thinkTimeMs, weightsFile);
         }
 
         if (!turnResult.ok) {
@@ -344,7 +350,7 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
                     analyzer, activeDeck, worker, mcdsaiDifficulty
                 );
             } else {
-                turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, thinkTimeMs);
+                turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, thinkTimeMs, weightsFile);
             }
 
             if (!turnResult.ok) {
@@ -512,6 +518,7 @@ async function runWorkerSlot() {
         playerWhite,
         playerBlack,
         thinkTimeMs,
+        weightsFile = null,
         mcdsaiDifficulty,
         saveReplaysDir,
         verbose,
@@ -641,6 +648,7 @@ async function runWorkerSlot() {
                     playerWhite: pWhite,
                     playerBlack: pBlack,
                     thinkTimeMs,
+                    weightsFile,
                     mcdsaiDifficulty,
                     mcdsaiFullParams: fullParams,
                     mcdsaiShortParams: shortParams,
@@ -779,7 +787,9 @@ async function runWorkerSlot() {
         gamesCompleted++;
         const elapsed = (gameLog.durationMs / 1000).toFixed(1);
         const label = playerSwitch ? '[Pair]' : '[Multi]';
-        console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner} in ${gameLog.turns} turns (${elapsed}s)`);
+        const winnerAI = gameLog.result === C.COLOR_WHITE ? pWhite : gameLog.result === C.COLOR_BLACK ? pBlack : '';
+        const aiTag = winnerAI ? ` [${winnerAI}]` : '';
+        console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner}${aiTag} in ${gameLog.turns} turns (${elapsed}s)`);
     }
 
     if (playerSwitch) {

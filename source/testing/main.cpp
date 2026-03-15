@@ -19,12 +19,23 @@ using namespace Prismata;
 
 int main(int argc, char* argv[])
 {
-    // Early detection of quiet modes: stdout must be clean (JSON output only)
+    // Early detection of all CLI args: parsed before init so we know modes and overrides
     bool isSuggestMode = false;
+    std::string weightsOverride;
+    std::string suggestFile;
+    std::string suggestPlayer = "PrismatAI_AB";
+    int suggestThinkTime = 3000;
     for (int i = 1; i < argc; ++i)
     {
         std::string arg(argv[i]);
-        if (arg == "--suggest") { isSuggestMode = true; break; }
+        if (arg == "--suggest" && i + 1 < argc) { isSuggestMode = true; suggestFile = argv[i + 1]; }
+        if (arg == "--weights" && i + 1 < argc) { weightsOverride = argv[i + 1]; }
+        if (arg == "--player" && i + 1 < argc) { suggestPlayer = argv[i + 1]; }
+        if (arg == "--think-time" && i + 1 < argc)
+        {
+            try { suggestThinkTime = std::stoi(argv[i + 1]); }
+            catch (...) { /* use default */ }
+        }
     }
 
     bool isQuietMode = isSuggestMode;
@@ -49,15 +60,34 @@ int main(int argc, char* argv[])
     if (!isQuietMode) printf("Initializing card library\n");
     Prismata::InitFromCardLibrary(configDir + "cardLibrary.jso");
 
-    // Load neural net weights (trained on 101K human expert replays, schema_v1)
-    if (!isQuietMode) printf("Loading neural network weights\n");
-    if (NeuralNet::Instance().loadWeights(configDir + "neural_weights.bin"))
+    // Load neural net weights -- use --weights override if provided, else default
+    std::string weightsPath = weightsOverride.empty()
+        ? (configDir + "neural_weights.bin")
+        : weightsOverride;
+    if (!isQuietMode) printf("Loading neural network weights: %s\n", weightsPath.c_str());
+    if (NeuralNet::Instance().loadWeights(weightsPath))
     {
         NeuralNet::Instance().buildCardTypeMapping();
     }
 
     if (!isQuietMode) printf("Parsing AI Parameters\n");
     Prismata::AIParameters::Instance().parseFile(configDir + "config.txt");
+
+    // If in suggest mode, check if the player's config specifies a WeightsFile
+    // and reload weights if needed (unless --weights was explicitly provided)
+    if (isSuggestMode && weightsOverride.empty())
+    {
+        std::string playerWeights = AIParameters::Instance().getPlayerWeightsFile(suggestPlayer);
+        if (!playerWeights.empty())
+        {
+            std::string playerWeightsPath = configDir + playerWeights;
+            fprintf(stderr, "Loading player-specific weights: %s\n", playerWeightsPath.c_str());
+            if (NeuralNet::Instance().loadWeights(playerWeightsPath))
+            {
+                NeuralNet::Instance().buildCardTypeMapping();
+            }
+        }
+    }
 
     // Restore stdout for JSON output (or normal operation)
     if (isQuietMode && savedStdout >= 0)
@@ -85,23 +115,6 @@ int main(int argc, char* argv[])
         }
         printf("--- End Neural Net Test ---\n\n");
         fflush(stdout);
-    }
-
-    // Check for command line args
-    std::string suggestFile;
-    std::string suggestPlayer = "PrismatAI_AB";
-    int suggestThinkTime = 3000;
-    for (int i = 1; i < argc; ++i)
-    {
-        if (std::string(argv[i]) == "--suggest" && i + 1 < argc)
-            suggestFile = argv[++i];
-        if (std::string(argv[i]) == "--player" && i + 1 < argc)
-            suggestPlayer = argv[++i];
-        if (std::string(argv[i]) == "--think-time" && i + 1 < argc)
-        {
-            try { suggestThinkTime = std::stoi(argv[++i]); }
-            catch (...) { /* use default */ }
-        }
     }
 
     if (!suggestFile.empty())

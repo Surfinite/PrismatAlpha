@@ -51,7 +51,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim.swa_utils import AveragedModel, SWALR
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, IterableDataset
 
 # DeepSets model — imported lazily in main() to keep V1 path unchanged
 # from model_deepsets import PrismataDeepSets
@@ -82,6 +82,11 @@ def get_device(force=None):
             print(f"Device: Intel XPU ({torch.xpu.get_device_name(0)})")
         elif force == "cuda":
             print(f"Device: CUDA ({torch.cuda.get_device_name(0)})")
+            # Disable TF32 — L4 GPUs with PyTorch 2.7+ default to TF32
+            # which caused loss explosion (NaN/divergence) in DeepSets training
+            torch.backends.cuda.matmul.allow_tf32 = False
+            torch.backends.cudnn.allow_tf32 = False
+            print("  TF32 disabled (using full FP32 precision)")
         else:
             print(f"Device: {force}")
         return dev
@@ -94,6 +99,11 @@ def get_device(force=None):
     if torch.cuda.is_available():
         dev = torch.device("cuda")
         print(f"Device: CUDA ({torch.cuda.get_device_name(0)})")
+        # Disable TF32 — L4 GPUs with PyTorch 2.7+ default to TF32
+        # which caused loss explosion (NaN/divergence) in DeepSets training
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
+        print("  TF32 disabled (using full FP32 precision)")
         return dev
 
     print("Device: CPU")
@@ -362,14 +372,19 @@ class H5DatasetV2(Dataset):
 
     def _label_key(self):
         """Return the HDF5 dataset name for the chosen label strategy."""
-        if self.label_strategy in ('A', 'B'):
+        return H5DatasetV2._label_key_static(self.label_strategy)
+
+    @staticmethod
+    def _label_key_static(strategy):
+        """Return the HDF5 dataset name for a label strategy."""
+        if strategy in ('A', 'B'):
             return 'label_A'   # B uses A's labels with B's weights (weights not yet in V2)
-        elif self.label_strategy == 'C':
+        elif strategy == 'C':
             return 'label_C'
-        elif self.label_strategy == 'D':
+        elif strategy == 'D':
             return 'label_D'
         else:
-            raise ValueError(f"Unknown label strategy: {self.label_strategy}")
+            raise ValueError(f"Unknown label strategy: {strategy}")
 
     def __len__(self):
         return self.n_examples
@@ -383,6 +398,129 @@ class H5DatasetV2(Dataset):
             'globals':           self.globals[idx],
             'label':             self.labels[idx],
         }
+
+
+# ---------------------------------------------------------------------------
+# HDF5 Dataset V2 Streaming (chunk-buffered for large datasets)
+# ---------------------------------------------------------------------------
+
+class H5DatasetV2Streaming(IterableDataset):
+    """Streaming DeepSets dataset that reads HDF5 in chunk-aligned batches.
+
+    Instead of loading everything into RAM, reads one HDF5 chunk at a time
+    (~5000 records), shuffles within it, and yields individual records.
+    Inter-chunk order is also shuffled per epoch.
+
+    Supports multiple H5 source files concatenated logically.
+    Call set_epoch(n) before each epoch for deterministic shuffling.
+    """
+
+    def __init__(self, h5_paths, label_strategy='A', max_records=None,
+                 chunk_size=5000):
+        super().__init__()
+        if isinstance(h5_paths, str):
+            h5_paths = [h5_paths]
+        self.h5_paths = h5_paths
+        self.label_key = H5DatasetV2._label_key_static(label_strategy)
+        self.chunk_size = chunk_size
+        self._epoch = 0
+
+        # Build chunk list across all files
+        self.chunks = []  # [(path_idx, start, end)]
+        self.n_total = 0
+        for i, path in enumerate(h5_paths):
+            with h5py.File(path, 'r') as f:
+                n = f['instance_features'].shape[0]
+            for start in range(0, n, chunk_size):
+                end = min(start + chunk_size, n)
+                self.chunks.append((i, start, end))
+            self.n_total += n
+
+        if max_records and max_records < self.n_total:
+            self.n_examples = max_records
+        else:
+            self.n_examples = self.n_total
+
+        mem_est = self.chunk_size * (200 * 10 * 4 + 200 * 8 + 8 + 116 * 3 * 4 + 14 * 4 + 4) / 1e6
+        print(f"    Streaming V2: {len(h5_paths)} file(s), "
+              f"{len(self.chunks)} chunks of {chunk_size}, "
+              f"{self.n_examples:,} / {self.n_total:,} records "
+              f"(~{mem_est:.0f} MB per chunk)")
+
+    def set_epoch(self, epoch):
+        """Set epoch for deterministic chunk shuffling."""
+        self._epoch = epoch
+
+    def __len__(self):
+        return self.n_examples
+
+    def __iter__(self):
+        worker_info = torch.utils.data.get_worker_info()
+
+        # Deterministic per-epoch shuffle of chunk order
+        rng = np.random.RandomState(self._epoch * 7919 + 42)
+        chunk_order = rng.permutation(len(self.chunks))
+
+        # Partition chunks across DataLoader workers
+        if worker_info is not None:
+            n_workers = worker_info.num_workers
+            wid = worker_info.id
+            chunk_order = chunk_order[wid::n_workers]
+
+        # Open file handles (one per source file, per worker)
+        handles = {}
+        yielded = 0
+        try:
+            for ci in chunk_order:
+                if yielded >= self.n_examples:
+                    break
+
+                path_idx, start, end = self.chunks[ci]
+
+                # Lazy open
+                if path_idx not in handles:
+                    handles[path_idx] = h5py.File(self.h5_paths[path_idx], 'r')
+                f = handles[path_idx]
+
+                n = end - start
+
+                # Read entire chunk into memory (one decompression per chunk)
+                try:
+                    inst_feat = f['instance_features'][start:end]
+                    inst_ids  = f['instance_unit_ids'][start:end]
+                    inst_cnt  = f['instance_counts'][start:end]
+                    supply    = f['supply'][start:end]
+                    globals_  = f['globals'][start:end]
+                    labels    = f[self.label_key][start:end]
+                except OSError:
+                    # Skip corrupt gzip chunks (h5py version/transfer issues)
+                    self._skipped_chunks = getattr(self, '_skipped_chunks', 0) + 1
+                    self._skipped_records = getattr(self, '_skipped_records', 0) + n
+                    if self._skipped_chunks <= 5 or self._skipped_chunks % 100 == 0:
+                        print(f"    [streaming] Skipped corrupt chunk {ci} "
+                              f"(file={path_idx}, rows={start}:{end}), "
+                              f"total skipped: {self._skipped_chunks} chunks "
+                              f"({self._skipped_records:,} records)")
+                    continue
+
+                # Shuffle within chunk
+                order = rng.permutation(n)
+
+                for i in order:
+                    if yielded >= self.n_examples:
+                        break
+                    yield {
+                        'instance_features': torch.from_numpy(inst_feat[i].astype(np.float32)),
+                        'instance_unit_ids': torch.from_numpy(inst_ids[i].astype(np.int64)),
+                        'instance_counts':   torch.tensor(int(inst_cnt[i]), dtype=torch.int64),
+                        'supply':            torch.from_numpy(supply[i].astype(np.float32)),
+                        'globals':           torch.from_numpy(globals_[i].astype(np.float32)),
+                        'label':             torch.tensor(float(labels[i]), dtype=torch.float32),
+                    }
+                    yielded += 1
+        finally:
+            for h in handles.values():
+                h.close()
 
 
 # ---------------------------------------------------------------------------
@@ -760,6 +898,12 @@ def main():
                         help="DataLoader workers (default 2)")
     parser.add_argument("--max-records", type=int, default=None,
                         help="Cap training set to N records (random sample). Saves RAM.")
+    parser.add_argument("--streaming", action="store_true",
+                        help="Stream V2 data from disk instead of loading into RAM. "
+                             "Required for large DeepSets datasets (>2M records on 32GB).")
+    parser.add_argument("--extra-train-files", nargs="*", default=[],
+                        help="Additional H5 training files (same schema). "
+                             "Combined with --train-file for streaming mode.")
     parser.add_argument("--seed", type=int, default=None,
                         help="Random seed (random if not set)")
 
@@ -833,16 +977,25 @@ def main():
         # V2 HDF5 format — skip V1 sanity check, load V2 datasets directly
         schema_version = "v2_deepsets"
 
-        train_ds = H5DatasetV2(args.train_file, label_strategy=args.label_strategy,
-                               max_records=args.max_records)
-        val_ds = H5DatasetV2(args.val_file, label_strategy=args.label_strategy)
+        if args.streaming:
+            # Streaming mode: read from disk in chunks, minimal RAM usage
+            train_paths = [args.train_file] + (args.extra_train_files or [])
+            train_ds = H5DatasetV2Streaming(
+                train_paths, label_strategy=args.label_strategy,
+                max_records=args.max_records)
+            val_ds = H5DatasetV2Streaming(
+                args.val_file, label_strategy=args.label_strategy)
+        else:
+            train_ds = H5DatasetV2(args.train_file, label_strategy=args.label_strategy,
+                                   max_records=args.max_records)
+            val_ds = H5DatasetV2(args.val_file, label_strategy=args.label_strategy)
 
         train_n = len(train_ds)
         val_n = len(val_ds)
         state_dim = None  # not used for DeepSets
         num_units = 116   # canonical fixed value
 
-        print(f"\n  Train: {train_n:,} examples  (V2 DeepSets format)")
+        print(f"\n  Train: {train_n:,} examples  (V2 DeepSets {'streaming' if args.streaming else 'in-memory'})")
         print(f"  Val:   {val_n:,} examples")
         print(f"  Num units: {num_units}")
         print(f"  Label strategy: {args.label_strategy}")
@@ -896,14 +1049,27 @@ def main():
     # pin_memory=True for CUDA/CPU, False for XPU (avoids pin_memory bugs)
     pin_mem = device.type != "xpu"
 
-    train_loader = DataLoader(
-        train_ds, batch_size=args.batch_size, shuffle=True,
-        drop_last=True, num_workers=use_workers, generator=shuffle_gen,
-        pin_memory=pin_mem, persistent_workers=use_workers > 0)
-    val_loader = DataLoader(
-        val_ds, batch_size=args.batch_size, shuffle=False,
-        num_workers=use_workers, pin_memory=pin_mem,
-        persistent_workers=use_workers > 0)
+    is_streaming = isinstance(train_ds, IterableDataset)
+
+    if is_streaming:
+        # IterableDataset handles its own shuffling via set_epoch()
+        train_loader = DataLoader(
+            train_ds, batch_size=args.batch_size, shuffle=False,
+            drop_last=True, num_workers=use_workers,
+            pin_memory=pin_mem, persistent_workers=False)
+        val_loader = DataLoader(
+            val_ds, batch_size=args.batch_size, shuffle=False,
+            num_workers=use_workers, pin_memory=pin_mem,
+            persistent_workers=False)
+    else:
+        train_loader = DataLoader(
+            train_ds, batch_size=args.batch_size, shuffle=True,
+            drop_last=True, num_workers=use_workers, generator=shuffle_gen,
+            pin_memory=pin_mem, persistent_workers=use_workers > 0)
+        val_loader = DataLoader(
+            val_ds, batch_size=args.batch_size, shuffle=False,
+            num_workers=use_workers, pin_memory=pin_mem,
+            persistent_workers=use_workers > 0)
 
     # --- Model ---
     if use_deepsets:
@@ -1035,6 +1201,10 @@ def main():
     wall_start = time.time()
 
     for epoch in range(1, args.epochs + 1):
+        # Update streaming dataset epoch for chunk shuffling
+        if is_streaming:
+            train_ds.set_epoch(epoch)
+
         if device.type == "xpu":
             torch.xpu.synchronize()
         t0 = time.time()
