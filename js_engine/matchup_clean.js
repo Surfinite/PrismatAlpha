@@ -119,6 +119,9 @@ function describeClick(click, state, preClickPhase) {
 const CONFIG_PATH = path.join(__dirname, 'matchup_config.json');
 const CONFIG = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
 
+// Debug flag: set via --debug CLI arg. Enables verbose per-click logging.
+let DEBUG_CLICKS = false;
+
 // C++ exe path (Release build)
 const EXE_PATH = path.join(__dirname, '..', 'bin', CONFIG.exePath);
 
@@ -225,19 +228,24 @@ function exportStateForSuggest(analyzer, mergedDeck) {
  * @param {number} thinkTimeMs - Think time in milliseconds
  * @returns {{ ok: boolean, response: Object|null, error: string|null }}
  */
-function callSuggest(stateJson, playerName, thinkTimeMs) {
+function callSuggest(stateJson, playerName, thinkTimeMs, weightsFile) {
     // Write state to temp file
     fs.writeFileSync(SUGGEST_TMP, JSON.stringify(stateJson));
 
     const timeout = thinkTimeMs * CONFIG.timeoutMultiplier;
 
+    const exeArgs = [
+        '--suggest', SUGGEST_TMP,
+        '--player', playerName,
+        '--think-time', String(thinkTimeMs)
+    ];
+    if (weightsFile) {
+        exeArgs.push('--weights', weightsFile);
+    }
+
     let stdout;
     try {
-        stdout = execFileSync(EXE_PATH, [
-            '--suggest', SUGGEST_TMP,
-            '--player', playerName,
-            '--think-time', String(thinkTimeMs)
-        ], {
+        stdout = execFileSync(EXE_PATH, exeArgs, {
             timeout: timeout,
             encoding: 'utf-8',
             maxBuffer: 10 * 1024 * 1024,  // 10 MB
@@ -508,7 +516,16 @@ function applyClicks(analyzer, clicks, actionStates) {
         }
 
         const prePhase = analyzer.gameState.phase;
+        if (DEBUG_CLICKS) {
+            const m = analyzer.gameState.turnMana;
+            const gold = m ? m.money : '?';
+            console.error(`  [DBG ${i}] PRE: phase=${prePhase} gold=${gold} | trying: ${clickType} id=${clickId}`);
+        }
         let result = analyzer.recordClick(false, false, clickType, clickId);
+        if (DEBUG_CLICKS) {
+            const m2 = analyzer.gameState.turnMana;
+            console.error(`  [DBG ${i}] POST: phase=${analyzer.gameState.phase} gold=${m2 ? m2.money : '?'} | result=${result.canClick}`);
+        }
 
         // Skip space clicks during breach: SteamAI emits end-swipe space clicks
         // between breach target selections, but JS Controller doesn't accept them
@@ -579,11 +596,12 @@ function applyClicks(analyzer, clicks, actionStates) {
                 // Buy failure: show resources + card cost for divergence diagnosis
                 try {
                     const m = gs.turnMana;
-                    if (m) diag += ` | resources: ${m.gold}g ${m.green}G ${m.blue}B ${m.red}R ${m.energy}E`;
+                    if (m) diag += ` | resources: ${m.money}g ${m.pool[C.MANA_G]}G ${m.pool[C.MANA_B]}B ${m.pool[C.MANA_R]}R ${m.pool[C.MANA_H]}E`;
                     const deck = gs.mergedDeck || (analyzer && analyzer.gameInitInfo && analyzer.gameInitInfo.mergedDeck);
                     const card = deck && deck[clickId];
                     if (card) {
-                        diag += ` | buy: ${card.cardName} cost=${card.buyCost} supply=${card.supply}`;
+                        const supplyLeft = gs.turnSupply()[clickId] - (gs.turnBought()[clickId] || 0);
+                        diag += ` | buy: ${card.name || card.UIName || card.cardName} cost=${card.buyCost} supply=${supplyLeft}`;
                     } else {
                         diag += ` | card NOT FOUND at deck[${clickId}]`;
                     }
@@ -636,7 +654,7 @@ function applyClicks(analyzer, clicks, actionStates) {
  * @param {number} thinkTimeMs - Think time
  * @returns {{ ok: boolean, suggest: Object|null, clickResult: Object|null, error: string|null }}
  */
-function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
+function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs, weightsFile) {
     // Record pre-turn state
     const preTurn = analyzer.gameState.turn;
     const preNumTurns = analyzer.gameState.numTurns;
@@ -651,7 +669,7 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
 
     // Call C++ --suggest
     console.error(`[Turn] Calling --suggest with player=${playerName}, thinkTime=${thinkTimeMs}ms...`);
-    const suggestResult = callSuggest(stateJson, playerName, thinkTimeMs);
+    const suggestResult = callSuggest(stateJson, playerName, thinkTimeMs, weightsFile);
 
     if (!suggestResult.ok) {
         console.error(`[Turn] --suggest FAILED: ${suggestResult.error}`);
@@ -663,6 +681,7 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs) {
     console.error(`[Turn] Buys: [${(resp.buy || []).join(', ')}]`);
     console.error(`[Turn] Abilities: [${(resp.abilities || []).join(', ')}]`);
     console.error(`[Turn] Clicks: ${(resp.clicks || []).length} total`);
+    if (DEBUG_CLICKS) console.error(`[Turn] Raw clicks: ${JSON.stringify(resp.clicks)}`);
     // Apply clicks to JS engine
     const clicks = resp.clicks || [];
     if (clicks.length === 0) {
@@ -980,11 +999,12 @@ async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
                 if (click._type === C.CLICK_CARD || click._type === C.CLICK_CARD_SHIFT) {
                     try {
                         const m = gs.turnMana;
-                        if (m) diag += ` | resources: ${m.gold}g ${m.green}G ${m.blue}B ${m.red}R ${m.energy}E`;
+                        if (m) diag += ` | resources: ${m.money}g ${m.pool[C.MANA_G]}G ${m.pool[C.MANA_B]}B ${m.pool[C.MANA_R]}R ${m.pool[C.MANA_H]}E`;
                         const deck2 = gs.mergedDeck || (analyzer && analyzer.gameInitInfo && analyzer.gameInitInfo.mergedDeck);
                         const card = deck2 && deck2[click._id];
                         if (card) {
-                            diag += ` | buy: ${card.cardName} cost=${card.buyCost} supply=${card.supply}`;
+                            const supplyLeft = gs.turnSupply()[click._id] - (gs.turnBought()[click._id] || 0);
+                            diag += ` | buy: ${card.name || card.UIName || card.cardName} cost=${card.buyCost} supply=${supplyLeft}`;
                         } else {
                             diag += ` | card NOT FOUND at deck[${click._id}]`;
                         }
@@ -1450,6 +1470,7 @@ async function playSingleGame(activeDeck, config) {
     const playerWhite = config.playerWhite;
     const playerBlack = config.playerBlack;
     const thinkTimeMs = config.thinkTimeMs;
+    const weightsFile = config.weightsFile || null;
     const maxTurns = CONFIG.maxTurns || 200;
     const retryOnError = CONFIG.retryOnError || 1;
     const stuckThreshold = CONFIG.stuckDetectionTurns || 5;
@@ -1578,7 +1599,7 @@ async function playSingleGame(activeDeck, config) {
                 mcdsaiConfig.difficulty || 'HardestAI'
             );
         } else {
-            turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs);
+            turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs, weightsFile);
         }
 
         if (!turnResult.ok) {
@@ -1608,7 +1629,7 @@ async function playSingleGame(activeDeck, config) {
                     mcdsaiConfig.difficulty || 'HardestAI'
                 );
             } else {
-                turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs);
+                turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs, weightsFile);
             }
 
             if (!turnResult.ok) {
@@ -1912,7 +1933,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         return gameLog;
     }
 
-    function tallyGame(gameLog) {
+    function tallyGame(gameLog, pWhite, pBlack) {
         if (gameLog.winner === 'invalid' || gameLog.result === null) {
             invalid++;
         } else if (gameLog.result === C.COLOR_WHITE) {
@@ -1930,7 +1951,9 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         }
         const elapsed = (gameLog.durationMs / 1000).toFixed(1);
         const label = playerSwitch ? '[Pair]' : '[Multi]';
-        console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner} in ${gameLog.turns} turns (${elapsed}s)`);
+        const winnerAI = gameLog.result === C.COLOR_WHITE ? pWhite : gameLog.result === C.COLOR_BLACK ? pBlack : '';
+        const aiTag = winnerAI ? ` [${winnerAI}]` : '';
+        console.error(`${label} Game ${gameLog.game} result: ${gameLog.winner}${aiTag} in ${gameLog.turns} turns (${elapsed}s)`);
     }
 
     function saveAndStripReplay(gameLog, pWhite, pBlack) {
@@ -2033,7 +2056,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             saveAndStripReplay(logA, config.playerWhite, config.playerBlack);
             saveTrainingData(logA, config.playerWhite, config.playerBlack);
             games.push(logA);
-            tallyGame(logA);
+            tallyGame(logA, config.playerWhite, config.playerBlack);
 
             // Game B: swapped assignment (same card set)
             const logB = await playOneGame(gameNumB, numGames, unitNames, swappedConfig);
@@ -2042,7 +2065,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             saveAndStripReplay(logB, swappedConfig.playerWhite, swappedConfig.playerBlack);
             saveTrainingData(logB, swappedConfig.playerWhite, swappedConfig.playerBlack);
             games.push(logB);
-            tallyGame(logB);
+            tallyGame(logB, swappedConfig.playerWhite, swappedConfig.playerBlack);
 
             // Compute pair outcome from Player A's perspective
             // Game A: white win = Player A win. Game B: black win = Player A win.
@@ -2114,7 +2137,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         saveAndStripReplay(gameLog, config.playerWhite, config.playerBlack);
         saveTrainingData(gameLog, config.playerWhite, config.playerBlack);
         games.push(gameLog);
-        tallyGame(gameLog);
+        tallyGame(gameLog, config.playerWhite, config.playerBlack);
     }
 
     // Final tally
@@ -2169,7 +2192,7 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
 async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose, options = {}) {
-    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', exportTrainingDir = null, schemaV2 = false } = options;
+    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', exportTrainingDir = null, schemaV2 = false, weightsFile = null } = options;
 
     // Distribute game numbers across worker slots
     const slotsGames = Array.from({ length: numWorkers }, () => []);
@@ -2222,6 +2245,7 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     playerWhite: config.playerWhite,
                     playerBlack: config.playerBlack,
                     thinkTimeMs: config.thinkTimeMs,
+                    weightsFile: weightsFile,
                     mcdsaiDifficulty: mcdsaiDifficulty,
                     steamDifficulty: steamDifficulty,
                     saveReplaysDir: saveReplaysDir,
@@ -2258,7 +2282,13 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
 
                     gamesReported++;
                     const elapsed = (log.durationMs / 1000).toFixed(1);
-                    console.error(`[Parallel] Game ${msg.gameNum} (W${slotIdx}): ${log.winner} in ${log.turns} turns (${elapsed}s) [${gamesReported}/${numGames}]`);
+                    // Determine winner AI name: odd games = original assignment, even = swapped
+                    const swapped = playerSwitch && (msg.gameNum % 2 === 0);
+                    const pW = swapped ? config.playerBlack : config.playerWhite;
+                    const pB = swapped ? config.playerWhite : config.playerBlack;
+                    const winnerAI = log.result === C.COLOR_WHITE ? pW : log.result === C.COLOR_BLACK ? pB : '';
+                    const aiTag = winnerAI ? ` [${winnerAI}]` : '';
+                    console.error(`[Parallel] Game ${msg.gameNum} (W${slotIdx}): ${log.winner}${aiTag} in ${log.turns} turns (${elapsed}s) [${gamesReported}/${numGames}]`);
 
                     // Progress summary every 10 games
                     if (numGames > 10 && gamesReported % 10 === 0) {
@@ -2411,6 +2441,8 @@ async function main() {
     let resignThreshold = WILL_SCORE_THRESHOLD;  // --resign <ratio>: WillScore resign threshold for C++ players (0 = disabled)
     let exportTrainingDir = null;        // --export-training <dir>: JSONL training data output
     let schemaV2 = false;                // --schema-v2: use V2 per-instance training data format
+    let weightsFile = null;              // --weights <path>: neural network weights file for C++ --suggest
+    let debugClicks = false;             // --debug: verbose per-click logging
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--random') useRandom = true;
@@ -2473,6 +2505,8 @@ async function main() {
             }
         }
         if (args[i] === '--schema-v2') schemaV2 = true;
+        if (args[i] === '--weights' && args[i + 1]) { weightsFile = args[++i]; }
+        if (args[i] === '--debug') { debugClicks = true; DEBUG_CLICKS = true; }
     }
 
     // Validate parallel workers count
@@ -2766,7 +2800,7 @@ async function main() {
                     mcdsaiDifficulty
                 );
             } else {
-                turnResult = playSingleTurn(analyzer, activeDeck, playerWhite, thinkTimeMs);
+                turnResult = playSingleTurn(analyzer, activeDeck, playerWhite, thinkTimeMs, weightsFile);
             }
 
             printStateSummary(analyzer, 'AFTER TURN');
@@ -2843,13 +2877,13 @@ async function main() {
                     mcdsaiDifficulty,
                     saveReplaysDir,
                     false,  // verbose
-                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, exportTrainingDir, schemaV2 }
+                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, exportTrainingDir, schemaV2, weightsFile }
                 );
             } else {
                 // Phase 7c/7d: Sequential execution
                 console.error(`\n--- Starting ${numGames} Games${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGames(
-                    { playerWhite, playerBlack, thinkTimeMs, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold, exportTraining: !!exportTrainingDir, schemaV2 },
+                    { playerWhite, playerBlack, thinkTimeMs, weightsFile, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold, exportTraining: !!exportTrainingDir, schemaV2 },
                     numGames,
                     library,
                     { playerSwitch, fixedCards, saveReplaysDir, exportTrainingDir }
@@ -2909,6 +2943,7 @@ async function main() {
             playerWhite: playerWhite,
             playerBlack: playerBlack,
             thinkTimeMs: thinkTimeMs,
+            weightsFile: weightsFile,
             mcdsai: mcdsaiConfig,
             steam: steamConfig,
             resignThreshold: resignThreshold
