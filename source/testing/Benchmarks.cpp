@@ -409,54 +409,15 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
             {
                 if (action.getShift())
                 {
-                    // Check if any cards of the same type were later undone
-                    const CardType & shiftType = preState.getCardByID(action.getID()).getType();
-                    bool hasUndos = false;
-                    for (const auto & undoID : undoneCardIDs)
-                    {
-                        if (preState.getCardByID(undoID).getType() == shiftType)
-                        {
-                            hasUndos = true;
-                            break;
-                        }
-                    }
-
-                    if (!hasUndos)
-                    {
-                        // No undos: emit shift click as before (JS handles batch)
-                        int instId = preState.getCardByID(action.getID()).getClientInstId();
-                        appendClick(clicksOut, hasPrevClick, "inst shift clicked", instId);
-                    }
-                    else
-                    {
-                        // Some cards undone: emit individual clicks for each card
-                        // that was NOT undone (net result matches C++ AI intent)
-                        PlayerID player = action.getPlayer();
-                        for (const auto & cardID : preState.getCardIDs(player))
-                        {
-                            const Card & card = preState.getCardByID(cardID);
-                            if (card.getType() != shiftType)
-                                continue;
-                            if (!card.canUseAbility())
-                                continue;
-
-                            // Skip cards that were undone
-                            bool wasUndone = false;
-                            for (const auto & undoID : undoneCardIDs)
-                            {
-                                if (undoID == cardID)
-                                {
-                                    wasUndone = true;
-                                    break;
-                                }
-                            }
-                            if (wasUndone)
-                                continue;
-
-                            int instId = card.getClientInstId();
-                            appendClick(clicksOut, hasPrevClick, "inst clicked", instId);
-                        }
-                    }
+                    // Always emit shift click — the JS engine's shift handler
+                    // checks eligibility internally (canAssign per instance).
+                    // The previous approach of emitting individual "inst clicked"
+                    // when UNDO_USE_ABILITY was present broke on defense-phase turns:
+                    // preState is pre-swoosh, so canUseAbility() returns false for
+                    // previously-activated units (e.g., Drones), emitting only 1 click
+                    // instead of activating all eligible units after swoosh.
+                    int instId = preState.getCardByID(action.getID()).getClientInstId();
+                    appendClick(clicksOut, hasPrevClick, "inst shift clicked", instId);
                 }
                 else
                 {
