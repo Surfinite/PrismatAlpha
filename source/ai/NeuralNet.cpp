@@ -338,7 +338,9 @@ void NeuralNet::buildCardTypeMapping()
             }
             else
             {
-                if (unmapped < 10)
+                // Suppress sentinel types (id=0,1 named "None") — engine
+                // placeholders, not real cards. Only warn for genuine unmaps.
+                if (type.getName() != "None" && unmapped < 10)
                 {
                     printf("NeuralNet: UNMAPPED type id=%d name='%s' uiName='%s'\n",
                            type.getID(), type.getName().c_str(), type.getUIName().c_str());
