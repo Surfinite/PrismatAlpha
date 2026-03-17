@@ -373,9 +373,13 @@ PPPtr AIParameters::parsePartialPlayer(const PlayerID player, const std::string 
     { 
         playerPtr = PPPtr(new PartialPlayer_ActionAbility_AvoidAttackWaste(player));
     }
-    else if (partialPlayerClassName == "ActionAbility_AvoidEconomyWaste")  
-    { 
+    else if (partialPlayerClassName == "ActionAbility_AvoidEconomyWaste")
+    {
         playerPtr = PPPtr(new PartialPlayer_ActionAbility_AvoidEconomyWaste(player));
+    }
+    else if (partialPlayerClassName == "ActionAbility_AvoidDefenseWaste")
+    {
+        playerPtr = PPPtr(new PartialPlayer_ActionAbility_AvoidDefenseWaste(player));
     }
     else if (partialPlayerClassName == "ActionAbility_AvoidBreachSolver")  
     { 

@@ -17,6 +17,7 @@
 #include "PartialPlayer_ActionAbility_ActivateUtility.h"
 #include "PartialPlayer_ActionAbility_UntapAvoidBreach.h"
 #include "PartialPlayer_ActionAbility_AvoidAttackWaste.h"
+#include "PartialPlayer_ActionAbility_AvoidDefenseWaste.h"
 #include "PartialPlayer_ActionAbility_AvoidEconomyWaste.h"
 #include "PartialPlayer_ActionAbility_AvoidBreachSolver.h"
 #include "PartialPlayer_ActionAbility_Random.h"
