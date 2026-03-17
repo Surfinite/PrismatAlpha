@@ -1470,6 +1470,8 @@ async function playSingleGame(activeDeck, config) {
     const playerWhite = config.playerWhite;
     const playerBlack = config.playerBlack;
     const thinkTimeMs = config.thinkTimeMs;
+    const thinkTimeWhiteMs = config.thinkTimeWhiteMs || thinkTimeMs;
+    const thinkTimeBlackMs = config.thinkTimeBlackMs || thinkTimeMs;
     const weightsFile = config.weightsFile || null;
     const maxTurns = CONFIG.maxTurns || 200;
     const retryOnError = CONFIG.retryOnError || 1;
@@ -1557,6 +1559,7 @@ async function playSingleGame(activeDeck, config) {
         const activePlayer = analyzer.gameState.turn;
         const playerName = activePlayer === 0 ? playerWhite : playerBlack;
         const playerLabel = activePlayer === 0 ? 'White' : 'Black';
+        const activeThinkTime = activePlayer === 0 ? thinkTimeWhiteMs : thinkTimeBlackMs;
         const isActiveMCDSAI = isMCDSAIPlayer(playerName);
         const isActiveSteamAI = isSteamAIPlayer(playerName);
 
@@ -1599,7 +1602,7 @@ async function playSingleGame(activeDeck, config) {
                 mcdsaiConfig.difficulty || 'HardestAI'
             );
         } else {
-            turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs, weightsFile);
+            turnResult = playSingleTurn(analyzer, activeDeck, playerName, activeThinkTime, weightsFile);
         }
 
         if (!turnResult.ok) {
@@ -1629,7 +1632,7 @@ async function playSingleGame(activeDeck, config) {
                     mcdsaiConfig.difficulty || 'HardestAI'
                 );
             } else {
-                turnResult = playSingleTurn(analyzer, activeDeck, playerName, thinkTimeMs, weightsFile);
+                turnResult = playSingleTurn(analyzer, activeDeck, playerName, activeThinkTime, weightsFile);
             }
 
             if (!turnResult.ok) {
@@ -2024,11 +2027,13 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         const pairResults = { aWins2: 0, bWins2: 0, splits: 0, invalidPairs: 0 };
         let playerAWins = 0;
 
-        // Build swapped config (reverse player assignment and MCDSAI workers)
+        // Build swapped config (reverse player assignment, think times, and MCDSAI workers)
         const swappedConfig = {
             ...config,
             playerWhite: config.playerBlack,
             playerBlack: config.playerWhite,
+            thinkTimeWhiteMs: config.thinkTimeBlackMs,
+            thinkTimeBlackMs: config.thinkTimeWhiteMs,
             mcdsai: config.mcdsai ? {
                 ...config.mcdsai,
                 workerWhite: config.mcdsai.workerBlack,
@@ -2245,6 +2250,8 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     playerWhite: config.playerWhite,
                     playerBlack: config.playerBlack,
                     thinkTimeMs: config.thinkTimeMs,
+                    thinkTimeWhiteMs: config.thinkTimeWhiteMs,
+                    thinkTimeBlackMs: config.thinkTimeBlackMs,
                     weightsFile: weightsFile,
                     mcdsaiDifficulty: mcdsaiDifficulty,
                     steamDifficulty: steamDifficulty,
@@ -2432,6 +2439,8 @@ async function main() {
     let playerWhite = CONFIG.defaultPlayer;
     let playerBlack = CONFIG.defaultPlayer;
     let thinkTimeMs = CONFIG.thinkTimeMs;
+    let thinkTimeWhiteMs = null;         // --think-time-white: override for white player
+    let thinkTimeBlackMs = null;         // --think-time-black: override for black player
     let mcdsaiDifficulty = 'HardestAI';  // Default MCDSAI difficulty
     let steamDifficulty = 'HardestAI';   // Default SteamAI difficulty
     let parallelWorkers = 1;             // Phase 7e: 1 = sequential (default)
@@ -2455,6 +2464,8 @@ async function main() {
         if (args[i] === '--player-white' && args[i + 1]) { playerWhite = args[++i]; }
         if (args[i] === '--player-black' && args[i + 1]) { playerBlack = args[++i]; }
         if (args[i] === '--think-time' && args[i + 1]) { thinkTimeMs = parseInt(args[++i], 10); }
+        if (args[i] === '--think-time-white' && args[i + 1]) { thinkTimeWhiteMs = parseInt(args[++i], 10); }
+        if (args[i] === '--think-time-black' && args[i + 1]) { thinkTimeBlackMs = parseInt(args[++i], 10); }
         if (args[i] === '--mcdsai-difficulty' && args[i + 1]) { mcdsaiDifficulty = args[++i]; }
         if (args[i] === '--steam-difficulty' && args[i + 1]) { steamDifficulty = args[++i]; }
         if (args[i] === '--parallel' && args[i + 1]) { parallelWorkers = parseInt(args[++i], 10); }
@@ -2800,7 +2811,7 @@ async function main() {
                     mcdsaiDifficulty
                 );
             } else {
-                turnResult = playSingleTurn(analyzer, activeDeck, playerWhite, thinkTimeMs, weightsFile);
+                turnResult = playSingleTurn(analyzer, activeDeck, playerWhite, thinkTimeWhiteMs || thinkTimeMs, weightsFile);
             }
 
             printStateSummary(analyzer, 'AFTER TURN');
@@ -2870,7 +2881,7 @@ async function main() {
                 // No main-thread MCDSAI workers are spawned in parallel mode.
                 console.error(`\n--- Starting ${numGames} Games in Parallel (${parallelWorkers} workers)${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGamesParallel(
-                    { playerWhite, playerBlack, thinkTimeMs },
+                    { playerWhite, playerBlack, thinkTimeMs, thinkTimeWhiteMs, thinkTimeBlackMs },
                     numGames,
                     library,
                     parallelWorkers,
@@ -2883,7 +2894,7 @@ async function main() {
                 // Phase 7c/7d: Sequential execution
                 console.error(`\n--- Starting ${numGames} Games${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGames(
-                    { playerWhite, playerBlack, thinkTimeMs, weightsFile, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold, exportTraining: !!exportTrainingDir, schemaV2 },
+                    { playerWhite, playerBlack, thinkTimeMs, thinkTimeWhiteMs, thinkTimeBlackMs, weightsFile, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold, exportTraining: !!exportTrainingDir, schemaV2 },
                     numGames,
                     library,
                     { playerSwitch, fixedCards, saveReplaysDir, exportTrainingDir }

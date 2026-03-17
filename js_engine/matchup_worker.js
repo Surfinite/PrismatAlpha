@@ -203,6 +203,8 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
     const playerWhite = config.playerWhite;
     const playerBlack = config.playerBlack;
     const thinkTimeMs = config.thinkTimeMs;
+    const thinkTimeWhiteMs = config.thinkTimeWhiteMs || thinkTimeMs;
+    const thinkTimeBlackMs = config.thinkTimeBlackMs || thinkTimeMs;
     const weightsFile = config.weightsFile || null;
     const maxTurns = CONFIG.maxTurns || 200;
     const retryOnError = CONFIG.retryOnError || 1;
@@ -283,6 +285,7 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
         const activePlayer = analyzer.gameState.turn;
         const playerName = activePlayer === 0 ? playerWhite : playerBlack;
         const playerLabel = activePlayer === 0 ? 'White' : 'Black';
+        const activeThinkTime = activePlayer === 0 ? thinkTimeWhiteMs : thinkTimeBlackMs;
         const isActiveMCDSAI = matchup.isMCDSAIPlayer(playerName);
         const isActiveSteamAI = matchup.isSteamAIPlayer(playerName);
 
@@ -324,7 +327,7 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
             );
         } else {
             // Use slot-specific suggest for C++ players
-            turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, thinkTimeMs, weightsFile);
+            turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, activeThinkTime, weightsFile);
         }
 
         if (!turnResult.ok) {
@@ -350,7 +353,7 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
                     analyzer, activeDeck, worker, mcdsaiDifficulty
                 );
             } else {
-                turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, thinkTimeMs, weightsFile);
+                turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, activeThinkTime, weightsFile);
             }
 
             if (!turnResult.ok) {
@@ -518,6 +521,8 @@ async function runWorkerSlot() {
         playerWhite,
         playerBlack,
         thinkTimeMs,
+        thinkTimeWhiteMs = null,
+        thinkTimeBlackMs = null,
         weightsFile = null,
         mcdsaiDifficulty,
         saveReplaysDir,
@@ -644,10 +649,16 @@ async function runWorkerSlot() {
             let gameResult;
             let gameError = null;
             try {
+                // Swap think times along with players in player-switch mode
+                const isSwapped = playerSwitch && (gameNum % 2 === 0);
+                const ttWhite = isSwapped ? (thinkTimeBlackMs || thinkTimeMs) : (thinkTimeWhiteMs || thinkTimeMs);
+                const ttBlack = isSwapped ? (thinkTimeWhiteMs || thinkTimeMs) : (thinkTimeBlackMs || thinkTimeMs);
                 gameResult = await playSingleGameInWorker(activeDeck, {
                     playerWhite: pWhite,
                     playerBlack: pBlack,
                     thinkTimeMs,
+                    thinkTimeWhiteMs: ttWhite,
+                    thinkTimeBlackMs: ttBlack,
                     weightsFile,
                     mcdsaiDifficulty,
                     mcdsaiFullParams: fullParams,
