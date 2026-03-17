@@ -499,11 +499,13 @@ void test_card_type_properties()
     assert(drone.canBlock(false));
     assert(!drone.isFragile());
 
-    // Tarsier (Tesla Tower): 1 health, fragile, 1 attack
+    // Tarsier (Tesla Tower): 1 health, fragile
+    // NOTE: Tarsier's attack comes from beginOwnTurnScript, not a frontline attack value.
+    // CardType::getAttack() may return 0 or 1 depending on whether it pre-computes
+    // script-derived attack. Verify empirically and adjust assertion if needed.
     Prismata::CardType tarsier = Prismata::CardTypes::GetCardType("Tesla Tower");
     assert(tarsier.getHealthAmount() == 1);
     assert(tarsier.isFragile());
-    assert(tarsier.getAttack() == 1);
 
     std::cout << "  PASS: test_card_type_properties" << std::endl;
 }
@@ -1078,7 +1080,11 @@ At each turn boundary, compare:
 
 On mismatch, dump both states and the diverging action.
 
-- [ ] **Step 4: Run smoke tier (~100-500 replays)**
+- [ ] **Step 4: Add CLI arg handling to test runner**
+
+Update `test_main.cpp` to parse `--validate-replays <tier>` arguments. When present, run the replay validator instead of unit tests. Tiers: `smoke` (100-500 replays), `milestone` (~5,000), `full` (102,697).
+
+- [ ] **Step 5: Run smoke tier (~100-500 replays)**
 
 ```bash
 ./build/prismata_engine_v2_tests --validate-replays smoke
@@ -1086,7 +1092,7 @@ On mismatch, dump both states and the diverging action.
 
 Fix failures iteratively. Each failure should pinpoint the exact turn and action where divergence occurs.
 
-- [ ] **Step 5: Run milestone tier (~5,000 replays)**
+- [ ] **Step 6: Run milestone tier (~5,000 replays)**
 
 ```bash
 ./build/prismata_engine_v2_tests --validate-replays milestone
@@ -1228,9 +1234,10 @@ Update UCTSearch, StackAlphaBetaSearch, and Player classes to pass their NeuralN
 - [ ] **Step 6: Update AIParameters to construct NeuralNet instances**
 
 `AIParameters` already parses per-player `"WeightsFile"` config. Add logic to:
-- Create a `NeuralNet` per unique weight file path
-- Store instances in a map: `std::map<std::string, std::shared_ptr<NeuralNet>>`
-- Pass the appropriate instance to each player during construction
+- Create a **separate `NeuralNet` instance per player** (not per weight file)
+- Each instance loads its own copy of the weights and has its own scratch buffers
+- This is required because `mutable ScratchBuffers _scratch` makes concurrent reads on the same instance unsafe (see spec Section 6.5)
+- A weight-deduplication optimization (sharing read-only weight data across instances while keeping separate scratch buffers) is possible but deferred — just load independently for now
 
 - [ ] **Step 7: Test with two different NN players**
 
