@@ -7,13 +7,13 @@
 
 ---
 
-## 1. ALREADY FIXED Issues
+## 1. 
 
-These issues were reported by the community and have already been addressed in our codebase.
+
 
 ### 1A. Borehole Patroller Overvaluation (Pixie cost included)
 
-**Status:** FIXED
+**Status:** 
 
 The bot values Borehole Patroller based on its full purchase cost (5GBB), but part of that cost pays for a Pixie token that is created alongside it. The Borehole's intrinsic value is significantly less than its sticker price.
 
@@ -28,7 +28,7 @@ The bot values Borehole Patroller based on its full purchase cost (5GBB), but pa
 
 ### 1B. Corpus Overvaluation (Husk cost included)
 
-**Status:** FIXED
+**Status:** 
 
 Similar to Borehole -- Corpus (6RR) creates a prompt Husk when purchased. The bot valued Corpus at full cost without subtracting the Husk's value, leading to absurd defense assignments (absorbing on 0-stamina Corpus over a Wall).
 
@@ -46,7 +46,7 @@ Similar to Borehole -- Corpus (6RR) creates a prompt Husk when purchased. The bo
 
 ### 1C. Galvani Drone Targeting During Breach
 
-**Status:** FIXED
+**Status:** 
 
 MB would target Galvani Drones during breach instead of more valuable units (Drones, Walls, etc.), because it valued Galvani based on purchase cost rather than practical in-play value. A Galvani Drone in play is worth very little (already used its energy).
 
@@ -61,7 +61,7 @@ MB would target Galvani Drones during breach instead of more valuable units (Dro
 
 ### 1D. Health/Stamina Not Considered in Breach Targeting
 
-**Status:** FIXED
+**Status:** 
 
 MB ignored remaining health and stamina when comparing breach targets. A 2-health Tantalum Ray would be targeted over a full-health Steelsplitter, even though the Steelsplitter was worth more to kill.
 

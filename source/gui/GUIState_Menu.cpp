@@ -29,6 +29,10 @@ void GUIState_Menu::init(const std::string & menuConfig)
         m_menuStrings.push_back(stateName);
     }
 
+    // Custom cards entry point
+    m_customCardsIndex = m_menuStrings.size();
+    m_menuStrings.push_back("Custom Cards...");
+
     // Separator between states and replay folders
     m_separatorIndex = m_menuStrings.size();
     m_menuStrings.push_back("----------------------------");
@@ -230,6 +234,58 @@ void GUIState_Menu::sUserInput()
             m_game.quit();
         }
 
+        if (m_inCustomCards)
+        {
+            if (event.type == sf::Event::TextEntered)
+            {
+                uint32_t ch = event.text.unicode;
+                // Printable ASCII (space through tilde), allow commas, letters, spaces
+                if (ch >= 32 && ch < 127)
+                {
+                    m_customCardsInput += static_cast<char>(ch);
+                    m_customCardsError.clear();
+                }
+            }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                switch (event.key.code)
+                {
+                    case sf::Keyboard::Escape:
+                    {
+                        m_inCustomCards = false;
+                        break;
+                    }
+                    case sf::Keyboard::BackSpace:
+                    {
+                        if (!m_customCardsInput.empty())
+                        {
+                            m_customCardsInput.pop_back();
+                            m_customCardsError.clear();
+                        }
+                        break;
+                    }
+                    case sf::Keyboard::Return:
+                    {
+                        launchCustomCards();
+                        break;
+                    }
+                    case sf::Keyboard::V:
+                    {
+                        // Ctrl+V paste
+                        if (event.key.control)
+                        {
+                            std::string clip = sf::Clipboard::getString().toAnsiString();
+                            m_customCardsInput += clip;
+                            m_customCardsError.clear();
+                        }
+                        break;
+                    }
+                    default: break;
+                }
+            }
+            continue;
+        }
+
         if (event.type == sf::Event::KeyPressed)
         {
             if (m_inReplayFolder)
@@ -308,7 +364,15 @@ void GUIState_Menu::sUserInput()
                     case sf::Keyboard::D:
                     case sf::Keyboard::Return:
                     {
-                        if (m_selectedMenuIndex < m_separatorIndex)
+                        if (m_selectedMenuIndex == m_customCardsIndex)
+                        {
+                            // Enter custom cards text input mode
+                            m_inCustomCards = true;
+                            m_customCardsInput.clear();
+                            m_customCardsError.clear();
+                            m_cursorClock.restart();
+                        }
+                        else if (m_selectedMenuIndex < m_separatorIndex)
                         {
                             // State item — existing behavior
                             auto & stateName = m_menuStrings[m_selectedMenuIndex];
@@ -335,6 +399,52 @@ void GUIState_Menu::sRender()
 {
     m_game.window().setView(m_game.window().getDefaultView());
     m_game.window().clear(sf::Color(0, 0, 0));
+
+    if (m_inCustomCards)
+    {
+        // Custom cards text entry screen
+        m_menuText.setCharacterSize(32);
+        m_menuText.setString("Custom Cards");
+        m_menuText.setFillColor(sf::Color::White);
+        m_menuText.setPosition(sf::Vector2f(12, 5));
+        m_game.window().draw(m_menuText);
+
+        m_menuText.setCharacterSize(24);
+        m_menuText.setString("Type card names separated by commas (e.g. Tarsier, Wall, Rhino)");
+        m_menuText.setFillColor(sf::Color(180, 180, 180));
+        m_menuText.setPosition(sf::Vector2f(32, 55));
+        m_game.window().draw(m_menuText);
+
+        // Draw text input with blinking cursor
+        bool cursorVisible = ((int)(m_cursorClock.getElapsedTime().asMilliseconds() / 500) % 2) == 0;
+        std::string displayText = "> " + m_customCardsInput + (cursorVisible ? "_" : " ");
+
+        m_menuText.setCharacterSize(28);
+        m_menuText.setString(displayText);
+        m_menuText.setFillColor(sf::Color::Green);
+        m_menuText.setPosition(sf::Vector2f(32, 110));
+        m_game.window().draw(m_menuText);
+
+        // Draw error message if any
+        if (!m_customCardsError.empty())
+        {
+            m_menuText.setCharacterSize(24);
+            m_menuText.setString(m_customCardsError);
+            m_menuText.setFillColor(sf::Color::Red);
+            m_menuText.setPosition(sf::Vector2f(32, 160));
+            m_game.window().draw(m_menuText);
+        }
+
+        // Draw controls
+        m_menuText.setCharacterSize(32);
+        m_menuText.setFillColor(sf::Color::Yellow);
+        m_menuText.setString("enter: start game   ctrl+v: paste   esc: back");
+        m_menuText.setPosition(sf::Vector2f(15, m_game.window().getSize().y - 50));
+        m_game.window().draw(m_menuText);
+
+        m_game.window().display();
+        return;
+    }
 
     if (m_inReplayFolder)
     {
@@ -429,4 +539,79 @@ void GUIState_Menu::sRender()
     }
 
     m_game.window().display();
+}
+
+void GUIState_Menu::launchCustomCards()
+{
+    if (m_customCardsInput.empty())
+    {
+        m_customCardsError = "Enter at least one card name";
+        return;
+    }
+
+    // Parse comma-separated card names, trimming whitespace
+    std::vector<std::string> cardNames;
+    std::string current;
+    for (char ch : m_customCardsInput)
+    {
+        if (ch == ',')
+        {
+            // Trim whitespace
+            size_t start = current.find_first_not_of(" \t");
+            size_t end = current.find_last_not_of(" \t");
+            if (start != std::string::npos)
+            {
+                cardNames.push_back(current.substr(start, end - start + 1));
+            }
+            current.clear();
+        }
+        else
+        {
+            current += ch;
+        }
+    }
+    // Last token
+    {
+        size_t start = current.find_first_not_of(" \t");
+        size_t end = current.find_last_not_of(" \t");
+        if (start != std::string::npos)
+        {
+            cardNames.push_back(current.substr(start, end - start + 1));
+        }
+    }
+
+    if (cardNames.empty())
+    {
+        m_customCardsError = "Enter at least one card name";
+        return;
+    }
+
+    // Validate all card names and filter out base set cards
+    std::vector<CardType> customTypes;
+    for (auto & name : cardNames)
+    {
+        if (!CardTypes::CardTypeExists(name))
+        {
+            m_customCardsError = "Unknown card: " + name;
+            return;
+        }
+
+        CardType type = CardTypes::GetCardType(name);
+        if (!CardTypes::IsBaseSet(type))
+        {
+            customTypes.push_back(type);
+        }
+    }
+
+    // Build game state: base set + custom cards
+    GameState state;
+    state.setStartingState(Players::Player_One, 0);
+
+    for (auto & type : customTypes)
+    {
+        state.addCardBuyable(type);
+    }
+
+    m_inCustomCards = false;
+    m_game.pushState(std::make_shared<GUIState_Play>(m_game, state));
 }

@@ -10,10 +10,23 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <set>
 #include <string>
 #include <thread>
 
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
 using namespace Prismata;
+
+// SteamAI statics
+std::string GUIState_Play::s_steamAIMergedDeck;
+std::string GUIState_Play::s_steamAIParams;
+bool GUIState_Play::s_steamAIInitialized = false;
+bool GUIState_Play::s_steamAIAvailable = false;
+const std::string GUIState_Play::STEAM_AI_EXE = "C:\\libraries\\Prismata\\AI\\PrismataAI.exe";
+const std::string GUIState_Play::STEAM_AI_MENU_NAME = "SteamAI (MasterBot)";
 
 GUIState_Play::GUIState_Play(GUIEngine & game, const GameState & state)
     : GUIState(game)
@@ -72,14 +85,117 @@ void GUIState_Play::setState(const GameState & state)
 
 void GUIState_Play::loadPlayers()
 {
+    // Players to hide from GUI menu (still available for tournaments)
+    static const std::set<std::string> hiddenPlayers = {
+        "BlendUCT_10", "BlendUCT_25", "BlendUCT_50",
+        "DocileAI", "EasyAI", "ExpertAI", "HardAI", "HardAIUCT",
+        "HardestAI_1s", "HardestAI_2s", "HardestAI_3s",
+        "HardestAI_4s", "HardestAI_5s", "HardestAI_6s",
+        "MediumAI",
+        "Personality_BlueTurn2", "Personality_DroneSpam",
+        "Personality_GreenBlue", "Personality_RedRush",
+    };
+
     const std::vector<std::string> & playerNames = AIParameters::Instance().getPlayerNames();
     for (size_t i(0); i < playerNames.size(); ++i)
     {
+        if (hiddenPlayers.count(playerNames[i])) { continue; }
+
         for (PlayerID p(0); p < 2; ++p)
         {
             m_players[p][playerNames[i]] = AIParameters::Instance().getPlayer(p, playerNames[i]);
         }
     }
+
+    // Add SteamAI if available
+    initSteamAI();
+    if (s_steamAIAvailable)
+    {
+        for (PlayerID p(0); p < 2; ++p)
+        {
+            m_players[p][STEAM_AI_MENU_NAME] = nullptr;  // sentinel — handled specially
+        }
+    }
+}
+
+void GUIState_Play::initSteamAI()
+{
+    if (s_steamAIInitialized) { return; }
+    s_steamAIInitialized = true;
+
+    // Check exe exists
+    {
+        std::ifstream test(STEAM_AI_EXE);
+        if (!test.good())
+        {
+            fprintf(stderr, "[SteamAI] PrismataAI.exe not found at %s\n", STEAM_AI_EXE.c_str());
+            return;
+        }
+    }
+
+    // Build mergedDeck: convert cardLibrary.jso object → JSON array with "name" field
+    {
+        std::ifstream ifs("asset/config/cardLibrary.jso");
+        if (!ifs.is_open())
+        {
+            fprintf(stderr, "[SteamAI] Cannot read cardLibrary.jso\n");
+            return;
+        }
+        std::string raw((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+        ifs.close();
+
+        rapidjson::Document doc;
+        if (doc.Parse(raw.c_str()).HasParseError() || !doc.IsObject())
+        {
+            fprintf(stderr, "[SteamAI] Cannot parse cardLibrary.jso\n");
+            return;
+        }
+
+        // Convert {"Name": {props...}, ...} → [{"name":"Name", props...}, ...]
+        std::stringstream ss;
+        ss << "[";
+        bool first = true;
+        for (auto it = doc.MemberBegin(); it != doc.MemberEnd(); ++it)
+        {
+            if (!first) { ss << ","; }
+            first = false;
+            // Insert "name" field into the card object
+            std::string cardName = it->name.GetString();
+            // Serialize the value object, injecting "name" as first field
+            rapidjson::StringBuffer buf;
+            rapidjson::Writer<rapidjson::StringBuffer> writer(buf);
+            it->value.Accept(writer);
+            std::string cardJson = buf.GetString();
+            // Insert "name":"X" after the opening brace
+            ss << "{\"name\":\"" << cardName << "\"," << cardJson.substr(1);
+        }
+        ss << "]";
+        s_steamAIMergedDeck = ss.str();
+    }
+
+    // Load short AI params (HardestAI always uses short params)
+    {
+        std::ifstream ifs("../tmp_swf_extract/93_AI.AIThreadHandler_aiParam_shortTextLoad.bin");
+        if (!ifs.is_open())
+        {
+            fprintf(stderr, "[SteamAI] Cannot read AI params file\n");
+            return;
+        }
+        std::string raw((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+        ifs.close();
+
+        // Strip whitespace like AS3 does
+        std::string clean;
+        for (char c : raw)
+        {
+            if (c != '\r' && c != '\n' && c != '\t') { clean += c; }
+        }
+        s_steamAIParams = clean;
+    }
+
+    s_steamAIAvailable = true;
+    fprintf(stderr, "[SteamAI] Initialized (mergedDeck=%zu bytes, params=%zu bytes)\n",
+            s_steamAIMergedDeck.size(), s_steamAIParams.size());
 }
 
 void GUIState_Play::onFrame()
@@ -844,21 +960,136 @@ void GUIState_Play::handleAIMenu()
     m_drawAIMenu = !m_drawAIMenu;
     if (m_drawAIMenu) { return; }
 
-    // do ai move: get the PlayerPtr associated with the currently highlighted player
-    PlayerPtr ptr = AIParameters::Instance().getPlayer(m_currentState.getActivePlayer(), m_selectedPlayerName[m_currentState.getActivePlayer()]);
+    const PlayerID player = m_currentState.getActivePlayer();
+    const std::string & selectedName = m_selectedPlayerName[player];
+
+    // SteamAI — external process path
+    if (selectedName == STEAM_AI_MENU_NAME)
+    {
+        runSteamAI();
+        return;
+    }
+
+    // Normal in-process AI
+    PlayerPtr ptr = AIParameters::Instance().getPlayer(player, selectedName);
     Move move;
     ptr->getMove(m_currentState, move);
-    m_aiDescription[m_currentState.getActivePlayer()] = ptr->getDescription();
+    m_aiDescription[player] = ptr->getDescription();
 
-    // test code I wanna leave here
-    //bool shouldResign = shouldResign = AITools::PlayerShouldResign(m_currentState, player);
-    //std::cout << move.toString() << "\n";
-    //std::cout << "Player Resign: " << (shouldResign ? "true" : "false") << "\n";
-    // get the click string associated with that move & convert that click string back to a move to test (used by old ai for testing)
-    //const std::string moveClickString = AITools::GetClickString(move, m_currentState);
-    //const Move & convertedMove = AITools::GetMoveFromClickString(moveClickString, m_currentState.getActivePlayer(), m_currentState);
-    //std::cout << AITools::GetClickString(convertedMove, m_currentState);
+    doGUIMove(move, 200);
+}
 
+void GUIState_Play::runSteamAI()
+{
+    const PlayerID player = m_currentState.getActivePlayer();
+
+    // 1. Build request JSON
+    std::string gameStateJson = m_currentState.toJSONString();
+    std::string requestJson = "{\"mergedDeck\":" + s_steamAIMergedDeck
+        + ",\"gameState\":" + gameStateJson
+        + ",\"aiParameters\":" + s_steamAIParams
+        + ",\"aiPlayerName\":\"HardestAI\"}";
+
+    // 2. Strip newlines — PrismataAI.exe expects single-line input (AS3 strips \r\n\t)
+    std::string singleLine;
+    singleLine.reserve(requestJson.size());
+    for (char c : requestJson)
+    {
+        if (c != '\n' && c != '\r' && c != '\t') { singleLine += c; }
+    }
+    singleLine += '\n';  // terminate with newline
+
+    // 3. Write request to temp file
+    {
+        std::ofstream ofs("steam_ai_request.json");
+        if (!ofs.is_open())
+        {
+            fprintf(stderr, "[SteamAI] Cannot write temp request file\n");
+            return;
+        }
+        ofs << singleLine;
+        ofs.close();
+    }
+
+    // 4. Spawn PrismataAI.exe with input redirection, capture stdout
+    std::string cmd = "\"" + STEAM_AI_EXE + "\" < steam_ai_request.json";
+    fprintf(stderr, "[SteamAI] Calling PrismataAI.exe (player %d)...\n", (int)player);
+
+    FILE * pipe = _popen(cmd.c_str(), "r");
+    if (!pipe)
+    {
+        fprintf(stderr, "[SteamAI] Failed to spawn PrismataAI.exe\n");
+        return;
+    }
+
+    std::string response;
+    char buffer[8192];
+    while (size_t n = fread(buffer, 1, sizeof(buffer), pipe))
+    {
+        response.append(buffer, n);
+    }
+    int exitCode = _pclose(pipe);
+
+    if (response.empty())
+    {
+        fprintf(stderr, "[SteamAI] Empty response (exit code %d)\n", exitCode);
+        return;
+    }
+
+    // Strip control characters
+    std::string clean;
+    for (char c : response)
+    {
+        if (c >= 32 || c == '\n' || c == '\r' || c == '\t') { clean += c; }
+    }
+
+    fprintf(stderr, "[SteamAI] Response: %.200s...\n", clean.c_str());
+
+    // 4. Parse response JSON
+    rapidjson::Document doc;
+    if (doc.Parse(clean.c_str()).HasParseError())
+    {
+        fprintf(stderr, "[SteamAI] JSON parse error in response\n");
+        return;
+    }
+
+    // Check for resignation
+    if (doc.HasMember("airesign") && doc["airesign"].IsBool() && doc["airesign"].GetBool())
+    {
+        fprintf(stderr, "[SteamAI] AI resigned\n");
+        m_aiDescription[player] = "SteamAI (resigned)";
+        return;
+    }
+
+    if (!doc.HasMember("aiclicks") || !doc["aiclicks"].IsArray())
+    {
+        fprintf(stderr, "[SteamAI] No aiclicks in response\n");
+        return;
+    }
+
+    int thinkTime = doc.HasMember("aithinktime") ? doc["aithinktime"].GetInt() : 0;
+
+    // 5. Re-serialize aiclicks array to string for GetMoveFromClickString
+    rapidjson::StringBuffer buf;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buf);
+    doc["aiclicks"].Accept(writer);
+    std::string clicksJson = buf.GetString();
+
+    fprintf(stderr, "[SteamAI] %zu clicks, %dms think time\n", doc["aiclicks"].Size(), thinkTime);
+
+    // 6. Convert clicks to Move using existing click parser
+    Move move;
+    try
+    {
+        move = AITools::GetMoveFromClickString(clicksJson, player, m_currentState);
+    }
+    catch (std::exception & e)
+    {
+        fprintf(stderr, "[SteamAI] Click conversion failed: %s\n", e.what());
+        return;
+    }
+
+    m_aiDescription[player] = "SteamAI (MasterBot) " + std::to_string(thinkTime) + "ms";
     doGUIMove(move, 200);
 }
 
@@ -892,7 +1123,8 @@ void GUIState_Play::drawAIMenu()
                 
             std::string header = it->first + " Description:\n";
             GUITools::DrawString(pos + sf::Vector2f(330, 60), header, player ? sf::Color::Red : sf::Color::Green, &m_game.window(), fontSize);
-            GUITools::DrawString(pos + sf::Vector2f(330, 80), it->second->getDescription(), sf::Color::White, &m_game.window(), fontSize);
+            std::string desc = it->second ? it->second->getDescription() : "Steam's PrismataAI.exe (HardestAI, 7s think)";
+            GUITools::DrawString(pos + sf::Vector2f(330, 80), desc, sf::Color::White, &m_game.window(), fontSize);
         }
         else
         {

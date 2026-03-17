@@ -87,6 +87,16 @@ class GUIState_Play : public GUIState
     void drawReplayHUD();
     size_t getCurrentTurnIndex() const;
 
+    // SteamAI (external PrismataAI.exe)
+    static std::string              s_steamAIMergedDeck;    // cached mergedDeck JSON array
+    static std::string              s_steamAIParams;        // cached AI params JSON
+    static bool                     s_steamAIInitialized;
+    static bool                     s_steamAIAvailable;
+    static const std::string        STEAM_AI_EXE;
+    static const std::string        STEAM_AI_MENU_NAME;
+    void initSteamAI();
+    void runSteamAI();
+
 public:
 
     GUIState_Play(GUIEngine & game, const GameState & state);

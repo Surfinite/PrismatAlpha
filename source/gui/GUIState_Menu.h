@@ -41,12 +41,20 @@ protected:
     int                         m_menuScrollOffset = 0;
     int                         m_replayScrollOffset = 0;
 
+    // Custom cards text entry
+    size_t                      m_customCardsIndex = 0;
+    bool                        m_inCustomCards = false;
+    std::string                 m_customCardsInput;
+    std::string                 m_customCardsError;
+    sf::Clock                   m_cursorClock;
+
     void init(const std::string & menuConfig);
     void onFrame();
     void sUserInput();
     void sRender();
     void scanReplayFolders();
     void loadReplay(const std::string & filepath);
+    void launchCustomCards();
 
 public:
 
