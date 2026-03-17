@@ -363,8 +363,11 @@ void Benchmarks::DoSuggest(const std::string & stateFile, const std::string & pl
                 abilities.push_back(preState.getCardByID(action.getID()).getType().getUIName()
                     + " chill " + preState.getCardByID(action.getTargetID()).getType().getUIName());
                 break;
+            case ActionTypes::UNDO_USE_ABILITY:
+                abilities.push_back("UNDO " + preState.getCardByID(action.getID()).getType().getUIName());
+                break;
             default:
-                break; // END_PHASE, WIPEOUT, UNDO_*, SELL -- skip
+                break; // END_PHASE, WIPEOUT, SELL -- skip
         }
     }
 
