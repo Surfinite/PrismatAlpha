@@ -381,6 +381,10 @@ PPPtr AIParameters::parsePartialPlayer(const PlayerID player, const std::string 
     {
         playerPtr = PPPtr(new PartialPlayer_ActionAbility_AvoidDefenseWaste(player));
     }
+    else if (partialPlayerClassName == "ActionAbility_AvoidResourceWaste")
+    {
+        playerPtr = PPPtr(new PartialPlayer_ActionAbility_AvoidResourceWaste(player));
+    }
     else if (partialPlayerClassName == "ActionAbility_AvoidBreachSolver")  
     { 
         BreachIteratorParameters params;

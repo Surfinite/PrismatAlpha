@@ -166,6 +166,7 @@
     "AbilityUntapBreach" :      { "type":"ActionAbility_UntapAvoidBreach"},
     "AbilityAvoidAttackWaste" : { "type":"ActionAbility_AvoidAttackWaste"},
     "AbilityAvoidDefenseWaste": { "type":"ActionAbility_AvoidDefenseWaste"},
+    "AbilityAvoidResourceWaste":{ "type":"ActionAbility_AvoidResourceWaste"},
     "AbilityAvoidEconomyWaste" :{ "type":"ActionAbility_AvoidEconomyWaste"},
     
     "AbilityAttackDefault" :    { "type":"ActionAbility_AttackDefault", "filter":"Ability_Filter"},
@@ -210,7 +211,7 @@
     "Live_BuyComboGreedyWill" :       { "type":"ActionBuy_Combination", "combination": ["BuyGK_WillScore", "BuyGK_AttackValue", "Live_BuyEconLimited", "BuyTech_Elyot", "Live_BuySafeguard"] },
     "Live_BuyComboGreedyDefense" :    { "type":"ActionBuy_Combination", "combination": ["BuyGK_BlockValue", "BuyGK_AttackValue", "Live_BuyEconLimited", "BuyTech_Elyot", "Live_BuySafeguard"] },
     "Live_BuySafeguard" :             { "type":"ActionBuy_Combination", "combination": ["AbilityAvoidEconomyWaste", "BuyGK_AttackValue", "Live_BuyEcon", "BuyTech_Elyot"] },
-    "Live_BuySafeguardRoot" :         { "type":"ActionBuy_Combination", "combination": ["Live_BuySafeguard", "AbilityAvoidAttackWaste"] },
+    "Live_BuySafeguardRoot" :         { "type":"ActionBuy_Combination", "combination": ["Live_BuySafeguard", "AbilityAvoidAttackWaste", "AbilityAvoidResourceWaste"] },
     "Live_BCGAttack_Root" :           { "type":"ActionBuy_Combination", "combination": ["BuyGK_AttackValue", "BuyGK_WillScore", "Live_BuySafeguardRoot"] },
     "Live_BCGWill_Root" :             { "type":"ActionBuy_Combination", "combination": ["BuyGK_WillScore", "Live_BuySafeguardRoot"] },
     "Live_BCGDef_Root" :              { "type":"ActionBuy_Combination", "combination": ["Live_BuyComboGreedyDefense", "BuyGK_WillScore", "Live_BuySafeguardRoot"] },
@@ -247,7 +248,7 @@
     "BCGWill_Root" :            { "type":"ActionBuy_Combination", "combination": ["BuyGK_WillScore", "BuySafeguardRoot"] },                                    
     "BCGAttack_Root" :          { "type":"ActionBuy_Combination", "combination": ["BuyGK_AttackValue", "BuyGK_WillScore", "BuySafeguardRoot"] },  
     "BCGDef_Root" :             { "type":"ActionBuy_Combination", "combination": ["BuyComboGreedyDefense", "BuyGK_WillScore", "BuySafeguardRoot"] },
-    "BuySafeguardRoot" :        { "type":"ActionBuy_Combination", "combination": ["BuySafeguard", "AbilityAvoidAttackWaste"] },
+    "BuySafeguardRoot" :        { "type":"ActionBuy_Combination", "combination": ["BuySafeguard", "AbilityAvoidAttackWaste", "AbilityAvoidResourceWaste"] },
     
     "BuyComboPlayout" :         { "type":"ActionBuy_Combination", "combination": ["BuyGK_AttackValue", "BuyGK_WillScore", "BuyEconLimited", "BuyTech_Elyot", "BuySafeguard"] },
     "BreachDefault" :           { "type":"Breach_Default"},
@@ -316,6 +317,7 @@
     "Live_Playout" :           { "type":"Player_PPSequence", "PartialPlayers":["DefenseSolver", "Live_ACAvoidBreach_CS", "Live_BuyComboGreedyAttack", "BreachGreedyKnapsack"]},
     "LiveHardestAI" :          { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
     "LiveHardestAIUCT" :       { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
+    "LiveHardestAI_UCT_Wide" : { "type":"Player_UCT", "TimeLimit":60000, "MaxChildren":100, "MaxTraversals":10000000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
     "LiveHardestAI_2s" :       { "type":"Player_StackAlphaBeta", "TimeLimit":2000, "MaxChildren":40, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"Playout", "PlayoutPlayer":"Live_Playout"},
     "PrismatAI_UCT_LiveOB_2s": { "type":"Player_UCT", "TimeLimit":2000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"LiveHardestAI_Root", "MoveIterator":"LiveHardestAI_Iterator", "Eval":"NeuralNet" },
 
