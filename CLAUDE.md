@@ -121,7 +121,7 @@ python training/export_weights_v2.py \
 ### Engine & Build
 
 - **Internal name system**: Engine uses codenames (e.g., "Tesla Tower" = Tarsier, "Brooder" = Blastforge). Full mapping in `cardLibrary.jso`.
-- **AS3↔C++ naming dictionary**: `role`=`CardStatus`, `disruptDamage`=`m_currentChill`, `MOVE_MELEE`=`ASSIGN_FRONTLINE`, `glassBroken`=`Phases::Breach`, `MOVE_ASSIGN`=`USE_ABILITY`, `MOVE_DEFEND`=`ASSIGN_BLOCKER`. Full dictionary in `docs/plans/engine-logic-audit-plan.md`.
+- **AS3↔C++ naming dictionary**: `role`=`CardStatus`, `disruptDamage`=`m_currentChill`, `MOVE_MELEE`=`ASSIGN_FRONTLINE`, `glassBroken`=breach flag (not a phase — no `Phases::Breach` equivalent in JS), `MOVE_ASSIGN`=`USE_ABILITY`, `MOVE_DEFEND`=`ASSIGN_BLOCKER`. Full dictionary in `docs/plans/engine-logic-audit-plan.md`.
 - **Two git remotes**: `origin` = davechurchill upstream, `PrismatAlpha` = user's fork. Push to `PrismatAlpha`.
 - **Branch can switch unexpectedly**: Always `git branch --show-current` before branch-dependent operations.
 - **Config tournament toggles**: Check `"run":true` in `config.txt` before launching.
@@ -235,7 +235,11 @@ Engine uses codenames internally (e.g., "Tesla Tower" = Tarsier). Full 105-unit 
 
 ### Game Phases & Turn Numbering
 
-Action → Breach (if wipeout) → Confirm → Defense (if enemy has attack) → Swoosh → next player's Action. `m_turnNumber` increments once per **player-turn**. **`beginTurn()` runs during Swoosh** (GameState.cpp:1317), NOT at start of Defense. Tapped units cannot block; untapped can. Do NOT reset statuses before Defense.
+From the **player's experience**: Defense (assign blockers for incoming attack) → Breach if wipeout (opponent clicks through undefended units) → Swoosh → Action → Confirm → back to Defense or Swoosh.
+
+From the **engine's internal sequence**: a player's `MOVE_COMMIT` (end of action) triggers the *opponent's* Defense phase, then Swoosh, then the opponent's Action. JS engine has 3 explicit phases: `PHASE_DEFENSE`, `PHASE_ACTION`, `PHASE_CONFIRM`. There is **no `PHASE_BREACH`** — breach is the `glassBroken` flag resolved within the defense/swoosh transition. The old CLAUDE.md sequence "Action → Breach → Confirm → Defense → Swoosh" described engine ownership order but read as the wrong player-turn sequence.
+
+`m_turnNumber` increments once per **player-turn**. **`beginTurn()` runs during Swoosh** (GameState.cpp:1317), NOT at start of Defense. Tapped units cannot block; untapped can. Do NOT reset statuses before Defense.
 
 **Targeting abilities are two-step**: USE_ABILITY on source (sets `m_targetAbilityCardClicked`), then SNIPE/CHILL on target. `"disrupt"` maps to `ActionTypes::CHILL`. 12 units have `targetAction`.
 
@@ -269,7 +273,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 - **Neural policy head weak** — 13.3% accuracy. Unused for move ordering. [UNSURE IF TRUE]
 - **PUCT implemented but disabled** — `"UsePUCT": true` in config. Don't enable until policy >30%.
 - **C++ missing stagnation detection**: AS3 has 4-level progress counter. C++ only has flat 200-turn limit.
-- **C++ missing death scripts**: `killCardByID` marks dead without running triggers (Centurion, Valkyrion).
+- **C++ `killCardByID` may have cleanup bugs**: Originally documented as "missing death scripts" but Prismata has no on-death triggers — neither Centurion nor Valkyrion have any such mechanic. The actual bug (if any) is unknown; needs investigation. [UNSURE IF TRUE]
 - **Replay validation tests legality, not state correctness**: 50.4% pass rate validates action legality only.[UNSURE IF TRUE]
 
 ## Key Files
