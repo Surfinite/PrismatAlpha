@@ -25,7 +25,7 @@ const args = process.argv.slice(2);
 let startIdx = 0;
 let singleUnit = null;
 let dryRun = false;
-let maxParallel = 2;
+let maxParallel = 8;
 
 for (let i = 0; i < args.length; i++) {
     if (args[i] === '--start' && args[i + 1]) startIdx = parseInt(args[i + 1], 10);
@@ -45,7 +45,7 @@ if (singleUnit && unitsToRun.length === 0) {
 
 console.log(`=== Single-Unit Sweep: ${unitsToRun.length} units, ${maxParallel} concurrent ===`);
 console.log(`Starting from index ${startIdx} (${unitsToRun[0]})`);
-console.log(`Think time: 10000/5000ms | Games per unit: 8 (player-switch)`);
+console.log(`Think time: 7000ms | Games per unit: 8 (player-switch)`);
 console.log('');
 
 const startTime = Date.now();
@@ -64,18 +64,17 @@ function runUnit(i) {
     const unit = unitsToRun[i];
     const globalIdx = singleUnit ? units.indexOf(unit) : startIdx + i;
     const safeName = unit.replace(/[^a-zA-Z0-9_-]/g, '_');
-    const dirName = `LiveUCTVsMB_SingleUnit_UnevenThink_${safeName}`;
-    const logName = `LiveUCTVsMB_SingleUnit_UnevenThink_${safeName}.log`;
+    const dirName = `LiveUCTVsMB_SingleUnit_${safeName}`;
+    const logName = `LiveUCTVsMB_SingleUnit_${safeName}.log`;
 
     const progress = `[${globalIdx + 1}/${units.length}]`;
     console.log(`${progress} ${unit} — starting`);
 
     const cmdArgs = [
         'matchup_clean.js',
-        '--games', '2',
+        '--games', '8',
         '--player-switch',
-        '--think-time-black', '5000',
-        '--think-time-white', '10000',
+        '--think-time', '5000',
         '--resign', '1.5',
         '--player-black', 'SteamAI',
         '--player-white', 'LiveHardestAIUCT',
