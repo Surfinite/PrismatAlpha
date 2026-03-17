@@ -15,20 +15,23 @@ This project extends the original with neural network evaluation, self-play trai
 
 ## Building
 
-Build via Visual Studio (`visualstudio/Prismata.sln`). **x86 only** — Debug, Release, or Static Release configurations.
+Build via Visual Studio (`visualstudio/Prismata.sln`). Debug, Release, or Static Release configurations.
+
+- `Prismata_Testing` and `Prismata_Standalone` build as **x64** (no memory limit)
+- `Prismata_GUI` builds as **x86** (pending SFML x64 libraries)
 
 Produces three executables in `bin/`:
-- `Prismata_GUI` — GUI for watching games
-- `Prismata_Testing` — Tournament runner and engine tests
+- `Prismata_GUI` — GUI for watching games and replays
+- `Prismata_Testing` — Tournament runner, engine tests, and `--suggest` mode
 - `Prismata_Standalone` — Console tournament runner
 
 ## Current Status
 
-The C++ engine has been thoroughly audited against the original AS3 source and is now considered an accurate replication of the live game. The JavaScript engine (transpiled from AS3) passes 100% replay validation and is used to verify C++ AI moves match the real game's expectations.
+The C++ engine has been thoroughly audited against the original AS3 source and is considered an accurate replication of the live game. The JavaScript engine (transpiled from AS3) passes 100% replay validation and is used to run matchups between C++ AI players and the live SteamAI executable.
 
-LiveHardestAI is the best available open-source recreation of the live MasterBot — parameters extracted directly from the game's SWF, with decompiled source code available for inspection. However, it falls short of the actual live MasterBot (MCDSAI wins ~78% against it in testing), likely due to internal tuning not visible in the extracted parameters. MCDSAI — accessible via the JS engine — is the actual training baseline.
+**LiveHardestAI** is the best available open-source recreation of the live MasterBot — parameters extracted directly from the game's SWF, with decompiled source code available for inspection. A single-unit sweep against SteamAI (LiveHardestAI at 2x think time) is underway to identify which units have strategic gaps in the partial player system.
 
-Training is starting fresh from accurate game data for the first time. Previous training runs used an engine with known logic bugs and are discarded. The new pipeline will generate self-play data using the bug-free engine and train a neural network value function using PyTorch.
+**DeepSets neural network** evaluation is working. Three trained models are available: MB-only (82.4% val acc), Human-only (78.2%), and Mixed MB+Human (82.2%). Five DSNN players are configured with per-player weight files and evaluated via the JS matchup runner.
 
 ## Key References
 
