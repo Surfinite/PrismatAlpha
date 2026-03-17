@@ -217,7 +217,7 @@ The JS engine has 3 explicit phases (`PHASE_DEFENSE`, `PHASE_ACTION`, `PHASE_CON
 |--------|-----|-------|
 | `role` (string) | `CardStatus` enum | Defined in `CardType.h` (NOT `Constants.h`). Enum values must match exactly. |
 | `disruptDamage` | `m_currentChill` | Field name only |
-| `glassBroken` flag | `Phases::Breach` phase | Presentation mapping |
+| `glassBroken` flag | `Phases::Breach` phase | In JS, `glassBroken=true` does NOT change `state.phase` (stays `PHASE_ACTION`). Engine_v2 must detect this sub-state and report `Phases::Breach` via `getActivePhase()` even though the internal phase is still Action. See Section 4.1. |
 | `numTurns` | `m_turnNumber` | Increments at COMMIT. **Timing difference**: JS increments `++numTurns` AFTER checking for a winner; old C++ increments BEFORE game-over check. Engine_v2 must follow JS timing (increment after win check). |
 
 ### 4.4 Structural Translations
