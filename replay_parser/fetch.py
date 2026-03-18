@@ -1,6 +1,4 @@
 """Fetch replays from S3."""
-import gzip
-import json
 import logging
 import urllib.request
 from pathlib import Path
