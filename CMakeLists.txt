@@ -9,7 +9,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/source/engine_v2
     ${CMAKE_SOURCE_DIR}/source/ai
     ${CMAKE_SOURCE_DIR}/source/testing
-    ${CMAKE_SOURCE_DIR}/source/rapidjson
+    ${CMAKE_SOURCE_DIR}/source
 )
 
 # Engine V2 sources — CONFIGURE_DEPENDS so cmake re-globs when files are added
