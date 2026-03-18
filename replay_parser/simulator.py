@@ -145,6 +145,14 @@ def simulate(replay: ReplayData) -> None:
         # --- Step 0: Remove clicks that were undone/reverted by the player ---
         turn_clicks = _preprocess_clicks(turn_clicks)
 
+        # --- Step 0.5: Resource decay — only gold and green persist between turns ---
+        # Blue, red, energy, and attack reset to 0 at turn start.
+        pool = resources[active_player]
+        pool.blue = 0
+        pool.red = 0
+        pool.energy = 0
+        pool.attack = 0
+
         # --- Step 1: Credit passive income (beginOwnTurnScript.receive) ---
         _credit_passive_income(
             rosters[active_player], resources[active_player], turns_since_ready
@@ -164,6 +172,8 @@ def simulate(replay: ReplayData) -> None:
         buys: list[str] = []
         abilities_used: list[str] = []
         space_count = 0
+        # Track instances bought this turn (for un-buy detection)
+        bought_this_turn: set[int] = set()
 
         for click in turn_clicks:
             click_type = click["_type"]
@@ -198,7 +208,7 @@ def simulate(replay: ReplayData) -> None:
                 ))
                 continue
 
-            # Instance click (ability or defend)
+            # Instance click (ability, defend, or un-buy)
             if click_type in ("inst clicked", "inst shift clicked"):
                 is_shift = click_type == "inst shift clicked"
                 inst = _find_instance(rosters, click_id)
@@ -208,10 +218,36 @@ def simulate(replay: ReplayData) -> None:
                     )
                     continue
 
+                # Un-buy detection: clicking a unit bought this turn refunds the purchase
+                if click_id in bought_this_turn:
+                    # Refund the buy cost
+                    resources[active_player] = resources[active_player] + inst.card_def.buy_cost
+                    # Restore supply
+                    if inst.card_def.name == "Drone":
+                        drone_supply[active_player] += 1
+                    else:
+                        shared_supply[inst.card_def.deck_index] = shared_supply.get(inst.card_def.deck_index, 0) + 1
+                    # Remove from roster and bought tracking
+                    inst.is_alive = False
+                    bought_this_turn.discard(click_id)
+                    # Remove from buys list (last occurrence of this name)
+                    name = inst.card_def.name
+                    for j in range(len(buys) - 1, -1, -1):
+                        if buys[j] == name:
+                            buys.pop(j)
+                            break
+                    actions.append(Action(
+                        action_type="unbuy",
+                        unit_name=name,
+                        deck_index=inst.card_def.deck_index,
+                        instance_id=click_id,
+                        quantity=1,
+                        raw_click=click,
+                    ))
+                    continue
+
                 if space_count == 0:
                     # Phase 0 — could be defense OR early ability (turn 0 has no defense).
-                    # Always process as ability if the unit has ability_receive,
-                    # otherwise record as defend.
                     if inst.card_def.ability_receive is not None:
                         _process_ability(
                             rosters[active_player],
@@ -261,6 +297,8 @@ def simulate(replay: ReplayData) -> None:
                     next_instance_id, turns_since_ready,
                 )
                 if bought > 0:
+                    for b in range(bought):
+                        bought_this_turn.add(next_instance_id + b)
                     next_instance_id += bought
                     buys.append(card_def.name)
                     actions.append(Action(
@@ -293,6 +331,8 @@ def simulate(replay: ReplayData) -> None:
                         shared_supply, drone_supply, drone_deck_index,
                         next_instance_id, turns_since_ready,
                     )
+                    for b in range(bought):
+                        bought_this_turn.add(next_instance_id + b)
                     next_instance_id += bought
                     for _ in range(bought):
                         buys.append(card_def.name)
