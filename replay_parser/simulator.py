@@ -306,6 +306,10 @@ def simulate(replay: ReplayData) -> None:
                     ))
                 continue
 
+            # Cancel target — no state change
+            if click_type == "cancel target processed":
+                continue
+
             # Unknown click type — log and skip
             logger.warning(
                 "Turn %d: unknown click type %r (id=%s)", global_turn, click_type, click_id
