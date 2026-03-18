@@ -196,7 +196,9 @@ void UCTSearch::computeRootPriors()
         return;
     }
 
-    const NeuralNet & nn = NeuralNet::Instance();
+    // Use per-player NeuralNet instance if available, else fall back to global singleton
+    NeuralNet * nnPtr = _params.getNeuralNet();
+    NeuralNet & nn = nnPtr ? *nnPtr : NeuralNet::Instance();
     if (!nn.isLoaded())
     {
         // No neural net loaded — leave uniform priors
@@ -265,13 +267,17 @@ double UCTSearch::traverse(UCTNode & node)
         {
             // Neural net returns value from active player's perspective [-1,1]
             // Convert to [0,1] win probability from maxPlayer's perspective
-            double nnValue = NeuralNet::Instance().evaluateValue(currentState, _params.maxPlayer());
+            NeuralNet * nnPtr = _params.getNeuralNet();
+            NeuralNet & nn = nnPtr ? *nnPtr : NeuralNet::Instance();
+            double nnValue = nn.evaluateValue(currentState, _params.maxPlayer());
             stateEval = (nnValue + 1.0) / 2.0;
         }
         else if (_params.evalMethod() == EvaluationMethods::NeuralNetPlusPlayout)
         {
             // Blend neural net and playout evaluations
-            double nnValue = NeuralNet::Instance().evaluateValue(currentState, _params.maxPlayer());
+            NeuralNet * nnPtr = _params.getNeuralNet();
+            NeuralNet & nn = nnPtr ? *nnPtr : NeuralNet::Instance();
+            double nnValue = nn.evaluateValue(currentState, _params.maxPlayer());
             double nnEval = (nnValue + 1.0) / 2.0;
 
             PlayerID winner = Eval::PerformPlayout(currentState, _params.getPlayoutPlayer(Players::Player_One), _params.getPlayoutPlayer(Players::Player_Two));

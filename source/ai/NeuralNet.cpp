@@ -16,6 +16,33 @@ NeuralNet::NeuralNet()
     std::memset(&_config, 0, sizeof(_config));
 }
 
+NeuralNet::NeuralNet(const NeuralNet & other)
+    : _config(other._config)
+    , _embedding_table(other._embedding_table)
+    , _property_table(other._property_table)
+    , _enc_linear1(other._enc_linear1)
+    , _enc_linear2(other._enc_linear2)
+    , _sup_linear1(other._sup_linear1)
+    , _sup_linear2(other._sup_linear2)
+    , _val_linear1(other._val_linear1)
+    , _val_linear2(other._val_linear2)
+    , _val_linear3(other._val_linear3)
+    , _unitNameToIndex(other._unitNameToIndex)
+    , _cardTypeToUnitIndex(other._cardTypeToUnitIndex)
+    , _loaded(other._loaded)
+{
+    // Allocate fresh scratch buffers for thread safety (NOT shared with source)
+    if (_loaded)
+    {
+        allocateScratchBuffers();
+    }
+}
+
+NeuralNetPtr NeuralNet::clone() const
+{
+    return std::make_shared<NeuralNet>(*this);
+}
+
 NeuralNet & NeuralNet::Instance()
 {
     static NeuralNet instance;

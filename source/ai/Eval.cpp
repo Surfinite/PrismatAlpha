@@ -66,15 +66,18 @@ namespace Eval
         return diff;
     }
 
-    double NeuralNetEvaluation(const GameState & state, const PlayerID maxPlayer)
+    double NeuralNetEvaluation(const GameState & state, const PlayerID maxPlayer, NeuralNet * nn)
     {
-        if (!NeuralNet::Instance().isLoaded())
+        // Use provided instance, or fall back to global singleton
+        NeuralNet & net = nn ? *nn : NeuralNet::Instance();
+
+        if (!net.isLoaded())
         {
             return WillScoreEvaluation(state, maxPlayer);
         }
 
         // Returns [-1, 1] scaled to comparable range
-        double value = NeuralNet::Instance().evaluateValue(state, maxPlayer);
+        double value = net.evaluateValue(state, maxPlayer);
         return value * 100.0;
     }
 

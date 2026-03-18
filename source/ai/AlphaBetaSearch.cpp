@@ -180,7 +180,7 @@ const StateEvalScore AlphaBetaSearch::eval(const GameState & state)
     }
     else if (_params.evalMethod() == EvaluationMethods::NeuralNet)
     {
-        return Eval::NeuralNetEvaluation(state, _params.maxPlayer());
+        return Eval::NeuralNetEvaluation(state, _params.maxPlayer(), _params.getNeuralNet());
     }
     else if (_params.evalMethod() == EvaluationMethods::NeuralNetPlusPlayout)
     {
@@ -190,7 +190,9 @@ const StateEvalScore AlphaBetaSearch::eval(const GameState & state)
                                     _params.maxPlayer());
 
         // Neural net value [-1,1] scaled to playout range [-WinScore, WinScore]
-        double nnValue = NeuralNet::Instance().evaluateValue(state, _params.maxPlayer());
+        NeuralNet * nnPtr = _params.getNeuralNet();
+        NeuralNet & nn = nnPtr ? *nnPtr : NeuralNet::Instance();
+        double nnValue = nn.evaluateValue(state, _params.maxPlayer());
         double nnScore = nnValue * Eval::WinScore;
 
         double w = _params.blendWeight();

@@ -4,7 +4,9 @@
 #include "Player.h"
 #include "MoveIterator.h"
 #include "AlphaBetaSearchSaveState.hpp"
+#include "NeuralNet.h"
 #include <string>
+#include <memory>
 
 namespace Prismata
 {
@@ -27,7 +29,9 @@ class AlphaBetaSearchParameters
     MoveIteratorPtr _moveIterators[2];
     MoveIteratorPtr _rootMoveIterators[2];
 
-    //std::string                             _graphVizFilename;  
+    NeuralNetPtr    _neuralNet;
+
+    //std::string                             _graphVizFilename;
 
 
 public:
@@ -50,6 +54,8 @@ public:
     const AlphaBetaSearchSaveState & getSaveState() const { return _saveState; }
     MoveIteratorPtr & getMoveIterator(const PlayerID p) { return _moveIterators[p]; }
     MoveIteratorPtr & getRootMoveIterator(const PlayerID p) { return _rootMoveIterators[p]; }
+    NeuralNet * getNeuralNet() const { return _neuralNet.get(); }
+    const NeuralNetPtr & getNeuralNetPtr() const { return _neuralNet; }
 
     void setSearchMethod(const int & method) { _searchMethod = method; }
     void setMaxPlayer(const PlayerID player) { _maxPlayer = player; }
@@ -62,6 +68,7 @@ public:
     void setPlayoutPlayer(const PlayerID p, const PlayerPtr & ptr) { _playoutPlayers[p] = ptr; }
     void setMoveIterator(const PlayerID p, const MoveIteratorPtr & m) { _moveIterators[p] = m; }
     void setRootMoveIterator(const PlayerID p, const MoveIteratorPtr & m) { _rootMoveIterators[p] = m; }
+    void setNeuralNet(const NeuralNetPtr & nn) { _neuralNet = nn; }
 
     // Deep-clone all shared_ptrs so this instance is fully independent (thread-safe)
     void deepClone()
@@ -72,6 +79,9 @@ public:
             if (_moveIterators[p])     _moveIterators[p] = _moveIterators[p]->clone();
             if (_rootMoveIterators[p]) _rootMoveIterators[p] = _rootMoveIterators[p]->clone();
         }
+        // NeuralNet has mutable scratch buffers — each thread needs its own copy.
+        // clone() copies all weights and allocates fresh scratch buffers.
+        if (_neuralNet) _neuralNet = _neuralNet->clone();
     }
 
     std::string getDescription()

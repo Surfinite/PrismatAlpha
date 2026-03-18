@@ -5,9 +5,12 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 namespace Prismata
 {
+
+typedef std::shared_ptr<class NeuralNet> NeuralNetPtr;
 
 class NeuralNet
 {
@@ -84,6 +87,10 @@ class NeuralNet
 public:
 
     NeuralNet();
+    NeuralNet(const NeuralNet & other);
+
+    // Create an independent copy (separate scratch buffers, same weights)
+    NeuralNetPtr clone() const;
 
     bool loadWeights(const std::string & filename);
     void buildCardTypeMapping();

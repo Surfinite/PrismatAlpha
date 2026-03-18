@@ -1,6 +1,66 @@
 #include "AIParameters.h"
+#include "NeuralNet.h"
 
 using namespace Prismata;
+
+// Create a per-player NeuralNet instance from config.
+// If WeightsFile is specified, loads that; otherwise clones the global singleton.
+static NeuralNetPtr createPlayerNeuralNet(const rapidjson::Value & playerValue)
+{
+    auto nn = std::make_shared<NeuralNet>();
+
+    std::string weightsFile;
+    if (playerValue.HasMember("WeightsFile") && playerValue["WeightsFile"].IsString())
+    {
+        weightsFile = playerValue["WeightsFile"].GetString();
+    }
+
+    if (!weightsFile.empty())
+    {
+        // Try with config dir prefix first, then raw path
+        std::string configDir = "asset/config/";
+        std::string fullPath = configDir + weightsFile;
+        if (nn->loadWeights(fullPath))
+        {
+            nn->buildCardTypeMapping();
+            printf("AIParameters: created per-player NeuralNet from %s\n", fullPath.c_str());
+            return nn;
+        }
+        // Try raw path
+        if (nn->loadWeights(weightsFile))
+        {
+            nn->buildCardTypeMapping();
+            printf("AIParameters: created per-player NeuralNet from %s\n", weightsFile.c_str());
+            return nn;
+        }
+        printf("AIParameters: WARNING: could not load per-player weights '%s', falling back to global\n", weightsFile.c_str());
+    }
+
+    // No per-player weights specified — check if global singleton is loaded
+    if (NeuralNet::Instance().isLoaded())
+    {
+        // Create a fresh instance with the same default weights
+        // We need separate instances because mutable scratch buffers are not thread-safe
+        // Try the standard default weight paths
+        const char * defaultPaths[] = {
+            "asset/config/neural_weights.bin",
+            "../asset/config/neural_weights.bin",
+        };
+        for (const char * path : defaultPaths)
+        {
+            if (nn->loadWeights(path))
+            {
+                nn->buildCardTypeMapping();
+                printf("AIParameters: created per-player NeuralNet (default weights) from %s\n", path);
+                return nn;
+            }
+        }
+        // Last resort: return nullptr, will fall back to global singleton
+        printf("AIParameters: WARNING: could not re-load default weights for per-player instance\n");
+    }
+
+    return nullptr;
+}
 
 AIParameters::AIParameters()
     : _partialPlayerParses(0)
@@ -759,8 +819,20 @@ PlayerPtr AIParameters::parsePlayer(const PlayerID player, const std::string & p
             params.setUsePUCT(args["UsePUCT"].GetBool());
         }
 
+        // Create per-player NeuralNet instance for NN-using eval methods
+        if (params.evalMethod() == EvaluationMethods::NeuralNet
+            || params.evalMethod() == EvaluationMethods::NeuralNetPlusPlayout
+            || params.usePUCT())
+        {
+            NeuralNetPtr nn = createPlayerNeuralNet(playerValue);
+            if (nn)
+            {
+                params.setNeuralNet(nn);
+            }
+        }
+
         //params.setGraphVizFilename("uct.png");
-        
+
         playerPtr = PlayerPtr(new Player_UCT(player, params));
     }
     else if (playerClassName == "Player_StackAlphaBeta" || playerClassName == "Player_AlphaBeta")  
@@ -834,6 +906,17 @@ PlayerPtr AIParameters::parsePlayer(const PlayerID player, const std::string & p
         if (args.HasMember("BlendWeight") && args["BlendWeight"].IsDouble())
         {
             params.setBlendWeight(args["BlendWeight"].GetDouble());
+        }
+
+        // Create per-player NeuralNet instance for NN-using eval methods
+        if (params.evalMethod() == EvaluationMethods::NeuralNet
+            || params.evalMethod() == EvaluationMethods::NeuralNetPlusPlayout)
+        {
+            NeuralNetPtr nn = createPlayerNeuralNet(playerValue);
+            if (nn)
+            {
+                params.setNeuralNet(nn);
+            }
         }
 
         if (playerClassName == "Player_AlphaBeta")
