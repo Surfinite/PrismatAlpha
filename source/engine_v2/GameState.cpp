@@ -383,6 +383,10 @@ bool GameState::isLegal(const Action & action) const
                 {
                     return true;
                 }
+                default:
+                {
+                    return false;
+                }
             }
         }
         case ActionTypes::WIPEOUT:
@@ -673,13 +677,14 @@ bool GameState::doAction(const Action & action)
             Card & card = _getCardByID(action.getID());
             Card & target = _getCardByID(action.getTargetID());
 
-            PRISMATA_ASSERT(!card.isDead(), "Trying to CHILL with dead card");
+            PRISMATA_ASSERT(!card.isDead(), "Trying to SNIPE with dead card");
             PRISMATA_ASSERT(!target.isDead(), "Trying to snipe a dead target card");
-            
+
+            // JS order: run ability script FIRST, then apply target effect
+            runScript(action.getID(), card.getType().getAbilityScript(), ScriptTypes::AbilityScript);
+
             card.setTargetID(target.getID());
             killCardByID(action.getTargetID(), CauseOfDeath::Sniped);
-            
-            runScript(action.getID(), card.getType().getAbilityScript(), ScriptTypes::AbilityScript);
 
             m_targetAbilityCardClicked = false;
             m_targetAbilityCardID = 0;
@@ -694,10 +699,11 @@ bool GameState::doAction(const Action & action)
             PRISMATA_ASSERT(!card.isDead(), "Trying to CHILL with dead card");
             PRISMATA_ASSERT(!target.isDead(), "Trying to CHILL a dead target card");
 
+            // JS order: run ability script FIRST, then apply target effect
+            runScript(action.getID(), card.getType().getAbilityScript(), ScriptTypes::AbilityScript);
+
             target.applyChill(card.getType().getTargetAbilityAmount());
             card.setTargetID(target.getID());
-            
-            runScript(action.getID(), card.getType().getAbilityScript(), ScriptTypes::AbilityScript);
 
             m_targetAbilityCardClicked = false;
             m_targetAbilityCardID = 0;
@@ -707,6 +713,7 @@ bool GameState::doAction(const Action & action)
         case ActionTypes::WIPEOUT:
         {
             endPhase();
+            break;
         }
         case ActionTypes::UNDO_CHILL:
         {

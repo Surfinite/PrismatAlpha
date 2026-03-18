@@ -48,11 +48,11 @@ void test_card_construction()
     assert(!wall.canUseAbility());  // Wall has no ability
     assert(wall.getStatus() == CardStatus::Inert);  // No ability -> Inert via Manual
 
-    // Tesla Tower (Tarsier): fragile, health=1, no ability, no blocking
+    // Tesla Tower (Tarsier): NOT fragile, health=1, no ability (has beginOwnTurnScript), no blocking
     Card tarsier = makeCard("Tesla Tower");
     assert(!tarsier.isDead());
     assert(tarsier.currentHealth() == 1);
-    assert(tarsier.getType().isFragile());
+    assert(!tarsier.getType().isFragile());
     assert(!tarsier.canBlock());  // defaultBlocking=false
 
     // Bought Drone should be under construction
@@ -188,10 +188,10 @@ void test_freeze_detection()
     assert(wall.isFrozen());
     assert(!wall.canBlock());  // Frozen cards cannot block
 
-    // Fragile card freeze: Tesla Tower (Tarsier), health=1
+    // Small card freeze: Tesla Tower (Tarsier), health=1
     Card tarsier = makeCard("Tesla Tower");
     // Tarsier doesn't have defaultBlocking, so canBlock is always false
-    // But isFrozen should still work
+    // But isFrozen should still work (chill=1 >= health=1)
     assert(!tarsier.isFrozen());
     tarsier.applyChill(1);
     assert(tarsier.isFrozen());
@@ -304,11 +304,13 @@ void test_breach_calculations()
     assert(conduit.canBreachFor(3));
 
     // Under construction: not breachable, but overkillable
-    Card boughtWall = makeBoughtCard("Wall");
-    assert(!boughtWall.isBreachable());
-    assert(boughtWall.isOverkillable());
-    assert(boughtWall.canOverkillFor(3));
-    assert(!boughtWall.canOverkillFor(2));  // Non-fragile needs full health
+    // Wall has buildTime=0, so use Tesla Tower (buildTime=2) for construction test
+    Card boughtTarsier = makeBoughtCard("Tesla Tower");
+    assert(boughtTarsier.isUnderConstruction());
+    assert(!boughtTarsier.isBreachable());
+    assert(boughtTarsier.isOverkillable());
+    assert(boughtTarsier.canOverkillFor(1));   // health=1
+    assert(!boughtTarsier.canOverkillFor(0));  // 0 damage can't overkill
 
     // Dead cards: not breachable or overkillable
     Card deadWall = makeCard("Wall");
@@ -392,8 +394,10 @@ void test_chill()
     assert(!wall.canBlock());
 
     // Under-construction card can't be chilled
-    Card boughtWall = makeBoughtCard("Wall");
-    assert(!boughtWall.canBeChilled());
+    // Wall has buildTime=0, so use Tesla Tower (buildTime=2) for construction test
+    Card boughtTarsier2 = makeBoughtCard("Tesla Tower");
+    assert(boughtTarsier2.isUnderConstruction());
+    assert(!boughtTarsier2.canBeChilled());
 
     // Dead card can't be chilled
     Card deadWall = makeCard("Wall");

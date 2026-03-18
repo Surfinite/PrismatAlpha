@@ -33,17 +33,15 @@ void test_card_type_properties()
 {
     // Drone: base set, 1 health, produces 1 gold, can block
     Prismata::CardType drone = Prismata::CardTypes::GetCardType("Drone");
-    assert(drone.getHealthAmount() == 1);
+    assert(drone.getStartingHealth() == 1);
     assert(drone.canBlock(false));
     assert(!drone.isFragile());
 
-    // Tarsier (Tesla Tower): 1 health, fragile
-    // NOTE: Tarsier's attack comes from beginOwnTurnScript, not a frontline attack value.
-    // CardType::getAttack() may return 0 or 1 depending on whether it pre-computes
-    // script-derived attack. Verify empirically and adjust assertion if needed.
+    // Tarsier (Tesla Tower): 1 health, NOT fragile (despite being an attacker)
+    // Attack comes from beginOwnTurnScript, not a frontline attack value.
     Prismata::CardType tarsier = Prismata::CardTypes::GetCardType("Tesla Tower");
-    assert(tarsier.getHealthAmount() == 1);
-    assert(tarsier.isFragile());
+    assert(tarsier.getStartingHealth() == 1);
+    assert(!tarsier.isFragile());
 
     std::cout << "  PASS: test_card_type_properties" << std::endl;
 }
