@@ -132,15 +132,44 @@ def simulate(replay: ReplayData) -> None:
     # ------------------------------------------------------------------
     # Walk turns
     # ------------------------------------------------------------------
+    # Pre-slice clicks by clicksPerTurn, then fix boundary alignment.
+    # Some replays have emotes that push buy+commit clicks into the next
+    # turn's slice. Detect and fix: if a turn has no space click (no commit),
+    # steal leading clicks from the next turn up through the commit spaces.
+    turn_click_slices = []
     cmd_offset = 0
+    for n_clicks in clicks_per_turn:
+        turn_click_slices.append(command_list[cmd_offset: cmd_offset + n_clicks])
+        cmd_offset += n_clicks
+
+    for t in range(len(turn_click_slices) - 1):
+        non_emote = [c for c in turn_click_slices[t] if not c["_type"].startswith("emote")]
+        has_space = any(c["_type"] == "space clicked" for c in non_emote)
+        if not has_space and len(non_emote) > 0:
+            # This turn has actions but no commit — steal from next turn
+            next_clicks = turn_click_slices[t + 1]
+            steal_count = 0
+            spaces_seen = 0
+            for c in next_clicks:
+                if c["_type"].startswith("emote"):
+                    steal_count += 1
+                    continue
+                steal_count += 1
+                if c["_type"] == "space clicked":
+                    spaces_seen += 1
+                    if spaces_seen >= 2:
+                        break  # Stolen through the commit
+                # If we hit an inst shift clicked on a different player's unit
+                # after 2 spaces, stop — that's the next player's turn start
+            if spaces_seen >= 2:
+                turn_click_slices[t].extend(next_clicks[:steal_count])
+                turn_click_slices[t + 1] = next_clicks[steal_count:]
+
     replay.turns = []
 
-    for global_turn, n_clicks in enumerate(clicks_per_turn):
+    for global_turn, turn_clicks in enumerate(turn_click_slices):
         active_player = global_turn % 2
         player_turn_counter[active_player] += 1
-
-        turn_clicks = command_list[cmd_offset: cmd_offset + n_clicks]
-        cmd_offset += n_clicks
 
         # --- Step 0: Remove clicks that were undone/reverted by the player ---
         turn_clicks = _preprocess_clicks(turn_clicks)
