@@ -142,28 +142,32 @@ def simulate(replay: ReplayData) -> None:
         turn_click_slices.append(command_list[cmd_offset: cmd_offset + n_clicks])
         cmd_offset += n_clicks
 
-    for t in range(len(turn_click_slices) - 1):
-        non_emote = [c for c in turn_click_slices[t] if not c["_type"].startswith("emote")]
-        has_space = any(c["_type"] == "space clicked" for c in non_emote)
-        if not has_space and len(non_emote) > 0:
-            # This turn has actions but no commit — steal from next turn
-            next_clicks = turn_click_slices[t + 1]
-            steal_count = 0
-            spaces_seen = 0
-            for c in next_clicks:
-                if c["_type"].startswith("emote"):
+    # Fix iteratively: keep processing until no more spaceless turns remain
+    changed = True
+    while changed:
+        changed = False
+        for t in range(len(turn_click_slices) - 1):
+            non_emote = [c for c in turn_click_slices[t]
+                         if not c["_type"].startswith("emote")]
+            has_space = any(c["_type"] == "space clicked" for c in non_emote)
+            if not has_space:
+                # This turn has no commit — steal from next turn until we get 2 spaces
+                next_clicks = turn_click_slices[t + 1]
+                steal_count = 0
+                spaces_seen = 0
+                for c in next_clicks:
+                    if c["_type"].startswith("emote"):
+                        steal_count += 1
+                        continue
                     steal_count += 1
-                    continue
-                steal_count += 1
-                if c["_type"] == "space clicked":
-                    spaces_seen += 1
-                    if spaces_seen >= 2:
-                        break  # Stolen through the commit
-                # If we hit an inst shift clicked on a different player's unit
-                # after 2 spaces, stop — that's the next player's turn start
-            if spaces_seen >= 2:
-                turn_click_slices[t].extend(next_clicks[:steal_count])
-                turn_click_slices[t + 1] = next_clicks[steal_count:]
+                    if c["_type"] == "space clicked":
+                        spaces_seen += 1
+                        if spaces_seen >= 2:
+                            break
+                if spaces_seen >= 1:  # Steal even with 1 space (may need another pass)
+                    turn_click_slices[t].extend(next_clicks[:steal_count])
+                    turn_click_slices[t + 1] = next_clicks[steal_count:]
+                    changed = True
 
     replay.turns = []
 
