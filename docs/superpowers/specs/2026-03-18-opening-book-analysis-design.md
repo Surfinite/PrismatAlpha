@@ -646,15 +646,39 @@ Prismata has TWO undo mechanisms:
 
 Clicking a unit purchased this turn refunds its buy cost, removes the instance, and restores supply. The parser detects this by tracking which instance IDs were created by buys in the current turn. This is the dominant undo pattern and is NOT encoded as `undo clicked` in the replay data.
 
-### 8.8 Cross-Validation Results (500 replays, Python vs JS engine)
+### 8.8 Cross-Validation Results (Python vs JS engine, beginTurnHistory ground truth)
 
-| Turn Tier | Buy Match | Unit Match | Resource Match |
-|-----------|-----------|------------|----------------|
-| 1-5 | 75.7% | 81.3% | 70.9% |
-| 6-10 | 30.9% | 12.1% | 6.8% |
-| 11+ | 24.9% | 0% | 0% |
+**500 replays (seed=42):**
 
-Remaining turn 1-5 divergence (~24%) is from resource tracking drift affecting shift-click buy quantities. Game result (100%) and turn count (100%) match perfectly. Late-game divergence is expected due to combat death tracking gaps.
+| Player Turn | Buy Accuracy |
+|-------------|-------------|
+| 1 | **99.9%** (1 mismatch in 989) |
+| 2 | **92.7%** |
+| 3 | **90.8%** |
+| 4 | 77.0% |
+| 5 | 64.4% |
+
+**100 replays (seed=777, independent validation):**
+
+| Player Turn | Buy Accuracy |
+|-------------|-------------|
+| 1 | **99.0%** |
+| 2 | **92.9%** |
+| 3 | **92.3%** |
+| 4 | 78.9% |
+| 5 | 68.1% |
+
+Game result (100%) and turn count (100%) match perfectly across all samples.
+
+**Fixes applied during cross-validation:**
+1. Resource decay — blue/red/energy/attack reset to 0 at turn start
+2. Un-buy detection — `inst clicked` on just-bought unit refunds purchase
+3. Shift-click unbuy — `inst shift clicked` unbuys ALL bought instances of that type
+4. Confirm-phase detection — first non-space click after action-commit space is skipped
+5. Turn boundary alignment — emotes pushing buy/commit clicks into wrong turn slice
+6. JS extraction — uses `beginTurnHistory` auto-play (not manual `recordClick`)
+
+**Remaining pt2-5 gap** is from resource tracking drift during complex buy/unbuy/rebuy chains within a single turn. The parser's approximate resource model diverges from the engine's exact state, causing shift-click buy quantity miscalculation. Not fixable without full engine simulation.
 
 ### 8.9 Build Time Edge Cases
 
