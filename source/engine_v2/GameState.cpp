@@ -1235,7 +1235,8 @@ void GameState::beginTurn(const PlayerID player)
     // reset card breached
     m_canBreachFrozenCard = false;
 
-    // keep track of all the cards we had at the beginning of the turn
+    // Snapshot card IDs before iteration (JS: copyOfInstIds)
+    // Cards created during scripts won't be processed this swoosh.
     std::vector<CardID> cardsAtStartOfTurn;
     cardsAtStartOfTurn.reserve(numCards(player));
     for (const auto & cardID : getCardIDs(player))
@@ -1249,26 +1250,30 @@ void GameState::beginTurn(const PlayerID player)
         _getCardByID(cardID).beginTurn();
     }
 
-    // do beginning of turn upkeep for each card
+    // SINGLE-PASS swoosh: per card, do timer tick + script execution together.
+    // This matches the JS swoosh which processes each card fully before moving
+    // to the next. The old C++ was two-pass (all ticks, then all scripts), which
+    // could produce different results when scripts interact with card state.
     for (const auto & cardID : cardsAtStartOfTurn)
     {
-        PRISMATA_ASSERT(!getCardByID(cardID).isDead(), "Card is dead?");
+        // Card may have been killed by a previous card's script in this swoosh
+        if (_getCardByID(cardID).isDead())
+        {
+            continue;
+        }
 
+        // Pass 1 equivalent: tick construction/delay/lifespan, reset status
         _getCardByID(cardID).beginTurn();
 
         if (_getCardByID(cardID).isDead())
         {
             killCardByID(cardID, CauseOfDeath::Unknown);
+            continue;
         }
-    }
 
-    // do begin own turn scrips for each remaining card that isn't dead
-    for (const auto & cardID : cardsAtStartOfTurn)
-    {
+        // Pass 2 equivalent: run beginOwnTurnScript (resource grants, unit creation)
         const Card & card = _getCardByID(cardID);
-        
-        // if the card is still alive and can run its own begin turn script, do it
-        if (!card.isDead() && card.getType().hasBeginOwnTurnScript() && card.canRunBeginOwnTurnScript())
+        if (card.getType().hasBeginOwnTurnScript() && card.canRunBeginOwnTurnScript())
         {
             runScript(cardID, card.getType().getBeginOwnTurnScript(), ScriptTypes::BeginTurnScript);
             bool scriptKilledCard = getCardByID(cardID).isDead();
@@ -1281,7 +1286,7 @@ void GameState::beginTurn(const PlayerID player)
             }
         }
     }
-    
+
     m_cards.removeKilledCards();
 }
 

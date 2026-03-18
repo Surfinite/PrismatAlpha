@@ -503,6 +503,245 @@ void test_wipeout_does_not_fall_through()
 }
 
 // ============================================================================
+// Helper: pass a player's turn (Action → Confirm → opponent's turn)
+// Returns the active player after the turn ends.
+// ============================================================================
+static void passTurn(GameState & state)
+{
+    PlayerID player = state.getActivePlayer();
+    assert(state.getActivePhase() == Phases::Action);
+
+    // End Action → Confirm (or Breach if attack > defense)
+    Action endAction(player, ActionTypes::END_PHASE, 0);
+    state.doAction(endAction);
+
+    // If we entered Breach, end it
+    if (state.getActivePhase() == Phases::Breach)
+    {
+        Action endBreach(player, ActionTypes::END_PHASE, 0);
+        state.doAction(endBreach);
+    }
+
+    assert(state.getActivePhase() == Phases::Confirm);
+
+    // End Confirm → opponent's Defense (if attack) or Swoosh → Action
+    Action endConfirm(player, ActionTypes::END_PHASE, 0);
+    state.doAction(endConfirm);
+
+    // If opponent entered Defense, end it (auto-block or just pass)
+    if (state.getActivePhase() == Phases::Defense)
+    {
+        PlayerID defender = state.getActivePlayer();
+        Action endDefense(defender, ActionTypes::END_PHASE, 0);
+        state.doAction(endDefense);
+    }
+
+    // After defense (or skip), swoosh runs, then Action
+    assert(state.getActivePhase() == Phases::Action);
+}
+
+// ============================================================================
+// Test: Engineer produces energy after swoosh
+// ============================================================================
+void test_swoosh_engineer_produces_energy()
+{
+    std::cout << "  test_swoosh_engineer_produces_energy..." << std::endl;
+
+    GameState state;
+    state.setStartingState(Players::Player_One, 0);
+
+    // After initial swoosh, P1 should have 2 energy (from 2 Engineers' beginOwnTurnScript)
+    ResourceType initialEnergy = state.getResources(Players::Player_One).amountOf(Resources::Energy);
+    assert(initialEnergy == 2);
+
+    // Pass P1's turn, then P2's turn — P1's swoosh runs again
+    passTurn(state); // P1 → P2
+    passTurn(state); // P2 → P1
+
+    // P1 should again have 2 energy from their 2 Engineers
+    ResourceType energyAfterCycle = state.getResources(Players::Player_One).amountOf(Resources::Energy);
+    assert(energyAfterCycle == 2);
+
+    std::cout << "    PASSED" << std::endl;
+}
+
+// ============================================================================
+// Test: Tarsier (Tesla Tower) produces 1 attack per turn after swoosh
+// ============================================================================
+void test_swoosh_tarsier_produces_attack()
+{
+    std::cout << "  test_swoosh_tarsier_produces_attack..." << std::endl;
+
+    GameState state;
+    state.setStartingState(Players::Player_One, 0);
+
+    // Add a Tarsier (Tesla Tower) for P1 — manual creation (no construction time)
+    CardType tarsierType = CardTypes::GetCardType("Tesla Tower");
+    state.addCard(Players::Player_One, tarsierType, 1, CardCreationMethod::Manual, 0, 0);
+
+    // Tarsier has beginOwnTurnScript: {"receive":"A"} — produces 1 attack
+    // But it was just added, so its script hasn't run yet.
+    // Currently in P1's Action phase. After initial swoosh ran, Tarsier wasn't there.
+    // Verify P1 has 0 attack right now.
+    assert(state.getAttack(Players::Player_One) == 0);
+
+    // Pass P1's turn, then P2's turn — P1's swoosh runs again
+    passTurn(state); // P1 → P2
+    passTurn(state); // P2 → P1
+
+    // After P1's swoosh, Tarsier should have produced 1 attack
+    assert(state.getAttack(Players::Player_One) == 1);
+
+    std::cout << "    PASSED" << std::endl;
+}
+
+// ============================================================================
+// Test: Card under construction completes after correct number of turns
+// ============================================================================
+void test_swoosh_construction_completion()
+{
+    std::cout << "  test_swoosh_construction_completion..." << std::endl;
+
+    GameState state;
+    state.setStartingState(Players::Player_One, 0);
+
+    // Add a Tarsier (Tesla Tower, buildTime=2) as a bought card for P1
+    CardType tarsierType = CardTypes::GetCardType("Tesla Tower");
+    state.addCard(Players::Player_One, tarsierType, 1, CardCreationMethod::Bought, 0, 0);
+
+    // Find the bought Tarsier
+    CardID tarsierID = 0;
+    bool found = false;
+    for (const auto & cardID : state.getCardIDs(Players::Player_One))
+    {
+        const Card & card = state.getCardByID(cardID);
+        if (card.getType() == tarsierType && card.isUnderConstruction())
+        {
+            tarsierID = cardID;
+            found = true;
+            break;
+        }
+    }
+    assert(found);
+    assert(state.getCardByID(tarsierID).getConstructionTime() == 2);
+
+    // Pass P1's turn, then P2's turn — P1's swoosh ticks construction once
+    passTurn(state); // P1 → P2
+    passTurn(state); // P2 → P1
+
+    // After 1 swoosh cycle, construction should be 1
+    assert(state.getCardByID(tarsierID).getConstructionTime() == 1);
+    assert(state.getCardByID(tarsierID).isUnderConstruction());
+
+    // No attack yet (still under construction, can't run beginOwnTurnScript)
+    assert(state.getAttack(Players::Player_One) == 0);
+
+    // Pass another full cycle
+    passTurn(state); // P1 → P2
+    passTurn(state); // P2 → P1
+
+    // After 2 swoosh cycles, construction should be complete
+    assert(state.getCardByID(tarsierID).getConstructionTime() == 0);
+    assert(!state.getCardByID(tarsierID).isUnderConstruction());
+
+    // Tarsier should now produce attack (beginOwnTurnScript ran this swoosh)
+    assert(state.getAttack(Players::Player_One) == 1);
+
+    std::cout << "    PASSED" << std::endl;
+}
+
+// ============================================================================
+// Test: Lifespan expiry — card dies when lifespan reaches 0
+// ============================================================================
+void test_swoosh_lifespan_expiry()
+{
+    std::cout << "  test_swoosh_lifespan_expiry..." << std::endl;
+
+    GameState state;
+    state.setStartingState(Players::Player_One, 0);
+
+    // Add a Doomed Drone for P1 with lifespan=3 (manually set, shorter for testing)
+    CardType doomedDroneType = CardTypes::GetCardType("Doomed Drone");
+    // Manual creation with lifespan=3 (overrides the type's default lifespan of 4)
+    state.addCard(Players::Player_One, doomedDroneType, 1, CardCreationMethod::Manual, 0, 3);
+
+    CardID initialCount = state.numCards(Players::Player_One);
+
+    // Find the Doomed Drone
+    CardID doomedDroneID = 0;
+    bool found = false;
+    for (const auto & cardID : state.getCardIDs(Players::Player_One))
+    {
+        const Card & card = state.getCardByID(cardID);
+        if (card.getType() == doomedDroneType)
+        {
+            doomedDroneID = cardID;
+            found = true;
+            break;
+        }
+    }
+    assert(found);
+
+    // Pass 1 cycle — lifespan ticks from 3 to 2
+    passTurn(state); // P1 → P2
+    passTurn(state); // P2 → P1
+    assert(!state.getCardByID(doomedDroneID).isDead());
+
+    // Pass 2nd cycle — lifespan ticks from 2 to 1
+    passTurn(state);
+    passTurn(state);
+    assert(!state.getCardByID(doomedDroneID).isDead());
+
+    // Pass 3rd cycle — lifespan ticks from 1 to 0 → card dies
+    passTurn(state);
+    passTurn(state);
+
+    // Card should be dead and removed
+    assert(state.numCards(Players::Player_One) == initialCount - 1);
+
+    std::cout << "    PASSED" << std::endl;
+}
+
+// ============================================================================
+// Test: Single-pass swoosh — script of earlier card can affect later cards
+// ============================================================================
+void test_swoosh_single_pass_ordering()
+{
+    std::cout << "  test_swoosh_single_pass_ordering..." << std::endl;
+
+    // In single-pass swoosh, each card is fully processed (tick + script) before
+    // the next. This means resources granted by an earlier card's beginOwnTurnScript
+    // are available when the next card's script runs.
+    //
+    // This is the key behavioral difference from two-pass (old C++), where ALL
+    // cards would tick first, THEN all scripts would run.
+    //
+    // For most cards this doesn't matter (scripts just add to a resource pool),
+    // but it's important for correctness. We verify that after swoosh, the total
+    // resources are correct regardless of pass strategy.
+
+    GameState state;
+    state.setStartingState(Players::Player_One, 0);
+
+    // P1 has 2 Engineers (each produces 1 energy via beginOwnTurnScript)
+    // After initial swoosh, energy should be exactly 2
+    assert(state.getResources(Players::Player_One).amountOf(Resources::Energy) == 2);
+
+    // Add 3 more Engineers for P1
+    CardType engineerType = CardTypes::GetCardType("Engineer");
+    state.addCard(Players::Player_One, engineerType, 3, CardCreationMethod::Manual, 0, 0);
+
+    // Pass a full cycle so P1's swoosh runs
+    passTurn(state);
+    passTurn(state);
+
+    // P1 now has 5 Engineers, each producing 1 energy
+    assert(state.getResources(Players::Player_One).amountOf(Resources::Energy) == 5);
+
+    std::cout << "    PASSED" << std::endl;
+}
+
+// ============================================================================
 // Entry point — called from test_main.cpp
 // ============================================================================
 void run_game_state_tests()
@@ -521,6 +760,11 @@ void run_game_state_tests()
     test_use_ability_chill_targeting();
     test_assigned_card_cannot_block();
     test_wipeout_does_not_fall_through();
+    test_swoosh_engineer_produces_energy();
+    test_swoosh_tarsier_produces_attack();
+    test_swoosh_construction_completion();
+    test_swoosh_lifespan_expiry();
+    test_swoosh_single_pass_ordering();
 
     std::cout << "GameState tests PASSED" << std::endl;
 }

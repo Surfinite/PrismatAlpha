@@ -593,11 +593,40 @@ void Card::beginTurn()
         return;
     }
 
-    // reduce lifespan
-    if (!isUnderConstruction() && !isDelayed() && m_lifespan > 0)
+    // Tick order matches JS swoosh: construction -> delay -> lifespan
+    // Each branch is mutually exclusive (else-if chain in JS)
+
+    // 1. Construction tick
+    if (isUnderConstruction())
+    {
+        m_constructionTime--;
+
+        // If still under construction after tick, card stays inert — skip rest
+        if (isUnderConstruction())
+        {
+            setStatus(CardStatus::Inert);
+            return;
+        }
+        // Construction just completed — fall through to status reset / health regen
+    }
+    // 2. Delay tick
+    else if (isDelayed())
+    {
+        --m_currentDelay;
+
+        // If still delayed after tick, card stays inert — skip rest
+        if (isDelayed())
+        {
+            setStatus(CardStatus::Inert);
+            return;
+        }
+        // Delay just expired — fall through to status reset / health regen
+    }
+    // 3. Lifespan tick (only if not under construction and not delayed)
+    else if (m_lifespan > 0)
     {
         --m_lifespan;
-        
+
         if (m_lifespan == 0)
         {
             kill(CauseOfDeath::Lifespan);
@@ -605,42 +634,24 @@ void Card::beginTurn()
         }
     }
 
-    // reduce delay
-    if (!isUnderConstruction() && isDelayed())
-    {
-        --m_currentDelay;
-    }
+    // Card is active (not under construction, not delayed, not expired)
+    // Reset status and apply health regeneration
 
-    if (isDelayed())
+    // set default status
+    if (getType().hasAbility() || getType().hasTargetAbility())
+    {
+        setStatus(CardStatus::Default);
+    }
+    else
     {
         setStatus(CardStatus::Inert);
     }
 
-    // reduce construction time
-    if (isUnderConstruction())
+    // gain healthgained (health regeneration)
+    m_currentHealth += m_type.getHealthGained();
+    if (m_type.getHealthMax() > 0 && m_currentHealth > m_type.getHealthMax())
     {
-        m_constructionTime--;
-    }
-    
-    // do everything else post-construction
-    if (!isUnderConstruction() && !isDelayed())
-    {
-        // gain healthgained
-        m_currentHealth += m_type.getHealthGained();
-        if (m_type.getHealthMax() > 0 && m_currentHealth > m_type.getHealthMax())
-        {
-            m_currentHealth = m_type.getHealthMax();
-        }
-
-        // set default status
-        if (getType().hasAbility() || getType().hasTargetAbility())
-        {
-            setStatus(CardStatus::Default);
-        }
-		else
-		{
-			setStatus(CardStatus::Inert);
-		}
+        m_currentHealth = m_type.getHealthMax();
     }
 }
 
