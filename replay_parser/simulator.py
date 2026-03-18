@@ -2,8 +2,6 @@
 from __future__ import annotations
 
 import logging
-from collections import Counter
-from copy import deepcopy
 from typing import Optional
 
 from replay_parser.models import (
