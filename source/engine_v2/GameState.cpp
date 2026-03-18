@@ -1216,10 +1216,61 @@ bool GameState::isGameOver() const
 
 bool GameState::calculateGameOver() const
 {
-    CardID p1Cards = numCards(Players::Player_One) + numKilledCards(Players::Player_One);
-    CardID p2Cards = numCards(Players::Player_Two) + numKilledCards(Players::Player_Two);
+    // Matches JS _checkWin() logic (State.as:3298-3327)
+    // NOTE: Stagnation-based draws are NOT checked here. They are handled by
+    // Game::gameOver() via m_turnLimit. See Game.h for TODO on 4-level stagnation.
+    // Count alive cards for each player (after removeKilledCards, numKilledCards should be 0)
+    const CardID p1Alive = numCards(Players::Player_One);
+    const CardID p2Alive = numCards(Players::Player_Two);
 
-    return p1Cards == 0 || p2Cards == 0;
+    // Direct elimination: one or both players have zero alive cards
+    if (p1Alive == 0 || p2Alive == 0)
+    {
+        return true;
+    }
+
+    // All-units-doomed: all of a player's units have lifespan=1 and are not
+    // under construction or delayed — they will die next swoosh with no way to act.
+    // JS: helper.allOppUnitsDoomed (from StateHelper.update)
+    for (PlayerID p = 0; p < 2; ++p)
+    {
+        bool allDoomed = true;
+        for (const auto & cardID : getCardIDs(p))
+        {
+            const Card & card = getCardByID(cardID);
+            if (card.getCurrentLifespan() != 1 || card.isUnderConstruction() || card.isDelayed())
+            {
+                allDoomed = false;
+                break;
+            }
+        }
+        if (allDoomed && numCards(p) > 0)
+        {
+            return true;
+        }
+    }
+
+    // Only under-construction: all of a player's units are under construction
+    // (cannot defend, attack, or use abilities). JS: helper.oppNonInvTotal === 0.
+    for (PlayerID p = 0; p < 2; ++p)
+    {
+        bool allUnderConstruction = true;
+        for (const auto & cardID : getCardIDs(p))
+        {
+            const Card & card = getCardByID(cardID);
+            if (!card.isUnderConstruction())
+            {
+                allUnderConstruction = false;
+                break;
+            }
+        }
+        if (allUnderConstruction && numCards(p) > 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void GameState::beginTurn(const PlayerID player)
@@ -1676,7 +1727,7 @@ const CardID GameState::numCompletedCardsOfType(const PlayerID player, const Car
 
     for (const auto & cardID : getCardIDs(player))
     {
-        const Card & card = getCardByID(player);
+        const Card & card = getCardByID(cardID);
         if (card.getType() == type && !card.isUnderConstruction() && !card.isDelayed())
         {
             ++num;
@@ -1758,15 +1809,61 @@ const PlayerID GameState::winner() const
         return Players::Player_None;
     }
 
-    if (numCards(Players::Player_One) + numKilledCards(Players::Player_One) == 0)
+    const CardID p1Alive = numCards(Players::Player_One);
+    const CardID p2Alive = numCards(Players::Player_Two);
+
+    // Mutual elimination (both have 0 alive cards)
+    if (p1Alive == 0 && p2Alive == 0)
+    {
+        return Players::Player_None; // draw
+    }
+
+    // Direct elimination
+    if (p1Alive == 0)
     {
         return Players::Player_Two;
     }
-
-    if (numCards(Players::Player_Two) + numKilledCards(Players::Player_Two) == 0)
+    if (p2Alive == 0)
     {
         return Players::Player_One;
     }
+
+    // All-units-doomed or all-under-construction: the player whose units are
+    // doomed/useless loses. Check each player.
+    auto isPlayerDoomed = [&](PlayerID p) -> bool
+    {
+        // Check all-units-doomed (lifespan=1, not under construction, not delayed)
+        bool allDoomed = true;
+        for (const auto & cardID : getCardIDs(p))
+        {
+            const Card & card = getCardByID(cardID);
+            if (card.getCurrentLifespan() != 1 || card.isUnderConstruction() || card.isDelayed())
+            {
+                allDoomed = false;
+                break;
+            }
+        }
+        if (allDoomed) return true;
+
+        // Check all-under-construction
+        bool allUnderConstruction = true;
+        for (const auto & cardID : getCardIDs(p))
+        {
+            if (!getCardByID(cardID).isUnderConstruction())
+            {
+                allUnderConstruction = false;
+                break;
+            }
+        }
+        return allUnderConstruction;
+    };
+
+    bool p1Doomed = isPlayerDoomed(Players::Player_One);
+    bool p2Doomed = isPlayerDoomed(Players::Player_Two);
+
+    if (p1Doomed && !p2Doomed) return Players::Player_Two;
+    if (p2Doomed && !p1Doomed) return Players::Player_One;
+    if (p1Doomed && p2Doomed) return Players::Player_None; // draw
 
     return Players::Player_None;
 }
