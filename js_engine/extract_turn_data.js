@@ -3,14 +3,12 @@
 /**
  * extract_turn_data.js — Extract per-turn state snapshots from replays via the JS engine.
  *
- * Replays clicks through the Analyzer and snapshots game state at each turn boundary.
- * Output is JSON to stdout, consumed by replay_parser/cross_validate.py.
+ * Lets the Analyzer auto-play the full game, then diffs beginTurnHistory snapshots
+ * to extract per-turn buys, resources, and unit counts.
  *
  * Usage:
  *   node extract_turn_data.js <replay.json.gz>
  *   node extract_turn_data.js --batch <codes_file> --replays-dir <dir> [--limit N]
- *
- * Per-turn snapshot includes: resources, unit counts, supply spent (cumulative buys).
  */
 
 const fs = require('fs');
@@ -19,9 +17,6 @@ const zlib = require('zlib');
 const C = require('./C');
 const Analyzer = require('./Analyzer');
 
-/**
- * Load a replay from a .json.gz or .json file.
- */
 function loadReplay(filePath) {
     const raw = fs.readFileSync(filePath);
     if (filePath.endsWith('.gz')) {
@@ -31,16 +26,15 @@ function loadReplay(filePath) {
 }
 
 /**
- * Count alive units per player, grouped by display name.
- * Returns { 0: {Drone: 6, Engineer: 2, ...}, 1: {Drone: 7, ...} }
+ * Count alive units per player from a State snapshot.
+ * Returns { 0: {Drone: 6, ...}, 1: {Drone: 7, ...} }
  */
 function countUnits(state) {
     const counts = { 0: {}, 1: {} };
     state.table.forEach(inst => {
         if (inst.deadness === C.DEADNESS_ALIVE) {
             const name = inst.card.UIName;
-            const owner = inst.owner;
-            counts[owner][name] = (counts[owner][name] || 0) + 1;
+            counts[inst.owner][name] = (counts[inst.owner][name] || 0) + 1;
         }
     });
     return counts;
@@ -72,12 +66,12 @@ function parseMana(manaStr) {
 }
 
 /**
- * Extract per-turn snapshots from a replay.
+ * Extract per-turn data from a replay.
  *
- * Snapshots are taken at the START of each turn (after the previous turn's commit
- * triggers swoosh/defense for the new active player, but before any clicks).
- *
- * We detect turn boundaries by watching numTurns change after each click.
+ * Strategy: let the Analyzer auto-play the entire game (via commandInfo),
+ * then use beginTurnHistory[] to diff unit counts at each turn boundary.
+ * This correctly handles confirm-phase buys/unbuys, undo chains, etc.
+ * because the engine resolves everything internally.
  */
 function extractTurnData(replay, code) {
     const result = {
@@ -89,7 +83,8 @@ function extractTurnData(replay, code) {
     };
 
     try {
-        const initOnly = {
+        // Let engine auto-play the full game
+        const initInfo = {
             laneInfo: [{
                 initResources: replay.initInfo.initResources,
                 base: replay.deckInfo.base,
@@ -99,78 +94,60 @@ function extractTurnData(replay, code) {
             mergedDeck: replay.deckInfo.mergedDeck,
             scriptInfo: { whiteStarts: true },
             objectiveInfo: null,
-            commandInfo: null
+            commandInfo: {
+                commandList: replay.commandInfo.commandList,
+                clicksPerTurn: replay.commandInfo.clicksPerTurn,
+                gamePosition: replay.commandInfo.commandList.length
+            }
         };
 
-        const analyzer = new Analyzer(initOnly, -1, -1, null);
+        const analyzer = new Analyzer(initInfo, -1, -1, null);
         analyzer.loaderInit();
 
-        const gs = analyzer.gameState;
-        const cmdList = replay.commandInfo.commandList;
-        const clicksPerTurn = replay.commandInfo.clicksPerTurn;
+        const history = analyzer.beginTurnHistory;
+        if (!history || history.length < 2) {
+            result.error = 'No beginTurnHistory available';
+            return result;
+        }
 
-        // Snapshot initial state (turn 0 = P0's first turn)
-        let clickOffset = 0;
+        const numTurns = Math.min(result.totalTurns, history.length - 1);
 
-        for (let turnIdx = 0; turnIdx < clicksPerTurn.length; turnIdx++) {
-            const clickCount = clicksPerTurn[turnIdx];
+        for (let turnIdx = 0; turnIdx < numTurns; turnIdx++) {
             const player = turnIdx % 2;
             const playerTurn = Math.floor(turnIdx / 2) + 1;
+            const state = history[turnIdx];
 
-            // Snapshot at START of turn (before any clicks this turn)
-            const activeMana = player === 0 ? gs.whiteMana : gs.blackMana;
-            const units = countUnits(gs);
+            // Resources at start of turn
+            const activeMana = player === 0 ? state.whiteMana : state.blackMana;
 
-            // Get cumulative supply spent (buys so far)
-            const supplySpent = { 0: {}, 1: {} };
-            for (let i = 0; i < gs.cards.length; i++) {
-                const wb = gs.whiteBought[i] || 0;
-                const bb = gs.blackBought[i] || 0;
-                if (wb > 0) supplySpent[0][gs.cards[i].UIName] = wb;
-                if (bb > 0) supplySpent[1][gs.cards[i].UIName] = bb;
+            // Units owned at start of turn
+            const units = countUnits(state);
+
+            // Buys = unit count diff between this turn start and next turn start
+            const nextState = history[turnIdx + 1];
+            const preUnits = units[player];
+            const postUnits = countUnits(nextState)[player];
+            const buys = [];
+            const allNames = new Set([
+                ...Object.keys(preUnits),
+                ...Object.keys(postUnits)
+            ]);
+            for (const name of allNames) {
+                const diff = (postUnits[name] || 0) - (preUnits[name] || 0);
+                // Only count positive diffs as buys (negative = died/sacced)
+                for (let j = 0; j < diff; j++) {
+                    buys.push(name);
+                }
             }
 
-            const turnSnapshot = {
+            result.turns.push({
                 global_turn: turnIdx,
                 player: player,
                 player_turn: playerTurn,
                 resources: parseMana(activeMana ? activeMana.toString() : ''),
                 units_owned: units[player],
-                supply_spent: supplySpent
-            };
-
-            // Snapshot bought counters BEFORE this turn's clicks
-            const preBoughtW = gs.whiteBought.slice();
-            const preBoughtB = gs.blackBought.slice();
-
-            // Replay this turn's clicks through the engine
-            const turnClicks = cmdList.slice(clickOffset, clickOffset + clickCount);
-            for (const cmd of turnClicks) {
-                const cmdType = String(cmd._type);
-                if (cmdType.indexOf(C.CLICK_REPLAY_EMOTE) === 0) continue;
-                if (gs.finished) break;
-                try {
-                    analyzer.recordClick(false, false, cmd._type, cmd._id, cmd._params);
-                } catch (err) {
-                    // Soft-fail like the real engine
-                }
-            }
-
-            // Compute NET buys by diffing bought counters after all clicks
-            // (engine handles undos/unbuys internally — final state is correct)
-            const buys = [];
-            const bought = player === 0 ? gs.whiteBought : gs.blackBought;
-            const preBought = player === 0 ? preBoughtW : preBoughtB;
-            for (let i = 0; i < bought.length; i++) {
-                const diff = (bought[i] || 0) - (preBought[i] || 0);
-                for (let j = 0; j < diff; j++) {
-                    buys.push(gs.cards[i].UIName);
-                }
-            }
-
-            turnSnapshot.buys = buys;
-            result.turns.push(turnSnapshot);
-            clickOffset += clickCount;
+                buys: buys
+            });
         }
 
     } catch (err) {
@@ -192,7 +169,6 @@ function main() {
     }
 
     if (args[0] === '--batch') {
-        // Batch mode: process multiple replays, output one JSON object per line (JSONL)
         const codesFile = args[1];
         let replaysDir = '.';
         let limit = Infinity;
@@ -210,7 +186,6 @@ function main() {
             const filename = `${code}.json.gz`;
             const filepath = path.join(replaysDir, filename);
             if (!fs.existsSync(filepath)) {
-                console.error(`SKIP: ${code} (file not found)`);
                 continue;
             }
             try {
@@ -227,7 +202,6 @@ function main() {
         }
         console.error(`Done: ${processed} replays processed.`);
     } else {
-        // Single replay mode
         const filePath = args[0];
         const replay = loadReplay(filePath);
         const code = path.basename(filePath, '.json.gz').replace('.json', '');
