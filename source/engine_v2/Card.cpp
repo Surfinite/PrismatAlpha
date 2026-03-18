@@ -582,6 +582,10 @@ void Card::beginTurn()
     m_createdCardIDs.clear();
     clearTarget();
 
+    // Clear chill for all cards at the start of beginTurn, matching JS swoosh
+    // which clears disruptDamage unconditionally before construction/delay/lifespan logic
+    m_currentChill = 0;
+
     // update the alive status
     if (m_aliveStatus == AliveStatus::KilledThisTurn)
     {
@@ -637,8 +641,6 @@ void Card::beginTurn()
 		{
 			setStatus(CardStatus::Inert);
 		}
-
-        m_currentChill = 0;
     }
 }
 
