@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PrismataAI.h"
-#include "../engine/Prismata.h"
+#include "../engine_v2/Prismata.h"
 #include "BuyLimits.h"
 #include <map>
 #include <vector>

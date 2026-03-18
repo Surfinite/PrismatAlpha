@@ -27,3 +27,19 @@ file(GLOB TEST_SOURCES CONFIGURE_DEPENDS "source/engine_v2/tests/*.cpp")
 # Engine V2 test executable
 add_executable(prismata_engine_v2_tests ${TEST_SOURCES})
 target_link_libraries(prismata_engine_v2_tests engine_v2)
+
+# AI sources
+file(GLOB AI_SOURCES CONFIGURE_DEPENDS "source/ai/*.cpp")
+
+# Testing sources (tournament runner, --suggest CLI)
+file(GLOB TESTING_SOURCES CONFIGURE_DEPENDS "source/testing/*.cpp")
+
+# Full selfplay/tournament executable
+add_executable(prismata_selfplay
+    ${AI_SOURCES}
+    ${TESTING_SOURCES}
+)
+target_link_libraries(prismata_selfplay engine_v2)
+target_compile_definitions(prismata_selfplay PRIVATE
+    $<$<CONFIG:Debug>:PRISMATA_ASSERT_ALL>
+)

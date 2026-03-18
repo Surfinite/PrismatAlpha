@@ -2,7 +2,10 @@
 
 #include <cstddef>
 
-#ifdef WIN32   
+#ifdef WIN32
+ #ifndef NOMINMAX
+ #define NOMINMAX
+ #endif
  #include <windows.h>
 
  #undef __wchar_t

@@ -10,9 +10,17 @@
 #include <process.h>
 #include <io.h>
 #define GETPID() _getpid()
+#define DUP(fd) _dup(fd)
+#define DUP2(fd1, fd2) _dup2(fd1, fd2)
+#define FILENO(fp) _fileno(fp)
+#define CLOSE(fd) _close(fd)
 #else
 #include <unistd.h>
 #define GETPID() getpid()
+#define DUP(fd) dup(fd)
+#define DUP2(fd1, fd2) dup2(fd1, fd2)
+#define FILENO(fp) fileno(fp)
+#define CLOSE(fd) close(fd)
 #endif
 
 using namespace Prismata;
@@ -48,8 +56,8 @@ int main(int argc, char* argv[])
     if (isQuietMode)
     {
         fflush(stdout);
-        savedStdout = _dup(_fileno(stdout));
-        _dup2(_fileno(stderr), _fileno(stdout));
+        savedStdout = DUP(FILENO(stdout));
+        DUP2(FILENO(stderr), FILENO(stdout));
     }
 
     srand((unsigned int)(time(NULL) ^ (GETPID() << 4)));
@@ -93,8 +101,8 @@ int main(int argc, char* argv[])
     if (isQuietMode && savedStdout >= 0)
     {
         fflush(stdout);
-        _dup2(savedStdout, _fileno(stdout));
-        _close(savedStdout);
+        DUP2(savedStdout, FILENO(stdout));
+        CLOSE(savedStdout);
     }
 
     // Quick neural net sanity test: evaluate parsed game states
