@@ -1,15 +1,18 @@
 from replay_parser.models import ResourcePool, CardDef, UnitInstance, Action, Turn, ReplayData
 
+
 def test_resource_pool_defaults():
     r = ResourcePool()
     assert r.gold == 0 and r.green == 0 and r.blue == 0
     assert r.red == 0 and r.energy == 0 and r.attack == 0
+
 
 def test_resource_pool_add():
     a = ResourcePool(gold=3, green=1)
     b = ResourcePool(gold=2, blue=1)
     c = a + b
     assert c.gold == 5 and c.green == 1 and c.blue == 1
+
 
 def test_resource_pool_can_afford():
     pool = ResourcePool(gold=6, green=2, blue=1)
@@ -18,16 +21,19 @@ def test_resource_pool_can_afford():
     expensive = ResourcePool(gold=10)
     assert not pool.can_afford(expensive)
 
+
 def test_resource_pool_subtract():
     pool = ResourcePool(gold=6, green=2)
     cost = ResourcePool(gold=3, green=1)
     result = pool - cost
     assert result.gold == 3 and result.green == 1
 
+
 def test_resource_pool_max_affordable():
     pool = ResourcePool(gold=10, blue=3)
     cost = ResourcePool(gold=4, blue=1)
     assert pool.max_affordable(cost) == 2  # 10//4=2, 3//1=3, min=2
+
 
 def test_card_def_construction():
     cd = CardDef(
@@ -41,6 +47,8 @@ def test_card_def_construction():
     )
     assert cd.name == "Drone"
     assert cd.supply == 20
+    assert cd.begin_turn_delay == 0
+
 
 def test_unit_instance_construction():
     cd = CardDef(
@@ -59,3 +67,20 @@ def test_unit_instance_construction():
     )
     assert unit.instance_id == 0
     assert unit.card_def.name == "Drone"
+
+
+def test_turn_defaults():
+    t = Turn(global_turn=0, player=0, player_turn=1)
+    assert t.actions == []
+    assert t.buys == []
+    assert t.abilities_used == []
+    assert t.units_owned == {}
+    assert t.resources_at_start == ResourcePool()
+
+
+def test_replay_data_defaults():
+    r = ReplayData(code="TEST", result=0)
+    assert r.card_defs == []
+    assert r.turns == []
+    assert r.randomizer == []
+    assert r.total_global_turns == 0

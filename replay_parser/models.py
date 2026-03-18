@@ -93,71 +93,70 @@ class ResourcePool:
 
 @dataclass
 class CardDef:
-    """Definition of a card type from the game's mergedDeck.
-
-    Shared across all unit instances of the same card type.
-    """
+    """Definition of a card type from the game's mergedDeck."""
     deck_index: int
     name: str
-    rarity: str                        # "trinket", "normal", "rare", "legendary"
+    rarity: str
     buy_cost: ResourcePool
     toughness: int
-    build_time: int                    # turns until ready after purchase (0 = immediate)
+    build_time: int
     is_base_set: bool
     default_blocking: bool
-    begin_turn_receive: Optional[ResourcePool]   # passive income each turn
-    ability_receive: Optional[ResourcePool]      # resources received on ability use
-    ability_selfsac: bool                        # ability sacrifices the unit
-    ability_create: Optional[str]               # name of unit created by ability (if any)
-    target_action: Optional[str]                # "chill" / "snipe" / None
-    supply: int                                  # max units purchasable (20/4/1 by rarity)
-    begin_turn_delay: int = 0                   # turns before passive income starts (e.g. Chrono Filter)
+    begin_turn_receive: Optional[ResourcePool]
+    ability_receive: Optional[ResourcePool]
+    ability_selfsac: bool
+    ability_create: Optional[list]      # e.g. [["Steelsplitter", "own"]]
+    target_action: Optional[str]        # "snipe" or "disrupt" (chill)
+    supply: int
+    begin_turn_delay: int = 0
 
 
 @dataclass
 class UnitInstance:
-    """A specific unit on the board.
-
-    References a CardDef for type information; tracks per-instance mutable state.
-    """
+    """A specific unit on the board."""
     instance_id: int
     card_def: CardDef
-    owner: int                         # 0 = player 0, 1 = player 1
-    turns_until_ready: int             # 0 = ready to act/block
+    owner: int
+    turns_until_ready: int
     is_alive: bool
     used_ability_this_turn: bool
 
 
 @dataclass
 class Action:
-    """A single parsed click action within a turn."""
-    action_type: str                   # e.g. "BUY", "USE_ABILITY", "ASSIGN_BLOCKER", "CHILL", etc.
-    instance_id: Optional[int]        # instance ID of the unit clicked (None for UI-level actions)
-    card_name: Optional[str]          # card name for BUY actions (resolved from deck_index)
-    raw_type: str                     # original _type string from commandList
-    raw_id: int                       # original _id value from commandList
+    """A single parsed action within a turn."""
+    action_type: str            # buy, buy_shift, ability, ability_shift,
+                                # target, defend, commit, end_swipe, undo, revert, cancel_target
+    unit_name: Optional[str]    # Display name of the unit involved
+    deck_index: Optional[int]   # For buys: mergedDeck index
+    instance_id: Optional[int]  # For abilities: instance ID
+    quantity: int               # For shift-buys: how many purchased
+    raw_click: dict             # Original {"_type": ..., "_id": ...}
 
 
 @dataclass
 class Turn:
     """All actions and state for one player-turn."""
-    turn_number: int
-    player: int                        # 0 or 1
+    global_turn: int            # 0-indexed across both players
+    player: int                 # 0 = P1, 1 = P2
+    player_turn: int            # 1-indexed per player
     actions: list[Action] = field(default_factory=list)
-    resources_at_start: Optional[ResourcePool] = None
-    resources_spent: Optional[ResourcePool] = None
-    resources_gained: Optional[ResourcePool] = None
+    buys: list[str] = field(default_factory=list)
+    abilities_used: list[str] = field(default_factory=list)
+    resources_at_start: ResourcePool = field(default_factory=ResourcePool)
+    resources_after: ResourcePool = field(default_factory=ResourcePool)
+    units_owned: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass
 class ReplayData:
-    """Fully parsed replay.
-
-    Populated by the decoder; turn resource tracking added by the simulator.
-    """
+    """Fully parsed replay."""
     code: str
-    player_names: list[str]           # [p0_name, p1_name]
-    result: int                        # 0 = P0 wins, 1 = P1 wins, 2 = draw
-    card_defs: dict[int, CardDef]     # deck_index → CardDef
+    result: int
+    card_defs: list[CardDef] = field(default_factory=list)
+    randomizer: list[str] = field(default_factory=list)
+    init_cards: list[list[tuple[int, str]]] = field(default_factory=list)
     turns: list[Turn] = field(default_factory=list)
-    metadata: dict = field(default_factory=dict)  # raw replay fields (ratings, timestamp, etc.)
+    total_global_turns: int = 0
+    start_time: Optional[int] = None
+    player_names: list[str] = field(default_factory=list)
