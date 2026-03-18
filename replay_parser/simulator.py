@@ -174,6 +174,11 @@ def simulate(replay: ReplayData) -> None:
         space_count = 0
         # Track instances bought this turn (for un-buy detection)
         bought_this_turn: set[int] = set()
+        # Confirm phase: space after any buy/ability enters confirm.
+        # Space in confirm = commit (end turn). Any other click in confirm
+        # just reverts confirm (back to action) — that click is skipped.
+        in_confirm = False
+        had_productive_click = False
 
         for click in turn_clicks:
             click_type = click["_type"]
@@ -183,8 +188,11 @@ def simulate(replay: ReplayData) -> None:
             if click_type.startswith("emote"):
                 continue
 
-            # Space = phase commit
+            # Space = phase commit or confirm commit
             if click_type == "space clicked":
+                if had_productive_click and not in_confirm:
+                    in_confirm = True
+                had_productive_click = False
                 space_count += 1
                 actions.append(Action(
                     action_type="commit",
@@ -206,6 +214,12 @@ def simulate(replay: ReplayData) -> None:
                     quantity=0,
                     raw_click=click,
                 ))
+                continue
+
+            # Confirm phase: first non-space click just reverts confirm.
+            # Skip this click (it's not a real action), back to action phase.
+            if in_confirm:
+                in_confirm = False
                 continue
 
             # Instance click (ability, defend, or un-buy)
@@ -259,7 +273,9 @@ def simulate(replay: ReplayData) -> None:
                             abilities_used,
                             click,
                         )
+                        had_productive_click = True
                     else:
+                        # Defense click — NOT productive (doesn't trigger confirm)
                         actions.append(Action(
                             action_type="defend",
                             unit_name=inst.card_def.name,
@@ -280,6 +296,7 @@ def simulate(replay: ReplayData) -> None:
                         abilities_used,
                         click,
                     )
+                    had_productive_click = True
                 continue
 
             # Card buy (single)
@@ -301,6 +318,7 @@ def simulate(replay: ReplayData) -> None:
                         bought_this_turn.add(next_instance_id + b)
                     next_instance_id += bought
                     buys.append(card_def.name)
+                    had_productive_click = True
                     actions.append(Action(
                         action_type="buy",
                         unit_name=card_def.name,
@@ -336,6 +354,7 @@ def simulate(replay: ReplayData) -> None:
                     next_instance_id += bought
                     for _ in range(bought):
                         buys.append(card_def.name)
+                    had_productive_click = True
                     actions.append(Action(
                         action_type="buy_shift",
                         unit_name=card_def.name,
