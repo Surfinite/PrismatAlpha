@@ -155,13 +155,22 @@ function extractTurnData(replay, code) {
                 try {
                     const clickResult = analyzer.recordClick(false, false, cmd._type, cmd._id, cmd._params);
                     if (clickResult.canClick) {
-                        // Detect buys by comparing whiteBought/blackBought
+                        // Detect buys/unbuys by comparing whiteBought/blackBought
                         const bought = player === 0 ? gs.whiteBought : gs.blackBought;
                         const preBought = player === 0 ? preBoughtW : preBoughtB;
                         for (let i = 0; i < bought.length; i++) {
                             const diff = (bought[i] || 0) - (preBought[i] || 0);
-                            for (let j = 0; j < diff; j++) {
-                                buys.push(gs.cards[i].UIName);
+                            if (diff > 0) {
+                                for (let j = 0; j < diff; j++) {
+                                    buys.push(gs.cards[i].UIName);
+                                }
+                            } else if (diff < 0) {
+                                // Un-buy: remove from buys list (last occurrence)
+                                const name = gs.cards[i].UIName;
+                                for (let j = 0; j < -diff; j++) {
+                                    const idx = buys.lastIndexOf(name);
+                                    if (idx >= 0) buys.splice(idx, 1);
+                                }
                             }
                         }
                     }
