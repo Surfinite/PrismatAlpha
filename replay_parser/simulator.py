@@ -15,6 +15,52 @@ from replay_parser.models import (
 
 logger = logging.getLogger(__name__)
 
+# Click types that represent real game actions (can be undone/reverted).
+_ACTIONABLE_CLICK_TYPES = frozenset(
+    ["inst clicked", "inst shift clicked", "card clicked", "card shift clicked"]
+)
+
+
+def _preprocess_clicks(clicks: list[dict]) -> list[dict]:
+    """Filter out clicks that were cancelled by undo/revert.
+
+    Rules:
+    - ``revert clicked``: discard ALL actionable clicks before the revert.
+      Non-actionable clicks (space, end_swipe, emote) before the revert are
+      also discarded.  Clicks *after* the revert are kept.
+    - ``undo clicked``: discard the most recent actionable click.  Multiple
+      consecutive undos each remove one more actionable click.
+    - The undo/revert clicks themselves are removed from the output.
+    - Non-actionable clicks that survive (space, end_swipe) are preserved.
+    """
+    # Work left-to-right; build a stack of surviving clicks.
+    result: list[dict] = []
+
+    for click in clicks:
+        ct = click["_type"]
+
+        if ct == "revert clicked":
+            # Discard all actionable clicks accumulated so far.
+            # Also discard non-actionable clicks (spaces etc.) since the player
+            # restarted their turn — the phase structure resets too.
+            result = [c for c in result if c["_type"] not in _ACTIONABLE_CLICK_TYPES
+                      and c["_type"] not in ("space clicked", "end swipe processed")]
+            # The revert click itself is not added.
+
+        elif ct == "undo clicked":
+            # Remove the most recent actionable click from the result.
+            for i in range(len(result) - 1, -1, -1):
+                if result[i]["_type"] in _ACTIONABLE_CLICK_TYPES:
+                    result.pop(i)
+                    break
+            # The undo click itself is not added.
+
+        else:
+            result.append(click)
+
+    return result
+
+
 # Drone supply is per-player.  P0 starts with 6 Drones so gets 21 shop supply,
 # P1 starts with 7 so gets 20 — giving both players equal total access (27).
 _DRONE_SHOP_SUPPLY = {0: 21, 1: 20}
@@ -96,6 +142,9 @@ def simulate(replay: ReplayData) -> None:
         turn_clicks = command_list[cmd_offset: cmd_offset + n_clicks]
         cmd_offset += n_clicks
 
+        # --- Step 0: Remove clicks that were undone/reverted by the player ---
+        turn_clicks = _preprocess_clicks(turn_clicks)
+
         # --- Step 1: Credit passive income (beginOwnTurnScript.receive) ---
         _credit_passive_income(
             rosters[active_player], resources[active_player], turns_since_ready
@@ -141,23 +190,6 @@ def simulate(replay: ReplayData) -> None:
             if click_type == "end swipe processed":
                 actions.append(Action(
                     action_type="end_swipe",
-                    unit_name=None,
-                    deck_index=None,
-                    instance_id=None,
-                    quantity=0,
-                    raw_click=click,
-                ))
-                continue
-
-            # Undo / revert / cancel
-            if click_type in ("undo clicked", "revert clicked", "cancel target processed"):
-                action_type_map = {
-                    "undo clicked": "undo",
-                    "revert clicked": "revert",
-                    "cancel target processed": "cancel_target",
-                }
-                actions.append(Action(
-                    action_type=action_type_map[click_type],
                     unit_name=None,
                     deck_index=None,
                     instance_id=None,
