@@ -773,15 +773,12 @@ void test_generate_legal_actions_initial_state()
         }
     }
 
-    // P1 has 6 Drones and 2 Engineers, all with abilities
-    assert(abilityCount == 8);
-    // No resources to buy anything
+    // P1 has 6 Drones (click ability: produce gold) and 2 Engineers (NO click ability —
+    // Engineers produce energy via beginOwnTurnScript, not a click ability)
+    assert(abilityCount == 6);
+    // No resources to buy anything at game start
     assert(buyCount == 0);
-    // END_PHASE is NOT in the list when there are other legal actions
-    // (generateLegalActions only adds END_PHASE if actions is empty)
-    // Actually, looking at the code, END_PHASE is not added unless actions is empty.
-    // Let's verify the total is exactly 8.
-    assert(actions.size() == 8);
+    assert(actions.size() == 6);
 
     std::cout << "    PASSED" << std::endl;
 }
