@@ -232,30 +232,47 @@ def simulate(replay: ReplayData) -> None:
                     )
                     continue
 
-                # Un-buy detection: clicking a unit bought this turn refunds the purchase
+                # Un-buy detection: clicking a unit bought this turn refunds the purchase.
+                # Shift-click unbuys ALL bought instances of that card type.
                 if click_id in bought_this_turn:
-                    # Refund the buy cost
-                    resources[active_player] = resources[active_player] + inst.card_def.buy_cost
-                    # Restore supply
-                    if inst.card_def.name == "Drone":
-                        drone_supply[active_player] += 1
+                    # Find all instances to unbuy
+                    if is_shift:
+                        # Shift: unbuy all bought instances of this card type
+                        to_unbuy = [
+                            iid for iid in bought_this_turn
+                            if iid in rosters[active_player]
+                            and rosters[active_player][iid].card_def.deck_index == inst.card_def.deck_index
+                        ]
                     else:
-                        shared_supply[inst.card_def.deck_index] = shared_supply.get(inst.card_def.deck_index, 0) + 1
-                    # Remove from roster and bought tracking
-                    inst.is_alive = False
-                    bought_this_turn.discard(click_id)
-                    # Remove from buys list (last occurrence of this name)
-                    name = inst.card_def.name
-                    for j in range(len(buys) - 1, -1, -1):
-                        if buys[j] == name:
-                            buys.pop(j)
-                            break
+                        to_unbuy = [click_id]
+
+                    for uid in to_unbuy:
+                        u = rosters[active_player].get(uid)
+                        if u is None:
+                            continue
+                        # Refund the buy cost
+                        resources[active_player] = resources[active_player] + u.card_def.buy_cost
+                        # Restore supply
+                        if u.card_def.name == "Drone":
+                            drone_supply[active_player] += 1
+                        else:
+                            shared_supply[u.card_def.deck_index] = shared_supply.get(u.card_def.deck_index, 0) + 1
+                        # Remove from roster and bought tracking
+                        u.is_alive = False
+                        bought_this_turn.discard(uid)
+                        # Remove from buys list (last occurrence of this name)
+                        name = u.card_def.name
+                        for j in range(len(buys) - 1, -1, -1):
+                            if buys[j] == name:
+                                buys.pop(j)
+                                break
+
                     actions.append(Action(
                         action_type="unbuy",
-                        unit_name=name,
+                        unit_name=inst.card_def.name,
                         deck_index=inst.card_def.deck_index,
                         instance_id=click_id,
-                        quantity=1,
+                        quantity=len(to_unbuy),
                         raw_click=click,
                     ))
                     continue
