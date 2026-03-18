@@ -139,43 +139,32 @@ function extractTurnData(replay, code) {
                 supply_spent: supplySpent
             };
 
-            // Now replay this turn's clicks
-            const turnClicks = cmdList.slice(clickOffset, clickOffset + clickCount);
-            const buys = [];
+            // Snapshot bought counters BEFORE this turn's clicks
+            const preBoughtW = gs.whiteBought.slice();
+            const preBoughtB = gs.blackBought.slice();
 
+            // Replay this turn's clicks through the engine
+            const turnClicks = cmdList.slice(clickOffset, clickOffset + clickCount);
             for (const cmd of turnClicks) {
                 const cmdType = String(cmd._type);
                 if (cmdType.indexOf(C.CLICK_REPLAY_EMOTE) === 0) continue;
                 if (gs.finished) break;
-
-                // Track buys before the click
-                const preBoughtW = gs.whiteBought.slice();
-                const preBoughtB = gs.blackBought.slice();
-
                 try {
-                    const clickResult = analyzer.recordClick(false, false, cmd._type, cmd._id, cmd._params);
-                    if (clickResult.canClick) {
-                        // Detect buys/unbuys by comparing whiteBought/blackBought
-                        const bought = player === 0 ? gs.whiteBought : gs.blackBought;
-                        const preBought = player === 0 ? preBoughtW : preBoughtB;
-                        for (let i = 0; i < bought.length; i++) {
-                            const diff = (bought[i] || 0) - (preBought[i] || 0);
-                            if (diff > 0) {
-                                for (let j = 0; j < diff; j++) {
-                                    buys.push(gs.cards[i].UIName);
-                                }
-                            } else if (diff < 0) {
-                                // Un-buy: remove from buys list (last occurrence)
-                                const name = gs.cards[i].UIName;
-                                for (let j = 0; j < -diff; j++) {
-                                    const idx = buys.lastIndexOf(name);
-                                    if (idx >= 0) buys.splice(idx, 1);
-                                }
-                            }
-                        }
-                    }
+                    analyzer.recordClick(false, false, cmd._type, cmd._id, cmd._params);
                 } catch (err) {
-                    // Skip — matches AS3 soft assert behavior
+                    // Soft-fail like the real engine
+                }
+            }
+
+            // Compute NET buys by diffing bought counters after all clicks
+            // (engine handles undos/unbuys internally — final state is correct)
+            const buys = [];
+            const bought = player === 0 ? gs.whiteBought : gs.blackBought;
+            const preBought = player === 0 ? preBoughtW : preBoughtB;
+            for (let i = 0; i < bought.length; i++) {
+                const diff = (bought[i] || 0) - (preBought[i] || 0);
+                for (let j = 0; j < diff; j++) {
+                    buys.push(gs.cards[i].UIName);
                 }
             }
 
