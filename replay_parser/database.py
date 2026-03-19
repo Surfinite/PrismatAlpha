@@ -9,6 +9,7 @@ from replay_parser.models import ReplayData, Turn
 logger = logging.getLogger(__name__)
 
 SCHEMA_VERSION = 1
+PARSER_VERSION_JS = 2
 
 
 def migrate(conn: sqlite3.Connection) -> None:
@@ -159,6 +160,104 @@ def store(conn: sqlite3.Connection, replay: ReplayData) -> None:
             "(code, parsed, parse_date, parser_version, total_turns, error) "
             "VALUES (?, 1, ?, ?, ?, NULL)",
             (replay.code, now, SCHEMA_VERSION, len(replay.turns)),
+        )
+
+        conn.executemany(
+            "INSERT OR REPLACE INTO turn_actions "
+            "(code, global_turn, player, player_turn, action_index, action_type, "
+            "unit_name, quantity, deck_index, instance_id) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            action_rows,
+        )
+
+        conn.executemany(
+            "INSERT OR REPLACE INTO turn_state "
+            "(code, global_turn, player, player_turn, gold, green, blue, red, "
+            "energy, attack, units_owned, total_units) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            state_rows,
+        )
+
+        conn.executemany(
+            "INSERT OR REPLACE INTO turn_buys "
+            "(code, global_turn, player, player_turn, buy_sequence, buy_hash) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            buy_rows,
+        )
+
+
+def ingest(conn: sqlite3.Connection, entry: dict) -> None:
+    """Persist JS extraction output into the database.
+
+    Reads from a JSON dict (one JSONL line from bulk_extract.js) and inserts
+    into replay_parse_status, turn_actions, turn_state, and turn_buys.
+    """
+    now = datetime.now(timezone.utc).isoformat()
+    code = entry["code"]
+    turns = entry["turns"]
+
+    action_rows: list[tuple] = []
+    state_rows: list[tuple] = []
+    buy_rows: list[tuple] = []
+
+    for turn in turns:
+        global_turn = turn["global_turn"]
+        player = turn["player"]
+        player_turn = turn["player_turn"]
+
+        # turn_actions — one row per action
+        for idx, action in enumerate(turn.get("actions", [])):
+            action_rows.append((
+                code,
+                global_turn,
+                player,
+                player_turn,
+                idx,
+                action["type"],
+                action.get("unit"),
+                action.get("count", 1),
+                None,  # deck_index not in JS output
+                None,  # instance_id not in JS output
+            ))
+
+        # turn_state
+        res = turn.get("resources", {})
+        units_owned = turn.get("units_owned", {})
+        total_units = turn.get("total_units", sum(units_owned.values()))
+        state_rows.append((
+            code,
+            global_turn,
+            player,
+            player_turn,
+            res.get("gold", 0),
+            res.get("green", 0),
+            res.get("blue", 0),
+            res.get("red", 0),
+            res.get("energy", 0),
+            res.get("attack", 0),
+            json.dumps(units_owned),
+            total_units,
+        ))
+
+        # turn_buys
+        buys = turn.get("buys", [])
+        buy_sequence = json.dumps(buys)
+        buy_hash = ",".join(sorted(buys))
+        buy_rows.append((
+            code,
+            global_turn,
+            player,
+            player_turn,
+            buy_sequence,
+            buy_hash,
+        ))
+
+    with conn:
+        conn.execute(
+            "INSERT OR REPLACE INTO replay_parse_status "
+            "(code, parsed, parse_date, parser_version, total_turns, error) "
+            "VALUES (?, 1, ?, ?, ?, NULL)",
+            (code, now, PARSER_VERSION_JS, len(turns)),
         )
 
         conn.executemany(
