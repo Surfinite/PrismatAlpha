@@ -99,7 +99,7 @@ Each JSONL line is one replay:
         {"type": "commit"}
       ],
       "verification": {
-        "supply_diff_buys": ["Drone", "Drone"],
+        "bought_diff_buys": ["Drone", "Drone"],
         "unit_diff_buys": ["Drone", "Drone"],
         "consistent": true,
         "building": ["Tarsier"]
@@ -189,7 +189,7 @@ For `inst clicked` / `inst shift clicked` in action phase, classify using instan
 1. From `beginTurnHistory[N].table`, build a lookup: `instanceId -> unit type` for all alive units at turn start
 2. Read `beginTurnHistory[N].nextInstId` — the authoritative counter for the next ID that will be assigned. Do NOT use `max(table.keys())`, which can be wrong if the highest-numbered unit died during swoosh before the snapshot
 3. For each `inst clicked _id=X`:
-   - If `X >= nextInstId` at turn start -> this is an **un-buy** (targeting a unit purchased during this turn). Note: ability-created units (e.g., Steelforge->Steelsplitter) also get IDs >= nextInstId, but clicks on these typically redirect to the creator (Controller.js:766-770) and won't appear as raw `inst clicked` on the created unit. If encountered, check whether the card type has `selfsac` or `create` to disambiguate
+   - If `X >= nextInstId` at turn start -> **likely an un-buy** (targeting a unit purchased during this turn). The engine assigns just-bought units `ROLE_SELLABLE` (Controller.js:710) and processes the click as a sell. However, ability-created units (e.g., Steelforge->Steelsplitter) also get IDs >= nextInstId with `ROLE_INERT` — clicks on these redirect to the creator (Controller.js:766-774) rather than selling. The `commandList` records the original click ID (the created unit), not the redirect target. To disambiguate: check if the bought-array diff for that card type is positive this turn (true un-buy reduces bought count) vs zero (redirect, no purchase/sale occurred). This edge case is rare in practice — players seldom click on INERT/under-construction units directly
    - If `X < nextInstId` and found in turn-start table -> **ability activation** (resolve to unit name via `state.cards[cardId].UIName`)
    - If `X < nextInstId` and in defense phase -> **defense assignment**
 
@@ -210,9 +210,10 @@ This sidesteps resource tracking entirely — the game's sequential instance ID 
 
 Un-buys are kept in the actions list as deliberate player actions (distinct from undo/revert noise which is stripped). The `turn_buys` table has the net result from bought-array diffs regardless.
 
-**Edge cases (action resolution only — do not affect turn_buys):**
-- `redo clicked`: Extremely rare in competitive replays. Falls through to "everything else" in preprocessing. If encountered in practice, handle by re-pushing the most recently popped click.
-- `revert clicked` scope: The engine's revert rewinds to the start of the current phase, not the entire turn. The preprocessing above clears all phase markers, which is slightly aggressive — a revert during action phase should preserve the defense-to-action space click. Impact is minimal since action data is supplementary, but implementer should be aware.
+**Known limitations (action resolution only — do not affect turn_buys, turn_state, or verification):**
+- **Emote-boundary misalignment**: The actions array slices clicks by `clicksPerTurn`, which is the same mechanism where emotes can push buy/commit clicks into the wrong turn's slice (the bug fixed in the Python parser yesterday). Since `beginTurnHistory` snapshots are immune to this (they capture engine state at actual turn boundaries), buys/resources/units are correct regardless. But the actions for affected turns may have missing or extra clicks. This affects ~0.2% of turns based on the emote frequency analysis.
+- **`redo clicked`**: Extremely rare in competitive replays. Falls through to "everything else" in preprocessing. If encountered in practice, handle by re-pushing the most recently popped click.
+- **`revert clicked` scope**: The engine's revert rewinds to the start of the current phase, not the entire turn. The preprocessing above clears all phase markers, which is slightly aggressive — a revert during action phase should preserve the defense-to-action space click. If someone later wants phase-aware analysis from the actions array, the revert handling would need refinement.
 
 ### 2.7 Verification Block
 
@@ -220,17 +221,17 @@ Each turn carries a self-consistency check:
 
 ```json
 "verification": {
-  "supply_diff_buys": ["Tarsier", "Drone"],
+  "bought_diff_buys": ["Tarsier", "Drone"],
   "unit_diff_buys": ["Tarsier", "Drone"],
   "consistent": true,
   "building": ["Tarsier"]
 }
 ```
 
-- **`supply_diff_buys`**: Ground-truth buys from bought-array diffs (authoritative). Named "supply_diff" for brevity in output
+- **`bought_diff_buys`**: Ground-truth buys from bought-array diffs (authoritative)
 - **`unit_diff_buys`**: Buys computed from alive-unit-count diffs (for comparison)
 - **`consistent`**: `true` when both methods agree
-- **`building`**: Units in `supply_diff_buys` with `buildTime > 0` (not usable until later — relevant for opening analysis)
+- **`building`**: Units in `bought_diff_buys` with `buildTime > 0` (not usable until later — relevant for opening analysis)
 
 When `consistent: false`, legitimate causes are:
 - Combat deaths (unit-diff undercounts)
