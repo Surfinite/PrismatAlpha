@@ -52,12 +52,12 @@ function buildCardMetadata(cardLibrary, usedCardNames) {
         let autoAttack = 0;
         let abilityAttack = 0;
         if (card.beginOwnTurnScript && card.beginOwnTurnScript.receive) {
-            for (const ch of card.beginOwnTurnScript.receive) {
+            for (const ch of String(card.beginOwnTurnScript.receive)) {
                 if (ch === 'A') autoAttack++;
             }
         }
         if (card.abilityScript && card.abilityScript.receive) {
-            for (const ch of card.abilityScript.receive) {
+            for (const ch of String(card.abilityScript.receive)) {
                 if (ch === 'A') abilityAttack++;
             }
         }
@@ -1088,10 +1088,11 @@ function main() {
     }
 
     const replayPath = args[0];
-    const outputPath = args[1] || replayPath.replace(/\.json$/i, '.html');
+    const outputPath = args[1] || replayPath.replace(/\.json(\.gz)?$/i, '.html');
 
     console.error('Reading replay:', replayPath);
-    const replay = JSON.parse(fs.readFileSync(replayPath, 'utf-8'));
+    const raw = fs.readFileSync(replayPath);
+    const replay = JSON.parse(replayPath.endsWith('.gz') ? require('zlib').gunzipSync(raw) : raw);
 
     console.error('States:', replay.states.length, 'Turns:', replay.turns);
 

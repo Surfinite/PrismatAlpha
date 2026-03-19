@@ -147,7 +147,7 @@ python training/export_weights_v2.py \
 - **mergedDeck buyCost format**: Digits = gold, `G` = green, `B` = blue, `C` = red, `H` = energy.
 - **Replay commandList format**: `_type` (NOT `_action`) and `_id`. `clicksPerTurn` slices commandList. `playerInfo` has NO `playerNumber` key — use array index.
 - **Click counting ≠ buy counting (CRITICAL)**: `card clicked` does NOT guarantee purchase. Must enforce supply limits.
-- **Replay JSON structure**: `deckInfo.mergedDeck` for card data. Derive supply from `rarity`: legendary=1, rare=4, normal=20.
+- **Replay JSON structure**: `deckInfo.mergedDeck` for card data. Derive supply from `rarity`: legendary=1, rare=4, normal=10, trinket=20.
 - **C++ `eval_pct` is a string with `%` suffix**: Strip `%` before `float()`.
 - **prismata-replay-parser git config**: Must set `git config user.name "Surfinite"` locally before first commit.
 - **SQLite trigger DDL splitting**: Never split on `;` — split on `END;` boundary.
