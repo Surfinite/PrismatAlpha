@@ -213,14 +213,22 @@ function preprocessClicks(clicks) {
  * @param {Array} boughtDiff - Per-card-ID bought-array diff for shift-buy counts
  * @returns {Array} Array of action objects {type, unit, count}
  */
-function resolveActions(turnClicks, state, cards, nextInstId, boughtDiff) {
+function resolveActions(turnClicks, state, cards, nextInstId, boughtDiff, player) {
     // Preprocess: strip undo/revert noise
     const cleaned = preprocessClicks(turnClicks);
 
-    // Build instance lookup: instId → UIName
+    // Build instance lookup: instId → UIName (alive units only)
     const instLookup = new Map();
+    // Build shift counts: UIName → count of alive instances owned by active player
+    const shiftCounts = new Map();
     state.table.forEach((inst, key) => {
-        instLookup.set(inst.instId, inst.card.UIName);
+        if (inst.deadness === C.DEADNESS_ALIVE) {
+            instLookup.set(inst.instId, inst.card.UIName);
+            if (inst.owner === player) {
+                const name = inst.card.UIName;
+                shiftCounts.set(name, (shiftCounts.get(name) || 0) + 1);
+            }
+        }
     });
 
     const actions = [];
@@ -243,7 +251,9 @@ function resolveActions(turnClicks, state, cards, nextInstId, boughtDiff) {
             // Shift-buy action — count from boughtDiff
             const name = (cards[id] && cards[id].UIName) || `card_${id}`;
             const count = boughtDiff[id] || 0;
-            actions.push({ type: 'buy_shift', unit: name, count: count });
+            if (count > 0) {
+                actions.push({ type: 'buy_shift', unit: name, count: count });
+            }
         } else if (type === 'inst clicked') {
             if (spaceCount === 0) {
                 // Defense phase — blocker assignment
@@ -264,11 +274,11 @@ function resolveActions(turnClicks, state, cards, nextInstId, boughtDiff) {
             if (spaceCount === 0) {
                 // Defense phase — shift defend
                 const name = instLookup.get(id) || `instance_${id}`;
-                actions.push({ type: 'defend_shift', unit: name, count: 1 });
+                actions.push({ type: 'defend_shift', unit: name, count: shiftCounts.get(name) || 1 });
             } else {
                 // Action phase — shift ability
                 const name = instLookup.get(id) || `instance_${id}`;
-                actions.push({ type: 'ability_shift', unit: name, count: 1 });
+                actions.push({ type: 'ability_shift', unit: name, count: shiftCounts.get(name) || 1 });
             }
         }
         // Other click types (redo, raid, etc.) are ignored
@@ -369,7 +379,7 @@ function extractTurnData(replay, code) {
             const boughtDiff = currBought.map((v, i) => v - prevBought[i]);
 
             // Resolve clicks to actions
-            const actions = resolveActions(turnClicks, state, state.cards, state.nextInstId, boughtDiff);
+            const actions = resolveActions(turnClicks, state, state.cards, state.nextInstId, boughtDiff, player);
 
             result.turns.push({
                 global_turn: turnIdx,
