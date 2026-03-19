@@ -411,7 +411,7 @@ Reference: `replay_parser/simulator.py` lines 24-61 for the equivalent Python lo
 - [ ] **Step 2: Implement `resolveActions()` — click classification**
 
 ```javascript
-function resolveActions(turnClicks, state, cards, nextInstId) {
+function resolveActions(turnClicks, state, cards, nextInstId, boughtDiff) {
     const resolved = preprocessClicks(turnClicks);
     const actions = [];
     const instLookup = {};  // instanceId -> {name, cardId}
@@ -455,14 +455,12 @@ function resolveActions(turnClicks, state, cards, nextInstId) {
             continue;
         }
 
-        // Card shift-buy
+        // Card shift-buy — count comes from bought-array diff for this card type
         if (ct === 'card shift clicked') {
-            // Count comes from bought-array diff for this card — computed elsewhere.
-            // Here we just record the click; the exact count is in turn.buys.
             actions.push({
                 type: 'buy_shift',
                 unit: cards[id] ? cards[id].UIName : `unknown_${id}`,
-                count: 1  // Actual count is sum in turn.buys for this unit
+                count: boughtDiff ? (boughtDiff[id] || 0) : 1
             });
             continue;
         }
@@ -522,8 +520,13 @@ const clickStart = clicksPerTurn.slice(0, turnIdx).reduce((a, b) => a + b, 0);
 const clickEnd = clickStart + clicksPerTurn[turnIdx];
 const turnClicks = commandList.slice(clickStart, clickEnd);
 
+// Compute per-card bought diffs for this turn (for shift-buy counts)
+const prevBought = player === 0 ? state.whiteBought : state.blackBought;
+const currBought = player === 0 ? nextState.whiteBought : nextState.blackBought;
+const boughtDiff = currBought.map((v, i) => v - prevBought[i]);
+
 // Resolve clicks to actions
-const actions = resolveActions(turnClicks, state, cards, state.nextInstId);
+const actions = resolveActions(turnClicks, state, cards, state.nextInstId, boughtDiff);
 ```
 
 This requires adding `commandList` and `clicksPerTurn` references at the top of the try block:
@@ -844,7 +847,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from replay_parser.database import migrate, ingest
+from replay_parser.database import migrate, ingest, PARSER_VERSION_JS
 from replay_parser.fetch import code_to_filename
 
 logger = logging.getLogger(__name__)
@@ -1002,9 +1005,10 @@ def _filter_unparsed(conn, codes):
 def _mark_error(conn, code, error_msg):
     """Record a parse error in replay_parse_status."""
     conn.execute(
-        "INSERT OR REPLACE INTO replay_parse_status (code, parsed, error, parse_date) "
-        "VALUES (?, 0, ?, datetime('now'))",
-        (code, error_msg)
+        "INSERT OR REPLACE INTO replay_parse_status "
+        "(code, parsed, error, parse_date, parser_version) "
+        "VALUES (?, 0, ?, datetime('now'), ?)",
+        (code, error_msg, PARSER_VERSION_JS)
     )
     conn.commit()
 ```
@@ -1066,12 +1070,15 @@ if args.verify:
 if args.cross_validate:
     if not args.db or not args.replays_dir:
         parser.error("--db and --replays-dir are required for --cross-validate")
-    from replay_parser.cross_validate import main as cv_main
-    # Reuse cross_validate's existing main with appropriate args
-    import sys
-    sys.argv = ['cross_validate', '--db', args.db, '--replays-dir', args.replays_dir,
-                '--sample', str(args.sample)]
-    cv_main()
+    from replay_parser.cross_validate import (
+        get_sample_codes, run_js_extraction, run_python_parsing,
+        run_comparison, print_report
+    )
+    codes = get_sample_codes(args.db, args.sample)
+    js_data = run_js_extraction(codes, args.replays_dir)
+    py_data = run_python_parsing(codes, args.replays_dir)
+    report = run_comparison(py_data, js_data)
+    print_report(report)
     return
 ```
 
