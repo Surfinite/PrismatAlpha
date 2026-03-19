@@ -100,6 +100,11 @@ function extractBoughtDiffBuys(state, nextState, player) {
     const nextBoughtArr = player === 0 ? nextState.whiteBought : nextState.blackBought;
     const buys = [];
 
+    // Defensive: both arrays should be same length (same game state chain)
+    if (boughtArr.length !== nextBoughtArr.length) {
+        throw new Error(`boughtArr length mismatch: ${boughtArr.length} vs ${nextBoughtArr.length}`);
+    }
+
     for (let cardId = 0; cardId < boughtArr.length; cardId++) {
         const diff = nextBoughtArr[cardId] - boughtArr[cardId];
         if (diff > 0) {
@@ -113,9 +118,13 @@ function extractBoughtDiffBuys(state, nextState, player) {
 }
 
 /**
- * Extract buys from unit-count diffs (for verification).
+ * Extract buys from unit-count diffs (for verification comparison only).
  * Only counts positive diffs (negative = died/sacced).
  * Returns sorted array of UINames.
+ *
+ * Known limitation: consistent=false can occur legitimately when units are
+ * bought AND sacced/die within the same turn (unit-diff misses the buy,
+ * bought-diff catches it). This is expected, not a data error.
  */
 function extractUnitDiffBuys(preUnits, postUnits) {
     const buys = [];
