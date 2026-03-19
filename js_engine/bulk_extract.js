@@ -152,6 +152,131 @@ function arraysEqual(a, b) {
     return true;
 }
 
+// Set of click types that are "actionable" (affected by undo/revert)
+const ACTIONABLE_CLICKS = new Set([
+    'card clicked', 'card shift clicked',
+    'inst clicked', 'inst shift clicked'
+]);
+
+// Set of click types that are phase markers (cleared by revert alongside actionable clicks)
+const PHASE_MARKERS = new Set([
+    'space clicked', 'end swipe processed'
+]);
+
+/**
+ * Strip undo/revert noise from a turn's click slice.
+ *
+ * Walk clicks left-to-right, building a stack:
+ * - `revert clicked` → clear all actionable clicks AND phase markers from stack
+ * - `undo clicked`   → pop most recent actionable click from stack
+ * - emotes (type starts with "emote") → skip entirely
+ * - everything else  → push to stack
+ *
+ * Returns the cleaned array of clicks.
+ */
+function preprocessClicks(clicks) {
+    const stack = [];
+    for (const click of clicks) {
+        const type = click._type;
+        if (type === 'revert clicked') {
+            // Remove all actionable clicks and phase markers from the stack
+            for (let i = stack.length - 1; i >= 0; i--) {
+                const t = stack[i]._type;
+                if (ACTIONABLE_CLICKS.has(t) || PHASE_MARKERS.has(t)) {
+                    stack.splice(i, 1);
+                }
+            }
+        } else if (type === 'undo clicked') {
+            // Pop most recent actionable click from stack
+            for (let i = stack.length - 1; i >= 0; i--) {
+                if (ACTIONABLE_CLICKS.has(stack[i]._type)) {
+                    stack.splice(i, 1);
+                    break;
+                }
+            }
+        } else if (type.startsWith('emote')) {
+            // Skip emotes entirely
+        } else {
+            stack.push(click);
+        }
+    }
+    return stack;
+}
+
+/**
+ * Classify each surviving click into a resolved action record.
+ *
+ * @param {Array} turnClicks - Raw click slice from commandList for this turn
+ * @param {Object} state - The beginTurnHistory state snapshot for this turn
+ * @param {Array} cards - The cards array (state.cards) for card ID → name resolution
+ * @param {number} nextInstId - state.nextInstId at turn start (IDs >= this are new buys)
+ * @param {Array} boughtDiff - Per-card-ID bought-array diff for shift-buy counts
+ * @returns {Array} Array of action objects {type, unit, count}
+ */
+function resolveActions(turnClicks, state, cards, nextInstId, boughtDiff) {
+    // Preprocess: strip undo/revert noise
+    const cleaned = preprocessClicks(turnClicks);
+
+    // Build instance lookup: instId → UIName
+    const instLookup = new Map();
+    state.table.forEach((inst, key) => {
+        instLookup.set(inst.instId, inst.card.UIName);
+    });
+
+    const actions = [];
+    let spaceCount = 0; // Track phase: 0 = defense, 1+ = action
+
+    for (const click of cleaned) {
+        const type = click._type;
+        const id = click._id;
+
+        if (type === 'space clicked') {
+            spaceCount++;
+            actions.push({ type: 'commit' });
+        } else if (type === 'end swipe processed' || type === 'cancel target processed') {
+            // Skip these — not meaningful actions
+        } else if (type === 'card clicked') {
+            // Buy action (only in action phase)
+            const name = (cards[id] && cards[id].UIName) || `card_${id}`;
+            actions.push({ type: 'buy', unit: name, count: 1 });
+        } else if (type === 'card shift clicked') {
+            // Shift-buy action — count from boughtDiff
+            const name = (cards[id] && cards[id].UIName) || `card_${id}`;
+            const count = boughtDiff[id] || 0;
+            actions.push({ type: 'buy_shift', unit: name, count: count });
+        } else if (type === 'inst clicked') {
+            if (spaceCount === 0) {
+                // Defense phase — blocker assignment
+                // NOTE: Turns with no incoming attack skip defense, so inst clicks
+                // before the first space could also be abilities. This is an inherent
+                // ambiguity — we label them as defense conservatively.
+                const name = instLookup.get(id) || `instance_${id}`;
+                actions.push({ type: 'defend', unit: name, count: 1 });
+            } else if (id >= nextInstId) {
+                // Action phase — un-buy (unit purchased during this turn)
+                actions.push({ type: 'unbuy', unit: `instance_${id}`, count: 1 });
+            } else {
+                // Action phase — ability activation
+                const name = instLookup.get(id) || `instance_${id}`;
+                actions.push({ type: 'ability', unit: name, count: 1 });
+            }
+        } else if (type === 'inst shift clicked') {
+            if (spaceCount === 0) {
+                // Defense phase — shift defend
+                const name = instLookup.get(id) || `instance_${id}`;
+                actions.push({ type: 'defend_shift', unit: name, count: 1 });
+            } else {
+                // Action phase — shift ability
+                const name = instLookup.get(id) || `instance_${id}`;
+                actions.push({ type: 'ability_shift', unit: name, count: 1 });
+            }
+        }
+        // Other click types (redo, raid, etc.) are ignored
+    }
+
+    return actions;
+}
+
 // ---------------------------------------------------------------------------
 // Core extraction
 // ---------------------------------------------------------------------------
@@ -187,6 +312,9 @@ function extractTurnData(replay, code) {
         const analyzer = new Analyzer(initInfo, -1, -1, null);
         analyzer.loaderInit();
 
+        const commandList = replay.commandInfo.commandList;
+        const clicksPerTurn = replay.commandInfo.clicksPerTurn;
+
         const history = analyzer.beginTurnHistory;
         if (!history || history.length < 2) {
             result.error = 'No beginTurnHistory available';
@@ -195,6 +323,7 @@ function extractTurnData(replay, code) {
 
         // Last turn has no N+1 to diff — omit it
         const numTurns = Math.min(result.totalTurns, history.length - 1);
+        let clickOffset = 0;
 
         for (let turnIdx = 0; turnIdx < numTurns; turnIdx++) {
             const player = turnIdx % 2;
@@ -229,6 +358,19 @@ function extractTurnData(replay, code) {
                 building: building
             };
 
+            // Slice commandList for this turn
+            const turnClickCount = clicksPerTurn[turnIdx] || 0;
+            const turnClicks = commandList.slice(clickOffset, clickOffset + turnClickCount);
+            clickOffset += turnClickCount;
+
+            // Compute per-card bought diffs for shift-buy counts
+            const prevBought = player === 0 ? state.whiteBought : state.blackBought;
+            const currBought = player === 0 ? nextState.whiteBought : nextState.blackBought;
+            const boughtDiff = currBought.map((v, i) => v - prevBought[i]);
+
+            // Resolve clicks to actions
+            const actions = resolveActions(turnClicks, state, state.cards, state.nextInstId, boughtDiff);
+
             result.turns.push({
                 global_turn: turnIdx,
                 player: player,
@@ -237,7 +379,7 @@ function extractTurnData(replay, code) {
                 resources: resources,
                 units_owned: unitsOwned,
                 total_units: totalUnits,
-                actions: [],
+                actions: actions,
                 verification: verification
             });
         }
