@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prismata Replay Viewer</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                fontFamily: {
+                    orbitron: ['Orbitron', 'sans-serif'],
+                    rajdhani: ['Rajdhani', 'sans-serif'],
+                    mono: ['"JetBrains Mono"', 'monospace'],
+                }
+            }
+        }
+    }
+    </script>
+
+    <style>
+        body { font-family: 'Rajdhani', sans-serif; }
+
+        /* ── Animations (from ladder globals.css) ── */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0,212,255,0.3), 0 0 40px rgba(0,212,255,0.1); border-color: rgba(0,212,255,0.4); }
+            50%      { box-shadow: 0 0 30px rgba(0,212,255,0.5), 0 0 60px rgba(0,212,255,0.2); border-color: rgba(0,212,255,0.7); }
+        }
+        @keyframes text-glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(0,212,255,0.5), 0 0 20px rgba(0,212,255,0.3); }
+            50%      { text-shadow: 0 0 20px rgba(0,212,255,0.8), 0 0 40px rgba(0,212,255,0.5); }
+        }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes border-flow {
+            0%   { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        @keyframes shimmer {
+            0%   { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50%      { transform: translateY(-20px) rotate(3deg); }
+        }
+
+        /* ── Glass card (exact match) ── */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(10,22,40,0.9) 0%, rgba(10,22,40,0.7) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,212,255,0.2);
+        }
+        .glass-card:hover { border-color: rgba(0,212,255,0.4); box-shadow: 0 0 30px rgba(0,212,255,0.1); }
+
+        /* ── Grid pattern ── */
+        .grid-pattern {
+            background-image:
+                linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* ── Glow utilities ── */
+        .glow-cyan  { box-shadow: 0 0 20px rgba(0,212,255,0.4), 0 0 40px rgba(0,212,255,0.2); }
+        .glow-gold  { box-shadow: 0 0 20px rgba(255,215,0,0.4), 0 0 40px rgba(255,215,0,0.2); }
+        .text-glow-cyan { text-shadow: 0 0 10px rgba(0,212,255,0.5), 0 0 20px rgba(0,212,255,0.3); }
+        .text-glow-gold { text-shadow: 0 0 10px rgba(255,215,0,0.5), 0 0 20px rgba(255,215,0,0.3); }
+
+        /* ── Cyber border ── */
+        .cyber-border {
+            position: relative;
+            background: linear-gradient(135deg, rgba(10,22,40,0.95) 0%, rgba(5,13,24,0.95) 100%);
+            border: 1px solid transparent;
+            background-clip: padding-box;
+        }
+        .cyber-border::before {
+            content: ''; position: absolute; inset: -1px;
+            background: linear-gradient(90deg, #00d4ff, #00b8a9, #00d4ff);
+            border-radius: inherit; z-index: -1;
+            background-size: 200% 100%;
+            animation: border-flow 3s linear infinite;
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(10,22,40,0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #00d4ff, #00b8a9); border-radius: 4px; }
+
+        /* ── Progress slider ── */
+        input[type=range] { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; width: 100%; }
+        input[type=range]::-webkit-slider-runnable-track { height: 6px; background: rgba(0,212,255,0.15); border-radius: 3px; border: 1px solid rgba(0,212,255,0.2); }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+            background: #00d4ff; border: 2px solid #050d18; margin-top: -7px;
+            box-shadow: 0 0 10px rgba(0,212,255,0.6);
+        }
+        input[type=range]::-moz-range-track { height: 6px; background: rgba(0,212,255,0.15); border-radius: 3px; border: 1px solid rgba(0,212,255,0.2); }
+        input[type=range]::-moz-range-thumb {
+            width: 18px; height: 18px; border-radius: 50%;
+            background: #00d4ff; border: 2px solid #050d18;
+            box-shadow: 0 0 10px rgba(0,212,255,0.6);
+        }
+
+        /* ── Playback button ── */
+        .ctrl-btn {
+            width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+            color: #00d4ff; font-size: 16px; cursor: pointer; transition: all 0.2s;
+        }
+        .ctrl-btn:hover { background: rgba(0,212,255,0.2); border-color: #00d4ff; box-shadow: 0 0 15px rgba(0,212,255,0.3); }
+        .ctrl-btn:active { transform: scale(0.92); }
+        .ctrl-btn.play-btn { width: 48px; height: 48px; border-radius: 50%; font-size: 20px; border-color: rgba(0,212,255,0.4); }
+
+        /* ── Speed pill ── */
+        .speed-pill {
+            padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer;
+            background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15);
+            color: #6b9ac4; transition: all 0.2s; font-family: 'JetBrains Mono', monospace;
+        }
+        .speed-pill:hover { border-color: rgba(0,212,255,0.4); color: #00d4ff; }
+        .speed-pill.active { background: rgba(0,212,255,0.15); border-color: #00d4ff; color: #00d4ff; }
+
+        /* ── Phase badge ── */
+        .phase-badge {
+            padding: 2px 12px; border-radius: 4px; font-size: 13px; font-weight: 700;
+            font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+        }
+        .phase-action  { background: rgba(0,255,136,0.12); border: 1px solid rgba(0,255,136,0.3); color: #00ff88; }
+        .phase-defense { background: rgba(0,212,255,0.12); border: 1px solid rgba(0,212,255,0.3); color: #00d4ff; }
+        .phase-confirm { background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.3); color: #ffd700; }
+        .phase-breach  { background: rgba(255,51,102,0.12); border: 1px solid rgba(255,51,102,0.3); color: #ff3366; }
+
+        /* ── Transition utility ── */
+        .fade-enter { animation: fade-in-up 0.5s ease-out forwards; }
+        .view-hidden { display: none !important; }
+
+        /* ── Replay card click hint ── */
+        .replay-clickable { cursor: pointer; transition: all 0.3s; }
+        .replay-clickable:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,212,255,0.2); border-color: rgba(0,212,255,0.5) !important; }
+
+        /* ── Unit badge ── */
+        .unit-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+            background: rgba(30,58,95,0.5); border: 1px solid rgba(0,212,255,0.15); color: #6b9ac4;
+            white-space: nowrap;
+        }
+
+        /* ── Resource pip ── */
+        .res-pip {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700;
+        }
+        .res-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+        /* ── Drag zone ── */
+        .drag-zone { border: 2px dashed rgba(0,212,255,0.2); transition: all 0.3s; }
+        .drag-zone.dragover { border-color: #ffd700; background: rgba(255,215,0,0.05); }
+    </style>
+</head>
+
+<body class="text-[#e0f7ff] overflow-x-hidden" style="background: linear-gradient(135deg, #050d18 0%, #0a1628 50%, #0d1f35 100%); min-height: 100vh;">
+
+<!-- ================================================================== -->
+<!--  ENTRY SCREEN                                                       -->
+<!-- ================================================================== -->
+<div id="entry-screen" class="min-h-screen grid-pattern">
+
+    <!-- Nav bar -->
+    <nav class="flex items-center justify-between px-6 py-4 border-b border-[rgba(0,212,255,0.1)]" style="background: rgba(5,13,24,0.7); backdrop-filter: blur(8px);">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.3);">
+                <span class="text-[#00d4ff] text-sm">▶</span>
+            </div>
+            <span class="font-orbitron font-bold text-sm tracking-widest text-[#00d4ff]">REPLAY VIEWER</span>
+        </div>
+        <a href="#" class="text-[#6b9ac4] hover:text-[#00d4ff] text-sm transition-colors font-medium">← Back to Ladder</a>
+    </nav>
+
+    <!-- Hero -->
+    <div class="text-center pt-16 pb-8 px-4 fade-enter">
+        <h1 class="font-orbitron font-bold text-4xl md:text-5xl tracking-wide mb-3">
+            <span class="text-white">PRISMATA</span>
+            <span class="text-[#00d4ff]" style="animation: text-glow 2s ease-in-out infinite;"> REPLAY</span>
+        </h1>
+        <p class="text-[#6b9ac4] text-lg font-medium max-w-md mx-auto">
+            Watch top-level games from the community ladder
+        </p>
+    </div>
+
+    <!-- Input section -->
+    <div class="max-w-xl mx-auto px-4 mb-10 fade-enter" style="animation-delay: 0.1s;">
+        <div class="glass-card rounded-xl p-6" style="animation: pulse-glow 3s ease-in-out infinite;">
+            <div class="flex gap-3 mb-4">
+                <input id="code-input" type="text" placeholder="Enter replay code (e.g. ZiFCm-Kdi0t)"
+                    class="flex-1 px-4 py-3 rounded-lg font-mono text-[#00d4ff] text-sm font-bold placeholder-[#3a5a7a]"
+                    style="background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.25); outline: none;"
+                    onfocus="this.style.borderColor='#00d4ff'; this.style.boxShadow='0 0 20px rgba(0,212,255,0.2)'"
+                    onblur="this.style.borderColor='rgba(0,212,255,0.25)'; this.style.boxShadow='none'">
+                <button onclick="loadReplay()" class="px-6 py-3 rounded-lg font-orbitron font-bold text-sm tracking-wider transition-all hover:shadow-lg"
+                    style="background: linear-gradient(135deg, #00d4ff, #0099cc); color: #050d18;"
+                    onmouseover="this.style.boxShadow='0 0 25px rgba(0,212,255,0.5)'"
+                    onmouseout="this.style.boxShadow='none'">
+                    WATCH
+                </button>
+            </div>
+            <div id="drop-zone" class="drag-zone rounded-lg p-6 text-center">
+                <div class="text-[#3a5a7a] text-sm">
+                    <span class="text-[#6b9ac4] font-semibold">Drop</span> a .json.gz replay file here
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Replays of the Week -->
+    <div class="max-w-4xl mx-auto px-4 pb-16 fade-enter" style="animation-delay: 0.2s;">
+        <!-- Section header (exact match) -->
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-6 h-6 rounded flex items-center justify-center" style="background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3);">
+                <span class="text-[#ffd700] text-xs">🏆</span>
+            </div>
+            <h2 class="font-orbitron text-xl font-bold text-white tracking-wide">
+                REPLAYS OF THE <span class="text-[#ffd700]">WEEK</span>
+            </h2>
+            <div class="flex-1 h-px ml-4" style="background: linear-gradient(to right, rgba(255,215,0,0.5), transparent);"></div>
+        </div>
+
+        <!-- Featured replay -->
+        <div id="featured-replay" class="glass-card rounded-xl p-6 border-2 mb-4 replay-clickable" style="border-color: rgba(255,215,0,0.5);" onclick="loadReplay('Yd88U-1vr+S')">
+            <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 rounded flex items-center justify-center" style="background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3);">
+                    <span class="text-[#ffd700] text-sm">🏆</span>
+                </div>
+                <div>
+                    <h3 class="font-orbitron font-bold text-lg text-[#ffd700] tracking-wide">Wednesday</h3>
+                    <div class="text-xs text-[#6b9ac4]">Mar 18</div>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center gap-6">
+                <div class="flex items-center gap-4 flex-1">
+                    <div class="text-center flex-1">
+                        <div class="font-bold text-white text-xl">Wonderboat</div>
+                        <div class="text-[#ffd700] font-semibold text-sm">2327</div>
+                    </div>
+                    <div class="text-[#6b9ac4] font-bold text-xl">vs</div>
+                    <div class="text-center flex-1">
+                        <div class="font-bold text-white text-xl">Homeless</div>
+                        <div class="text-[#ffd700] font-semibold text-sm">2179</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="glass-card rounded-lg border px-3 py-2" style="border-color: rgba(255,215,0,0.3);">
+                        <div class="text-[#6b9ac4] uppercase text-xs">Avg</div>
+                        <div class="font-bold text-[#ffd700] text-xl font-orbitron">2253</div>
+                    </div>
+                    <div class="glass-card rounded-lg border px-4 py-2" style="border-color: rgba(0,212,255,0.3);">
+                        <div class="text-[#6b9ac4] uppercase text-xs mb-1">Replay</div>
+                        <span class="text-[#00d4ff] font-mono font-bold">Yd88U~1vr+S</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Unit set -->
+            <div class="mt-4 pt-4 border-t border-[#1e3a5f]">
+                <div class="flex flex-wrap gap-2 justify-center" id="featured-units"></div>
+            </div>
+        </div>
+
+        <!-- Grid replays -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="grid-replays"></div>
+    </div>
+</div>
+
+
+<!-- ================================================================== -->
+<!--  LOADING OVERLAY                                                    -->
+<!-- ================================================================== -->
+<div id="loading-overlay" class="view-hidden fixed inset-0 z-50 flex flex-col items-center justify-center" style="background: rgba(5,13,24,0.92); backdrop-filter: blur(12px);">
+    <div class="w-16 h-16 rounded-full border-2 border-[rgba(0,212,255,0.2)] border-t-[#00d4ff] mb-6" style="animation: spin-slow 1s linear infinite;"></div>
+    <div class="font-orbitron text-[#00d4ff] text-sm tracking-widest" style="animation: text-glow 2s ease-in-out infinite;">LOADING REPLAY</div>
+    <div id="loading-detail" class="text-[#3a5a7a] text-xs mt-2 font-mono">Fetching from server...</div>
+</div>
+
+
+<!-- ================================================================== -->
+<!--  GAME VIEWER                                                        -->
+<!-- ================================================================== -->
+<div id="game-viewer" class="view-hidden fixed inset-0 flex flex-col" style="background: #050d18;">
+
+    <!-- ── Header bar ── -->
+    <header class="flex items-center gap-4 px-4 h-[52px] shrink-0 z-10" style="background: linear-gradient(180deg, rgba(10,22,40,0.95) 0%, rgba(10,22,40,0.8) 100%); border-bottom: 1px solid rgba(0,212,255,0.15);">
+        <!-- Back -->
+        <button onclick="showEntry()" class="flex items-center gap-1.5 text-[#6b9ac4] hover:text-[#00d4ff] text-sm transition-colors cursor-pointer shrink-0">
+            <span>←</span> <span class="hidden sm:inline font-medium">Back</span>
+        </button>
+
+        <div class="w-px h-6 bg-[rgba(0,212,255,0.15)]"></div>
+
+        <!-- Player 1 (white/bottom) -->
+        <div class="flex items-center gap-2 flex-1 justify-end">
+            <span id="hdr-p0-name" class="font-bold text-[#6699ff] text-sm truncate">Player 1</span>
+            <span id="hdr-p0-elo" class="font-mono text-[#ffd700] text-xs font-bold px-2 py-0.5 rounded" style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2);">—</span>
+        </div>
+
+        <!-- Turn / Phase -->
+        <div class="flex items-center gap-2 shrink-0">
+            <span id="hdr-turn" class="font-orbitron text-white text-xs font-bold tracking-wider">TURN —</span>
+            <span id="hdr-phase" class="phase-badge phase-action">ACTION</span>
+        </div>
+
+        <!-- Player 2 (black/top) -->
+        <div class="flex items-center gap-2 flex-1">
+            <span id="hdr-p1-elo" class="font-mono text-[#ffd700] text-xs font-bold px-2 py-0.5 rounded" style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2);">—</span>
+            <span id="hdr-p1-name" class="font-bold text-[#ff8866] text-sm truncate">Player 2</span>
+        </div>
+
+        <div class="w-px h-6 bg-[rgba(0,212,255,0.15)]"></div>
+
+        <!-- Replay code -->
+        <button id="hdr-code-btn" onclick="copyCode()" class="text-[#00d4ff] font-mono text-xs font-bold px-3 py-1.5 rounded-lg transition-all cursor-pointer shrink-0"
+            style="background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);"
+            onmouseover="this.style.borderColor='#00d4ff'; this.style.background='rgba(0,212,255,0.15)'"
+            onmouseout="this.style.borderColor='rgba(0,212,255,0.2)'; this.style.background='rgba(0,212,255,0.08)'">
+            <span id="hdr-code-text">—</span>
+        </button>
+    </header>
+
+    <!-- ── Canvas area ── -->
+    <div id="canvas-container" class="flex-1 relative overflow-hidden">
+        <canvas id="board"></canvas>
+        <!-- Keyboard hints toggle -->
+        <button id="hints-toggle" onclick="toggleHints()" class="absolute bottom-3 right-3 text-[#3a5a7a] hover:text-[#6b9ac4] text-xs transition-colors cursor-pointer z-10 px-2 py-1 rounded"
+            style="background: rgba(5,13,24,0.7);">
+            ⌨ Shortcuts
+        </button>
+        <!-- Hints panel -->
+        <div id="hints-panel" class="view-hidden absolute bottom-10 right-3 z-10 glass-card rounded-lg p-3" style="min-width: 220px;">
+            <div class="text-[#6b9ac4] text-xs font-mono space-y-1">
+                <div class="flex justify-between"><span class="text-[#3a5a7a]">Next Action</span><span>→ / Space</span></div>
+                <div class="flex justify-between"><span class="text-[#3a5a7a]">Prev Action</span><span>← / Z</span></div>
+                <div class="flex justify-between"><span class="text-[#3a5a7a]">Next Turn</span><span>↑</span></div>
+                <div class="flex justify-between"><span class="text-[#3a5a7a]">Prev Turn</span><span>↓</span></div>
+                <div class="flex justify-between"><span class="text-[#3a5a7a]">Start / End</span><span>Home / End</span></div>
+                <div class="flex justify-between"><span class="text-[#3a5a7a]">Play / Pause</span><span>P</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Footer controls ── -->
+    <footer class="shrink-0 z-10 px-4 py-2.5" style="background: linear-gradient(0deg, rgba(10,22,40,0.95) 0%, rgba(10,22,40,0.8) 100%); border-top: 1px solid rgba(0,212,255,0.15);">
+
+        <!-- Progress bar row -->
+        <div class="flex items-center gap-3 mb-2">
+            <span id="ft-step" class="text-[#6b9ac4] font-mono text-xs shrink-0 w-24">0 / 0</span>
+            <input type="range" id="progress-bar" min="0" max="100" value="0" class="flex-1" oninput="onScrub(this.value)">
+            <span id="ft-action" class="text-[#ffd700] font-mono text-xs truncate max-w-48 text-right">—</span>
+        </div>
+
+        <!-- Controls row -->
+        <div class="flex items-center justify-between">
+            <!-- Playback buttons -->
+            <div class="flex items-center gap-1.5">
+                <button class="ctrl-btn" onclick="navFirst()" title="First (Home)">⏮</button>
+                <button class="ctrl-btn" onclick="navPrevTurn()" title="Prev Turn (↓)">⏪</button>
+                <button class="ctrl-btn" onclick="navPrev()" title="Prev Action (←)">◀</button>
+                <button class="ctrl-btn play-btn" onclick="togglePlay()" id="play-btn" title="Play/Pause (P)">▶</button>
+                <button class="ctrl-btn" onclick="navNext()" title="Next Action (→)">▶</button>
+                <button class="ctrl-btn" onclick="navNextTurn()" title="Next Turn (↑)">⏩</button>
+                <button class="ctrl-btn" onclick="navLast()" title="Last (End)">⏭</button>
+            </div>
+
+            <!-- Turn display -->
+            <div class="flex items-center gap-3">
+                <span id="ft-turn" class="font-orbitron text-white text-xs font-bold tracking-wider">TURN —</span>
+                <div class="flex items-center gap-1.5" id="ft-resources"></div>
+            </div>
+
+            <!-- Speed -->
+            <div class="flex items-center gap-1.5">
+                <span class="text-[#3a5a7a] text-xs font-medium mr-1">Speed</span>
+                <button class="speed-pill active" onclick="setSpeed(1, this)">1×</button>
+                <button class="speed-pill" onclick="setSpeed(2, this)">2×</button>
+                <button class="speed-pill" onclick="setSpeed(4, this)">4×</button>
+                <button class="speed-pill" onclick="setSpeed(8, this)">8×</button>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+<!-- ================================================================== -->
+<!--  JAVASCRIPT                                                         -->
+<!-- ================================================================== -->
+<script>
+// ── Replay data for entry screen ──
+const SAMPLE_REPLAYS = [
+    {
+        day: 'Wednesday', date: 'Mar 18', code: 'Yd88U-1vr+S',
+        p1: 'Wonderboat', p2: 'Homeless', elo1: 2327, elo2: 2179,
+        units: ['Doomed Drone','Tatsu Nullifier','Lancetooth','Hellhound','Venge Cannon','Shadowfang','Manticore','Blood Pact','Cauterizer']
+    },
+    {
+        day: 'Sunday', date: 'Mar 15', code: 'ZiFCm-Kdi0t',
+        p1: 'chole', p2: 'Wonderboat', elo1: 2217, elo2: 2305,
+        units: ['Venge Cannon','Chieftain','Thorium Dynamo','Thermite Core','Shredder','Bombarder','Synthesizer','Plasmafier','Nivo Charge','Blood Pact','Arka Sodara']
+    },
+    {
+        day: 'Saturday', date: 'Mar 14', code: 'C8jZ2-LnIkB',
+        p1: 'Kolento', p2: 'flopflop', elo1: 2247, elo2: 2200,
+        units: ['Endotherm Kit','Gauss Fabricator','Frost Brooder','Shiver Yeti','Thermite Core','Steelforge','Antima Comet','Gaussite Symbiote','Ossified Drone']
+    },
+    {
+        day: 'Friday', date: 'Mar 13', code: 'ewQEK-W5N1k',
+        p1: 'Kolento', p2: 'Wonderboat', elo1: 2261, elo2: 2311,
+        units: ['Omega Splitter','Centrifuge','Wild Drone','Nitrocybe','Plexo Cell','Iceblade Golem','Kinetic Driver','Infusion Grid','Mahar Rectifier']
+    },
+    {
+        day: 'Thursday', date: 'Mar 12', code: 'qJ@bz-3Ht7w',
+        p1: 'Timex', p2: 'Wonderboat', elo1: 2188, elo2: 2298,
+        units: ['Deadeye Operative','Xaetron','Lancetooth','Polywall','Aegis','Fission Turret','Ossified Drone']
+    }
+];
+
+// Populate featured replay units
+const featuredUnitsEl = document.getElementById('featured-units');
+SAMPLE_REPLAYS[0].units.forEach(u => {
+    const badge = document.createElement('span');
+    badge.className = 'unit-badge';
+    badge.textContent = u;
+    featuredUnitsEl.appendChild(badge);
+});
+
+// Populate grid replays
+const gridEl = document.getElementById('grid-replays');
+SAMPLE_REPLAYS.slice(1).forEach(r => {
+    const avg = Math.round((r.elo1 + r.elo2) / 2);
+    const card = document.createElement('div');
+    card.className = 'glass-card rounded-xl p-4 border border-[#1e3a5f] replay-clickable';
+    card.onclick = () => loadReplay(r.code);
+    card.innerHTML = `
+        <div class="flex items-center gap-2 mb-3">
+            <h3 class="font-orbitron font-bold text-sm text-[#00d4ff] tracking-wide">${r.day}</h3>
+            <span class="text-xs text-[#6b9ac4]">${r.date}</span>
+        </div>
+        <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-3">
+                <div class="text-center flex-1">
+                    <div class="font-bold text-white text-sm">${r.p1}</div>
+                    <div class="text-[#ffd700] font-semibold text-xs">${r.elo1}</div>
+                </div>
+                <div class="text-[#6b9ac4] font-bold text-sm">vs</div>
+                <div class="text-center flex-1">
+                    <div class="font-bold text-white text-sm">${r.p2}</div>
+                    <div class="text-[#ffd700] font-semibold text-xs">${r.elo2}</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 justify-between">
+                <div class="glass-card rounded-lg border px-2 py-1" style="border-color: rgba(255,215,0,0.3);">
+                    <span class="text-[#6b9ac4] uppercase text-[10px]">Avg </span>
+                    <span class="font-bold text-[#ffd700] text-sm font-orbitron">${avg}</span>
+                </div>
+                <div class="glass-card rounded-lg border px-2 py-1 flex-1" style="border-color: rgba(0,212,255,0.3);">
+                    <span class="text-[#6b9ac4] uppercase text-[10px]">Replay </span>
+                    <span class="text-[#00d4ff] font-mono font-bold text-xs">${r.code}</span>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-[#1e3a5f]">
+                <div class="flex flex-wrap gap-1 justify-center">
+                    ${r.units.slice(0, 5).map(u => `<span class="unit-badge">${u}</span>`).join('')}
+                    ${r.units.length > 5 ? `<span class="text-[#6b9ac4] text-xs self-center">+${r.units.length - 5}</span>` : ''}
+                </div>
+            </div>
+        </div>`;
+    gridEl.appendChild(card);
+});
+
+
+// ── View transitions ──
+function showEntry() {
+    document.getElementById('game-viewer').classList.add('view-hidden');
+    document.getElementById('loading-overlay').classList.add('view-hidden');
+    document.getElementById('entry-screen').classList.remove('view-hidden');
+    stopPlay();
+}
+
+function showLoading(detail) {
+    document.getElementById('entry-screen').classList.add('view-hidden');
+    document.getElementById('loading-overlay').classList.remove('view-hidden');
+    document.getElementById('loading-detail').textContent = detail || 'Fetching from server...';
+}
+
+function showViewer() {
+    document.getElementById('loading-overlay').classList.add('view-hidden');
+    document.getElementById('game-viewer').classList.remove('view-hidden');
+    resizeCanvas();
+    drawMockBoard();
+}
+
+
+// ── Replay loading ──
+let currentCode = '';
+
+function loadReplay(code) {
+    code = code || document.getElementById('code-input').value.trim();
+    if (!code) return;
+    currentCode = code;
+
+    showLoading('Fetching ' + code + '...');
+
+    // Simulate loading (in real version: fetch from S3 + process through engine)
+    setTimeout(() => {
+        showLoading('Processing game states...');
+        setTimeout(() => {
+            // Set header info (mock data for prototype)
+            const r = SAMPLE_REPLAYS.find(r => r.code === code) || { p1: 'Player 1', p2: 'Player 2', elo1: '—', elo2: '—' };
+            document.getElementById('hdr-p0-name').textContent = r.p1;
+            document.getElementById('hdr-p1-name').textContent = r.p2;
+            document.getElementById('hdr-p0-elo').textContent = r.elo1;
+            document.getElementById('hdr-p1-elo').textContent = r.elo2;
+            document.getElementById('hdr-code-text').textContent = code;
+            document.getElementById('hdr-turn').textContent = 'TURN 1 / 24';
+            document.getElementById('ft-turn').textContent = 'TURN 1 / 24';
+            document.getElementById('ft-step').textContent = '1 / 892';
+            document.getElementById('ft-action').textContent = 'Buy Drone';
+            showViewer();
+        }, 600);
+    }, 800);
+}
+
+function copyCode() {
+    if (currentCode) {
+        navigator.clipboard.writeText(currentCode);
+        const el = document.getElementById('hdr-code-text');
+        el.textContent = 'Copied!';
+        setTimeout(() => { el.textContent = currentCode; }, 1500);
+    }
+}
+
+
+// ── Hints toggle ──
+function toggleHints() {
+    document.getElementById('hints-panel').classList.toggle('view-hidden');
+}
+
+
+// ── Playback controls ──
+let isPlaying = false;
+let playInterval = null;
+let playSpeed = 1;
+let mockStep = 0;
+const MOCK_TOTAL = 892;
+
+function togglePlay() {
+    isPlaying = !isPlaying;
+    document.getElementById('play-btn').textContent = isPlaying ? '⏸' : '▶';
+    if (isPlaying) {
+        playInterval = setInterval(() => {
+            mockStep = Math.min(mockStep + 1, MOCK_TOTAL - 1);
+            updateProgress();
+            if (mockStep >= MOCK_TOTAL - 1) stopPlay();
+        }, 200 / playSpeed);
+    } else {
+        clearInterval(playInterval);
+    }
+}
+
+function stopPlay() {
+    isPlaying = false;
+    if (playInterval) clearInterval(playInterval);
+    const btn = document.getElementById('play-btn');
+    if (btn) btn.textContent = '▶';
+}
+
+function setSpeed(s, el) {
+    playSpeed = s;
+    document.querySelectorAll('.speed-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    if (isPlaying) { stopPlay(); togglePlay(); }
+}
+
+function navFirst()    { mockStep = 0; updateProgress(); }
+function navLast()     { mockStep = MOCK_TOTAL - 1; updateProgress(); }
+function navPrev()     { mockStep = Math.max(0, mockStep - 1); updateProgress(); }
+function navNext()     { mockStep = Math.min(MOCK_TOTAL - 1, mockStep + 1); updateProgress(); }
+function navPrevTurn() { mockStep = Math.max(0, mockStep - 37); updateProgress(); }
+function navNextTurn() { mockStep = Math.min(MOCK_TOTAL - 1, mockStep + 37); updateProgress(); }
+
+function onScrub(val) {
+    mockStep = Math.round(val / 100 * (MOCK_TOTAL - 1));
+    updateProgress();
+}
+
+function updateProgress() {
+    document.getElementById('progress-bar').value = (mockStep / (MOCK_TOTAL - 1)) * 100;
+    document.getElementById('ft-step').textContent = (mockStep + 1) + ' / ' + MOCK_TOTAL;
+    const turn = Math.floor(mockStep / 37) + 1;
+    document.getElementById('hdr-turn').textContent = 'TURN ' + turn + ' / 24';
+    document.getElementById('ft-turn').textContent = 'TURN ' + turn + ' / 24';
+
+    const phases = ['ACTION', 'ACTION', 'ACTION', 'DEFENSE', 'CONFIRM'];
+    const phase = phases[mockStep % 5];
+    const phaseEl = document.getElementById('hdr-phase');
+    phaseEl.textContent = phase;
+    phaseEl.className = 'phase-badge phase-' + phase.toLowerCase();
+
+    const actions = ['Buy Drone', 'Buy Engineer', 'Buy Tarsier', 'Use Ability: Conduit', 'Assign Blocker: Wall', 'Buy Blastforge', 'Buy Steelsplitter', 'Use Ability: Rhino'];
+    document.getElementById('ft-action').textContent = actions[mockStep % actions.length];
+    drawMockBoard();
+}
+
+
+// ── Keyboard ──
+document.addEventListener('keydown', e => {
+    if (document.getElementById('game-viewer').classList.contains('view-hidden')) return;
+    if (e.target.tagName === 'INPUT') return;
+    switch (e.key) {
+        case 'ArrowRight': case ' ': navNext(); e.preventDefault(); break;
+        case 'ArrowLeft': case 'z': case 'Z': navPrev(); e.preventDefault(); break;
+        case 'ArrowUp': navNextTurn(); e.preventDefault(); break;
+        case 'ArrowDown': navPrevTurn(); e.preventDefault(); break;
+        case 'Home': navFirst(); e.preventDefault(); break;
+        case 'End': navLast(); e.preventDefault(); break;
+        case 'p': case 'P': togglePlay(); e.preventDefault(); break;
+        case 'Escape': showEntry(); e.preventDefault(); break;
+    }
+});
+
+// Enter key on input
+document.getElementById('code-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') loadReplay();
+});
+
+
+// ── Drag and drop ──
+const dropZone = document.getElementById('drop-zone');
+['dragenter','dragover'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.add('dragover'); }));
+['dragleave','drop'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.remove('dragover'); }));
+dropZone.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if (file) { showLoading('Reading ' + file.name + '...'); setTimeout(() => showViewer(), 1200); }
+});
+
+
+// ── Canvas mock rendering ──
+const canvas = document.getElementById('board');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    const container = document.getElementById('canvas-container');
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+}
+
+window.addEventListener('resize', () => {
+    if (!document.getElementById('game-viewer').classList.contains('view-hidden')) {
+        resizeCanvas();
+        drawMockBoard();
+    }
+});
+
+function drawMockBoard() {
+    const W = canvas.width, H = canvas.height;
+    if (W === 0 || H === 0) return;
+
+    // Background
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, '#0d1520');
+    bg.addColorStop(0.5, '#0a1628');
+    bg.addColorStop(1, '#0d1520');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Grid lines (subtle)
+    ctx.strokeStyle = 'rgba(0,212,255,0.04)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 50) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 50) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+    const BUY_W = Math.min(360, W * 0.28);
+    const playX = BUY_W;
+    const midY = H / 2;
+
+    // Buy pane background
+    ctx.fillStyle = '#080e1a';
+    ctx.fillRect(0, 0, BUY_W, H);
+    ctx.strokeStyle = 'rgba(0,212,255,0.12)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(BUY_W, 0); ctx.lineTo(BUY_W, H); ctx.stroke();
+
+    // Buy pane column divider
+    const colW = BUY_W / 2;
+    ctx.beginPath(); ctx.moveTo(colW, 0); ctx.lineTo(colW, H); ctx.stroke();
+
+    // Mock buy pane items
+    const baseUnits = ['Drone', 'Engineer', 'Blastforge', 'Animus', 'Conduit', 'Steelsplitter', 'Wall', 'Rhino', 'Tarsier', 'Forcefield', 'Gauss Cannon'];
+    const addUnits = SAMPLE_REPLAYS[0].units.slice(0, 9);
+    const rowH = Math.min(42, H / 14);
+
+    function drawBuyCol(units, x) {
+        units.forEach((name, i) => {
+            const y = i * rowH;
+            ctx.fillStyle = i % 2 === 0 ? 'rgba(12,16,30,0.9)' : 'rgba(16,20,36,0.9)';
+            ctx.fillRect(x + 1, y, colW - 2, rowH);
+
+            // Unit name
+            ctx.fillStyle = '#8aa4c0';
+            ctx.font = `${Math.min(13, rowH * 0.35)}px Rajdhani, sans-serif`;
+            ctx.fillText(name.length > 14 ? name.slice(0, 14) : name, x + 6, y + rowH * 0.42);
+
+            // Cost placeholder
+            ctx.fillStyle = '#FFD700';
+            ctx.font = `bold ${Math.min(11, rowH * 0.28)}px "JetBrains Mono", monospace`;
+            const costs = ['1', '2', '4BB', '6CC', '3G', '6B', '5BB', '5BBG', '4CC', '3', '6BB'];
+            ctx.fillText(costs[i % costs.length] || '', x + 6, y + rowH * 0.78);
+
+            // Supply pips
+            const pipY = y + rowH - 5;
+            const supply = [21, 21, 4, 4, 4, 4, 10, 10, 10, 10, 4];
+            const s = supply[i % supply.length] || 10;
+            const spent = Math.floor(mockStep / 100 * s * 0.3);
+            const pipW = Math.min(5, (colW * 0.5) / s);
+            for (let p = 0; p < Math.min(s, 20); p++) {
+                ctx.fillStyle = p < (s - spent) ? 'rgba(0,255,136,0.6)' : 'rgba(30,30,60,0.5)';
+                ctx.fillRect(x + 6 + p * (pipW + 1), pipY, pipW, 2);
+            }
+        });
+    }
+    drawBuyCol(baseUnits, 0);
+    drawBuyCol(addUnits, colW);
+
+    // Player areas
+    const areaH = (H - 2) / 2;
+
+    // Center divider
+    const divGrad = ctx.createLinearGradient(playX + 20, 0, W - 20, 0);
+    divGrad.addColorStop(0, 'transparent');
+    divGrad.addColorStop(0.3, 'rgba(0,212,255,0.3)');
+    divGrad.addColorStop(0.7, 'rgba(0,212,255,0.3)');
+    divGrad.addColorStop(1, 'transparent');
+    ctx.strokeStyle = divGrad;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(playX + 20, midY); ctx.lineTo(W - 20, midY); ctx.stroke();
+
+    // Player area tints
+    ctx.fillStyle = 'rgba(30,50,80,0.08)';
+    ctx.fillRect(playX, midY, W - playX, areaH);
+    ctx.fillStyle = 'rgba(60,30,30,0.08)';
+    ctx.fillRect(playX, 0, W - playX, midY);
+
+    // Mock cards
+    const playW = W - playX;
+    const cardW = Math.min(90, playW / 14);
+    const cardH = cardW;
+    const colors = [
+        { bg: '#1a2844', border: '#2a4070' },  // blue (white player)
+        { bg: '#2e1a1a', border: '#6a3030' },  // red (black player)
+        { bg: '#2a3010', border: '#556020' },  // green (construction)
+        { bg: '#1a2844', border: '#4488ff' },  // blue highlighted
+    ];
+
+    function drawMockCard(x, y, w, h, colorIdx, label, count) {
+        const c = colors[colorIdx % colors.length];
+        ctx.fillStyle = c.bg;
+        ctx.strokeStyle = c.border;
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, x, y, w, h, 4);
+        ctx.fill();
+        ctx.stroke();
+
+        if (label) {
+            ctx.fillStyle = 'rgba(200,220,240,0.7)';
+            ctx.font = `${Math.max(9, w * 0.12)}px Rajdhani, sans-serif`;
+            ctx.fillText(label.slice(0, 10), x + 4, y + 14);
+        }
+        if (count > 1) {
+            ctx.fillStyle = 'rgba(0,212,255,0.6)';
+            ctx.font = `bold ${Math.max(10, w * 0.16)}px "JetBrains Mono", monospace`;
+            ctx.fillText('×' + count, x + w - 24, y + h - 6);
+        }
+    }
+
+    // P0 (white/bottom) cards - 3 lanes
+    const p0Units = [
+        { name: 'Drone', count: 8 + Math.floor(mockStep/100), lane: 0 },
+        { name: 'Engineer', count: 2, lane: 0 },
+        { name: 'Blastforge', count: 1, lane: 1 },
+        { name: 'Conduit', count: 1, lane: 1 },
+        { name: 'Wall', count: 3 + Math.floor(mockStep/150), lane: 2 },
+        { name: 'Tarsier', count: 2 + Math.floor(mockStep/120), lane: 2 },
+        { name: 'Steelsplitter', count: Math.floor(mockStep/200), lane: 2 },
+    ].filter(u => u.count > 0);
+
+    const p1Units = [
+        { name: 'Drone', count: 7 + Math.floor(mockStep/110), lane: 0 },
+        { name: 'Engineer', count: 2, lane: 0 },
+        { name: 'Animus', count: 1, lane: 1 },
+        { name: 'Conduit', count: 1, lane: 1 },
+        { name: 'Rhino', count: 2 + Math.floor(mockStep/180), lane: 2 },
+        { name: 'Tarsier', count: 3 + Math.floor(mockStep/100), lane: 2 },
+    ].filter(u => u.count > 0);
+
+    function drawPlayerCards(units, player) {
+        const lanes = [[], [], []];
+        units.forEach(u => lanes[u.lane].push(u));
+
+        lanes.forEach((lane, li) => {
+            let totalCards = lane.reduce((s, u) => s + Math.min(u.count, 8), 0);
+            let spacing = Math.min(cardW * 0.25, (playW - 60) / Math.max(totalCards, 1));
+            let startX = playX + playW / 2 - (totalCards * spacing) / 2;
+            let y;
+            if (player === 0) {
+                y = midY + 20 + li * (cardH + 8);
+            } else {
+                y = midY - 20 - (li + 1) * (cardH + 8);
+            }
+
+            let x = startX;
+            lane.forEach(unit => {
+                const show = Math.min(unit.count, 8);
+                for (let i = 0; i < show; i++) {
+                    drawMockCard(x, y, cardW, cardH, player, i === show - 1 ? unit.name : '', unit.count > 1 && i === show - 1 ? unit.count : 0);
+                    x += spacing;
+                }
+                x += spacing * 2;
+            });
+        });
+    }
+
+    drawPlayerCards(p0Units, 0);
+    drawPlayerCards(p1Units, 1);
+
+    // Attack / Defense indicators
+    const atk0 = Math.floor(mockStep / 80);
+    const atk1 = Math.floor(mockStep / 70);
+    const def0 = 3 + Math.floor(mockStep / 200);
+    const def1 = 2 + Math.floor(mockStep / 250);
+
+    ctx.font = 'bold 20px "JetBrains Mono", monospace';
+    const indX = playX + 16;
+    const indXR = W - 80;
+
+    ctx.fillStyle = '#ff6644';
+    ctx.fillText('⚔ ' + atk1, indX, midY - 10);
+    ctx.fillStyle = 'rgba(0,212,255,0.7)';
+    ctx.fillText('🛡 ' + def1, indXR, midY - 10);
+
+    ctx.fillStyle = 'rgba(0,212,255,0.7)';
+    ctx.fillText('🛡 ' + def0, indX, midY + 28);
+    ctx.fillStyle = '#ff6644';
+    ctx.fillText('⚔ ' + atk0, indXR, midY + 28);
+
+    // Resources (bottom-left for P0)
+    const resources = [
+        { label: 'G', color: '#FFD700', val: 6 - Math.floor(mockStep / 200) },
+        { label: 'B', color: '#4488ff', val: mockStep % 3 },
+        { label: 'G', color: '#44dd44', val: mockStep % 2 },
+        { label: 'R', color: '#ff4444', val: 0 },
+        { label: 'E', color: '#ff8800', val: mockStep % 4 },
+    ];
+    let rx = playX + 16;
+    const ry0 = H - 14;
+    ctx.font = 'bold 14px "JetBrains Mono", monospace';
+    resources.forEach(r => {
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.fillRect(rx - 2, ry0 - 12, 14, 14);
+        ctx.fillStyle = r.color;
+        ctx.fillText(Math.max(0, r.val), rx + 14, ry0);
+        rx += 42;
+    });
+
+    // Player name labels
+    ctx.font = 'bold 13px Orbitron, sans-serif';
+    ctx.fillStyle = 'rgba(102,153,255,0.6)';
+    ctx.fillText('▼ WHITE', playX + playW / 2 - 40, H - 6);
+    ctx.fillStyle = 'rgba(255,136,102,0.6)';
+    ctx.fillText('▲ BLACK', playX + playW / 2 - 40, 16);
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+}
+
+// ── URL parameter support ──
+const urlParams = new URLSearchParams(window.location.search);
+const codeParam = urlParams.get('code');
+if (codeParam) {
+    loadReplay(codeParam);
+}
+</script>
+</body>
+</html>
