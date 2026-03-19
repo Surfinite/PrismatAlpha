@@ -41,6 +41,7 @@ def run_js_extraction(codes, replays_dir):
                 stdout=subprocess.PIPE, stderr=stderr_fh,
                 text=True, bufsize=1
             )
+            assert proc.stdout is not None  # guaranteed by stdout=PIPE
             for line in proc.stdout:
                 line = line.strip()
                 if line:
@@ -70,7 +71,6 @@ def run_pipeline(
     codes: list[str] | None = None,
     force: bool = False,
     fetch: bool = False,
-    batch_size: int = 1000,
 ) -> dict:
     """Run the parse pipeline. Returns stats dict."""
     conn = sqlite3.connect(db_path)
