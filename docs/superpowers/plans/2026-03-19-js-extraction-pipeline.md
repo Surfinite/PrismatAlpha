@@ -246,7 +246,8 @@ function extractTurnData(replay, code) {
             const unitDiffBuys = extractUnitDiffBuys(state, nextState, player);
             const boughtSorted = [...buys].sort();
             const unitSorted = [...unitDiffBuys].sort();
-            const consistent = JSON.stringify(boughtSorted) === JSON.stringify(unitSorted);
+            const consistent = boughtSorted.length === unitSorted.length &&
+                boughtSorted.every((v, i) => v === unitSorted[i]);
 
             result.turns.push({
                 global_turn: turnIdx,
@@ -455,7 +456,11 @@ function resolveActions(turnClicks, state, cards, nextInstId, boughtDiff) {
             continue;
         }
 
-        // Card shift-buy — count comes from bought-array diff for this card type
+        // Card shift-buy — count comes from bought-array diff for this card type.
+        // Note: if the same card has multiple shift-buy events in one turn
+        // (buy, unbuy, re-buy), each action record shows the NET count.
+        // This is slightly misleading for the actions trace but the net
+        // buys in turn.buys are always correct.
         if (ct === 'card shift clicked') {
             actions.push({
                 type: 'buy_shift',
@@ -469,7 +474,10 @@ function resolveActions(turnClicks, state, cards, nextInstId, boughtDiff) {
         if (ct === 'inst clicked' || ct === 'inst shift clicked') {
             const isShift = ct === 'inst shift clicked';
 
-            // Defense phase (before first space)
+            // Before first space — assumed defense phase. Known ambiguity:
+            // turns with no incoming attack skip defense, so inst clicks
+            // here could be abilities. Since actions are supplementary
+            // (buys come from bought-array diffs), this is acceptable.
             if (spaceCount === 0) {
                 const info = instLookup[id];
                 actions.push({
@@ -940,31 +948,48 @@ def run_js_extraction(codes: list[str], replays_dir: str):
             f.write('\n'.join(codes) + '\n')
 
         logger.info(f"Starting JS extraction for {len(codes)} replays...")
-        proc = subprocess.Popen(
-            ['node', JS_BULK_EXTRACT, '--batch', codes_file,
-             '--replays-dir', replays_dir],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            text=True, bufsize=1
-        )
 
-        for line in proc.stdout:
-            line = line.strip()
-            if not line:
-                continue
+        # stderr goes to a temp file to avoid deadlock — reading stdout
+        # line-by-line while stderr is piped can deadlock if the stderr
+        # buffer fills up (JS blocks on stderr write, Python blocks on
+        # stdout read). For 102k replays with progress every 100, this
+        # is a real risk.
+        stderr_fd, stderr_file = tempfile.mkstemp(suffix='.log', prefix='js_extract_')
+        try:
+            stderr_fh = os.fdopen(stderr_fd, 'w')
+            proc = subprocess.Popen(
+                ['node', JS_BULK_EXTRACT, '--batch', codes_file,
+                 '--replays-dir', replays_dir],
+                stdout=subprocess.PIPE, stderr=stderr_fh,
+                text=True, bufsize=1
+            )
+
+            for line in proc.stdout:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    yield json.loads(line)
+                except json.JSONDecodeError as e:
+                    logger.warning(f"Bad JSONL line: {e}")
+
+            proc.wait()
+            stderr_fh.close()
+
+            # Log stderr after process completes
+            with open(stderr_file, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if line:
+                        logger.info(f"[JS] {line}")
+
+            if proc.returncode != 0:
+                logger.error(f"JS extraction exited with code {proc.returncode}")
+        finally:
             try:
-                yield json.loads(line)
-            except json.JSONDecodeError as e:
-                logger.warning(f"Bad JSONL line: {e}")
-
-        # Log stderr (progress messages)
-        stderr_output = proc.stderr.read()
-        if stderr_output:
-            for line in stderr_output.strip().split('\n'):
-                logger.info(f"[JS] {line}")
-
-        proc.wait()
-        if proc.returncode != 0:
-            logger.error(f"JS extraction exited with code {proc.returncode}")
+                os.unlink(stderr_file)
+            except OSError:
+                pass
     finally:
         os.unlink(codes_file)
 
@@ -1252,7 +1277,7 @@ python -m replay_parser --replay "c:/libraries/prismata-replay-parser/replays_ar
 ```
 
 Inspect the output manually. Check:
-- Turn 0 (P1): buys should be `["Drone", "Drone"]`, resources `gold: 6`, units `{"Drone": 6, "Engineer": 2}`
+- Turn 0 (P0): buys should be `["Drone", "Drone"]`, resources `gold: 6`, units `{"Drone": 6, "Engineer": 2}`
 - All `verification.consistent` should be `true` for early turns
 - Actions should show ability clicks before buys, with commits separating phases
 
