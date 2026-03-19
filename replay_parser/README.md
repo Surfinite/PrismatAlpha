@@ -119,7 +119,7 @@ Only **gold and green** persist between turns. Blue, red, energy, and attack res
 
 ### Supply
 
-Drone supply is asymmetric: P1 (player 0) has 21 buyable, P2 (player 1) has 20. All other units have symmetric supply derived from rarity (trinket=20, normal=10, rare=4, legendary=1). Starting units do NOT reduce shop supply.
+Every player has their own independent supply for every unit type. Drone supply is asymmetric: P1 (player 0) has 21 buyable, P2 (player 1) has 20. All other units have equal per-player supply derived from rarity (trinket=20, normal=10, rare=4, legendary=1). When P1 buys a Tarsier, only P1's Tarsier supply decreases — P2's is unaffected. Starting units do NOT reduce shop supply.
 
 ## Replay JSON Structure
 

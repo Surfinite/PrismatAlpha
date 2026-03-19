@@ -159,9 +159,9 @@ Examples: `"3H"` = 3 gold + 1 energy (Drone buy cost). `"6GGGRBB"` would be 6 go
 | `rare` | 4 |
 | `legendary` | 1 |
 
-**Supply is per-player and separate from starting units.** Drone supply is asymmetric: P0 gets 21 buyable, P1 gets 20 buyable. Combined with starting Drones (P0: 6, P1: 7), both players can reach 27 Drones max from buying. All other units have symmetric supply derived from rarity (both players share the same pool). The simulator must track Drone supply per-player; other units use a single shared supply counter.
+**Supply is per-player and separate from starting units.** Every player has their own independent supply for every unit type. Drone supply is asymmetric: P0 gets 21 buyable, P1 gets 20 buyable. Combined with starting Drones (P0: 6, P1: 7), both players can reach 27 Drones max from buying. All other units have equal per-player supply derived from rarity. When P0 buys a Tarsier, only P0's Tarsier supply decreases — P1's is unaffected.
 
-**Implementation note**: The replay JSON does not include explicit supply numbers. Drone supply asymmetry (P0=21, P1=20) must be hardcoded. All other supply is derived from rarity.
+**Implementation note**: The replay JSON does not include explicit supply numbers. Drone supply asymmetry (P0=21, P1=20) must be hardcoded. All other per-player supply is derived from rarity. The JS engine tracks this via `whiteSupply` and `blackSupply` arrays.
 
 ### 2.6 Resource Generation: Passive vs Active
 
