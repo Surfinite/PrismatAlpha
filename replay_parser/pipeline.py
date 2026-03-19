@@ -1,14 +1,67 @@
-"""Pipeline orchestrator: fetch -> decode -> simulate -> store."""
+"""Pipeline orchestrator: fetch -> JS extract -> ingest."""
+import json
 import logging
+import os
 import sqlite3
+import subprocess
+import tempfile
 from pathlib import Path
 
-from replay_parser.decoder import load_replay, decode
-from replay_parser.simulator import simulate
-from replay_parser.database import migrate, store
+from replay_parser.database import migrate, ingest, PARSER_VERSION_JS
 from replay_parser.fetch import code_to_filename
 
 logger = logging.getLogger(__name__)
+
+JS_BULK_EXTRACT = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "js_engine", "bulk_extract.js"
+)
+
+
+def run_js_extraction(codes, replays_dir):
+    """Spawn node bulk_extract.js and yield parsed JSON entries.
+
+    Writes codes to a temp file, runs the JS extractor in batch mode,
+    and yields one dict per JSONL line from stdout.
+
+    CRITICAL: stderr goes to a temp FILE (not subprocess.PIPE) to avoid
+    deadlock when the stderr buffer fills while we read stdout line-by-line.
+    """
+    fd, codes_file = tempfile.mkstemp(suffix='.txt')
+    try:
+        with os.fdopen(fd, 'w') as f:
+            f.write('\n'.join(codes) + '\n')
+
+        stderr_fd, stderr_file = tempfile.mkstemp(suffix='.log')
+        try:
+            stderr_fh = os.fdopen(stderr_fd, 'w')
+            proc = subprocess.Popen(
+                ['node', JS_BULK_EXTRACT, '--batch', codes_file,
+                 '--replays-dir', replays_dir],
+                stdout=subprocess.PIPE, stderr=stderr_fh,
+                text=True, bufsize=1
+            )
+            for line in proc.stdout:
+                line = line.strip()
+                if line:
+                    yield json.loads(line)
+            proc.wait()
+            stderr_fh.close()
+            # Log stderr contents
+            with open(stderr_file, 'r') as f:
+                for err_line in f:
+                    if err_line.strip():
+                        logger.info("[JS] %s", err_line.strip())
+        finally:
+            try:
+                os.unlink(stderr_file)
+            except OSError:
+                pass
+    finally:
+        try:
+            os.unlink(codes_file)
+        except OSError:
+            pass
 
 
 def run_pipeline(
@@ -51,29 +104,20 @@ def run_pipeline(
                     fetch_replay(code, replays_path)
                     stats["fetched"] += 1
                 except Exception as e:
-                    logger.warning(f"Failed to fetch {code}: {e}")
+                    logger.warning("Failed to fetch %s: %s", code, e)
 
-    for i, code in enumerate(codes):
+    # Run JS extraction and ingest results
+    for entry in run_js_extraction(codes, replays_dir):
+        code = entry.get("code", "unknown")
+        if entry.get("error"):
+            _mark_error(conn, code, entry["error"])
+            stats["errors"] += 1
+            continue
         try:
-            filename = code_to_filename(code)
-            filepath = replays_path / filename
-            if not filepath.exists():
-                logger.warning(f"File not found for {code}: {filepath}")
-                _mark_error(conn, code, f"File not found: {filepath}")
-                stats["errors"] += 1
-                continue
-
-            raw = load_replay(str(filepath))
-            replay = decode(raw)
-            simulate(replay)
-            store(conn, replay)
+            ingest(conn, entry)
             stats["parsed"] += 1
-
-            if (i + 1) % batch_size == 0:
-                conn.commit()
-                logger.info(f"Progress: {i+1}/{len(codes)}")
         except Exception as e:
-            logger.warning(f"Error parsing {code}: {e}")
+            logger.warning("Error ingesting %s: %s", code, e)
             _mark_error(conn, code, str(e))
             stats["errors"] += 1
 
@@ -81,8 +125,8 @@ def run_pipeline(
     conn.close()
 
     logger.info(
-        f"Done: {stats['parsed']} parsed, {stats['skipped']} skipped, "
-        f"{stats['errors']} errors out of {stats['total']}"
+        "Done: %d parsed, %d skipped, %d errors out of %d",
+        stats['parsed'], stats['skipped'], stats['errors'], stats['total']
     )
     return stats
 
@@ -123,8 +167,9 @@ def _filter_unparsed(conn, codes):
 def _mark_error(conn, code, error_msg):
     """Record a parse error in replay_parse_status."""
     conn.execute(
-        "INSERT OR REPLACE INTO replay_parse_status (code, parsed, error, parse_date) "
-        "VALUES (?, 0, ?, datetime('now'))",
-        (code, error_msg)
+        "INSERT OR REPLACE INTO replay_parse_status "
+        "(code, parsed, error, parse_date, parser_version) "
+        "VALUES (?, 0, ?, datetime('now'), ?)",
+        (code, error_msg, PARSER_VERSION_JS)
     )
     conn.commit()
