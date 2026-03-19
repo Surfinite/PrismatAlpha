@@ -109,32 +109,42 @@ Each JSONL line is one replay:
 }
 ```
 
-### 2.3 Buy Extraction: Supply Diffs
+**Unit names**: All unit names in the output use `Card.UIName` (display names like "Tarsier", "Drone"), NOT internal engine names (like "Tesla Tower"). This matches the existing replay parser convention and the `cardLibrary.jso` UIName field.
+
+### 2.3 Buy Extraction: Bought-Array Diffs
+
+The JS engine tracks purchases via cumulative per-card-type counters: `whiteBought[cardId]` and `blackBought[cardId]`. These are incremented on buy (State.js:1236), decremented on sell/un-buy (State.js:1246), and deep-cloned into every `beginTurnHistory` snapshot (State.js:115-121).
+
+**Important**: `whiteSupply[cardId]` / `blackSupply[cardId]` are **static** base-supply arrays set at game init — they never change during play. The dynamic data is in the `bought` arrays. Remaining supply = `supply[cardId] - bought[cardId]`.
 
 For each turn N where player P is active:
 
 ```
-If P=0 (White): buys[cardId] = whiteSupply_at_N[cardId] - whiteSupply_at_N+1[cardId]
-If P=1 (Black): buys[cardId] = blackSupply_at_N[cardId] - blackSupply_at_N+1[cardId]
+If P=0 (White): buys[cardId] = whiteBought_at_N+1[cardId] - whiteBought_at_N[cardId]
+If P=1 (Black): buys[cardId] = blackBought_at_N+1[cardId] - blackBought_at_N[cardId]
 ```
 
-**Why supply diffs, not unit count diffs:**
+A positive diff means net purchases of that card type. Zero means no change (or buy + un-buy that cancelled out). Negative should never occur at turn boundaries.
 
-| Scenario | Unit count diff | Supply diff |
+**Why bought-array diffs, not unit count diffs:**
+
+| Scenario | Unit count diff | Bought-array diff |
 |---|---|---|
 | Buy + combat death same turn | Missed (net 0) | Correct |
-| Ability-created unit (Steelforge->Steelsplitter) | False positive buy | Correct (supply unchanged) |
+| Ability-created unit (Steelforge->Steelsplitter) | False positive buy | Correct (bought unchanged) |
 | Self-sac after buy same turn | Missed | Correct |
 | Buy then un-buy (resolved before next turn) | Correct (net 0) | Correct (net 0) |
 
-Supply is per-player (not shared). Each player starts with the same supply per card type (derived from rarity), tracked independently via `whiteSupply[]` and `blackSupply[]` in the State object. A player's supply only changes on their own turn.
+Supply is per-player (not shared). Each player starts with the same supply per card type (derived from rarity), tracked independently. A player's bought counters only change on their own turn.
 
-**Source data**: `beginTurnHistory` contains full State clones with deep-copied `whiteSupply[cardId]` and `blackSupply[cardId]` arrays (State.js:111-122). These are the authoritative record.
+**Last-turn boundary**: `beginTurnHistory` has N+1 entries for N turns (initial state + one per turn start). The last turn has no N+1 snapshot to diff against and is omitted from output. This matches the existing `extract_turn_data.js` behavior (line 113).
+
+**Source data**: `beginTurnHistory` contains full State clones with deep-copied `whiteBought[cardId]`, `blackBought[cardId]`, `whiteSupply[cardId]`, and `blackSupply[cardId]` arrays (State.js:111-122).
 
 ### 2.4 Resources & Units: Direct State Reads
 
 - **Resources**: `parseMana(state.whiteMana)` or `parseMana(state.blackMana)` depending on active player. Direct ground truth from the engine's Mana objects.
-- **Units owned**: Count alive units in `state.table` for the active player. The table only contains live units (`deadness === C.DEADNESS_ALIVE`); dead units are removed.
+- **Units owned**: Count units in `state.table` for the active player, filtering for `deadness === C.DEADNESS_ALIVE`. At `beginTurnHistory` snapshot time (post-swoosh), dead bodies have been collected, but always filter defensively since the table can contain dead units in other contexts.
 - Both are direct reads from `beginTurnHistory` snapshots — no computation or approximation.
 
 ### 2.5 Mana String Parsing
@@ -158,9 +168,9 @@ Walk the `commandList` slice for each turn, resolve to action records.
 
 Remove clicks cancelled by explicit undo/revert:
 1. Walk clicks left-to-right, build a stack
-2. `revert clicked` -> clear all actionable clicks and phase markers from stack
-3. `undo clicked` -> pop most recent actionable click from stack
-4. Emotes -> skip entirely
+2. `revert clicked` -> clear all actionable clicks (`card clicked`, `card shift clicked`, `inst clicked`, `inst shift clicked`) AND phase markers (`space clicked`, `end swipe processed`) from stack. Preserves only unrecognized click types
+3. `undo clicked` -> pop most recent actionable click (same set as above, excluding phase markers) from stack
+4. Emotes (`emote*`) -> skip entirely
 5. Everything else -> push to stack
 
 Output is the resolved click sequence.
@@ -177,11 +187,11 @@ Track phase using `space clicked` count within each turn:
 For `inst clicked` / `inst shift clicked` in action phase, classify using instance IDs:
 
 1. From `beginTurnHistory[N].table`, build a lookup: `instanceId -> unit type` for all alive units at turn start
-2. Record the max instance ID present at turn start
+2. Read `beginTurnHistory[N].nextInstId` — the authoritative counter for the next ID that will be assigned. Do NOT use `max(table.keys())`, which can be wrong if the highest-numbered unit died during swoosh before the snapshot
 3. For each `inst clicked _id=X`:
-   - If `X > maxId` at turn start -> this is an **un-buy** (targeting a unit purchased during this turn)
-   - If `X <= maxId` and found in turn-start table -> **ability activation** (resolve to unit name)
-   - If `X <= maxId` and in defense phase -> **defense assignment**
+   - If `X >= nextInstId` at turn start -> this is an **un-buy** (targeting a unit purchased during this turn). Note: ability-created units (e.g., Steelforge->Steelsplitter) also get IDs >= nextInstId, but clicks on these typically redirect to the creator (Controller.js:766-770) and won't appear as raw `inst clicked` on the created unit. If encountered, check whether the card type has `selfsac` or `create` to disambiguate
+   - If `X < nextInstId` and found in turn-start table -> **ability activation** (resolve to unit name via `state.cards[cardId].UIName`)
+   - If `X < nextInstId` and in defense phase -> **defense assignment**
 
 This sidesteps resource tracking entirely — the game's sequential instance ID assignment is the signal.
 
@@ -189,8 +199,8 @@ This sidesteps resource tracking entirely — the game's sequential instance ID 
 
 | Click type | Phase | Resolution | Action output |
 |---|---|---|---|
-| `card clicked` | Action | Look up `mergedDeck[_id]` | `{"type": "buy", "unit": "Tarsier", "count": 1}` |
-| `card shift clicked` | Action | Look up card, count from supply diff | `{"type": "buy_shift", "unit": "Drone", "count": 3}` |
+| `card clicked` | Action | Look up `state.cards[_id].UIName` | `{"type": "buy", "unit": "Tarsier", "count": 1}` |
+| `card shift clicked` | Action | Look up card name, count from bought-array diff | `{"type": "buy_shift", "unit": "Drone", "count": 3}` |
 | `inst clicked` | Action, in table | Ability activation | `{"type": "ability", "unit": "Synthesizer", "count": 1}` |
 | `inst shift clicked` | Action, in table | All instances of type | `{"type": "ability_shift", "unit": "Drone", "count": 6}` |
 | `inst clicked` | Action, > maxId | Un-buy | `{"type": "unbuy", "unit": "Drone", "count": 1}` |
@@ -212,7 +222,7 @@ Each turn carries a self-consistency check:
 }
 ```
 
-- **`supply_diff_buys`**: Ground-truth buys from supply array diffs (authoritative)
+- **`supply_diff_buys`**: Ground-truth buys from bought-array diffs (authoritative). Named "supply_diff" for brevity in output
 - **`unit_diff_buys`**: Buys computed from alive-unit-count diffs (for comparison)
 - **`consistent`**: `true` when both methods agree
 - **`building`**: Units in `supply_diff_buys` with `buildTime > 0` (not usable until later — relevant for opening analysis)
