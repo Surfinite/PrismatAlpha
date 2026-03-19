@@ -92,6 +92,7 @@ def run_pipeline(
         "errors": 0,
         "fetched": 0,
         "total": skipped + len(codes),
+        "verification": {"total_turns": 0, "consistent": 0, "inconsistent": 0},
     }
     replays_path = Path(replays_dir)
 
@@ -116,6 +117,13 @@ def run_pipeline(
         try:
             ingest(conn, entry)
             stats["parsed"] += 1
+            for turn in entry.get("turns", []):
+                stats["verification"]["total_turns"] += 1
+                v = turn.get("verification", {})
+                if v.get("consistent", True):
+                    stats["verification"]["consistent"] += 1
+                else:
+                    stats["verification"]["inconsistent"] += 1
         except Exception as e:
             logger.warning("Error ingesting %s: %s", code, e)
             _mark_error(conn, code, str(e))

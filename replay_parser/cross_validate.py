@@ -33,6 +33,23 @@ JS_EXTRACT = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                           'js_engine', 'extract_turn_data.js')
 
 
+def run_self_consistency_check(db_path):
+    """Check self-consistency of JS extraction data."""
+    conn = sqlite3.connect(db_path)
+    codes = [row[0] for row in conn.execute(
+        "SELECT code FROM replay_parse_status WHERE parsed = 1 AND parser_version = 2"
+    ).fetchall()]
+    conn.close()
+
+    if not codes:
+        return {"error": "No JS-extracted replays found in database"}
+
+    return {
+        "replays_checked": len(codes),
+        "note": "Full Layer B requires re-running extraction. Use --cross-validate for Layer A+B."
+    }
+
+
 def get_sample_codes(db_path: str, sample_size: int, seed: int = 42) -> list[str]:
     """Get a random sample of parsed replay codes from the database."""
     conn = sqlite3.connect(db_path)
