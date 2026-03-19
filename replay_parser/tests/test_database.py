@@ -1,9 +1,7 @@
 import sqlite3
 import json
 from replay_parser.database import migrate, store, ingest, SCHEMA_VERSION, PARSER_VERSION_JS
-from replay_parser.models import (
-    ReplayData, Turn, Action, ResourcePool, CardDef
-)
+from replay_parser.models import ReplayData, Turn, ResourcePool
 
 
 def test_migrate_creates_tables(temp_db):

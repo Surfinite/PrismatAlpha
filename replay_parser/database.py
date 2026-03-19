@@ -4,7 +4,7 @@ import logging
 import sqlite3
 from datetime import datetime, timezone
 
-from replay_parser.models import ReplayData, Turn
+from replay_parser.models import ReplayData
 
 logger = logging.getLogger(__name__)
 
