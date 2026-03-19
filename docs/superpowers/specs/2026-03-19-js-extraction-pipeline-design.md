@@ -203,11 +203,16 @@ This sidesteps resource tracking entirely — the game's sequential instance ID 
 | `card shift clicked` | Action | Look up card name, count from bought-array diff | `{"type": "buy_shift", "unit": "Drone", "count": 3}` |
 | `inst clicked` | Action, in table | Ability activation | `{"type": "ability", "unit": "Synthesizer", "count": 1}` |
 | `inst shift clicked` | Action, in table | All instances of type | `{"type": "ability_shift", "unit": "Drone", "count": 6}` |
-| `inst clicked` | Action, > maxId | Un-buy | `{"type": "unbuy", "unit": "Drone", "count": 1}` |
+| `inst clicked` | Action, >= nextInstId | Un-buy | `{"type": "unbuy", "unit": "Drone", "count": 1}` |
 | `inst clicked` | Defense | Blocker assignment | `{"type": "defend", "unit": "Wall", "count": 1}` |
+| `inst shift clicked` | Defense | Blocker assignment (all of type) | `{"type": "defend_shift", "unit": "Wall", "count": 3}` |
 | `space clicked` | Any | Phase commit | `{"type": "commit"}` |
 
-Un-buys are kept in the actions list as deliberate player actions (distinct from undo/revert noise which is stripped). The `turn_buys` table has the net result from supply diffs regardless.
+Un-buys are kept in the actions list as deliberate player actions (distinct from undo/revert noise which is stripped). The `turn_buys` table has the net result from bought-array diffs regardless.
+
+**Edge cases (action resolution only — do not affect turn_buys):**
+- `redo clicked`: Extremely rare in competitive replays. Falls through to "everything else" in preprocessing. If encountered in practice, handle by re-pushing the most recently popped click.
+- `revert clicked` scope: The engine's revert rewinds to the start of the current phase, not the entire turn. The preprocessing above clears all phase markers, which is slightly aggressive — a revert during action phase should preserve the defense-to-action space click. Impact is minimal since action data is supplementary, but implementer should be aware.
 
 ### 2.7 Verification Block
 
