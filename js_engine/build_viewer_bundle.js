@@ -132,6 +132,7 @@ window.PrismataViewer = (function() {
     var stateToCppJSON = replay_exporter.stateToCppJSON;
 
     var REPLAY = null;
+    var liveAnalyzer = null;
     var stateIndex = 0;
     var totalStates = 0;
     var onStateChange = null;
@@ -288,6 +289,62 @@ window.PrismataViewer = (function() {
         totalStates = states.length;
     }
 
+    // ── Live Spectating ──
+    function initLive(gameInitInfo) {
+        var laneInfo = [{
+            initResources: gameInitInfo.initInfo ? gameInitInfo.initInfo.initResources : undefined,
+            base: gameInitInfo.deckInfo ? gameInitInfo.deckInfo.base : undefined,
+            randomizer: gameInitInfo.deckInfo ? gameInitInfo.deckInfo.randomizer : undefined,
+            initCards: gameInitInfo.initInfo ? gameInitInfo.initInfo.initCards : undefined
+        }];
+        var analyzerInit = {
+            laneInfo: laneInfo,
+            mergedDeck: gameInitInfo.deckInfo ? gameInitInfo.deckInfo.mergedDeck : [],
+            scriptInfo: { whiteStarts: true },
+            objectiveInfo: null, commandInfo: null
+        };
+
+        liveAnalyzer = new Analyzer(analyzerInit, -1, -1, null);
+        liveAnalyzer.loaderInit();
+
+        var p0 = 'Player 0', p1 = 'Player 1';
+        if (gameInitInfo.players) { p0 = gameInitInfo.players[0] || p0; p1 = gameInitInfo.players[1] || p1; }
+
+        REPLAY = {
+            p0: p0, p1: p1, winner: -1, winnerName: '',
+            turns: 0, cardSet: [],
+            states: [stateToCppJSON(liveAnalyzer.gameState)],
+            actions: ['Start'], turnBoundaries: [0]
+        };
+        stateIndex = 0; totalStates = 1;
+        notify();
+        return getInfo();
+    }
+
+    function processClick(clickType, clickId, clickParams) {
+        if (!liveAnalyzer) return { accepted: false, info: getInfo() };
+        var prePhase = liveAnalyzer.gameState.phase;
+        try {
+            var result = liveAnalyzer.recordClick(false, false, clickType, clickId, clickParams);
+            if (result.canClick) {
+                var newState = stateToCppJSON(liveAnalyzer.gameState);
+                REPLAY.states.push(newState);
+                REPLAY.actions.push(describeClick({_type: clickType, _id: clickId}, liveAnalyzer.gameState, prePhase));
+                if (liveAnalyzer.gameState.numTurns !== REPLAY.turns) {
+                    REPLAY.turnBoundaries.push(REPLAY.states.length - 1);
+                    REPLAY.turns = liveAnalyzer.gameState.numTurns;
+                }
+                totalStates = REPLAY.states.length;
+                stateIndex = totalStates - 1;
+                notify();
+                return { accepted: true, info: getInfo() };
+            }
+            return { accepted: false, info: getInfo() };
+        } catch (e) {
+            return { accepted: false, error: e.message, info: getInfo() };
+        }
+    }
+
     function describeClick(click, state, prePhase) {
         var type = click._type, id = click._id;
         switch (type) {
@@ -365,6 +422,7 @@ window.PrismataViewer = (function() {
 
     return {
         init: init, loadFromCode: loadFromCode,
+        initLive: initLive, processClick: processClick,
         nextAction: nextAction, prevAction: prevAction,
         nextTurn: nextTurn, prevTurn: prevTurn,
         goToStart: goToStart, goToEnd: goToEnd,
