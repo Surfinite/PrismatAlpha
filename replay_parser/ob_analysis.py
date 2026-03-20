@@ -134,6 +134,316 @@ def analyze_unit_turn1(
     }
 
 
+def analyze_unit_turn2_dd(
+    conn: sqlite3.Connection,
+    unit: str,
+    player: int,
+    min_rating: float = 1500.0,
+) -> dict:
+    """Analyze turn 2 buy consensus for players who opened DD (Drone, Drone).
+
+    Filters by the deterministic post-DD state using turn_state:
+      P1 (player=0): 8 Drones + 2 Engineers
+      P2 (player=1): 9 Drones + 2 Engineers
+
+    Returns the same structure as analyze_unit_turn1 plus a ``state`` field
+    describing the starting state (e.g. "8D+2E").
+    """
+    expected_drones, expected_engrs = DD_FOLLOWUP_STATES[player]
+    state_label = f"{expected_drones[1]}D+{expected_engrs[1]}E"
+
+    sql = """
+        SELECT tb.buy_hash,
+               tb.buy_sequence,
+               COUNT(*) AS freq,
+               SUM(CASE WHEN tb.player = r.result THEN 1 ELSE 0 END) AS wins,
+               SUM(CASE WHEN r.result = 2 THEN 1 ELSE 0 END) AS draws
+        FROM turn_buys tb
+        JOIN replays r ON tb.code = r.code
+        JOIN turn_state ts ON tb.code = ts.code AND tb.global_turn = ts.global_turn
+        WHERE tb.player = ?
+          AND tb.player_turn = 2
+          AND r.p1_rating >= ?
+          AND r.p2_rating >= ?
+          AND r.balance_passed = 1
+          AND r.result IN (0, 1, 2)
+          AND json_extract(ts.units_owned, '$.Drone') = ?
+          AND json_extract(ts.units_owned, '$.Engineer') = ?
+          AND tb.code IN (SELECT code FROM replay_units WHERE unit_name = ?)
+        GROUP BY tb.buy_hash
+        ORDER BY freq DESC
+    """
+    rows = conn.execute(
+        sql,
+        (player, min_rating, min_rating,
+         expected_drones[1], expected_engrs[1], unit),
+    ).fetchall()
+
+    if not rows:
+        return {
+            "top_buy": None,
+            "frequency": 0.0,
+            "win_rate": 0.0,
+            "sample_size": 0,
+            "total_games": 0,
+            "runner_up": None,
+            "top_5": [],
+            "state": state_label,
+            "status": "insufficient",
+        }
+
+    total_games = sum(r[2] for r in rows)
+
+    def _make_entry(row: tuple) -> dict:
+        buy_hash, buy_sequence, freq, wins, draws = row
+        decisive = freq - draws
+        return {
+            "buy_hash": buy_hash,
+            "buy_sequence": json.loads(buy_sequence),
+            "frequency": freq / total_games if total_games else 0.0,
+            "win_rate": wins / decisive if decisive > 0 else 0.0,
+            "sample_size": freq,
+        }
+
+    top_5 = [_make_entry(r) for r in rows[:5]]
+    top = top_5[0]
+    runner_up = top_5[1] if len(top_5) > 1 else None
+
+    return {
+        "top_buy": top["buy_hash"],
+        "frequency": top["frequency"],
+        "win_rate": top["win_rate"],
+        "sample_size": top["sample_size"],
+        "total_games": total_games,
+        "runner_up": runner_up,
+        "top_5": top_5,
+        "state": state_label,
+        "status": "ok",
+    }
+
+
+def find_co_occurring_units(
+    conn: sqlite3.Connection,
+    unit: str,
+    min_rating: float = 1500.0,
+    limit: int = 10,
+) -> list[dict]:
+    """Find top Dominion units that co-occur with *unit* in the same game.
+
+    Excludes base-set units.  Returns a list of dicts with keys:
+        unit_name, co_count
+    """
+    base_list = sorted(BASE_SET_UNITS)
+    placeholders = ",".join("?" for _ in base_list)
+
+    sql = f"""
+        SELECT ru2.unit_name, COUNT(*) AS co_count
+        FROM replay_units ru1
+        JOIN replay_units ru2 ON ru1.code = ru2.code
+                              AND ru1.unit_name != ru2.unit_name
+        JOIN replays r ON ru1.code = r.code
+        WHERE ru1.unit_name = ?
+          AND r.p1_rating >= ?
+          AND r.p2_rating >= ?
+          AND r.balance_passed = 1
+          AND ru2.unit_name NOT IN ({placeholders})
+        GROUP BY ru2.unit_name
+        ORDER BY co_count DESC
+        LIMIT ?
+    """
+    params = [unit, min_rating, min_rating] + base_list + [limit]
+    rows = conn.execute(sql, params).fetchall()
+    return [{"unit_name": row[0], "co_count": row[1]} for row in rows]
+
+
+def analyze_pair_turn1(
+    conn: sqlite3.Connection,
+    unit1: str,
+    unit2: str,
+    player: int,
+    min_rating: float = 1500.0,
+) -> dict:
+    """Analyze turn 1 buy consensus when BOTH unit1 and unit2 are in the set.
+
+    Same return structure as analyze_unit_turn1.
+    """
+    sql = """
+        SELECT tb.buy_hash,
+               tb.buy_sequence,
+               COUNT(*) AS freq,
+               SUM(CASE WHEN tb.player = r.result THEN 1 ELSE 0 END) AS wins,
+               SUM(CASE WHEN r.result = 2 THEN 1 ELSE 0 END) AS draws
+        FROM turn_buys tb
+        JOIN replays r ON tb.code = r.code
+        WHERE tb.player = ?
+          AND tb.player_turn = 1
+          AND r.p1_rating >= ?
+          AND r.p2_rating >= ?
+          AND r.balance_passed = 1
+          AND r.result IN (0, 1, 2)
+          AND tb.code IN (
+              SELECT ru1.code
+              FROM replay_units ru1
+              JOIN replay_units ru2 ON ru1.code = ru2.code
+              WHERE ru1.unit_name = ? AND ru2.unit_name = ?
+          )
+        GROUP BY tb.buy_hash
+        ORDER BY freq DESC
+    """
+    rows = conn.execute(
+        sql, (player, min_rating, min_rating, unit1, unit2)
+    ).fetchall()
+
+    if not rows:
+        return {
+            "top_buy": None,
+            "frequency": 0.0,
+            "win_rate": 0.0,
+            "sample_size": 0,
+            "total_games": 0,
+            "runner_up": None,
+            "top_5": [],
+            "status": "insufficient",
+        }
+
+    total_games = sum(r[2] for r in rows)
+
+    def _make_entry(row: tuple) -> dict:
+        buy_hash, buy_sequence, freq, wins, draws = row
+        decisive = freq - draws
+        return {
+            "buy_hash": buy_hash,
+            "buy_sequence": json.loads(buy_sequence),
+            "frequency": freq / total_games if total_games else 0.0,
+            "win_rate": wins / decisive if decisive > 0 else 0.0,
+            "sample_size": freq,
+        }
+
+    top_5 = [_make_entry(r) for r in rows[:5]]
+    top = top_5[0]
+    runner_up = top_5[1] if len(top_5) > 1 else None
+
+    return {
+        "top_buy": top["buy_hash"],
+        "frequency": top["frequency"],
+        "win_rate": top["win_rate"],
+        "sample_size": top["sample_size"],
+        "total_games": total_games,
+        "runner_up": runner_up,
+        "top_5": top_5,
+        "status": "ok",
+    }
+
+
+def run_full_analysis(
+    conn: sqlite3.Connection,
+    min_rating: float = 1500.0,
+    min_samples: int = 20,
+    strong_threshold: float = 0.70,
+    pair_threshold: float = 0.50,
+    unit_filter: list[str] | None = None,
+) -> dict:
+    """Run the complete opening-book consensus analysis pipeline.
+
+    Steps:
+      1. Get Dominion units via get_dominion_units().
+      2. Run analyze_unit_turn1() for each unit, both players.
+      3. Classify consensus; flag contested units.
+      4. Run analyze_unit_turn2_dd() for each unit, both players.
+      5. For contested units: find co-occurring units, run pair analysis,
+         keep resolved pairs.
+      6. Return full analysis dict.
+
+    Parameters:
+        unit_filter — optional list of unit names to restrict analysis to.
+    """
+    # 1. Dominion units
+    dom_units = get_dominion_units(conn, min_rating=min_rating,
+                                   min_samples=min_samples)
+    unit_names = [u["unit_name"] for u in dom_units]
+    if unit_filter is not None:
+        unit_names = [u for u in unit_names if u in unit_filter]
+
+    # 2 & 3. Turn 1 analysis
+    turn1_analysis: dict[str, dict] = {}
+    contested_units: list[str] = []
+
+    for uname in unit_names:
+        unit_result: dict = {}
+        for player in (0, 1):
+            result = analyze_unit_turn1(conn, uname, player,
+                                        min_rating=min_rating)
+            consensus = classify_consensus(result["frequency"],
+                                           strong_threshold, pair_threshold)
+            result["consensus"] = consensus
+            unit_result[f"p{player}"] = result
+        turn1_analysis[uname] = unit_result
+
+        # Flag as contested if either side is contested
+        for side in ("p0", "p1"):
+            if unit_result[side]["consensus"] == "contested":
+                contested_units.append(uname)
+                break
+
+    # 4. Turn 2 DD follow-up analysis
+    turn2_analysis: dict[str, dict] = {}
+    for uname in unit_names:
+        unit_result = {}
+        for player in (0, 1):
+            result = analyze_unit_turn2_dd(conn, uname, player,
+                                           min_rating=min_rating)
+            if result["total_games"] >= min_samples:
+                consensus = classify_consensus(result["frequency"],
+                                               strong_threshold,
+                                               pair_threshold)
+                result["consensus"] = consensus
+                unit_result[f"p{player}"] = result
+        if unit_result:
+            turn2_analysis[uname] = unit_result
+
+    # 5. Pair analysis for contested units
+    pair_analysis: dict[str, list[dict]] = {}
+    for uname in contested_units:
+        co_units = find_co_occurring_units(conn, uname,
+                                           min_rating=min_rating, limit=10)
+        resolved_pairs: list[dict] = []
+        for co in co_units:
+            partner = co["unit_name"]
+            for player in (0, 1):
+                pr = analyze_pair_turn1(conn, uname, partner, player,
+                                        min_rating=min_rating)
+                if pr["total_games"] < min_samples:
+                    continue
+                consensus = classify_consensus(pr["frequency"],
+                                               strong_threshold,
+                                               pair_threshold)
+                if consensus != "contested":
+                    resolved_pairs.append({
+                        "partner": partner,
+                        "player": player,
+                        "consensus": consensus,
+                        "top_buy": pr["top_buy"],
+                        "frequency": pr["frequency"],
+                        "win_rate": pr["win_rate"],
+                        "sample_size": pr["sample_size"],
+                        "total_games": pr["total_games"],
+                    })
+        if resolved_pairs:
+            pair_analysis[uname] = resolved_pairs
+
+    return {
+        "parameters": {
+            "min_rating": min_rating,
+            "min_samples": min_samples,
+            "strong_threshold": strong_threshold,
+            "pair_threshold": pair_threshold,
+        },
+        "turn1_analysis": turn1_analysis,
+        "turn2_analysis": turn2_analysis,
+        "pair_analysis": pair_analysis,
+    }
+
+
 def classify_consensus(
     frequency: float,
     strong_threshold: float = 0.70,
