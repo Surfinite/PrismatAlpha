@@ -28,8 +28,14 @@ UNIT_ABBREVS = {
 
 def _abbrev_buy(buy_list):
     """Abbreviate a buy list for display.  Dominion units use first 3 chars."""
-    parts = [UNIT_ABBREVS.get(name, name[:3]) for name in buy_list]
-    return "+".join(parts)
+    if not buy_list:
+        return "(none)"
+    parts: list[str] = []
+    for name in buy_list:
+        if name:
+            abbrev = UNIT_ABBREVS.get(name)
+            parts.append(abbrev if abbrev is not None else name[:3])
+    return "+".join(parts) if parts else "(none)"
 
 
 def _buy_hash_to_set(buy_hash):
