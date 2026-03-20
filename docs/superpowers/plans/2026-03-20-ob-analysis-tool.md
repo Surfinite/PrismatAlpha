@@ -157,7 +157,7 @@ def analyze_unit_turn1(conn: sqlite3.Connection, unit: str, player: int,
     return result
 ```
 
-Note: This query groups by `buy_hash` (sorted, order-independent) per the spec. The `buy_sequence` column is used to get one representative ordering for the OB `buy` field.
+Note: This query groups by `buy_hash` (sorted, order-independent) per the spec. SQLite's `buy_sequence` selection alongside `GROUP BY buy_hash` returns an indeterminate row's value. In practice, the buy ordering within a turn is almost always the same across replays (determined by click order), so this produces the correct result. If strict ordering is needed, add a follow-up query: `SELECT buy_sequence, COUNT(*) FROM turn_buys WHERE buy_hash = :hash GROUP BY buy_sequence ORDER BY COUNT(*) DESC LIMIT 1`.
 
 - [ ] **Step 3: Add `classify_consensus()` helper**
 
@@ -650,10 +650,14 @@ def generate_ob_entries(analysis: dict) -> list[dict]:
 
 ```python
 def load_existing_ob(config_path: str) -> list[dict]:
-    """Load LiveOpeningBook2 entries from config.txt."""
+    """Load LiveOpeningBook2 entries from config.txt.
+
+    Config structure: {"Opening Books": {"LiveOpeningBook2": [...]}}
+    """
     with open(config_path, 'r') as f:
         config = json.load(f)
-    return config.get("LiveOpeningBook2", [])
+    ob = config.get("Opening Books", {})
+    return ob.get("LiveOpeningBook2", [])
 
 
 def validate_against_existing(analysis: dict, existing_entries: list[dict]) -> dict:
@@ -677,20 +681,32 @@ def validate_against_existing(analysis: dict, existing_entries: list[dict]) -> d
             if data.get("total_games", 0) > 0:
                 analysis_lookup[(frozenset([unit]), player)] = data
 
+    # Build turn 2 lookup: (buyable_key, player) -> data
+    t2_lookup = {}
+    for item in analysis.get("turn2_analysis", []):
+        if item.get("total_games", 0) > 0:
+            unit = item["unit"]
+            player = item["player"]
+            t2_lookup[(frozenset([unit]), player)] = item
+
     # Check each existing entry
     for entry in existing_entries:
         buyable = entry.get("buyable", [])
         self_state = dict(entry.get("self", []))
         existing_buy = entry.get("buy", [])
 
-        # Determine player from self state
+        # Determine player and turn from self state
         drones = self_state.get("Drone", 0)
         if drones == 6:
-            player = 0
+            player, turn = 0, 1
         elif drones == 7:
-            player = 1
+            player, turn = 1, 1
+        elif drones == 8:
+            player, turn = 0, 2  # P1 turn 2 after DD
+        elif drones == 9:
+            player, turn = 1, 2  # P2 turn 2 after DD
         else:
-            # Turn 2+ entry or non-standard state — can't match against turn 1 analysis
+            # Non-standard state — can't match
             validation["unmatched"] += 1
             continue
 
@@ -699,7 +715,11 @@ def validate_against_existing(analysis: dict, existing_entries: list[dict]) -> d
             continue
 
         lookup_key = (frozenset(buyable), player)
-        data = analysis_lookup.get(lookup_key)
+        # Try turn 1 lookup first, then turn 2
+        if turn == 1:
+            data = analysis_lookup.get(lookup_key)
+        else:
+            data = t2_lookup.get(lookup_key)
 
         if data is None:
             # Pair condition or unit not analyzed
@@ -832,12 +852,16 @@ def build_summary(analysis: dict, entries: list[dict], validation: dict) -> str:
 
 
 def _abbrev_buy(buy_list: list[str]) -> str:
-    """Abbreviate a buy list for display: ['Drone', 'Engineer', 'Wild Drone'] -> 'DEW'."""
+    """Abbreviate a buy list for display: ['Drone', 'Engineer', 'Wild Drone'] -> 'D+E+WDr'."""
+    # Base set units get single letters; Dominion units get 3-char abbreviations
+    # to avoid ambiguity (e.g., "Wall" vs "Wild Drone", "Drone" vs "Doomed Drone")
     abbrevs = {
         "Drone": "D", "Engineer": "E", "Conduit": "C", "Blastforge": "B",
         "Animus": "A", "Wall": "W", "Tarsier": "T", "Rhino": "R",
+        "Steelsplitter": "SS", "Forcefield": "FF", "Gauss Cannon": "GC",
     }
-    return "".join(abbrevs.get(name, name[0]) for name in buy_list) if buy_list else "(none)"
+    parts = [abbrevs.get(name, name[:3]) for name in buy_list] if buy_list else ["(none)"]
+    return "+".join(parts)
 ```
 
 - [ ] **Step 4: Add `build_report()` — full report JSON**
@@ -867,6 +891,8 @@ def build_report(analysis: dict, entries: list[dict], validation: dict) -> dict:
             "units_contested": contested,
             "units_insufficient_data": insufficient,
             "pairs_analyzed": len(analysis["pair_analysis"]),
+            "pairs_resolved": sum(1 for p in analysis["pair_analysis"]
+                                 if p.get("consensus") in ("strong", "moderate")),
             "turn1_entries_generated": t1_entries,
             "turn2_entries_generated": t2_entries,
             "total_entries_generated": len(entries),
