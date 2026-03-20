@@ -255,7 +255,7 @@ Wrap the local proxy + browser in an Electron shell or PyInstaller + WebView. Sa
 ## 8. Dependencies & Risks
 
 ### 8.1 Lunarch Server Availability
-The game server must remain online. If Lunarch shuts down the servers, none of this works. This is the existential risk for the entire project.
+The live game features depend on Lunarch's servers. If they shut down, live play and spectating against human opponents would stop. However, the community has a viable fallback: the JS engine contains the complete game rules (validated against 102K replays), the React board handles rendering, and the AMF3 protocol is fully understood. A community-hosted game server using the JS engine for click validation and a WebSocket relay for player matching is architecturally straightforward. This is a contingency, not a current goal — but it significantly reduces the existential risk.
 
 ### 8.2 Protocol Changes
 If Lunarch updates the server protocol, the AMF3 codec and message handling may need updates. Mitigated by the AMF3 round-trip tests and post-game validation catching issues quickly.
