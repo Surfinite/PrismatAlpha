@@ -201,12 +201,12 @@ class BroadcastServer:
 
     def broadcast(self, game_id: str, event: dict[str, Any]):
         """Thread-safe: broadcast a JSON event to all subscribers of a game."""
-        self._seq += 1
-        event["seq"] = self._seq
-        event["gameId"] = game_id
-        data = json.dumps(event, default=str)
-
         with self._lock:
+            self._seq += 1
+            event["v"] = 1
+            event["seq"] = self._seq
+            event["gameId"] = game_id
+            data = json.dumps(event, default=str)
             targets = set(self._clients.get(game_id, set()))
 
         if targets and self._loop:
@@ -216,11 +216,11 @@ class BroadcastServer:
 
     def broadcast_global(self, event: dict[str, Any]):
         """Thread-safe: broadcast to all globally-subscribed clients."""
-        self._seq += 1
-        event["seq"] = self._seq
-        data = json.dumps(event, default=str)
-
         with self._lock:
+            self._seq += 1
+            event["v"] = 1
+            event["seq"] = self._seq
+            data = json.dumps(event, default=str)
             targets = set(self._global_clients)
 
         if targets and self._loop:
@@ -470,45 +470,78 @@ git commit -m "feat: add spectator bridge — translates game events to JSON"
 ## Task 3: Hook Bridge into Headless Multi
 
 **Files:**
-- Modify: `<LADDER_REPO_PATH>\headless_multi.py`
+- Modify: `<LADDER_REPO_PATH>\headless_client.py` (~3 lines)
+- Modify: `<LADDER_REPO_PATH>\headless_multi.py` (~15 lines)
 
-Wire the `SpectatorBridge` into the existing `CoordinatedClient` callback system so game events flow from the spectator through the bridge to the WebSocket server.
+Three architectural fixes from review:
+1. **Raw message hook** — `HeadlessClient` doesn't expose raw messages. Add a `_raw_message_hook` callback.
+2. **One bridge per CoordinatedClient** — each spectator tracks one game, so each gets its own bridge.
+3. **TopGamesUpdate routing** — handled in `CoordinatedClient.run()`, not through `HeadlessClient`. Forward explicitly.
 
-- [ ] **Step 1: Add bridge initialization to headless_multi's main**
+- [ ] **Step 1: Add raw message hook to HeadlessClient**
 
-Add at the top of `headless_multi.py`'s `main()` or startup code:
-
+In `headless_client.py`, add to `__init__`:
 ```python
+self._raw_message_hook = None  # Optional: (msg_type, params, raw_msg) -> None
+```
+
+In `headless_client.py`, in `_handle_game_message()` (the method that processes incoming server messages), add at the very top, before any other processing:
+```python
+if self._raw_message_hook:
+    try:
+        self._raw_message_hook(msg_type, params, raw_msg)
+    except Exception:
+        pass  # Never let hook errors break the client
+```
+
+This gives the bridge access to raw `BeginGame` (with full `deckInfo`, `mergedDeck`, `initInfo`), `Click`, `ManyClicks`, `StartTurn`, `EndTurn`, `GameOver` — everything it needs.
+
+- [ ] **Step 2: Add WebSocket server + per-client bridges to headless_multi**
+
+In `headless_multi.py` main/startup:
+```python
+import asyncio
+import threading
 from ws_broadcast import BroadcastServer
 from spectator_bridge import SpectatorBridge
-import threading
 
 # Start WebSocket server in background thread
 broadcast_server = BroadcastServer(host="127.0.0.1", port=8765)
 ws_thread = threading.Thread(
     target=lambda: asyncio.run(broadcast_server.start()),
-    daemon=True
+    daemon=True, name="ws-broadcast"
 )
 ws_thread.start()
-
-# Create bridge
-bridge = SpectatorBridge(broadcast_server)
 ```
 
-- [ ] **Step 2: Register bridge as message handler**
-
-In the `CoordinatedClient` setup, register the bridge to receive game events. The existing `headless_multi.py` uses `client.on_game_event()` callbacks. Add the bridge's `on_message` to the sniffer's dispatcher if available, or relay via the existing callback system:
-
+In `CoordinatedClient.__init__`, create a per-client bridge:
 ```python
-# In CoordinatedClient.__init__ or similar:
-self.client.on_raw_message = bridge.on_message  # Hook raw messages
+self.bridge = SpectatorBridge(broadcast_server)
+self.client._raw_message_hook = self.bridge.on_message
 ```
 
-The exact integration depends on whether `headless_multi.py` uses the `MessageDispatcher` pattern or imperative message handling. Both paths documented in the exploration. Adapt to whichever is used.
+- [ ] **Step 3: Forward TopGamesUpdate through bridge**
 
-- [ ] **Step 3: Manual integration test**
+In `CoordinatedClient.run()`, where `TopGamesUpdate` is currently handled (~line 610), add after the existing processing:
+```python
+# Forward to WebSocket broadcast
+if self.bridge:
+    self.bridge.on_top_games(games_list)
+```
 
-Start the headless multi-spectator with WebSocket server:
+And add `on_top_games` to `SpectatorBridge`:
+```python
+def on_top_games(self, games: list):
+    """Called directly from coordinator (not through raw message hook)."""
+    self._broadcaster.broadcast_global({
+        "type": "topGames",
+        "payload": {"games": games}
+    })
+```
+
+- [ ] **Step 4: Manual integration test**
+
+Start the headless multi-spectator with WebSocket:
 ```bash
 cd <LADDER_REPO_PATH>
 python headless_multi.py
@@ -530,11 +563,16 @@ asyncio.run(test())
 
 Expected: See `topGames` events when games are live. See `gameInit` / `click` events when a game is being spectated.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 5: Commit**
 
 ```bash
-git add headless_multi.py
-git commit -m "feat: wire spectator bridge + WebSocket broadcast into headless multi"
+cd <LADDER_REPO_PATH>
+git add headless_client.py headless_multi.py
+git commit -m "feat: wire spectator bridge + WebSocket broadcast into headless multi
+
+- Add _raw_message_hook to HeadlessClient for bridge access to raw game messages
+- One SpectatorBridge per CoordinatedClient (multi-game support)
+- TopGamesUpdate forwarded explicitly from coordinator"
 ```
 
 ---
@@ -802,44 +840,84 @@ export default function LiveGamePage() {
 }
 ```
 
-**Note**: The full implementation of this page will closely mirror `src/app/replay/[code]/page.tsx` but with the WebSocket data source. The exact JS engine API for incremental click processing needs to be added to `build_viewer_bundle.js` — a new `processClick(clickData)` method on `PrismataViewer` that applies a single click and returns the updated state.
+**Implementation note**: This page mirrors `src/app/replay/[code]/page.tsx` but with a WebSocket data source instead of S3 replay loading. The game board components (UnitCard, CardLane, BuyPane, ResourceDisplay, etc.) are reused — for the MVP, copy the needed component code from the replay viewer page. Extraction into a shared library is a follow-up task.
 
-- [ ] **Step 2: Add `processClick` to engine bundle**
+**Click legality validation (spec requirement 5.1)**: When the JS engine rejects a click (`canClick: false`), the viewer must display a visible warning — this indicates proxy relay corruption. Track a `failedClicks` counter and show it in a warning badge when > 0.
 
-Modify `js_engine/build_viewer_bundle.js` to add:
+- [ ] **Step 2: Add `initLive` and `processClick` to engine bundle**
+
+Modify `js_engine/build_viewer_bundle.js`. In the PrismataViewer IIFE, add `var liveAnalyzer = null;` alongside the existing `var REPLAY = null;` declaration. Then add these functions before the Navigation section:
+
 ```javascript
-// In the PrismataViewer IIFE, add:
 function initLive(gameInitInfo) {
-    var analyzer = new Analyzer(gameInitInfo, -1, -1, null);
-    analyzer.loaderInit();
+    // gameInitInfo comes from BeginGame — reformat to match Analyzer constructor
+    // (same structure as processS3Replay uses)
+    var laneInfo = [{
+        initResources: gameInitInfo.initInfo ? gameInitInfo.initInfo.initResources : undefined,
+        base: gameInitInfo.deckInfo ? gameInitInfo.deckInfo.base : undefined,
+        randomizer: gameInitInfo.deckInfo ? gameInitInfo.deckInfo.randomizer : undefined,
+        initCards: gameInitInfo.initInfo ? gameInitInfo.initInfo.initCards : undefined
+    }];
+    var analyzerInit = {
+        laneInfo: laneInfo,
+        mergedDeck: gameInitInfo.deckInfo ? gameInitInfo.deckInfo.mergedDeck : [],
+        scriptInfo: { whiteStarts: true },
+        objectiveInfo: null, commandInfo: null
+    };
+
+    liveAnalyzer = new Analyzer(analyzerInit, -1, -1, null);
+    liveAnalyzer.loaderInit();
+
+    var p0 = 'Player 0', p1 = 'Player 1';
+    if (gameInitInfo.players) { p0 = gameInitInfo.players[0] || p0; p1 = gameInitInfo.players[1] || p1; }
+
     REPLAY = {
-        p0: 'Player 0', p1: 'Player 1', winner: -1, winnerName: '',
-        turns: 0, cardSet: [], states: [stateToCppJSON(analyzer.gameState)],
+        p0: p0, p1: p1, winner: -1, winnerName: '',
+        turns: 0, cardSet: [],
+        states: [stateToCppJSON(liveAnalyzer.gameState)],
         actions: ['Start'], turnBoundaries: [0]
     };
-    liveAnalyzer = analyzer;
     stateIndex = 0; totalStates = 1;
-    return getInfo();
-}
-
-function processClick(clickType, clickId) {
-    if (!liveAnalyzer) return null;
-    try {
-        var result = liveAnalyzer.recordClick(false, false, clickType, clickId, undefined);
-        if (result.canClick) {
-            var newState = stateToCppJSON(liveAnalyzer.gameState);
-            REPLAY.states.push(newState);
-            REPLAY.actions.push(describeClick({_type: clickType, _id: clickId}, liveAnalyzer.gameState, null));
-            totalStates = REPLAY.states.length;
-            stateIndex = totalStates - 1;
-        }
-    } catch (e) { /* skip failed clicks */ }
     notify();
     return getInfo();
 }
+
+function processClick(clickType, clickId, clickParams) {
+    if (!liveAnalyzer) return { accepted: false, info: getInfo() };
+    var prePhase = liveAnalyzer.gameState.phase;
+    try {
+        var result = liveAnalyzer.recordClick(false, false, clickType, clickId, clickParams);
+        if (result.canClick) {
+            var newState = stateToCppJSON(liveAnalyzer.gameState);
+            REPLAY.states.push(newState);
+            REPLAY.actions.push(describeClick({_type: clickType, _id: clickId}, liveAnalyzer.gameState, prePhase));
+            if (liveAnalyzer.gameState.numTurns !== REPLAY.turns) {
+                REPLAY.turnBoundaries.push(REPLAY.states.length - 1);
+                REPLAY.turns = liveAnalyzer.gameState.numTurns;
+            }
+            totalStates = REPLAY.states.length;
+            stateIndex = totalStates - 1;
+            notify();
+            return { accepted: true, info: getInfo() };
+        }
+        return { accepted: false, info: getInfo() };
+    } catch (e) {
+        return { accepted: false, error: e.message, info: getInfo() };
+    }
+}
 ```
 
-Then add `initLive` and `processClick` to the return object, and rebuild:
+Add to the return object:
+```javascript
+return {
+    init: init, loadFromCode: loadFromCode,
+    initLive: initLive, processClick: processClick,  // ← NEW
+    nextAction: nextAction, prevAction: prevAction,
+    // ... rest unchanged
+};
+```
+
+Rebuild:
 ```bash
 cd C:\libraries\PrismataAI && node js_engine/build_viewer_bundle.js
 ```
@@ -983,9 +1061,22 @@ Expected:
 - Turn number updates
 - Game ends with replay code shown
 
-- [ ] **Step 5: Verify post-game**
+- [ ] **Step 5: Verify post-game replay comparison (spec requirement 5.2)**
 
-After the game ends, copy the replay code and check it loads correctly in the replay viewer at `/replay/{code}`.
+After the game ends:
+1. Copy the replay code shown in the game over message
+2. Load it in the replay viewer at `/replay/{code}` — verify it plays correctly
+3. Compare: does the replay viewer's final state match what the live viewer showed?
+4. Check the click count: number of clicks in S3 replay should match clicks received over WebSocket
+
+- [ ] **Step 6: Verify `Moved` redirect survival (spec exit criteria)**
+
+During long spectating sessions, the server may send `Moved` messages (load balancing). The headless client already handles reconnection. Verify:
+1. WebSocket connection to the browser stays up during a server redirect
+2. Game state is not lost
+3. If the headless client reconnects to a new server node, the bridge continues broadcasting
+
+(This may require waiting for a natural `Moved` event, or testing with a mock.)
 
 ---
 
