@@ -69,8 +69,8 @@ python -m replay_parser.ob_analysis --db replays.db --units "Wild Drone,Tarsier"
 | `--db` | required | Path to replays.db |
 | `--min-rating` | 2000 | Minimum rating for both players |
 | `--min-samples` | 30 | Minimum games for a unit to be analyzed |
-| `--report` | stdout | Path for analysis report JSON |
-| `--config` | stdout | Path for config-ready OB entries JSON |
+| `--report` | none | Path for analysis report JSON (omitted = not saved) |
+| `--config` | none | Path for config-ready OB entries JSON (omitted = not saved) |
 | `--units` | all | Comma-separated unit names to analyze (skip others) |
 | `--pair-threshold` | 0.40 | Consensus below this triggers pair analysis |
 | `--strong-threshold` | 0.60 | Consensus above this = strong (auto-include) |
@@ -88,13 +88,19 @@ SELECT ru.unit_name, COUNT(DISTINCT ru.code) as games
 FROM replay_units ru
 JOIN replays r ON ru.code = r.code
 WHERE r.p1_rating >= :min_rating AND r.p2_rating >= :min_rating
+  AND r.balance_passed = 1
+  AND ru.unit_name NOT IN (:base_set_list)
 GROUP BY ru.unit_name
 HAVING games >= :min_samples
 ORDER BY games DESC
 ```
 
+**Filters applied to all queries**: `r.balance_passed = 1` (exclude games with known balance issues) and rating threshold on both players. Base set excluded in SQL, not post-processing.
+
 **Base set exclusion list** (11 units — always available, not conditional):
 Drone, Engineer, Conduit, Blastforge, Animus, Wall, Steelsplitter, Forcefield, Gauss Cannon, Tarsier, Rhino
+
+**Unit names**: All names in queries and output use display names (UIName), e.g., "Blastforge" not the internal engine name "Brooder". The C++ OB parser accepts display names.
 
 ### 3.2 Step 2: Per-Unit Turn 1 Consensus
 
@@ -108,6 +114,7 @@ FROM turn_buys tb
 JOIN replays r ON tb.code = r.code
 WHERE tb.player = :player AND tb.player_turn = 1
   AND r.p1_rating >= :min_rating AND r.p2_rating >= :min_rating
+  AND r.balance_passed = 1
   AND r.result IN (0, 1, 2)
   AND tb.code IN (SELECT code FROM replay_units WHERE unit_name = :unit)
 GROUP BY tb.buy_sequence
@@ -117,10 +124,12 @@ ORDER BY freq DESC
 **Computed metrics per unit per player:**
 - `top_buy`: Most frequent buy sequence
 - `frequency`: `top_count / total_games` — consensus percentage
-- `win_rate`: `wins / (total - draws)` — win rate when using the top buy (draws excluded)
+- `win_rate`: `wins / (freq - draws_for_this_buy)` — win rate for players who used THIS specific buy (per-buy-sequence denominator, draws excluded)
 - `runner_up`: Second most frequent buy
 - `runner_up_freq`: Runner-up's frequency
-- `total_games`: Sample size
+- `total_games`: Sample size for the unit (all buy sequences combined)
+
+**Buy sequence grouping**: Use `buy_hash` (sorted, comma-joined) for consensus grouping, NOT `buy_sequence` (ordered JSON array). This ensures `["Drone", "Engineer"]` and `["Engineer", "Drone"]` are counted as the same strategic choice. For the OB `buy` field output, use the most common observed order from `buy_sequence` among the grouped results.
 
 **Consensus classification:**
 
@@ -144,6 +153,7 @@ JOIN replays r ON tb.code = r.code
 JOIN turn_state ts ON tb.code = ts.code AND tb.global_turn = ts.global_turn
 WHERE tb.player = :player AND tb.player_turn = 2
   AND r.p1_rating >= :min_rating AND r.p2_rating >= :min_rating
+  AND r.balance_passed = 1
   AND json_extract(ts.units_owned, '$.Drone') = :expected_drones
   AND json_extract(ts.units_owned, '$.Engineer') = 2
   AND tb.code IN (SELECT code FROM replay_units WHERE unit_name = :unit)
@@ -152,6 +162,8 @@ ORDER BY freq DESC
 ```
 
 Where `expected_drones` is 8 for P1, 9 for P2 (standard DD follow-up).
+
+**Note**: `turn_state.units_owned` captures the state at the **start** of the turn (before buys), from `beginTurnHistory` snapshots. So 8D+2E at turn 2 means the player had 8 Drones when their turn started — confirming they bought DD on turn 1.
 
 This captures the "what do experts buy on turn 2 after DD when unit X is in the set?" signal — the same pattern the existing `BlueTurnTwoOpeningBook` uses for Blastforge.
 
@@ -162,7 +174,7 @@ Turn 2 entries use the post-DD `self` condition:
 
 ### 3.4 Step 4: Pair Analysis for Contested Units
 
-For any unit where **both** P1 and P2 turn 1 consensus is below `pair_threshold`:
+For any unit where **either** P1 or P2 turn 1 consensus is below `pair_threshold` (a unit can have strong P1 consensus but contested P2, and the P2 side still benefits from pair analysis):
 
 1. Find top co-occurring Dominion units:
 
@@ -184,13 +196,19 @@ ORDER BY co_count DESC LIMIT 10
 
 ### 3.5 Step 5: Validate Against Existing OB
 
-Compare generated entries against the 50 entries in LiveOpeningBook2:
+Load and parse LiveOpeningBook2 from `config.txt` at analysis time (51 entries). The existing book has a mix of:
+- Single-unit `buyable` conditions (e.g., `["Wild Drone"]`)
+- Pair `buyable` conditions (e.g., `["Wild Drone", "Doomed Wall"]`)
+- Entries with no `buyable` (unconditional DD fallbacks)
+- Turn 1 entries (`self` = starting state) AND turn 2+ entries (`self` = post-buy state like 8D+3E)
 
-For each existing entry, check if the analysis agrees:
-- **Confirmed**: Generated entry has same `buyable` condition and matching `buy` sequence
-- **Contradicted**: Generated entry exists for same `buyable` but has a different `buy` sequence (expert consensus disagrees with the hand-crafted entry)
-- **New**: Generated entry for a unit/pair with no existing LiveOpeningBook2 coverage
-- **Insufficient**: Existing entry for a unit that has < `min_samples` games at the rating threshold
+For each existing entry, extract its `buyable` unit(s) and `self` state, then find the matching analysis result (if any). Comparison categories:
+
+- **Confirmed**: Analysis found the same buy sequence as the top consensus for this buyable/state combination
+- **Contradicted**: Analysis found a different top consensus buy — flag the existing entry's buy frequency so the user can see how popular it actually is
+- **New**: Analysis generated entries for units/pairs with no existing OB coverage
+- **Unmatched**: Existing entry whose buyable/state combination wasn't analyzed (e.g., pair conditions we didn't trigger, or turn 2+ states we didn't cover)
+- **Insufficient**: Existing entry for a unit with < `min_samples` games at the rating threshold
 
 This validation section appears in the report but does NOT modify the existing config.
 
@@ -397,8 +415,8 @@ DD_FOLLOWUP_STATES = {
 The validation step compares against LiveOpeningBook2 (50 entries). These entries are loaded by parsing `config.txt` at analysis time — no hardcoded copy.
 
 ### Existing book structure:
-- **LiveOpeningBook2**: 50 entries, all turn 1, all single-unit `buyable` conditions
-- **BlueTurnTwoOpeningBook**: 4 entries covering turn 1 DD fallback + turn 2 Blastforge
+- **LiveOpeningBook2**: 51 entries. Mix of single-unit and pair `buyable` conditions (18+ have pair buyable). Includes turn 1 entries (starting states) and turn 2+ entries (post-buy states like 8D+3E). 2 entries have no `buyable` (unconditional DD fallbacks)
+- **BlueTurnTwoOpeningBook**: 4 entries — a specific bot's book, not a general "turn two" feature. Contains turn 1 DD fallbacks (6D+2E, 7D+2E) and turn 2 Blastforge entries (8D+2E, 9D+2E)
 - **LiveOpeningBook**: 4 generic entries (P1/P2 starting states)
 - **DefaultOpeningBook**: 5 entries (Vivid Drone conditional)
 
