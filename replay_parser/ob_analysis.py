@@ -461,3 +461,90 @@ def classify_consensus(
     if frequency >= pair_threshold:
         return "moderate"
     return "contested"
+
+
+def main():
+    import argparse
+    import logging
+
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+    parser = argparse.ArgumentParser(
+        description="Opening book consensus analysis from expert replays."
+    )
+    parser.add_argument("--db", required=True, help="Path to replays.db")
+    parser.add_argument("--min-rating", type=float, default=2000,
+                        help="Minimum rating for both players (default: 2000)")
+    parser.add_argument("--min-samples", type=int, default=30,
+                        help="Minimum games per unit (default: 30)")
+    parser.add_argument("--strong-threshold", type=float, default=0.60,
+                        help="Consensus >= this is 'strong' (default: 0.60)")
+    parser.add_argument("--pair-threshold", type=float, default=0.40,
+                        help="Consensus < this triggers pair analysis (default: 0.40)")
+    parser.add_argument("--units", default=None,
+                        help="Comma-separated unit names to analyze (default: all)")
+    parser.add_argument("--report", default=None,
+                        help="Save report JSON to this path")
+    parser.add_argument("--config", default=None,
+                        help="Save config entries JSON to this path")
+    parser.add_argument("--config-txt", default="bin/asset/config/config.txt",
+                        help="Path to config.txt for validation (default: bin/asset/config/config.txt)")
+
+    args = parser.parse_args()
+
+    unit_filter = None
+    if args.units:
+        unit_filter = [u.strip() for u in args.units.split(",")]
+
+    conn = sqlite3.connect(args.db)
+
+    # Run analysis
+    analysis = run_full_analysis(
+        conn,
+        min_rating=args.min_rating,
+        min_samples=args.min_samples,
+        strong_threshold=args.strong_threshold,
+        pair_threshold=args.pair_threshold,
+        unit_filter=unit_filter,
+    )
+
+    # Format outputs
+    from replay_parser.ob_format import (
+        generate_ob_entries,
+        validate_against_existing,
+        load_existing_ob,
+        build_summary,
+        build_report,
+    )
+
+    entries = generate_ob_entries(analysis)
+
+    # Validation (optional -- skip if config.txt not found)
+    validation = {}
+    try:
+        existing = load_existing_ob(args.config_txt)
+        validation = validate_against_existing(analysis, existing)
+    except FileNotFoundError:
+        pass
+
+    # Print summary to stdout
+    summary = build_summary(analysis, entries, validation)
+    print(summary)
+
+    # Save files if requested
+    if args.report:
+        report = build_report(analysis, entries, validation)
+        with open(args.report, "w") as f:
+            json.dump(report, f, indent=2)
+        print(f"\nReport saved to {args.report}")
+
+    if args.config:
+        with open(args.config, "w") as f:
+            json.dump(entries, f, indent=2)
+        print(f"Config entries saved to {args.config}")
+
+    conn.close()
+
+
+if __name__ == "__main__":
+    main()
