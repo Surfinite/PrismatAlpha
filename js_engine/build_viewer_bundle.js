@@ -291,15 +291,23 @@ window.PrismataViewer = (function() {
 
     // ── Live Spectating ──
     function initLive(gameInitInfo) {
+        // Live BeginGame has data inside laneInfo[0] directly,
+        // not in separate deckInfo/initInfo wrappers like S3 replays
+        var lane = {};
+        if (gameInitInfo.laneInfo && gameInitInfo.laneInfo[0]) {
+            lane = gameInitInfo.laneInfo[0];
+        }
+        var deckInfo = gameInitInfo.deckInfo || lane;
+        var initInfo = gameInitInfo.initInfo || lane;
         var laneInfo = [{
-            initResources: gameInitInfo.initInfo ? gameInitInfo.initInfo.initResources : undefined,
-            base: gameInitInfo.deckInfo ? gameInitInfo.deckInfo.base : undefined,
-            randomizer: gameInitInfo.deckInfo ? gameInitInfo.deckInfo.randomizer : undefined,
-            initCards: gameInitInfo.initInfo ? gameInitInfo.initInfo.initCards : undefined
+            initResources: initInfo.initResources,
+            base: deckInfo.base,
+            randomizer: deckInfo.randomizer,
+            initCards: initInfo.initCards
         }];
         var analyzerInit = {
             laneInfo: laneInfo,
-            mergedDeck: gameInitInfo.deckInfo ? gameInitInfo.deckInfo.mergedDeck : [],
+            mergedDeck: deckInfo.mergedDeck || lane.mergedDeck || [],
             scriptInfo: { whiteStarts: true },
             objectiveInfo: null, commandInfo: null
         };
