@@ -387,8 +387,8 @@ window.PrismataViewer = (function() {
                 return { accepted: true, info: getInfo() };
             }
 
-            // Recovery 1 — Breach skip: stale end-swipe clicks during breach are harmless
-            if (liveAnalyzer.gameState.glassBroken) {
+            // Recovery 1 — Breach skip: stale space/end-swipe clicks during breach are harmless
+            if (liveAnalyzer.gameState.glassBroken && (clickType === 'space clicked' || clickType === 'end swipe processed')) {
                 console.log('[live] breach skip for', clickType, clickId);
                 return { accepted: true, info: getInfo() };
             }
@@ -417,7 +417,9 @@ window.PrismataViewer = (function() {
 
             // Recovery 3 — Confirm-to-defense auto-commit: JS engine needs an extra
             // space click to transition from confirm phase to defense phase
-            if (clickType === 'inst clicked' && liveAnalyzer.gameState.phase === 'confirm') {
+            if (liveAnalyzer.gameState.phase === 'confirm' && !liveAnalyzer.gameState.finished &&
+                clickType !== 'space clicked' && clickType !== 'revert clicked' &&
+                clickType !== 'undo clicked' && clickType !== 'redo clicked') {
                 console.log('[live] confirm auto-commit before', clickType, clickId);
                 var commitResult = liveAnalyzer.recordClick(false, false, 'space clicked', -1);
                 if (commitResult.canClick) {
