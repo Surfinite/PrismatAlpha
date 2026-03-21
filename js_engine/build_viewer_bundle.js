@@ -386,6 +386,58 @@ window.PrismataViewer = (function() {
                 notify();
                 return { accepted: true, info: getInfo() };
             }
+
+            // Recovery 1 — Breach skip: stale end-swipe clicks during breach are harmless
+            if (liveAnalyzer.gameState.glassBroken) {
+                console.log('[live] breach skip for', clickType, clickId);
+                return { accepted: true, info: getInfo() };
+            }
+
+            // Recovery 2 — End-swipe retry: click failed while in a swipe, end the swipe first
+            if (liveAnalyzer.controller.inSwipe && clickType !== 'end swipe processed') {
+                console.log('[live] end-swipe retry for', clickType, clickId);
+                var swipeResult = liveAnalyzer.recordClick(false, false, 'end swipe processed', -1);
+                if (swipeResult.canClick) {
+                    result = liveAnalyzer.recordClick(false, false, clickType, clickId, clickParams);
+                    if (result.canClick) {
+                        var newState2 = stateToCppJSON(liveAnalyzer.gameState);
+                        REPLAY.states.push(newState2);
+                        REPLAY.actions.push(describeClick({_type: clickType, _id: clickId}, liveAnalyzer.gameState, prePhase));
+                        if (liveAnalyzer.gameState.numTurns !== REPLAY.turns) {
+                            REPLAY.turnBoundaries.push(REPLAY.states.length - 1);
+                            REPLAY.turns = liveAnalyzer.gameState.numTurns;
+                        }
+                        totalStates = REPLAY.states.length;
+                        stateIndex = totalStates - 1;
+                        notify();
+                        return { accepted: true, info: getInfo() };
+                    }
+                }
+            }
+
+            // Recovery 3 — Confirm-to-defense auto-commit: JS engine needs an extra
+            // space click to transition from confirm phase to defense phase
+            if (clickType === 'inst clicked' && liveAnalyzer.gameState.phase === 'confirm') {
+                console.log('[live] confirm auto-commit before', clickType, clickId);
+                var commitResult = liveAnalyzer.recordClick(false, false, 'space clicked', -1);
+                if (commitResult.canClick) {
+                    result = liveAnalyzer.recordClick(false, false, clickType, clickId, clickParams);
+                    if (result.canClick) {
+                        var newState3 = stateToCppJSON(liveAnalyzer.gameState);
+                        REPLAY.states.push(newState3);
+                        REPLAY.actions.push(describeClick({_type: clickType, _id: clickId}, liveAnalyzer.gameState, prePhase));
+                        if (liveAnalyzer.gameState.numTurns !== REPLAY.turns) {
+                            REPLAY.turnBoundaries.push(REPLAY.states.length - 1);
+                            REPLAY.turns = liveAnalyzer.gameState.numTurns;
+                        }
+                        totalStates = REPLAY.states.length;
+                        stateIndex = totalStates - 1;
+                        notify();
+                        return { accepted: true, info: getInfo() };
+                    }
+                }
+            }
+
             return { accepted: false, info: getInfo() };
         } catch (e) {
             return { accepted: false, error: e.message, info: getInfo() };
