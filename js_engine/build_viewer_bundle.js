@@ -292,22 +292,61 @@ window.PrismataViewer = (function() {
     // ── Live Spectating ──
     function initLive(gameInitInfo) {
         // Live BeginGame has data inside laneInfo[0] directly,
-        // not in separate deckInfo/initInfo wrappers like S3 replays
+        // not in separate deckInfo/initInfo wrappers like S3 replays.
+        // Also, live mergedDeck is empty — must build from base+randomizer names.
         var lane = {};
         if (gameInitInfo.laneInfo && gameInitInfo.laneInfo[0]) {
             lane = gameInitInfo.laneInfo[0];
         }
         var deckInfo = gameInitInfo.deckInfo || lane;
         var initInfo = gameInitInfo.initInfo || lane;
+
+        // Build mergedDeck from card names if not provided
+        var mergedDeck = gameInitInfo.mergedDeck;
+        if (!mergedDeck || mergedDeck.length === 0) {
+            mergedDeck = [];
+            var rarityToSupply = { legendary: 1, rare: 4, normal: 10, trinket: 20 };
+            var addCards = function(cardList) {
+                if (!cardList) return;
+                for (var i = 0; i < cardList.length; i++) {
+                    var entry = cardList[i];
+                    var name, supply;
+                    if (typeof entry === 'string') {
+                        name = entry;
+                        var meta = CARD_META[name];
+                        supply = meta ? (rarityToSupply[meta.rarity] || 10) : 10;
+                    } else if (Array.isArray(entry)) {
+                        // [name, supply] format
+                        name = entry[0]; supply = entry[1];
+                    } else if (entry && entry.UIName) {
+                        name = entry.UIName;
+                        supply = entry.supply || (rarityToSupply[entry.rarity] || 10);
+                    } else continue;
+                    mergedDeck.push({ UIName: name, supply: supply, rarity: (CARD_META[name] || {}).rarity || 'normal' });
+                }
+            };
+            // base is array of arrays: [[cards for set 0], [cards for set 1]]
+            var base = deckInfo.base || lane.base || [];
+            for (var bi = 0; bi < base.length; bi++) {
+                if (Array.isArray(base[bi])) addCards(base[bi]);
+                else addCards([base[bi]]);
+            }
+            var rand = deckInfo.randomizer || lane.randomizer || [];
+            for (var ri = 0; ri < rand.length; ri++) {
+                if (Array.isArray(rand[ri])) addCards(rand[ri]);
+                else addCards([rand[ri]]);
+            }
+        }
+
         var laneInfo = [{
             initResources: initInfo.initResources,
-            base: deckInfo.base,
-            randomizer: deckInfo.randomizer,
+            base: deckInfo.base || lane.base,
+            randomizer: deckInfo.randomizer || lane.randomizer,
             initCards: initInfo.initCards
         }];
         var analyzerInit = {
             laneInfo: laneInfo,
-            mergedDeck: deckInfo.mergedDeck || lane.mergedDeck || [],
+            mergedDeck: mergedDeck,
             scriptInfo: { whiteStarts: true },
             objectiveInfo: null, commandInfo: null
         };
