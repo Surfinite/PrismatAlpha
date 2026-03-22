@@ -50,12 +50,12 @@ PixiJS canvas embedded in the existing React page. React owns the page chrome (p
 
 ### Data Flow
 
-Same pattern as the existing viewer. No new engine API required.
+Same pattern as the existing viewer, with minor engine export additions (see Engine Bundle Changes).
 
 1. React page loads `prismata-engine.js` bundle (existing)
 2. On state change, React calls `PrismataViewer.getGameState()` + `PrismataViewer.getCardMeta()`
 3. React passes state to `BoardRenderer.updateState(gameState, cardMeta)`
-4. BoardRenderer updates PixiJS sprites in-place (no teardown/rebuild)
+4. BoardRenderer updates PixiJS sprites in-place using `id` to correlate units across states (no teardown/rebuild)
 
 ### Code Location
 
@@ -65,7 +65,7 @@ The renderer is a new module consumed by the existing `[gameId]/page.tsx`. The p
 
 ## Class Hierarchy
 
-Mirrors the AS3 decompiled source class-for-class.
+Mirrors the AS3 decompiled source class-for-class. One intentional deviation: BuyPanel uses `STATE_DOUBLE` (both columns always visible) rather than the AS3 default `STATE_SINGLE` with tab switching, since this is more convenient for a viewer.
 
 | PixiJS Class | AS3 Source | Responsibility |
 |---|---|---|
@@ -93,7 +93,7 @@ Mirrors the AS3 decompiled source class-for-class.
 | 3 | Shading overlay | `shadingMC` | 4 states for blocking/non-blocking visual feedback |
 | 4 | Border glow | `borderMC` | Clickable highlight (yellow/white). Interactive mode only |
 | 5 | Name image | `nameImage` | Pre-rendered name sprite (`instName_` + cardUIName). Phase B: BitmapFont fallback |
-| 6 | Status icons | `statusContainer` | HP, charge(0-3), delay, doom, tap, attack, spell. 18px icons, 4px spacing |
+| 6 | Status icons | `statusContainer` | HP, charge(0-3), delay, doom, tap, attack, spell, defend. 18px icons, 4px spacing. Positioned at (2, 17) in card space. Has `fixedStatusContainer` and `variableStatusContainer` sub-containers — port `UIStatus.changed()` from AS3 source |
 | 7 | White flash | `topWhiteQuad` | Purchase landing animation. Default alpha=0. Used in Phase C |
 | 8 | Effect container | `effectContainer` | Skull (41,43), chill snowflake (41,43), frontline crosshair, damage counter (3,3) |
 
@@ -125,42 +125,67 @@ Mirrors the AS3 decompiled source class-for-class.
 
 ### State Mapping
 
+**Port `UIInst.update()` (UIInst.as lines 800-960) faithfully.** The full state machine is ~150 lines with complex nested branching that cannot be accurately summarized. The simplified version below captures the major branches for reference, but the implementation must follow the AS3 source.
+
+**Player color convention:** The AS3 uses `colorOnBottom` to determine which player gets blue vs. red backgrounds. For the replay viewer, `colorOnBottom = 0` (P0 is always blue/bottom). Background and shading colors are selected by `owner == colorOnBottom`, not by raw owner index.
+
+**Key branches (reference only — see AS3 source for complete logic):**
+
 ```
-default (alive, idle)  → back: BACK_BUSYBLUE (owner=0) or BACK_BUSYRED (owner=1)
+# Default state
+alive, idle            → back: BACK_BUSYBLUE (owner==colorOnBottom) or BACK_BUSYRED
                          cover: COVER_EMPTY
 
-if dead                → back: BACK_DEAD
+# Constructing
+constructing           → back: BACK_BOUGHT (Card_Trans)
+                         card alpha: 0.87
+                         cover: COVER_INVBOUGHT or COVER_INVSPAWN
+
+# Dead
+dead                   → back: BACK_DEAD
                          effectContainer: skull icon at (41, 43)
 
-if blocking            → back: BACK_BLOCK (owner=0) or BACK_BLOCKRED (owner=1)
-                         shading: SHADING_BLOCK
+# Blocking (alive, not constructing)
+blocking               → back: BACK_BLOCK (blue player) or BACK_BLOCKRED (red player)
+                         shading: SHADING_BLOCK or SHADING_REDBLOCK (by player color)
 
-if constructing        → back: BACK_BOUGHT (Card_Trans)
-                         card alpha: 0.87
-                         cover: COVER_INVBOUGHT (just purchased) or
-                                COVER_INVSPAWN (spawning from ability)
-
-if disruptDamage >= health && health > 0
-                       → back: BACK_BLOCK_FROST
+# Chill (disruptDamage >= health && health > 0)
+fully chilled          → back: BACK_BLOCK_FROST
                          effectContainer: chill snowflake at (41, 43)
 
-if taking damage       → cover: COVER_BANG
+# Damage states (requires `damage` field — see Engine Bundle Changes)
+blocking + partial dmg + defense phase + !fragile
+                       → back: BACK_ABSORB (Card_Orange), COVER_BANG
                          effectContainer: damage counter at (3, 3)
+blocking + dead (dmg)  → back: BACK_DEAD, skull
+partial dmg (not dead) → back: BACK_ABSORB
+fully damaged          → back: BACK_WHITEPINK, skull
 
-if fully damaged       → back: BACK_WHITEPINK
+# Sellable role (blocker assignment phase)
+ROLE_SELLABLE + blocking    → COVER_PROMPT + SHADING_BLOCK or SHADING_DEAD_BLOCK
+ROLE_SELLABLE + !blocking   → SHADING_NOTBLOCK
+ROLE_SELLABLE + spell       → no cover/shading
+
+# Assigned role (ability targeting)
+ROLE_ASSIGNED          → COVER_ASSIGNED
+
+# Could-block-but-isn't
+defaultBlocking + !blocking → SHADING_NOTBLOCK
 ```
+
+**Note on `Card_Orange`:** The existing engine bundle labels this as `bg_construction`, but it is actually BACK_ABSORB (absorbing partial damage). Construction uses BACK_BOUGHT (`Card_Trans`).
 
 ## Board Layout
 
 ### 3 Rows Per Player
 
-| Row | Content | Y offset from center |
-|---|---|---|
-| Front (row 0/3) | Units with POSITION_FRONT_* (0-7) | -(82 + 4) |
-| Middle (row 1/4) | Units with POSITION_MIDDLE_* (10-18) | -(2×82 + 5 + 4) |
-| Back (row 2/5) | Units with POSITION_BACK_* (20-29) | -(3×82 + 2×5 + 4) |
+| Row | Content | Y offset (top player, upward from center) | Y offset (bottom player, downward from center) |
+|---|---|---|---|
+| Front (row 0/3) | POSITION_FRONT_* (0-7) | -(82 + gutter) | +(gutter) |
+| Middle (row 1/4) | POSITION_MIDDLE_* (10-18) | -(2×82 + gap + gutter) | +(82 + gap + gutter) |
+| Back (row 2/5) | POSITION_BACK_* (20-29) | -(3×82 + 2×gap + gutter) | +(2×82 + 2×gap + gutter) |
 
-Row gap: 5 (normal) or 1 (replay mode). Center gutter: 4 (normal) or 2 (replay mode).
+Row gap: 5 (normal) or 1 (replay mode). Center gutter (`midLineGutter`): 4 (normal) or 2 (replay mode). Top player rows extend upward from center; bottom player rows extend downward. Card height = 82px.
 
 Front rows reserve SWORD_WIDTH pixels on left and right for attack/defense sword barriers. Middle and back rows use full width.
 
@@ -221,14 +246,18 @@ CRAMMEDMARGIN: -40
 
 - Smooth exponential transition: `0.8 + 0.2 * (1 - exp(-2 * ...))`
 - Per-card compression via `stretchFactorAmount()` — inner cards compress to 58% width, rightmost cards stay full-width
-- "Big gap" mechanic: 2.5x normal gap inserted between bought and non-bought cards during action phase only
+- "Big gap" mechanic: GAP_SIZE (2.5px) gap inserted between bought-this-phase and non-bought cards, only for the active player's units during action phase
 - Negative margin (-40) causes piles to overlap horizontally with per-card spacing recalculated
 
-**This algorithm must be faithfully ported from the AS3 source, not approximated.**
+**This algorithm must be faithfully ported from AS3 source (`UIRow.performCramming()`, `UIPile.stretchFactorAmount()`).**
+
+**Note on `stretchFactorAmount()`:** The actual function (UIPile.as lines 998-1034) has three ranges based on `cramFactor` (< 1, 1-1.5, >= 1.5), with special handling for piles > 28 cards and a progressive gradient for the last 10 cards. The "58% width" figure is only the `fullyCrammedAmount` for inner cards. Port the full function, do not approximate.
+
+**Note on big gap:** Requires knowing whether a unit was bought in the current phase (`wasBoughtOrClickCreatedThisPhase` in AS3). This needs a `boughtThisPhase` field in the state export, or the big gap mechanic is deferred. See Engine Bundle Changes.
 
 ### Responsive Scaling
 
-PixiJS renderer uses a fixed logical resolution matching the original client's board area. CSS scales the canvas element to fit the viewport, following the same approach as the current `updateBoardScale()`.
+PixiJS renderer uses a fixed logical resolution. The AS3 client computes board dimensions dynamically from `GameScreen` guides; the implementation should derive the logical resolution from the same layout constants (6 rows × 82px + gaps + resource bars + buy panel width). CSS scales the canvas element to fit the viewport, following the same approach as the current `updateBoardScale()`.
 
 ## Buy Panel
 
@@ -289,13 +318,31 @@ P1 resources at top of canvas, P0 resources at bottom.
 - Lazy loading for card art — load on first appearance, cache in PixiJS texture cache
 - Consider WebP conversion for bandwidth optimization (300x300 PNG → WebP saves ~60%)
 
+### Missing Asset Fallback
+
+For assets that haven't been extracted yet (overlays, shading textures, effect sprites): render a colored semi-transparent rectangle as a placeholder. This allows development and testing to proceed while asset extraction happens in parallel. The placeholder should be visually distinct (e.g., magenta tint) so missing assets are obvious, not silently invisible.
+
 ## Engine Bundle Changes
 
-One addition required: **`position` field in `getCardMeta()`**.
+### `getCardMeta()` additions
 
-Compute each card type's static position from cardLibrary.jso properties using the priority chain from Card.as. This is a one-time computation at load time, exported alongside existing card metadata (attack, toughness, abilities, costs, rarity).
+- **`position`** field per card type: Static board position computed from cardLibrary.jso properties using the priority chain from Card.as. One-time computation at load time.
 
-No other engine API changes needed — `getGameState()` already provides all fields required for rendering.
+### `instToCardJSON()` additions (in `replay_exporter.js`)
+
+The current state export is missing fields required for correct rendering:
+
+- **`id`** (`inst.id`): Stable instance identifier. Required for in-place sprite updates — without it, the renderer cannot correlate units across state changes when multiple instances of the same card type exist.
+- **`damage`** (`inst.damage`): Current damage on the unit. Required for BACK_ABSORB, BACK_WHITEPINK, COVER_BANG, damage counter, and the full `UIInst.update()` state machine branching.
+- **`boughtThisPhase`** (optional): Whether the unit was purchased in the current phase. Required for the "big gap" pile spacing mechanic. If omitted, the big gap visual is deferred.
+
+### `stateToCppJSON()` changes
+
+- **Include dead units**: Currently filters `inst.deadness === C.DEADNESS_ALIVE` only. Dead units must be included in the `table[]` array (with their `deadness` field preserved) because the AS3 client renders dead units on the board with BACK_DEAD + skull icon until the next swoosh.
+
+### Existing mislabel
+
+The bundle currently labels `Card_Orange` as `bg_construction`. This is actually BACK_ABSORB (absorbing partial damage). Construction uses `Card_Trans` (BACK_BOUGHT). Fix the label when adding the missing background variants.
 
 ## Future Extensions
 
