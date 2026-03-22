@@ -56,16 +56,50 @@ function buildCardMetadata(cardLibrary) {
             for (const ch of card.beginOwnTurnScript.receive) { if (ch === 'A') autoAttack++; }
         if (card.abilityScript && typeof card.abilityScript.receive === 'string')
             for (const ch of card.abilityScript.receive) { if (ch === 'A') abilityAttack++; }
+
+        const isSpell = !!card.spell;
+        const hasTargetAbility = !!card.targetAction;
+        const hasAbility = !!(card.abilityScript || card.targetAction);
+        const defaultBlocking = isSpell ? false : !!card.defaultBlocking;
+        const assignedBlocking = isSpell ? false : !!card.assignedBlocking;
+        const undefendable = isSpell ? false : !!card.undefendable;
+        const hasResonate = !!card.resonate;
+        // attackPotential: -1 if resonate, else sum of autoAttack + abilityAttack
+        const attackPotential = hasResonate ? -1 : (autoAttack + abilityAttack);
+        const attacks = attackPotential > 0 || hasTargetAbility;
+
+        // Position priority chain — mirrors Card.js lines 269-324
+        let position = 23; // default: BACK_LEFT
+        if (card.hasOwnProperty('position'))          { position = card.position; }
+        else if (uiName === 'Conduit')                { position = 20; } // BACK_FAR_LEFT
+        else if (uiName === 'Blastforge')             { position = 21; } // BACK_FAR_LEFT_ONE
+        else if (uiName === 'Animus')                 { position = 22; } // BACK_FAR_LEFT_TWO
+        else if (uiName === 'Drone')                  { position = 10; } // MIDDLE_FAR_LEFT
+        else if (uiName === 'Engineer')               { position = 0;  } // FRONT_FAR_LEFT
+        else if (isSpell)                             { position = 29; } // BACK_FAR_RIGHT
+        else if (undefendable && attacks)             { position = 7;  } // FRONT_RIGHT_ONE
+        else if (undefendable)                        { position = 6;  } // FRONT_RIGHT
+        else if (hasAbility && defaultBlocking && assignedBlocking && attacks)  { position = 4;  } // FRONT_LEFT_ONE
+        else if (hasAbility && defaultBlocking && assignedBlocking)             { position = 3;  } // FRONT_LEFT
+        else if (hasAbility && defaultBlocking && !assignedBlocking && attacks) { position = 16; } // MIDDLE_RIGHT
+        else if (hasAbility && defaultBlocking && !assignedBlocking)            { position = 11; } // MIDDLE_FAR_LEFT_ONE
+        else if (hasAbility && !defaultBlocking && attacks)                     { position = 18; } // MIDDLE_FAR_RIGHT
+        else if (hasAbility && !defaultBlocking)                                { position = 13; } // MIDDLE_LEFT
+        else if (defaultBlocking && attacks)          { position = 2;  } // FRONT_FAR_LEFT_TWO
+        else if (defaultBlocking)                     { position = 1;  } // FRONT_FAR_LEFT_ONE
+        else if (attacks)                             { position = 26; } // BACK_RIGHT
+        // else default 23 (BACK_LEFT)
+
         byUIName[uiName] = {
             attack: autoAttack + abilityAttack, autoAttack, abilityAttack,
             toughness: card.toughness || 0,
-            hasAbility: !!(card.abilityScript || card.targetAction),
-            hasTargetAbility: !!card.targetAction,
-            isFrontline: !!card.undefendable, canBlock: !!card.defaultBlocking,
-            isFragile: !!card.fragile, defaultBlocking: !!card.defaultBlocking,
+            hasAbility, hasTargetAbility,
+            isFrontline: undefendable, canBlock: defaultBlocking,
+            isFragile: !!card.fragile, defaultBlocking, assignedBlocking,
             buyCost: card.buyCost || '', buildTime: card.buildTime || 1,
             lifespan: card.lifespan || -1, charge: card.startingCharge || 0,
-            baseSet: !!card.baseSet, rarity: card.rarity || 'normal'
+            baseSet: !!card.baseSet, rarity: card.rarity || 'normal',
+            position
         };
     }
     return byUIName;
@@ -74,10 +108,17 @@ function buildCardMetadata(cardLibrary) {
 function collectSmallAssets() {
     const assets = {};
     const bgFiles = {
-        'bg_default': 'Card_Blue.png', 'bg_default_red': 'Card_Red.png',
-        'bg_assigned': 'Card_Grey.png', 'bg_construction': 'Card_Orange.png',
-        'bg_dead': 'Card_Dead.png', 'bg_border_green': 'Card_Border_Green.png',
-        'bg_chilled': 'Card_Blue_Frost.png'
+        'bg_dead':          'Card_Dead.png',       // BACK_DEAD (0)
+        'bg_block':         'Card_Blue.png',       // BACK_BLOCK (1)
+        'bg_busy':          'Card_Grey.png',       // BACK_BUSY (2)
+        'bg_absorb':        'Card_Orange.png',     // BACK_ABSORB (3)
+        'bg_chilled':       'Card_Blue_Frost.png', // BACK_BLOCK_FROST (4)
+        'bg_bought':        'Card_Trans.png',      // BACK_BOUGHT (5)
+        'bg_whitepink':     'Card_WhitePink.png',  // BACK_WHITEPINK (6)
+        'bg_blockred':      'Card_Red.png',        // BACK_BLOCKRED (7)
+        'bg_busyblue':      'Card_BlueGrey.png',   // BACK_BUSYBLUE (8) — default P0
+        'bg_busyred':       'Card_RedGrey.png',    // BACK_BUSYRED (9) — default P1
+        'bg_border_green':  'Card_Border_Green.png',
     };
     for (const [key, file] of Object.entries(bgFiles)) {
         const data = readImageBase64(path.join(CARD_BG_DIR, file));
@@ -344,22 +385,36 @@ window.PrismataViewer = (function() {
             randomizer: deckInfo.randomizer || lane.randomizer,
             initCards: initInfo.initCards
         }];
+
+        // Extract commandInfo for mid-game joins — the server sends all clicks
+        // played so far in BeginGame.commandInfo.commandList. The Analyzer's
+        // initializeAndPlayInitClicks() replays them to reach the current state.
+        var commandInfo = gameInitInfo.commandInfo || lane.commandInfo || null;
+        var scriptInfo = gameInitInfo.scriptInfo || lane.scriptInfo || { whiteStarts: true };
+
         var analyzerInit = {
             laneInfo: laneInfo,
             mergedDeck: mergedDeck,
-            scriptInfo: { whiteStarts: true },
-            objectiveInfo: null, commandInfo: null
+            scriptInfo: scriptInfo,
+            objectiveInfo: null,
+            commandInfo: commandInfo
         };
 
         liveAnalyzer = new Analyzer(analyzerInit, -1, -1, null);
         liveAnalyzer.loaderInit();
+
+        var cmdCount = commandInfo && commandInfo.commandList ? commandInfo.commandList.length : 0;
+        console.log('[live] initLive: turn=' + liveAnalyzer.gameState.numTurns +
+            ' instances=' + liveAnalyzer.gameState.table.size +
+            ' nextInstId=' + liveAnalyzer.gameState.nextInstId +
+            ' commandsReplayed=' + cmdCount);
 
         var p0 = 'Player 0', p1 = 'Player 1';
         if (gameInitInfo.players) { p0 = gameInitInfo.players[0] || p0; p1 = gameInitInfo.players[1] || p1; }
 
         REPLAY = {
             p0: p0, p1: p1, winner: -1, winnerName: '',
-            turns: 0, cardSet: [],
+            turns: liveAnalyzer.gameState.numTurns, cardSet: [],
             states: [stateToCppJSON(liveAnalyzer.gameState)],
             actions: ['Start'], turnBoundaries: [0]
         };
@@ -440,8 +495,25 @@ window.PrismataViewer = (function() {
                 }
             }
 
+            // Diagnostic: why did this click fail?
+            var gs = liveAnalyzer.gameState;
+            var diag = 'phase=' + gs.phase + ' turn=' + gs.numTurns;
+            if (gs.glassBroken) diag += ' glassBroken';
+            if (gs.finished) diag += ' FINISHED';
+            if (liveAnalyzer.controller.inSwipe) diag += ' inSwipe';
+            if (clickType === 'inst clicked' || clickType === 'inst shift clicked') {
+                var inst = gs.instIdToInst(clickId);
+                if (inst) diag += ' | inst: ' + inst.card.UIName + ' owner=P' + inst.owner + ' role=' + inst.role;
+                else diag += ' | inst NOT FOUND id=' + clickId;
+            }
+            if (clickType === 'card clicked') {
+                if (gs.cards && clickId >= 0 && clickId < gs.cards.length) diag += ' | card: ' + gs.cards[clickId].UIName;
+                else diag += ' | card OUT OF RANGE id=' + clickId + ' deckLen=' + (gs.cards ? gs.cards.length : 0);
+            }
+            console.warn('[live] FAILED:', clickType, 'id=' + clickId, diag);
             return { accepted: false, info: getInfo() };
         } catch (e) {
+            console.error('[live] EXCEPTION:', clickType, 'id=' + clickId, e.message);
             return { accepted: false, error: e.message, info: getInfo() };
         }
     }
