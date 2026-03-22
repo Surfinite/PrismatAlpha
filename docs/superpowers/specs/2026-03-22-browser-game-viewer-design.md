@@ -12,12 +12,19 @@ A PixiJS 8 game board renderer that replaces the current HTML/CSS board in the <
 
 ## Phased Roadmap
 
-| Phase | Scope | Rendering |
-|---|---|---|
-| **A** | Card art + clean layout | Static board with card images, proper 3-row layout, buy panel |
-| **B (target)** | Card art + state feedback | All visual states: 10 background variants, 6 cover overlays, shading, status icons, effectContainer sprites |
-| **C (future)** | Transitions | Smooth state transitions, purchase animations (topWhiteQuad), card movement tweens, death/attack effects |
-| **D (future)** | Near-parity | Full particle system (death, chill, snipe lasers), animated card skins, 40+ AS3 effect classes |
+| Phase | Scope | Rendering | AS3 toggle equivalent |
+|---|---|---|---|
+| **A** | Card art + clean layout | Static board with card images, proper 3-row layout, buy panel | — |
+| **B (target)** | Card art + state feedback | All visual states: 10 background variants, 6 cover overlays, shading, status icons, effectContainer sprites | `PARTICLE_QUALITY=OFF`, `ANIMATIONS_ON=false`, `DISABLE_ANIMATED_SKINS=true` |
+| **C (future)** | Transitions | Smooth state transitions, purchase animations (topWhiteQuad), card movement tweens, death/attack effects | `ANIMATIONS_ON=true`, `PARTICLE_QUALITY=LOW` |
+| **D (future)** | Near-parity | Full particle system (death, chill, snipe lasers), animated card skins, 40+ AS3 effect classes | `PARTICLE_QUALITY=NORMAL`, `DISABLE_ANIMATED_SKINS=false`, `BREACHFLASH_ON=true` |
+
+**AS3 quality toggles (from Options.as):** The original client has explicit settings that gate visual features into the same tiers as our phases. This validates our phase boundaries and provides clear implementation guidance — Phase B renders what the client renders with all effects disabled. Key toggles:
+- **`PARTICLE_QUALITY`**: NORMAL (full) / LOW (0.3x emission) / OFF (no particles). Checked in `PDParticleSystem` constructor.
+- **`ANIMATIONS_ON`**: Master switch for all animation events (arrival, death, damage, mana). Gates UIEvent emission in `Game.as`.
+- **`DISABLE_ANIMATED_SKINS`**: Static card art vs animated skin sprites.
+- **`BREACHFLASH_ON`**: Screen flash on breach (accessibility toggle).
+- **`ANIMATION_SPEED`**: NORMAL (1x) / SLOW (1.3x) / VSLOW (1.6x) duration multipliers.
 
 ## Architecture
 
@@ -73,7 +80,7 @@ Mirrors the AS3 decompiled source class-for-class. One intentional deviation: Bu
 | `BoardView` | `UIBoard` | Per-player board, contains 3 rows + sword barriers |
 | `RowView` | `UIRow` | Horizontal lane layout with cramming algorithm |
 | `PileView` | `UIPile` | Horizontal stack of same-type unit cards |
-| `UnitCard` | `UIInst` | Individual unit card, 9-layer rendering |
+| `UnitCard` | `UIInst` | Individual unit card, 10-layer rendering |
 | `StatusOverlay` | `UIStatus` | HP/charge/delay/doom/tap/attack/spell icons |
 | `BuyPanel` | `UIBuyBox` | Two always-visible columns (base + randomizer) |
 | `BuyCard` | `UIPurchasable` | Card art + cost icons + supply indicator |
@@ -83,19 +90,20 @@ Mirrors the AS3 decompiled source class-for-class. One intentional deviation: Bu
 
 ### Layer Stack
 
-9 layers per card, back to front, matching AS3 `UIInst`:
+10 layers per card, back to front, matching AS3 `UIInst.createUIComponents()` (UIInst.as lines 419-426). Note: indices 5-6 are status then name (not the reverse — verified against AS3 `addChild` order):
 
 | Index | Layer | AS3 Name | Description |
 |---|---|---|---|
 | 0 | Card background | `backMC` | 82x82px base, 10 variants by state + owner |
-| 1 | Card skin | `cardSkin` | Unit art sprite. Phase B: static 300x300 PNG scaled to fit. Phase C+: animated skin sprites |
+| 1 | Card skin | `cardSkin` | Unit art sprite (inserted via `addChildAt` at index 1). Phase B: static 300x300 PNG scaled to fit. Phase C+: animated skin sprites (`DISABLE_ANIMATED_SKINS` toggle) |
 | 2 | Cover overlay | `coverMC` | 6 state overlays (clock, cage, shield, bang) |
-| 3 | Shading overlay | `shadingMC` | 4 states for blocking/non-blocking visual feedback |
+| 3 | Shading overlay | `shadingMC` | 5 states including SHADING_EMPTY (`emptypixel`) for blocking/non-blocking visual feedback |
 | 4 | Border glow | `borderMC` | Clickable highlight (yellow/white). Interactive mode only |
-| 5 | Name image | `nameImage` | Pre-rendered name sprite (`instName_` + cardUIName). Phase B: BitmapFont fallback |
-| 6 | Status icons | `statusContainer` | HP, charge(0-3), delay, doom, tap, attack, spell, defend. 18px icons, 4px spacing. Positioned at (2, 17) in card space. Has `fixedStatusContainer` and `variableStatusContainer` sub-containers — port `UIStatus.changed()` from AS3 source |
+| 5 | Status icons | `statusContainer` | 14 status types (HP, frontline, delay, doom, charge 0-3, tap/tap_on, attack, spell, defend). 18px icons, 4px spacing. Positioned at (2, 17) in card space. Has `fixedStatusContainer` and `variableStatusContainer` sub-containers — port `UIStatus.changed()` from AS3 source |
+| 6 | Name image | `nameImage` | Pre-rendered name sprite (`instName_` + cardUIName). Phase B: BitmapFont fallback |
 | 7 | White flash | `topWhiteQuad` | Purchase landing animation. Default alpha=0. Used in Phase C |
-| 8 | Effect container | `effectContainer` | Skull (41,43), chill snowflake (41,43), frontline crosshair, damage counter (3,3) |
+| 8 | Effect container | `effectContainer` | Skull (41,43), chill snowflake (41,43), frontline crosshair |
+| 9* | Damage counter | `damageCounter` | `UIInstNumber` at (3,3). Direct child of UnitCard, NOT inside effectContainer. Renders numbers via bitmap font atlas (`CommonAssets.NUMBERS_SMALL`) |
 
 ### Card Background Variants (10 frames)
 
@@ -149,9 +157,10 @@ dead                   → back: BACK_DEAD
 blocking               → back: BACK_BLOCK (blue player) or BACK_BLOCKRED (red player)
                          shading: SHADING_BLOCK or SHADING_REDBLOCK (by player color)
 
-# Chill (disruptDamage >= health && health > 0)
+# Chill (disruptDamage >= health && health > 0 && phase != DEFENSE)
 fully chilled          → back: BACK_BLOCK_FROST
                          effectContainer: chill snowflake at (41, 43)
+                         (snowflake hidden during defense phase)
 
 # Damage states (requires `damage` field — see Engine Bundle Changes)
 blocking + partial dmg + defense phase + !fragile
@@ -246,7 +255,7 @@ CRAMMEDMARGIN: -40
 
 - Smooth exponential transition: `0.8 + 0.2 * (1 - exp(-2 * ...))`
 - Per-card compression via `stretchFactorAmount()` — inner cards compress to 58% width, rightmost cards stay full-width
-- "Big gap" mechanic: GAP_SIZE (2.5px) gap inserted between bought-this-phase and non-bought cards, only for the active player's units during action phase
+- "Big gap" mechanic: GAP_SIZE (2.5px) gap inserted between bought/created-this-phase and non-bought cards, only for the active player's units when phase != DEFENSE (i.e., action and confirm phases)
 - Negative margin (-40) causes piles to overlap horizontally with per-card spacing recalculated
 
 **This algorithm must be faithfully ported from AS3 source (`UIRow.performCramming()`, `UIPile.stretchFactorAmount()`).**
@@ -292,24 +301,27 @@ P1 resources at top of canvas, P0 resources at bottom.
 | Asset | Location | Format | Count |
 |---|---|---|---|
 | Unit card art | `/images/units/` (ladder site) | 300x300 RGBA PNG | 255 |
-| Card backgrounds | Engine bundle (base64) | Small PNG sprites | 7 (need 3 more) |
-| Status icons | Engine bundle (base64) | 18x18 PNG sprites | 12 |
+| Card backgrounds (all 10) | `bin/asset/images/cardbg/` (on disk) | Small PNG sprites | 18+ files (7 loaded in bundle, rest on disk) |
+| Cover overlay textures (all 6) | `bin/asset/images/cardbg/` + `icons/status/` | Small PNG sprites | All present on disk |
+| Shading overlay textures (all 5) | `bin/asset/images/icons/status/` | Small PNG sprites | All present on disk (highlight_whiteshield, blueshield, whiteshieldB, redshield, emptypixel) |
+| Border glow textures (2) | `bin/asset/images/cardbg/` | Small PNG sprites | border_yellow.png, border_yellow_urgent.png |
+| Status icons | `bin/asset/images/icons/status/` | 18x18 PNG sprites | 28 files (14 status types) |
 | Resource icons | Engine bundle (base64) | Small PNG sprites | 6 |
 | Card art (engine) | `bin/asset/images/cards/` | 300x300 RGBA PNG | 143 |
-| UI icons | `bin/asset/images/icons/` | Various PNG | 97 |
 | Background (1) | `bin/asset/images/bgs/abyss.png` | 1.8MB PNG | 1 |
+
+**Note:** The engine bundle currently only loads 7 of the 18+ card background files. The remaining assets exist on disk in `bin/asset/images/` but need to be added to the bundle or loaded separately. `Card_Trans.png` (BACK_BOUGHT, the construction background) exists on disk but is NOT in the bundle — needs to be added. The bundle mislabels `Card_Orange` as `bg_construction`; it's actually BACK_ABSORB.
 
 ### Needs Extraction / Creation
 
 | Asset | Source | Method |
 |---|---|---|
-| ATF backgrounds (20+) | `C:\Files\SteamLibrary\steamapps\common\Prismata\backgroundFinal\atf1080\` | `extract_atf_backgrounds.py` |
-| Missing card backgrounds (3) | SWF or recreate | BACK_WHITEPINK, BACK_BUSYBLUE, BACK_BUSYRED |
-| Cover overlay textures (6) | SWF or recreate | highlight_blackclock, goldclock, cage2, goldshield, damagebang, emptypixel |
-| Shading overlay textures (4) | SWF or recreate | NOTBLOCK, BLOCK, DEAD_BLOCK, REDBLOCK |
-| Border glow textures (2) | SWF or recreate | CLICKABLE, CLICKABLE_URGENT |
-| Skull / snowflake / crosshair sprites | SWF or recreate | Effect container sprites |
+| ATF backgrounds (20+) | `C:\Files\SteamLibrary\steamapps\common\Prismata\backgroundFinal\atf1080\` | `extract_atf_backgrounds.py` (script exists at `C:\Users\Surfinite\Downloads\`) |
+| Chill snowflake sprite | ChillSnowflake.as effect class | Extract from SWF or recreate |
+| Frontline crosshair sprite | FrontlineEffect.as effect class | Extract from SWF or recreate |
 | Name sprites (105+) | Generate via BitmapFont | Phase B fallback; extract from SWF for full fidelity |
+
+**Note on skull effect:** The skull uses `Card_Dead` (`Card_Inver.png`) texture at 0.3x scale, tweened to 1x (SkullEffect.as line 61). It is NOT a separate sprite — it reuses the existing BACK_DEAD texture. No extraction needed.
 
 ### Asset Delivery
 
@@ -332,17 +344,19 @@ For assets that haven't been extracted yet (overlays, shading textures, effect s
 
 The current state export is missing fields required for correct rendering:
 
-- **`id`** (`inst.id`): Stable instance identifier. Required for in-place sprite updates — without it, the renderer cannot correlate units across state changes when multiple instances of the same card type exist.
+- **`instId`** (`inst.instId`): Stable instance identifier. Required for in-place sprite updates — without it, the renderer cannot correlate units across state changes when multiple instances of the same card type exist. Note: the JS engine Inst class uses `this.instId` (Inst.js line 34), not `.id`.
 - **`damage`** (`inst.damage`): Current damage on the unit. Required for BACK_ABSORB, BACK_WHITEPINK, COVER_BANG, damage counter, and the full `UIInst.update()` state machine branching.
-- **`boughtThisPhase`** (optional): Whether the unit was purchased in the current phase. Required for the "big gap" pile spacing mechanic. If omitted, the big gap visual is deferred.
+- **`boughtThisPhase`** (optional): Whether the unit was purchased or created by ability script in the current phase. Maps to AS3 `wasBoughtOrClickCreatedThisPhase()` which also checks `creatorIdFromBuyOrAbility >= 0` (covering units spawned by another unit's buy/ability script, e.g. Pixie from Animus). The JS Inst object has `creatorIdFromBuyOrAbility` (Inst.js line 103) which could be exported directly as an alternative. Required for the "big gap" pile spacing mechanic. If omitted, the big gap visual is deferred.
 
 ### `stateToCppJSON()` changes
 
 - **Include dead units**: Currently filters `inst.deadness === C.DEADNESS_ALIVE` only. Dead units must be included in the `table[]` array (with their `deadness` field preserved) because the AS3 client renders dead units on the board with BACK_DEAD + skull icon until the next swoosh.
 
-### Existing mislabel
+### Bundle asset fixes
 
-The bundle currently labels `Card_Orange` as `bg_construction`. This is actually BACK_ABSORB (absorbing partial damage). Construction uses `Card_Trans` (BACK_BOUGHT). Fix the label when adding the missing background variants.
+- Relabel `bg_construction` → `bg_absorb` (it maps to `Card_Orange.png` = BACK_ABSORB, not construction)
+- Add `Card_Trans.png` to bundle as `bg_bought` (BACK_BOUGHT, actual construction background — exists on disk but missing from bundle)
+- Add remaining card background, cover, shading, and border textures from `bin/asset/images/` (all exist on disk, just not loaded by the bundle yet)
 
 ## Future Extensions
 
