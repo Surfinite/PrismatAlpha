@@ -358,6 +358,88 @@ The current state export is missing fields required for correct rendering:
 - Add `Card_Trans.png` to bundle as `bg_bought` (BACK_BOUGHT, actual construction background — exists on disk but missing from bundle)
 - Add remaining card background, cover, shading, and border textures from `bin/asset/images/` (all exist on disk, just not loaded by the bundle yet)
 
+## Validation & Testing
+
+Testing leverages the existing replay infrastructure — thousands of replays, an existing click-by-click validator, and two renderers consuming the same state output.
+
+### Layer 1: Visual State Unit Tests (core — build with implementation)
+
+The state mapping logic (ported from `UIInst.update()`) is a pure function: game state fields in → visual decisions out. Test without PixiJS:
+
+```
+Input:  { owner: 0, health: 3, damage: 1, blocking: true, dead: false, constructionTime: 0, ... }
+Output: { back: BACK_BLOCK, cover: COVER_BANG, shading: SHADING_BLOCK, damageCounter: 1, ... }
+```
+
+Generate test cases by running replays and capturing every unique combination of card state fields. Manually verify a representative sample against the AS3 source. This catches state mapping bugs — the most likely source of visual errors.
+
+### Layer 2: Layout Snapshot Tests (core — build with implementation)
+
+Position and cramming algorithms are pure functions. For known game states, snapshot computed card positions as golden JSON and regression-test:
+
+- Run a replay to a specific turn
+- Capture all computed `(x, y, width, row, pileIndex)` per unit card
+- Store as golden file
+- On future runs, compare and fail on any delta
+
+Covers: row assignment, pile ordering, cramming, big gap, sword barrier offsets.
+
+### Layer 3: Replay Batch Smoke Tests (core — build with implementation)
+
+Extend the `replay_validator.js` pattern:
+
+```bash
+node js_engine/viewer_test.js --replay-dir bin/asset/replays/ --count 100
+```
+
+For each replay, step through every state and verify:
+- No JavaScript exceptions
+- All instances in `GameState.table[]` have a corresponding rendered sprite (by `instId`)
+- No NaN/Infinity positions, no off-screen units
+- Resource totals are non-negative
+- Buy panel card count matches `GameState.cards.length`
+- Dead units present in state when expected
+
+Catches crashes, data flow bugs, and missing unit rendering without visual comparison.
+
+### Layer 4: Cross-Renderer Validation (build after basic viewer works)
+
+The current HTML viewer and new PixiJS viewer consume the same `getGameState()`. For any replay, extract the logical render state from both and compare:
+
+- Unit count per player per row
+- Which background/cover/shading frame is active per unit
+- Resource bar values
+- Buy panel supply counts
+
+Catches divergence between old and new renderers. Useful during migration.
+
+### Layer 5: Playwright Visual Regression (build after viewer is stable)
+
+Use Playwright to capture canvas screenshots and compare against golden files:
+
+1. Load the PixiJS viewer with a test replay
+2. Step to specific states (turn 1, turn 10, mid-breach, late-game with 30+ units cramming)
+3. Capture canvas screenshot
+4. Compare against golden image (pixel diff or perceptual hash)
+
+Test suite: a set of `(replay_code, state_index, golden_screenshot.png)` tuples. Catches visual bugs that logic tests miss (wrong sprite, z-order issues, scaling errors).
+
+### Layer 6: AS3 Reference Screenshots (manual, small set)
+
+Capture screenshots from the actual Flash client at specific game states. Even 10-20 states covering key visual scenarios provide the ultimate golden reference:
+
+- Empty board (turn 1)
+- Economy phase (Drones + tech buildings, 3 rows populated)
+- Blocker assignment (defense phase with ROLE_SELLABLE)
+- Active breach (dead units, BACK_WHITEPINK, skulls)
+- Chill effects (BACK_BLOCK_FROST, snowflakes)
+- Late-game cramming (30+ units, negative margins)
+- Construction (BACK_BOUGHT, alpha dimming, clock overlays)
+- Ability targeting (COVER_ASSIGNED)
+- Mixed state (damage + blocking + chill on different units)
+
+These are captured once manually and serve as the visual ground truth.
+
 ## Future Extensions
 
 ### Phase C: Transitions & Animations
