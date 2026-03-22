@@ -27,6 +27,12 @@
  *   JS inst.lifespan               → C++ "lifespan" (-1 = infinite)
  *   JS inst.disruptDamage          → C++ "disruptDamage"
  *   JS inst.blocking               → C++ "blocking"
+ *   JS inst.instId                 → "instId" (unique instance identifier)
+ *   JS inst.damage                 → "damage" (for absorb/damage counter rendering)
+ *   JS inst.creatorIdFromBuyOrAbility >= 0 → "boughtThisPhase" (big gap pile spacing)
+ *   JS inst.card.defaultBlocking   → "defaultBlocking"
+ *   JS inst.card.fragile           → "isFragile"
+ *   JS inst.card.cardType          → "cardType" ('unit' default)
  */
 
 const C = require('./C');
@@ -39,9 +45,11 @@ const C = require('./C');
  */
 function instToCardJSON(inst) {
     return {
+        instId:           inst.instId,
         cardName:         inst.card.UIName,
         owner:            inst.owner,
         health:           inst.health,
+        damage:           inst.damage,
         role:             inst.role,
         deadness:         inst.deadness,
         constructionTime: inst.constructionTime,
@@ -49,7 +57,11 @@ function instToCardJSON(inst) {
         delay:            inst.delay,
         lifespan:         inst.lifespan,
         disruptDamage:    inst.disruptDamage,
-        blocking:         inst.blocking
+        blocking:         inst.blocking,
+        boughtThisPhase:  inst.creatorIdFromBuyOrAbility >= 0,
+        defaultBlocking:  inst.card.defaultBlocking || false,
+        isFragile:        inst.card.fragile || false,
+        cardType:         inst.card.cardType || 'unit'
     };
 }
 
@@ -89,12 +101,10 @@ function stateToCppJSON(state) {
         }
     }
 
-    // Build table array — only alive cards
+    // Build table array — include all cards (dead units rendered with skull until swoosh)
     const table = [];
     state.table.forEach(function(inst) {
-        if (inst.deadness === C.DEADNESS_ALIVE) {
-            table.push(instToCardJSON(inst));
-        }
+        table.push(instToCardJSON(inst));
     });
 
     return {
