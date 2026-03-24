@@ -52,11 +52,14 @@ function buildCardMetadata(cardLibrary) {
     const byUIName = {};
     for (const [internalName, card] of Object.entries(cardLibrary)) {
         const uiName = card.UIName || internalName;
-        let autoAttack = 0, abilityAttack = 0;
+        let autoAttack = 0, abilityAttack = 0, autoGold = 0, abilityGold = 0;
         if (card.beginOwnTurnScript && typeof card.beginOwnTurnScript.receive === 'string')
-            for (const ch of card.beginOwnTurnScript.receive) { if (ch === 'A') autoAttack++; }
+            for (const ch of card.beginOwnTurnScript.receive) { if (ch === 'A') autoAttack++; else if (ch === '1') autoGold++; }
         if (card.abilityScript && typeof card.abilityScript.receive === 'string')
-            for (const ch of card.abilityScript.receive) { if (ch === 'A') abilityAttack++; }
+            for (const ch of card.abilityScript.receive) { if (ch === 'A') abilityAttack++; else if (ch === '1') abilityGold++; }
+        // Is ability gold "free"? (no cost, no sac, no selfsac) — counts toward lower bound
+        const abilityGoldFree = abilityGold > 0 && !card.abilityCost && (!card.abilitySac || card.abilitySac.length === 0) &&
+            !(card.abilityScript && card.abilityScript.selfsac);
 
         const isSpell = !!card.spell;
         const hasTargetAbility = !!card.targetAction;
@@ -98,7 +101,7 @@ function buildCardMetadata(cardLibrary) {
         else if (card.targetAction === 'snipe') { targetAction = 'snipe'; targetAmount = card.targetAmount || 0; }
 
         byUIName[uiName] = {
-            attack: autoAttack + abilityAttack, autoAttack, abilityAttack,
+            attack: autoAttack + abilityAttack, autoAttack, abilityAttack, autoGold, abilityGold, abilityGoldFree,
             toughness: card.toughness || 0,
             hasAbility, hasTargetAbility, targetAction, targetAmount,
             isFrontline: undefendable, canBlock: defaultBlocking,
