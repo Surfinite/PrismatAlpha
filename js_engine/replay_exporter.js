@@ -107,6 +107,112 @@ function stateToCppJSON(state) {
         table.push(instToCardJSON(inst));
     });
 
+    // Gold estimate for next turn — faithful port of StateHelper.update() econ logic.
+    // Computes [lowerBound, upperBound] for each player.
+    // This runs from the OPPONENT's perspective of "next turn" — for the active player
+    // (state.turn), we compute what they'll have when their next turn starts.
+    function computeEconEstimate(player) {
+        const C = require('./C');
+        let econPotential = 0, econPotentialLower = 0;
+        const goldAnnihilate = {};     // goldResonate name → [insts]
+        const goldAnnihilateNext = {}; // for units finishing construction
+        let numDrones = 0;
+        const saviorResoName = 'Drone';
+        const isDefensePhase = state.phase === C.PHASE_DEFENSE && state.turn === player;
+
+        state.table.forEach(function(inst) {
+            if (inst.owner !== player) return;
+            const card = inst.card;
+
+            if (isDefensePhase) {
+                // Defense phase: compute for THIS turn (what we'll produce after defending)
+                if (inst.constructionTime <= 1 && inst.delay <= 1 &&
+                    !(inst.lifespan === 1 && inst.constructionTime === 0 && inst.delay === 0) && !inst.dead) {
+
+                    if (card.goldResonate != null) {
+                        if (goldAnnihilate[card.goldResonate])
+                            goldAnnihilate[card.goldResonate].push(inst);
+                        else
+                            goldAnnihilate[card.goldResonate] = [inst];
+                    }
+                    if (card.cardName === saviorResoName) numDrones++;
+
+                    if (card.beginOwnTurnScript && card.beginOwnTurnScript.receive) {
+                        const money = card.beginOwnTurnScript.receive.money || 0;
+                        econPotential += money;
+                        econPotentialLower += money;
+                    }
+                    if (inst.health + (card.healthGained || 0) >= (card.healthUsed || 0) &&
+                        inst.charge + (card.chargeGained || 0) >= (card.chargeUsed || 0)) {
+                        if (card.abilityScript && card.abilityScript.receive) {
+                            const money = card.abilityScript.receive.money || 0;
+                            econPotential += money;
+                            if (card.abilityCost && card.abilityCost.isEmpty &&
+                                (!card.abilitySac || card.abilitySac.length === 0) &&
+                                !(card.abilityScript && card.abilityScript.selfsac)) {
+                                econPotentialLower += money;
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Action/confirm phase: compute for NEXT turn
+                if (inst.constructionTime <= 1 && inst.delay <= 1 &&
+                    !(inst.lifespan === 1 && inst.constructionTime === 0 && inst.delay === 0) && !inst.dead) {
+
+                    if (card.beginOwnTurnScript && card.beginOwnTurnScript.receive) {
+                        const money = card.beginOwnTurnScript.receive.money || 0;
+                        econPotential += money;
+                        econPotentialLower += money;
+                    }
+                    if (inst.health + (card.healthGained || 0) >= (card.healthUsed || 0) &&
+                        inst.charge + (card.chargeGained || 0) >= (card.chargeUsed || 0) &&
+                        card.abilityScript && card.abilityScript.receive) {
+                        const money = card.abilityScript.receive.money || 0;
+                        econPotential += money;
+                        if (card.abilityCost && card.abilityCost.isEmpty &&
+                            (!card.abilitySac || card.abilitySac.length === 0) &&
+                            !(card.abilityScript && card.abilityScript.selfsac)) {
+                            econPotentialLower += money;
+                        }
+                    }
+                    // goldResonate for units finishing construction (will be ready next turn)
+                    if (card.goldResonate != null && (inst.constructionTime === 1 || inst.delay === 1)) {
+                        if (goldAnnihilateNext[card.goldResonate])
+                            goldAnnihilateNext[card.goldResonate].push(inst);
+                        else
+                            goldAnnihilateNext[card.goldResonate] = [inst];
+                    }
+                    if (card.cardName === saviorResoName) numDrones++;
+                }
+            }
+        });
+
+        // goldResonate bonus: each goldResonate source multiplies by numDrones
+        if (numDrones > 0) {
+            if (isDefensePhase) {
+                if (goldAnnihilate[saviorResoName]) {
+                    const bonus = goldAnnihilate[saviorResoName].length * numDrones;
+                    econPotential += bonus;
+                    econPotentialLower += bonus;
+                }
+            } else {
+                if (goldAnnihilate[saviorResoName]) {
+                    const bonus = goldAnnihilate[saviorResoName].length * numDrones;
+                    econPotential += bonus;
+                    econPotentialLower += bonus;
+                }
+                if (goldAnnihilateNext[saviorResoName]) {
+                    const bonus = goldAnnihilateNext[saviorResoName].length * numDrones;
+                    econPotential += bonus;
+                    econPotentialLower += bonus;
+                }
+            }
+        }
+
+        return [econPotentialLower, econPotential];
+    }
+
     return {
         whiteMana:        whiteMana,
         blackMana:        blackMana,
@@ -118,7 +224,9 @@ function stateToCppJSON(state) {
         blackTotalSupply: blackTotalSupply,
         whiteSupplySpent: whiteSupplySpent,
         blackSupplySpent: blackSupplySpent,
-        table:            table
+        table:            table,
+        whiteGoldEstimate: computeEconEstimate(0),
+        blackGoldEstimate: computeEconEstimate(1)
     };
 }
 
