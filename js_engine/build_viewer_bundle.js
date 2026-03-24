@@ -126,6 +126,7 @@ function collectSmallAssets() {
         'bg_busyblue':      'Card_BlueGrey.png',   // BACK_BUSYBLUE (8) — default P0
         'bg_busyred':       'Card_RedGrey.png',    // BACK_BUSYRED (9) — default P1
         'bg_border_green':  'Card_Border_Green.png',
+        'chill_snowflake':  'Card_Chilled.png',     // ChillSnowflake effect overlay
     };
     for (const [key, file] of Object.entries(bgFiles)) {
         const data = readImageBase64(path.join(CARD_BG_DIR, file));
