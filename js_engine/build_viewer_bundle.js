@@ -53,10 +53,24 @@ function buildCardMetadata(cardLibrary) {
     for (const [internalName, card] of Object.entries(cardLibrary)) {
         const uiName = card.UIName || internalName;
         let autoAttack = 0, abilityAttack = 0, autoGold = 0, abilityGold = 0;
-        if (card.beginOwnTurnScript && typeof card.beginOwnTurnScript.receive === 'string')
-            for (const ch of card.beginOwnTurnScript.receive) { if (ch === 'A') autoAttack++; else if (ch === '1') autoGold++; }
-        if (card.abilityScript && typeof card.abilityScript.receive === 'string')
-            for (const ch of card.abilityScript.receive) { if (ch === 'A') abilityAttack++; else if (ch === '1') abilityGold++; }
+        // Parse receive field — can be string ("5G", "A", "1") or number (3)
+        // Format: leading digits = gold, A=attack, G/B/C/H = resources
+        function parseReceive(receive) {
+            if (receive == null) return { gold: 0, attack: 0 };
+            const s = String(receive);
+            const goldMatch = s.match(/^(\d+)/);
+            const gold = goldMatch ? parseInt(goldMatch[1], 10) : 0;
+            const attack = (s.match(/A/g) || []).length;
+            return { gold, attack };
+        }
+        if (card.beginOwnTurnScript) {
+            const r = parseReceive(card.beginOwnTurnScript.receive);
+            autoAttack = r.attack; autoGold = r.gold;
+        }
+        if (card.abilityScript) {
+            const r = parseReceive(card.abilityScript.receive);
+            abilityAttack = r.attack; abilityGold = r.gold;
+        }
         // Is ability gold "free"? (no cost, no sac, no selfsac) — counts toward lower bound
         const abilityGoldFree = abilityGold > 0 && !card.abilityCost && (!card.abilitySac || card.abilitySac.length === 0) &&
             !(card.abilityScript && card.abilityScript.selfsac);
