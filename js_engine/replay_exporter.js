@@ -210,7 +210,10 @@ function stateToCppJSON(state) {
             }
         }
 
-        return [econPotentialLower, econPotential];
+        // SWF: UIPlayerManaBar adds current gold to the estimate
+        // turnMana.money for active player, oppMana.money for opponent
+        const currentGold = (player === 0 ? state.whiteMana : state.blackMana).money || 0;
+        return [econPotentialLower + currentGold, econPotential + currentGold];
     }
 
     return {
