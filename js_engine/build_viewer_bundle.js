@@ -19,6 +19,7 @@ const BIN_DIR = path.join(JS_DIR, '..', 'bin');
 const CARD_BG_DIR = path.join(BIN_DIR, 'asset', 'images', 'cardbg');
 const ICON_STATUS_DIR = path.join(BIN_DIR, 'asset', 'images', 'icons', 'status');
 const ICON_RESOURCE_DIR = path.join(BIN_DIR, 'asset', 'images', 'icons', 'resource');
+const ICON_MOUSEOVER_DIR = path.join(BIN_DIR, 'asset', 'images', 'icons', 'mouseover');
 const CARD_LIBRARY_PATH = path.join(BIN_DIR, 'asset', 'config', 'cardLibrary.jso');
 const DEFAULT_OUTPUT = path.join(JS_DIR, '..', '..', '<ladder>', '<ladder>-site', 'public', 'js', 'prismata-engine.js');
 
@@ -90,10 +91,16 @@ function buildCardMetadata(cardLibrary) {
         else if (attacks)                             { position = 26; } // BACK_RIGHT
         // else default 23 (BACK_LEFT)
 
+        // Target ability info (chill/snipe)
+        let targetAction = '';
+        let targetAmount = 0;
+        if (card.targetAction === 'disrupt') { targetAction = 'chill'; targetAmount = card.targetAmount || 0; }
+        else if (card.targetAction === 'snipe') { targetAction = 'snipe'; targetAmount = card.targetAmount || 0; }
+
         byUIName[uiName] = {
             attack: autoAttack + abilityAttack, autoAttack, abilityAttack,
             toughness: card.toughness || 0,
-            hasAbility, hasTargetAbility,
+            hasAbility, hasTargetAbility, targetAction, targetAmount,
             isFrontline: undefendable, canBlock: defaultBlocking,
             isFragile: !!card.fragile, defaultBlocking, assignedBlocking,
             buyCost: card.buyCost || '', buildTime: card.buildTime || 1,
@@ -132,7 +139,8 @@ function collectSmallAssets() {
         'icon_charge1': 'status_charge1.png', 'icon_charge2': 'status_charge2.png',
         'icon_charge3': 'status_charge3.png', 'icon_undefendable': 'status_undefendable.png',
         'icon_shield_blue': 'highlight_blueshield.png', 'icon_shield_gold': 'highlight_goldshield.png',
-        'icon_shield_white': 'highlight_whiteshield.png', 'icon_clock': 'clock.png'
+        'icon_shield_white': 'highlight_whiteshield.png', 'icon_shield_whiteb': 'highlight_whiteshieldB.png',
+        'icon_shield_red': 'highlight_redshield.png', 'icon_clock': 'clock.png'
     };
     for (const [key, file] of Object.entries(statusFiles)) {
         const data = readImageBase64(path.join(ICON_STATUS_DIR, file));
@@ -144,6 +152,15 @@ function collectSmallAssets() {
     };
     for (const [key, file] of Object.entries(resourceFiles)) {
         const data = readImageBase64(path.join(ICON_RESOURCE_DIR, file));
+        if (data) assets[key] = data;
+    }
+    // Hi-res mouseover icons (sword, shield for attack/defense display)
+    const mouseoverFiles = {
+        'sword_red': 'attack_big_red.png',
+        'shield_big': 'shield_big.png',
+    };
+    for (const [key, file] of Object.entries(mouseoverFiles)) {
+        const data = readImageBase64(path.join(ICON_MOUSEOVER_DIR, file));
         if (data) assets[key] = data;
     }
     console.error(`Small assets: ${Object.keys(assets).length} (bg + icons)`);

@@ -5,15 +5,16 @@
 > **Training plan V1**: `docs/plans/2026-03-06-training-plan-v1.md`
 > **Self-play master plan**: `docs/plans/2026-02-15-selfplay-training-master-plan.md`
 
-## Current Status (Mar 15, 2026)
+## Current Status (Mar 24, 2026)
 
-**gui-integration branch.** Deep Sets Model working. Currently testing and evaluating.
+**feature/live-viewer branch** (in `<LADDER_REPO_PATH>`). Live spectating MVP working — PR #3 submitted.
 
-**DeepSets models exported.** MB-only: 82.4% val acc. Human-only: 78.2%. Mixed MB+Human: 82.2% (completed, matches MB-only). Five DSNN players configured with per-player weight files.
+**DeepSets models exported.** MB-only: 82.4% val acc. Human-only: 78.2%. Mixed: 82.2%. Five DSNN players configured.
 
 **Active work items:**
-1. **Evaluate DSNN models** — matchup tournaments vs SteamAI (DSNN_MBonly, DSNN_Mixed, etc.)
-2. **Investigate failed clicks** — ~5% of turns have click failures in NN-side games
+1. **Live spectating** — PR #3 on <ladder>, 4 bot accounts on AWS VPS, auto-transition between games
+2. **PixiJS viewer polish** — Wonderboat's visual feedback (font weight, icon sizing, sword direction, HP positioning, black outlines)
+3. **Evaluate DSNN models** — matchup tournaments vs SteamAI (deferred)
 
 ## What This Project Is
 
@@ -152,6 +153,15 @@ python training/export_weights_v2.py \
 - **prismata-replay-parser git config**: Must set `git config user.name "Surfinite"` locally before first commit.
 - **SQLite trigger DDL splitting**: Never split on `;` — split on `END;` boundary.
 - **`build_replay_db.py --source X` wipes the DB**: Always use `--incremental --source` for partial updates.
+
+### Live Spectating (<ladder> repo)
+
+- **Prismata server sends `Moved` during login**: Load-balancing redirect. `login()` must handle it or auth times out silently. Fixed in `headless_client.py`.
+- **React `useState` drops rapid WebSocket messages**: Batching means only the last message survives per render. Use queue-based hook (`useWebSocket.ts`) with `drainMessages()`.
+- **Late-joiner cache race condition**: Server adds client to subscribers before sending cached history. Live clicks can interleave with cache replay. Fixed with seq-based dedup on client.
+- **`npx next build` needs `--webpack`**: Next.js 16 defaults to Turbopack which fails with webpack config.
+- **VPS spectator files must be in repo**: `ws_broadcast.py`, `spectator_bridge.py` were VPS-only and got lost on deploy. Now tracked in git.
+- **`prismata_amf3.py` is the canonical module name**: Renamed from `prismata_sniffer.py`. Deploy script and all imports updated.
 
 ### Self-Play & Data
 
@@ -311,6 +321,11 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 | `gcp/launch_mixed_training.sh` | GCP mixed MB+Human training launcher |
 | `aws/launch_deepsets_training.sh` | AWS mixed MB+Human DeepSets training |
 | `aws/launch_human_training.sh` | AWS human-only DeepSets training launcher |
+| `<LADDER_REPO_PATH>\ws_broadcast.py` | WebSocket broadcast server (late-joiner cache, seq dedup) |
+| `<LADDER_REPO_PATH>\spectator_bridge.py` | AMF3→JSON bridge, spectated flag annotation |
+| `<LADDER_REPO_PATH>\headless_multi.py` | Multi-account spectator coordinator (--add-account) |
+| `<LADDER_REPO_PATH>\headless_client.py` | Headless Prismata client (login, spectate, raw_message_hook) |
+| `<LADDER_REPO_PATH>\aws\deploy_spectator.sh` | One-command VPS deployment |
 | `.clang-format` | C++ code style |
 | `.mcp.json` | MCP server config |
 
