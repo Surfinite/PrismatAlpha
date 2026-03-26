@@ -510,6 +510,31 @@ function processReplayData(replay) {
     cacheUnitInfo(analyzer.gameState, unitInfoCache);
 
     const initialSnapshot = buildSnapshot(analyzer, seq, []);
+
+    // Annotate first snapshot with match metadata and deck info
+    initialSnapshot.matchMeta = {
+        matchId: replay.code || 'unknown',
+        players: [
+            { id: 0, name: (replay.playerInfo && replay.playerInfo[0] && replay.playerInfo[0].displayName) || 'Player 1' },
+            { id: 1, name: (replay.playerInfo && replay.playerInfo[1] && replay.playerInfo[1].displayName) || 'Player 2' }
+        ]
+    };
+
+    // Build deck info for buy panel
+    if (replay.deckInfo && replay.deckInfo.mergedDeck) {
+        initialSnapshot.deckInfo = replay.deckInfo.mergedDeck.map(function(card) {
+            var displayName = card.UIName || card.name;
+            return {
+                cardId: toCardId(displayName),
+                displayName: displayName,
+                buyCost: card.buyCost || '0',
+                rarity: card.rarity || 'normal',
+                baseSet: !!card.baseSet,
+                supply: card.rarity === 'legendary' ? 1 : card.rarity === 'rare' ? 4 : card.rarity === 'trinket' ? 20 : 10
+            };
+        });
+    }
+
     snapshots.push(initialSnapshot);
     seq++;
 
