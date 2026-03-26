@@ -482,4 +482,86 @@ if (require.main === module) {
     main();
 }
 
-module.exports = { processReplay, loadReplay };
+/**
+ * Process a replay object directly (no file I/O).
+ * Returns array of BoardSnapshot objects.
+ */
+function processReplayData(replay) {
+    if (!replay.commandInfo || !replay.deckInfo || !replay.initInfo) {
+        throw new Error(
+            'Replay is not in API format (missing commandInfo/deckInfo/initInfo).'
+        );
+    }
+
+    const gameInitInfo = replayToGameInitInfo(replay);
+    const initOnly = {
+        laneInfo:      gameInitInfo.laneInfo,
+        mergedDeck:    gameInitInfo.mergedDeck,
+        scriptInfo:    gameInitInfo.scriptInfo,
+        objectiveInfo: null,
+        commandInfo:   null
+    };
+    const analyzer = new Analyzer(initOnly, -1, -1, null);
+    analyzer.loaderInit();
+
+    const snapshots = [];
+    let seq = 0;
+    const unitInfoCache = new Map();
+    cacheUnitInfo(analyzer.gameState, unitInfoCache);
+
+    const initialSnapshot = buildSnapshot(analyzer, seq, []);
+    snapshots.push(initialSnapshot);
+    seq++;
+
+    const cmdList = replay.commandInfo.commandList;
+    let prevPhase = analyzer.gameState.phase;
+    let prevTurn = analyzer.gameState.numTurns;
+    let prevAlive = collectAliveSet(analyzer.gameState);
+    let pendingEvents = [];
+
+    for (let i = 0; i < cmdList.length; i++) {
+        const cmd = cmdList[i];
+        if (String(cmd._type).indexOf('emote') === 0) continue;
+
+        const result = analyzer.recordClick(false, false, cmd._type, cmd._id, cmd._params);
+        if (!result || !result.canClick) continue;
+
+        const state = analyzer.gameState;
+        cacheUnitInfo(state, unitInfoCache);
+
+        const unitEvents = detectUnitEvents(prevAlive, state, unitInfoCache);
+        pendingEvents.push(...unitEvents);
+
+        const currPhase = state.phase;
+        const currTurn = state.numTurns;
+        const phaseChanged = currPhase !== prevPhase;
+        const turnChanged = currTurn !== prevTurn;
+
+        if (phaseChanged) {
+            pendingEvents.push({ type: 'phase_change', from: prevPhase, to: currPhase });
+        }
+        if (turnChanged) {
+            pendingEvents.push({ type: 'turn_start', turn: currTurn, activePlayer: state.turn });
+        }
+
+        if (phaseChanged || turnChanged || state.finished) {
+            const snap = buildSnapshot(analyzer, seq, pendingEvents);
+            snapshots.push(snap);
+            seq++;
+            pendingEvents = [];
+        }
+
+        prevPhase = currPhase;
+        prevTurn = currTurn;
+        prevAlive = collectAliveSet(state);
+    }
+
+    if (pendingEvents.length > 0) {
+        const snap = buildSnapshot(analyzer, seq, pendingEvents);
+        snapshots.push(snap);
+    }
+
+    return snapshots;
+}
+
+module.exports = { processReplay, processReplayData, loadReplay };
