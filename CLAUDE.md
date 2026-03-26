@@ -5,14 +5,14 @@
 > **Training plan V1**: `docs/plans/2026-03-06-training-plan-v1.md`
 > **Self-play master plan**: `docs/plans/2026-02-15-selfplay-training-master-plan.md`
 
-## Current Status (Mar 24, 2026)
+## Current Status (Mar 26, 2026)
 
-**feature/live-viewer branch** (in `<LADDER_REPO_PATH>`). Live spectating MVP working — PR #3 submitted.
+**prismata.live LIVE** — Split architecture: data box (t4g.micro OD, `<DATA_BOX_PRIVATE_IP>`) runs 6 bots + data pipeline; site box (t3.micro spot, EIP `<SITE_EIP>`) serves website. S3-synced every 60s. Bots survive spot recovery.
 
 **DeepSets models exported.** MB-only: 82.4% val acc. Human-only: 78.2%. Mixed: 82.2%. Five DSNN players configured.
 
 **Active work items:**
-1. **Live spectating** — PR #3 on <ladder>, 4 bot accounts on AWS VPS, auto-transition between games
+1. **prismata.live production** — split architecture deployed, several spectator bots on data box, S3 exports, auto-deploy webhook on site box
 2. **PixiJS viewer polish** — Wonderboat's visual feedback (font weight, icon sizing, sword direction, HP positioning, black outlines)
 3. **Evaluate DSNN models** — matchup tournaments vs SteamAI (deferred)
 
@@ -22,9 +22,7 @@ A C++ game engine and AI for **Prismata**, a turn-based perfect-information stra
 
 ## User Preferences
 
-- **Cost-conscious** — AWS bill shock ($805). No safety net. Prefer local compute.
-- Efficiency over speed — minimize API credits, maximize local PC
-- Comfortable with long-running unattended tasks (hours)
+- **Cost-conscious** — prefer local compute, minimize cloud spend
 - Git comfort: "noob" — explain clearly, always confirm before push/force
 - The user is "Surfinite" everywhere
 
@@ -47,17 +45,7 @@ Build via the Visual Studio solution in `visualstudio/`. Three executables:
 - **Static Release config**: If adding new source dirs, check Static Release has matching include paths.
 - **CI build uses `/p:PlatformToolset=v143`** (VS 2022) since runners don't have v145.
 
-**Training pipeline (legacy PrismataNet — selfplay shards):**
-```bash
-# Train (value-only, current approach):
-python training/train.py --selfplay-dir bin/training/data/selfplay/ --value-only --epochs 100 --batch-size 512 --lr 3e-4 --patience 15 --max-records 1000000
-
-# Full (policy + value, once policy accuracy improves):
-python training/train.py --selfplay-dir bin/training/data/selfplay/ --epochs 100 --batch-size 512 --lr 3e-4 --patience 15
-
-# Export weights
-python training/export_weights.py training/models/best_model.pt bin/asset/config/neural_weights.bin
-```
+**Legacy PrismataNet pipeline:** Superseded by DeepSets. See `training/train.py --help` and `training/export_weights.py` if needed.
 
 **Matchup runner (JS engine):**
 ```bash
@@ -162,6 +150,14 @@ python training/export_weights_v2.py \
 - **`npx next build` needs `--webpack`**: Next.js 16 defaults to Turbopack which fails with webpack config.
 - **VPS spectator files must be in repo**: `ws_broadcast.py`, `spectator_bridge.py` were VPS-only and got lost on deploy. Now tracked in git.
 - **`prismata_amf3.py` is the canonical module name**: Renamed from `prismata_sniffer.py`. Deploy script and all imports updated.
+- **S3 replay URL must be HTTPS**: `https://saved-games-alpha.s3.amazonaws.com/` (not `s3-website`). HTTP causes mixed content block on HTTPS sites.
+- **VPS deployment gotchas**: See memory file `project_prismata_live_infrastructure.md` for deploy script, credentials path, python symlink, disk constraints, and deploy key details.
+- **AWS default region is `eu-north-1`**: prismata.live infra is in `us-east-1`. Always pass `--region us-east-1`.
+- **ARM Ubuntu 24.04 has no `python` command**: Only `python3`. Subprocess calls to `python` fail silently. Data box has `/usr/bin/python` symlink.
+- **SSH to data box**: `ssh -i ~/.ssh/<SSH_KEY>.pem -o ProxyCommand="ssh -i ~/.ssh/<SSH_KEY>.pem -W %h:%p ubuntu@<SITE_EIP>" ubuntu@<DATA_BOX_PRIVATE_IP>`
+- **SpectatorBot3 (Client7) login fails**: Credentials invalid on Prismata server. Running several spectator bots.
+- **S3 export prefix is `exports/`**: Not `site-data/`. Data box uploads here, site box syncs from here.
+- **`headless_multi.py` has no `--quiet` flag**: Only `--add-account`. Don't add unknown flags to systemd ExecStart.
 
 ### Self-Play & Data
 
@@ -280,11 +276,11 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 
 ## Known Issues (Current)
 
-- **Neural policy head weak** — 13.3% accuracy. Unused for move ordering. [UNSURE IF TRUE]
 - **PUCT implemented but disabled** — `"UsePUCT": true` in config. Don't enable until policy >30%.
 - **C++ missing stagnation detection**: AS3 has 4-level progress counter. C++ only has flat 200-turn limit.
-- **C++ `killCardByID` may have cleanup bugs**: Originally documented as "missing death scripts" but Prismata has no on-death triggers — neither Centurion nor Valkyrion have any such mechanic. The actual bug (if any) is unknown; needs investigation. [UNSURE IF TRUE]
-- **Replay validation tests legality, not state correctness**: 50.4% pass rate validates action legality only.[UNSURE IF TRUE]
+- **Neural policy head weak** — 13.3% accuracy (unverified). Unused for move ordering.
+- **C++ `killCardByID` may have cleanup bugs** (unverified): Prismata has no on-death triggers — actual bug unknown.
+- **Replay validation tests legality, not state correctness** (unverified): 50.4% pass rate.
 
 ## Key Files
 
@@ -318,18 +314,11 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 | `js_engine/replay_exporter.js` | JS State → C++ GameState JSON converter |
 | `js_engine/replay_validator.js` | S3 replay validator (click-by-click) |
 | `gcp/launch_human_training.sh` | GCP human-only DeepSets training launcher |
-| `gcp/launch_mixed_training.sh` | GCP mixed MB+Human training launcher |
 | `aws/launch_deepsets_training.sh` | AWS mixed MB+Human DeepSets training |
-| `aws/launch_human_training.sh` | AWS human-only DeepSets training launcher |
-| `<LADDER_REPO_PATH>\ws_broadcast.py` | WebSocket broadcast server (late-joiner cache, seq dedup) |
-| `<LADDER_REPO_PATH>\spectator_bridge.py` | AMF3→JSON bridge, spectated flag annotation |
-| `<LADDER_REPO_PATH>\headless_multi.py` | Multi-account spectator coordinator (--add-account) |
-| `<LADDER_REPO_PATH>\headless_client.py` | Headless Prismata client (login, spectate, raw_message_hook) |
-| `<LADDER_REPO_PATH>\aws\deploy_spectator.sh` | One-command VPS deployment |
 | `.clang-format` | C++ code style |
 | `.mcp.json` | MCP server config |
 
-> Full file tables (cloud launchers, sniffer, commentary, replay parser, decompiled sources): `docs/CLAUDE_REFERENCE.md`
+> <ladder> repo files: see `<LADDER_REPO_PATH>\` directly. Full file tables: `docs/CLAUDE_REFERENCE.md`
 
 ## Documentation Index
 
@@ -337,18 +326,12 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 |---|---|
 | `docs/PROJECT_HISTORY.md` | Full chronological dev history (sections 1-29) |
 | `docs/CLAUDE_REFERENCE.md` | Extended reference (cloud, sniffer, commentary, full file tables) |
-| `docs/plans/2026-03-09-training-plan-v3-READY-v3.md` | Finalized, ready for implementation |
-| `docs/plans/META-REVIEW-2026-03-06-training-plan-v1-draft.md` | Training plan meta-review (7 reviews analyzed) |
-| `docs/superpowers/specs/2026-03-11-deepsets-schema-redesign-design.md` | Deep Sets schema |
-| `docs/superpowers/plans/2026-03-11-deepsets-implementation.md` | Deep Sets implementation plan |
+| `docs/plans/2026-03-09-training-plan-v3-READY-v3.md` | Training plan v3 (finalized) |
 | `docs/plans/2026-02-15-selfplay-training-master-plan.md` | Self-play training master plan |
 | `docs/cloud-ops-reference.md` | Cloud provider operational gotchas |
-| `docs/audit/` | Engine logic audit findings |
 | `training/FEATURES.md` | Neural net feature layout |
 | `docs/WEIGHT_FORMAT.md` | Binary weight format spec |
 | `docs/wiki/PRISMATA_REFERENCE.md` | Curated game knowledge reference |
-| `docs/plans/engine-logic-audit-plan-v2.md` | Engine audit plan (COMPLETE) |
-| `docs/commentary-knowledge/` | Strategy knowledge for commentator |
 | `docs/prismata-strategy-guide.md` | Comprehensive strategy guide |
 
 ## Replay API
