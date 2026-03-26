@@ -14,12 +14,15 @@
 
 ## Current Baseline
 
+1000-replay batch audit (`--batch 1000 --seed 42`, 997 successful, 3,252,714 unit-renders):
+
 | Metric | Value |
 |--------|-------|
-| Audit weighted parity | 52.2% |
+| Combined weighted parity | 51.8% |
 | Exact state parity | 41.6% |
 | Card layers implemented | 3/8 (backMC approximate, cardSkin exact, statusOverlay approximate) |
 | Board HUD elements | 0/6 |
+| Pre-session baseline (before color frames + stat labels) | 32.9% |
 
 ---
 
@@ -88,7 +91,73 @@ All measurements from AS3/PixiJS constants:
 | SKULL_SIZE | 54px | Death skull sprite |
 | SNOWFLAKE_SIZE | 44px | Chill snowflake sprite (0.3 scale of 148px source) |
 
-In Godot world units, the existing `pixel_size = 0.0078125` (1/128) makes a 128px sprite = 1.0 world unit. Card sprites are currently 128x128px textures rendered at 1.0×1.0 world units. The background frame (82×82px native) should be scaled to match — either by using 82px textures at `pixel_size = 1.0/82` or by scaling within the existing coordinate system.
+### Coordinate Strategy: Normalize to 1.0 World Unit
+
+The existing layout engine works in **card-width units** (1.0 = one card width). All new layers normalize to this system:
+
+- **Current state:** Card art sprites are 128×128px at `pixel_size = 1/128 = 0.0078125`, rendering as 1.0×1.0 world units.
+- **Background frames** (82×82px native): Use `pixel_size = 1.0/82 ≈ 0.01220` so they also render at 1.0×1.0 world units. The card art sits inside the same 1.0×1.0 space, with visual inset achieved by the art image having transparent padding or by scaling the art sprite to 72/82 ≈ 0.878 of background size.
+- **Overlay sprites** (82×82px): Same `pixel_size` as backgrounds — they're full-card overlays.
+- **Status icons** (18×18px): `pixel_size` scaled so they render at 18/82 ≈ 0.22 world units.
+- **Skull** (54×54px): renders at 54/82 ≈ 0.659 world units.
+
+All positioning within a card uses fractions of 1.0 (e.g., bottom-right icon at `(0.38, 0.38)` from card center). No raw pixel positions in GDScript — always normalized.
+
+**Card art inset:** The existing 128×128 card art sprites fill the full 1.0×1.0 space. To show the 5px border of the background frame, either:
+- (a) Crop/resize card art to 72×72 and scale to 72/82 of background, or
+- (b) Keep existing 128×128 art at slightly smaller scale (0.878) so the background frame border is visible around the edges.
+
+Option (b) is simpler — no asset re-extraction needed.
+
+---
+
+## Snapshot → GDScript Data Path
+
+The Godot viewer consumes pre-baked JSON snapshots from `replay_to_snapshots.js`. The data flows:
+
+```
+replay_to_snapshots.js → JSON file → FileProvider.gd → ReplayController.gd → Battlefield.gd → UnitNode.gd
+```
+
+`Battlefield._reconcile()` iterates `snapshot.players[p].units[]`, passing each unit's raw dictionary to `UnitNode.update_state(unit_data, owner)`. All snapshot fields are accessible via dictionary `.get()` calls in GDScript. **No data path changes needed** — the plumbing already passes the full unit dictionary.
+
+### Available Fields (per unit in snapshot)
+
+```
+stats.hp            int    Current health (maxHp - damage taken)
+stats.maxHp         int    Base health
+stats.attack        int    Attack value (from card definition)
+stats.chill         int    Chill amount (from card definition)
+state.mode          str    "idle" | "under_construction" | "exhausted"
+state.blocking      bool   Currently assigned as blocker
+state.attacking     bool   Currently assigned to attack (derived from role=assigned + attack>0)
+state.chilled       int    Disruption damage on this unit
+state.buildTurnsRemaining  int  Construction countdown
+state.lifespan      int    Turns remaining (-1 = infinite)
+state.delay         int    Delay turns remaining
+state.charge        int    Charge level
+state.fragile       bool   Unit is fragile (HP instead of toughness)
+state.frontline     bool   Unit is undefendable
+owner               int    0=P0/bottom/blue, 1=P1/top/red (passed separately by battlefield.gd)
+```
+
+### Derived Values (computed in GDScript)
+
+```
+damage = stats.maxHp - stats.hp         (for damage counter, absorb detection)
+isDead = not present in snapshot         (dead units removed by engine)
+isFullyChilled = state.chilled >= stats.hp
+isBottomPlayer = owner == 0             (P0 is always bottom)
+```
+
+### Not Yet in Snapshot (extend when needed)
+
+| Field | Needed by | Workaround |
+|-------|-----------|------------|
+| `boughtThisPhase` | COVER_INVBOUGHT vs INVSPAWN | Use INVSPAWN for all construction |
+| `role` (full enum) | COVER_PROMPT (sellable) | Skip PROMPT, mark unauditable |
+| `deadness` (cause) | Death effect type | Dead units already removed from snapshot |
+| `defaultBlocking` | SHADING_NOTBLOCK | Derive from card metadata (cardLibrary.jso) |
 
 ---
 
@@ -386,7 +455,7 @@ After each phase, update `GODOT_CAPABILITIES` in `tools/audit_visual_fidelity.js
 node tools/audit_visual_fidelity.js --batch 50 --seed 42
 ```
 
-Compare weighted parity against baseline (52.2%) and phase targets.
+Compare weighted parity against baseline (51.8%) and phase targets.
 
 ---
 
