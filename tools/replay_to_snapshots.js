@@ -90,6 +90,8 @@ function buildUnitSnapshot(inst) {
             chilled: inst.disruptDamage || 0,
             buildTurnsRemaining: inst.constructionTime || 0,
             lifespan: inst.lifespan != null ? inst.lifespan : -1,
+            delay: inst.delay || 0,
+            charge: inst.charge || 0,
             fragile: !!card.fragile,
             frontline: !!card.undefendable
         },
@@ -301,6 +303,39 @@ function processReplay(replayPath) {
 
     // --- Emit initial snapshot (seq 0) ---
     const initialSnapshot = buildSnapshot(analyzer, seq, []);
+
+    // Annotate first snapshot with match metadata
+    initialSnapshot.matchMeta = {
+        matchId: replay.code || 'unknown',
+        players: [
+            { id: 0, name: (replay.playerInfo && replay.playerInfo[0] && replay.playerInfo[0].displayName) || 'Player 1' },
+            { id: 1, name: (replay.playerInfo && replay.playerInfo[1] && replay.playerInfo[1].displayName) || 'Player 2' }
+        ]
+    };
+
+    // Build deck info for buy panel — only include cards with nonzero supply (buyable).
+    // Spawned units (e.g., Plasmafier via Savior) are in mergedDeck but have supply=0.
+    const gs = analyzer.gameState;
+    if (gs.cards && gs.whiteSupply && gs.blackSupply) {
+        initialSnapshot.deckInfo = [];
+        for (let di = 0; di < gs.cards.length; di++) {
+            const wsup = gs.whiteSupply[di] || 0;
+            const bsup = gs.blackSupply[di] || 0;
+            if (wsup > 0 || bsup > 0) {
+                const cardObj = gs.cards[di];
+                const dn = cardObj.UIName || cardObj.cardName;
+                initialSnapshot.deckInfo.push({
+                    cardId: toCardId(dn),
+                    displayName: dn,
+                    buyCost: cardObj.buyCost ? cardObj.buyCost.toString() : '0',
+                    rarity: cardObj.rarity || 'normal',
+                    baseSet: !!cardObj.baseSet,
+                    supply: wsup + bsup
+                });
+            }
+        }
+    }
+
     const initValidation = validateSnapshot(initialSnapshot);
     if (!initValidation.valid) {
         validationErrors.push({ seq: seq, errors: initValidation.errors });
@@ -520,19 +555,28 @@ function processReplayData(replay) {
         ]
     };
 
-    // Build deck info for buy panel
-    if (replay.deckInfo && replay.deckInfo.mergedDeck) {
-        initialSnapshot.deckInfo = replay.deckInfo.mergedDeck.map(function(card) {
-            var displayName = card.UIName || card.name;
-            return {
-                cardId: toCardId(displayName),
-                displayName: displayName,
-                buyCost: card.buyCost || '0',
-                rarity: card.rarity || 'normal',
-                baseSet: !!card.baseSet,
-                supply: card.rarity === 'legendary' ? 1 : card.rarity === 'rare' ? 4 : card.rarity === 'trinket' ? 20 : 10
-            };
-        });
+    // Build deck info for buy panel — only include cards with nonzero supply (buyable).
+    // Spawned units (e.g., Plasmafier via Savior) are in mergedDeck but have supply=0.
+    // Use gs.cards[] (game state card order) not mergedDeck[] (they differ in index).
+    var gs = analyzer.gameState;
+    if (gs.cards && gs.whiteSupply && gs.blackSupply) {
+        initialSnapshot.deckInfo = [];
+        for (var i = 0; i < gs.cards.length; i++) {
+            var ws = gs.whiteSupply[i] || 0;
+            var bs = gs.blackSupply[i] || 0;
+            if (ws > 0 || bs > 0) {
+                var card = gs.cards[i];
+                var displayName = card.UIName || card.cardName;
+                initialSnapshot.deckInfo.push({
+                    cardId: toCardId(displayName),
+                    displayName: displayName,
+                    buyCost: card.buyCost ? card.buyCost.toString() : '0',
+                    rarity: card.rarity || 'normal',
+                    baseSet: !!card.baseSet,
+                    supply: ws + bs
+                });
+            }
+        }
     }
 
     snapshots.push(initialSnapshot);
