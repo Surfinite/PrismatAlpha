@@ -254,6 +254,11 @@ tmp_stderr.txt
 
 # --- Tools directory (sniffer, advisor, stats — local only) ---
 tools/
+# Exception: Godot 3D viewer preprocessor tools
+!tools/card_id_map.js
+!tools/position_calculator.js
+!tools/snapshot_schema.js
+!tools/replay_to_snapshots.js
 
 # --- Cloud config (resource IDs, project names) ---
 cloud-config.env
