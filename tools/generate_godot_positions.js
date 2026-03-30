@@ -73,15 +73,14 @@ const SNOW_SIZE = 44;
  * Convert PixiJS top-left pixel coordinate to Godot world coordinate (center origin).
  * Card is CARD_HEIGHT x CARD_HEIGHT pixels = 1.0 x 1.0 world units.
  *
- * IMPORTANT: Card art has flip_v=true in Godot (needed for correct orientation).
- * This means SWF Y=0 (top) maps to Godot Z=+0.5 (screen bottom for top-down camera),
- * and SWF Y=82 (bottom) maps to Godot Z=-0.5 (screen top).
- * So Z is NEGATED: world_z = 0.5 - py/82 (not py/82 - 0.5).
+ * Camera: screen-up = world -Z. So SWF Y=0 (top) maps to negative Z (screen top),
+ * and SWF Y=82 (bottom) maps to positive Z (screen bottom).
+ * Formula: world_z = py/82 - 0.5
  */
 function pxToWorld(px_x, px_y) {
     return {
         x: Number((px_x / CARD_HEIGHT - 0.5).toFixed(4)),
-        z: Number((0.5 - px_y / CARD_HEIGHT).toFixed(4))   // negated for flip_v
+        z: Number((px_y / CARD_HEIGHT - 0.5).toFixed(4))
     };
 }
 

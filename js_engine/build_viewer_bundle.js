@@ -20,6 +20,7 @@ const CARD_BG_DIR = path.join(BIN_DIR, 'asset', 'images', 'cardbg');
 const ICON_STATUS_DIR = path.join(BIN_DIR, 'asset', 'images', 'icons', 'status');
 const ICON_RESOURCE_DIR = path.join(BIN_DIR, 'asset', 'images', 'icons', 'resource');
 const ICON_MOUSEOVER_DIR = path.join(BIN_DIR, 'asset', 'images', 'icons', 'mouseover');
+const ICON_HD_DIR = path.join(BIN_DIR, 'asset', 'images', 'icons', 'extracted_hd');
 const CARD_LIBRARY_PATH = path.join(BIN_DIR, 'asset', 'config', 'cardLibrary.jso');
 const DEFAULT_OUTPUT = path.join(JS_DIR, '..', '..', '<ladder>', '<ladder>-site', 'public', 'js', 'prismata-engine.js');
 
@@ -132,7 +133,7 @@ function buildCardMetadata(cardLibrary) {
 function collectSmallAssets() {
     const assets = {};
     const bgFiles = {
-        'bg_dead':          'Card_Dead.png',       // BACK_DEAD (0)
+        'bg_dead':          'Card_Inver.png',      // BACK_DEAD (0) — inverted bg for dead units
         'bg_block':         'Card_Blue.png',       // BACK_BLOCK (1)
         'bg_busy':          'Card_Grey.png',       // BACK_BUSY (2)
         'bg_absorb':        'Card_Orange.png',     // BACK_ABSORB (3)
@@ -143,6 +144,8 @@ function collectSmallAssets() {
         'bg_busyblue':      'Card_BlueGrey.png',   // BACK_BUSYBLUE (8) — default P0
         'bg_busyred':       'Card_RedGrey.png',    // BACK_BUSYRED (9) — default P1
         'bg_border_green':  'Card_Border_Green.png',
+        'skull_death':      'Card_Dead.png',        // SkullEffect.as — skull overlay for dead units
+        'icon_cage':        'highlight_cage2.png',  // COVER_ASSIGNED — cage overlay for assigned units
         'chill_snowflake':  'Card_Chilled.png',     // ChillSnowflake effect overlay
     };
     for (const [key, file] of Object.entries(bgFiles)) {
@@ -158,7 +161,10 @@ function collectSmallAssets() {
         'icon_charge3': 'status_charge3.png', 'icon_undefendable': 'status_undefendable.png',
         'icon_shield_blue': 'highlight_blueshield.png', 'icon_shield_gold': 'highlight_goldshield.png',
         'icon_shield_white': 'highlight_whiteshield.png', 'icon_shield_whiteb': 'highlight_whiteshieldB.png',
-        'icon_shield_red': 'highlight_redshield.png', 'icon_clock': 'clock.png'
+        'icon_shield_red': 'highlight_redshield.png', 'icon_clock': 'clock.png',
+        'icon_damagebang': 'highlight_damagebang.png',   // COVER_BANG — damage burst overlay
+        'icon_blackclock': 'highlight_blackclock.png',   // COVER_INVSPAWN — construction clock
+        'icon_goldclock': 'highlight_goldclock.png',     // COVER_INVBOUGHT — just-bought clock
     };
     for (const [key, file] of Object.entries(statusFiles)) {
         const data = readImageBase64(path.join(ICON_STATUS_DIR, file));
@@ -172,13 +178,27 @@ function collectSmallAssets() {
         const data = readImageBase64(path.join(ICON_RESOURCE_DIR, file));
         if (data) assets[key] = data;
     }
-    // Hi-res mouseover icons (sword, shield for attack/defense display)
+    // Mouseover icons (colored swords for attack display)
     const mouseoverFiles = {
         'sword_red': 'attack_big_red.png',
-        'shield_big': 'shield_big.png',
+        'sword_blue': 'attack_big_blue.png',
     };
     for (const [key, file] of Object.entries(mouseoverFiles)) {
         const data = readImageBase64(path.join(ICON_MOUSEOVER_DIR, file));
+        if (data) assets[key] = data;
+    }
+    // HD sprites extracted from SWF sprite sheet (108x108 shield/sword, 97x97 breach icons)
+    const hdFiles = {
+        'shield_big': 'shield_big.png',
+        'shield_big_glow': 'shield_big_glow.png',  // red glow variant for breach threat
+        'sword_big': 'sword_big.png',
+        'sword_large': 'sword_large.png',           // 461x461 large sword for Big Sword HUD
+        'interro': 'interro.png',                   // breach warning octagon "!"
+        'interro2': 'interro2.png',                 // wipeout warning
+        'tap_big': 'tap_big.png',                   // chill/tap icon
+    };
+    for (const [key, file] of Object.entries(hdFiles)) {
+        const data = readImageBase64(path.join(ICON_HD_DIR, file));
         if (data) assets[key] = data;
     }
     console.error(`Small assets: ${Object.keys(assets).length} (bg + icons)`);

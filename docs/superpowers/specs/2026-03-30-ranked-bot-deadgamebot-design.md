@@ -10,12 +10,12 @@ Prismata's player base is small. New players (like Tasselfoot) queue for ranked 
 
 ## Solution
 
-An always-listening bot account (**DeadGameBot**) that queues ranked on demand when a player presses a button on `gamedead.prismata.live`. The bot plays using Steam's `PrismataAI.exe` (Master Bot) with 7s think time — the same AI that's already in the game, just available in ranked.
+An always-listening bot account (**DeadGameBot**) that queues ranked on demand when a player presses a button on `deadgame.prismata.live`. The bot plays using Steam's `PrismataAI.exe` (Master Bot) with 7s think time — the same AI that's already in the game, just available in ranked.
 
 ## Architecture
 
 ```
-gamedead.prismata.live              Your PC (Windows)
+deadgame.prismata.live              Your PC (Windows)
 ┌──────────────────────┐           ┌──────────────────────────┐
 │  "Queue DeadGameBot" │  polling  │  ranked_bot.py           │
 │   button             │◄─────────│                          │
@@ -55,7 +55,7 @@ IDLE ──trigger──→ QUEUING ──matched──→ PLAYING ──game ov
                      └──timeout 60s─────────────────────────────┘
 ```
 
-- **IDLE**: Connected to Prismata server, authenticated, polling gamedead.prismata.live for queue requests. Not in any queue.
+- **IDLE**: Connected to Prismata server, authenticated, polling deadgame.prismata.live for queue requests. Not in any queue.
 - **QUEUING**: Sent ranked queue message, waiting for match. Times out after ~60s and returns to IDLE.
 - **PLAYING**: In a game. Each turn: convert server state → call PrismataAI.exe → send clicks back. Returns to IDLE after GameOver.
 - **OFFLINE**: Bot process not running (site shows "offline").
@@ -105,7 +105,7 @@ Python reimplementation of `js_engine/steam_ai.js` (~30 lines):
 
 **5. TriggerPoller**
 
-- Polls `GET https://gamedead.prismata.live/api/bot/status` every 5s
+- Polls `GET https://deadgame.prismata.live/api/bot/status` every 5s
 - When `pending_request` is true, transitions bot to QUEUING
 - Sends heartbeat via `POST /api/bot/heartbeat` every 10s (so site knows bot is online)
 - Reports state changes: `POST /api/bot/update-status { state: "idle"|"queuing"|"playing" }`
@@ -157,7 +157,7 @@ Server clicks may use a different format than PrismataAI output clicks. Prismata
 
 The server's `Click` message format will be captured during protocol sniffing. If the format differs, a translation layer converts between them.
 
-## Trigger Site (`gamedead.prismata.live`)
+## Trigger Site (`deadgame.prismata.live`)
 
 ### Backend
 
@@ -197,12 +197,12 @@ Single HTML page. Minimal:
 Same pattern as `fabricate.prismata.live`:
 - nginx vhost on site box proxying to port 3101
 - certbot SSL certificate
-- Or: add `/gamedead/` routes to the existing fabricate Express server to avoid a separate service
+- Or: add `/deadgame/` routes to the existing fabricate Express server to avoid a separate service
 
 ### Deployment
 
 Either:
-- **Separate service**: `gamedead.service` on port 3101, own nginx vhost
+- **Separate service**: `deadgame.service` on port 3101, own nginx vhost
 - **Shared with fabricate**: add routes to fabricate's Express server, reuse port 3100
 
 Recommendation: **separate service** — keeps concerns isolated, easy to stop/start independently.
@@ -259,7 +259,7 @@ Before implementation, we need to capture two sets of protocol messages using th
 - Test: bot queues ranked, plays a game (spectatable from another account)
 - Handle edge cases: queue timeout, disconnect during game, opponent resignation
 
-### Phase 4: Trigger Site (gamedead.prismata.live)
+### Phase 4: Trigger Site (deadgame.prismata.live)
 - Express server on site box with status/queue/heartbeat endpoints
 - Single-page frontend with button, status, cooldown
 - nginx vhost + SSL
@@ -281,12 +281,12 @@ Before implementation, we need to capture two sets of protocol messages using th
 | `bot/headless_game_client.py` | Server connection + game-playing protocol |
 | `bot/steam_ai_bridge.py` | PrismataAI.exe subprocess wrapper |
 | `bot/game_player.py` | Turn loop and state conversion |
-| `bot/trigger_poller.py` | Polls gamedead.prismata.live for queue requests |
+| `bot/trigger_poller.py` | Polls deadgame.prismata.live for queue requests |
 | `bot/config.py` | Account credentials, paths, settings |
-| `gamedead/server.js` | Express trigger server (site box) |
-| `gamedead/public/index.html` | Frontend SPA |
-| `gamedead/gamedead.service` | systemd unit |
-| `gamedead/gamedead.nginx.conf` | nginx vhost |
+| `deadgame/server.js` | Express trigger server (site box) |
+| `deadgame/public/index.html` | Frontend SPA |
+| `deadgame/deadgame.service` | systemd unit |
+| `deadgame/deadgame.nginx.conf` | nginx vhost |
 
 ## Account
 
