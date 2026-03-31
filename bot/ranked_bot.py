@@ -53,6 +53,7 @@ class DeadGameBot:
         self.player = GamePlayer(self.bridge, self.client, state_bridge=self.state_bridge)
         self.poller = TriggerPoller()
         self._queue_start = 0
+        self._pending_requeue = False
 
         # Wire up message handling
         self.client.on_message = self._on_message
@@ -135,6 +136,11 @@ class DeadGameBot:
             else:
                 self._set_state(self.PLAYING)
                 self.player.handle_message(["BeginGame", inner[1]])
+        elif msg_type == "QuitGame" and self._pending_requeue:
+            # Stale game fully cleared — re-send the original StartBotGame
+            log.info("Stale game cleared, re-queuing for bot game")
+            self._pending_requeue = False
+            self.queue_for_bot_game()
         elif self.state == self.PLAYING:
             self.player.handle_message(inner)
         elif msg_type == "SplashToLobby":
@@ -162,7 +168,8 @@ class DeadGameBot:
         self.client.send_finish_game(game_id, winner_index=winner,
                                      player_index=our_idx, duration=0, resigned=True)
         self.client.send_standup_game(game_id)
-        log.info("Resigned abandoned game, waiting for lobby")
+        self._pending_requeue = True
+        log.info("Resigned abandoned game, will re-queue after QuitGame")
 
     def _wait_for_lobby(self, timeout=30):
         """Poll messages until lobby_ready or timeout."""
