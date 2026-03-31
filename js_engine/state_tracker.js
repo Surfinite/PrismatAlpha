@@ -301,6 +301,46 @@ function handleInit(cmd) {
 }
 
 /**
+ * REINIT — re-initialize from mergedDeck + full commandList (both players' clicks).
+ *
+ * Used in bot games where Master Bot's clicks are invisible to the client.
+ * After ObserveTopGame, the server sends BeginGame with commandInfo containing
+ * ALL clicks. We rebuild the state tracker from scratch each turn.
+ *
+ * The Analyzer's loaderInit() natively replays commandInfo.commandList,
+ * so we just build gameInitInfo with commandInfo included.
+ *
+ * @param {{ mergedDeck: Object[], commandInfo: { commandList: Object[], clicksPerTurn: number[] } }} cmd
+ * @returns {{ ok: boolean, turn?: number, error?: string }}
+ */
+function handleReinit(cmd) {
+    if (!Array.isArray(cmd.mergedDeck) || cmd.mergedDeck.length === 0) {
+        return { ok: false, error: 'REINIT requires non-empty mergedDeck array' };
+    }
+    if (!cmd.commandInfo || !Array.isArray(cmd.commandInfo.commandList)) {
+        return { ok: false, error: 'REINIT requires commandInfo with commandList array' };
+    }
+    try {
+        const gameInitInfo = buildGameInitInfo(cmd.mergedDeck);
+        // Attach commandInfo so Analyzer.loaderInit() replays all clicks
+        gameInitInfo.commandInfo = {
+            commandList: cmd.commandInfo.commandList,
+            clicksPerTurn: cmd.commandInfo.clicksPerTurn || [],
+            gamePosition: cmd.commandInfo.commandList.length,
+        };
+        analyzer = new Analyzer(gameInitInfo, -1, -1, null);
+        analyzer.loaderInit();
+        const turn = analyzer.gameState.numTurns;
+        const phase = analyzer.gameState.phase;
+        process.stderr.write(`[state_tracker] REINIT: replayed ${cmd.commandInfo.commandList.length} clicks, turn=${turn}, phase=${phase}\n`);
+        return { ok: true, turn, phase };
+    } catch (err) {
+        analyzer = null;
+        return { ok: false, error: String(err) };
+    }
+}
+
+/**
  * EXPORT — serialize current game state to JSON object.
  *
  * @returns {{ ok: boolean, state?: Object, error?: string }}
@@ -405,6 +445,9 @@ rl.on('line', (line) => {
     switch (cmd.cmd) {
         case 'INIT':
             resp = handleInit(cmd);
+            break;
+        case 'REINIT':
+            resp = handleReinit(cmd);
             break;
         case 'EXPORT':
             resp = handleExport();

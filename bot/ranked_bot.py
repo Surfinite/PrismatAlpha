@@ -54,6 +54,7 @@ class DeadGameBot:
         self.poller = TriggerPoller()
         self._queue_start = 0
         self._pending_requeue = False
+        self._bot_game_mode = False  # set True when --bot-game is used
 
         # Wire up message handling
         self.client.on_message = self._on_message
@@ -120,7 +121,47 @@ class DeadGameBot:
 
         msg_type = inner[0]
 
+        # --- Challenge handling ---
+        if msg_type == "challenged":
+            peer_id = inner[1] if len(inner) > 1 else None
+            log.info("Incoming challenge from peer %s — auto-accepting", peer_id)
+            if peer_id is not None:
+                self.player.reset()
+                self.player.client_username = self.client.username
+                self.client.accept_challenge(peer_id)
+                self._set_state(self.QUEUING)
+                self._queue_start = time.time()
+            return
+
+        if msg_type == "JoinTable":
+            # Determine our player index from JoinTable and send ready
+            players = inner[1] if len(inner) > 1 else []
+            if isinstance(players, list) and len(players) > 0:
+                # JoinTable wraps in an extra array: [["P0", "P1"]]
+                names = players[0] if isinstance(players[0], list) else players
+                username = self.client.username
+                our_idx = 0
+                for i, name in enumerate(names):
+                    if name == username:
+                        our_idx = i
+                        break
+                log.info("JoinTable: players=%s, we are index %d — sending ready", names, our_idx)
+                self.client.send_ready(our_idx)
+            return
+
+        if msg_type in ("challengeAccepted", "tableUpdate"):
+            log.info("Challenge setup: %s", msg_type)
+            return
+
         if msg_type == "BeginGame":
+            # Check if this is an observation refresh (ObserveTopGame response)
+            if (self.state == self.PLAYING and self.player._awaiting_state_refresh
+                    and self.player.game_id):
+                obs_info = inner[1] if len(inner) > 1 else {}
+                obs_game_id = obs_info.get("liveGameID")
+                if obs_game_id == self.player.game_id:
+                    self.player.handle_observation_begin_game(inner)
+                    return
             if self.state == self.IDLE:
                 # Resumed game from a previous crash — resign it
                 self._abandon_resumed_game(inner)
@@ -139,10 +180,12 @@ class DeadGameBot:
                 self._set_state(self.PLAYING)
                 self.player.handle_message(["BeginGame", inner[1]])
         elif msg_type == "QuitGame" and self._pending_requeue:
-            # Stale game fully cleared — re-send the original StartBotGame
-            log.info("Stale game cleared, re-queuing for bot game")
             self._pending_requeue = False
-            self.queue_for_bot_game()
+            if self._bot_game_mode:
+                log.info("Stale game cleared, re-queuing for bot game")
+                self.queue_for_bot_game()
+            else:
+                log.info("Stale game cleared, returning to idle")
         elif self.state == self.PLAYING:
             self.player.handle_message(inner)
         elif msg_type == "SplashToLobby":
@@ -237,6 +280,7 @@ def main():
             log.warning("Did not receive SplashToLobby within 30s")
         log.info(f"Ready. State: {bot.state}")
         if args.bot_game:
+            bot._bot_game_mode = True
             bot.queue_for_bot_game()
         else:
             bot.queue_for_ranked()

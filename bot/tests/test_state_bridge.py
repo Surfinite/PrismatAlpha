@@ -63,3 +63,81 @@ class TestStateBridgeLifecycle:
         bridge.start(MINI_DECK)
         bridge.close()
         bridge.close()
+
+
+class TestReinit:
+    def test_reinit_with_empty_clicks(self):
+        """REINIT with no clicks should produce a fresh initial state."""
+        bridge = StateBridge()
+        try:
+            bridge.start(MINI_DECK)
+            result = bridge.reinit_from_clicks(MINI_DECK, {
+                "commandList": [],
+                "clicksPerTurn": [],
+            })
+            assert result["ok"] is True
+            # numTurns starts at 1 in the Analyzer (turn 0 = P0's first turn)
+            assert result["turn"] >= 0
+        finally:
+            bridge.close()
+
+    def test_reinit_replays_clicks(self):
+        """REINIT with clicks should advance the state past turn 0."""
+        bridge = StateBridge()
+        try:
+            bridge.start(MINI_DECK)
+            # Play a minimal turn: shift-click Drones (inst 0), buy Drone (card 0),
+            # then space to commit. This is the standard opening.
+            clicks = [
+                {"_type": "inst shift clicked", "_id": 0},
+                {"_type": "card clicked", "_id": 0},
+                {"_type": "card clicked", "_id": 0},
+                {"_type": "space clicked", "_id": -1},
+            ]
+            result = bridge.reinit_from_clicks(MINI_DECK, {
+                "commandList": clicks,
+                "clicksPerTurn": [4],
+            })
+            assert result["ok"] is True
+            assert result["turn"] >= 1
+        finally:
+            bridge.close()
+
+    def test_reinit_overwrites_previous_state(self):
+        """REINIT should create a fresh state, not build on old state."""
+        bridge = StateBridge()
+        try:
+            bridge.start(MINI_DECK)
+            # Apply some clicks first
+            bridge.apply_clicks([
+                {"_type": "inst shift clicked", "_id": 0},
+                {"_type": "card clicked", "_id": 0},
+            ])
+            # REINIT with empty clicks — should be back to initial state
+            result = bridge.reinit_from_clicks(MINI_DECK, {
+                "commandList": [],
+                "clicksPerTurn": [],
+            })
+            assert result["ok"] is True
+            # Verify export shows fresh initial state (turn 0, action phase)
+            export = bridge.export_state()
+            assert export["ok"] is True
+            assert export["state"]["turn"] == 0
+            assert export["state"]["phase"] == "action"
+        finally:
+            bridge.close()
+
+    def test_reinit_without_start_works(self):
+        """REINIT should work even if the process was already started (idempotent)."""
+        bridge = StateBridge()
+        try:
+            # Start once
+            bridge.start(MINI_DECK)
+            # REINIT directly
+            result = bridge.reinit_from_clicks(MINI_DECK, {
+                "commandList": [],
+                "clicksPerTurn": [],
+            })
+            assert result["ok"] is True
+        finally:
+            bridge.close()

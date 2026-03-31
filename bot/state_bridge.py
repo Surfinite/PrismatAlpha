@@ -67,6 +67,24 @@ class StateBridge:
         except (ValueError, OSError):
             pass
 
+    def reinit_from_clicks(self, merged_deck, command_info):
+        """Re-initialize the state tracker with full click history (both players).
+
+        Used after ObserveTopGame to rebuild state from authoritative commandInfo.
+
+        Args:
+            merged_deck: list, the mergedDeck from BeginGame.
+            command_info: dict with 'commandList' and 'clicksPerTurn' arrays.
+
+        Returns:
+            dict with 'ok', 'turn', 'phase' keys.
+        """
+        return self._send({
+            'cmd': 'REINIT',
+            'mergedDeck': merged_deck,
+            'commandInfo': command_info,
+        })
+
     def export_state(self):
         """Export current game state. Returns dict with 'ok' and 'state' keys."""
         return self._send({'cmd': 'EXPORT'})

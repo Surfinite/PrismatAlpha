@@ -554,6 +554,36 @@ class PrismataClient:
         """Send Endgrace to skip the pre-game countdown."""
         self._send_main(["Endgrace", game_id])
 
+    def accept_challenge(self, peer_id):
+        """Accept an incoming challenge from another player.
+
+        Args:
+            peer_id: int, the challenger's peer ID from the 'challenged' message.
+        """
+        self._send_main(["ChallengeAccept", peer_id])
+
+    def send_ready(self, player_index):
+        """Send ready status for table setup (PvP challenges).
+
+        Args:
+            player_index: int, our index in the JoinTable players array.
+        """
+        players = [{} for _ in range(2)]
+        players[player_index] = {"ready": True}
+        self._send_main(["SetTableParams", {"players": players}])
+
+    def send_observe_game(self, game_id):
+        """Send ObserveTopGame to get full game state with all clicks.
+
+        The server responds with BeginGame containing commandInfo with
+        the complete commandList (both players' clicks). Used in bot games
+        to refresh the state tracker each turn.
+
+        Args:
+            game_id: UUID string from BeginGame.
+        """
+        self._send_main(["ObserveTopGame", game_id])
+
     def send_loading_complete(self, game_id):
         """Report loading complete to the server.
 

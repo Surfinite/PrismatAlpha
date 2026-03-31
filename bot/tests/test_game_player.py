@@ -11,20 +11,30 @@ from bot.game_player import GamePlayer
 class FakeStateBridge:
     """Mock StateBridge that records calls and returns canned responses."""
 
-    def __init__(self, start_ok=True, export_state=None, apply_clicks_ok=True):
+    def __init__(self, start_ok=True, export_state=None, apply_clicks_ok=True,
+                 reinit_ok=True):
         self._start_ok = start_ok
         self._export_state = export_state or {
             "ok": True,
             "state": {"turnNumber": 0, "phase": "action"},
         }
         self._apply_clicks_ok = apply_clicks_ok
+        self._reinit_ok = reinit_ok
         self.started_with = None
         self.applied_clicks = []
+        self.reinit_calls = []
         self.closed = False
 
     def start(self, merged_deck):
         self.started_with = merged_deck
         return {"ok": self._start_ok}
+
+    def reinit_from_clicks(self, merged_deck, command_info):
+        self.reinit_calls.append({"merged_deck": merged_deck, "command_info": command_info})
+        if self._reinit_ok:
+            click_count = len(command_info.get("commandList", []))
+            return {"ok": True, "turn": click_count // 2, "phase": "action"}
+        return {"ok": False, "error": "reinit failed"}
 
     def export_state(self):
         return dict(self._export_state)
@@ -238,16 +248,17 @@ class TestTurnTracking:
 
 class TestOpponentClicks:
     def test_click_appended_to_command_list(self):
+        """S->C Click format: ["Click", {_type, _id}]"""
         gp = GamePlayer(bridge=None, client=None)
-        gp.handle_message(["Click", "game-id", {"_type": "card clicked", "_id": 5}])
+        gp.handle_message(["Click", {"_type": "card clicked", "_id": 5}])
         assert len(gp.command_list) == 1
         assert gp.command_list[0]["_id"] == 5
 
     def test_multiple_clicks_accumulated(self):
         gp = GamePlayer(bridge=None, client=None)
-        gp.handle_message(["Click", "game-id", {"_type": "card clicked", "_id": 1}])
-        gp.handle_message(["Click", "game-id", {"_type": "card clicked", "_id": 2}])
-        gp.handle_message(["Click", "game-id", {"_type": "space clicked", "_id": -1}])
+        gp.handle_message(["Click", {"_type": "card clicked", "_id": 1}])
+        gp.handle_message(["Click", {"_type": "card clicked", "_id": 2}])
+        gp.handle_message(["Click", {"_type": "space clicked", "_id": -1}])
         assert len(gp.command_list) == 3
 
 
@@ -349,10 +360,11 @@ class TestBuildAIRequest:
 
 class TestOpponentClickFlushing:
     def test_opponent_clicks_flushed(self):
+        """S->C Click format: ["Click", {_type, _id}]"""
         fake = FakeStateBridge()
         gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
-        gp.handle_message(["Click", "game-id", {"_type": "card clicked", "_id": 5}])
-        gp.handle_message(["Click", "game-id", {"_type": "card clicked", "_id": 6}])
+        gp.handle_message(["Click", {"_type": "card clicked", "_id": 5}])
+        gp.handle_message(["Click", {"_type": "card clicked", "_id": 6}])
         gp._flush_opponent_clicks()
         assert len(fake.applied_clicks) == 2
         assert fake.applied_clicks[0]["_id"] == 5
@@ -361,7 +373,7 @@ class TestOpponentClickFlushing:
     def test_flush_clears_buffer(self):
         fake = FakeStateBridge()
         gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
-        gp.handle_message(["Click", "game-id", {"_type": "card clicked", "_id": 1}])
+        gp.handle_message(["Click", {"_type": "card clicked", "_id": 1}])
         gp._flush_opponent_clicks()
         assert gp._pending_opponent_clicks == []
 
@@ -376,8 +388,67 @@ class TestOpponentClickFlushing:
 # ManyClicks
 # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
+# State refresh (ObserveTopGame for bot games)
+# ------------------------------------------------------------------
+
+class TestObservationStateRefresh:
+    def test_handle_observation_begin_game_extracts_command_info(self):
+        """Observation BeginGame should extract commandInfo and clear awaiting flag."""
+        fake = FakeStateBridge()
+        gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
+        gp._awaiting_state_refresh = True
+
+        cmd_info = {
+            "commandList": [
+                {"_type": "inst shift clicked", "_id": 0},
+                {"_type": "card clicked", "_id": 4},
+                {"_type": "space clicked", "_id": -1},
+            ],
+            "clicksPerTurn": [3],
+        }
+        obs_msg = ["BeginGame", {
+            "liveGameID": "test-game",
+            "commandInfo": cmd_info,
+        }]
+        gp.handle_observation_begin_game(obs_msg)
+
+        assert gp._awaiting_state_refresh is False
+        assert gp._refresh_command_info is not None
+        assert len(gp._refresh_command_info["commandList"]) == 3
+
+    def test_handle_observation_ignored_when_not_awaiting(self):
+        """Should be a no-op if not awaiting refresh."""
+        gp = GamePlayer(bridge=None, client=None)
+        gp._awaiting_state_refresh = False
+        gp.handle_observation_begin_game(["BeginGame", {"commandInfo": {"commandList": []}}])
+        assert gp._refresh_command_info is None
+
+    def test_reset_clears_refresh_state(self):
+        gp = GamePlayer(bridge=None, client=None)
+        gp._awaiting_state_refresh = True
+        gp._refresh_command_info = {"commandList": []}
+        gp.reset()
+        assert gp._awaiting_state_refresh is False
+        assert gp._refresh_command_info is None
+
+    def test_is_our_turn_always_true_for_bot_games(self):
+        """In format 201, every StartTurn is ours."""
+        gp = GamePlayer(bridge=None, client=None)
+        gp.our_player_index = 0
+        gp.format = 201
+        for turn in range(10):
+            gp.current_turn = turn
+            assert gp._is_our_turn()
+
+
+# ------------------------------------------------------------------
+# ManyClicks
+# ------------------------------------------------------------------
+
 class TestManyClicks:
     def test_many_clicks_buffered(self):
+        """S->C ManyClicks format: ["ManyClicks", [{_type, _id}, ...]]"""
         fake = FakeStateBridge()
         gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
         clicks = [
@@ -385,6 +456,6 @@ class TestManyClicks:
             {"_type": "card clicked", "_id": 2},
             {"_type": "space clicked", "_id": -1},
         ]
-        gp.handle_message(["ManyClicks", "game-id", clicks])
+        gp.handle_message(["ManyClicks", clicks])
         assert len(gp._pending_opponent_clicks) == 3
         assert len(gp.command_list) == 3

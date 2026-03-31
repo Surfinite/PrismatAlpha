@@ -60,11 +60,16 @@ class GamePlayer:
 
         # Loading state — deferred to survive disconnect/reconnect cycle
         self._loading_sent = False
+        self._loading_sent_time = None
         self._begin_game_time = None
         self._saw_disconnect = False
 
         # Resignation tracking
         self._consecutive_low_evals = 0
+
+        # State refresh (bot games): observation BeginGame with full commandInfo
+        self._awaiting_state_refresh = False
+        self._refresh_command_info = None
 
         # Load AI params once at construction
         self._load_ai_params()
@@ -103,8 +108,11 @@ class GamePlayer:
         self._consecutive_low_evals = 0
         self._pending_opponent_clicks = []
         self._loading_sent = False
+        self._loading_sent_time = None
         self._begin_game_time = None
         self._saw_disconnect = False
+        self._awaiting_state_refresh = False
+        self._refresh_command_info = None
         if self.state_bridge:
             self.state_bridge.close()
 
@@ -272,6 +280,67 @@ class GamePlayer:
             return True  # bot games: every StartTurn is ours
         return (self.current_turn % 2) == self.our_player_index
 
+    def _refresh_state_for_bot_game(self):
+        """Refresh the state tracker using ObserveTopGame (bot games only).
+
+        Sends ObserveTopGame to get a BeginGame with full commandInfo containing
+        ALL clicks (both players). Rebuilds the state tracker from scratch so
+        PrismataAI.exe sees the correct board state including Master Bot's moves.
+
+        Returns True if refresh succeeded, False otherwise (falls back to stale state).
+        """
+        if not self.client or not self.game_id or not self.state_bridge:
+            return False
+
+        log.info("Refreshing state via ObserveTopGame for game %s", self.game_id)
+        self._awaiting_state_refresh = True
+        self._refresh_command_info = None
+        self.client.send_observe_game(self.game_id)
+
+        # Pump messages until we get the observation BeginGame (or timeout)
+        deadline = time.time() + 10.0
+        while self._awaiting_state_refresh and time.time() < deadline:
+            if self.client:
+                self.client.pump_messages(timeout=0.2)
+
+        if self._refresh_command_info is None:
+            log.warning("State refresh timed out — proceeding with stale state")
+            self._awaiting_state_refresh = False
+            return False
+
+        # REINIT the state tracker with the full click history
+        cmd_info = self._refresh_command_info
+        self._refresh_command_info = None
+        click_count = len(cmd_info.get("commandList", []))
+        result = self.state_bridge.reinit_from_clicks(self.merged_deck, cmd_info)
+        if result.get("ok"):
+            log.info("State tracker reinit OK: %d clicks replayed, turn=%s phase=%s",
+                     click_count, result.get("turn"), result.get("phase"))
+            return True
+        else:
+            log.error("State tracker reinit FAILED: %s", result.get("error"))
+            return False
+
+    def handle_observation_begin_game(self, msg):
+        """Handle a BeginGame from ObserveTopGame (state refresh, not a new game).
+
+        Called by RankedBot when it detects the BeginGame is for our current game
+        while we're awaiting a state refresh.
+
+        Args:
+            msg: the inner BeginGame message [\"BeginGame\", init_info].
+        """
+        if not self._awaiting_state_refresh:
+            log.warning("Received observation BeginGame but not awaiting refresh")
+            return
+
+        info = msg[1] if len(msg) > 1 else {}
+        cmd_info = info.get("commandInfo", {})
+        click_count = len(cmd_info.get("commandList", []))
+        log.info("Observation BeginGame received: %d clicks in commandList", click_count)
+        self._refresh_command_info = cmd_info
+        self._awaiting_state_refresh = False
+
     def _play_turn(self):
         """Execute our turn: EndSwoosh -> get AI move -> send clicks -> EndTurn."""
         if not self.client or not self.game_id:
@@ -282,6 +351,10 @@ class GamePlayer:
 
         # 1. Send EndSwoosh (required before any clicks)
         self.client.send_end_swoosh(self.game_id, self.current_turn)
+
+        # 1b. In bot games, refresh state tracker from server (gets MB's clicks)
+        if self.format == 201 and self.state_bridge and self.current_turn > 0:
+            self._refresh_state_for_bot_game()
 
         # 2. Check resignation before requesting AI move
         if self.should_resign():
@@ -303,11 +376,13 @@ class GamePlayer:
         ai_thread = threading.Thread(target=run_ai, daemon=True)
         ai_thread.start()
 
-        # Keep connection alive (respond to Pings) while AI thinks
+        # Keep connection alive (respond to Pings) while AI thinks.
+        # Use short timeout so we respond to Pings within 0.5s
+        # (server Pings every 3s; too-slow responses cause PlayerDisconnected).
         while not ai_done.is_set():
             if self.client:
-                self.client.pump_messages(timeout=1)
-            ai_done.wait(timeout=0.1)
+                self.client.pump_messages(timeout=0.2)
+            ai_done.wait(timeout=0.05)
 
         clicks = ai_result[0]
         if clicks is None:
@@ -415,6 +490,9 @@ class GamePlayer:
             return None
 
         game_state = export["state"]
+        log.info("State export: turn=%s numTurns=%s phase=%s table_size=%s",
+                 game_state.get("turn"), game_state.get("numTurns"),
+                 game_state.get("phase"), len(game_state.get("table", [])))
         # HardestAI always gets short params (index 6 in AI_NO_OPENINGS)
         ai_params = self._short_params  # pre-parsed at construction
 
@@ -477,20 +555,29 @@ class GamePlayer:
         log.info("Resigned game %s", self.game_id)
 
     def _handle_click(self, msg):
-        """Handle Click from server -- opponent's click (PvP only)."""
-        if len(msg) >= 3:
-            click_data = msg[2]
-            self.command_list.append(click_data)
-            self._pending_opponent_clicks.append(click_data)
-            log.debug("Opponent click: %s", click_data)
+        """Handle Click from server -- opponent's click (PvP only).
 
-    def _handle_many_clicks(self, msg):
-        """Handle ManyClicks -- batch of opponent clicks in one message."""
-        if len(msg) >= 3 and isinstance(msg[2], list):
-            for click_data in msg[2]:
+        S->C format: ["Click", {_type, _id}] — 2 elements.
+        C->S format: ["Click", game_id, {_type, _id}, turn] — 4 elements.
+        """
+        if len(msg) >= 2:
+            # S->C Click has click_data at index 1
+            click_data = msg[1]
+            if isinstance(click_data, dict):
                 self.command_list.append(click_data)
                 self._pending_opponent_clicks.append(click_data)
-            log.debug("ManyClicks: %d opponent clicks", len(msg[2]))
+                log.debug("Opponent click: %s", click_data)
+
+    def _handle_many_clicks(self, msg):
+        """Handle ManyClicks -- batch of opponent clicks in one message.
+
+        S->C format: ["ManyClicks", [{_type, _id}, ...]] — clicks at index 1.
+        """
+        if len(msg) >= 2 and isinstance(msg[1], list):
+            for click_data in msg[1]:
+                self.command_list.append(click_data)
+                self._pending_opponent_clicks.append(click_data)
+            log.debug("ManyClicks: %d opponent clicks", len(msg[1]))
 
     def _handle_end_turn(self, msg):
         """Handle EndTurn from server -- opponent's turn ended."""
@@ -558,19 +645,33 @@ class GamePlayer:
             return
         self.client.send_loading_complete(self.game_id)
         self._loading_sent = True
+        self._loading_sent_time = time.time()
         log.info("Sent loading complete")
 
     def check_deferred_loading(self):
-        """Called from main loop — send loading if no disconnect occurred.
+        """Called from main loop — send loading if no disconnect occurred,
+        or re-send if server didn't acknowledge within timeout.
 
         If there was no PlayerDisconnected within 3s of BeginGame, send
         loading now (the node switch didn't happen this time).
+
+        If loading was sent but no StartTurn arrived within 5s, re-send
+        (the previous loading may have been lost during node switch).
         """
-        if self._loading_sent or not self._begin_game_time:
+        if not self._begin_game_time:
             return
-        if not self._saw_disconnect and time.time() - self._begin_game_time > 3.0:
-            log.info("No PlayerDisconnected after 3s — sending loading now")
-            self._send_loading()
+
+        if not self._loading_sent:
+            if not self._saw_disconnect and time.time() - self._begin_game_time > 3.0:
+                log.info("No PlayerDisconnected after 3s — sending loading now")
+                self._send_loading()
+        elif self.current_turn < 0:
+            # Loading was sent but no StartTurn yet — retry after 5s
+            elapsed = time.time() - self._loading_sent_time
+            if elapsed > 5.0:
+                log.warning("No StartTurn %.1fs after loading — re-sending loading", elapsed)
+                self._loading_sent = False
+                self._send_loading()
 
     _HANDLERS = {
         "BeginGame": _handle_begin_game,
