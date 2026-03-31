@@ -551,8 +551,14 @@ class PrismataClient:
         self._send_main(["Endgrace", game_id])
 
     def send_loading_complete(self, game_id):
-        """Report loading complete to the server."""
-        self._send_main(["ReportGameLoadProgress", game_id, 1.0])
+        """Report loading complete to the server.
+
+        Sends incremental progress updates matching the real Prismata client:
+        0 → 0.99, then LoadingQueueFinished. The server needs to see this
+        progression or it declares a loading timeout.
+        """
+        self._send_main(["ReportGameLoadProgress", game_id, 0])
+        self._send_main(["ReportGameLoadProgress", game_id, 0.99])
         self._send_main(["LoadingQueueFinished", game_id])
 
     def send_finish_game(self, game_id, winner_index, player_index, duration, resigned=False):
