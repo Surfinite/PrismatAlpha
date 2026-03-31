@@ -157,16 +157,42 @@ Server clicks may use a different format than PrismataAI output clicks. Prismata
 
 The server's `Click` message format will be captured during protocol sniffing. If the format differs, a translation layer converts between them.
 
+## Access Gating
+
+The button is gated behind the prismata.live login system. Only players who have linked a Prismata account can use it, with a rating-based restriction.
+
+### Gating Logic
+
+```
+Player presses "Queue DeadGameBot" button
+  → Must be logged in with linked Prismata account
+  → Look up player's most recent rating in ladder DB
+  → If no data found: ALLOW (assume new player, exactly the target user)
+  → If rating < 1600: ALLOW
+  → If rating >= 1600: DENY ("You're in the human pool now!")
+```
+
+### Rating Lookup
+
+Query the <ladder> SQLite DB on the site box for the player's most recent game. The spectator bots record every game with ratings, so any player who has played ranked while the bots were watching will have data.
+
+### Rationale
+
+- **1600 cutoff**: Master Bot is ~1200 ELO. Players start at 1200. Getting from 1200 to 1600 requires ~30+ wins against the bot (small ELO gains from even matchup), providing real practice. At 1600, the 500-ELO matching window reaches up to 2100, where the active human players are.
+- **No data = allow**: Brand new players are the exact target audience. They have no replay history.
+- **Login required**: Prevents anonymous spam, creates accountability, links to a real Prismata account.
+- **Anti-abuse**: High-rated players can't use the bot. Combined with 10-min cooldown per account.
+
 ## Trigger Site (`deadgame.prismata.live`)
 
 ### Backend
 
-Minimal Express app on the site box (port 3101), or additional routes on the existing fabricate server (port 3100). In-memory state only — no database.
+Minimal Express app on the site box (port 3101), or additional routes on the existing fabricate server (port 3100). In-memory state only for bot state — rating lookups hit the ladder DB.
 
 **Endpoints:**
 - `GET /` — serves single-page frontend
 - `GET /api/bot/status` — returns `{ state, last_game, last_request, online }`
-- `POST /api/bot/queue` — sets pending queue request (IP cooldown: 10 min)
+- `POST /api/bot/queue` — sets pending queue request (requires login, rating check, 10-min cooldown per account)
 - `POST /api/bot/heartbeat` — bot reports it's alive (called every 10s)
 - `POST /api/bot/update-status` — bot reports state changes
 
@@ -176,7 +202,7 @@ Minimal Express app on the site box (port 3101), or additional routes on the exi
   bot_state: "idle" | "queuing" | "playing" | "offline",
   pending_request: false,
   last_heartbeat: timestamp,
-  last_request_by_ip: { ip: timestamp },  // cooldown tracking
+  last_request_by_user: { username: timestamp },  // cooldown tracking (per-account, not per-IP)
   last_game: { opponent, result, replay_code, timestamp }  // most recent game
 }
 ```
@@ -185,12 +211,14 @@ Bot is "online" if `last_heartbeat` < 30s ago. If offline, the queue button is d
 
 ### Frontend
 
-Single HTML page. Minimal:
+Single HTML page. Requires login:
 - Status indicator: green dot = online/idle, yellow = queuing, red = playing, grey = offline
 - One big button: "Queue DeadGameBot"
 - Cooldown timer shown after pressing (10 min)
 - Last game result (opponent, win/loss, replay code link)
 - Brief explanation text: "DeadGameBot is Master Bot (7s) on a ranked account. Press the button and it'll queue up for you."
+- If rating >= 1600: button disabled with message "Your rating is high enough to find human opponents!"
+- If not logged in: button disabled with "Log in with your Prismata account to use this"
 
 ### Nginx + SSL
 
