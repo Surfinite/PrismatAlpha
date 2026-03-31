@@ -284,12 +284,27 @@ class GamePlayer:
             if not result.get("ok") or result.get("failed", 0):
                 log.error("Click application failed: %s", result)
                 self._dump_debug_state("our_clicks_failed")
-            # Use resolved clicks for server (converted from raw SteamAI format)
+            # Use resolved clicks for server (converted from raw SteamAI format).
+            # Strip to only {_type, _id} and remove trailing space clicks beyond
+            # the first — the server handles confirm→commit on EndTurn, so we
+            # only send one space click (action→confirm).
             resolved = result.get("resolvedClicks")
             if resolved:
-                clicks = resolved
+                server_clicks = []
+                space_count = 0
+                for c in resolved:
+                    if "_type" not in c:
+                        continue
+                    if c["_type"] == "space clicked":
+                        space_count += 1
+                        if space_count > 1:
+                            continue  # skip extra space clicks
+                    server_clicks.append({"_type": c["_type"], "_id": c["_id"]})
+                clicks = server_clicks
 
         # 5. Send clicks to server
+        log.info("Sending %d clicks to server: %s", len(clicks),
+                 [f"{c.get('_type')}:{c.get('_id')}" for c in clicks])
         for click in clicks:
             self.client.send_click(self.game_id, click, self.current_turn)
             self.command_list.append(click)
