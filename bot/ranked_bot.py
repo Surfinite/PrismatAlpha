@@ -127,9 +127,10 @@ class DeadGameBot:
                 self.player.handle_message(inner)
         elif msg_type == "ReconnectGame":
             # Server sent full game state after AttemptReconnect.
-            # Treat it like BeginGame — the init_info is the first param.
             log.info("ReconnectGame received — resuming game")
-            if self.state == self.IDLE:
+            if self.state in (self.IDLE, self.QUEUING):
+                # Stale game from previous session — resign it
+                log.info("Abandoning stale reconnected game")
                 self._abandon_resumed_game(["BeginGame", inner[1]])
             else:
                 self._set_state(self.PLAYING)
