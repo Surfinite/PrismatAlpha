@@ -41,3 +41,13 @@ QUEUE_TIMEOUT_S = 60
 # Resignation threshold
 RESIGN_EVAL_PCT_THRESHOLD = 5.0  # resign if eval_pct < 5% for N consecutive turns
 RESIGN_CONSECUTIVE_TURNS = 3
+
+# AI parameter files (JSON text extracted from SWF via JPEXS FFDec)
+AI_FULL_PARAMS_PATH = os.path.join(
+    os.path.dirname(__file__), '..', 'tmp_swf_extract',
+    '148_AI.AIThreadHandler_aiParamTextLoad.bin'
+)
+AI_SHORT_PARAMS_PATH = os.path.join(
+    os.path.dirname(__file__), '..', 'tmp_swf_extract',
+    '93_AI.AIThreadHandler_aiParam_shortTextLoad.bin'
+)
