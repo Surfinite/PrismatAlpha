@@ -245,10 +245,12 @@ class GamePlayer:
 
         if is_our_turn:
             self._play_turn()
-        # NOTE: Do NOT send EndSwoosh on opponent turns. The protocol doc says
-        # "In bot games, no S->C EndSwoosh is observed" — the server handles
-        # Master Bot's swoosh internally. Sending EndSwoosh on opponent turns
-        # may confuse the server.
+        else:
+            # In bot games, we must send EndSwoosh even on opponent turns.
+            # The server won't let Master Bot play until we acknowledge the swoosh.
+            if self.client and self.game_id:
+                self.client.send_end_swoosh(self.game_id, self.current_turn)
+                log.info("Sent EndSwoosh for opponent turn %d", self.current_turn)
 
     def _is_our_turn(self):
         """Check if the current turn belongs to us.

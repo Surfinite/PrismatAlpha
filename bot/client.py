@@ -442,6 +442,13 @@ class PrismataClient:
                         continue
 
                     msg_type = inner[0] if isinstance(inner, list) and inner else None
+                    if msg_type not in ("ServerPeerInfo", "TopGamesUpdate",
+                                        "PersonalLeaderboardUpdate", "EmoteParamsUpdate",
+                                        "UpdateLeaderboard", "ServerMsg", "ShowAgreements",
+                                        "ProfileUpdated", "UpdateEventLeaderboard",
+                                        "PlayerEventUpdate", "PlayerEventScheduleText",
+                                        "clientVersion"):
+                        log.info("Msg on %s: %s (seq=%d)", name, msg_type, seq_id)
 
                     # Internal handling
                     if msg_type == "SplashToLobby":
