@@ -26,6 +26,7 @@ from bot.config import BOT_USERNAME, BOT_PASSWORD, QUEUE_TIMEOUT_S
 from bot.client import PrismataClient
 from bot.steam_ai_bridge import SteamAIBridge
 from bot.game_player import GamePlayer
+from bot.state_bridge import StateBridge
 from bot.trigger_poller import TriggerPoller
 
 logging.basicConfig(
@@ -48,7 +49,8 @@ class DeadGameBot:
         self.running = True
         self.client = PrismataClient()
         self.bridge = SteamAIBridge()
-        self.player = GamePlayer(self.bridge, self.client)
+        self.state_bridge = StateBridge()
+        self.player = GamePlayer(self.bridge, self.client, state_bridge=self.state_bridge)
         self.poller = TriggerPoller()
         self._queue_start = 0
 
@@ -163,13 +165,38 @@ class DeadGameBot:
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description='DeadGameBot')
+    parser.add_argument('--bot-game', action='store_true',
+                        help='Immediately start a game vs Master Bot (for testing)')
+    parser.add_argument('--ranked', action='store_true',
+                        help='Immediately queue for ranked (for testing)')
+    args = parser.parse_args()
+
     bot = DeadGameBot()
 
     def handle_sigint(sig, frame):
         bot.running = False
     signal.signal(signal.SIGINT, handle_sigint)
 
-    bot.start()
+    if args.bot_game or args.ranked:
+        # Connect, login, then trigger immediately
+        if not BOT_PASSWORD:
+            log.error("BOT_PASSWORD environment variable not set")
+            sys.exit(1)
+        log.info(f"Starting DeadGameBot as {BOT_USERNAME}")
+        bot.client.connect()
+        bot.client.login(BOT_USERNAME, BOT_PASSWORD)
+        if not bot._wait_for_lobby(timeout=30):
+            log.warning("Did not receive SplashToLobby within 30s")
+        log.info(f"Ready. State: {bot.state}")
+        if args.bot_game:
+            bot.queue_for_bot_game()
+        else:
+            bot.queue_for_ranked()
+        bot._main_loop()
+    else:
+        bot.start()
 
 
 if __name__ == "__main__":
