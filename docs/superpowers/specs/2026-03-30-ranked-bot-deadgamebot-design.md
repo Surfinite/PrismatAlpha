@@ -12,6 +12,15 @@ Prismata's player base is small. New players (like Tasselfoot) queue for ranked 
 
 An always-listening bot account (**DeadGameBot**) that queues ranked on demand when a player presses a button on `deadgame.prismata.live`. The bot plays using Steam's `PrismataAI.exe` (Master Bot) with 7s think time — the same AI that's already in the game, just available in ranked.
 
+## Service Policy
+
+- This is an **unofficial community service** and may be withdrawn at any time
+- Service will be **stopped immediately** if active game authority (Lunarch Studios) objects
+- Service may be **disabled** if it causes abuse, queue distortion, or community pushback
+- Service may be **retired** if matchmaking rules are changed (e.g., 500 ELO range removed)
+- Pressing the button does **not guarantee** you will be matched against the bot — another player may match first
+- A **remote kill switch** on the site box can disable the bot instantly without needing access to the bot's host machine
+
 ## Architecture
 
 ```
@@ -178,7 +187,7 @@ Query the <ladder> SQLite DB on the site box for the player's most recent game. 
 
 ### Rationale
 
-- **1600 cutoff**: Master Bot is ~1200 ELO. Players start at 1200. Getting from 1200 to 1600 requires ~30+ wins against the bot (small ELO gains from even matchup), providing real practice. At 1600, the 500-ELO matching window reaches up to 2100, where the active human players are.
+- **1600 cutoff**: Master Bot is ~1200 ELO. Players start at 1200. At 1600, the 500-ELO matching window reaches up to 2100, where the active human players are. ELO gains per win against the bot will be small (similar rating), so players get real practice along the way.
 - **No data = allow**: Brand new players are the exact target audience. They have no replay history.
 - **Login required**: Prevents anonymous spam, creates accountability, links to a real Prismata account.
 - **Anti-abuse**: High-rated players can't use the bot. Combined with 10-min cooldown per account.
@@ -187,27 +196,48 @@ Query the <ladder> SQLite DB on the site box for the player's most recent game. 
 
 ### Backend
 
-Minimal Express app on the site box (port 3101), or additional routes on the existing fabricate server (port 3100). In-memory state only for bot state — rating lookups hit the ladder DB.
+Minimal Express app on the site box (port 3101), or additional routes on the existing fabricate server (port 3100). SQLite database for audit trail and state persistence.
 
 **Endpoints:**
 - `GET /` — serves single-page frontend
-- `GET /api/bot/status` — returns `{ state, last_game, last_request, online }`
-- `POST /api/bot/queue` — sets pending queue request (requires login, rating check, 10-min cooldown per account). Returns 409 if bot is busy (queuing or playing) — if multiple people want to play, they should play each other!
-- `POST /api/bot/heartbeat` — bot reports it's alive (called every 10s)
-- `POST /api/bot/update-status` — bot reports state changes
+- `GET /api/bot/status` — returns `{ state, last_game, last_request, online, activity_detected }`
+- `POST /api/bot/queue` — sets pending queue request (requires login, rating check, 10-min cooldown, daily cap). Returns 409 if bot is busy. Returns 429 if daily cap reached. Returns 503 if recent human activity detected.
+- `POST /api/bot/heartbeat` — bot reports it's alive (requires API key, called every 10s)
+- `POST /api/bot/update-status` — bot reports state changes (requires API key)
+- `POST /api/bot/kill` — remote kill switch, immediately sets bot to disabled (requires API key)
 
-**State (in-memory):**
-```js
-{
-  bot_state: "idle" | "queuing" | "playing" | "offline",
-  pending_request: false,
-  last_heartbeat: timestamp,
-  last_request_by_user: { username: timestamp },  // cooldown tracking (per-account, not per-IP)
-  last_game: { opponent, result, replay_code, timestamp }  // most recent game
-}
+**Bot↔site authentication:** Shared API key (stored in SSM at `/deadgame/bot-api-key`). Bot includes key in `Authorization` header for heartbeat, update-status, and kill endpoints. Prevents fake heartbeats or status spoofing.
+
+**SQLite schema (`deadgame.db`):**
+```sql
+CREATE TABLE requests (
+  id INTEGER PRIMARY KEY,
+  username TEXT NOT NULL,
+  rating_snapshot REAL,          -- player's rating at time of request, NULL if new
+  created_at TEXT NOT NULL,      -- ISO 8601
+  status TEXT NOT NULL,          -- pending | consumed | expired | failed | denied
+  deny_reason TEXT,              -- 'daily_cap' | 'rating_too_high' | 'activity_detected' | 'bot_busy'
+  matched_opponent TEXT,         -- actual opponent if game started
+  replay_code TEXT,
+  result TEXT,                   -- 'win' | 'loss' | 'draw' | 'resign' | NULL
+  bot_rating_before REAL,
+  bot_rating_after REAL,
+  completed_at TEXT
+);
+
+CREATE TABLE bot_state (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+-- Keys: 'state', 'last_heartbeat', 'killed'
 ```
 
-Bot is "online" if `last_heartbeat` < 30s ago. If offline, the queue button is disabled.
+**Activity detection:** Before accepting a queue request, query the ladder DB for ranked games involving sub-1600 players in the last 30 minutes. If activity is found, return 503 with message "Players are active right now — try queuing normally first!" This is checked at request time, not as a background process.
+
+**Daily cap:** 5 bot games per account per day. Counted from `requests` table where `status = 'consumed'` and `created_at` is today.
+
+Bot is "online" if `last_heartbeat` < 30s ago AND `killed` is not set. If offline or killed, the queue button is disabled.
 
 ### Frontend
 
@@ -215,10 +245,13 @@ Single HTML page. Requires login:
 - Status indicator: green dot = online/idle, yellow = queuing, red = playing, grey = offline
 - One big button: "Queue DeadGameBot"
 - Cooldown timer shown after pressing (10 min)
+- "Uses remaining today: X/5"
 - Last game result (opponent, win/loss, replay code link)
 - Brief explanation text: "DeadGameBot is Master Bot (7s) on a ranked account. Press the button and it'll queue up for you."
+- Disclaimer: "Pressing the button does not guarantee you'll be matched against the bot — another player may get the match."
 - If rating >= 1600: button disabled with message "Your rating is high enough to find human opponents!"
 - If not logged in: button disabled with "Log in with your Prismata account to use this"
+- If human activity detected: "Players are active right now — try queuing normally first!"
 
 ### Nginx + SSL
 
@@ -291,14 +324,17 @@ Before implementation, we need to capture two sets of protocol messages using th
 
 ### Phase 4: Trigger Site (deadgame.prismata.live)
 - Express server on site box with status/queue/heartbeat endpoints
-- Single-page frontend with button, status, cooldown
+- SQLite audit log (requests table, bot_state table)
+- Activity detection: query ladder DB for recent sub-1600 ranked games before allowing queue
+- Access gating: login required, rating check, daily cap (5/day), 10-min cooldown
+- API key auth for bot↔site endpoints
+- Remote kill switch endpoint
+- Single-page frontend with button, status, cooldown, uses remaining, disclaimers
 - nginx vhost + SSL
 - Bot polls trigger endpoint, queues on demand
 
 ### Phase 5: Polish
-- Status indicator on site (online/offline/playing)
-- Last game result display
-- Activity detection: query ladder DB for ranked games in last 30 min, show "Players are active — try queuing first!" and/or auto-disable button when humans are playing
+- Last game result display on site
 - Error recovery (reconnect on disconnect, re-auth on session expire)
 - Logging and monitoring
 - Move bot to Windows VPS if demand warrants it
