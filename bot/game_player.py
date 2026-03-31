@@ -10,10 +10,15 @@ Protocol flow per turn:
   (repeat until GameOver)
 """
 
+import json
 import logging
 import time
 
-from bot.config import RESIGN_EVAL_PCT_THRESHOLD, RESIGN_CONSECUTIVE_TURNS
+from bot.ai_params import load_params, select_params
+from bot.config import (
+    RESIGN_EVAL_PCT_THRESHOLD, RESIGN_CONSECUTIVE_TURNS,
+    AI_FULL_PARAMS_PATH, AI_SHORT_PARAMS_PATH,
+)
 
 log = logging.getLogger(__name__)
 
@@ -21,14 +26,16 @@ log = logging.getLogger(__name__)
 class GamePlayer:
     """Manages one game session from BeginGame to GameOver."""
 
-    def __init__(self, bridge, client):
+    def __init__(self, bridge, client, state_bridge=None):
         """
         Args:
             bridge: SteamAIBridge instance (or None for testing).
             client: PrismataClient instance (or None for testing).
+            state_bridge: StateBridge instance (or None to disable state tracking).
         """
         self.bridge = bridge
         self.client = client
+        self.state_bridge = state_bridge
 
         # Game identity
         self.game_id = None
@@ -48,8 +55,26 @@ class GamePlayer:
         self.game_over = False
         self.result = None  # "win", "loss", "draw", or None
 
+        # Opponent click buffer for state bridge
+        self._pending_opponent_clicks = []
+
         # Resignation tracking
         self._consecutive_low_evals = 0
+
+        # Load AI params once at construction
+        self._load_ai_params()
+
+    def _load_ai_params(self):
+        """Load and parse AI parameter files once at construction."""
+        try:
+            full_str = load_params(AI_FULL_PARAMS_PATH)
+            short_str = load_params(AI_SHORT_PARAMS_PATH)
+            self._full_params = json.loads(full_str)
+            self._short_params = json.loads(short_str)
+        except FileNotFoundError:
+            log.warning("AI param files not found — _build_ai_request will fail")
+            self._full_params = None
+            self._short_params = None
 
     # ------------------------------------------------------------------
     # Public API
@@ -71,6 +96,9 @@ class GamePlayer:
         self.game_over = False
         self.result = None
         self._consecutive_low_evals = 0
+        self._pending_opponent_clicks = []
+        if self.state_bridge:
+            self.state_bridge.close()
 
     def record_eval(self, eval_pct):
         """Record an eval percentage from the AI response.
@@ -134,10 +162,23 @@ class GamePlayer:
         # Determine our player index from display names
         self._identify_player()
 
+        # Initialize state tracker
+        if self.state_bridge and self.merged_deck:
+            result = self.state_bridge.start(self.merged_deck)
+            if result.get("ok"):
+                log.info("State tracker initialized")
+            else:
+                log.error("State tracker init failed: %s", result.get("error"))
+
         log.info(
             "BeginGame: game_id=%s format=%s player_index=%s opponent=%s",
             self.game_id, self.format, self.our_player_index, self.opponent_name,
         )
+
+        # Immediately report loading complete — we have no assets to load
+        if self.client and self.game_id:
+            self.client.send_loading_complete(self.game_id)
+            log.info("Sent loading complete")
 
     def _identify_player(self):
         """Determine which player index (0 or 1) we are."""
@@ -240,6 +281,13 @@ class GamePlayer:
             self.client.send_click(self.game_id, click, self.current_turn)
             self.command_list.append(click)
 
+        # Apply our clicks to state tracker
+        if self.state_bridge and clicks:
+            result = self.state_bridge.apply_clicks(clicks)
+            if not result.get("ok") or result.get("failed", 0):
+                log.error("Click application failed: %s", result)
+                self._dump_debug_state("our_clicks_failed")
+
         # Track clicks per turn
         self.clicks_per_turn.append(len(clicks))
 
@@ -286,25 +334,68 @@ class GamePlayer:
     def _build_ai_request(self):
         """Build the JSON request for PrismataAI.exe.
 
-        TODO: This is the v1 approach -- pass the init_info with accumulated
-        commandInfo. If PrismataAI.exe can't handle this format, we'll need
-        to build a proper gameState snapshot (as matchup_clean.js does).
+        Exports current game state from the Node.js state tracker and
+        combines with AI parameters.
 
         Returns:
             dict suitable for SteamAIBridge.get_move(), or None on failure.
         """
-        if not self.init_info:
-            log.error("No init_info available for AI request")
+        if not self.state_bridge:
+            log.error("No state bridge configured")
+            return None
+        if not self._short_params:
+            log.error("AI parameters not loaded")
             return None
 
-        # Update commandInfo with accumulated clicks
-        request = dict(self.init_info)
-        request["commandInfo"] = {
-            "commandList": self.command_list,
-            "clicksPerTurn": self.clicks_per_turn,
+        self._flush_opponent_clicks()
+
+        export = self.state_bridge.export_state()
+        if not export.get("ok"):
+            log.error("State export failed: %s", export.get("error"))
+            return None
+
+        game_state = export["state"]
+        # HardestAI always gets short params (index 6 in AI_NO_OPENINGS)
+        ai_params = self._short_params  # pre-parsed at construction
+
+        return {
+            "mergedDeck": self.merged_deck,
+            "gameState": game_state,
+            "aiParameters": ai_params,
+            "aiPlayerName": "HardestAI",
         }
 
-        return request
+    def _flush_opponent_clicks(self):
+        """Send buffered opponent clicks to the state bridge."""
+        if not self._pending_opponent_clicks or not self.state_bridge:
+            return
+        result = self.state_bridge.apply_clicks(self._pending_opponent_clicks)
+        if not result.get("ok"):
+            log.error("Failed to apply opponent clicks: %s", result.get("error"))
+        elif result.get("failed", 0):
+            log.warning("Opponent clicks: %d applied, %d failed",
+                        result.get("applied", 0), result.get("failed", 0))
+        self._pending_opponent_clicks = []
+
+    def _dump_debug_state(self, label):
+        """Dump current state to disk for debugging."""
+        ts = int(time.time())
+        path = f"bot_debug_{label}_{ts}.json"
+        try:
+            export = self.state_bridge.export_state() if self.state_bridge else {}
+            data = {
+                "label": label,
+                "game_id": self.game_id,
+                "current_turn": self.current_turn,
+                "our_player_index": self.our_player_index,
+                "state": export.get("state") if export.get("ok") else None,
+                "command_list_tail": self.command_list[-20:],
+            }
+            with open(path, 'w') as f:
+                json.dump(data, f, indent=2)
+            log.info("Debug state dumped to %s", path)
+        except Exception as e:
+            log.warning("Failed to dump debug state: %s", e)
 
     def _resign(self):
         """Send resignation to the server."""
@@ -330,7 +421,16 @@ class GamePlayer:
         if len(msg) >= 3:
             click_data = msg[2]
             self.command_list.append(click_data)
+            self._pending_opponent_clicks.append(click_data)
             log.debug("Opponent click: %s", click_data)
+
+    def _handle_many_clicks(self, msg):
+        """Handle ManyClicks -- batch of opponent clicks in one message."""
+        if len(msg) >= 3 and isinstance(msg[2], list):
+            for click_data in msg[2]:
+                self.command_list.append(click_data)
+                self._pending_opponent_clicks.append(click_data)
+            log.debug("ManyClicks: %d opponent clicks", len(msg[2]))
 
     def _handle_end_turn(self, msg):
         """Handle EndTurn from server -- opponent's turn ended."""
@@ -383,6 +483,7 @@ class GamePlayer:
         "GraceOver": _handle_grace_over,
         "StartTurn": _handle_start_turn,
         "Click": _handle_click,
+        "ManyClicks": _handle_many_clicks,
         "EndTurn": _handle_end_turn,
         "GameOver": _handle_game_over,
     }

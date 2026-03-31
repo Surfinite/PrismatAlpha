@@ -1,7 +1,42 @@
-"""Tests for GamePlayer -- resignation logic and BeginGame parsing."""
+"""Tests for GamePlayer -- resignation logic, BeginGame parsing, state bridge."""
 
 import pytest
 from bot.game_player import GamePlayer
+
+
+# ------------------------------------------------------------------
+# Fake state bridge for testing
+# ------------------------------------------------------------------
+
+class FakeStateBridge:
+    """Mock StateBridge that records calls and returns canned responses."""
+
+    def __init__(self, start_ok=True, export_state=None, apply_clicks_ok=True):
+        self._start_ok = start_ok
+        self._export_state = export_state or {
+            "ok": True,
+            "state": {"turnNumber": 0, "phase": "action"},
+        }
+        self._apply_clicks_ok = apply_clicks_ok
+        self.started_with = None
+        self.applied_clicks = []
+        self.closed = False
+
+    def start(self, merged_deck):
+        self.started_with = merged_deck
+        return {"ok": self._start_ok}
+
+    def export_state(self):
+        return dict(self._export_state)
+
+    def apply_clicks(self, clicks):
+        self.applied_clicks.extend(clicks)
+        applied = len(clicks)
+        failed = 0 if self._apply_clicks_ok else len(clicks)
+        return {"ok": self._apply_clicks_ok, "applied": applied, "failed": failed}
+
+    def close(self):
+        self.closed = True
 
 
 # ------------------------------------------------------------------
@@ -256,3 +291,100 @@ class TestReset:
         assert gp.command_list == []
         assert gp._consecutive_low_evals == 0
         assert not gp.game_over
+
+    def test_reset_closes_state_bridge(self):
+        fake = FakeStateBridge()
+        gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
+        gp.reset()
+        assert fake.closed
+
+    def test_reset_clears_pending_opponent_clicks(self):
+        fake = FakeStateBridge()
+        gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
+        gp._pending_opponent_clicks = [{"_type": "card clicked", "_id": 1}]
+        gp.reset()
+        assert gp._pending_opponent_clicks == []
+
+
+# ------------------------------------------------------------------
+# Build AI request
+# ------------------------------------------------------------------
+
+class TestBuildAIRequest:
+    def test_builds_valid_request(self):
+        fake = FakeStateBridge()
+        gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
+        gp.client_username = "TestBot"
+        info = _make_init_info()
+        info["mergedDeck"] = [{"name": "Drone"}, {"name": "Engineer"}]
+        gp.handle_message(["BeginGame", info])
+
+        req = gp._build_ai_request()
+        assert req is not None
+        assert "mergedDeck" in req
+        assert "gameState" in req
+        assert "aiParameters" in req
+        assert "aiPlayerName" in req
+        assert req["aiPlayerName"] == "HardestAI"
+
+    def test_state_bridge_initialized_on_begin_game(self):
+        fake = FakeStateBridge()
+        gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
+        gp.client_username = "TestBot"
+        info = _make_init_info()
+        info["mergedDeck"] = [{"name": "Drone"}]
+        gp.handle_message(["BeginGame", info])
+        assert fake.started_with == [{"name": "Drone"}]
+
+    def test_returns_none_without_state_bridge(self):
+        gp = GamePlayer(bridge=None, client=None, state_bridge=None)
+        gp.client_username = "TestBot"
+        gp.handle_message(["BeginGame", _make_init_info()])
+        assert gp._build_ai_request() is None
+
+
+# ------------------------------------------------------------------
+# Opponent click flushing
+# ------------------------------------------------------------------
+
+class TestOpponentClickFlushing:
+    def test_opponent_clicks_flushed(self):
+        fake = FakeStateBridge()
+        gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
+        gp.handle_message(["Click", "game-id", {"_type": "card clicked", "_id": 5}])
+        gp.handle_message(["Click", "game-id", {"_type": "card clicked", "_id": 6}])
+        gp._flush_opponent_clicks()
+        assert len(fake.applied_clicks) == 2
+        assert fake.applied_clicks[0]["_id"] == 5
+        assert fake.applied_clicks[1]["_id"] == 6
+
+    def test_flush_clears_buffer(self):
+        fake = FakeStateBridge()
+        gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
+        gp.handle_message(["Click", "game-id", {"_type": "card clicked", "_id": 1}])
+        gp._flush_opponent_clicks()
+        assert gp._pending_opponent_clicks == []
+
+    def test_flush_empty_is_noop(self):
+        fake = FakeStateBridge()
+        gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
+        gp._flush_opponent_clicks()
+        assert fake.applied_clicks == []
+
+
+# ------------------------------------------------------------------
+# ManyClicks
+# ------------------------------------------------------------------
+
+class TestManyClicks:
+    def test_many_clicks_buffered(self):
+        fake = FakeStateBridge()
+        gp = GamePlayer(bridge=None, client=None, state_bridge=fake)
+        clicks = [
+            {"_type": "card clicked", "_id": 1},
+            {"_type": "card clicked", "_id": 2},
+            {"_type": "space clicked", "_id": -1},
+        ]
+        gp.handle_message(["ManyClicks", "game-id", clicks])
+        assert len(gp._pending_opponent_clicks) == 3
+        assert len(gp.command_list) == 3
