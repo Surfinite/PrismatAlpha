@@ -414,17 +414,22 @@ class PrismataClient:
 
         Ping/Pong, Moved, and SplashToLobby are handled internally.
         """
-        for sock, name in [(self.main_sock, "main"), (self.secure_sock, "secure")]:
+        # Re-read socket refs each iteration (node switch may replace them mid-loop)
+        for name in ("main", "secure"):
+            sock = self.main_sock if name == "main" else self.secure_sock
             try:
                 msg = self._recv(sock, timeout=timeout)
                 if not msg:
                     continue
 
                 if msg[0] == "Ping":
+                    # Use current socket ref for Pong (not stale `sock`)
+                    current_sock = self.main_sock if name == "main" else self.secure_sock
                     last = self.main_last_msg if name == "main" else self.secure_last_msg
-                    self._handle_ping(sock, msg, last)
+                    self._handle_ping(current_sock, msg, last)
                 elif msg[0] == "Moved":
                     self._handle_moved(msg)
+                    break  # sockets replaced — stop iterating this cycle
                 elif msg[0] == "Msg":
                     seq_id = msg[1]
                     if name == "main":
