@@ -192,7 +192,7 @@ Minimal Express app on the site box (port 3101), or additional routes on the exi
 **Endpoints:**
 - `GET /` — serves single-page frontend
 - `GET /api/bot/status` — returns `{ state, last_game, last_request, online }`
-- `POST /api/bot/queue` — sets pending queue request (requires login, rating check, 10-min cooldown per account)
+- `POST /api/bot/queue` — sets pending queue request (requires login, rating check, 10-min cooldown per account). Returns 409 if bot is busy (queuing or playing) — if multiple people want to play, they should play each other!
 - `POST /api/bot/heartbeat` — bot reports it's alive (called every 10s)
 - `POST /api/bot/update-status` — bot reports state changes
 
@@ -284,6 +284,8 @@ Before implementation, we need to capture two sets of protocol messages using th
 
 ### Phase 3: Bot Plays Ranked
 - Add ranked queue/cancel messages
+- Queue all time controls except bullet
+- Resignation logic: track `eval_pct` across turns, resign if < 5% for 3 consecutive turns
 - Test: bot queues ranked, plays a game (spectatable from another account)
 - Handle edge cases: queue timeout, disconnect during game, opponent resignation
 
@@ -296,6 +298,7 @@ Before implementation, we need to capture two sets of protocol messages using th
 ### Phase 5: Polish
 - Status indicator on site (online/offline/playing)
 - Last game result display
+- Activity detection: query ladder DB for ranked games in last 30 min, show "Players are active — try queuing first!" and/or auto-disable button when humans are playing
 - Error recovery (reconnect on disconnect, re-auth on session expire)
 - Logging and monitoring
 - Move bot to Windows VPS if demand warrants it
@@ -322,6 +325,10 @@ Before implementation, we need to capture two sets of protocol messages using th
 - **Purpose:** Ranked games only, on-demand via trigger
 - **AI:** Steam's PrismataAI.exe (Master Bot), 7s think time
 - **Framing:** "It's literally the in-game Master Bot, just queuing ranked so you have someone to play against"
+- **Queues:** All time controls except bullet
+- **Resignation:** Resigns if eval_pct < 5% for 3 consecutive turns
+- **PrismataAI.exe path:** `C:\libraries\Prismata\AI\PrismataAI.exe`
+- **Test account:** WonderYacht (spare/test, also leveled)
 
 ## Open Questions
 
@@ -329,5 +336,5 @@ Before implementation, we need to capture two sets of protocol messages using th
 2. **Click message format**: Whether server clicks use the same `{_type, _id}` format as PrismataAI output — will be determined during protocol capture.
 3. **Turn signal**: How the server tells the client it's their turn — `StartTurn` message? Or inferred from `EndTurn` of opponent? Will be determined during protocol capture.
 4. **EndSwoosh**: When/if the bot needs to send `EndSwoosh` — the swoosh animation is client-side, but the server may wait for it. Will be determined during protocol capture.
-5. **Account level requirement**: Does the bot account need to reach level 20 for ranked? If so, how to level it up efficiently.
+5. ~~**Account level requirement**~~: Resolved — beat Master Bot 3 times in a row to skip to ranked. DeadGameBot and WonderYacht both leveled.
 6. **Defense/breach handling**: PrismataAI.exe handles defense and breach clicks. Need to verify the server accepts these in the same format. The auto-breach logic in matchup_clean.js may or may not be needed depending on how the server handles breach assignment.
