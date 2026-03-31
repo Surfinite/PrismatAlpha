@@ -26,6 +26,7 @@ from bot.config import BOT_USERNAME, BOT_PASSWORD, QUEUE_TIMEOUT_S
 from bot.client import PrismataClient
 from bot.steam_ai_bridge import SteamAIBridge
 from bot.game_player import GamePlayer
+from bot.trigger_poller import TriggerPoller
 
 logging.basicConfig(
     level=logging.INFO,
@@ -48,6 +49,7 @@ class DeadGameBot:
         self.client = PrismataClient()
         self.bridge = SteamAIBridge()
         self.player = GamePlayer(self.bridge, self.client)
+        self.poller = TriggerPoller()
         self._queue_start = 0
 
         # Wire up message handling
@@ -77,8 +79,9 @@ class DeadGameBot:
                 self.client.pump_messages(timeout=1)
 
                 if self.state == self.IDLE:
-                    # Phase 4 will add trigger polling here
-                    pass
+                    if self.poller.poll():
+                        log.info("Queue request received from trigger site!")
+                        self.queue_for_ranked()
 
                 elif self.state == self.QUEUING:
                     if time.time() - self._queue_start > QUEUE_TIMEOUT_S:
@@ -136,6 +139,7 @@ class DeadGameBot:
         old = self.state
         self.state = new_state
         log.info(f"State: {old} -> {new_state}")
+        self.poller.update_status(new_state)
 
     # --- Manual triggers (for testing) ---
 
