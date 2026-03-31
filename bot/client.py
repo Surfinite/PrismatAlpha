@@ -136,12 +136,16 @@ class PrismataClient:
     def _send_secure(self, inner_msg):
         """Send a message via secure courier."""
         msg = ["Msg", self.sec_msg_id, inner_msg]
+        msg_type = inner_msg[0] if isinstance(inner_msg, list) and inner_msg else "?"
+        log.debug("C->S secure #%d: %s", self.sec_msg_id, msg_type)
         self.sec_msg_id += 1
         self._send(self.secure_sock, msg)
 
     def _send_main(self, inner_msg):
         """Send a message via main courier."""
         msg = ["Msg", self.main_msg_id, inner_msg]
+        msg_type = inner_msg[0] if isinstance(inner_msg, list) and inner_msg else "?"
+        log.info("C->S main #%d: %s", self.main_msg_id, msg_type)
         self.main_msg_id += 1
         self._send(self.main_sock, msg)
 
@@ -477,10 +481,10 @@ class PrismataClient:
             "randomizeBotUnits": False,
             "enablePause": True,
             "enableAnalysis": True,
-            "firstPlayer": 2,  # random
+            "firstPlayer": 0,  # 0=us first, 1=opponent first, 2=random
             "useBase": True,
             "randomizerSet": [],
-            "fastBotAnimation": False,
+            "fastBotAnimation": True,
             "randomizerNumRandom": 5,
             "banSet": [],
             "deckName": "Standard",

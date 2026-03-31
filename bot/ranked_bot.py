@@ -93,6 +93,7 @@ class DeadGameBot:
                         self._set_state(self.IDLE)
 
                 elif self.state == self.PLAYING:
+                    self.player.check_deferred_loading()
                     if self.player.game_over:
                         replay = getattr(self.player, 'replay_code', None)
                         log.info(f"Game over: {self.player.result}"
@@ -124,6 +125,7 @@ class DeadGameBot:
                 # Resumed game from a previous crash — resign it
                 self._abandon_resumed_game(inner)
             else:
+                self._pending_requeue = False  # cancel stale requeue if new game started
                 self._set_state(self.PLAYING)
                 self.player.handle_message(inner)
         elif msg_type == "ReconnectGame":

@@ -58,6 +58,11 @@ class GamePlayer:
         # Opponent click buffer for state bridge
         self._pending_opponent_clicks = []
 
+        # Loading state — deferred to survive disconnect/reconnect cycle
+        self._loading_sent = False
+        self._begin_game_time = None
+        self._saw_disconnect = False
+
         # Resignation tracking
         self._consecutive_low_evals = 0
 
@@ -97,6 +102,9 @@ class GamePlayer:
         self.result = None
         self._consecutive_low_evals = 0
         self._pending_opponent_clicks = []
+        self._loading_sent = False
+        self._begin_game_time = None
+        self._saw_disconnect = False
         if self.state_bridge:
             self.state_bridge.close()
 
@@ -175,10 +183,12 @@ class GamePlayer:
             self.game_id, self.format, self.our_player_index, self.opponent_name,
         )
 
-        # Immediately report loading complete — we have no assets to load
-        if self.client and self.game_id:
-            self.client.send_loading_complete(self.game_id)
-            log.info("Sent loading complete")
+        # Defer loading — the node switch causes a PlayerDisconnected/Reconnected
+        # cycle that drops any messages sent during the disconnect window.
+        # We'll send loading from check_deferred_loading() once the cycle settles.
+        self._begin_game_time = time.time()
+        self._loading_sent = False
+        self._saw_disconnect = False
 
     def _identify_player(self):
         """Determine which player index (0 or 1) we are."""
@@ -211,10 +221,9 @@ class GamePlayer:
         )
 
     def _handle_loading(self, msg):
-        """Handle Loading message -- send loading complete."""
-        if self.client and self.game_id:
-            self.client.send_loading_complete(self.game_id)
-            log.debug("Sent loading complete for %s", self.game_id)
+        """Handle Loading message -- trigger deferred loading."""
+        if not self._loading_sent:
+            self._send_loading()
 
     def _handle_start_grace(self, msg):
         """Handle StartGrace -- send Endgrace to skip countdown."""
@@ -246,19 +255,21 @@ class GamePlayer:
         if is_our_turn:
             self._play_turn()
         else:
-            # In bot games, we must send EndSwoosh even on opponent turns.
-            # The server won't let Master Bot play until we acknowledge the swoosh.
-            if self.client and self.game_id:
-                self.client.send_end_swoosh(self.game_id, self.current_turn)
-                log.info("Sent EndSwoosh for opponent turn %d", self.current_turn)
+            # PvP only — wait for opponent. In bot games this never happens
+            # because every StartTurn is ours (Master Bot plays server-side).
+            log.info("Waiting for opponent turn %d", self.current_turn)
 
     def _is_our_turn(self):
         """Check if the current turn belongs to us.
 
-        Turn 0 = P0, turn 1 = P1, turn 2 = P0, etc.
+        In bot games (format 201), every StartTurn is ours — Master Bot
+        plays silently server-side between EndTurn and the next StartTurn.
+        In PvP (format 202): turn 0 = P0, turn 1 = P1, etc.
         """
         if self.our_player_index is None:
             return False
+        if self.format == 201:
+            return True  # bot games: every StartTurn is ours
         return (self.current_turn % 2) == self.our_player_index
 
     def _play_turn(self):
@@ -525,14 +536,41 @@ class GamePlayer:
     # Handler dispatch table
     # ------------------------------------------------------------------
 
-    def _handle_player_reconnected(self, msg):
-        """Handle PlayerReconnected — re-send loading complete after node switch."""
+    def _handle_player_disconnected(self, msg):
+        """Handle PlayerDisconnected — track disconnect for deferred loading."""
         player_idx = msg[1] if len(msg) > 1 else None
-        log.info("PlayerReconnected: player=%s", player_idx)
-        # If it's us reconnecting, re-send loading complete
-        if player_idx == self.our_player_index and self.client and self.game_id:
-            self.client.send_loading_complete(self.game_id)
-            log.info("Re-sent loading complete after reconnect")
+        is_us = player_idx == self.our_player_index
+        log.warning("PlayerDisconnected: player=%s (us=%s)", player_idx, is_us)
+        if is_us:
+            self._saw_disconnect = True
+
+    def _handle_player_reconnected(self, msg):
+        """Handle PlayerReconnected — send deferred loading now."""
+        player_idx = msg[1] if len(msg) > 1 else None
+        is_us = player_idx == self.our_player_index
+        log.info("PlayerReconnected: player=%s (us=%s)", player_idx, is_us)
+        if is_us and not self._loading_sent:
+            self._send_loading()
+
+    def _send_loading(self):
+        """Send loading progress to the server."""
+        if self._loading_sent or not self.client or not self.game_id:
+            return
+        self.client.send_loading_complete(self.game_id)
+        self._loading_sent = True
+        log.info("Sent loading complete")
+
+    def check_deferred_loading(self):
+        """Called from main loop — send loading if no disconnect occurred.
+
+        If there was no PlayerDisconnected within 3s of BeginGame, send
+        loading now (the node switch didn't happen this time).
+        """
+        if self._loading_sent or not self._begin_game_time:
+            return
+        if not self._saw_disconnect and time.time() - self._begin_game_time > 3.0:
+            log.info("No PlayerDisconnected after 3s — sending loading now")
+            self._send_loading()
 
     _HANDLERS = {
         "BeginGame": _handle_begin_game,
@@ -544,5 +582,6 @@ class GamePlayer:
         "ManyClicks": _handle_many_clicks,
         "EndTurn": _handle_end_turn,
         "GameOver": _handle_game_over,
+        "PlayerDisconnected": _handle_player_disconnected,
         "PlayerReconnected": _handle_player_reconnected,
     }
