@@ -119,13 +119,40 @@ class DeadGameBot:
         msg_type = inner[0]
 
         if msg_type == "BeginGame":
-            self._set_state(self.PLAYING)
-            self.player.handle_message(inner)
+            if self.state == self.IDLE:
+                # Resumed game from a previous crash — resign it
+                self._abandon_resumed_game(inner)
+            else:
+                self._set_state(self.PLAYING)
+                self.player.handle_message(inner)
         elif self.state == self.PLAYING:
             self.player.handle_message(inner)
         elif msg_type == "SplashToLobby":
             # Already handled by client, but note it
             pass
+
+    def _abandon_resumed_game(self, begin_game_msg):
+        """Resign a game resumed from a previous session."""
+        info = begin_game_msg[1] if len(begin_game_msg) > 1 else {}
+        game_id = info.get("liveGameID", "")
+        log.warning("Abandoning resumed game %s from previous session", game_id)
+
+        # Determine our player index to resign properly
+        lane_info = info.get("laneInfo", [{}])
+        players = lane_info[0].get("players", []) if lane_info else []
+        our_idx = 0
+        username = self.client.username
+        for i, p in enumerate(players):
+            if p.get("displayName") == username or p.get("name") == username:
+                our_idx = i
+                break
+
+        # Resign: finishGame with opponent as winner
+        winner = 1 - our_idx
+        self.client.send_finish_game(game_id, winner_index=winner,
+                                     player_index=our_idx, duration=0, resigned=True)
+        self.client.send_standup_game(game_id)
+        log.info("Resigned abandoned game, waiting for lobby")
 
     def _wait_for_lobby(self, timeout=30):
         """Poll messages until lobby_ready or timeout."""
