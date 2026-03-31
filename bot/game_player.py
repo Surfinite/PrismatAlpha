@@ -525,6 +525,15 @@ class GamePlayer:
     # Handler dispatch table
     # ------------------------------------------------------------------
 
+    def _handle_player_reconnected(self, msg):
+        """Handle PlayerReconnected — re-send loading complete after node switch."""
+        player_idx = msg[1] if len(msg) > 1 else None
+        log.info("PlayerReconnected: player=%s", player_idx)
+        # If it's us reconnecting, re-send loading complete
+        if player_idx == self.our_player_index and self.client and self.game_id:
+            self.client.send_loading_complete(self.game_id)
+            log.info("Re-sent loading complete after reconnect")
+
     _HANDLERS = {
         "BeginGame": _handle_begin_game,
         "Loading": _handle_loading,
@@ -535,4 +544,5 @@ class GamePlayer:
         "ManyClicks": _handle_many_clicks,
         "EndTurn": _handle_end_turn,
         "GameOver": _handle_game_over,
+        "PlayerReconnected": _handle_player_reconnected,
     }
