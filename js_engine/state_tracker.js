@@ -360,7 +360,9 @@ function handleClicks(cmd) {
         }
 
         const { applied, failed } = applyClicks(analyzer, clicks);
-        return { ok: true, applied, failed };
+        // Return resolved clicks so Python can send them to the server
+        // in the correct {_type, _id} format
+        return { ok: true, applied, failed, resolvedClicks: clicks };
     } catch (err) {
         return { ok: false, error: String(err) };
     }

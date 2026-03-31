@@ -276,17 +276,23 @@ class GamePlayer:
                       self.current_turn)
             clicks = []
 
-        # 4. Send clicks
-        for click in clicks:
-            self.client.send_click(self.game_id, click, self.current_turn)
-            self.command_list.append(click)
-
-        # Apply our clicks to state tracker
+        # 4. Apply clicks to state tracker first to get resolved {_type, _id} format.
+        # PrismataAI.exe returns raw {type, args} format — the state tracker
+        # converts them via StateUtil.convertToClicks and returns resolvedClicks.
         if self.state_bridge and clicks:
             result = self.state_bridge.apply_clicks(clicks)
             if not result.get("ok") or result.get("failed", 0):
                 log.error("Click application failed: %s", result)
                 self._dump_debug_state("our_clicks_failed")
+            # Use resolved clicks for server (converted from raw SteamAI format)
+            resolved = result.get("resolvedClicks")
+            if resolved:
+                clicks = resolved
+
+        # 5. Send clicks to server
+        for click in clicks:
+            self.client.send_click(self.game_id, click, self.current_turn)
+            self.command_list.append(click)
 
         # Track clicks per turn
         self.clicks_per_turn.append(len(clicks))
