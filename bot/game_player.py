@@ -220,11 +220,11 @@ class GamePlayer:
         """Handle StartGrace -- send Endgrace to skip countdown."""
         if self.client and self.game_id:
             self.client.send_endgrace(self.game_id)
-            log.debug("Sent Endgrace for %s", self.game_id)
+            log.info("Sent Endgrace for %s", self.game_id)
 
     def _handle_grace_over(self, msg):
         """Handle GraceOver -- grace period ended."""
-        log.debug("Grace period over for %s", self.game_id)
+        log.info("Grace period over for %s", self.game_id)
 
     def _handle_start_turn(self, msg):
         """Handle StartTurn -- determine if it's our turn and play."""
@@ -245,12 +245,10 @@ class GamePlayer:
 
         if is_our_turn:
             self._play_turn()
-        else:
-            # In bot games, the server may need us to send EndSwoosh even on
-            # the opponent's turn to signal we're ready for the turn to proceed.
-            if self.client and self.game_id:
-                self.client.send_end_swoosh(self.game_id, self.current_turn)
-                log.info("Sent EndSwoosh for opponent turn %d", self.current_turn)
+        # NOTE: Do NOT send EndSwoosh on opponent turns. The protocol doc says
+        # "In bot games, no S->C EndSwoosh is observed" — the server handles
+        # Master Bot's swoosh internally. Sending EndSwoosh on opponent turns
+        # may confuse the server.
 
     def _is_our_turn(self):
         """Check if the current turn belongs to us.
