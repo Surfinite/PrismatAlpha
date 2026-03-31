@@ -245,6 +245,12 @@ class GamePlayer:
 
         if is_our_turn:
             self._play_turn()
+        else:
+            # In bot games, the server may need us to send EndSwoosh even on
+            # the opponent's turn to signal we're ready for the turn to proceed.
+            if self.client and self.game_id:
+                self.client.send_end_swoosh(self.game_id, self.current_turn)
+                log.debug("Sent EndSwoosh for opponent turn %d", self.current_turn)
 
     def _is_our_turn(self):
         """Check if the current turn belongs to us.
