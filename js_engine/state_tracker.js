@@ -26,6 +26,7 @@ console.log = (...args) => {
 const readline = require('readline');
 const C = require('./C');
 const Analyzer = require('./Analyzer');
+const StateUtil = require('./StateUtil');
 
 // ---------------------------------------------------------------------------
 // Supply helpers (copied from card_library.js)
@@ -320,7 +321,16 @@ function handleExport() {
 /**
  * CLICKS — apply a sequence of clicks to the current state.
  *
- * @param {{ clicks: Array<{_type: string, _id?: number}> }} cmd
+ * Accepts two click formats:
+ *   1. Resolved format: [{_type: "inst clicked", _id: 42}, ...]
+ *      Used when the caller has already resolved instance IDs (e.g. from C++).
+ *   2. Raw SteamAI format: [{type: "inst clicked", args: {owner, cardName, ...}}, ...]
+ *      Used when forwarding raw PrismataAI.exe aiclicks output.
+ *      These are converted via StateUtil.convertToClicks before application.
+ *
+ * Detection: if the first click has a "type" key (not "_type"), it's raw SteamAI format.
+ *
+ * @param {{ clicks: Array }} cmd
  * @returns {{ ok: boolean, applied?: number, failed?: number, error?: string }}
  */
 function handleClicks(cmd) {
@@ -334,7 +344,22 @@ function handleClicks(cmd) {
         return { ok: false, error: `CLICKS array too large: ${cmd.clicks.length}` };
     }
     try {
-        const { applied, failed } = applyClicks(analyzer, cmd.clicks);
+        let clicks = cmd.clicks;
+
+        // Detect raw SteamAI format: {type, args} vs resolved {_type, _id}
+        if (clicks.length > 0 && clicks[0].type !== undefined && clicks[0]._type === undefined) {
+            process.stderr.write(`[state_tracker] Converting ${clicks.length} raw SteamAI clicks via StateUtil\n`);
+            try {
+                const resolved = StateUtil.convertToClicks(clicks, analyzer.gameState, false);
+                clicks = resolved;
+            } catch (convertErr) {
+                process.stderr.write(`[state_tracker] convertToClicks failed: ${convertErr.message} — applying raw\n`);
+                // Fall back to raw application: map {type, args} to {_type, _id: -1}
+                clicks = clicks.map(c => ({ _type: c.type, _id: -1 }));
+            }
+        }
+
+        const { applied, failed } = applyClicks(analyzer, clicks);
         return { ok: true, applied, failed };
     } catch (err) {
         return { ok: false, error: String(err) };
