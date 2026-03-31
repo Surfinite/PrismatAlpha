@@ -125,6 +125,15 @@ class DeadGameBot:
             else:
                 self._set_state(self.PLAYING)
                 self.player.handle_message(inner)
+        elif msg_type == "ReconnectGame":
+            # Server sent full game state after AttemptReconnect.
+            # Treat it like BeginGame — the init_info is the first param.
+            log.info("ReconnectGame received — resuming game")
+            if self.state == self.IDLE:
+                self._abandon_resumed_game(["BeginGame", inner[1]])
+            else:
+                self._set_state(self.PLAYING)
+                self.player.handle_message(["BeginGame", inner[1]])
         elif self.state == self.PLAYING:
             self.player.handle_message(inner)
         elif msg_type == "SplashToLobby":

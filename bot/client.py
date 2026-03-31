@@ -447,6 +447,9 @@ class PrismataClient:
                     if msg_type == "SplashToLobby":
                         self.lobby_ready = True
                         log.info("Lobby ready")
+                    elif msg_type == "ExistsDisconnectedGame":
+                        log.info("Server reports disconnected game — sending AttemptReconnect")
+                        self._send_main(["AttemptReconnect"])
 
                     # Forward everything to callback
                     if self.on_message:
