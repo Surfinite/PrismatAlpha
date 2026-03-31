@@ -1,0 +1,20 @@
+# deadgame/deadgame.service
+[Unit]
+Description=DeadGameBot Trigger Site
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/deadgame
+ExecStart=/usr/bin/node server.js
+Environment=NODE_ENV=production
+Environment=PORT=3101
+Environment=DB_PATH=/opt/deadgame/deadgame.db
+Environment=LADDER_DB_PATH=/opt/prismata/<ladder>.db
+EnvironmentFile=-/opt/deadgame/.env
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
