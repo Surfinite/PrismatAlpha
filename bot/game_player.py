@@ -192,6 +192,11 @@ class GamePlayer:
         for i, player in enumerate(players):
             display_name = player.get("displayName", "")
             name = player.get("name", "")
+            is_bot = bool(player.get("bot", ""))
+            # In bot games, Master Bot has name=our username but bot="HardestAI".
+            # Skip players with a non-empty bot field — that's the server bot, not us.
+            if is_bot:
+                continue
             if display_name == username or name == username:
                 self.our_player_index = i
                 # Opponent is the other player
