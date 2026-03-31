@@ -250,7 +250,7 @@ class GamePlayer:
             # the opponent's turn to signal we're ready for the turn to proceed.
             if self.client and self.game_id:
                 self.client.send_end_swoosh(self.game_id, self.current_turn)
-                log.debug("Sent EndSwoosh for opponent turn %d", self.current_turn)
+                log.info("Sent EndSwoosh for opponent turn %d", self.current_turn)
 
     def _is_our_turn(self):
         """Check if the current turn belongs to us.
@@ -280,8 +280,25 @@ class GamePlayer:
             self._resign()
             return
 
-        # 3. Get AI move
-        clicks = self._get_ai_move()
+        # 3. Get AI move (in background thread so we can keep pumping messages)
+        import threading
+        ai_result = [None]
+        ai_done = threading.Event()
+
+        def run_ai():
+            ai_result[0] = self._get_ai_move()
+            ai_done.set()
+
+        ai_thread = threading.Thread(target=run_ai, daemon=True)
+        ai_thread.start()
+
+        # Keep connection alive (respond to Pings) while AI thinks
+        while not ai_done.is_set():
+            if self.client:
+                self.client.pump_messages(timeout=1)
+            ai_done.wait(timeout=0.1)
+
+        clicks = ai_result[0]
         if clicks is None:
             log.error("Failed to get AI move at turn %d, sending empty turn",
                       self.current_turn)
