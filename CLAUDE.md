@@ -155,7 +155,7 @@ python training/export_weights_v2.py \
 - **AWS default region is `eu-north-1`**: prismata.live infra is in `us-east-1`. Always pass `--region us-east-1`.
 - **ARM Ubuntu 24.04 has no `python` command**: Only `python3`. Subprocess calls to `python` fail silently. Data box has `/usr/bin/python` symlink.
 - **SSH to data box**: `ssh -i ~/.ssh/<SSH_KEY>.pem -o ProxyCommand="ssh -i ~/.ssh/<SSH_KEY>.pem -W %h:%p ubuntu@<SITE_EIP>" ubuntu@<DATA_BOX_PRIVATE_IP>`
-- **SpectatorBot3 (Client7) login fails**: Credentials invalid on Prismata server. Running several spectator bots.
+- **Client7 is PrismataLiveBot**: Replaced SpectatorBot3. Login fails if the account is already logged in elsewhere (Prismata allows only one session). Running several spectator bots.
 - **S3 export prefix is `exports/`**: Not `site-data/`. Data box uploads here, site box syncs from here.
 - **`headless_multi.py` has no `--quiet` flag**: Only `--add-account`. Don't add unknown flags to systemd ExecStart.
 
