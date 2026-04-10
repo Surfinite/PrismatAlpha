@@ -31,12 +31,19 @@ def get_connection():
 
 
 def get_dominion_units(conn):
-    """Get sorted list of Dominion unit names from DB (excludes base set)."""
+    """Get sorted list of Dominion unit names from OB-eligible games only.
+
+    Filters to format=200 + balance_passed=1 to exclude event mode units
+    (starred variants, HP variants, holiday units, etc).
+    """
     base_list = sorted(BASE_SET_UNITS)
     placeholders = ",".join("?" for _ in base_list)
     rows = conn.execute(
-        f"SELECT DISTINCT unit_name FROM replay_units "
-        f"WHERE unit_name NOT IN ({placeholders}) ORDER BY unit_name",
+        f"SELECT DISTINCT ru.unit_name FROM replay_units ru "
+        f"JOIN replays r ON ru.code = r.code "
+        f"WHERE ru.unit_name NOT IN ({placeholders}) "
+        f"AND r.format = 200 AND r.balance_passed = 1 "
+        f"ORDER BY ru.unit_name",
         base_list,
     ).fetchall()
     return [r[0] for r in rows]
