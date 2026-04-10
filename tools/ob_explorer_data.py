@@ -328,3 +328,50 @@ def count_nodes(node: dict) -> int:
     for child in node.get("children", []):
         total += count_nodes(child)
     return total
+
+
+# ---------------------------------------------------------------------------
+# Task 4: Pruning
+# ---------------------------------------------------------------------------
+
+def prune_tree(
+    tree: dict,
+    min_freq_per_turn: list,
+    max_branches: int = 8,
+) -> dict:
+    """Layer 3: Prune tree by per-turn frequency thresholds and branch cap.
+
+    Returns a new tree (does not mutate the input). Pruned branches are
+    aggregated into an 'Other' node at each level.
+    """
+    pruned = copy.deepcopy(tree)
+    _prune_level(pruned, min_freq_per_turn, max_branches, 0)
+    return pruned
+
+
+def _prune_level(node: dict, thresholds: list, max_branches: int, depth: int):
+    """Recursively prune children at each level."""
+    if not node["children"]:
+        return
+
+    threshold = thresholds[depth] if depth < len(thresholds) else thresholds[-1]
+
+    node["children"].sort(key=lambda c: -c["count"])
+
+    kept = []
+    other_count = 0
+    for child in node["children"]:
+        if child["frequency_parent"] >= threshold and len(kept) < max_branches:
+            kept.append(child)
+        else:
+            other_count += child["count"]
+
+    other_count += node["other_count"]
+    parent_count = node["count"]
+
+    node["children"] = kept
+    node["other_count"] = other_count
+    node["other_frequency"] = other_count / parent_count if parent_count > 0 else 0.0
+
+    for child in kept:
+        _prune_level(child, thresholds, max_branches, depth + 1)
