@@ -4,6 +4,7 @@ Pure Python module (no Streamlit dependency). Bulk-fetches turn data
 from replays.db and builds an in-memory prefix tree for opening book
 analysis. Caching is handled by the Streamlit app, not this module.
 """
+import copy
 import json
 import math
 import os
@@ -48,3 +49,96 @@ def get_max_rating(conn):
         "WHERE format = 200 AND balance_passed = 1"
     ).fetchone()
     return int(row[0]) if row[0] else 2400
+
+
+# ---------------------------------------------------------------------------
+# Task 2: Bulk Fetch
+# ---------------------------------------------------------------------------
+
+def fetch_turn_data(
+    conn,
+    primary_unit: str,
+    player: int,
+    min_rating: float,
+    max_rating: float,
+    include_units: tuple,
+    exclude_units: tuple,
+    max_depth: int,
+) -> list:
+    """Layer 1: Fetch all matching turn_buys rows in a single query.
+
+    Returns list of tuples: (code, player_turn, buy_hash, buy_sequence_json, result)
+    This is a pure function — caching is handled by the Streamlit app.
+    """
+    all_include = (primary_unit,) + include_units
+    include_clauses = []
+    include_params = []
+    for unit in all_include:
+        include_clauses.append(
+            "AND tb.code IN (SELECT code FROM replay_units WHERE unit_name = ?)"
+        )
+        include_params.append(unit)
+
+    exclude_clauses = []
+    exclude_params = []
+    for unit in exclude_units:
+        exclude_clauses.append(
+            "AND tb.code NOT IN (SELECT code FROM replay_units WHERE unit_name = ?)"
+        )
+        exclude_params.append(unit)
+
+    sql = f"""
+        SELECT tb.code, tb.player_turn, tb.buy_hash, tb.buy_sequence, r.result
+        FROM turn_buys tb
+        JOIN replays r ON tb.code = r.code
+        WHERE tb.player = ?
+          AND tb.player_turn <= ?
+          AND r.format = 200
+          AND r.balance_passed = 1
+          AND r.p1_rating >= ? AND r.p1_rating <= ?
+          AND r.p2_rating >= ? AND r.p2_rating <= ?
+          AND r.result IN (0, 1, 2)
+          {' '.join(include_clauses)}
+          {' '.join(exclude_clauses)}
+        ORDER BY tb.code, tb.player_turn
+    """
+    params = [
+        player, max_depth, min_rating, max_rating, min_rating, max_rating,
+        *include_params, *exclude_params,
+    ]
+    return conn.execute(sql, params).fetchall()
+
+
+def build_sql_for_debug(
+    primary_unit: str,
+    player: int,
+    min_rating: float,
+    max_rating: float,
+    include_units: tuple,
+    exclude_units: tuple,
+    max_depth: int,
+) -> str:
+    """Return the SQL query string with parameters substituted, for debug display."""
+    all_include = (primary_unit,) + include_units
+    include_clauses = "\n  ".join(
+        f"AND tb.code IN (SELECT code FROM replay_units WHERE unit_name = '{u}')"
+        for u in all_include
+    )
+    exclude_clauses = "\n  ".join(
+        f"AND tb.code NOT IN (SELECT code FROM replay_units WHERE unit_name = '{u}')"
+        for u in exclude_units
+    )
+
+    return f"""SELECT tb.code, tb.player_turn, tb.buy_hash, tb.buy_sequence, r.result
+FROM turn_buys tb
+JOIN replays r ON tb.code = r.code
+WHERE tb.player = {player}
+  AND tb.player_turn <= {max_depth}
+  AND r.format = 200
+  AND r.balance_passed = 1
+  AND r.p1_rating >= {min_rating} AND r.p1_rating <= {max_rating}
+  AND r.p2_rating >= {min_rating} AND r.p2_rating <= {max_rating}
+  AND r.result IN (0, 1, 2)
+  {include_clauses}
+  {exclude_clauses}
+ORDER BY tb.code, tb.player_turn"""
