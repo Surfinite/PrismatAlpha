@@ -223,6 +223,79 @@ var CARD_META = ${JSON.stringify(cardMeta)};
 var SMALL_ASSETS = ${JSON.stringify(smallAssets)};
 var CARD_LIBRARY = ${JSON.stringify(cardLibrary)};
 
+/**
+ * buildRuntimeCardMeta(cardLibrary) — runtime mirror of the build-time buildCardMetadata().
+ * Used by loadPuzzle() to rebuild card meta after cardUpdates are applied, so that
+ * getCardMeta() returns accurate stats (e.g. buildTime) for modified cards.
+ */
+function buildRuntimeCardMeta(lib) {
+    var byUIName = {};
+    for (var internalName in lib) {
+        if (!lib.hasOwnProperty(internalName)) continue;
+        var card = lib[internalName];
+        var uiName = card.UIName || internalName;
+        var autoAttack = 0, abilityAttack = 0, autoGold = 0, abilityGold = 0;
+        function parseReceive(receive) {
+            if (receive == null) return { gold: 0, attack: 0 };
+            var s = String(receive);
+            var goldMatch = s.match(/^(\\d+)/);
+            var gold = goldMatch ? parseInt(goldMatch[1], 10) : 0;
+            var attack = (s.match(/A/g) || []).length;
+            return { gold: gold, attack: attack };
+        }
+        if (card.beginOwnTurnScript) { var r1 = parseReceive(card.beginOwnTurnScript.receive); autoAttack = r1.attack; autoGold = r1.gold; }
+        if (card.abilityScript) { var r2 = parseReceive(card.abilityScript.receive); abilityAttack = r2.attack; abilityGold = r2.gold; }
+        var abilityGoldFree = abilityGold > 0 && !card.abilityCost && (!card.abilitySac || card.abilitySac.length === 0) &&
+            !(card.abilityScript && card.abilityScript.selfsac);
+        var isSpell = !!card.spell;
+        var hasTargetAbility = !!card.targetAction;
+        var hasAbility = !!(card.abilityScript || card.targetAction);
+        var defaultBlocking = isSpell ? false : !!card.defaultBlocking;
+        var assignedBlocking = isSpell ? false : !!card.assignedBlocking;
+        var undefendable = isSpell ? false : !!card.undefendable;
+        var hasResonate = !!card.resonate;
+        var attackPotential = hasResonate ? -1 : (autoAttack + abilityAttack);
+        var attacks = attackPotential > 0 || hasTargetAbility;
+        var position = 23;
+        if (card.hasOwnProperty('position'))     { position = card.position; }
+        else if (uiName === 'Conduit')            { position = 20; }
+        else if (uiName === 'Blastforge')         { position = 21; }
+        else if (uiName === 'Animus')             { position = 22; }
+        else if (uiName === 'Drone')              { position = 10; }
+        else if (uiName === 'Engineer')           { position = 0; }
+        else if (isSpell)                         { position = 29; }
+        else if (undefendable && attacks)         { position = 7; }
+        else if (undefendable)                    { position = 6; }
+        else if (hasAbility && defaultBlocking && assignedBlocking && attacks)  { position = 4; }
+        else if (hasAbility && defaultBlocking && assignedBlocking)             { position = 3; }
+        else if (hasAbility && defaultBlocking && !assignedBlocking && attacks) { position = 16; }
+        else if (hasAbility && defaultBlocking && !assignedBlocking)            { position = 11; }
+        else if (hasAbility && !defaultBlocking && attacks)                     { position = 18; }
+        else if (hasAbility && !defaultBlocking)                                { position = 13; }
+        else if (defaultBlocking && attacks)      { position = 2; }
+        else if (defaultBlocking)                 { position = 1; }
+        else if (attacks)                         { position = 26; }
+        var targetAction = '';
+        var targetAmount = 0;
+        if (card.targetAction === 'disrupt') { targetAction = 'chill'; targetAmount = card.targetAmount || 0; }
+        else if (card.targetAction === 'snipe') { targetAction = 'snipe'; targetAmount = card.targetAmount || 0; }
+        byUIName[uiName] = {
+            attack: autoAttack + abilityAttack, autoAttack: autoAttack, abilityAttack: abilityAttack,
+            autoGold: autoGold, abilityGold: abilityGold, abilityGoldFree: abilityGoldFree,
+            toughness: card.toughness || 0,
+            hasAbility: hasAbility, hasTargetAbility: hasTargetAbility,
+            targetAction: targetAction, targetAmount: targetAmount,
+            isFrontline: undefendable, canBlock: defaultBlocking,
+            isFragile: !!card.fragile, defaultBlocking: defaultBlocking, assignedBlocking: assignedBlocking,
+            buyCost: card.buyCost || '', buildTime: card.buildTime || 1,
+            lifespan: card.lifespan || -1, charge: card.startingCharge || 0,
+            baseSet: !!card.baseSet, rarity: card.rarity || 'normal',
+            position: position
+        };
+    }
+    return byUIName;
+}
+
 window.PrismataViewer = (function() {
     var C = __require('C');
     var Analyzer = __require('Analyzer');
@@ -234,6 +307,7 @@ window.PrismataViewer = (function() {
     var stateIndex = 0;
     var totalStates = 0;
     var onStateChange = null;
+    var PUZZLE_CARD_META = null; // Set by loadPuzzle when cardUpdates are present; null = use static CARD_META
 
     // ── Init ──
     function init(options) {
@@ -576,6 +650,15 @@ window.PrismataViewer = (function() {
             }
         }
 
+        // If this puzzle modified cards (via uniqueCards or cardUpdates), rebuild the card meta
+        // so getCardMeta() returns accurate stats (e.g. buildTime) for the modified cards.
+        // Puzzles without card modifications skip this for performance.
+        if (puzzleConfig.uniqueCards || puzzleConfig.cardUpdates) {
+            PUZZLE_CARD_META = buildRuntimeCardMeta(fullLibrary);
+        } else {
+            PUZZLE_CARD_META = null; // Use static CARD_META for unmodified puzzles
+        }
+
         // Helper: resolve display name to internal name
         function resolve(displayName) {
             if (lookup[displayName]) return lookup[displayName];
@@ -839,7 +922,7 @@ window.PrismataViewer = (function() {
 
     // ── State access (React handles all rendering) ──
     function getGameState() { return REPLAY ? REPLAY.states[stateIndex] : null; }
-    function getCardMeta() { return CARD_META; }
+    function getCardMeta() { return PUZZLE_CARD_META !== null ? PUZZLE_CARD_META : CARD_META; }
     function getReplay() { return REPLAY; }
     
     // ── Navigation ──
