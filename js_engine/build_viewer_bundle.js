@@ -534,7 +534,13 @@ window.PrismataViewer = (function() {
         var ss = puzzleConfig.startingState;
         if (!ss) throw new Error('loadPuzzle: startingState is required');
 
-        var lookup = getUINameToInternal();
+        // Local copy of name lookup — don't mutate the cached base lookup,
+        // otherwise uniqueCards from a previous puzzle leak into the next one.
+        var baseLookup = getUINameToInternal();
+        var lookup = {};
+        for (var lk in baseLookup) {
+            if (baseLookup.hasOwnProperty(lk)) lookup[lk] = baseLookup[lk];
+        }
 
         // Build the full card library, merging uniqueCards and cardUpdates
         var fullLibrary = {};
@@ -547,7 +553,7 @@ window.PrismataViewer = (function() {
             for (var uk in puzzleConfig.uniqueCards) {
                 if (puzzleConfig.uniqueCards.hasOwnProperty(uk)) {
                     fullLibrary[uk] = puzzleConfig.uniqueCards[uk];
-                    // Register in reverse lookup
+                    // Register in local lookup (not cached base)
                     var ucUI = puzzleConfig.uniqueCards[uk].UIName || uk;
                     lookup[ucUI] = uk;
                     lookup[uk] = uk;
@@ -557,7 +563,9 @@ window.PrismataViewer = (function() {
         if (puzzleConfig.cardUpdates) {
             for (var cu in puzzleConfig.cardUpdates) {
                 if (puzzleConfig.cardUpdates.hasOwnProperty(cu)) {
-                    // Merge updates into existing card definition
+                    // Shallow merge: each patch property fully replaces the base property.
+                    // This is intentional — cardUpdates patches are complete replacements,
+                    // not deep merges into nested structures.
                     var base = fullLibrary[cu] || {};
                     var updated = {};
                     for (var bp in base) { if (base.hasOwnProperty(bp)) updated[bp] = base[bp]; }
