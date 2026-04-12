@@ -61,7 +61,8 @@ function instToCardJSON(inst) {
         boughtThisPhase:  inst.creatorIdFromBuyOrAbility >= 0,
         defaultBlocking:  inst.card.defaultBlocking || false,
         isFragile:        inst.card.fragile || false,
-        cardType:         inst.card.cardType || 'unit'
+        cardType:         inst.card.cardType || 'unit',
+        autoClicked:      inst.card.autoClicked || false
     };
 }
 
@@ -222,6 +223,8 @@ function stateToCppJSON(state) {
         turn:             state.turn,
         numTurns:         state.numTurns,
         phase:            state.phase,
+        glassBroken:      state.glassBroken || false,
+        incomingAttack:   state.oppMana ? state.oppMana.attack : 0,
         cards:            cards,
         whiteTotalSupply: whiteTotalSupply,
         blackTotalSupply: blackTotalSupply,
