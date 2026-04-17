@@ -225,6 +225,15 @@ function stateToCppJSON(state) {
         phase:            state.phase,
         glassBroken:      state.glassBroken || false,
         incomingAttack:   state.oppMana ? state.oppMana.attack : 0,
+        // --- StateHelper-derived fields consumed by the viewer's midline ---
+        // Turn player's potential next-attack / chill (shown bracketed during their defense phase)
+        maxAttack:            state.helper ? state.helper.maxAttack : 0,
+        maxDisrupt:           state.helper ? state.helper.maxDisrupt : 0,
+        maxSnipers:           state.helper ? state.helper.maxSnipers : 0,
+        // Opponent's predicted next-turn output (shown bracketed outside defense)
+        oppAttackPotential:   state.helper ? state.helper.oppAttackPotential : 0,
+        oppDisruptPotential:  state.helper ? state.helper.oppDisruptPotential : 0,
+        oppSnipers:           state.helper ? state.helper.oppSnipers : 0,
         cards:            cards,
         whiteTotalSupply: whiteTotalSupply,
         blackTotalSupply: blackTotalSupply,
