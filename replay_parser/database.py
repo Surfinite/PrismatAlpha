@@ -186,6 +186,55 @@ def store(conn: sqlite3.Connection, replay: ReplayData) -> None:
         )
 
 
+def _backfill_replays_metadata(conn, code, entry):
+    """COALESCE-update replays table with metadata from extraction output."""
+    meta = entry.get("metadata", {})
+    total_turns = entry.get("totalTurns") or len(entry.get("turns", []))
+
+    # Extract rating changes from ratingInfo if available
+    rating_changes = meta.get("ratingChanges")
+    p1_rc = None
+    p2_rc = None
+    rating_verified = 0
+    if rating_changes and len(rating_changes) >= 2:
+        if isinstance(rating_changes[0], list) and len(rating_changes[0]) > 0:
+            p1_rc = rating_changes[0][0]
+        if isinstance(rating_changes[1], list) and len(rating_changes[1]) > 0:
+            p2_rc = rating_changes[1][0]
+        rating_verified = 1 if (p1_rc is not None or p2_rc is not None) else -1
+    elif rating_changes is not None:
+        # ratingChanges key existed but was empty/malformed — unrated
+        rating_verified = -1
+
+    conn.execute("""
+        UPDATE replays SET
+            format = COALESCE(format, ?),
+            version = COALESCE(version, ?),
+            start_time = COALESCE(start_time, ?),
+            end_time = COALESCE(end_time, ?),
+            end_condition = COALESCE(end_condition, ?),
+            time_condition = COALESCE(time_condition, ?),
+            game_length = COALESCE(game_length, ?),
+            p1_rating_change = COALESCE(p1_rating_change, ?),
+            p2_rating_change = COALESCE(p2_rating_change, ?),
+            rating_verified = CASE WHEN rating_verified = 0 THEN ? ELSE rating_verified END,
+            replay_fetched = 1
+        WHERE code = ?
+    """, (
+        meta.get("format"),
+        meta.get("version"),
+        meta.get("startTime"),
+        meta.get("endTime"),
+        meta.get("endCondition"),
+        meta.get("timeCondition"),
+        total_turns,
+        p1_rc,
+        p2_rc,
+        rating_verified,
+        code,
+    ))
+
+
 def ingest(conn: sqlite3.Connection, entry: dict) -> None:
     """Persist JS extraction output into the database.
 
@@ -282,3 +331,5 @@ def ingest(conn: sqlite3.Connection, entry: dict) -> None:
             "VALUES (?, ?, ?, ?, ?, ?)",
             buy_rows,
         )
+
+        _backfill_replays_metadata(conn, code, entry)

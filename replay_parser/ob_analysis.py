@@ -47,6 +47,7 @@ def get_dominion_units(
           AND r.p1_rating >= ?
           AND r.p2_rating >= ?
           AND r.balance_passed = 1
+          AND r.rating_verified = 1
         GROUP BY ru.unit_name
         HAVING game_count >= ?
         ORDER BY game_count DESC
@@ -86,6 +87,7 @@ def analyze_unit_turn1(
           AND r.p1_rating >= ?
           AND r.p2_rating >= ?
           AND r.balance_passed = 1
+          AND r.rating_verified = 1
           AND r.result IN (0, 1, 2)
           AND tb.code IN (SELECT code FROM replay_units WHERE unit_name = ?)
         GROUP BY tb.buy_hash
@@ -166,6 +168,7 @@ def analyze_unit_turn2_dd(
           AND r.p1_rating >= ?
           AND r.p2_rating >= ?
           AND r.balance_passed = 1
+          AND r.rating_verified = 1
           AND r.result IN (0, 1, 2)
           AND json_extract(ts.units_owned, '$.Drone') = ?
           AND json_extract(ts.units_owned, '$.Engineer') = ?
@@ -246,6 +249,7 @@ def find_co_occurring_units(
           AND r.p1_rating >= ?
           AND r.p2_rating >= ?
           AND r.balance_passed = 1
+          AND r.rating_verified = 1
           AND ru2.unit_name NOT IN ({placeholders})
         GROUP BY ru2.unit_name
         ORDER BY co_count DESC
@@ -280,6 +284,7 @@ def analyze_pair_turn1(
           AND r.p1_rating >= ?
           AND r.p2_rating >= ?
           AND r.balance_passed = 1
+          AND r.rating_verified = 1
           AND r.result IN (0, 1, 2)
           AND tb.code IN (
               SELECT ru1.code

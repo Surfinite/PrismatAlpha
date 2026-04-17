@@ -292,12 +292,26 @@ function resolveActions(turnClicks, state, cards, nextInstId, boughtDiff, player
 // ---------------------------------------------------------------------------
 
 function extractTurnData(replay, code) {
+    // Extract top-level metadata for replays table backfill
+    const vi = replay.versionInfo || {};
+    const ti = replay.timeInfo || {};
+    const pt = (ti.playerTime && ti.playerTime[0]) || {};
+
     const result = {
         code: code,
         result: replay.result,
         totalTurns: replay.commandInfo.clicksPerTurn.length,
         error: null,
-        turns: []
+        turns: [],
+        metadata: {
+            format: replay.format,
+            version: vi.serverVersion || null,
+            startTime: replay.startTime || null,
+            endTime: replay.endTime || null,
+            endCondition: replay.endCondition,
+            timeCondition: pt.increment || null,
+            ratingChanges: (replay.ratingInfo && replay.ratingInfo.ratingChanges) || null,
+        }
     };
 
     try {

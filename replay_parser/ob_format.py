@@ -38,11 +38,16 @@ def _abbrev_buy(buy_list):
     return "+".join(parts) if parts else "(none)"
 
 
-def _buy_hash_to_set(buy_hash):
-    """Convert a comma-separated buy_hash to a frozenset for order-independent comparison."""
+def _buy_hash_to_multiset(buy_hash):
+    """Convert a comma-separated buy_hash to a Counter for order-independent comparison.
+
+    Uses Counter instead of frozenset so that duplicate units (e.g. Drone,Drone)
+    are preserved — frozenset would collapse them to a single element.
+    """
+    from collections import Counter
     if not buy_hash:
-        return frozenset()
-    return frozenset(buy_hash.split(","))
+        return Counter()
+    return Counter(buy_hash.split(","))
 
 
 def _buy_hash_to_list(buy_hash):
@@ -248,7 +253,8 @@ def validate_against_existing(analysis, existing_entries):
         self_state = entry.get("self", [])
         player, turn = _player_and_turn_from_self(self_state)
         buyable = frozenset(entry.get("buyable", []))
-        buy_set = frozenset(entry.get("buy", []))
+        from collections import Counter
+        buy_set = Counter(entry.get("buy", []))
         existing_indexed.append({
             "entry": entry,
             "player": player,
@@ -327,7 +333,7 @@ def validate_against_existing(analysis, existing_entries):
 
         # Compare buy hashes (order-independent)
         analysis_buy_hash = analysis_result.get("top_buy", "")
-        analysis_buy_set = _buy_hash_to_set(analysis_buy_hash)
+        analysis_buy_set = _buy_hash_to_multiset(analysis_buy_hash)
         existing_buy_set = ei["buy_set"]
 
         if analysis_buy_set == existing_buy_set:
@@ -335,7 +341,7 @@ def validate_against_existing(analysis, existing_entries):
         else:
             result["contradicted"].append({
                 "existing": ei["entry"],
-                "analysis_top_buy": sorted(analysis_buy_set) if analysis_buy_set else [],
+                "analysis_top_buy": sorted(analysis_buy_set.elements()) if analysis_buy_set else [],
                 "analysis_frequency": analysis_result.get("frequency", 0.0),
                 "analysis_consensus": analysis_result.get("consensus", "unknown"),
             })

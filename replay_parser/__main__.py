@@ -28,6 +28,8 @@ def main():
                         help="Run cross-validation: JS vs Python parser comparison")
     parser.add_argument("--sample", type=int, default=500,
                         help="Sample size for cross-validation (default: 500)")
+    parser.add_argument("--verify-rated", action="store_true",
+                        help="Verify which replays are rated (checks S3 ratingInfo)")
     parser.add_argument("--verbose", "-v", action="store_true")
 
     args = parser.parse_args()
@@ -74,6 +76,15 @@ def main():
         py_data = run_python_parsing(codes, args.replays_dir)
         report = run_comparison(py_data, js_data)
         print_report(report)
+        return
+
+    # Verify-rated mode
+    if args.verify_rated:
+        if not args.db or not args.replays_dir:
+            parser.error("--db and --replays-dir are required for --verify-rated")
+        from replay_parser.verify_rated import verify_replays
+        stats = verify_replays(args.db, args.replays_dir)
+        print(json.dumps(stats, indent=2))
         return
 
     # Pipeline mode

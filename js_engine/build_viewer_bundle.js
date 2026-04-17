@@ -50,6 +50,11 @@ function buildModuleBundle() {
 }
 
 function buildCardMetadata(cardLibrary) {
+    // Build internal→display name map (buySac references internal names)
+    const internalToDisplay = {};
+    for (const [internalName, card] of Object.entries(cardLibrary)) {
+        internalToDisplay[internalName] = card.UIName || internalName;
+    }
     const byUIName = {};
     for (const [internalName, card] of Object.entries(cardLibrary)) {
         const uiName = card.UIName || internalName;
@@ -115,16 +120,22 @@ function buildCardMetadata(cardLibrary) {
         if (card.targetAction === 'disrupt') { targetAction = 'chill'; targetAmount = card.targetAmount || 0; }
         else if (card.targetAction === 'snipe') { targetAction = 'snipe'; targetAmount = card.targetAmount || 0; }
 
+        // Map buySac internal names to display names
+        const buySac = (card.buySac || []).map(entry => ({
+            cardName: internalToDisplay[entry[0]] || entry[0],
+            amount: entry.length > 1 ? (entry[1] | 0) : 1
+        }));
+
         byUIName[uiName] = {
             attack: autoAttack + abilityAttack, autoAttack, abilityAttack, autoGold, abilityGold, abilityGoldFree,
             toughness: card.toughness || 0,
             hasAbility, hasTargetAbility, targetAction, targetAmount,
             isFrontline: undefendable, canBlock: defaultBlocking,
             isFragile: !!card.fragile, defaultBlocking, assignedBlocking,
-            buyCost: card.buyCost || '', buildTime: card.buildTime || 1,
+            buyCost: card.buyCost || '', buildTime: Object.prototype.hasOwnProperty.call(card, 'buildTime') ? card.buildTime : 1,
             lifespan: card.lifespan || -1, charge: card.startingCharge || 0,
             baseSet: !!card.baseSet, rarity: card.rarity || 'normal',
-            position
+            position, buySac
         };
     }
     return byUIName;
@@ -229,6 +240,11 @@ var CARD_LIBRARY = ${JSON.stringify(cardLibrary)};
  * getCardMeta() returns accurate stats (e.g. buildTime) for modified cards.
  */
 function buildRuntimeCardMeta(lib) {
+    var internalToDisplay = {};
+    for (var k in lib) {
+        if (!lib.hasOwnProperty(k)) continue;
+        internalToDisplay[k] = lib[k].UIName || k;
+    }
     var byUIName = {};
     for (var internalName in lib) {
         if (!lib.hasOwnProperty(internalName)) continue;
@@ -279,6 +295,13 @@ function buildRuntimeCardMeta(lib) {
         var targetAmount = 0;
         if (card.targetAction === 'disrupt') { targetAction = 'chill'; targetAmount = card.targetAmount || 0; }
         else if (card.targetAction === 'snipe') { targetAction = 'snipe'; targetAmount = card.targetAmount || 0; }
+        var buySac = [];
+        if (card.buySac) {
+            for (var bi = 0; bi < card.buySac.length; bi++) {
+                var entry = card.buySac[bi];
+                buySac.push({ cardName: internalToDisplay[entry[0]] || entry[0], amount: entry.length > 1 ? (entry[1] | 0) : 1 });
+            }
+        }
         byUIName[uiName] = {
             attack: autoAttack + abilityAttack, autoAttack: autoAttack, abilityAttack: abilityAttack,
             autoGold: autoGold, abilityGold: abilityGold, abilityGoldFree: abilityGoldFree,
@@ -287,10 +310,10 @@ function buildRuntimeCardMeta(lib) {
             targetAction: targetAction, targetAmount: targetAmount,
             isFrontline: undefendable, canBlock: defaultBlocking,
             isFragile: !!card.fragile, defaultBlocking: defaultBlocking, assignedBlocking: assignedBlocking,
-            buyCost: card.buyCost || '', buildTime: card.buildTime || 1,
+            buyCost: card.buyCost || '', buildTime: card.hasOwnProperty('buildTime') ? card.buildTime : 1,
             lifespan: card.lifespan || -1, charge: card.startingCharge || 0,
             baseSet: !!card.baseSet, rarity: card.rarity || 'normal',
-            position: position
+            position: position, buySac: buySac
         };
     }
     return byUIName;
@@ -315,7 +338,7 @@ window.PrismataViewer = (function() {
     }
 
     // ── S3 Fetch ──
-    var S3_BASE = 'http://saved-games-alpha.s3-website-us-east-1.amazonaws.com/';
+    var S3_BASE = 'https://saved-games-alpha.s3.amazonaws.com/';
 
     function loadFromCode(code) {
         var url = S3_BASE + encodeURIComponent(code) + '.json.gz';
@@ -411,6 +434,10 @@ window.PrismataViewer = (function() {
             if (replay.playerInfo[1]) p1 = replay.playerInfo[1].displayName || replay.playerInfo[1].name || 'Player 1';
         }
 
+        // Track per-state timestamps from commandTimes (actual click times in seconds)
+        var commandTimes = replay.commandInfo.commandTimes || [];
+        var stateTimestampMs = [commandTimes.length > 0 ? commandTimes[0] * 1000 : 0]; // state 0
+
         for (var i = 0; i < cmdList.length; i++) {
             var cmd = cmdList[i];
             if (String(cmd._type).indexOf(String(C.CLICK_REPLAY_EMOTE)) === 0) continue;
@@ -421,6 +448,8 @@ window.PrismataViewer = (function() {
                 if (clickResult.canClick) {
                     states.push(stateToCppJSON(analyzer.gameState));
                     actions.push(describeClick(cmd, analyzer.gameState, prePhase));
+                    // Map this state to its command timestamp
+                    stateTimestampMs.push(i < commandTimes.length ? commandTimes[i] * 1000 : stateTimestampMs[stateTimestampMs.length - 1]);
                     if (analyzer.gameState.numTurns !== lastTurn) {
                         turnBoundaries.push(states.length - 1);
                         lastTurn = analyzer.gameState.numTurns;
@@ -452,10 +481,37 @@ window.PrismataViewer = (function() {
 
         var totalTurns = replay.commandInfo.clicksPerTurn ? replay.commandInfo.clicksPerTurn.length : 0;
 
+        // Build per-turn timing from stateTimestampMs and turnBoundaries
+        var turnStartMs = [];
+        var turnEndMs = [];
+        for (var ti = 0; ti < turnBoundaries.length; ti++) {
+            var tStart = stateTimestampMs[turnBoundaries[ti]] || 0;
+            var tEnd = ti + 1 < turnBoundaries.length
+                ? stateTimestampMs[turnBoundaries[ti + 1]] || tStart
+                : stateTimestampMs[stateTimestampMs.length - 1] || tStart;
+            turnStartMs.push(tStart);
+            turnEndMs.push(tEnd);
+        }
+
+        // Build per-state turn index: which turn each state belongs to
+        var stateTurnIndex = new Array(states.length);
+        var tbIdx = 0;
+        for (var si = 0; si < states.length; si++) {
+            while (tbIdx + 1 < turnBoundaries.length && turnBoundaries[tbIdx + 1] <= si) tbIdx++;
+            stateTurnIndex[si] = tbIdx;
+        }
+
         REPLAY = {
             p0: p0, p1: p1, winner: winner, winnerName: winnerName,
             turns: totalTurns, cardSet: cardSet,
-            states: states, actions: actions, turnBoundaries: turnBoundaries
+            states: states, actions: actions, turnBoundaries: turnBoundaries,
+            commandInfo: replay.commandInfo,
+            playerInfo: replay.playerInfo || null,
+            timeInfo: replay.timeInfo || null,
+            stateTimestampMs: stateTimestampMs,
+            stateTurnIndex: stateTurnIndex,
+            turnStartMs: turnStartMs,
+            turnEndMs: turnEndMs
         };
         stateIndex = 0;
         totalStates = states.length;
@@ -798,6 +854,17 @@ window.PrismataViewer = (function() {
     }
     // PUZZLE_PATCH_END
 
+    function checkAndUpdateWinner() {
+        if (!liveAnalyzer) return;
+        if (liveAnalyzer.gameState.finished && REPLAY.winner === -1) {
+            var r = liveAnalyzer.gameState.result;
+            // result: 0 = COLOR_WHITE wins, 1 = COLOR_BLACK wins
+            if (r === 0 || r === 1) {
+                REPLAY.winner = r;
+            }
+        }
+    }
+
     function processClick(clickType, clickId, clickParams) {
         if (!liveAnalyzer) return { accepted: false, info: getInfo() };
         var prePhase = liveAnalyzer.gameState.phase;
@@ -813,6 +880,7 @@ window.PrismataViewer = (function() {
                 }
                 totalStates = REPLAY.states.length;
                 stateIndex = totalStates - 1;
+                checkAndUpdateWinner();
                 notify();
                 return { accepted: true, info: getInfo() };
             }
@@ -839,6 +907,7 @@ window.PrismataViewer = (function() {
                         }
                         totalStates = REPLAY.states.length;
                         stateIndex = totalStates - 1;
+                        checkAndUpdateWinner();
                         notify();
                         return { accepted: true, info: getInfo() };
                     }
@@ -864,6 +933,7 @@ window.PrismataViewer = (function() {
                         }
                         totalStates = REPLAY.states.length;
                         stateIndex = totalStates - 1;
+                        checkAndUpdateWinner();
                         notify();
                         return { accepted: true, info: getInfo() };
                     }
@@ -980,6 +1050,15 @@ window.PrismataViewer = (function() {
         getAssets: function() { return SMALL_ASSETS; },
         // Puzzle mode support: expose internals for interaction layer
         get cardNameToCardId() { return liveAnalyzer ? liveAnalyzer.gameState.cardNameToCardId : null; },
+        /** Resolve a display name (UIName) to card ID. cardNameToCardId uses internal names only. */
+        displayNameToCardId: function(displayName) {
+            if (!liveAnalyzer) return -1;
+            var cards = liveAnalyzer.gameState.cards;
+            for (var i = 0; i < cards.length; i++) {
+                if (cards[i].UIName === displayName) return i;
+            }
+            return -1;
+        },
         analyzerCanClick: function(type, id) { return liveAnalyzer ? liveAnalyzer.analyzerCanClick(type, id) : false; },
         analyzerWhatToHighlight: function(type, id) { return liveAnalyzer ? liveAnalyzer.analyzerWhatToHighlight(type, id) : { canClick: false }; }
     };
