@@ -437,10 +437,19 @@ window.PrismataViewer = (function() {
         // Track per-state timestamps from commandTimes (actual click times in seconds)
         var commandTimes = replay.commandInfo.commandTimes || [];
         var stateTimestampMs = [commandTimes.length > 0 ? commandTimes[0] * 1000 : 0]; // state 0
+        // Per-state emote events. Emote commands don't produce a new state — they
+        // attach to whichever state is current when the emote fires, so the
+        // viewer can replay it at the right moment.
+        var stateEmote = [null];
 
         for (var i = 0; i < cmdList.length; i++) {
             var cmd = cmdList[i];
-            if (String(cmd._type).indexOf(String(C.CLICK_REPLAY_EMOTE)) === 0) continue;
+            if (String(cmd._type).indexOf(String(C.CLICK_REPLAY_EMOTE)) === 0) {
+                var emoteId = String(cmd._type).slice(String(C.CLICK_REPLAY_EMOTE).length);
+                var emoteTimeMs = i < commandTimes.length ? commandTimes[i] * 1000 : (stateTimestampMs[stateTimestampMs.length - 1] || 0);
+                stateEmote[stateEmote.length - 1] = { player: cmd._id, emoteId: emoteId, timeMs: emoteTimeMs };
+                continue;
+            }
             if (analyzer.gameState.finished) break;
             var prePhase = analyzer.gameState.phase;
             try {
@@ -450,6 +459,7 @@ window.PrismataViewer = (function() {
                     actions.push(describeClick(cmd, analyzer.gameState, prePhase));
                     // Map this state to its command timestamp
                     stateTimestampMs.push(i < commandTimes.length ? commandTimes[i] * 1000 : stateTimestampMs[stateTimestampMs.length - 1]);
+                    stateEmote.push(null);
                     if (analyzer.gameState.numTurns !== lastTurn) {
                         turnBoundaries.push(states.length - 1);
                         lastTurn = analyzer.gameState.numTurns;
@@ -510,6 +520,7 @@ window.PrismataViewer = (function() {
             timeInfo: replay.timeInfo || null,
             stateTimestampMs: stateTimestampMs,
             stateTurnIndex: stateTurnIndex,
+            stateEmote: stateEmote,
             turnStartMs: turnStartMs,
             turnEndMs: turnEndMs
         };
