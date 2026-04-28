@@ -1,4 +1,5 @@
 #include "PartialPlayer_ActionBuy_Random.h"
+#include "Random.h"
 
 using namespace Prismata;
 
@@ -17,23 +18,33 @@ void PartialPlayer_ActionBuy_Random::getMove(GameState & state, Move & move)
         return;
     }
 
-    std::vector<Action> legalActions;
+    std::vector<Action> buyActions;
     while (state.getActivePlayer() == _playerID && state.getActivePhase() == Phases::Action)
     {
-        legalActions.clear();
-        state.generateLegalActions(legalActions);
-
-        Action a = legalActions[rand() % legalActions.size()];
-
-        // buy players should never actually end the phase, so if we chose end phase just exit
-        if (a.getType() == ActionTypes::END_PHASE)
+        if (move.size() >= MAX_MOVE_ACTIONS)
         {
             return;
         }
-        else
+
+        buyActions.clear();
+        for (CardID c(0); c < state.numCardsBuyable(); ++c)
         {
-            state.doAction(a);
-            move.addAction(a);
+            const CardType cardBuyableType = state.getCardBuyableByIndex(c).getType();
+            const Action buyCardAction(_playerID, ActionTypes::BUY, cardBuyableType.getID());
+
+            if (state.isLegal(buyCardAction))
+            {
+                buyActions.push_back(buyCardAction);
+            }
         }
+
+        if (buyActions.empty())
+        {
+            return;
+        }
+
+        Action a = buyActions[Random::Int(buyActions.size())];
+        state.doAction(a);
+        move.addAction(a);
     }
 }
