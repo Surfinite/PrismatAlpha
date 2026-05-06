@@ -322,8 +322,8 @@ gcp-archive/
 **/IGNORE/
 
 # --- Bot/replay-parser/training local artifacts ---
-deadgame/deadgame.db*
-deadgame/node_modules/
+# deadgame/ source moved to <ladder> repo; ignore any local runtime leftovers
+deadgame/
 bin/asset/images/icons/extracted_hd/
 bin/test_*/
 js_engine/_suggest_state.json
