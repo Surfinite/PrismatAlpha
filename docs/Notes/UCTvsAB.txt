@@ -1,0 +1,18 @@
+Alpha-Beta is like a chess player thinking "if I do A, they do B, then I do C..." It explores the game tree depth-first and prunes branches that provably can't be better. It needs a small set of moves to consider at each level (otherwise it can't go deep). That's exactly what the PPPortfolio gives it — 5 hand-crafted buy strategies, so the branching factor is manageable.
+
+UCT/MCTS is like a chess player playing thousands of quick games in their head, keeping track of which opening moves led to more wins. It doesn't try to exhaustively search — it samples paths through the tree, gradually building confidence about which moves are best. It naturally spends more time on promising lines.
+
+Why AB for matchups right now: The PPPortfolio + AB + Playout eval is a proven, working system. The portfolio reduces Prismata's huge branching factor to just 5 options, and playout eval (simulate random-ish games to estimate who's winning) works without any trained weights. It's Churchill's original design and it works.
+
+Why UCT for NN: This is the AlphaZero insight. When you have a neural network that can:
+
+Value head: Look at a position and say "P1 is 63% to win" (replacing slow playouts with instant evaluation)
+Policy head: Say "buy strategy #3 is 70% likely to be best" (guiding which moves to explore first — this is PUCT)
+...then MCTS becomes dramatically better than AB because:
+
+Each node evaluation is instant (one NN forward pass vs. playing out a whole game)
+The policy head tells MCTS where to look, so it doesn't waste time on bad moves
+MCTS isn't limited to the 5 hand-crafted portfolio options — it could explore any legal move
+The punchline: AB+Portfolio is a brilliant hack for when you don't have a good learned eval. UCT+NN is the endgame that makes the hand-crafted portfolio unnecessary. We use AB now because the NN is garbage. Once the NN is good, UCT+NN should surpass it.
+
+You could also use AB+NN (and it would help!), but you'd still be limited to those 5 portfolio moves. UCT+NN can potentially discover better strategies that nobody thought to put in the portfolio.

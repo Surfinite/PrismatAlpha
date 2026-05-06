@@ -1,0 +1,67 @@
+// UIBuyColumn.as — Sidebar unit ordering
+
+// Main sort: three stable insertion sorts applied sequentially.
+// Last sort (RGB) is the primary grouping key.
+private function defaultSort(p:OrderedDictionary) : void
+{
+    this.insertionSortPurchasables(p, this.greaterThanABC, true);     // tertiary: alphabetical
+    this.insertionSortPurchasables(p, this.greaterThanDollar, true);  // secondary: gold cost
+    this.insertionSortPurchasables(p, this.greaterThanRGB, true);     // primary: color category
+}
+
+// Alphabetical by display name
+public function greaterThanABC(p1:UIPurchasable, p2:UIPurchasable) : Boolean
+{
+    if(p2.card == null) return false;
+    if(p1.card == null) return true;
+    return p1.card.UIName > p2.card.UIName;
+}
+
+// Gold cost (MANA_P = gold)
+public function greaterThanDollar(p1:UIPurchasable, p2:UIPurchasable) : Boolean
+{
+    if(p2.card == null) return false;
+    if(p1.card == null) return true;
+    return p1.card.buyCost.amountOf(C.MANA_P) > p2.card.buyCost.amountOf(C.MANA_P);
+}
+
+// Color category — "greaterThan" = pushed further down the list
+// Result: Econ (top) → Green → Blue → Red → BG → RG → BR → RGB (bottom)
+public function greaterThanRGB(p1:UIPurchasable, p2:UIPurchasable) : Boolean
+{
+    if(p2.card == null) return false;
+    if(p1.card == null) return true;
+
+    // RGB (all three) → bottom
+    if(p2.card.buyCost.amountOf(C.MANA_B) > 0 && p2.card.buyCost.amountOf(C.MANA_R) > 0 && p2.card.buyCost.amountOf(C.MANA_G) > 0) return false;
+    if(p1.card.buyCost.amountOf(C.MANA_B) > 0 && p1.card.buyCost.amountOf(C.MANA_R) > 0 && p1.card.buyCost.amountOf(C.MANA_G) > 0) return true;
+
+    // BR
+    if(p2.card.buyCost.amountOf(C.MANA_B) > 0 && p2.card.buyCost.amountOf(C.MANA_R) > 0) return false;
+    if(p1.card.buyCost.amountOf(C.MANA_B) > 0 && p1.card.buyCost.amountOf(C.MANA_R) > 0) return true;
+
+    // RG
+    if(p2.card.buyCost.amountOf(C.MANA_R) > 0 && p2.card.buyCost.amountOf(C.MANA_G) > 0) return false;
+    if(p1.card.buyCost.amountOf(C.MANA_R) > 0 && p1.card.buyCost.amountOf(C.MANA_G) > 0) return true;
+
+    // BG
+    if(p2.card.buyCost.amountOf(C.MANA_B) > 0 && p2.card.buyCost.amountOf(C.MANA_G) > 0) return false;
+    if(p1.card.buyCost.amountOf(C.MANA_B) > 0 && p1.card.buyCost.amountOf(C.MANA_G) > 0) return true;
+
+    // Red only
+    if(p2.card.buyCost.amountOf(C.MANA_R) > 0) return false;
+    if(p1.card.buyCost.amountOf(C.MANA_R) > 0) return true;
+
+    // Blue only
+    if(p2.card.buyCost.amountOf(C.MANA_B) > 0) return false;
+    if(p1.card.buyCost.amountOf(C.MANA_B) > 0) return true;
+
+    // Green only
+    if(p2.card.buyCost.amountOf(C.MANA_G) > 0) return false;
+    if(p1.card.buyCost.amountOf(C.MANA_G) > 0) return true;
+
+    return false;  // both are econ (gold-only) — keep current order
+}
+
+// Resource constants (from mcds/engine/C.as):
+// MANA_P = Gold (0), MANA_G = Green (1), MANA_B = Blue (2), MANA_R = Red (3), MANA_H = Energy (4)
