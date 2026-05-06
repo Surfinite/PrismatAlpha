@@ -304,3 +304,47 @@ bin/test_dump.jsonl
 
 # --- Batch launcher (personal config) ---
 run_prismata_tools.bat
+
+# --- Python cache (anywhere in tree) ---
+__pycache__/
+*.pyc
+
+# --- CMake build directory ---
+build/
+
+# --- Cloud archive (large local snapshot) ---
+gcp-archive/
+
+# --- Superpowers brainstorm cache ---
+.superpowers/
+
+# --- Explicit "ignore me" sandbox dirs ---
+**/IGNORE/
+
+# --- Bot/replay-parser/training local artifacts ---
+deadgame/deadgame.db*
+deadgame/node_modules/
+bin/asset/images/icons/extracted_hd/
+bin/test_*/
+js_engine/_suggest_state.json
+js_engine/test_replays/
+training/cloud-runs/
+training/data/test_*
+training/data/dataset_validation.json
+
+# --- Root-level scratch artifacts ---
+*.log
+audit_batch_*.json
+cross_validation_report_*.json
+live_test_data*.json
+ob_entries.json
+ob_report.json
+replay_stats.tar.gz
+replay_stats/
+buy-panel-*.png
+viewer-*.png
+
+# --- AWS scratch ---
+aws/console_out.json
+aws/test_steam_input*.json
+aws/tmp_matchup*.log
