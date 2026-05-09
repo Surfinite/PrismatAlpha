@@ -1,4 +1,4 @@
-# PrismatAI
+# PrismatAlpha
 
 A fork of [David Churchill's PrismataAI](https://github.com/davechurchill/PrismataAI) — significantly extended with neural network evaluation, a transpiled JavaScript engine, a live bot system, and tooling for matchup analysis, replay validation, and training data generation.
 
