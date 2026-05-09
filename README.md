@@ -2,7 +2,7 @@
 
 An AI and ML hobby project for [Prismata](https://store.steampowered.com/app/490220/Prismata/), built on the AI architecture and tournament infrastructure from [David Churchill's PrismataAI](https://github.com/davechurchill/PrismataAI).
 
-**Prismata** is a turn-based perfect-information strategy card game by Lunarch Studios. Think chess meets Dominion — no hidden information, no luck, just pure strategy with over 100 unique units.
+**Prismata** is a turn-based perfect-information strategy card game by Lunarch Studios. Think chess meets Dominion — no hidden information, no luck, just pure strategy with 116 unique units.
 
 ## What's in this repo
 
@@ -42,7 +42,7 @@ Extract (replays) → Convert (V2 JSONL) → Vectorize (HDF5) → Train → Expo
 
 ### DeadGameBot
 
-A Python bot that logs into the Prismata server and plays ranked games using the C++ AI:
+A Python bot with the ability to log into the Prismata server and play casual games using the C++ AI:
 
 - **AMF3 binary protocol** — full client implementation extracted from the game
 - **Headless game client** — auth, matchmaking, game state tracking, click submission
