@@ -1,6 +1,6 @@
 # PrismatAlpha
 
-An AI and ML hobby project for [Prismata](https://store.steampowered.com/app/490220/Prismata/), built on the AI architecture and tournament infrastructure from [David Churchill's PrismataAI](https://github.com/davechurchill/PrismataAI).
+An AI and ML project for [Prismata](https://store.steampowered.com/app/490220/Prismata/), built on the AI architecture and tournament infrastructure from [David Churchill's PrismataAI](https://github.com/davechurchill/PrismataAI).
 
 **Prismata** is a turn-based perfect-information strategy card game by Lunarch Studios. Think chess meets Dominion — no hidden information, no luck, just pure strategy with 116 unique units.
 
