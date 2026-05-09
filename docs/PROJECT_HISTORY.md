@@ -1,4 +1,4 @@
-# PrismataAI — Project History
+# PrismatAlpha — Project History
 
 > This file contains the chronological development history (sections 1-29) that was previously in CLAUDE.md.
 > Moved here on Feb 14, 2026 to keep CLAUDE.md concise. Backup at docs/backup_claude_md_2026-02-14/.

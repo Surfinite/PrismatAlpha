@@ -1,4 +1,4 @@
-# PrismataAI — Project Instructions
+# PrismatAlpha — Project Instructions
 
 > **Full project history**: `docs/PROJECT_HISTORY.md`
 > **Extended reference** (cloud ops, dashboard, sniffer, commentary, full file tables): `docs/CLAUDE_REFERENCE.md`

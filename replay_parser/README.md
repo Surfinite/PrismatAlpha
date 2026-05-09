@@ -22,8 +22,8 @@ for turn in replay.turns:
 No external dependencies — stdlib only (Python 3.10+). Just clone the repo and import:
 
 ```bash
-git clone https://github.com/Surfinite/PrismatAI.git
-cd PrismatAI
+git clone https://github.com/Surfinite/PrismatAlpha.git
+cd PrismatAlpha
 python -c "from replay_parser.decoder import load_replay, decode; print('OK')"
 ```
 
@@ -150,7 +150,7 @@ Click types: `card clicked` (buy), `card shift clicked` (shift-buy), `inst click
 ## Running Tests
 
 ```bash
-cd PrismataAI
+cd PrismatAlpha
 python -m pytest replay_parser/tests/ -v
 ```
 
