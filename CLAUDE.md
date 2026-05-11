@@ -5,16 +5,21 @@
 > **Training plan V1**: `docs/plans/2026-03-06-training-plan-v1.md`
 > **Self-play master plan**: `docs/plans/2026-02-15-selfplay-training-master-plan.md`
 
-## Current Status (Mar 26, 2026)
+## Current Status (May 11, 2026)
 
-**prismata.live LIVE** — Split architecture: data box (t4g.micro OD, `<DATA_BOX_PRIVATE_IP>`) runs 6 bots + data pipeline; site box (t3.micro spot, EIP `<SITE_EIP>`) serves website. S3-synced every 60s. Bots survive spot recovery.
+**Repo renamed `PrismatAI → PrismatAlpha`** (May 5–9). GitHub at github.com/Surfinite/PrismatAlpha. Local filesystem path unchanged (`c:\libraries\PrismataAI\`).
 
-**DeepSets models exported.** MB-only: 82.4% val acc. Human-only: 78.2%. Mixed: 82.2%. Five DSNN players configured.
+**prismata.live LIVE.** Split architecture (data box + site box, S3-synced every 60s). Active maintenance and live-spectating work is tracked in the prismata-ladder workspace — related but separate repo.
+
+**DeepSets models exported.** MB-only: 82.4% val acc, Human-only: 78.2%, Mixed: 82.2%. Five DSNN players configured. Results doc: `docs/deepsets-training-results.md`.
+
+**Parity gap quantified.** Mar 17 single-unit sweep (105 units × 4 games): LiveHardestAIUCT wins ~20% vs STEAMAI, 60% of units lose 0/4. Closing this is now a prerequisite to DSNN tournament strength.
+
+**DeadGameBot live** — Plays casual games on the Prismata server using the SteamAI bridge. First live replay Mar 31. State-tracker work ongoing.
 
 **Active work items:**
-1. **prismata.live production** — split architecture deployed, several spectator bots on data box, S3 exports, auto-deploy webhook on site box
-2. **PixiJS viewer polish** — Wonderboat's visual feedback (font weight, icon sizing, sword direction, HP positioning, black outlines)
-3. **Evaluate DSNN models** — matchup tournaments vs SteamAI (deferred)
+1. **Engine parity** — narrow `LiveHardestAIUCT` ↔ `STEAMAI` gap (heuristic weights, ability filters, partial-player ordering)
+2. **DeadGameBot state-tracker** — divergence after MB turns (no clicks sent)
 
 ## What This Project Is
 
@@ -114,7 +119,8 @@ python training/export_weights_v2.py \
 - **Two git remotes**: `origin` = davechurchill upstream, `PrismatAlpha` = user's fork. Push to `PrismatAlpha`.
 - **Branch can switch unexpectedly**: Always `git branch --show-current` before branch-dependent operations.
 - **Config tournament toggles**: Check `"run":true` in `config.txt` before launching.
-- **Feature schema contract**: `training/schema.json` + `training/FEATURES.md`. State dim = 1785 (161 units × 11 + 14 global). Changes must sync across `vectorize.py`, `NeuralNet.cpp`, and `schema.json`.
+- **Feature schema contract (DeepSets, current)**: `training/schema_v2.json` + `training/property_table.json`. Per-instance tokens (32 embed + 13 static + 10 instance state = 55-dim). Changes must sync across `vectorize_v2.py`, `model_deepsets.py`, `NeuralNet.cpp`, and `schema_v2.json`.
+- **Legacy flat schema (PrismataNet)**: `training/schema.json` + `training/FEATURES.md`, state_dim=1785. Kept for the value-only baseline; not the current path.
 - **Per-player NN weights**: Players with `"WeightsFile":"neural_weights_X.bin"` in config.txt auto-load their weights in `--suggest` mode. `--weights <path>` CLI arg overrides. Weight files live in `bin/asset/config/`.
 - **DSNN players**: `DSNN_MBonly` (ep98, 82.4%), `DSNN_MBonly_SWA` (SWA avg), `DSNN_Human` (ep26, 78.2%). All use UCT + NeuralNet eval + LiveHardestAI opening book.
 - **NeuralNet singleton**: All NN eval goes through `NeuralNet::Instance()`. Can't pit two NN players in same C++ process. For matchup_clean.js this is fine (fresh process per turn).
@@ -214,7 +220,7 @@ python training/export_weights_v2.py \
 
 ## Claude Code Tooling
 
-**Slash commands**: `/status` (fleet dashboard), `/selfplay-count` (local shard count), `/revise` (update CLAUDE.md), `/preflight` (pre-training checks).
+**Slash commands**: `/revise-claude-md` (capture session learnings into CLAUDE.md), `/claude-md-improver` (periodic CLAUDE.md audit). Older `/status`, `/selfplay-count`, `/preflight` exist but are stale — don't trust their output without verifying.
 
 **Hooks** (`.claude/settings.local.json`):
 - PreToolUse: Blocks access to credential files
@@ -237,7 +243,7 @@ python training/export_weights_v2.py \
 
 ### Engine Internal Name System
 
-Engine uses codenames internally (e.g., "Tesla Tower" = Tarsier). Full 105-unit mapping in `cardLibrary.jso`. All script references must use **internal names**, not display names.
+Engine uses codenames internally (e.g., "Tesla Tower" = Tarsier). Full mapping in `cardLibrary.jso` (105 competitive + 11 base = 116 units; canonical names in `training/data/unit_index.json`). All script references must use **internal names**, not display names.
 
 ### Game Phases & Turn Numbering
 
@@ -257,7 +263,7 @@ From the **engine's internal sequence**: a player's `MOVE_COMMIT` (end of action
 
 **Three HardestAI baselines**: `OriginalHardestAI` (Churchill's original), `HardestAI` (our modified), `LiveHardestAI` (exact SWF match — 5 ability variants, 50-entry opening book, Odin filter). 
 `HardestAI` should be exactly equivalent to `OriginalHardestAI` at default configurations.
-**Strength: LiveHardestAI < MCDSAI <= SteamAI ≈ MasterBot (Steam).**
+**Strength: LiveHardestAI < MCDSAI <= SteamAI ≈ MasterBot (Steam).** Quantified gap: ~20% WR overall in single-unit matchups (60% of units at 0/4). Full data: `docs/deepsets-training-results.md`.
 
 ### Training Data Inventory
 
@@ -300,12 +306,13 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 | `source/testing/Tournament.cpp` | Multi-threaded tournament runner |
 | `source/testing/TournamentGame.cpp` | Single game runner with self-play export |
 | `source/gui/GUIState_Play.cpp` | Game play GUI, debug panel |
-| `training/train.py` | PyTorch training (PrismataNet) |
+| `training/train.py` | PyTorch training (`--model deepsets` or legacy PrismataNet) |
 | `training/export_weights.py` | PyTorch → C++ binary weights (legacy format) |
 | `training/export_weights_v2.py` | PyTorch → DSN2 binary weights (current DeepSets format) |
-| `training/schema.json` | Feature schema (state_dim=1785) |
-| `training/FEATURES.md` | Human-readable feature spec |
-| `training/data/unit_index.json` | 161 canonical unit names |
+| `training/schema_v2.json` | DeepSets per-instance feature schema (current) |
+| `training/property_table.json` | Static per-unit properties (DeepSets) |
+| `training/schema.json` + `training/FEATURES.md` | Legacy flat PrismataNet schema (state_dim=1785) |
+| `training/data/unit_index.json` | 116 canonical unit names |
 | `js_engine/matchup_clean.js` | JS matchup runner (LiveHardestAI, MCDSAI, SteamAI) |
 | `js_engine/matchup_worker.js` | Parallel worker script |
 | `js_engine/steam_ai.js` | SteamAI wrapper for Steam's PrismataAI.exe (one-shot process) |
@@ -325,6 +332,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 | Document | Description |
 |---|---|
 | `docs/PROJECT_HISTORY.md` | Full chronological dev history (sections 1-29) |
+| `docs/deepsets-training-results.md` | DeepSets training results + parity-gap finding (May 2026) |
 | `docs/CLAUDE_REFERENCE.md` | Extended reference (cloud, sniffer, commentary, full file tables) |
 | `docs/plans/2026-03-09-training-plan-v3-READY-v3.md` | Training plan v3 (finalized) |
 | `docs/plans/2026-02-15-selfplay-training-master-plan.md` | Self-play training master plan |
