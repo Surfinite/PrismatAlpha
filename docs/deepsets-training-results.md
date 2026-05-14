@@ -75,10 +75,13 @@ Validation accuracy on the local val set is not the same as tournament strength 
 
 ### Players in the comparison
 
-The names in this section are inherited from the engine's config and don't perfectly self-describe. To avoid confusion:
+The names in this section are inherited from the engine's config and don't perfectly self-describe. To avoid confusion (config refs are `bin/asset/config/config.txt`):
 
-- **`LiveHardestAIUCT`** is Dave Churchill's `HardestAIUCT` — the UCT/MCTS variant of his open-source `HardestAI` baseline — plus two things we built on top: (a) the 50-entry opening book we extracted from the decompiled SWF (`LiveOpeningBook2`), and (b) our DeepSets neural evaluator. The "Live" prefix originally reflected the intent of *"configured to match the live game"*, but the SWF-extracted opening book has since been shown not to be what live MasterBot actually uses (see Interpretation, below). The name is kept here for continuity with the existing config; it should not be read as *"the live MasterBot AI"* — only as *"Dave's HardestAIUCT with some SWF-derived augmentations."*
+- **`LiveHardestAIUCT`** is Dave Churchill's `HardestAIUCT` — the UCT/MCTS variant of his open-source `HardestAI` baseline — with one thing we built on top: the 50-entry opening book extracted from the decompiled SWF (`LiveOpeningBook2`, applied via the `LiveHardestAI_Root` move iterator). The evaluator is still Dave's original **playout eval** (`"Eval":"Playout"`) — not DSNN. The "Live" prefix originally reflected the intent of *"configured to match the live game"*, but the SWF-extracted opening book has since been shown not to be what live MasterBot actually uses (see Interpretation, below). The name is kept here for continuity with the existing config; it should not be read as *"the live MasterBot AI"* — only as *"Dave's HardestAIUCT with the SWF opening book bolted on."*
+- **`DSNN_MBonly`, `DSNN_MBonly_SWA`, `DSNN_Human`, `DSNN_Mixed`, `DSNN_Mixed_SWA`** share the same engine skeleton as `LiveHardestAIUCT` (UCT search, same time limits, same `LiveHardestAI_Root` opening-book-aware move iterator) but swap the evaluator for **`"Eval":"NeuralNet"`** loading the respective DSN2 weight file. These are the players that actually use the trained DeepSets evaluator.
 - **`STEAMAI`** wraps Steam's native `PrismataAI.exe` binary — the actual live MasterBot — and drives it via the same JSON request protocol that the SWF uses.
+
+**Important caveat:** the Mar 17 single-unit sweep below was run with `LiveHardestAIUCT` (playout eval) vs `STEAMAI`, **not** with any of the `DSNN_*` variants. So the sweep measures the **playout-eval baseline's** parity gap against MasterBot, not the trained models' gap. The DSNN players' behaviour in the same matchup has not been directly measured — see *Implication for the trained models* and *Open Questions* below.
 
 ### Single-Unit Sweep — Mar 17, 2026
 
@@ -119,13 +122,20 @@ Replays for each per-unit run are saved under `bin/asset/replays/2026-03-17_*_Li
 
 ### Implication for the trained models
 
-A neural evaluator improves play strength only to the extent that the surrounding search and policy stack can act on its evaluations effectively. With a base AI losing ~80% of these single-unit matchups against MasterBot, the upstream parity gap dominates whatever signal the value head provides.
+A neural evaluator improves play strength only to the extent that the surrounding search and policy stack can act on its evaluations effectively. With the playout-eval baseline losing ~80% of single-unit matchups against MasterBot, the upstream parity gap dominates whatever signal a value head sitting on top of the same engine could provide.
 
 Under the OB-in-binary theory, the practical roadmap looks like:
 
-- **Recovering Elyot's modified opening book** is the most likely-shaped lever to close the gap.
+- **Recovering Elyot's modified opening book** is the most likely-shaped lever to close the gap against MasterBot.
 - **Recovery paths**, in rough order of effort: (a) Elyot sharing the source modifications, (b) extracting compiled-in OB data from `PrismataAI.exe` via reverse-engineering (strings dump, disassembly), (c) reconstructing the OB empirically from observed MasterBot play across many positions.
-- **Additional training will not fix this.** The trained models are already learning to reproduce `PrismataAI.exe` behaviour — including whatever OB it has compiled in. The bottleneck is the open-source engine's *playing strategy* on positions the OB covers, not the evaluator's accuracy.
+- **Additional training will not fix this.** The trained models are already learning to reproduce `PrismataAI.exe` behaviour — including whatever OB it has compiled in. The bottleneck for the *MasterBot-parity* goal is the open-source engine's playing strategy on OB-relevant positions, not the evaluator's accuracy.
+
+**Untested but important — the DSNN evaluator ablations:** because the sweep used `LiveHardestAIUCT` (playout eval) and not any `DSNN_*` variant, we do not yet have data on:
+
+- **Does DSNN beat the playout baseline?** `DSNN_MBonly` vs `LiveHardestAIUCT` head-to-head with the same OB and same search would isolate the evaluator's contribution from the parity gap. A clear DSNN win means the eval *is* adding signal within the broken engine, and recovering the OB would unlock it. A wash means the eval isn't doing useful work even with everything else held equal.
+- **Does DSNN narrow the gap to MasterBot?** Re-running the single-unit sweep with `DSNN_MBonly` instead of `LiveHardestAIUCT` would tell us whether the evaluator buys back any of the ~80% loss rate. Even a marginal improvement here would be informative.
+
+Without those ablations, this doc's claims about "the DSNN players are in a holding pattern" are inferred from the playout-eval result, not measured. Worth doing the head-to-head ablation before any further training data investment.
 
 The DSNN players are therefore in a holding pattern: the eval is a usable research artefact, but won't translate to tournament results until the open-source engine has access to the same opening-book information that's compiled into the deployed binary.
 
@@ -134,6 +144,8 @@ The DSNN players are therefore in a holding pattern: the eval is a usable resear
 ## Open Questions
 
 - **Verifying the OB-in-binary theory.** The current working theory (May 13 SWF trace) is that the parity gap is opening-book-shaped and that Elyot's modifications are compiled into `PrismataAI.exe`. Direct verification path: a strings dump of `PrismataAI.exe` looking for OB-shaped data (e.g. `strings PrismataAI.exe | grep -B1 -A3 'self":'` to find embedded JSON-formatted OB entries). Low effort, potentially conclusive. If structured OB data turns up, the theory is confirmed and the next question becomes how to extract and apply it. If nothing OB-shaped is found, the gap is somewhere else and earlier candidates re-enter the picture: heuristic resource weights, the `Ability_Filter` set, partial-player ordering, defense assignment logic.
+- **DSNN ablation 1 — does the evaluator help the search?** `DSNN_MBonly` vs `LiveHardestAIUCT` head-to-head (same search, same OB, only eval differs). 400 games with `--player-switch` is enough to detect a ~5% WR difference. A clear DSNN win means the eval is adding signal even within the broken engine; a wash means it isn't. This experiment has no dependency on MasterBot and can run locally any time.
+- **DSNN ablation 2 — does the evaluator narrow the gap to MasterBot?** Re-run the Mar 17 single-unit sweep methodology but with `DSNN_MBonly` (and/or other variants) instead of `LiveHardestAIUCT`. Tells us whether the evaluator buys back any of the ~80% loss rate against `STEAMAI`. Combined with ablation 1, this gives a clean read of where DSNN's value (if any) lives.
 - **Architecture ablations.** Encoder depth/width, embedding dim, value-head width were not swept within DeepSets. The 172K-param baseline is a starting point, not a tuned configuration. Listed as deferred in the spec's Open Questions.
 - **Policy head.** Not implemented. The current model is value-only. A policy head on the pooled representation could enable PUCT (currently disabled in `config.txt` pending policy >30% accuracy).
 - **Mixed run gain analysis.** Headline accuracy was indistinguishable from MB-only; whether human data helps in specific subsets (early game, particular matchups) was not measured.
