@@ -1,8 +1,8 @@
 # DeepSets Training Results & Status
 
-**Date:** 2026-05-09 (compiled from on-disk training logs and matchup data, March 2026)
+**Date:** 2026-05-13 (parity-gap framing refined; initial compilation 2026-05-09)
 **Companion to:** `docs/superpowers/specs/2026-03-11-deepsets-schema-redesign-design.md`
-**Status:** Models trained and exported to C++ inference. Tournament strength gated by upstream AI parity gap.
+**Status:** Models trained and exported to C++ inference. Tournament strength gated by an upstream AI parity gap whose most likely cause is opening-book modifications compiled into Steam's `PrismataAI.exe` (see Interpretation).
 
 ---
 
@@ -10,7 +10,9 @@
 
 A DeepSets evaluator was implemented per the March 11 design spec, trained on three data variants (MB-only, human-only, mixed), and exported into the C++ engine as five DSNN (DeepSets Neural Network) player configurations. Validation accuracy reached **78–82%** depending on data source.
 
-Tournament strength did **not** improve correspondingly. The bottleneck is upstream of the model: a Mar 17 single-unit sweep showed our `LiveHardestAIUCT` baseline wins only **~20%** of games against Steam's `STEAMAI` (a.k.a. MasterBot), with **60% of units losing 0-of-4** in like-for-like matchups. Until that parity gap closes, a stronger evaluator on a weaker engine yields little.
+Tournament strength did **not** improve correspondingly. The bottleneck is upstream of the model: a Mar 17 single-unit sweep showed our `LiveHardestAIUCT` baseline wins only **~20%** of games against Steam's `STEAMAI` (a.k.a. MasterBot), with **60% of units losing 0-of-4** in like-for-like matchups.
+
+A May 13 follow-up trace through the SWF AS3 makes the most parsimonious explanation: Elyot's stated *"only the opening book was really changed"* is plausibly correct, but the modifications live inside the compiled `PrismataAI.exe` binary itself rather than in any externally-loadable asset. The opening book we extracted from the SWF (`LiveOpeningBook2`) and applied to our open-source AI is a different artefact — almost certainly older or never-deployed — and never closes the gap. Until Elyot's compiled-in OB is recovered (via collaboration, RE of the binary, or empirical reconstruction), a stronger evaluator on the existing open-source engine yields little.
 
 ---
 
@@ -71,11 +73,18 @@ All use UCT search + NeuralNet eval + LiveHardestAI opening book. Weight format:
 
 Validation accuracy on the local val set is not the same as tournament strength against the live game's MasterBot. The model trains successfully, but downstream play strength is gated by the search engine and policy stack it sits on top of.
 
+### Players in the comparison
+
+The names in this section are inherited from the engine's config and don't perfectly self-describe. To avoid confusion:
+
+- **`LiveHardestAIUCT`** is Dave Churchill's `HardestAIUCT` — the UCT/MCTS variant of his open-source `HardestAI` baseline — plus two things we built on top: (a) the 50-entry opening book we extracted from the decompiled SWF (`LiveOpeningBook2`), and (b) our DeepSets neural evaluator. The "Live" prefix originally reflected the intent of *"configured to match the live game"*, but the SWF-extracted opening book has since been shown not to be what live MasterBot actually uses (see Interpretation, below). The name is kept here for continuity with the existing config; it should not be read as *"the live MasterBot AI"* — only as *"Dave's HardestAIUCT with some SWF-derived augmentations."*
+- **`STEAMAI`** wraps Steam's native `PrismataAI.exe` binary — the actual live MasterBot — and drives it via the same JSON request protocol that the SWF uses.
+
 ### Single-Unit Sweep — Mar 17, 2026
 
-The hypothesis from community feedback (e.g. Elyot's claim that "the only thing changed between Dave's code and the live game was the opening book for new units") would predict that `LiveHardestAIUCT` should perform comparably to live MasterBot on most units, with divergences concentrated in post-launch units lacking opening-book entries.
+A natural reading of Elyot's stated claim that *"the only thing changed between Dave's code and the live game was the opening book for new units"* would predict that `LiveHardestAIUCT` (which has *an* opening book extracted from the SWF applied) should perform comparably to live MasterBot on most units. The sweep tested this directly.
 
-The sweep tested this directly: **105 units × 4 games each = 418 games**, `LiveHardestAIUCT` vs `STEAMAI` (the wrapper for Steam's `PrismataAI.exe`, i.e. live MasterBot). Each game had only the named unit as the variable card. Think times were **asymmetrically favourable to Live**: 10s for Live, 5s for Steam. Color-balanced via `--player-switch`.
+**105 units × 4 games each = 418 games**, `LiveHardestAIUCT` vs `STEAMAI`. Each game had only the named unit as the variable card. Think times were **asymmetrically favourable to Live**: 10s for Live, 5s for Steam. Color-balanced via `--player-switch`.
 
 Raw data: [js_engine/sweep_results.jsonl](../js_engine/sweep_results.jsonl).
 
@@ -92,25 +101,39 @@ Raw data: [js_engine/sweep_results.jsonl](../js_engine/sweep_results.jsonl).
 
 ### Interpretation
 
-The community claim that only the opening book differs between Dave's published code and the live game is **not supported by this data**. If it were, we'd expect a small set of post-launch units (those without opening-book entries) to show parity gaps and the rest to be near 50/50. Instead:
+The headline result — `LiveHardestAIUCT` winning ~20% of single-unit matchups with **60% of units losing 0/4** — establishes that the divergence is large and systematic. The initial reading of this data (May 2026, captured in earlier versions of this doc) was *"the gap is more than just the opening book, contradicting Elyot's claim."* A May 13 follow-up trace through the decompiled SWF shows that reading is wrong. The corrected picture:
 
-- Approximately **two-thirds of all units** (67/105) show Live materially underperforming Steam.
-- The 0/4 outcomes are concentrated heavily, suggesting systemic AI-behavior differences rather than opening-book-only divergence.
-- Only ~36% of units show genuine parity.
+**The SWF opening book is not what live MasterBot actually uses.** The AS3 code in `prismata_decompiled/scripts/AI/AIThreadHandler.as` (lines 297–303, 340–347) explicitly omits the opening-book portion of the AI parameter blob when the difficulty is `HardestAI` (the difficulty live MasterBot runs at). That decision is encoded in an `AI_NO_OPENINGS` list at line 110. The 50-entry `LiveOpeningBook2` we extracted from the SWF is present in the binary asset but never fed into the AI loop at runtime for the relevant difficulty. It is most likely a relic — an older opening-book version, or one that was never wired into the deployed AI path.
 
-Whether the divergences are heuristic-weight changes, partial-player ordering, ability-targeting logic, or evaluation tuning is not yet known — the sweep identifies *where* parity fails but not *why*. Replays for each per-unit run are saved under `bin/asset/replays/2026-03-17_*_LiveUCTVsMB_SingleUnit_UnevenThink_*` for inspection.
+**The most parsimonious explanation for the parity gap is therefore:** Elyot's opening-book modifications live inside the compiled `PrismataAI.exe` binary itself, not in any externally-loadable asset. The SWF OB we extracted is a different artefact — likely older or never-deployed. Under this theory, Elyot's *"only the opening book was really changed"* claim is plausibly correct, but the modified opening book is not recoverable from any public source: it is compiled into the .exe.
+
+This explanation accommodates all the observations:
+- Elyot's stated claim that "only the opening book was changed"
+- AS3 not feeding the SWF OB to `PrismataAI.exe` for `HardestAI`
+- `LiveHardestAIUCT` losing 60% of units 0/4 despite having `LiveOpeningBook2` applied (it has the *wrong* OB — different from whatever is compiled into the .exe)
+- Our training data (PrismataAI.exe self-play) accurately reflecting live MasterBot behaviour — the .exe's compiled-in OB is in effect regardless of what aiParameters we pass it
+
+What we **don't yet have** is direct verification that `PrismataAI.exe` actually contains a compiled-in opening book. That is the next concrete test (see Open Questions).
+
+Replays for each per-unit run are saved under `bin/asset/replays/2026-03-17_*_LiveUCTVsMB_SingleUnit_UnevenThink_*` for inspection.
 
 ### Implication for the trained models
 
-A neural evaluator improves play strength only to the extent that the surrounding search and policy stack can act on its evaluations effectively. With a base AI losing ~80% of these single-unit matchups against MasterBot — and 100% on a majority of units — the upstream parity gap dominates whatever signal the value head provides. The DSNN players are therefore in a holding pattern: the eval works as a research artefact, but won't translate to tournament results until the engine's AI behaviour matches the live game more closely.
+A neural evaluator improves play strength only to the extent that the surrounding search and policy stack can act on its evaluations effectively. With a base AI losing ~80% of these single-unit matchups against MasterBot, the upstream parity gap dominates whatever signal the value head provides.
 
-This re-orders the practical roadmap: **AI parity work has to come before further training data investment.**
+Under the OB-in-binary theory, the practical roadmap looks like:
+
+- **Recovering Elyot's modified opening book** is the most likely-shaped lever to close the gap.
+- **Recovery paths**, in rough order of effort: (a) Elyot sharing the source modifications, (b) extracting compiled-in OB data from `PrismataAI.exe` via reverse-engineering (strings dump, disassembly), (c) reconstructing the OB empirically from observed MasterBot play across many positions.
+- **Additional training will not fix this.** The trained models are already learning to reproduce `PrismataAI.exe` behaviour — including whatever OB it has compiled in. The bottleneck is the open-source engine's *playing strategy* on positions the OB covers, not the evaluator's accuracy.
+
+The DSNN players are therefore in a holding pattern: the eval is a usable research artefact, but won't translate to tournament results until the open-source engine has access to the same opening-book information that's compiled into the deployed binary.
 
 ---
 
 ## Open Questions
 
-- **Source of the parity gap.** The single-unit sweep tells us *where* divergence appears but not *why*. Reading the engine-logic audit findings ([docs/audit/](audit/)) plus inspecting per-unit replays where Live loses 0/4 should narrow this. Likely candidates: heuristic resource weights, the `Ability_Filter` set, partial-player ordering, defense assignment logic.
+- **Verifying the OB-in-binary theory.** The current working theory (May 13 SWF trace) is that the parity gap is opening-book-shaped and that Elyot's modifications are compiled into `PrismataAI.exe`. Direct verification path: a strings dump of `PrismataAI.exe` looking for OB-shaped data (e.g. `strings PrismataAI.exe | grep -B1 -A3 'self":'` to find embedded JSON-formatted OB entries). Low effort, potentially conclusive. If structured OB data turns up, the theory is confirmed and the next question becomes how to extract and apply it. If nothing OB-shaped is found, the gap is somewhere else and earlier candidates re-enter the picture: heuristic resource weights, the `Ability_Filter` set, partial-player ordering, defense assignment logic.
 - **Architecture ablations.** Encoder depth/width, embedding dim, value-head width were not swept within DeepSets. The 172K-param baseline is a starting point, not a tuned configuration. Listed as deferred in the spec's Open Questions.
 - **Policy head.** Not implemented. The current model is value-only. A policy head on the pooled representation could enable PUCT (currently disabled in `config.txt` pending policy >30% accuracy).
 - **Mixed run gain analysis.** Headline accuracy was indistinguishable from MB-only; whether human data helps in specific subsets (early game, particular matchups) was not measured.
