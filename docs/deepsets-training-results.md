@@ -130,22 +130,72 @@ Under the OB-in-binary theory, the practical roadmap looks like:
 - **Recovery paths**, in rough order of effort: (a) Elyot sharing the source modifications, (b) extracting compiled-in OB data from `PrismataAI.exe` via reverse-engineering (strings dump, disassembly), (c) reconstructing the OB empirically from observed MasterBot play across many positions.
 - **Additional training will not fix this.** The trained models are already learning to reproduce `PrismataAI.exe` behaviour — including whatever OB it has compiled in. The bottleneck for the *MasterBot-parity* goal is the open-source engine's playing strategy on OB-relevant positions, not the evaluator's accuracy.
 
-**Untested but important — the DSNN evaluator ablations:** because the sweep used `LiveHardestAIUCT` (playout eval) and not any `DSNN_*` variant, we do not yet have data on:
+**DSNN evaluator ablations:** the Mar 17 sweep used `LiveHardestAIUCT` (playout eval), not any `DSNN_*` variant. Two follow-up questions:
 
-- **Does DSNN beat the playout baseline?** `DSNN_MBonly` vs `LiveHardestAIUCT` head-to-head with the same OB and same search would isolate the evaluator's contribution from the parity gap. A clear DSNN win means the eval *is* adding signal within the broken engine, and recovering the OB would unlock it. A wash means the eval isn't doing useful work even with everything else held equal.
-- **Does DSNN narrow the gap to MasterBot?** Re-running the single-unit sweep with `DSNN_MBonly` instead of `LiveHardestAIUCT` would tell us whether the evaluator buys back any of the ~80% loss rate. Even a marginal improvement here would be informative.
+- **Does DSNN beat the playout baseline?** `DSNN_MBonly` vs `LiveHardestAIUCT` head-to-head with the same OB and same search would isolate the evaluator's contribution from the parity gap. **Ran May 14 — results in the next section.**
+- **Does DSNN narrow the gap to MasterBot?** Re-running the single-unit sweep with `DSNN_MBonly` instead of `LiveHardestAIUCT` would tell us whether the evaluator buys back any of the ~80% loss rate. Not yet run.
 
-Without those ablations, this doc's claims about "the DSNN players are in a holding pattern" are inferred from the playout-eval result, not measured. Worth doing the head-to-head ablation before any further training data investment.
+The DSNN players are in a holding pattern: the eval is a usable research artefact, but won't translate to tournament results until the open-source engine has access to the same opening-book information that's compiled into the deployed binary.
 
-The DSNN players are therefore in a holding pattern: the eval is a usable research artefact, but won't translate to tournament results until the open-source engine has access to the same opening-book information that's compiled into the deployed binary.
+---
+
+## DSNN vs Playout — Head-to-Head Ablation (May 14, 2026)
+
+A direct comparison of the DeepSets evaluator against the playout baseline, with the engine substrate, search algorithm, opening book, and time budget held constant.
+
+### Methodology
+
+```bash
+node matchup_clean.js \
+  --games 800 --parallel 8 --think-time 5000 --player-switch \
+  --player-white DSNN_MBonly --player-black LiveHardestAIUCT \
+  --save-replays DSNNvsLiveHardestAIUCT-800
+```
+
+- **800 games**, organised as 400 colour-swapped pairs via `--player-switch`
+- **5 s think time per turn**, 8 parallel workers
+- Both players use UCT search with the `LiveHardestAI_Root` move iterator (so `LiveOpeningBook2` is consulted by both sides) and the same time / max-traversal limits
+- The only difference between the two players is the evaluator:
+  - `DSNN_MBonly`: `"Eval":"NeuralNet"` with `neural_weights_mbonly.bin` (DeepSets MB-only model, epoch 98 SWA, val acc 82.4%)
+  - `LiveHardestAIUCT`: `"Eval":"Playout"` with the `Live_Playout` partial-player
+
+Replays: `bin/asset/replays/2026-05-14_12-50-09_DSNNvsLiveHardestAIUCT-800/`. Run log: `js_engine/DSNNvsLiveHardestAIUCT-800_2026_05_14.log`.
+
+### Results
+
+| Metric | Value |
+|---|---|
+| Total games | 800 |
+| **`DSNN_MBonly` WR (seat-independent)** | **30.0%** |
+| **`LiveHardestAIUCT` WR (seat-independent)** | **66.9%** |
+| Draws | 25 (3.1%) |
+| Avg game length | 36 turns |
+| Invalid games | 0 |
+
+Pair breakdown (400 pairs):
+
+| Outcome | Count |
+|---|---|
+| `LiveHardestAIUCT` sweeps 2-0 | 193 |
+| Split (1-1) | 174 |
+| `DSNN_MBonly` sweeps 2-0 | 33 |
+
+Raw colour tally (showing the standard P2-first-Drone advantage):
+
+| Colour | Wins | % |
+|---|---|---|
+| White | 330 | 41.3% |
+| Black | 445 | 55.6% |
+
+Interpretation deferred.
 
 ---
 
 ## Open Questions
 
 - **Verifying the OB-in-binary theory.** The current working theory (May 13 SWF trace) is that the parity gap is opening-book-shaped and that Elyot's modifications are compiled into `PrismataAI.exe`. Direct verification path: a strings dump of `PrismataAI.exe` looking for OB-shaped data (e.g. `strings PrismataAI.exe | grep -B1 -A3 'self":'` to find embedded JSON-formatted OB entries). Low effort, potentially conclusive. If structured OB data turns up, the theory is confirmed and the next question becomes how to extract and apply it. If nothing OB-shaped is found, the gap is somewhere else and earlier candidates re-enter the picture: heuristic resource weights, the `Ability_Filter` set, partial-player ordering, defense assignment logic.
-- **DSNN ablation 1 — does the evaluator help the search?** `DSNN_MBonly` vs `LiveHardestAIUCT` head-to-head (same search, same OB, only eval differs). 400 games with `--player-switch` is enough to detect a ~5% WR difference. A clear DSNN win means the eval is adding signal even within the broken engine; a wash means it isn't. This experiment has no dependency on MasterBot and can run locally any time.
-- **DSNN ablation 2 — does the evaluator narrow the gap to MasterBot?** Re-run the Mar 17 single-unit sweep methodology but with `DSNN_MBonly` (and/or other variants) instead of `LiveHardestAIUCT`. Tells us whether the evaluator buys back any of the ~80% loss rate against `STEAMAI`. Combined with ablation 1, this gives a clean read of where DSNN's value (if any) lives.
+- **DSNN ablation 1 — does the evaluator help the search?** Run May 14, 2026 (800 games at 5 s think time, see *DSNN vs Playout — Head-to-Head Ablation* section above for numbers).
+- **DSNN ablation 2 — does the evaluator narrow the gap to MasterBot?** Re-run the Mar 17 single-unit sweep methodology but with `DSNN_MBonly` (and/or other variants) instead of `LiveHardestAIUCT`. Tells us whether the evaluator buys back any of the ~80% loss rate against `STEAMAI`. Not yet run.
 - **Architecture ablations.** Encoder depth/width, embedding dim, value-head width were not swept within DeepSets. The 172K-param baseline is a starting point, not a tuned configuration. Listed as deferred in the spec's Open Questions.
 - **Policy head.** Not implemented. The current model is value-only. A policy head on the pooled representation could enable PUCT (currently disabled in `config.txt` pending policy >30% accuracy).
 - **Mixed run gain analysis.** Headline accuracy was indistinguishable from MB-only; whether human data helps in specific subsets (early game, particular matchups) was not measured.
