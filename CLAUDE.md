@@ -174,7 +174,7 @@ python training/export_weights_v2.py \
 - **Selfplay shard binary format**: Header 64 bytes + 4-byte CRC32 footer. Record size = 7152 bytes.
 - **Selfplay game counting**: `python -c "import os; base='bin/training/data/selfplay'; total=sum((os.path.getsize(os.path.join(r,f))-68)//7152 for r,_,fs in os.walk(base) for f in fs if f.endswith('.bin') and os.path.getsize(os.path.join(r,f))>68); print(f'{total} records, ~{total//37} games')"`.
 - **Self-play uses playout eval**: `SelfPlay_CI` runs `OriginalHardestAI_1s` vs itself. Neural net NOT used for generation. ~4 games/min per 4-thread process.
-- **P2 wins 57.3%**: P2 starts with extra Drone. Not a data quality issue — real game asymmetry.
+- **P2 wins ~57% in current AI matchups**: Real observed asymmetry, not a data quality issue. The *cause* isn't fully settled — the extra Drone is compensation for going second, not an advantage in itself. Community view is it may equalise under strong-enough AI.
 - **PID-based random seeding**: `srand(time ^ PID)` prevents identical sequences.
 - **Value-only model export**: `export_weights.py` exports zero-initialized policy tensors. C++ requires all 26 tensors.
 
