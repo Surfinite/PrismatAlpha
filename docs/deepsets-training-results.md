@@ -180,7 +180,7 @@ Pair breakdown (400 pairs):
 | Split (1-1) | 174 |
 | `DSNN_MBonly` sweeps 2-0 | 33 |
 
-Raw colour tally (showing the standard P2-first-Drone advantage):
+Raw colour tally:
 
 | Colour | Wins | % |
 |---|---|---|
