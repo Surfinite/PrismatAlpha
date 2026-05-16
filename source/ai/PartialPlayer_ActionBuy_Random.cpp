@@ -1,5 +1,4 @@
 #include "PartialPlayer_ActionBuy_Random.h"
-#include "Random.h"
 
 using namespace Prismata;
 
@@ -43,7 +42,7 @@ void PartialPlayer_ActionBuy_Random::getMove(GameState & state, Move & move)
             return;
         }
 
-        Action a = buyActions[Random::Int(buyActions.size())];
+        Action a = buyActions[rand() % buyActions.size()];
         state.doAction(a);
         move.addAction(a);
     }
