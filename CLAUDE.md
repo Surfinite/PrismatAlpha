@@ -5,7 +5,7 @@
 > **Training plan V1**: `docs/plans/2026-03-06-training-plan-v1.md`
 > **Self-play master plan**: `docs/plans/2026-02-15-selfplay-training-master-plan.md`
 
-## Current Status (May 11, 2026)
+## Current Status (May 16, 2026)
 
 **Repo renamed `PrismatAI → PrismatAlpha`** (May 5–9). GitHub at github.com/Surfinite/PrismatAlpha. Local filesystem path unchanged (`c:\libraries\PrismataAI\`).
 
@@ -13,13 +13,16 @@
 
 **DeepSets models exported.** MB-only: 82.4% val acc, Human-only: 78.2%, Mixed: 82.2%. Five DSNN players configured. Results doc: `docs/deepsets-training-results.md`.
 
-**Parity gap quantified.** Mar 17 single-unit sweep (105 units × 4 games): LiveHardestAIUCT wins ~20% vs STEAMAI, 60% of units lose 0/4. Closing this is now a prerequisite to DSNN tournament strength.
+**Parity gap quantified.** Mar 17 single-unit sweep (105 units × 4 games): LiveHardestAIUCT wins ~20% vs STEAMAI, 60% of units lose 0/4. May 14 ablation (800 games at 5 s think): `DSNN_MBonly` vs `LiveHardestAIUCT` ended **30.0% to 66.9%** — DSNN lost decisively on the same engine + OB.
+
+**Real MasterBot OB located (May 14).** The 50-entry `LiveOpeningBook2` baked into `LiveHardestAIUCT` is NOT the OB live MasterBot uses. The real OB is **120 entries in the SWF short-params blob** (`tmp_swf_extract/93_AI.AIThreadHandler_aiParam_shortTextLoad.bin`), fed to `PrismataAI.exe` over stdin via the `aiParameters` JSON. `PrismataAI.exe` has NO compiled-in OB (strings dump verified). Next experiments planned in `docs/deepsets-training-results.md` "Planned next steps" section.
 
 **DeadGameBot live** — Plays casual games on the Prismata server using the SteamAI bridge. First live replay Mar 31. State-tracker work ongoing.
 
 **Active work items:**
-1. **Engine parity** — narrow `LiveHardestAIUCT` ↔ `STEAMAI` gap (heuristic weights, ability filters, partial-player ordering)
-2. **DeadGameBot state-tracker** — divergence after MB turns (no clicks sent)
+1. **Extract 120-entry MB OB** from short-params blob into `config.txt`, wire into a new player config, test vs `STEAMAI`
+2. **Re-run DSNN-vs-playout ablation** with the corrected OB on both sides
+3. **DeadGameBot state-tracker** — divergence after MB turns (no clicks sent)
 
 ## What This Project Is
 
@@ -122,7 +125,9 @@ python training/export_weights_v2.py \
 - **Feature schema contract (DeepSets, current)**: `training/schema_v2.json` + `training/property_table.json`. Per-instance tokens (32 embed + 13 static + 10 instance state = 55-dim). Changes must sync across `vectorize_v2.py`, `model_deepsets.py`, `NeuralNet.cpp`, and `schema_v2.json`.
 - **Legacy flat schema (PrismataNet)**: `training/schema.json` + `training/FEATURES.md`, state_dim=1785. Kept for the value-only baseline; not the current path.
 - **Per-player NN weights**: Players with `"WeightsFile":"neural_weights_X.bin"` in config.txt auto-load their weights in `--suggest` mode. `--weights <path>` CLI arg overrides. Weight files live in `bin/asset/config/`.
-- **DSNN players**: `DSNN_MBonly` (ep98, 82.4%), `DSNN_MBonly_SWA` (SWA avg), `DSNN_Human` (ep26, 78.2%). All use UCT + NeuralNet eval + LiveHardestAI opening book.
+- **DSNN players**: `DSNN_MBonly` (ep98, 82.4%), `DSNN_MBonly_SWA` (SWA avg), `DSNN_Human` (ep26, 78.2%). All use UCT + NeuralNet eval + the `LiveHardestAI_Root` move iterator (which consults `LiveOpeningBook2`). **Caveat (May 14): `LiveOpeningBook2` is not the OB live MasterBot uses — see SWF aiParameters routing gotcha below.**
+- **SWF aiParameters routing**: SWF embeds TWO parameter blobs — full (`tmp_swf_extract/148_*.bin`, 988 OB entries) and short (`tmp_swf_extract/93_*.bin`, 120 OB entries). AS3 `AI_NO_OPENINGS` list at `prismata_decompiled/scripts/AI/AIThreadHandler.as:110` routes `HardestAI`/`MediumAI`/etc. to the SHORT blob. "short" does NOT mean OB-less — it has its own 120-entry OB. Live MasterBot runs at `HardestAI`, so it sees the short blob's 120 entries. `PrismataAI.exe` has no compiled-in OB (May 14 strings dump verified) — the OB comes via the aiParameters JSON over stdin.
+- **`LiveOpeningBook2` is the wrong OB**: 50 entries extracted from the SWF (likely from the full blob), but live MasterBot uses the short blob's 120 entries. `LiveHardestAIUCT` and all `DSNN_*` players are currently configured with the wrong OB. To run any meaningful MB-parity test, the 120-entry OB needs extracting from `93_*.bin` into `config.txt` and wiring into a new player config.
 - **NeuralNet singleton**: All NN eval goes through `NeuralNet::Instance()`. Can't pit two NN players in same C++ process. For matchup_clean.js this is fine (fresh process per turn).
 - **PRISMATA_ASSERT**: Soft assert — prints to **stdout**, does NOT abort. Use `std::ifstream` instead of `FileUtils::ReadFile` when stdout must stay clean.
 - **x86 OOM — 4 threads max per process**: `/LARGEADDRESSAWARE` = 4GB. Use `"Threads": 4` + multiple bat instances. Process dies silently at ~1400 games.
