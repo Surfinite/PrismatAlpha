@@ -197,21 +197,22 @@ Local vs SWF short:
 - `BuyTechEcon`
 - `DefenseSolver`
 
-## 4. Referenced supporting tables
+## 4. Referenced supporting tables (chain-reachable only)
+Walks the iterator chain in each source and collects every value that lives at the `buyLimits` / `filter` / `openingBook` key. The lookup uses each source's ORIGINAL (pre-normalisation) ref name to fetch content — so a local `Live_Ability_Filter` ref compares against the SWF's `Ability_Filter`, not against the bare `Ability_Filter` that exists in `config.txt` for the HardIterator family but is not on this chain.
+
 ### 4a. Buy Limits referenced
-| Name | Local | SWF short | SWF full | Content match? |
-|---|---|---|---|---|
+_No `buyLimits` references in any chain._
 
 ### 4b. Filters referenced
-| Name | Local | SWF short | SWF full | Content match? |
+| Normalised name | Local ref (orig) | SWF short ref | SWF full ref | Content match? |
 |---|---|---|---|---|
-| `Ability_Filter` | ✅ | ✅ | ✅ | ❗ DIFFER |
+| `Ability_Filter` | `Live_Ability_Filter` | `Ability_Filter` | `Ability_Filter` | ✅ same |
 
 ### 4c. Opening Books referenced
-| Name | Local | SWF short | SWF full | Content match? |
+| Normalised name | Local ref (orig) | SWF short ref | SWF full ref | Content match? |
 |---|---|---|---|---|
-| `DefaultOpeningBook` | ✅ | ✅ | ✅ | ❗ DIFFER |
-| `DefaultOpeningBook2` | — | ✅ | ✅ | n/a |
-| `LiveOpeningBook` | ✅ | — | — | n/a |
-| `LiveOpeningBook2` | ✅ | — | — | n/a |
+| `DefaultOpeningBook` | — | `DefaultOpeningBook` | `DefaultOpeningBook` | ✅ same (where present) |
+| `DefaultOpeningBook2` | — | `DefaultOpeningBook2` | `DefaultOpeningBook2` | ✅ same (where present) |
+| `LiveOpeningBook` | `LiveOpeningBook` | — | — | n/a |
+| `LiveOpeningBook2` | `LiveOpeningBook2` | — | — | n/a |
 

@@ -315,76 +315,63 @@ def build_report(local: Blob, short: Blob, full: Blob,
         out.append("\n")
 
     # ---------------------------------------------------------------- supporting tables: Buy Limits, Filters, OBs referenced
-    out.append("## 4. Referenced supporting tables\n")
+    out.append("## 4. Referenced supporting tables (chain-reachable only)\n")
+    out.append("Walks the iterator chain in each source and collects every value that lives at "
+               "the `buyLimits` / `filter` / `openingBook` key. The lookup uses each source's "
+               "ORIGINAL (pre-normalisation) ref name to fetch content — so a local "
+               "`Live_Ability_Filter` ref compares against the SWF's `Ability_Filter`, not "
+               "against the bare `Ability_Filter` that exists in `config.txt` for the HardIterator "
+               "family but is not on this chain.\n\n")
 
-    def collect_refs(leaves: dict, key: str) -> set[str]:
-        refs = set()
-        def walk(v):
-            if isinstance(v, dict):
-                for kk, vv in v.items():
-                    if kk == key and isinstance(vv, str):
-                        refs.add(vv)
-                    else:
-                        walk(vv)
-            elif isinstance(v, list):
-                for x in v: walk(x)
-        for cfg in leaves.values():
-            walk(cfg)
-        return refs
+    def collect_chain_refs(blob: Blob, slots: list[list[str]], key: str) -> dict[str, str]:
+        """Return {normalised_name: original_name} for refs at `key` reachable from the chain."""
+        out_refs: dict[str, str] = {}
+        for slot in slots:
+            for branch in slot:
+                for leaf in resolve_partial_chain(blob, branch):
+                    cfg = blob.partial_players.get(leaf)
+                    if not isinstance(cfg, dict):
+                        continue
+                    v = cfg.get(key)
+                    if isinstance(v, str):
+                        norm = blob.norm(v)
+                        out_refs.setdefault(norm, v)
+        return out_refs
 
-    # Buy limits
-    out.append("### 4a. Buy Limits referenced\n")
-    bl_l = collect_refs(local_leaves, "buyLimits")
-    bl_s = collect_refs(short_leaves, "buyLimits")
-    bl_f = collect_refs(full_leaves, "buyLimits")
-    all_bl = sorted(bl_l | bl_s | bl_f)
-    out.append("| Name | Local | SWF short | SWF full | Content match? |\n|---|---|---|---|---|\n")
-    for name in all_bl:
-        in_l = name in local.buy_limits
-        in_s = name in short.buy_limits
-        in_f = name in full.buy_limits
-        match = "n/a"
-        if in_l and in_s and in_f:
-            same = local.buy_limits[name] == short.buy_limits[name] == full.buy_limits[name]
-            match = "✅ same" if same else "❗ DIFFER"
-        out.append(f"| `{name}` | {'✅' if in_l else '—'} | {'✅' if in_s else '—'} | {'✅' if in_f else '—'} | {match} |\n")
-    out.append("\n")
+    def emit_ref_table(label: str, key: str, table_attr: str) -> None:
+        out.append(f"### {label}\n")
+        l_refs = collect_chain_refs(local, local_slots, key)
+        s_refs = collect_chain_refs(short, short_slots, key)
+        f_refs = collect_chain_refs(full, full_slots, key)
+        all_norm = sorted(set(l_refs) | set(s_refs) | set(f_refs))
+        if not all_norm:
+            out.append(f"_No `{key}` references in any chain._\n\n")
+            return
+        out.append("| Normalised name | Local ref (orig) | SWF short ref | SWF full ref | Content match? |\n")
+        out.append("|---|---|---|---|---|\n")
+        for norm in all_norm:
+            l_orig = l_refs.get(norm)
+            s_orig = s_refs.get(norm)
+            f_orig = f_refs.get(norm)
+            l_content = getattr(local, table_attr).get(l_orig) if l_orig else None
+            s_content = getattr(short, table_attr).get(s_orig) if s_orig else None
+            f_content = getattr(full, table_attr).get(f_orig) if f_orig else None
+            match = "n/a"
+            present = [c for c in (l_content, s_content, f_content) if c is not None]
+            if len(present) == 3:
+                same = l_content == s_content == f_content
+                match = "✅ same" if same else "❗ DIFFER"
+            elif len(present) == 2:
+                match = "✅ same (where present)" if all(p == present[0] for p in present) else "❗ DIFFER (where present)"
+            l_cell = f"`{l_orig}`" if l_orig else "—"
+            s_cell = f"`{s_orig}`" if s_orig else "—"
+            f_cell = f"`{f_orig}`" if f_orig else "—"
+            out.append(f"| `{norm}` | {l_cell} | {s_cell} | {f_cell} | {match} |\n")
+        out.append("\n")
 
-    # Filters
-    out.append("### 4b. Filters referenced\n")
-    f_l = collect_refs(local_leaves, "filter")
-    f_s = collect_refs(short_leaves, "filter")
-    f_f = collect_refs(full_leaves, "filter")
-    all_f = sorted(f_l | f_s | f_f)
-    out.append("| Name | Local | SWF short | SWF full | Content match? |\n|---|---|---|---|---|\n")
-    for name in all_f:
-        in_l = name in local.filters
-        in_s = name in short.filters
-        in_f = name in full.filters
-        match = "n/a"
-        if in_l and in_s and in_f:
-            same = local.filters[name] == short.filters[name] == full.filters[name]
-            match = "✅ same" if same else "❗ DIFFER"
-        out.append(f"| `{name}` | {'✅' if in_l else '—'} | {'✅' if in_s else '—'} | {'✅' if in_f else '—'} | {match} |\n")
-    out.append("\n")
-
-    # OBs
-    out.append("### 4c. Opening Books referenced\n")
-    ob_l = collect_refs(local_leaves, "openingBook")
-    ob_s = collect_refs(short_leaves, "openingBook")
-    ob_f = collect_refs(full_leaves, "openingBook")
-    all_ob = sorted(ob_l | ob_s | ob_f)
-    out.append("| Name | Local | SWF short | SWF full | Content match? |\n|---|---|---|---|---|\n")
-    for name in all_ob:
-        in_l = name in local.opening_books
-        in_s = name in short.opening_books
-        in_f = name in full.opening_books
-        match = "n/a"
-        if in_l and in_s and in_f:
-            same = local.opening_books[name] == short.opening_books[name] == full.opening_books[name]
-            match = "✅ same" if same else "❗ DIFFER"
-        out.append(f"| `{name}` | {'✅' if in_l else '—'} | {'✅' if in_s else '—'} | {'✅' if in_f else '—'} | {match} |\n")
-    out.append("\n")
+    emit_ref_table("4a. Buy Limits referenced", "buyLimits", "buy_limits")
+    emit_ref_table("4b. Filters referenced", "filter", "filters")
+    emit_ref_table("4c. Opening Books referenced", "openingBook", "opening_books")
 
     return "".join(out)
 
