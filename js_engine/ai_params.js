@@ -7,8 +7,25 @@ const path = require('path');
  * ai_params.js — Load AI parameters from SWF-extracted .bin files.
  *
  * These are plain JSON text despite the .bin extension (extracted via JPEXS FFDec).
- * - Full params (148_*.bin): Used for turns 1-16, includes opening books
- * - Short params (93_*.bin): Used after turn 16, strict subset of full
+ *
+ * Routing is by aiDifficulty (primary) and turn number (fallback). See
+ * selectParams() and AS3 AIThreadHandler.as:297 / :340.
+ *
+ *   - Full params (148_*.bin): the default. Defines 105 opening books totalling
+ *     988 entries, including 98 unit-specific R_*OB books (R_AmporillaOB, ...).
+ *   - Short params (93_*.bin): used when aiDifficulty is in AI_NO_OPENINGS
+ *     (HardestAI, HardAI, ExpertAI, the BL_HighEcon_* family, the rusher
+ *     variants, mission bots) OR when turnNumber > 16. Defines 7 generic
+ *     opening books totalling 120 entries — DefaultOpeningBook2 (50),
+ *     FastimusOpeningBook (17), BlueTurnTwoOpeningBook (17), Xelgudu1OpeningBook
+ *     (13), ConduitOpeningBook (11), OpeningBook_HighEcon (8),
+ *     DefaultOpeningBook (4). The 98 per-unit R_*OB books are dropped.
+ *
+ * AI_NO_OPENINGS is therefore a misleading name: AIs in that list still get
+ * the generic OBs through the short blob (e.g. HardestAI's NewIterator_Root
+ * portfolio consumes DefaultOpeningBook2 via ACAvoidBreach_ChillSolver2 and
+ * DefaultOpeningBook via the other four ChillSolver branches). They just lose
+ * the per-unit R_*OB books that bot-league/random-set players reach for.
  *
  * The AS3 code (AIThreadHandler.as:203-209) strips all whitespace [\r\n\t]
  * before sending to MCDSAI.
