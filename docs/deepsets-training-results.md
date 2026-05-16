@@ -138,10 +138,21 @@ Interpretation deferred.
 
 ## Planned next steps
 
-A May 14 inspection of the SWF showed that the 50-entry `LiveOpeningBook2` used by `LiveHardestAIUCT` is not the opening book live MasterBot uses. The OB actually fed to `PrismataAI.exe` at `HardestAI` difficulty comes from the SWF's *short*-params blob (`93_*.bin`) and contains 120 different entries.
+**Retraction (May 16):** The May 14 claim that the OB feeding `PrismataAI.exe` at `HardestAI` difficulty is a "120-entry" book is wrong. Re-tracing the SWF aiParameters JSON properly:
 
-- Extract those 120 entries into `config.txt`, wire them into a new player config, and re-run the single-unit sweep against `STEAMAI` to see whether the parity gap closes.
-- Re-run the DSNN-vs-playout ablation with the corrected OB applied to both sides.
+- The 120-entry figure was a cross-OB sum across the 7 separate opening books defined in the short-params blob (`93_*.bin`).
+- `HardestAI` (= live MasterBot per [UINotHonorableIcon.as:50](../prismata_decompiled/scripts/starlingUI/game/gameover/UINotHonorableIcon.as#L50)) routes through `NewIterator_Root` → 5 ChillSolver portfolio branches. Tracing each branch transitively through `ActionAbility_Combination` wrappers, the only OBs actually consumed are `DefaultOpeningBook2` (50 entries, via branch 0 = ChillSolver2) and `DefaultOpeningBook` (4 entries, via branches 1–4).
+- Our local `LiveOpeningBook2` and `LiveOpeningBook` are **byte-identical** in content to those two SWF books. The portfolio structure of `LiveHardestAI_Root` also mirrors `NewIterator_Root` exactly.
+- Net: there is no OB extraction or wiring work to do. The OB hypothesis is not the explanation for the parity gap.
+
+Full structural diff and methodology: [docs/scratch/iterator_diff_report.md](scratch/iterator_diff_report.md), generator [docs/scratch/diff_iterator_chains.py](scratch/diff_iterator_chains.py).
+
+**Actual differences surfaced by the structural diff** (all other 17 leaf partials in the chain match across local / SWF short / SWF full):
+
+- `Ability_Filter` is missing **Odin** locally. SWF: `[Drake, Grenade Mech, Odin]`; local: `[Drake, Grenade Mech]`. Single-line config change to bring in line with SWF.
+- `AbilityAvoidDefenseWaste` and `AbilityAvoidResourceWaste` are present locally in every ChillSolver branch, absent from the SWF. These are intentional local additions (Surfinite); not candidates for removal.
+
+**Open question worth verifying separately:** whether `PrismataAI.exe` has any OB tables compiled in (the prior "strings dump" check is weak — a `strings` pass would miss structured binary tables of CardType IDs). DeadGameBot's MB-level strength when wrapping `PrismataAI.exe` is consistent with either compiled-in OBs OR with the .exe simply honouring the JSON-provided OBs. A focused test (empty `DefaultOpeningBook2` in aiParameters + known opening state + `--suggest`) would settle it.
 
 ---
 
