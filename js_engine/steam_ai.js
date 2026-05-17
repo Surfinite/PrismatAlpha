@@ -78,8 +78,15 @@ class SteamAI {
             // Spawn a fresh process for each move request.
             this.stop();
             this._process = spawn(this.exePath, [], {
-                stdio: ['pipe', 'pipe', 'ignore']
+                stdio: ['pipe', 'pipe', 'pipe'],
+                cwd: path.dirname(this.exePath)
             });
+            let stderrBuf = '';
+            this._process.stderr.on('data', (d) => {
+                stderrBuf += d.toString();
+                if (stderrBuf.length > 4096) stderrBuf = stderrBuf.slice(-4096);
+            });
+            this._lastStderr = () => stderrBuf;
 
             let outputBuffer = '';
             let resolved = false;
@@ -98,8 +105,9 @@ class SteamAI {
             const timer = setTimeout(() => {
                 if (!resolved) {
                     resolved = true;
+                    const tail = (this._lastStderr ? this._lastStderr() : '').slice(-1500);
                     cleanup();
-                    reject(new Error(`[SteamAI ${this.label}] Response timed out after ${this.timeout}ms`));
+                    reject(new Error(`[SteamAI ${this.label}] Response timed out after ${this.timeout}ms\n--- last stderr ---\n${tail}\n--- end stderr ---`));
                 }
             }, this.timeout);
 

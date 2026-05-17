@@ -784,6 +784,33 @@ async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamC
         steamConfig.fullParams, steamConfig.shortParams);
     const aiParams = JSON.parse(aiParamsStr);
 
+    // Auto-inject DSNN_* player blocks. SWF aiParameters has no DSNN entries
+    // since these are our own players. We inject defaults matching the config
+    // pattern used in PrismataAI-dave-master/bin/asset/config/config.txt so that
+    // requests can use aiPlayerName=DSNN_MBonly against Dave's Standalone.
+    const DSNN_WEIGHTS = {
+        DSNN_MBonly:     'neural_weights_mbonly.bin',
+        DSNN_MBonly_SWA: 'neural_weights_mbonly_swa.bin',
+        DSNN_Human:      'neural_weights_human.bin',
+        DSNN_Mixed:      'neural_weights_mixed.bin',
+        DSNN_Mixed_SWA:  'neural_weights_mixed_swa.bin'
+    };
+    if (difficulty.startsWith('DSNN_') && DSNN_WEIGHTS[difficulty]) {
+        aiParams.Players = aiParams.Players || {};
+        if (!aiParams.Players[difficulty]) {
+            aiParams.Players[difficulty] = {
+                type: 'Player_UCT',
+                TimeLimit: steamConfig.thinkTimeMs || 7000,
+                MaxChildren: 40,
+                MaxTraversals: 100000,
+                RootMoveIterator: 'HardIterator_Root',
+                MoveIterator: 'HardIterator',
+                Eval: 'NeuralNet',
+                WeightsFile: DSNN_WEIGHTS[difficulty]
+            };
+        }
+    }
+
     // Override TimeLimit if thinkTimeMs is specified (default params have 7000ms)
     if (steamConfig.thinkTimeMs && aiParams.Players && aiParams.Players[difficulty]) {
         aiParams.Players[difficulty].TimeLimit = steamConfig.thinkTimeMs;
@@ -1609,9 +1636,12 @@ async function playSingleGame(activeDeck, config) {
         let turnResult;
         if (isActiveSteamAI && steamConfig) {
             const steamWorker = activePlayer === 0 ? steamConfig.workerWhite : steamConfig.workerBlack;
+            const sideDifficulty = (activePlayer === 0
+                ? (steamConfig.difficultyWhite || steamConfig.difficulty)
+                : (steamConfig.difficultyBlack || steamConfig.difficulty)) || 'HardestAI';
             turnResult = await playSteamAITurn(
                 analyzer, activeDeck, steamWorker,
-                steamConfig.difficulty || 'HardestAI', steamConfig
+                sideDifficulty, steamConfig
             );
         } else if (isActiveMCDSAI && mcdsaiConfig) {
             const worker = activePlayer === 0 ? mcdsaiConfig.workerWhite : mcdsaiConfig.workerBlack;
@@ -1639,9 +1669,12 @@ async function playSingleGame(activeDeck, config) {
             // Retry
             if (isActiveSteamAI && steamConfig) {
                 const steamWorker = activePlayer === 0 ? steamConfig.workerWhite : steamConfig.workerBlack;
+                const sideDifficulty = (activePlayer === 0
+                    ? (steamConfig.difficultyWhite || steamConfig.difficulty)
+                    : (steamConfig.difficultyBlack || steamConfig.difficulty)) || 'HardestAI';
                 turnResult = await playSteamAITurn(
                     analyzer, activeDeck, steamWorker,
-                    steamConfig.difficulty || 'HardestAI', steamConfig
+                    sideDifficulty, steamConfig
                 );
             } else if (isActiveMCDSAI && mcdsaiConfig) {
                 const worker = activePlayer === 0 ? mcdsaiConfig.workerWhite : mcdsaiConfig.workerBlack;
@@ -2060,7 +2093,9 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             steam: config.steam ? {
                 ...config.steam,
                 workerWhite: config.steam.workerBlack,
-                workerBlack: config.steam.workerWhite
+                workerBlack: config.steam.workerWhite,
+                difficultyWhite: config.steam.difficultyBlack,
+                difficultyBlack: config.steam.difficultyWhite
             } : null
         };
 
@@ -2463,7 +2498,9 @@ async function main() {
     let thinkTimeWhiteMs = null;         // --think-time-white: override for white player
     let thinkTimeBlackMs = null;         // --think-time-black: override for black player
     let mcdsaiDifficulty = 'HardestAI';  // Default MCDSAI difficulty
-    let steamDifficulty = 'HardestAI';   // Default SteamAI difficulty
+    let steamDifficulty = 'HardestAI';   // Default SteamAI / DaveAI difficulty (aiPlayerName)
+    let steamDifficultyWhite = null;     // --steam-difficulty-white: per-side override
+    let steamDifficultyBlack = null;     // --steam-difficulty-black: per-side override
     let steamExeA = null;                // --steam-exe-a: Steam-protocol exe for player A (follows player through --player-switch)
     let steamExeB = null;                // --steam-exe-b: Steam-protocol exe for player B (follows player through --player-switch)
     let daveExePath = 'c:/libraries/PrismataAI-dave-master/bin/Prismata_Standalone.exe';  // Default DaveAI binary path
@@ -2492,6 +2529,8 @@ async function main() {
         if (args[i] === '--think-time-black' && args[i + 1]) { thinkTimeBlackMs = parseInt(args[++i], 10); }
         if (args[i] === '--mcdsai-difficulty' && args[i + 1]) { mcdsaiDifficulty = args[++i]; }
         if (args[i] === '--steam-difficulty' && args[i + 1]) { steamDifficulty = args[++i]; }
+        if (args[i] === '--steam-difficulty-white' && args[i + 1]) { steamDifficultyWhite = args[++i]; }
+        if (args[i] === '--steam-difficulty-black' && args[i + 1]) { steamDifficultyBlack = args[++i]; }
         if (args[i] === '--steam-exe-a' && args[i + 1]) { steamExeA = args[++i]; }
         if (args[i] === '--steam-exe-b' && args[i + 1]) { steamExeB = args[++i]; }
         if (args[i] === '--dave-exe' && args[i + 1]) { daveExePath = args[++i]; }
@@ -2774,6 +2813,8 @@ async function main() {
         workerWhite: steamWorkerWhite,
         workerBlack: steamWorkerBlack,
         difficulty: steamDifficulty,
+        difficultyWhite: steamDifficultyWhite || steamDifficulty,
+        difficultyBlack: steamDifficultyBlack || steamDifficulty,
         fullParams: steamFullParams,
         shortParams: steamShortParams,
         initDeck: null,  // Set per-game from activeDeck
