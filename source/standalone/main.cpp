@@ -8,6 +8,17 @@
 
 #ifdef WIN32
     #include <Windows.h>
+    #include <io.h>
+    #define DUP(fd) _dup(fd)
+    #define DUP2(fd1, fd2) _dup2(fd1, fd2)
+    #define FILENO(fp) _fileno(fp)
+    #define CLOSE(fd) _close(fd)
+#else
+    #include <unistd.h>
+    #define DUP(fd) dup(fd)
+    #define DUP2(fd1, fd2) dup2(fd1, fd2)
+    #define FILENO(fp) fileno(fp)
+    #define CLOSE(fd) close(fd)
 #endif
 
 using namespace Prismata;
@@ -51,8 +62,20 @@ int main(int argc, char *argv[])
         fout.close();
     }
 
+    // Redirect stdout to stderr during init/search so engine-internal printfs
+    // (e.g. "Base set has 11 cards" from CardTypes.cpp) don't corrupt the
+    // JSON response on stdout. The matchup runner parses our stdout as JSON.
+    fflush(stdout);
+    int savedStdout = DUP(FILENO(stdout));
+    DUP2(FILENO(stderr), FILENO(stdout));
+
     // initialize, compute the move, and print the resulting move
     std::string moveString = AITools::InitializeAIAndGetAIMove(inputLine);
+
+    // Restore stdout for the JSON response
+    fflush(stdout);
+    DUP2(savedStdout, FILENO(stdout));
+    CLOSE(savedStdout);
 
     // remove newlines from the resulting string so it counts as one line for stdout
     for (size_t i(0); i < moveString.size(); ++i)
