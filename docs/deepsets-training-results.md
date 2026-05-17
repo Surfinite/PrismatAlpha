@@ -156,6 +156,67 @@ Full structural diff and methodology: [docs/scratch/iterator_diff_report.md](scr
 
 ---
 
+## Parity-gap investigation — May 16–17
+
+Once the OB hypothesis was ruled out, we worked through the remaining candidates systematically. **Most of the hypotheses we entered with turned out to be incorrect**, and the surviving leading suspect is on our side, not Dave's. Honest summary:
+
+### Tournaments run (all 128 games, 7 s think, `--player-switch`, `--resign 0`, against `STEAMAI`)
+
+| Player on our side | LiveHardestAI WR | What it tested |
+|---|---|---|
+| `LiveHardestAIUCT` (Mar 17 baseline, UCT search) | ~20 % | The original parity-gap measurement. |
+| `LiveHardestAI` (AlphaBeta, master) | 21.9 % | Apples-to-apples search algorithm vs STEAMAI's AlphaBeta. |
+| `LiveHardestAI` on `dave-fixes-only` | 17.2 % | Cherry-picked Dave's `c93610f "fixes"` + `6279542 "suggested speed improvements"`. |
+| `LiveHardestAI` on `no-avoid-waste` | 18.8 % | Removed our local `AbilityAvoidDefenseWaste` + `AbilityAvoidResourceWaste` partials from the chain. |
+
+All four are statistically indistinguishable (~±4.4 % SE on each side). The chain on our side plays around 20 %; nothing inside it that we tried moved the needle meaningfully.
+
+### Eliminated hypotheses
+
+- **OB content drift** — local `LiveOpeningBook2` / `LiveOpeningBook` are byte-identical to SWF `DefaultOpeningBook2` / `DefaultOpeningBook`. The "120-entry MB OB" claim was a category error.
+- **Search algorithm (UCT vs AlphaBeta)** — moving from UCT to AlphaBeta changed WR by ~2 points. Not the cause.
+- **Dave's bug fixes** — the two commits that fixed real bugs (TechHeuristic `hasBlastforge` copy-paste, OpeningBook indexing, ChillScenario UB init, MoveIterator_AllAbility target-ability enumeration, BCG frontline penalty) do not close our gap. Steam's binary likely shares the same bugs since it was compiled in 2016 (we discovered this from the `version` command — see below).
+- **`AbilityAvoidDefenseWaste` / `AbilityAvoidResourceWaste`** — confirmed neutral, consistent with Wonderboat's theoretical-strict-benefit assessment. Removing them did not improve WR.
+
+### The decisive test (May 17 03:12 UTC)
+
+A fresh build of Dave's `Prismata_Standalone` from his current `origin/master` (HEAD `9a9fd34 rpab`), used as a drop-in replacement for SteamAI in the matchup runner:
+
+```
+DAVEAI (Dave's current source, built today)  vs  STEAMAI (Steam's PrismataAI.exe, compiled Jul 29 2016)
+                          55.5 %                                    44.5 %
+```
+
+128 games, 11-point margin, well outside noise. Dave's recent April 2026 commits **genuinely strengthened his AI** — his current source beats the decade-old Steam binary.
+
+**The compile-date discovery is incidental but worth recording:** both binaries respond to `version` on stdin. Steam's prints `C++ AI compiled on: Jul 29 2016 at 04:23:03`. So "Steam's binary" is roughly a 2016 snapshot of Dave's then-public code.
+
+### What this means
+
+Putting the two numbers next to each other:
+
+- `LiveHardestAI` (our build) vs `SteamAI` (Dave-2016) → 22 % WR
+- `DaveAI` (Dave's current source, fresh build) vs `SteamAI` (Dave-2016) → 55 % WR
+
+Both ought to represent "Dave's AI" running through the same JS-engine harness and same OB inputs. The ~33-point delta between them is **on our side**. The most plausible suspect by elimination: **our `source/engine_v2/`** — the clean-room engine rewrite that our `prismata_selfplay.exe` links against. Dave's binary uses his original `source/engine/`. AI search depth, move enumeration, and per-turn simulation throughput all flow through whichever engine the binary is linked to.
+
+This is the working hypothesis, not a verdict — confirming it cleanly needs at least one more test (our `HardestAI` config — Dave's original chain that's still in our `config.txt` — vs `DaveAI`, same chain on both sides, different engines).
+
+### Unblocked path: DSNN inside Dave's binary
+
+Dave's `source/standalone/main.cpp` is exactly the Steam-protocol entry point (one-shot stdin/stdout JSON). Building it fresh from his repo and pointing the matchup runner at it works end-to-end. That gives us a substrate for testing DSNN evaluation **without `engine_v2` in the picture** — the original goal of the DeepSets work re-framed.
+
+Concrete next move: port `NeuralNet.{cpp,h}` and the AIParameters extensions for `Eval:"NeuralNet"` from our master into Dave's tree, add a `DSNN_MBonly` player config to his `config.txt`, build, and test against `DaveAI` and `SteamAI`. Engineering effort is bounded — copy + small API adaptations for engine v1 method names; estimated half a day to a full evening.
+
+### Artefacts from this round
+
+- Structural diff: [docs/scratch/iterator_diff_report.md](scratch/iterator_diff_report.md) (script: [diff_iterator_chains.py](scratch/diff_iterator_chains.py))
+- OB consumption map: [docs/scratch/ob_consumption_map.md](scratch/ob_consumption_map.md) (script: [ob_consumption_map.py](scratch/ob_consumption_map.py))
+- Branches: `pre-dave-merge` (tag, master before any experiments), `dave-fixes-only` (Dave's two AI-logic fix commits cherry-picked + a 1-line Random.h workaround), `no-avoid-waste` (off `dave-fixes-only`, removes the two AbilityAvoid* partials from the LiveHardestAI chain). All pushed to `PrismatAlpha`.
+- Replay sets for each tournament under `bin/asset/replays/2026-05-1{6,7}_*` (saved during runs).
+
+---
+
 ## Related artefacts
 
 - [training/model_deepsets.py](../training/model_deepsets.py) — model
