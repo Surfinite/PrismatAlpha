@@ -162,7 +162,9 @@
     "PuzzlePlayer" :        { "type":"Player_PPSequence", "PartialPlayers":["DefenseSolver", "AbilityDefault", "BuyComboGreedyAttack", "BreachGreedyKnapsack"]},
     "PlayoutBuyNothing" :   { "type":"Player_PPSequence", "PartialPlayers":["DefenseSolver", "ACDefault", "BuyNothing", "BreachGreedyKnapsack"]},
     
-    "HardestAIUCT" :        { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},    
+    "HardestAIUCT" :        { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
+    "DSNN_MBonly" :         { "type":"Player_UCT", "TimeLimit":7000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"NeuralNet", "WeightsFile":"neural_weights_mbonly.bin" },
+
     "HardAIUCT" :           { "type":"Player_UCT", "TimeLimit":3000, "MaxChildren":40, "MaxTraversals":100000, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "HardestAI" :           { "type":"Player_StackAlphaBeta", "TimeLimit":7000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},
     "HardAI" :              { "type":"Player_StackAlphaBeta", "TimeLimit":3000, "MaxChildren":40, "RootMoveIterator":"HardIterator_Root", "MoveIterator":"HardIterator", "Eval":"Playout", "PlayoutPlayer":"Playout"},

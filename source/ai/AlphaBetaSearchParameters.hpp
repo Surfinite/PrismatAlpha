@@ -4,7 +4,9 @@
 #include "Player.h"
 #include "MoveIterator.h"
 #include "AlphaBetaSearchSaveState.hpp"
+#include "NeuralNet.h"
 #include <string>
+#include <memory>
 
 namespace Prismata
 {
@@ -18,6 +20,7 @@ class AlphaBetaSearchParameters
     double      _timeLimit = 0;
     size_t      _maxChildren = 40;
     int         _evalMethod = EvaluationMethods::WillScore;
+    double      _blendWeight = 0.5;
 
     bool    _resumeSearch = false;
     AlphaBetaSearchSaveState _saveState;
@@ -26,7 +29,9 @@ class AlphaBetaSearchParameters
     MoveIteratorPtr _moveIterators[2];
     MoveIteratorPtr _rootMoveIterators[2];
 
-    //std::string                             _graphVizFilename;  
+    NeuralNetPtr    _neuralNet;
+
+    //std::string                             _graphVizFilename;
 
 
 public:
@@ -37,26 +42,13 @@ public:
 
     }
 
-    AlphaBetaSearchParameters clone() const
-    {
-        AlphaBetaSearchParameters copy(*this);
-
-        for (PlayerID p(0); p < 2; ++p)
-        {
-            copy._playoutPlayers[p] = _playoutPlayers[p] ? _playoutPlayers[p]->clone() : PlayerPtr();
-            copy._moveIterators[p] = _moveIterators[p] ? _moveIterators[p]->clone() : MoveIteratorPtr();
-            copy._rootMoveIterators[p] = _rootMoveIterators[p] ? _rootMoveIterators[p]->clone() : MoveIteratorPtr();
-        }
-
-        return copy;
-    }
-
     int searchMethod() const { return _searchMethod; }
     PlayerID maxPlayer() const { return _maxPlayer; }
     int maxDepth() const { return _maxDepth; }
     double timeLimit() const { return _timeLimit; }
     size_t maxChildren() const { return _maxChildren; }
     int evalMethod() const { return _evalMethod; }
+    double blendWeight() const { return _blendWeight; }
     PlayerPtr getPlayoutPlayer(const PlayerID p) const { return _playoutPlayers[p]; }
     bool resumeSearch() const { return _resumeSearch; }
     const AlphaBetaSearchSaveState & getSaveState() const { return _saveState; }
@@ -64,6 +56,8 @@ public:
     MoveIteratorPtr & getRootMoveIterator(const PlayerID p) { return _rootMoveIterators[p]; }
     const MoveIteratorPtr & getMoveIterator(const PlayerID p) const { return _moveIterators[p]; }
     const MoveIteratorPtr & getRootMoveIterator(const PlayerID p) const { return _rootMoveIterators[p]; }
+    NeuralNet * getNeuralNet() const { return _neuralNet.get(); }
+    const NeuralNetPtr & getNeuralNetPtr() const { return _neuralNet; }
 
     void setSearchMethod(const int & method) { _searchMethod = method; }
     void setMaxPlayer(const PlayerID player) { _maxPlayer = player; }
@@ -72,9 +66,32 @@ public:
     void setTimeLimit(const double & timeLimit) { _timeLimit = timeLimit; }
     void setMaxChildren(const size_t & children) { _maxChildren = children; }
     void setEvalMethod(const int & eval) { _evalMethod = eval; }
+    void setBlendWeight(const double & w) { _blendWeight = w; }
     void setPlayoutPlayer(const PlayerID p, const PlayerPtr & ptr) { _playoutPlayers[p] = ptr; }
     void setMoveIterator(const PlayerID p, const MoveIteratorPtr & m) { _moveIterators[p] = m; }
     void setRootMoveIterator(const PlayerID p, const MoveIteratorPtr & m) { _rootMoveIterators[p] = m; }
+    void setNeuralNet(const NeuralNetPtr & nn) { _neuralNet = nn; }
+
+    // Deep-clone all shared_ptrs so this instance is fully independent (thread-safe)
+    void deepClone()
+    {
+        for (int p = 0; p < 2; ++p)
+        {
+            if (_playoutPlayers[p])    _playoutPlayers[p] = _playoutPlayers[p]->clone();
+            if (_moveIterators[p])     _moveIterators[p] = _moveIterators[p]->clone();
+            if (_rootMoveIterators[p]) _rootMoveIterators[p] = _rootMoveIterators[p]->clone();
+        }
+        // NeuralNet has mutable scratch buffers — each thread needs its own copy.
+        // clone() copies all weights and allocates fresh scratch buffers.
+        if (_neuralNet) _neuralNet = _neuralNet->clone();
+    }
+
+    AlphaBetaSearchParameters clone() const
+    {
+        AlphaBetaSearchParameters copy(*this);
+        copy.deepClone();
+        return copy;
+    }
 
     std::string getDescription()
     {

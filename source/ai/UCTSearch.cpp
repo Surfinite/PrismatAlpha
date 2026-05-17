@@ -1,7 +1,9 @@
 #include "UCTSearch.h"
 #include "AllPlayers.h"
 #include <math.h>
+#include <algorithm>
 #include "AITools.h"
+#include "NeuralNet.h"
 
 using namespace Prismata;
 
@@ -48,7 +50,14 @@ void UCTSearch::doSearch(const GameState & initialState, Move & move)
 {
     _searchTimer.start();
     _rootNode = UCTNode(NULL, initialState, Players::Player_None, Move(), _params);
-    
+
+    // If PUCT is enabled, generate all root children and compute policy priors
+    if (_params.usePUCT())
+    {
+        _rootNode.generateAllChildren(_params);
+        computeRootPriors();
+    }
+
     // do the traversals
     for (_results.traversals = 0; !searchShouldStop(); ++_results.traversals)
     {
@@ -80,6 +89,16 @@ UCTNode * UCTSearch::getBestRootNode()
     return bestNode;
 }
 
+double UCTSearch::getBestRootWinRate()
+{
+    UCTNode * best = getBestRootNode();
+    if (best && best->numVisits() > 0)
+    {
+        return best->numWins() / (double)best->numVisits();
+    }
+    return 0.5;
+}
+
 bool UCTSearch::searchTimeOut()
 {
     return (_params.timeLimit() && (_searchTimer.getElapsedTimeInMilliSec() >= _params.timeLimit()));
@@ -100,8 +119,45 @@ UCTNode & UCTSearch::UCTNodeSelect(UCTNode & node)
     UCTNode *   bestNode    = nullptr;
     bool        maxPlayer   = node.getChild(0).getPlayerWhoMoved() == _params.maxPlayer();
     double      bestVal     = std::numeric_limits<double>::lowest();
-    
-    // loop through each child to find the best node
+
+    // PUCT mode: Q(s,a) + c * P(s,a) * sqrt(N_parent) / (1 + N_child)
+    // All children (visited and unvisited) are compared by this formula.
+    // Unvisited children use Q = 0.5 (neutral prior).
+    if (_params.usePUCT())
+    {
+        double sqrtParent = sqrt((double)node.numVisits());
+        for (size_t c(0); c < node.numChildren(); ++c)
+        {
+            UCTNode & child = node.getChild(c);
+            double prior = child.getPolicyPrior();
+
+            double currentVal;
+            if (child.numVisits() > 0)
+            {
+                double winRate = (double)child.numWins() / (double)child.numVisits();
+                double exploration = _params.cValue() * prior * sqrtParent / (1.0 + child.numVisits());
+                currentVal = maxPlayer ? (winRate + exploration) : (1.0 - winRate + exploration);
+            }
+            else
+            {
+                // Unvisited: Q = 0.5, full exploration bonus
+                double exploration = _params.cValue() * prior * sqrtParent;
+                currentVal = 0.5 + exploration;
+            }
+
+            child.setUCTVal(currentVal);
+
+            if (currentVal > bestVal)
+            {
+                bestVal = currentVal;
+                bestNode = &child;
+            }
+        }
+
+        return *bestNode;
+    }
+
+    // Standard UCB1 mode
     for (size_t c(0); c < node.numChildren(); ++c)
     {
         UCTNode & child = node.getChild(c);
@@ -109,7 +165,7 @@ UCTNode & UCTSearch::UCTNodeSelect(UCTNode & node)
         // if we have visited this node already, get its UCT value
         if (child.numVisits() > 0)
         {
-            double winRate = (double)child.numWins() / (double)child.numVisits();         
+            double winRate = (double)child.numWins() / (double)child.numVisits();
             double uctVal = _params.cValue() * sqrt( log( (double)node.numVisits() ) / ( child.numVisits() ) );
             double currentVal = maxPlayer ? (winRate + uctVal) : (1-winRate + uctVal);
 
@@ -133,18 +189,119 @@ UCTNode & UCTSearch::UCTNodeSelect(UCTNode & node)
 }
 
 
-PlayerID UCTSearch::traverse(UCTNode & node)//, GameState & currentState)
+void UCTSearch::computeRootPriors()
 {
-    PlayerID stateEval;
+    if (_rootNode.numChildren() == 0)
+    {
+        return;
+    }
 
-    // update the game state with this node's move
+    // Use per-player NeuralNet instance if available, else fall back to global singleton
+    NeuralNet * nnPtr = _params.getNeuralNet();
+    NeuralNet & nn = nnPtr ? *nnPtr : NeuralNet::Instance();
+    if (!nn.isLoaded())
+    {
+        // No neural net loaded — leave uniform priors
+        return;
+    }
+
+    // Run full neural net (policy + value) on the root state
+    NeuralNet::NeuralOutput output = nn.evaluate(_rootNode.getState());
+    const std::vector<float> & policy = output.policy;
+
+    // For each child, compute an affinity score based on the buy actions in its move.
+    // Score = sum of policy logits for each unit type bought.
+    // Then softmax across children to get normalized priors.
+    std::vector<double> scores(_rootNode.numChildren(), 0.0);
+
+    for (size_t c = 0; c < _rootNode.numChildren(); ++c)
+    {
+        UCTNode & child = _rootNode.getChild(c);
+        const Move & move = child.getMove();
+        double score = 0.0;
+
+        for (size_t a = 0; a < move.size(); ++a)
+        {
+            const Action & action = move.getAction(a);
+            if (action.getType() == ActionTypes::BUY)
+            {
+                // action.getID() is the CardBuyable index
+                const CardBuyable & cb = _rootNode.getState().getCardBuyableByID(action.getID());
+                int unitIdx = nn.getUnitIndex(cb.getType().getID());
+                if (unitIdx >= 0 && unitIdx < (int)policy.size())
+                {
+                    score += policy[unitIdx];
+                }
+            }
+        }
+
+        scores[c] = score;
+    }
+
+    // Softmax to get normalized priors
+    double maxScore = *std::max_element(scores.begin(), scores.end());
+    double sumExp = 0.0;
+    for (size_t c = 0; c < scores.size(); ++c)
+    {
+        scores[c] = exp(scores[c] - maxScore);  // numerically stable softmax
+        sumExp += scores[c];
+    }
+
+    for (size_t c = 0; c < _rootNode.numChildren(); ++c)
+    {
+        double prior = scores[c] / sumExp;
+        _rootNode.getChild(c).setPolicyPrior(prior);
+    }
+}
+
+double UCTSearch::traverse(UCTNode & node)
+{
+    double stateEval;
 
     const GameState & currentState = node.getState();
 
     // if we haven't visited this node yet
     if ((&node != &_rootNode) && (node.numVisits() == 0))
     {
-        stateEval = Eval::PerformPlayout(currentState, _params.getPlayoutPlayer(Players::Player_One), _params.getPlayoutPlayer(Players::Player_Two));
+        if (_params.evalMethod() == EvaluationMethods::NeuralNet)
+        {
+            // Neural net returns value from active player's perspective [-1,1]
+            // Convert to [0,1] win probability from maxPlayer's perspective
+            NeuralNet * nnPtr = _params.getNeuralNet();
+            NeuralNet & nn = nnPtr ? *nnPtr : NeuralNet::Instance();
+            double nnValue = nn.evaluateValue(currentState, _params.maxPlayer());
+            stateEval = (nnValue + 1.0) / 2.0;
+        }
+        else if (_params.evalMethod() == EvaluationMethods::NeuralNetPlusPlayout)
+        {
+            // Blend neural net and playout evaluations
+            NeuralNet * nnPtr = _params.getNeuralNet();
+            NeuralNet & nn = nnPtr ? *nnPtr : NeuralNet::Instance();
+            double nnValue = nn.evaluateValue(currentState, _params.maxPlayer());
+            double nnEval = (nnValue + 1.0) / 2.0;
+
+            PlayerID winner = Eval::PerformPlayout(currentState, _params.getPlayoutPlayer(Players::Player_One), _params.getPlayoutPlayer(Players::Player_Two));
+            double playoutEval;
+            if (winner == _params.maxPlayer())
+                playoutEval = 1.0;
+            else if (winner == Players::Player_None)
+                playoutEval = 0.5;
+            else
+                playoutEval = 0.0;
+
+            double w = _params.blendWeight();
+            stateEval = w * nnEval + (1.0 - w) * playoutEval;
+        }
+        else
+        {
+            PlayerID winner = Eval::PerformPlayout(currentState, _params.getPlayoutPlayer(Players::Player_One), _params.getPlayoutPlayer(Players::Player_Two));
+            if (winner == _params.maxPlayer())
+                stateEval = 1.0;
+            else if (winner == Players::Player_None)
+                stateEval = 0.5;
+            else
+                stateEval = 0.0;
+        }
         _results.nodesVisited++;
     }
     // otherwise we have seen this node before
@@ -153,36 +310,26 @@ PlayerID UCTSearch::traverse(UCTNode & node)//, GameState & currentState)
         // if the state is terminal
         if (currentState.isGameOver())
         {
-            // update the value
-            stateEval = currentState.winner();
+            PlayerID winner = currentState.winner();
+            if (winner == _params.maxPlayer())
+                stateEval = 1.0;
+            else if (winner == Players::Player_None)
+                stateEval = 0.5;
+            else
+                stateEval = 0.0;
         }
         else
         {
-            // if the children haven't been generated yet
-            //if (!node.hasChildren())
-            //{
-            //    generateChildren(node, currentState);
-            //}
-
             node.generateNextChild(_params);
 
             UCTNode & next = UCTNodeSelect(node);
-            stateEval = traverse(next);//, currentState);
+            stateEval = traverse(next);
         }
     }
 
     node.incVisits();
     _results.totalVisits++;
-
-    // if the evaluation syas the current player wins, update the win count
-    if (stateEval == _params.maxPlayer())
-    {
-        node.addWins(1);
-    }
-    else if (stateEval == Players::Player_None)
-    {
-        node.addWins(0.5);
-    }
+    node.addWins(stateEval);
 
     return stateEval;
 }

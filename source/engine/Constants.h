@@ -31,7 +31,7 @@ namespace Prismata
 
     namespace EvaluationMethods
     {
-        enum { Playout, WillScore, WillScoreInflation, Size };
+        enum { Playout, WillScore, WillScoreInflation, NeuralNet, NeuralNetPlusPlayout, Size };
     }
 
 }

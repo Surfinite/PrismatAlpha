@@ -1,6 +1,41 @@
 #include "AIParameters.h"
+#include "NeuralNet.h"
 
 using namespace Prismata;
+
+// Create a per-player NeuralNet instance from config.
+// If WeightsFile is specified, loads that; otherwise returns nullptr.
+static NeuralNetPtr createPlayerNeuralNet(const rapidjson::Value & playerValue)
+{
+    auto nn = std::make_shared<NeuralNet>();
+
+    std::string weightsFile;
+    if (playerValue.HasMember("WeightsFile") && playerValue["WeightsFile"].IsString())
+    {
+        weightsFile = playerValue["WeightsFile"].GetString();
+    }
+
+    if (!weightsFile.empty())
+    {
+        std::string configDir = "asset/config/";
+        std::string fullPath = configDir + weightsFile;
+        if (nn->loadWeights(fullPath))
+        {
+            nn->buildCardTypeMapping();
+            fprintf(stderr, "AIParameters: created per-player NeuralNet from %s\n", fullPath.c_str());
+            return nn;
+        }
+        if (nn->loadWeights(weightsFile))
+        {
+            nn->buildCardTypeMapping();
+            fprintf(stderr, "AIParameters: created per-player NeuralNet from %s\n", weightsFile.c_str());
+            return nn;
+        }
+        fprintf(stderr, "AIParameters: WARNING: could not load per-player weights '%s'\n", weightsFile.c_str());
+    }
+
+    return nullptr;
+}
 
 AIParameters::AIParameters()
     : _partialPlayerParses(0)
@@ -714,18 +749,31 @@ PlayerPtr AIParameters::parsePlayer(const PlayerID player, const std::string & p
         {
             params.setEvalMethod(EvaluationMethods::WillScoreInflation);
         }
+        else if (evalMethodString == "NeuralNet")
+        {
+            params.setEvalMethod(EvaluationMethods::NeuralNet);
+        }
         else
         {
             PRISMATA_ASSERT(false, "Unknown UCT Evaluation Method Name: %s", evalMethodString.c_str());
         }
-        
+
         if (args.HasMember("UCTConstant") && args["UCTConstant"].IsDouble())
         {
             params.setCValue(args["UCTConstant"].GetDouble());
         }
 
+        if (params.evalMethod() == EvaluationMethods::NeuralNet)
+        {
+            NeuralNetPtr nn = createPlayerNeuralNet(playerValue);
+            if (nn)
+            {
+                params.setNeuralNet(nn);
+            }
+        }
+
         //params.setGraphVizFilename("uct.png");
-        
+
         playerPtr = PlayerPtr(new Player_UCT(player, params));
     }
     else if (playerClassName == "Player_StackAlphaBeta" || playerClassName == "Player_AlphaBeta" || playerClassName == "Player_RootParallelAlphaBeta")
