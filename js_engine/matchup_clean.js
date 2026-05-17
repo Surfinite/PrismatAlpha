@@ -2250,7 +2250,7 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
 async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose, options = {}) {
-    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', steamExeA = null, steamExeB = null, daveExePath = null, exportTrainingDir = null, schemaV2 = false, weightsFile = null } = options;
+    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', steamDifficultyWhite = null, steamDifficultyBlack = null, steamExeA = null, steamExeB = null, daveExePath = null, exportTrainingDir = null, schemaV2 = false, weightsFile = null } = options;
 
     // Distribute game numbers across worker slots
     const slotsGames = Array.from({ length: numWorkers }, () => []);
@@ -2308,6 +2308,8 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     weightsFile: weightsFile,
                     mcdsaiDifficulty: mcdsaiDifficulty,
                     steamDifficulty: steamDifficulty,
+                    steamDifficultyWhite: steamDifficultyWhite,
+                    steamDifficultyBlack: steamDifficultyBlack,
                     steamExeA: steamExeA,
                     steamExeB: steamExeB,
                     daveExePath: daveExePath,
@@ -2971,7 +2973,7 @@ async function main() {
                     mcdsaiDifficulty,
                     saveReplaysDir,
                     false,  // verbose
-                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, steamExeA, steamExeB, daveExePath, exportTrainingDir, schemaV2, weightsFile }
+                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, steamDifficultyWhite, steamDifficultyBlack, steamExeA, steamExeB, daveExePath, exportTrainingDir, schemaV2, weightsFile }
                 );
             } else {
                 // Phase 7c/7d: Sequential execution

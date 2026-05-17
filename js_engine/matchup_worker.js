@@ -317,8 +317,11 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
         let turnResult;
         if (isActiveSteamAI && steamConfig) {
             const steamWorker = activePlayer === 0 ? steamConfig.workerWhite : steamConfig.workerBlack;
+            const sideDifficulty = (activePlayer === 0
+                ? (steamConfig.difficultyWhite || steamConfig.difficulty)
+                : (steamConfig.difficultyBlack || steamConfig.difficulty)) || 'HardestAI';
             turnResult = await matchup.playSteamAITurn(
-                analyzer, activeDeck, steamWorker, steamDifficulty, steamConfig
+                analyzer, activeDeck, steamWorker, sideDifficulty, steamConfig
             );
         } else if (isActiveMCDSAI) {
             const worker = activePlayer === 0 ? mcdsaiWorkerWhite : mcdsaiWorkerBlack;
@@ -344,8 +347,11 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
             // Retry
             if (isActiveSteamAI && steamConfig) {
                 const steamWorker = activePlayer === 0 ? steamConfig.workerWhite : steamConfig.workerBlack;
+                const sideDifficulty = (activePlayer === 0
+                    ? (steamConfig.difficultyWhite || steamConfig.difficulty)
+                    : (steamConfig.difficultyBlack || steamConfig.difficulty)) || 'HardestAI';
                 turnResult = await matchup.playSteamAITurn(
-                    analyzer, activeDeck, steamWorker, steamDifficulty, steamConfig
+                    analyzer, activeDeck, steamWorker, sideDifficulty, steamConfig
                 );
             } else if (isActiveMCDSAI) {
                 const worker = activePlayer === 0 ? mcdsaiWorkerWhite : mcdsaiWorkerBlack;
@@ -594,6 +600,8 @@ async function runWorkerSlot() {
             shortParams = aiParams.loadShortParams();
         }
         const steamDifficulty = workerData.steamDifficulty || 'HardestAI';
+        const steamDifficultyWhite = workerData.steamDifficultyWhite || steamDifficulty;
+        const steamDifficultyBlack = workerData.steamDifficultyBlack || steamDifficulty;
         // Resolve exe path per slot: explicit --steam-exe-a/b override > --dave-exe (if DaveAI player) > default
         const resolveExePath = (player, slotOverride) => {
             if (slotOverride) return slotOverride;
@@ -610,13 +618,15 @@ async function runWorkerSlot() {
             workerWhite: whiteIsSteamAI ? new SteamAI(`W${slotIndex}-White`, whiteOpts) : null,
             workerBlack: blackIsSteamAI ? new SteamAI(`W${slotIndex}-Black`, blackOpts) : null,
             difficulty: steamDifficulty,
+            difficultyWhite: steamDifficultyWhite,
+            difficultyBlack: steamDifficultyBlack,
             fullParams: fullParams,
             shortParams: shortParams,
             initDeck: null,  // Set per-game
             library: library,
             thinkTimeMs: thinkTimeMs
         };
-        console.error(`SteamAI configured for slot ${slotIndex} (difficulty=${steamDifficulty})`);
+        console.error(`SteamAI configured for slot ${slotIndex} (W=${steamDifficultyWhite}, B=${steamDifficultyBlack})`);
     }
 
     const maxRetries = 3;
@@ -842,7 +852,9 @@ async function runWorkerSlot() {
             const swappedSteam = steamConfig ? {
                 ...steamConfig,
                 workerWhite: steamConfig.workerBlack,
-                workerBlack: steamConfig.workerWhite
+                workerBlack: steamConfig.workerWhite,
+                difficultyWhite: steamConfig.difficultyBlack,
+                difficultyBlack: steamConfig.difficultyWhite
             } : null;
             const logB = await playOneGameInSlot(
                 gameNumB, unitNames,
