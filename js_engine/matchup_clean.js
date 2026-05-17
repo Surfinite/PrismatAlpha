@@ -2147,11 +2147,15 @@ async function playMultipleGames(config, numGames, library, options = {}) {
 
         // Compute player win rates (seat-independent)
         // Use playerA/playerB keys to stay unambiguous even when both names are identical
+        // (e.g., DaveAI vs DaveAI with different --steam-difficulty per side).
         const validGames = numGames - invalid;
         const playerBWins = validGames - playerAWins - draws;
+        const diffWhite = config.steam && config.steam.difficultyWhite;
+        const diffBlack = config.steam && config.steam.difficultyBlack;
+        const labelWith = (player, diff) => (diff && diff !== player) ? `${player}[${diff}]` : player;
         const playerWinRates = {
-            playerA: { name: config.playerWhite, wins: playerAWins, winRate: 0 },
-            playerB: { name: config.playerBlack, wins: playerBWins, winRate: 0 }
+            playerA: { name: labelWith(config.playerWhite, diffWhite), wins: playerAWins, winRate: 0 },
+            playerB: { name: labelWith(config.playerBlack, diffBlack), wins: playerBWins, winRate: 0 }
         };
         if (validGames > 0) {
             playerWinRates.playerA.winRate = parseFloat((100 * playerAWins / validGames).toFixed(1));
@@ -2169,8 +2173,8 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         console.error(`[Pair] Draws:    ${draws}`);
         console.error(`[Pair] Invalid:  ${invalid}`);
         console.error(`[Pair] Avg turns: ${avgTurns}`);
-        const labelA = `Player A [${config.playerWhite}]`;
-        const labelB = `Player B [${config.playerBlack}]`;
+        const labelA = `Player A [${playerWinRates.playerA.name}]`;
+        const labelB = `Player B [${playerWinRates.playerB.name}]`;
         console.error(`[Pair] --- Pair Results (A=initially White, B=initially Black) ---`);
         console.error(`[Pair] ${labelA} sweeps (2-0): ${pairResults.aWins2}`);
         console.error(`[Pair] ${labelB} sweeps (2-0): ${pairResults.bWins2}`);
@@ -2349,9 +2353,12 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     const elapsed = (log.durationMs / 1000).toFixed(1);
                     // Determine winner AI name: odd games = original assignment, even = swapped
                     const swapped = playerSwitch && (msg.gameNum % 2 === 0);
-                    const pW = swapped ? config.playerBlack : config.playerWhite;
-                    const pB = swapped ? config.playerWhite : config.playerBlack;
-                    const winnerAI = log.result === C.COLOR_WHITE ? pW : log.result === C.COLOR_BLACK ? pB : '';
+                    const _dW = steamDifficultyWhite || steamDifficulty;
+                    const _dB = steamDifficultyBlack || steamDifficulty;
+                    const _labelWith = (p, d) => (d && d !== p) ? `${p}[${d}]` : p;
+                    const labelWhite = _labelWith(config.playerWhite, swapped ? _dB : _dW);
+                    const labelBlack = _labelWith(config.playerBlack, swapped ? _dW : _dB);
+                    const winnerAI = log.result === C.COLOR_WHITE ? labelWhite : log.result === C.COLOR_BLACK ? labelBlack : '';
                     const aiTag = winnerAI ? ` [${winnerAI}]` : '';
                     console.error(`[Parallel] Game ${msg.gameNum} (W${slotIdx}): ${log.winner}${aiTag} in ${log.turns} turns (${elapsed}s) [${gamesReported}/${numGames}]`);
 
@@ -2455,17 +2462,20 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
 
         const validGames = numGames - invalid;
         const playerBWins = validGames - playerAWins - draws;
+        const diffWhite = steamDifficultyWhite || steamDifficulty;
+        const diffBlack = steamDifficultyBlack || steamDifficulty;
+        const labelWith = (player, diff) => (diff && diff !== player) ? `${player}[${diff}]` : player;
         playerWinRates = {
-            playerA: { name: config.playerWhite, wins: playerAWins, winRate: 0 },
-            playerB: { name: config.playerBlack, wins: playerBWins, winRate: 0 }
+            playerA: { name: labelWith(config.playerWhite, diffWhite), wins: playerAWins, winRate: 0 },
+            playerB: { name: labelWith(config.playerBlack, diffBlack), wins: playerBWins, winRate: 0 }
         };
         if (validGames > 0) {
             playerWinRates.playerA.winRate = parseFloat((100 * playerAWins / validGames).toFixed(1));
             playerWinRates.playerB.winRate = parseFloat((100 * playerBWins / validGames).toFixed(1));
         }
 
-        const labelA = `Player A [${config.playerWhite}]`;
-        const labelB = `Player B [${config.playerBlack}]`;
+        const labelA = `Player A [${playerWinRates.playerA.name}]`;
+        const labelB = `Player B [${playerWinRates.playerB.name}]`;
         console.error(`[Parallel] --- Pair Results (A=initially White, B=initially Black) ---`);
         console.error(`[Parallel] ${labelA} sweeps (2-0): ${pairResults.aWins2}`);
         console.error(`[Parallel] ${labelB} sweeps (2-0): ${pairResults.bWins2}`);
@@ -2649,8 +2659,10 @@ async function main() {
                     : 'Single Game (Phase 7b/7d)';
     console.error(`=== ${modeLabel} ===`);
     if (anyCpp) console.error(`Exe: ${EXE_PATH}`);
-    console.error(`White: ${playerWhite}${whiteIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}${whiteIsSteamAI ? ` (SteamAI difficulty=${steamDifficulty})` : ''}`);
-    console.error(`Black: ${playerBlack}${blackIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}${blackIsSteamAI ? ` (SteamAI difficulty=${steamDifficulty})` : ''}`);
+    const _bannerWhiteDiff = steamDifficultyWhite || steamDifficulty;
+    const _bannerBlackDiff = steamDifficultyBlack || steamDifficulty;
+    console.error(`White: ${playerWhite}${whiteIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}${whiteIsSteamAI ? ` (SteamAI difficulty=${_bannerWhiteDiff})` : ''}`);
+    console.error(`Black: ${playerBlack}${blackIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}${blackIsSteamAI ? ` (SteamAI difficulty=${_bannerBlackDiff})` : ''}`);
     if (anyCpp) console.error(`Think time: ${thinkTimeMs}ms`);
     if (!singleTurnMode) {
         console.error(`Max turns: ${CONFIG.maxTurns}, Stuck detection: ${CONFIG.stuckDetectionTurns} turns`);
