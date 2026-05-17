@@ -594,9 +594,21 @@ async function runWorkerSlot() {
             shortParams = aiParams.loadShortParams();
         }
         const steamDifficulty = workerData.steamDifficulty || 'HardestAI';
+        // Resolve exe path per slot: explicit --steam-exe-a/b override > --dave-exe (if DaveAI player) > default
+        const resolveExePath = (player, slotOverride) => {
+            if (slotOverride) return slotOverride;
+            if (matchup.isDaveAIPlayer && matchup.isDaveAIPlayer(player)) return workerData.daveExePath;
+            return undefined;
+        };
+        const whiteOpts = { timeout: Math.max(thinkTimeMs * 3, 30000) };
+        const blackOpts = { timeout: Math.max(thinkTimeMs * 3, 30000) };
+        const whitePath = resolveExePath(playerWhite, workerData.steamExeA);
+        const blackPath = resolveExePath(playerBlack, workerData.steamExeB);
+        if (whitePath) whiteOpts.exePath = whitePath;
+        if (blackPath) blackOpts.exePath = blackPath;
         steamConfig = {
-            workerWhite: whiteIsSteamAI ? new SteamAI(`W${slotIndex}-White`, { timeout: Math.max(thinkTimeMs * 3, 30000) }) : null,
-            workerBlack: blackIsSteamAI ? new SteamAI(`W${slotIndex}-Black`, { timeout: Math.max(thinkTimeMs * 3, 30000) }) : null,
+            workerWhite: whiteIsSteamAI ? new SteamAI(`W${slotIndex}-White`, whiteOpts) : null,
+            workerBlack: blackIsSteamAI ? new SteamAI(`W${slotIndex}-Black`, blackOpts) : null,
             difficulty: steamDifficulty,
             fullParams: fullParams,
             shortParams: shortParams,

@@ -40,6 +40,11 @@
  *
  *   node matchup_clean.js --games 16 --parallel 4 --player-switch --think-time 5000 --player-white LiveHardestAI --player-black MCDSAI --save-replays TEST 2>matchup_run.log
  *   node matchup_clean.js --games 100 --player SteamAI --export-training training_out/  # JSONL training data (1 record/turn, no replays needed)
+ 
+ *   node matchup_clean.js --games 128 --parallel 8 --think-time 5000 --player-switch --player-white SteamAI --player-black LiveHardestAI --save-replays ABvsSteam 2>ABvsSteam_2026_05_16.log
+
+
+ 
  */
 
 const fs = require('fs');
@@ -58,6 +63,9 @@ const MCDSAI_PLAYER = 'MCDSAI';
 
 // SteamAI player identifier — uses Steam's native PrismataAI.exe
 const STEAM_AI_PLAYER = 'STEAMAI';
+// DaveAI player identifier — uses Dave's current origin/master Prismata_Standalone.exe.
+// Speaks the identical stdin/stdout protocol as SteamAI; only the binary differs.
+const DAVE_AI_PLAYER = 'DAVEAI';
 
 // ---------------------------------------------------------------------------
 // Per-action click description
@@ -726,10 +734,20 @@ function isMCDSAIPlayer(playerName) {
 }
 
 /**
- * Helper: check if a player name is SteamAI (case-insensitive).
+ * Helper: check if a player name uses the Steam stdin/stdout protocol.
+ * Matches both SteamAI (Steam's PrismataAI.exe) and DaveAI (Dave's Prismata_Standalone.exe).
+ * Both binaries speak the identical protocol; this predicate decides "should we use steam_ai.js".
  */
 function isSteamAIPlayer(playerName) {
-    return playerName.toUpperCase() === STEAM_AI_PLAYER;
+    const up = playerName.toUpperCase();
+    return up === STEAM_AI_PLAYER || up === DAVE_AI_PLAYER;
+}
+
+/**
+ * Helper: check if a player name is specifically DaveAI (uses Dave's binary).
+ */
+function isDaveAIPlayer(playerName) {
+    return playerName.toUpperCase() === DAVE_AI_PLAYER;
 }
 
 /**
@@ -2197,7 +2215,7 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
 async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose, options = {}) {
-    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', exportTrainingDir = null, schemaV2 = false, weightsFile = null } = options;
+    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', steamExeA = null, steamExeB = null, daveExePath = null, exportTrainingDir = null, schemaV2 = false, weightsFile = null } = options;
 
     // Distribute game numbers across worker slots
     const slotsGames = Array.from({ length: numWorkers }, () => []);
@@ -2255,6 +2273,9 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     weightsFile: weightsFile,
                     mcdsaiDifficulty: mcdsaiDifficulty,
                     steamDifficulty: steamDifficulty,
+                    steamExeA: steamExeA,
+                    steamExeB: steamExeB,
+                    daveExePath: daveExePath,
                     saveReplaysDir: saveReplaysDir,
                     verbose: verbose,
                     playerSwitch: playerSwitch,
@@ -2443,6 +2464,9 @@ async function main() {
     let thinkTimeBlackMs = null;         // --think-time-black: override for black player
     let mcdsaiDifficulty = 'HardestAI';  // Default MCDSAI difficulty
     let steamDifficulty = 'HardestAI';   // Default SteamAI difficulty
+    let steamExeA = null;                // --steam-exe-a: Steam-protocol exe for player A (follows player through --player-switch)
+    let steamExeB = null;                // --steam-exe-b: Steam-protocol exe for player B (follows player through --player-switch)
+    let daveExePath = 'c:/libraries/PrismataAI-dave-master/bin/Prismata_Standalone.exe';  // Default DaveAI binary path
     let parallelWorkers = 1;             // Phase 7e: 1 = sequential (default)
     let saveReplaysDir = null;           // Phase 7e: null = no replay saving
     let playerSwitch = false;            // --player-switch: run games in pairs with swapped sides
@@ -2468,6 +2492,9 @@ async function main() {
         if (args[i] === '--think-time-black' && args[i + 1]) { thinkTimeBlackMs = parseInt(args[++i], 10); }
         if (args[i] === '--mcdsai-difficulty' && args[i + 1]) { mcdsaiDifficulty = args[++i]; }
         if (args[i] === '--steam-difficulty' && args[i + 1]) { steamDifficulty = args[++i]; }
+        if (args[i] === '--steam-exe-a' && args[i + 1]) { steamExeA = args[++i]; }
+        if (args[i] === '--steam-exe-b' && args[i + 1]) { steamExeB = args[++i]; }
+        if (args[i] === '--dave-exe' && args[i + 1]) { daveExePath = args[++i]; }
         if (args[i] === '--parallel' && args[i + 1]) { parallelWorkers = parseInt(args[++i], 10); }
         if (args[i] === '--player-switch') playerSwitch = true;
         if (args[i] === '--cards' && args[i + 1]) {
@@ -2560,9 +2587,9 @@ async function main() {
     const blackIsSteamAI = isSteamAIPlayer(playerBlack);
     const anySteamAI = whiteIsSteamAI || blackIsSteamAI;
 
-    // Normalize SteamAI player names to consistent casing
-    if (whiteIsSteamAI) playerWhite = STEAM_AI_PLAYER;
-    if (blackIsSteamAI) playerBlack = STEAM_AI_PLAYER;
+    // Normalize player names to canonical casing (preserve SteamAI/DaveAI distinction for tally labels)
+    if (whiteIsSteamAI) playerWhite = isDaveAIPlayer(playerWhite) ? DAVE_AI_PLAYER : STEAM_AI_PLAYER;
+    if (blackIsSteamAI) playerBlack = isDaveAIPlayer(playerBlack) ? DAVE_AI_PLAYER : STEAM_AI_PLAYER;
 
     // Check exe exists (only needed for C++ players)
     const anyCpp = (!whiteIsMCDSAI && !whiteIsSteamAI) || (!blackIsMCDSAI && !blackIsSteamAI);
@@ -2707,13 +2734,28 @@ async function main() {
             steamShortParams = aiParams.loadShortParams();
         }
 
+        // Resolve exe path for each color slot. Priority:
+        //   1) --steam-exe-a / --steam-exe-b explicit override
+        //   2) --dave-exe path if the player is DaveAI
+        //   3) SteamAI default (Steam's PrismataAI.exe)
+        const resolveExePath = (player, slotOverride) => {
+            if (slotOverride) return slotOverride;
+            if (isDaveAIPlayer(player)) return daveExePath;
+            return undefined;
+        };
         if (whiteIsSteamAI) {
-            steamWorkerWhite = new SteamAI('White', { timeout: Math.max(thinkTimeMs * 3, 30000) });
-            console.error(`SteamAI for White: ${steamWorkerWhite.exePath}`);
+            const opts = { timeout: Math.max(thinkTimeMs * 3, 30000) };
+            const p = resolveExePath(playerWhite, steamExeA);
+            if (p) opts.exePath = p;
+            steamWorkerWhite = new SteamAI('White', opts);
+            console.error(`SteamAI for White (${playerWhite}): ${steamWorkerWhite.exePath}`);
         }
         if (blackIsSteamAI) {
-            steamWorkerBlack = new SteamAI('Black', { timeout: Math.max(thinkTimeMs * 3, 30000) });
-            console.error(`SteamAI for Black: ${steamWorkerBlack.exePath}`);
+            const opts = { timeout: Math.max(thinkTimeMs * 3, 30000) };
+            const p = resolveExePath(playerBlack, steamExeB);
+            if (p) opts.exePath = p;
+            steamWorkerBlack = new SteamAI('Black', opts);
+            console.error(`SteamAI for Black (${playerBlack}): ${steamWorkerBlack.exePath}`);
         }
 
         // Verify PrismataAI.exe exists
@@ -2888,7 +2930,7 @@ async function main() {
                     mcdsaiDifficulty,
                     saveReplaysDir,
                     false,  // verbose
-                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, exportTrainingDir, schemaV2, weightsFile }
+                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, steamExeA, steamExeB, daveExePath, exportTrainingDir, schemaV2, weightsFile }
                 );
             } else {
                 // Phase 7c/7d: Sequential execution
@@ -2997,6 +3039,7 @@ module.exports = {
     playSteamAITurn,
     isMCDSAIPlayer,
     isSteamAIPlayer,
+    isDaveAIPlayer,
     buildGameInitInfo,
     printStateSummary,
     playSingleGame,
@@ -3011,6 +3054,7 @@ module.exports = {
     WILL_SCORE_THRESHOLD,
     MCDSAI_PLAYER,
     STEAM_AI_PLAYER,
+    DAVE_AI_PLAYER,
     getRecoveryStats,
     resetRecoveryStats,
     printRecoveryStats
