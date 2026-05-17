@@ -56,7 +56,7 @@ void PartialPlayer_ActionAbility_AvoidResourceWaste::getMove(GameState & state, 
             {
                 state.doAction(doAbility);
                 move.addAction(doAbility);
-                printf("[AvoidResourceWaste] Clicked %s: red -> gold\n", type.getUIName().c_str());
+                fprintf(stderr, "[AvoidResourceWaste] Clicked %s: red -> gold\n", type.getUIName().c_str());
             }
         }
 
@@ -68,7 +68,7 @@ void PartialPlayer_ActionAbility_AvoidResourceWaste::getMove(GameState & state, 
             {
                 state.doAction(undoAbility);
                 move.addAction(undoAbility);
-                printf("[AvoidResourceWaste] Undid %s: blue -> green\n", type.getUIName().c_str());
+                fprintf(stderr, "[AvoidResourceWaste] Undid %s: blue -> green\n", type.getUIName().c_str());
             }
         }
     }
