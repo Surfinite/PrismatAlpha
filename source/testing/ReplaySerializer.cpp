@@ -2,7 +2,11 @@
 #include "CardType.h"
 #include "CardBuyable.h"
 #include "Resources.h"
+#include "Script.h"
+#include "ScriptEffect.h"
 #include <algorithm>
+#include <utility>
+#include <initializer_list>
 #include <fstream>
 #include <filesystem>
 #include <cstdio>
@@ -94,6 +98,157 @@ namespace
         appendLE(static_cast<mz_uint32>(crc));                       // CRC32 of uncompressed data
         appendLE(static_cast<mz_uint32>(data.size() & 0xffffffffu)); // ISIZE mod 2^32
         return out;
+    }
+
+    // ===================== Task 17: derived display fields =====================
+    // Faithful port of js_engine/StateHelper.js (attack/chill/sniper potential) and
+    // replay_exporter.js computeEconEstimate (gold range). Zero engine changes — all
+    // values come from existing read-only accessors. Documented approximations:
+    //   * snipers count ignores CardTypeInfo.potentiallyMoreAttack (not exposed via
+    //     CardType) — only affects a "*" suffix on the attack number.
+    //   * chargeGained is not exposed, treated as 0 in the ability-usable gate.
+    //   * attack-resonate bonus (rare units, +1 attack) is not modelled.
+
+    // gold a script's effect produces. NOTE: do NOT gate on Script::hasEffect() —
+    // that is false for receive-only scripts (no create/destroy), which would drop
+    // a Drone's {"receive":"1"} gold. getEffect().getReceive() is safe/empty on a
+    // script without an effect (returns 0); callers gate on hasAbility()/hasBeginOwnTurnScript().
+    int scriptMoney(const Script & s)
+    {
+        return static_cast<int>(s.getEffect().getReceive().amountOf(Resources::Gold));
+    }
+
+    // "active next turn" window StateHelper uses: built (or finishing), not delayed past
+    // next turn, not doomed-this-turn, alive.
+    bool inPotentialWindow(const Card & c)
+    {
+        if (c.isDead()) return false;
+        if (c.getConstructionTime() > 1) return false;
+        if (c.getCurrentDelay() > 1) return false;
+        if (c.getCurrentLifespan() == 1 && c.getConstructionTime() == 0 && c.getCurrentDelay() == 0) return false;
+        return true;
+    }
+
+    // ability usable next turn (health/charge gate).
+    // Charge: only gate when the unit actually uses charges (Card.cpp:681 does the same);
+    // otherwise chargeUsed is vestigial (e.g. Drone has chargeUsed=1 but usesCharges()==false).
+    // Use startingCharge — beginTurn() refreshes m_currentCharges to it — so this models the
+    // unit's charge at the start of the next turn rather than its (possibly tapped) current value.
+    bool abilityUsable(const Card & c, const CardType & ct)
+    {
+        if (c.currentHealth() + ct.getHealthGained() < ct.getHealthUsed()) return false;
+        if (ct.usesCharges() && ct.getStartingCharge() < ct.getChargeUsed()) return false;
+        return true;
+    }
+
+    // count a player's in-window units of a given internal card name (resonate target)
+    int countInWindowByName(const GameState & state, const PlayerID player, const std::string & name)
+    {
+        int n = 0;
+        const CardIDVector & ids = state.getCardIDs(player);
+        for (size_t i = 0; i < ids.size(); ++i)
+        {
+            const Card & c = state.getCardByID(ids[i]);
+            if (inPotentialWindow(c) && c.getType().getName() == name) ++n;
+        }
+        return n;
+    }
+
+    // Resonate bonuses for a player: {gold, attack}. The engine parses both `resonate`
+    // (1 attack/match, e.g. Antima Comet->Engineer) and `goldResonate` (1 gold/match,
+    // e.g. Savior->Drone) into a beginOwnTurnScript resonate effect. Bonus per resonator
+    // = receive * (# in-window units of the resonate target type), summed over resonators.
+    std::pair<int, int> resonateBonus(const GameState & state, const PlayerID player)
+    {
+        int goldB = 0, atkB = 0;
+        const CardIDVector & ids = state.getCardIDs(player);
+        for (size_t i = 0; i < ids.size(); ++i)
+        {
+            const Card & c = state.getCardByID(ids[i]);
+            if (!inPotentialWindow(c)) continue;
+            const CardType & ct = c.getType();
+            for (const Script * s : { &ct.getBeginOwnTurnScript(), &ct.getAbilityScript() })
+            {
+                if (!s->hasResonate()) continue;
+                const ScriptEffect & re = s->getResonateEffect();
+                const int g = static_cast<int>(re.getReceive().amountOf(Resources::Gold));
+                const int a = static_cast<int>(re.getReceive().amountOf(Resources::Attack));
+                if (g == 0 && a == 0) continue;
+                const int targets = countInWindowByName(state, player, re.getResonateTypeName());
+                goldB += g * targets;
+                atkB  += a * targets;
+            }
+        }
+        return std::make_pair(goldB, atkB);
+    }
+
+    struct Potential { int attack = 0; int disrupt = 0; int snipers = 0; };
+
+    // What attack / chill / snipers `player` could produce next turn — symmetric look-ahead
+    // used for both maxAttack* (turn player) and oppAttackPotential* (opponent).
+    Potential computePotential(const GameState & state, const PlayerID player)
+    {
+        Potential p;
+        const CardIDVector & ids = state.getCardIDs(player);
+        for (size_t i = 0; i < ids.size(); ++i)
+        {
+            const Card & c = state.getCardByID(ids[i]);
+            if (!inPotentialWindow(c)) continue;
+            const CardType & ct = c.getType();
+
+            p.attack += static_cast<int>(ct.getBeginTurnAttackAmount());   // begin-turn attack (always)
+
+            if (abilityUsable(c, ct))
+            {
+                p.attack += static_cast<int>(ct.getAbilityAttackAmount()); // ability attack
+                if (ct.hasTargetAbility())
+                {
+                    if (ct.getTargetAbilityType() == ActionTypes::CHILL)
+                        p.disrupt += static_cast<int>(ct.getTargetAbilityAmount());
+                    else if (ct.getTargetAbilityType() == ActionTypes::SNIPE)
+                        ++p.snipers;   // approx (potentiallyMoreAttack not exposed)
+                }
+            }
+        }
+        p.attack += resonateBonus(state, player).second;   // e.g. Antima Comet: +1 attack per Engineer
+        return p;
+    }
+
+    // [lowerBound, upperBound] gold for `player` at the start of their next turn (or this
+    // turn during their own defense). Port of replay_exporter.js computeEconEstimate.
+    std::pair<int, int> computeEconEstimate(const GameState & state, const PlayerID player)
+    {
+        int high = 0, low = 0;
+        const CardIDVector & ids = state.getCardIDs(player);
+        for (size_t i = 0; i < ids.size(); ++i)
+        {
+            const Card & c = state.getCardByID(ids[i]);
+            if (!inPotentialWindow(c)) continue;
+            const CardType & ct = c.getType();
+
+            if (ct.hasBeginOwnTurnScript())                                // begin-turn money (both bounds)
+            {
+                const int btMoney = scriptMoney(ct.getBeginOwnTurnScript());
+                high += btMoney; low += btMoney;
+            }
+
+            // ability money (upper; lower only if free). NOTE: no hasAbility() gate —
+            // hasAbility() is false for economy units like Drone, which would drop their
+            // {"receive":"1"} gold. getAbilityScript() is NullScript-safe (yields 0).
+            if (abilityUsable(c, ct))
+            {
+                const Script & ab = ct.getAbilityScript();
+                const int abMoney = scriptMoney(ab);
+                high += abMoney;
+                if (!ab.hasManaCost() && !ab.hasSacCost() && !ab.isSelfSac()) low += abMoney;
+            }
+        }
+
+        const int goldReso = resonateBonus(state, player).first;          // e.g. Savior: +1 gold per Drone
+        high += goldReso; low += goldReso;
+
+        const int currentGold = static_cast<int>(state.getResources(player).amountOf(Resources::Gold));
+        return std::make_pair(low + currentGold, high + currentGold);
     }
 }
 
@@ -201,8 +356,33 @@ rapidjson::Value ReplaySerializer::serializeState(const GameState & state)
     }
     v.AddMember("table", table, a);
 
-    // Derived fields (incomingAttack, maxAttack, gold estimates, ...) deferred
-    // to Task 17 per the reconciliation table.
+    // ---- Derived display fields (Task 17) — midline attack/chill + gold estimates ----
+    const PlayerID turnP = state.getActivePlayer();
+    const PlayerID oppP  = state.getInactivePlayer();
+
+    // incoming attack = the (inactive) opponent's committed attack aimed at the defender
+    v.AddMember("incomingAttack",
+                static_cast<int>(state.getResources(oppP).amountOf(Resources::Attack)), a);
+
+    const Potential mine = computePotential(state, turnP);
+    v.AddMember("maxAttack",  mine.attack,  a);
+    v.AddMember("maxDisrupt", mine.disrupt, a);
+    v.AddMember("maxSnipers", mine.snipers, a);
+
+    const Potential opp = computePotential(state, oppP);
+    v.AddMember("oppAttackPotential",  opp.attack,  a);
+    v.AddMember("oppDisruptPotential", opp.disrupt, a);
+    v.AddMember("oppSnipers",          opp.snipers, a);
+
+    const std::pair<int, int> wEst = computeEconEstimate(state, Players::Player_One);
+    rapidjson::Value wArr(rapidjson::kArrayType);
+    wArr.PushBack(wEst.first, a); wArr.PushBack(wEst.second, a);
+    v.AddMember("whiteGoldEstimate", wArr, a);
+
+    const std::pair<int, int> bEst = computeEconEstimate(state, Players::Player_Two);
+    rapidjson::Value bArr(rapidjson::kArrayType);
+    bArr.PushBack(bEst.first, a); bArr.PushBack(bEst.second, a);
+    v.AddMember("blackGoldEstimate", bArr, a);
 
     return v;
 }
