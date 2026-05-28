@@ -20,8 +20,8 @@ by at least one of the 10 renderer files.
 - `blackMana` (structural) — P1 mana string. Same consumers.
 - `turn` (structural) — Which player's turn (0 or 1). Read by BoardRenderer for all turn-sensitive display logic.
 - `numTurns` (structural) — Turn counter (used to index per-turn timer data from ReplayTimingData). Read by BoardRenderer.
-- `phase` (structural) — Game phase string: 'defense' | 'action' | 'confirm'. Read by BoardRenderer, RowView, PileView, UnitCard, visual-state, pile-sort, auto-clicks. NOTE: the C++ export should emit 'breach' as a phase variant too — BoardRenderer handles `phase === 'breach'` in multiple places (big sword, turn indicator, player bar).
-- `glassBroken` (structural) — True when in breach (action phase + glass broken flag). Read by BoardRenderer and auto-clicks. C++ equivalent: `glassBroken` flag in GameState.
+- `phase` (structural) — Game phase string. `types.ts` declares the type as `'defense' | 'action' | 'confirm'`, but the renderer also handles `'breach'` (BoardRenderer compares `phase === 'breach'` at lines 861, 1151, 1158, 1201, 1209). The TypeScript contract permits `string`, so no `types.ts` change is needed — the bundle handles `'breach'` as a fourth variant today. **C++ MUST emit `phase: 'breach'` when in the breach state** (or, equivalently, see `glassBroken` note below). Read by BoardRenderer, RowView, PileView, UnitCard, visual-state, pile-sort, auto-clicks.
+- `glassBroken` (structural) — Coupled to `phase`. The renderer treats `glassBroken || phase === 'breach'` as the breach signal (TurnIndicator, PlayerBar). `BoardRenderer` computes its own internal `glassBroken` as `phase === 'breach'` and does NOT read `gameState.glassBroken` for that purpose; `auto-clicks` does read `gameState.glassBroken`. **C++ export: when in breach, set BOTH `phase: 'breach'` AND `glassBroken: true` so all renderer paths agree.** Inconsistent emission (one but not the other) may render but is undefined-behavior territory.
 - `table` (structural) — Array of all CardInstance objects in play. Read by BoardRenderer and auto-clicks directly; all other renderer files receive unit arrays filtered from it.
 
 ### Structural GameState fields — supply/buy panel (5)
@@ -78,12 +78,12 @@ These are defined on CardInstance in types.ts AND as fields on CardMeta. The ren
 
 ### Derived CardInstance fields (2)
 
-- `boughtThisPhase` (derived) — True if bought or click-created on the current turn (inst.creatorIdFromBuyOrAbility >= 0 in engine). Read by pile-sort (cameOnTableThisPhase). Computation: requires tracking whether the instance was created by a buy or ability action during the current turn.
-- `bornThisTurn` (derived) — True if spawned by a begin-turn script. Read by pile-sort (cameOnTableThisPhase). Computation: requires tracking whether the instance was created by a beginTurn script (inst.creatorIdFromBeginTurn >= 0).
+- `boughtThisPhase` (derived, **NON-OPTIONAL** in `types.ts`) — True if bought or click-created on the current turn (inst.creatorIdFromBuyOrAbility >= 0 in engine). Read by pile-sort (cameOnTableThisPhase). Computation: requires tracking whether the instance was created by a buy or ability action during the current turn. **C++ JSON: must always emit this field (cannot omit when false).**
+- `bornThisTurn` (derived, **OPTIONAL** in `types.ts` — `boolean?`) — True if spawned by a begin-turn script. Read by pile-sort (cameOnTableThisPhase). Computation: requires tracking whether the instance was created by a beginTurn script (inst.creatorIdFromBeginTurn >= 0). **C++ JSON: may omit when false; emit only when true.**
 
 ### Auto-clicks-only CardInstance field (1)
 
-- `autoClicked` (structural/derived) — True if unit has a free no-cost/no-target/no-sac ability. Read only by auto-clicks.ts (autoWork). This is a per-card-type property derived from the card definition's abilityScript, not from live game state. It belongs on CardInstance for replay purposes but its value does not change during play — it is effectively a static card property. C++ can populate it once from cardLibrary.
+- `autoClicked` (structural) — True if unit has a free no-cost/no-target/no-sac ability. Read only by auto-clicks.ts (autoWork). Static per-card-type property derived from the card definition's abilityScript; does not change during play. C++ populates it once from cardLibrary at construction; it is logically structural even though its origin is the card definition rather than live game state.
 
 ---
 
@@ -95,9 +95,8 @@ These are defined on CardInstance in types.ts AND as fields on CardMeta. The ren
 - **Fields out of scope (puzzle-only)**: 0
 
 - **Total CardInstance fields in types.ts**: 19
-- **Structural CardInstance**: 16 (13 pure + 3 CardMeta-overlap)
+- **Structural CardInstance**: 17 (13 pure + 3 CardMeta-overlap + 1 `autoClicked` static-card-property)
 - **Derived CardInstance**: 2 (boughtThisPhase, bornThisTurn)
-- **Static card-property CardInstance field**: 1 (autoClicked — from card definition, not live state)
 - **Fields out of scope (puzzle-only)**: 0
 
 ---

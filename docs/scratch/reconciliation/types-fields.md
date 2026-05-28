@@ -60,7 +60,7 @@ Source: `c:/libraries/prismata-ladder/prismata-ladder-site/src/components/game-r
 
 ## Other exported interfaces (not CardInstance/GameState — out of scope for the reconciliation table)
 
-- `CardMeta` — static per-card-type metadata (read from cardMetaMap, not the game state)
+- `CardMeta` — static per-card-type metadata (read from cardMetaMap, not the game state). **Overlaps with CardInstance on `isFragile`, `cardType`, `defaultBlocking`** — these are duplicated on both interfaces. The renderer reads them primarily via `cardMeta`, but they remain part of the CardInstance contract per types.ts; see in-scope-fields.md for the resolution.
 - `CardMetaMap` — map of cardName → CardMeta
 - `VisualState` — computed visual representation (internal to renderer, never in game state JSON)
 - `ReplayTimingData` — timer data from replay JSON (separate from game state)

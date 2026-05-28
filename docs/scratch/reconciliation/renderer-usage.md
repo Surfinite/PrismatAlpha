@@ -17,7 +17,7 @@ PuzzleController.ts is excluded per task spec — fields that appear ONLY there 
 |---|---|
 | BR | BoardRenderer.ts |
 | BV | BoardView.ts |
-| RB | ResourceBar.ts |
+| RB | ResourceBar.ts — defined but **never updated** in BoardRenderer; instances stay invisible. No `read` marks expected. |
 | PB | PlayerBar.ts |
 | RV | RowView.ts |
 | PV | PileView.ts |
