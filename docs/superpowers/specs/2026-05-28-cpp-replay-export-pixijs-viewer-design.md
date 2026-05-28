@@ -119,6 +119,30 @@ Three artifacts, one shared contract:
   — the exact shape `matchup_clean.js --save-replays` already produces and the PixiJS
   viewer already loads.
 
+### Schema additions over the matchup baseline (surfaced 2026-05-28 visual review)
+
+Two gaps in the matchup-format baseline became visible while validating Phase 2
+against an existing replay. The C++ exporter must close both:
+
+- **`playerInfo[]`** — matchup format carries only bare `p0: "DAVEAI"` / `p1: "DAVEAI"`
+  strings, so DSNN-vs-Dave games render as "DAVEAI vs DAVEAI" with no way to tell
+  which side ran which model. C++ exporter must add a top-level `playerInfo` array
+  matching the structured shape the PixiJS PlayerBar consumes:
+  `[{ displayName, portrait, badges, avatarFrame, ...optional config }, ...]`.
+  At minimum `displayName` must include the differentiator — e.g.
+  `"DAVEAI (HardestAI)"` and `"DAVEAI (DSNN_MBonly)"`. Optional richer fields
+  (`difficulty`, `model`, `weightsFile`) can be added for tooling consumers.
+
+- **Per-action timing** — matchup format has no `commandInfo`/`stateTimestampMs`,
+  so the scrubber's turn-band heatmap can't render (`_drawHeatmap()` bails when
+  `hasTiming === false`). C++ exporter must either emit real per-action wall-clock
+  timestamps OR synthesize uniform spacing — the snapshot needs
+  `stateTimestampMs[]` parallel to `states[]`, plus `turnStartMs[]` / `turnEndMs[]`
+  parallel to `turnBoundaries[]`, plus a stub `commandInfo` object. The local
+  viewer page synthesizes this for matchup replays today (`ensureSyntheticTiming`
+  helper) as a temporary workaround; producing it at C++ export time keeps the
+  viewer page generic.
+
 ## Part 2 — Unlisted client-side `/replay/local` page (prismata.live)
 
 - **New route** `/replay/local` in the `prismata-ladder-site` Next.js app. Unlisted
