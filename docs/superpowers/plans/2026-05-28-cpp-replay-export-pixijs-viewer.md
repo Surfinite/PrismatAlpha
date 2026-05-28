@@ -15,9 +15,9 @@
 - PrismataAI-dave-master worktree (`dave-master-jsonclean`): create child branch `feature/save-replays` before Phase 3 edits
 - prismata-ladder: create branch `feature/replay-local-page` before Phase 2 edits
 
-**Open engine_v1 questions for Dave (ask BEFORE starting Phase 3):**
-1. Does engine_v1's `StateHelper` (or equivalent) expose per-player gold-estimate, max-attack, max-disrupt, max-snipers? If not — where are these computed in engine_v1, or do we have to port from `js_engine/StateHelper.js`?
-2. Does `Game::playNextTurn()` apply a `Move` atomically (all actions in one shot), or step through actions individually? Determines whether per-action snapshots are inline-during-apply or post-hoc-via-clone-replay.
+**Engine_v1 questions resolved from the code (2026-05-28):**
+1. **Move atomicity → SEQUENTIAL.** `Game::doMove()` ([Game.cpp:66-91](../../../../../PrismataAI-dave-master/source/engine/Game.cpp#L66-L91)) loops over the move's actions and calls `Game::doAction(action)` for each, which in turn calls `m_state.doAction(action)`. Every action passes through the single chokepoint `Game::doAction`. **Task 16 takes Branch A; Branch B is deleted.**
+2. **StateHelper coverage** — still uncertain until Phase 1 lands the reconciliation table. Surfaced inside Task 15 / Task 17 work via grepping `source/{ai,engine}` for each derived-field name. If a derived field has no engine_v1 equivalent, port it from `js_engine/StateHelper.js`/shipped bundle as a free function in `ReplaySerializer.cpp` (acknowledged risk listed below).
 
 ---
 
@@ -1243,56 +1243,74 @@ git commit -m "feat(serializer): serialize structural fields (mana/phase/supply/
 
 ---
 
-### Task 16: Per-action stepping (Dave-answer-dependent)
+### Task 16: Per-action stepping via `Game::doAction` hook
 
 **Files:**
-- Modify: `PrismataAI-dave-master/source/testing/ReplaySerializer.cpp` (refine `captureMove`)
-- POSSIBLY modify: `PrismataAI-dave-master/source/engine/Game.cpp` (if engine_v1 applies Moves atomically and we need a hook)
+- Modify: `PrismataAI-dave-master/source/engine/Game.h` (add hook member + setter)
+- Modify: `PrismataAI-dave-master/source/engine/Game.cpp` (invoke hook from `doAction`)
+- Modify: `PrismataAI-dave-master/source/testing/ReplaySerializer.h` (add `captureActionApplied`)
+- Modify: `PrismataAI-dave-master/source/testing/ReplaySerializer.cpp` (impl `captureActionApplied`; simplify `captureMove`)
+- Modify: `PrismataAI-dave-master/source/testing/TournamentGame.cpp` (wire the hook when `_serializer` is non-null)
 
-**Gate:** answer to Dave's question #2 (Move atomicity) decides between two implementations.
+**Resolved (2026-05-28 from the code):** `Game::doAction(...)` is the single chokepoint every Action passes through. We hook there once and capture every action automatically.
 
-#### Branch A: Engine applies actions one-at-a-time (likely)
+- [ ] **Step 1: Add the hook member + setter to `Game.h`**
 
-If `Game::playNextTurn()` iterates over `move.getAction(i)` and applies each individually, we hook between actions.
+In `Game.h`, near the other private members:
 
-- [ ] **A.1: Add a callback hook to the game loop**
-
-In `Game.h`, add a hook:
 ```cpp
-typedef std::function<void(const GameState &, const Action &)> ActionAppliedHook;
-void setActionAppliedHook(ActionAppliedHook hook) { _actionAppliedHook = hook; }
+#include <functional>
+
+class Action;   // forward-declare if not already
+
+class Game
+{
+public:
+    using ActionAppliedHook = std::function<void(const GameState &, const Action &)>;
+    void setActionAppliedHook(ActionAppliedHook hook) { _actionAppliedHook = std::move(hook); }
+
+    // ...existing public API unchanged...
+
 private:
-    ActionAppliedHook _actionAppliedHook;
+    ActionAppliedHook _actionAppliedHook;   // default: empty/null, true no-op
+    // ...existing private members...
+};
 ```
 
-In `Game::playNextTurn()` (or wherever the per-action loop is), invoke the hook after each action:
+The hook is default-empty — when no serializer is active, every action does one extra `if (_actionAppliedHook)` check against a null `std::function`, which is a single branch on a pointer. Negligible vs the existing `doAction` cost.
+
+- [ ] **Step 2: Invoke the hook from `Game::doAction`**
+
+In `Game.cpp:88-91`, change:
+
 ```cpp
-for (size_t i = 0; i < move.size(); ++i) {
-    state.doAction(move.getAction(i));
-    if (_actionAppliedHook) _actionAppliedHook(state, move.getAction(i));
+bool Game::doAction(const Action & action)
+{
+    return m_state.doAction(action);
 }
 ```
 
-- [ ] **A.2: In `TournamentGame.cpp`, wire the hook to the serializer when enabled**
+to:
 
 ```cpp
-if (_serializer) {
-    game.setActionAppliedHook([this](const GameState & s, const Action & a) {
-        _serializer->captureActionApplied(s, a);
-    });
+bool Game::doAction(const Action & action)
+{
+    bool ok = m_state.doAction(action);
+    if (ok && _actionAppliedHook) _actionAppliedHook(m_state, action);
+    return ok;
 }
 ```
 
-- [ ] **A.3: Add `captureActionApplied` to the serializer (both header and impl)**
+- [ ] **Step 3: Add `captureActionApplied` to the serializer (header + impl)**
 
 In `ReplaySerializer.h`, add the declaration in the public section:
 
 ```cpp
-// Called from the game-loop hook after each Action is applied.
+// Called from Game::doAction's hook after each Action is applied.
 void captureActionApplied(const GameState & state, const Action & action);
 ```
 
-In `ReplaySerializer.cpp`, add the definition:
+In `ReplaySerializer.cpp`:
 
 ```cpp
 void ReplaySerializer::captureActionApplied(const GameState & state, const Action & action) {
@@ -1302,49 +1320,46 @@ void ReplaySerializer::captureActionApplied(const GameState & state, const Actio
 }
 ```
 
-- [ ] **A.4: Remove the per-move "post" capture in `captureMove` (the hook covers it)**
+- [ ] **Step 4: Simplify `captureMove` — only records turn boundaries now**
 
-Just record `turnBoundaries` in `captureMove`; the hook produces all per-action states.
-
-#### Branch B: Engine applies Moves atomically
-
-If a `Move` is applied as one unit and we can't insert between actions, we replay the actions on a clone.
-
-- [ ] **B.1: Modify `captureMove` to clone-and-replay**
+The hook produces all per-action states automatically. `captureMove` becomes just a turn-boundary marker:
 
 ```cpp
-void ReplaySerializer::captureMove(const GameState & pre,
-                                   const Move & move,
-                                   const GameState & post) {
+void ReplaySerializer::captureMove(const GameState & /*pre*/,
+                                   const Move & /*move*/,
+                                   const GameState & /*post*/) {
     auto & a = _doc.GetAllocator();
     _turnBoundaries.PushBack(static_cast<int>(_states.Size()), a);
-
-    GameState clone = pre;   // engine_v1 GameState must be copy-constructible
-    for (size_t i = 0; i < move.size(); ++i) {
-        clone.doAction(move.getAction(i));
-        _states.PushBack(serializeState(clone), a);
-        _actions.PushBack(rapidjson::Value(move.getAction(i).toHistoryString().c_str(), a), a);
-    }
-    // Sanity: clone should now equal post (modulo any side effects we skipped).
-    // We don't assert it because it's not worth a runtime cost; rely on visual
-    // parity in Task 19 instead.
-    (void)post;
 }
 ```
 
-- [ ] **Common step: Build + test driver passes**
+- [ ] **Step 5: Wire the hook in `TournamentGame.cpp` when serializer is active**
+
+```cpp
+if (_serializer) {
+    game.setActionAppliedHook([this](const GameState & s, const Action & a) {
+        _serializer->captureActionApplied(s, a);
+    });
+}
+```
+
+The lambda only exists when `_serializer` is non-null, so when `--save-replays` is off the hook is never installed and `Game::doAction` sees a default-null `std::function` — the if-check fails immediately. No measurable cost.
+
+- [ ] **Step 6: Build + test driver**
 
 ```bash
-# Build via MSBuild (Task 11 Step 3 invocation).
+"/c/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/MSBuild.exe" \
+  "c:/libraries/PrismataAI-dave-master/visualstudio/Prismata.sln" \
+  //t:Rebuild //p:Configuration=Release //p:Platform=x86 //m
 ./serializer_test.exe
 ```
 
-Expected: PASS. The states[] array should now have multiple entries per turn (action_count + 1 per turn).
+Expected: PASS. The `states[]` array should have multiple entries per turn (one per action).
 
-- [ ] **Common step: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git commit -am "feat(serializer): per-action snapshots (Move-atomicity Branch <A|B>)"
+git commit -am "feat(engine+serializer): per-action snapshots via Game::doAction hook"
 ```
 
 ---
@@ -1732,7 +1747,7 @@ cd c:/libraries/prismata-ladder && git branch -d feature/replay-local-page
 ## Open Risks / Watchpoints
 
 1. **Task 15 engine_v1 API guesses.** Accessor names like `getResources`, `getCardSupply`, `getCardByID` are best-guesses. Reading the actual headers in dave-master is mandatory and may require renames mid-task.
-2. **Task 16 Move atomicity.** Tasks branches A or B differ materially — Dave's answer to question #2 is a real gate.
+2. ~~**Task 16 Move atomicity.**~~ *Resolved 2026-05-28: Branch A confirmed from `Game::doAction` chokepoint.*
 3. **Task 17 derived-field divergence size.** If the reconciliation table shows many material disagreements, Task 17 grows substantially. The Phase 1 Task 4 Step 5 decision gate exists exactly to flag this before Phase 3 starts.
 4. **Task 18 gzip dependency.** May require pulling in miniz; small but not zero new dependency.
 5. **No-op gate seeding.** Statistical equivalence with PID-based seeding is acceptable but weaker than byte-identical. If a sharper gate is needed, add a `--seed` CLI to the tournament first.
