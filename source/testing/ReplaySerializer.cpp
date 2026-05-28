@@ -3,6 +3,12 @@
 #include "CardBuyable.h"
 #include "Resources.h"
 #include <algorithm>
+#include <fstream>
+#include <filesystem>
+#include <cstdio>
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "miniz/miniz.h"
 
 namespace Prismata
 {
@@ -54,6 +60,40 @@ namespace
     {
         rapidjson::Value v(s, a);
         obj.AddMember(rapidjson::StringRef(key), v, a);
+    }
+
+    // Wrap `data` as a standard gzip (.gz) stream: 10-byte gzip header + raw
+    // DEFLATE body (miniz) + CRC32 + ISIZE footer. The browser's
+    // DecompressionStream('gzip') in /replay/local reads this directly (it keys
+    // on the 0x1f 0x8b magic). Returns empty on compression failure.
+    std::string gzipCompress(const std::string & data)
+    {
+        size_t deflatedLen = 0;
+        // window_bits = -15 => raw deflate (no zlib header); level 9; same params
+        // miniz's own zip writer uses for stored entries.
+        const mz_uint flags = tdefl_create_comp_flags_from_zip_params(9, -15, MZ_DEFAULT_STRATEGY);
+        void * deflated = tdefl_compress_mem_to_heap(data.data(), data.size(), &deflatedLen, flags);
+        if (!deflated) { return std::string(); }
+
+        std::string out;
+        out.reserve(deflatedLen + 18);
+
+        const unsigned char header[10] = { 0x1f, 0x8b, 0x08, 0x00, 0, 0, 0, 0, 0x00, 0xff };
+        out.append(reinterpret_cast<const char *>(header), 10);
+        out.append(static_cast<const char *>(deflated), deflatedLen);
+        mz_free(deflated);
+
+        const mz_ulong crc = mz_crc32(MZ_CRC32_INIT,
+                                      reinterpret_cast<const unsigned char *>(data.data()),
+                                      data.size());
+        auto appendLE = [&out](mz_uint32 v) {
+            const char b[4] = { char(v & 0xff), char((v >> 8) & 0xff),
+                                char((v >> 16) & 0xff), char((v >> 24) & 0xff) };
+            out.append(b, 4);
+        };
+        appendLE(static_cast<mz_uint32>(crc));                       // CRC32 of uncompressed data
+        appendLE(static_cast<mz_uint32>(data.size() & 0xffffffffu)); // ISIZE mod 2^32
+        return out;
     }
 }
 
@@ -184,11 +224,58 @@ void ReplaySerializer::recordTurnBoundary()
     _turnBoundaries.PushBack(static_cast<int>(_states.Size()), a);
 }
 
-bool ReplaySerializer::finalize(int /*winner*/, int /*turns*/,
-                                const std::string & /*outDir*/, int /*gameIndex*/)
+bool ReplaySerializer::finalize(int winner, int turns,
+                                const std::string & outDir, int gameIndex)
 {
-    // Filled in Task 18 (top-level wrapper + gzip + write).
-    return false;
+    auto & a = _doc.GetAllocator();
+
+    // ---- Top-level wrapper (matchup-format schema the PixiJS viewer consumes) ----
+    _doc.AddMember("replay", true, a);
+    addStr(_doc, "p0", _p0, a);
+    addStr(_doc, "p1", _p1, a);
+    _doc.AddMember("winner", winner, a);             // 0 = white, 1 = black, -1 = draw
+    const std::string winnerName = (winner == 0) ? _p0
+                                 : (winner == 1) ? _p1
+                                 : std::string("Draw");
+    addStr(_doc, "winnerName", winnerName, a);
+    _doc.AddMember("turns", turns, a);
+
+    rapidjson::Value cardSet(rapidjson::kArrayType);   // random units in play (UINames)
+    for (const std::string & name : _cardSet)
+    {
+        rapidjson::Value n(name.c_str(), static_cast<rapidjson::SizeType>(name.size()), a);
+        cardSet.PushBack(n, a);
+    }
+    _doc.AddMember("cardSet", cardSet, a);
+
+    // Move the accumulated arrays in (transfers ownership; safe — finalize runs once).
+    _doc.AddMember("states", _states, a);
+    _doc.AddMember("actions", _actions, a);
+    _doc.AddMember("turnBoundaries", _turnBoundaries, a);
+
+    // ---- Serialize the document to a JSON string ----
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    _doc.Accept(writer);
+
+    // ---- gzip-compress (the viewer reads .json.gz via DecompressionStream) ----
+    const std::string json(buffer.GetString(), buffer.GetSize());
+    const std::string gz = gzipCompress(json);
+    if (gz.empty()) { return false; }   // compression failed
+
+    // ---- Write <outDir>/game_NNNN.json.gz ----
+    std::error_code ec;
+    std::filesystem::create_directories(outDir, ec);
+    if (ec) { return false; }
+
+    char filename[64];
+    std::snprintf(filename, sizeof(filename), "game_%04d.json.gz", gameIndex);
+    const std::string path = outDir + "/" + filename;
+
+    std::ofstream out(path, std::ios::binary);
+    if (!out) { return false; }
+    out.write(gz.data(), static_cast<std::streamsize>(gz.size()));
+    return out.good();
 }
 
 } // namespace Prismata
