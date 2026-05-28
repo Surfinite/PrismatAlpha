@@ -33,7 +33,7 @@ PuzzleController.ts is excluded per task spec — fields that appear ONLY there 
 
 | Field | BR | BV | RB | PB | RV | PV | UC | VS | PS | AC | SO | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `whiteMana` | read | - | read | read | - | - | - | - | - | - | - | BR reads for attack parsing and passes to PB.update(); RB.update(mana,...) called with it; PB.update(mana,...) |
+| `whiteMana` | read | - | - | read | - | - | - | - | - | - | - | BR reads for attack parsing and passes to PB.update(mana,...). ResourceBar.update() is defined but never called — BR creates topResources/bottomResources at lines 556-596 then leaves them invisible; data flows only to PlayerBar. |
 | `blackMana` | read | - | - | read | - | - | - | - | - | - | - | BR reads for attack parsing and passes to PB.update() |
 | `turn` | read | - | - | - | - | - | - | - | - | - | - | BR reads as `gameState.turn`, passes `turnPlayer` downstream |
 | `numTurns` | read | - | - | - | - | - | - | - | - | - | - | BR reads `gameState.numTurns` for timer index in static-timing path |
@@ -52,7 +52,7 @@ PuzzleController.ts is excluded per task spec — fields that appear ONLY there 
 | `whiteSupplySpent` | read | - | - | - | - | - | - | - | - | - | - | BR passes gameState to BuyPanel.update() |
 | `blackSupplySpent` | read | - | - | - | - | - | - | - | - | - | - | BR passes gameState to BuyPanel.update() |
 | `table` | read | - | - | - | - | - | - | - | - | read | - | BR destructures it and filters by owner; AC reads `gameState.table` |
-| `whiteGoldEstimate` | read | - | read | read | - | - | - | - | - | - | - | BR passes to PB.update(); RB.update(mana, goldEstimate) |
+| `whiteGoldEstimate` | read | - | - | read | - | - | - | - | - | - | - | BR passes to PB.update(...). ResourceBar.update(mana, goldEstimate) is defined but the RB instances are never updated/visible in BR (see whiteMana note). |
 | `blackGoldEstimate` | read | - | - | read | - | - | - | - | - | - | - | BR passes to PB.update() for P1 |
 
 ---
