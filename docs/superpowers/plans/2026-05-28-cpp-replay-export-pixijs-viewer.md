@@ -16,7 +16,14 @@
 - prismata-ladder: create branch `feature/replay-local-page` before Phase 2 edits
 
 **Engine_v1 questions resolved from the code (2026-05-28):**
-1. **Move atomicity → SEQUENTIAL.** `Game::doMove()` ([Game.cpp:66-91](../../../../../PrismataAI-dave-master/source/engine/Game.cpp#L66-L91)) loops over the move's actions and calls `Game::doAction(action)` for each, which in turn calls `m_state.doAction(action)`. Every action passes through the single chokepoint `Game::doAction`. **Task 16 takes Branch A; Branch B is deleted.**
+1. **Move atomicity → SEQUENTIAL, captured in the harness (REVISED).** `Game::doMove()`
+   ([Game.cpp:66-91](../../../../../PrismataAI-dave-master/source/engine/Game.cpp#L66-L91))
+   loops over the move's actions and calls `Game::doAction(action)` → `m_state.doAction(action)`.
+   An earlier revision hooked `Game::doAction` directly (Branch A), but `Game::doAction` is on
+   the playout hot path (`Eval::PerformPlayout` builds a `Game` and `play()`s it), so the hook
+   was reverted. **Task 16 now reconstructs the same per-action frames in `TournamentGame` by
+   replaying the returned `Move` on a clone of the pre-move state via the public
+   `GameState::doAction` — zero engine changes.** See Task 16 (revised) below.
 2. **StateHelper coverage** — still uncertain until Phase 1 lands the reconciliation table. Surfaced inside Task 15 / Task 17 work via grepping `source/{ai,engine}` for each derived-field name. If a derived field has no engine_v1 equivalent, port it from `js_engine/StateHelper.js`/shipped bundle as a free function in `ReplaySerializer.cpp` (acknowledged risk listed below).
 
 ---
@@ -1259,16 +1266,52 @@ git commit -m "feat(serializer): serialize structural fields (mana/phase/supply/
 
 ---
 
-### Task 16: Per-action stepping via `Game::doAction` hook
+### Task 16: Per-action stepping — harness-side clone replay (no engine hook)
 
-**Files:**
-- Modify: `PrismataAI-dave-master/source/engine/Game.h` (add hook member + setter)
-- Modify: `PrismataAI-dave-master/source/engine/Game.cpp` (invoke hook from `doAction`)
-- Modify: `PrismataAI-dave-master/source/testing/ReplaySerializer.h` (add `captureActionApplied`)
-- Modify: `PrismataAI-dave-master/source/testing/ReplaySerializer.cpp` (impl `captureActionApplied`; simplify `captureMove`)
-- Modify: `PrismataAI-dave-master/source/testing/TournamentGame.cpp` (wire the hook when `_serializer` is non-null)
+> **REVISED 2026-05-28.** This task was originally implemented as a `Game::doAction`
+> hook (Steps 1–7 below). That was reverted because `Game::doAction` is on the playout
+> hot path (`Eval::PerformPlayout`/`ABPlayoutScore` build a `Game` and `play()` it), so
+> the `std::function` field + per-action branch were neither free nor engine-free. The
+> **shipped** implementation keeps the engine byte-identical and does capture in the
+> harness. **Steps 1–7 below are superseded by the "Shipped implementation" block.**
 
-**Resolved (2026-05-28 from the code):** `Game::doAction(...)` is the single chokepoint every Action passes through. We hook there once and capture every action automatically.
+**Files (shipped):**
+- `PrismataAI-dave-master/source/engine/Game.{h,cpp}` — **reverted to pristine, unmodified.**
+- Modify: `PrismataAI-dave-master/source/testing/TournamentGame.cpp` — clone pre-move
+  `GameState`; after `playNextTurn` returns and `ms` is recorded, replay
+  `_game.getPreviousMove()` action-by-action on the clone via `GameState::doAction`,
+  calling `_serializer->captureActionApplied(clone, action)` per action, then
+  `recordTurnBoundary()`.
+- `PrismataAI-dave-master/source/testing/ReplaySerializer.{h,cpp}` — `captureActionApplied`
+  unchanged in body; doc comments updated to say it's called from the harness replay loop,
+  not an engine hook.
+
+**Shipped implementation (`TournamentGame::playGame`):**
+
+```cpp
+// pre-move snapshot, only when recording (per-turn, off the AI hot path):
+std::unique_ptr<GameState> preMoveState;
+if (_serializer) { preMoveState = std::make_unique<GameState>(_game.getState()); }
+
+// ... t.start(); playNextTurn(false); record ms into _playerTotalTimeMS ...
+
+// OFF the think-timer — reproduce the exact states the real game passed through:
+if (_serializer)
+{
+    const Move & move = _game.getPreviousMove();
+    for (ActionID a(0); a < move.size(); ++a)
+    {
+        const Action & action = move.getAction(a);
+        preMoveState->doAction(action);
+        _serializer->captureActionApplied(*preMoveState, action);
+    }
+    _serializer->recordTurnBoundary();   // boundary after the turn's actions
+}
+```
+
+Verified: full-solution rebuild clean; `SaveReplaysSmoke` 16 games exit 0, no asserts.
+
+<details><summary>Original (superseded) Branch-A hook steps — kept for history</summary>
 
 - [ ] **Step 1: Add the hook member + setter to `Game.h`**
 
@@ -1377,6 +1420,8 @@ Expected: PASS. The `states[]` array should have multiple entries per turn (one 
 ```bash
 git commit -am "feat(engine+serializer): per-action snapshots via Game::doAction hook"
 ```
+
+</details>
 
 ---
 
@@ -1763,7 +1808,7 @@ cd c:/libraries/prismata-ladder && git branch -d feature/replay-local-page
 ## Open Risks / Watchpoints
 
 1. **Task 15 engine_v1 API guesses.** Accessor names like `getResources`, `getCardSupply`, `getCardByID` are best-guesses. Reading the actual headers in dave-master is mandatory and may require renames mid-task.
-2. ~~**Task 16 Move atomicity.**~~ *Resolved 2026-05-28: Branch A confirmed from `Game::doAction` chokepoint.*
+2. ~~**Task 16 Move atomicity.**~~ *Resolved 2026-05-28: per-action frames reconstructed in the harness by replaying the `Move` on a clone (`GameState::doAction`). The engine-hook approach was tried and reverted — `Game::doAction` is on the playout hot path. Engine is unmodified.*
 3. **Task 17 derived-field divergence size.** If the reconciliation table shows many material disagreements, Task 17 grows substantially. The Phase 1 Task 4 Step 5 decision gate exists exactly to flag this before Phase 3 starts.
 4. **Task 18 gzip dependency.** May require pulling in miniz; small but not zero new dependency.
 5. **No-op gate seeding.** Statistical equivalence with PID-based seeding is acceptable but weaker than byte-identical. If a sharper gate is needed, add a `--seed` CLI to the tournament first.

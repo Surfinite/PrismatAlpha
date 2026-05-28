@@ -57,13 +57,16 @@ That unlocks a design where **all of our constraints hold simultaneously**:
 
 ## Hard Constraints (design invariants)
 
-1. **No-op when disabled.** No changes to `GameState` / `Move` / `Action` internals.
-   No new fields, virtual calls, or allocations on the AI's hot path (search/playout).
-   With `--save-replays` off, the serializer is never called; the only residual cost
-   is one boolean check per *real* turn, outside the AI's timed region.
+1. **No engine changes at all.** No edits to any engine class — `Game`, `GameState`,
+   `Move`, `Action` are all byte-identical to Dave's. Capture lives entirely in
+   `source/testing/` (the tournament harness + `ReplaySerializer`). There is therefore
+   *nothing* on the AI's search/playout hot path: no new fields, no branches, no
+   allocations. With `--save-replays` off, the only residual cost is one `if (_serializer)`
+   check per *real* turn in the harness loop, outside the AI's timed region.
 2. **Capture is a top-level observer.** Serialization reads the *real* states that
-   actually occur in the game (a few hundred per game), never the millions of
-   throwaway `GameState` copies the AI explores during search.
+   actually occur in the game (a few hundred per game) — reconstructed by replaying the
+   chosen `Move` on a clone of the pre-move state — never the millions of throwaway
+   `GameState` copies the AI explores during search.
 3. **Site bundle is the fidelity authority.** Where the local js_engine and the
    site's engine bundle disagree on a derived field, the site bundle wins.
 
@@ -90,14 +93,27 @@ Three artifacts, one shared contract:
 - New flag `--save-replays <dir>` (CLI) and/or `"saveReplays": "<dir>"` on the
   Tournament config block in `config.txt`. Default OFF.
 
-### Hook point
-- The top-level game driver (`Game::playNextTurn()` / the tournament's per-game loop),
-  **after** the player's `Move` is returned **and the player's think-time timer has
-  stopped** — so capture never counts against think-time budgets or `_playerTotalTimeMS`.
-- When enabled, step the returned `Move` **action-by-action**, serializing a snapshot
-  after each `Action`, so the viewer animates per buy / per attack (~12 states/turn),
-  not whole-turn jumps. Also capture the initial (turn-0) state.
-- When disabled, none of this runs.
+### Capture point — harness only, zero engine changes (REVISED 2026-05-28)
+
+> **Revision note.** An earlier draft hooked `Game::doAction` in the engine (a
+> `std::function` member fired per action). That was reverted: `Game::doAction` is
+> on the playout hot path (`Eval::PerformPlayout` constructs a `Game` and calls
+> `play()`), so the field + branch were *not* free, and they modified Dave's
+> engine — against the prime constraint. Capture now lives entirely in the
+> tournament harness. `Game.h`/`Game.cpp` are byte-identical to Dave's.
+
+- Capture is driven by `TournamentGame::playGame()` — the tournament's per-game loop —
+  **after** the player's `Move` is returned **and the think-time timer has stopped**
+  (`ms` already added to `_playerTotalTimeMS`), so capture never counts against
+  think-time budgets.
+- When recording, snapshot the **pre-move `GameState`** (a copy, only taken when
+  `_serializer` is set), then **replay the returned `Move` action-by-action onto that
+  clone** via the public `GameState::doAction`, serializing a snapshot after each
+  `Action`. This reproduces exactly the states the real game passed through (the real
+  `Game::doMove` applies the same actions to its own state), giving ~12 states/turn for
+  per-buy / per-attack animation. Also capture the initial (turn-0) state.
+- When disabled, the only residual cost is one `if (_serializer)` check per *real* turn
+  in the harness loop — never on the AI's search/playout path, and nothing in the engine.
 
 ### What each snapshot serializes (`GameState → JSON`)
 - **Board `table[]`**, per instance: `instId`, `cardName` (UIName/display name),
@@ -265,9 +281,10 @@ column.
 - **engine_v1 `StateHelper` coverage** *(ask Dave directly)* — need to confirm
   engine_v1 exposes equivalents for every in-scope derived field (gold estimate,
   attack/disrupt potential).
-- **Per-action stepping fidelity** *(ask Dave directly)* — whether engine_v1 applies
-  a `Move` atomically or action-by-action determines whether we snapshot inline or
-  replay actions on a clone to generate intermediate frames.
+- ~~**Per-action stepping fidelity**~~ *(RESOLVED 2026-05-28)* — `Game::doMove` applies a
+  `Move` action-by-action via `GameState::doAction`. We get the same intermediate frames
+  by replaying the returned `Move` on a clone of the pre-move state in the harness, so no
+  engine change is needed and no Dave-ping is required.
 - **Asset availability** — the site already hosts card art / backgrounds / HUD; the
   unlisted page reuses them, so no asset packaging needed (a benefit of the site route).
 
@@ -315,15 +332,28 @@ that does nothing.) The empirical gate is reused at Task 18 when `_saveReplaysDi
 actually drives serialization — at that point we'll re-verify with `TimeLimit:100`
 on a faster smoke tournament.
 
+**2026-05-28 — Capture moved off the engine (Branch B refactor):**
+Review found the Task 16 `Game::doAction` hook sat on the playout hot path
+(`Eval::PerformPlayout`/`ABPlayoutScore` build a `Game` and call `play()` →
+`doMove` → `doAction`), so the added `std::function` field + per-action branch were
+not the "zero overhead" the in-code comment claimed, and they modified Dave's engine.
+Reverted `Game.h`/`Game.cpp` to byte-identical-with-`dave-master-jsonclean`; moved
+per-action capture into `TournamentGame::playGame` (clone the pre-move `GameState`,
+replay the returned `Move` via public `GameState::doAction` after the think-timer
+stops, push one snapshot per action, then the turn boundary — same output ordering as
+the hook). Full-solution rebuild (Release|x64|v145) clean for Engine/AI/Standalone/Testing
+(only pre-existing GUI SFML-3 errors remain). `SaveReplaysSmoke` (16 games, 8 threads,
+`HardestAIUCT_Fast`) ran exit 0, no asserts, ~8.3s. Engine diff for the whole replay
+feature is now **0 lines**.
+
 ## Affected Locations (reference)
 
 | Area | Path |
 |---|---|
-| C++ tournament runner | `PrismataAI-dave-master/source/testing/Tournament.cpp`, `TournamentGame.cpp` |
-| C++ game loop | `PrismataAI-dave-master/source/engine/Game.{h,cpp}` |
-| C++ move/action | `PrismataAI-dave-master/source/engine/Move.h`, `Action.h` |
-| C++ config parse | `PrismataAI-dave-master/source/ai/AIParameters.cpp` |
-| New: C++ serializer | `PrismataAI-dave-master/source/testing/` (new file) |
+| C++ tournament runner (capture lives here) | `PrismataAI-dave-master/source/testing/Tournament.{h,cpp}`, `TournamentGame.{h,cpp}` |
+| C++ engine — **NOT modified** (read-only `GameState::doAction` replay on a clone) | `PrismataAI-dave-master/source/engine/Game.{h,cpp}`, `GameState.h`, `Move.h`, `Action.h` |
+| C++ config parse | `PrismataAI-dave-master/source/testing/Tournament.cpp` (`saveReplays` field) |
+| New: C++ serializer | `PrismataAI-dave-master/source/testing/ReplaySerializer.{h,cpp}` |
 | Oracle (JS) | `PrismataAI/js_engine/replay_exporter.js` (`stateToCppJSON`) |
 | Site renderer | `prismata-ladder/prismata-ladder-site/src/components/game-renderer/` |
 | Site engine bundle (HAND-EDIT, do not rebuild) | `prismata-ladder/prismata-ladder-site/public/js/prismata-engine.js` |
