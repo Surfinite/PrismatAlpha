@@ -73,7 +73,7 @@ maxAttack: state.helper ? state.helper.maxAttack : 0,
 **C++ implementation note:** Implement as a two-pass loop over the turn player's units. Phase-sensitive:
 
 - **Defense phase** — eligibility: `constructionTime <= 1 && delay <= 1 && !(lifespan==1 && ct==0 && delay==0) && !dead`. Add `beginOwnTurnScript.receive.attack` unconditionally; add `abilityScript.receive.attack` if health/charge suffice. Add resonate bonus (`ownAnnihilate[cardName].length`) in a post-loop pass.
-- **Action phase** — for ROLE_SELLABLE: add `buyCost.attack`. For pre-existing non-beginTurn/non-buyOrAbility units with `constructionTime==0` and delay-condition: add `abilityScript.receive.attack` (ROLE_DEFAULT, health/charge check) or `abilityCost.attack` (ROLE_ASSIGNED/sacced). `beginOwnTurnScript` goes to `totalProducedThisTurn` only — **NOT** to `maxAttack`. Resonate bonus goes to `totalProducedThisTurn.attack` in action phase.
+- **Action phase** — for ROLE_SELLABLE: add `buyCost.attack`. For pre-existing non-beginTurn/non-buyOrAbility units with `constructionTime==0` and delay-condition: add `abilityScript.receive.attack` (ROLE_DEFAULT, health/charge check) or `abilityCost.attack` (ROLE_ASSIGNED/sacced). `beginOwnTurnScript` goes to `totalProducedThisTurn` only — **NOT** to `maxAttack`. Resonate bonus goes to `totalProducedThisTurn.attack` in action phase. For ROLE_DEFAULT's action-phase health check, use the bare `health >= healthUsed && charge >= chargeUsed` form (no `+ healthGained` adjustment). The `+ healthGained` adjustment applies only in the defense-phase path.
 
 Fall back to `0` when StateHelper has not run (e.g. end-of-game).
 
@@ -118,7 +118,7 @@ if (card.targetAction === C.TARGETACTION_SNIPE) {
 }
 ```
 
-**C++ implementation note:** Defense-phase only. Double-gate: unit must have `targetAction == SNIPE` AND the static `potentiallyMoreAttack` flag from the card definition (Tarsier has it; most snipe-capable units do not). Same eligibility + health/charge block as `maxDisrupt`. Integer count — not a list. Fall back to `0` when StateHelper unavailable.
+**C++ implementation note:** Defense-phase only. Double-gate: unit must have `targetAction == SNIPE` AND the static `potentiallyMoreAttack` flag from the card definition (Tarsier has it; most snipe-capable units do not) (verify that `CardType` exposes this flag — check `CardType.h` for a `potentiallyMoreAttack` member; if absent, it may need to be added from `cardLibrary.jso` during card loading). Same eligibility + health/charge block as `maxDisrupt`. Integer count — not a list. Fall back to `0` when StateHelper unavailable.
 
 ---
 
@@ -140,7 +140,7 @@ oppAttackPotential: state.helper ? state.helper.oppAttackPotential : 0,
 // Identical structure — no phase split, same health/charge gating asymmetry
 ```
 
-**C++ implementation note:** Loop over opponent units. Eligibility: `constructionTime <= 1 && delay <= 1 && !(lifespan==1 && ct==0 && delay==0) && !dead`. No defense/action-phase split for the opponent calculation. Add `beginOwnTurnScript.receive.attack` unconditionally; add `abilityScript.receive.attack` only if health/charge check passes. Post-loop resonate bonus: for each unit in opponent's `oppAnnihilate` map, add `oppAnnihilate[cardName].length` to `oppAttackPotential`. Fall back to `0` when StateHelper unavailable.
+**C++ implementation note:** Loop over opponent units. Eligibility: `constructionTime <= 1 && delay <= 1 && !(lifespan==1 && ct==0 && delay==0) && !dead` (note: the dead check is an inner guard in the JS source, not part of the outer ct/delay filter — the exported value is the same either way). No defense/action-phase split for the opponent calculation. Add `beginOwnTurnScript.receive.attack` unconditionally; add `abilityScript.receive.attack` only if health/charge check passes. Post-loop resonate bonus: for each unit in opponent's `oppAnnihilate` map, add `oppAnnihilate[cardName].length` to `oppAttackPotential`. Fall back to `0` when StateHelper unavailable.
 
 ---
 
@@ -190,7 +190,7 @@ if (card.cardName === 'Cryo Kronus') {
 ++this.oppSnipers;    // same double-gate, same post-computation reduction (internal only)
 ```
 
-**C++ implementation note:** Same opponent eligibility + health/charge block as `oppDisruptPotential`. Double-gate: `targetAction === SNIPE && potentiallyMoreAttack`. The post-computation `myDefenseReductionFromOppSnipers` (collecting own defenders with health ≤ 3, summing their health up to `oppSnipers` count) is internal to StateHelper — do NOT export it to the snapshot JSON. Only `oppSnipers` (the count) goes in the output. Fall back to `0` when StateHelper unavailable.
+**C++ implementation note:** Same opponent eligibility + health/charge block as `oppDisruptPotential`. Double-gate: `targetAction === SNIPE && potentiallyMoreAttack` (verify that `CardType` exposes this flag — check `CardType.h` for a `potentiallyMoreAttack` member; if absent, it may need to be added from `cardLibrary.jso` during card loading). The post-computation `myDefenseReductionFromOppSnipers` (collecting own defenders with health ≤ 3, summing their health up to `oppSnipers` count) is internal to StateHelper — do NOT export it to the snapshot JSON. Only `oppSnipers` (the count) goes in the output. Fall back to `0` when StateHelper unavailable.
 
 ---
 
@@ -223,6 +223,8 @@ Add `currentGold` (player's mana pool `.money`) to both bounds before returning.
 
 Note: `isDefensePhase` is true only when both `phase==='defense'` AND `turn===player` — so during P0's defense, `computeEconEstimate(0)` uses the defense path and `computeEconEstimate(1)` uses the action path.
 
+In the action/confirm phase, `goldAnnihilate` is never populated (only `goldAnnihilateNext` is). Do not apply the `goldAnnihilate` bonus in the action/confirm path.
+
 ---
 
 ### blackGoldEstimate
@@ -233,7 +235,7 @@ Note: `isDefensePhase` is true only when both `phase==='defense'` AND `turn===pl
 
 **Local** (`replay_exporter.js:244`): `computeEconEstimate(1)` — same.
 
-**C++ implementation note:** Same implementation as `whiteGoldEstimate`, player index=1. Same function, different player parameter. Return `[lowerBound, upperBound]` using P1's mana `.money` as `currentGold`.
+**C++ implementation note:** Same implementation as `whiteGoldEstimate` (see all notes there including the action-phase `goldAnnihilate` dead-branch), player index=1. Return `[lowerBound, upperBound]` using P1's mana `.money` as `currentGold`.
 
 ---
 
@@ -255,7 +257,7 @@ boughtThisPhase: inst.creatorIdFromBuyOrAbility >= 0,
 boughtThisPhase: inst.creatorIdFromBuyOrAbility >= 0,   // identical formula
 ```
 
-**C++ implementation note:** Track an integer `creatorIdFromBuyOrAbility` on each CardInstance (default `-1`). Set it to the creator's card ID when a unit is spawned by a BUY action or an ABILITY action during the action phase. Reset to `-1` at the CONFIRM phase transition. Emit `boughtThisPhase: (creatorIdFromBuyOrAbility >= 0)` as a boolean. NON-OPTIONAL — always emit, even when false. Units spawned by activated abilities (e.g. Plexo Cell spawning a Drone) get `true` just like purchased units.
+**C++ implementation note:** Track an integer `creatorIdFromBuyOrAbility` on each CardInstance (default `-1`). Set it to the creator's card ID when a unit is spawned by a BUY action or an ABILITY action during the action phase. Reset fires at the PHASE_CONFIRM transition (the moment `phase` becomes `PHASE_CONFIRM`), which in C++ means at the top of the MOVE_COMMIT handler before any confirm-phase logic runs. Snapshots taken during the action phase see the un-reset values (correct). Emit `boughtThisPhase: (creatorIdFromBuyOrAbility >= 0)` as a boolean. NON-OPTIONAL — always emit, even when false. Units spawned by activated abilities (e.g. Plexo Cell spawning a Drone) get `true` just like purchased units.
 
 ---
 
@@ -289,7 +291,7 @@ These are structural (not derived), but Phase 3 implementers need precise guidan
 
 **Shipped:** `phase` is emitted as the phase string. `glassBroken` is read directly off the raw state in the replay player (not in `stateToCppJSON`). Local explicitly emits `glassBroken: state.glassBroken || false` in `stateToCppJSON`. Bundle reads `glassBroken` on the raw state object.
 
-**C++ implementation note:** Emit BOTH `phase: 'breach'` AND `glassBroken: true` when in the breach state. The renderer has two separate code paths that read these:
+**C++ implementation note:** Emit BOTH `phase: 'breach'` AND `glassBroken: true` when in the breach state. The C++ serializer detects breach via the `glassBroken` flag on `GameState` and, when true, overrides the phase string to `'breach'` regardless of the engine's internal phase value (which remains `PHASE_DEFENSE` in both JS and C++). The PixiJS renderer expects this — `BoardRenderer` tests `phase === 'breach'`, not `glassBroken`. The renderer has two separate code paths that read these:
 - `auto-clicks.ts` reads `gameState.glassBroken` directly.
 - `TurnIndicator` and `PlayerBar` use `glassBroken || phase === 'breach'` as the breach signal.
 - `BoardRenderer` derives its own internal `glassBroken` as `phase === 'breach'` and does NOT read `gameState.glassBroken`.
@@ -298,7 +300,11 @@ Emitting only one of the two will cause at least one renderer path to misbehave.
 
 ### boughtThisPhase vs bornThisTurn (reset timing)
 
-Both `creatorIdFromBuyOrAbility` and `creatorIdFromBeginTurn` are reset together at the CONFIRM phase transition in JS. In C++, the equivalent reset must happen at the same logical point — after MOVE_COMMIT is processed and before the confirm phase begins. Snapshots taken DURING the action phase must reflect the current action-phase purchases/spawns (reset has not happened yet).
+Both `creatorIdFromBuyOrAbility` and `creatorIdFromBeginTurn` are reset together at the CONFIRM phase transition in JS. In C++, the equivalent reset fires at the PHASE_CONFIRM transition (the moment `phase` becomes `PHASE_CONFIRM`), which in C++ means at the top of the MOVE_COMMIT handler before any confirm-phase logic runs. Snapshots taken during the action phase see the un-reset values (correct).
+
+### autoClicked
+
+`autoClicked`: static card property from `CardType` / `cardLibrary.jso`. Emit `inst.card.autoClicked || false`. Not a derived field — no computation needed. Required because the spec's per-instance field list includes it.
 
 ---
 
