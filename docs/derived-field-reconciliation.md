@@ -6,6 +6,28 @@ Per spec [2026-05-28-cpp-replay-export-pixijs-viewer-design.md](superpowers/spec
 
 **Date built:** 2026-05-28 against shipped-bundle blob sha `182b737eb8fa3dc54a881649cfe4b72ebbe77450` and PrismataAI master `0f837e0e86094264bf9daed2fed46eb45038b2f6`.
 
+## Ranked-play scope (2026-05-28)
+
+DSNN is trained on the canonical ranked-play card list at
+`c:/libraries/PrismataAI-dave-master/bin/asset/config/cardLibrary.jso`. Two non-ranked
+units come up in this reconciliation doc — implications for C++ implementation:
+
+- **Cryo Kronus** (the `+999` `oppDisruptPotential` hardcode at bundle line 2914 / local
+  StateHelper.js:423) is **NOT in ranked**. The hardcode is keyed on a literal
+  `cardName === 'Cryo Kronus'` match; no other ranked disrupt unit triggers it
+  (the seven ranked disrupt units are Cryo Ray, Nivo Charge, Vai Mauronax, Tatsu
+  Nullifier, Shiver Yeti, Frostbite, Iceblade Golem — none name-match). **C++ may
+  safely skip the +999 path; it is dead code for any DSNN-relevant replay.**
+- **Robo Santa** (the example for `bornThisTurn`) is **NOT in ranked**, but the
+  `bornThisTurn` mechanic itself IS load-bearing — four ranked units use
+  `beginOwnTurnScript: {create: ...}`: Gauss Fabricator (Minicannon), Defense Grid
+  (Drone), Oxide Mixer (Pixie), Frost Brooder (Screech Blast). **The DISAGREE-material
+  finding for `bornThisTurn` must be implemented in C++; Robo Santa was just an
+  illustrative example.**
+
+If other Phase 3 special cases turn out to be keyed on non-ranked unit names, the same
+rule applies: verify against `cardLibrary.jso` first; skip if dead.
+
 ---
 
 ## Summary
@@ -17,7 +39,7 @@ Per spec [2026-05-28-cpp-replay-export-pixijs-viewer-design.md](superpowers/spec
 | `maxDisrupt` | AGREE | port from `local StateHelper.js:172`; defense-phase only, `card.disruptPotential` |
 | `maxSnipers` | AGREE | port from `local StateHelper.js:175`; defense-phase only, double-gate (SNIPE + potentiallyMoreAttack) |
 | `oppAttackPotential` | AGREE | port from `local StateHelper.js:388,401,498`; no phase split, resonate bonus |
-| `oppDisruptPotential` | AGREE | port from `local StateHelper.js:414,423`; includes Cryo Kronus +999 hardcode |
+| `oppDisruptPotential` | AGREE | port from `local StateHelper.js:414`. Skip Cryo Kronus +999 hardcode (line 423) — Cryo Kronus not in ranked deck. |
 | `oppSnipers` | AGREE | port from `local StateHelper.js:418`; double-gate, internal reduction not exported |
 | `whiteGoldEstimate` | AGREE | port from `local replay_exporter.js:115-218` (inline closure); both bounds + current gold |
 | `blackGoldEstimate` | AGREE | same as whiteGoldEstimate, player=1 |
@@ -169,7 +191,7 @@ if (card.cardName === 'Cryo Kronus') {
 }
 ```
 
-**C++ implementation note:** Same opponent eligibility as `oppAttackPotential`. Inside the health/charge block: add `targetAmount` if `targetAction === CHILL`. Outside the health/charge block (but still inside `!inst.dead`): if card name is `"Cryo Kronus"`, add `999`. The `999` is a display sentinel — it causes the chill icon to render unconditionally. Do NOT apply the +999 to `maxDisrupt` (own-side only). Fall back to `0` when StateHelper unavailable.
+**C++ implementation note:** Same opponent eligibility as `oppAttackPotential`. Inside the health/charge block: add `targetAmount` if `targetAction === CHILL`. **The Cryo Kronus +999 hardcode (line 423) can be skipped — Cryo Kronus is not in the ranked card library, so the literal `cardName === 'Cryo Kronus'` check is unreachable in any DSNN-relevant replay** (see the "Ranked-play scope" note at the top). Fall back to `0` when StateHelper unavailable.
 
 ---
 
