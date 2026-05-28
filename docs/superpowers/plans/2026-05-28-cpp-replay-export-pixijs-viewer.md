@@ -791,6 +791,20 @@ Expected: `bin/Prismata_Testing.exe` and `bin/PrismataAI.exe` rebuilt cleanly. T
 
 **Known pre-existing vcxproj omissions** (resolved in commit `bfdac4e` on `feature/save-replays`): five orphan sources were not wired into the projects — `NeuralNet.{h,cpp}`, `Player_PortfolioGreedySearch.{h,cpp}`, `Player_RobustRootSearch.{h,cpp}`, `Player_RootParallelAlphaBeta.{h,cpp}` (in `Prismata_AI.vcxproj`), and `Random.{h,cpp}` (in `Prismata_Engine.vcxproj`). Already on the feature branch as a prerequisite commit.
 
+**Build gotcha (lesson from Task 16):** when modifying headers in `source/engine/` (Game.h, GameState.h, Card.h, etc.), you MUST rebuild `Prismata_Engine.vcxproj` explicitly — building only `Prismata_Testing.vcxproj //t:Rebuild` leaves the *old* `Prismata_Engine.lib` in place. Layout mismatch between the new header (used by Testing's compilation units) and the stale static lib (still compiled against the old header) causes a segfault on first access to any new member. Always run the full-solution rebuild for header changes:
+
+```bash
+"/c/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/MSBuild.exe" \
+  "c:/libraries/PrismataAI-dave-master/visualstudio/Prismata.sln" \
+  //t:Rebuild //p:Configuration=Release //p:Platform=x64 //p:PlatformToolset=v145 //m
+```
+
+(The GUI project's pre-existing SFML 3/2 errors are unrelated — you can ignore the 28 GUI errors as long as Engine + AI + Testing succeed.)
+
+**Performance gotcha (lesson from Task 13):** `HardestAIUCT` has `TimeLimit:7000` (7s/turn) by default. Use `HardestAIUCT_Fast` (TimeLimit:100, added in commit `efa6a1e`) for any verification tournament. With 8 threads + 100ms think, 16 games complete in ~10s. With the default 7000ms, the same tournament takes ~25 minutes. Always pick the fast player for verification runs.
+
+**Mirror-match gotcha (lesson from Task 13):** `SkipColorSwap` auto-applies when both players have identical configs (per CLAUDE.md). With identical-config mirror matches, P0 (or P1, depending on this-think-time's asymmetry) wins every game — `TotalScore` matrix shows N-0. This is NOT a bug; it's the expected behavior of `SkipColorSwap` + the engine's inherent first/second-player asymmetry. Use it for "does the code run cleanly?" verification, not for win-rate comparison.
+
 - [ ] **Step 4: Run a baseline 2-game tournament with NO new code**
 
 Pick an existing fast tournament config from `bin/asset/config/config.txt` (e.g. one with `"rounds":2`). Run it and capture the result + timing:
