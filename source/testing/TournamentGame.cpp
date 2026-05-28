@@ -23,22 +23,27 @@ void TournamentGame::playGame(size_t updateIntervalSec)
     Timer updateTimer;
     updateTimer.start();
 
-    // Optional replay capture. The serializer + hook are installed only when
-    // setReplaySaveDir was called. When disabled the hook stays empty so
-    // Game::doAction's one is-callable check resolves to false immediately.
+    // Optional replay capture. The serializer is constructed only when
+    // setReplaySaveDir was called. Capture is done entirely here in the
+    // tournament harness (see the per-action replay below) — Dave's engine
+    // (Game / GameState) is unmodified, and nothing runs on the AI's
+    // search/playout hot path. When disabled, none of this runs.
     if (!_replaySaveDir.empty())
     {
         std::vector<std::string> cardSet; // Task 18 may pre-populate this; empty is acceptable.
         _serializer = std::make_unique<ReplaySerializer>(_playerNames[0], _playerNames[1], cardSet);
         _serializer->captureInitialState(_game.getState());
-        _game.setActionAppliedHook(
-            [this](const GameState & s, const Action & a) { _serializer->captureActionApplied(s, a); }
-        );
     }
 
     while(!_game.gameOver())
     {
         PlayerID playerToMove = _game.getState().getActivePlayer();
+
+        // Snapshot the pre-move state when recording, so per-action frames can be
+        // reconstructed off the think-timer below. Allocated only when recording;
+        // this is per-turn (not per-search-node), so it is well off the AI hot path.
+        std::unique_ptr<GameState> preMoveState;
+        if (_serializer) { preMoveState = std::make_unique<GameState>(_game.getState()); }
 
         t.start();
         if (!_game.playNextTurn(false))
@@ -54,11 +59,23 @@ void TournamentGame::playGame(size_t updateIntervalSec)
         _playerTotalTimeMS[playerToMove] += ms;
         _maxTimeMS[playerToMove] = std::max((size_t)ms, _maxTimeMS[playerToMove]);
 
-        // Record a turn boundary after each completed real turn. The trailing
-        // boundary on the final turn points past the last action and is
-        // harmless for the scrubber.
+        // Per-action replay capture, OFF the think-timer (ms already recorded
+        // above). Re-apply the move that was just played onto a clone of the
+        // pre-move state, emitting one snapshot per action. This reproduces
+        // exactly the states the real game passed through — Game::doMove applies
+        // the same actions via GameState::doAction — without any engine-side hook.
+        // Order matches the schema: per-action states first, then the trailing
+        // turn boundary (which points past the last action and is harmless for
+        // the scrubber).
         if (_serializer)
         {
+            const Move & move = _game.getPreviousMove();
+            for (ActionID a(0); a < move.size(); ++a)
+            {
+                const Action & action = move.getAction(a);
+                preMoveState->doAction(action);
+                _serializer->captureActionApplied(*preMoveState, action);
+            }
             _serializer->recordTurnBoundary();
         }
 

@@ -15,11 +15,11 @@ namespace Prismata
 // Lifetime: one instance per game. Owned by TournamentGame when enabled;
 // not constructed at all when --save-replays is disabled (zero overhead).
 //
-// Hook flow: Task 16 wires Game::doAction's new ActionAppliedHook into
-// captureActionApplied, so this object accumulates a snapshot after every
-// action the real game state actually applies. The AI's search/playout
-// copies of GameState never reach this object — captures are top-level
-// observers only.
+// Capture flow: TournamentGame drives this entirely from the harness. After
+// each real turn completes (and the think-timer has stopped), it replays the
+// just-played Move onto a clone of the pre-move GameState, calling
+// captureActionApplied once per action. The engine (Game / GameState) is not
+// modified, and the AI's search/playout copies never reach this object.
 class ReplaySerializer
 {
 public:
@@ -30,13 +30,14 @@ public:
     // Capture the initial state (turn 0) before any move is applied.
     void captureInitialState(const GameState & state);
 
-    // Called from Game::doAction's hook after each Action is applied to the
-    // real (non-search-clone) GameState. Pushes a snapshot + action label.
+    // Called by TournamentGame once per action while replaying a completed
+    // Move on a throwaway GameState clone. `state` is the clone after `action`
+    // has been applied. Pushes a snapshot + action label.
     void captureActionApplied(const GameState & state, const Action & action);
 
-    // Record a turn boundary in turnBoundaries[]. Called once per real turn
-    // (after the player's Move is returned and timer has stopped, BEFORE the
-    // per-action stream for that turn begins).
+    // Record a turn boundary in turnBoundaries[]. Called once per real turn,
+    // AFTER that turn's per-action snapshots have been pushed (so the boundary
+    // index points past the turn's last action).
     void recordTurnBoundary();
 
     // Finalize: set winner + write `<dir>/game_<idx>.json.gz`.
