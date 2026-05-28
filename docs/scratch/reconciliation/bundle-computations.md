@@ -28,6 +28,22 @@ The StateHelper-derived fields (`maxAttack` through `oppSnipers`) are read out i
 `stateToCppJSON` via `state.helper.<field>` (lines 8113–8119). The `computeEconEstimate`
 function is a standalone closure defined inside `stateToCppJSON` (lines 7998–8101).
 
+**Null-guard pattern for StateHelper-derived fields (lines 8113–8119):**
+
+```javascript
+maxAttack:            state.helper ? state.helper.maxAttack : 0,
+maxDisrupt:           state.helper ? state.helper.maxDisrupt : 0,
+maxSnipers:           state.helper ? state.helper.maxSnipers : 0,
+oppAttackPotential:   state.helper ? state.helper.oppAttackPotential : 0,
+oppDisruptPotential:  state.helper ? state.helper.oppDisruptPotential : 0,
+oppSnipers:           state.helper ? state.helper.oppSnipers : 0,
+```
+
+All six StateHelper-derived fields are guarded by `state.helper ? ... : 0`. **C++ snapshot
+output must emit `0` for all six of these fields when `StateHelper` computation has not run
+or is unavailable** (e.g. end-of-game states where the helper may be null/uninitialized).
+Emitting absent/undefined here would break viewer midline rendering.
+
 ---
 
 ## incomingAttack
@@ -74,55 +90,70 @@ the string. C++ should read the opponent mana pool's attack resource integer dir
 
 **Inputs:** `StateHelper.update(state)` — `state.table`, `state.phase`, `state.turn`, card properties (`beginOwnTurnScript`, `abilityScript`, `buyCost`, resonate), inst properties (`health`, `charge`, `constructionTime`, `delay`, `lifespan`, `dead`, `role`, `deadness`).
 
-**Full `StateHelper.update()` logic for `maxAttack` (verbatim, lines 2586–2953, relevant branches only):**
+**Full `StateHelper.update()` logic for `maxAttack` (verbatim, lines 2609–2953, relevant branches only):**
 
 ```javascript
-// DEFENSE PHASE — own units (phase === C.PHASE_DEFENSE, inst.owner === s.turn)
-// Eligibility filter for ownStuffAfterDefensePhase:
-if (inst.constructionTime <= 1 && inst.delay <= 1 &&
-    !(inst.lifespan === 1 && inst.constructionTime === 0 && inst.delay === 0) &&
-    !inst.dead) {
+// Outer branch on phase (line 2609):
+if (s.phase === C.PHASE_DEFENSE) {
+    // --- DEFENSE PHASE — own units (inst.owner === s.turn) ---
+    // Eligibility filter for ownStuffAfterDefensePhase (lines 2611–2613):
+    if (inst.constructionTime <= 1 && inst.delay <= 1 &&
+        !(inst.lifespan === 1 && inst.constructionTime === 0 && inst.delay === 0) &&
+        !inst.dead) {
 
-    if (card.beginOwnTurnScript !== null) {
-        if (card.beginOwnTurnScript.receive.attack > 0) {
-            pushToAttackers = true;
-            this.maxAttack += card.beginOwnTurnScript.receive.attack;    // line 2639
-        }
-    }
-    if (inst.health + card.healthGained >= card.healthUsed &&
-        inst.charge + card.chargeGained >= card.chargeUsed) {
-        if (card.abilityScript !== null) {
-            if (card.abilityScript.receive.attack > 0) {
+        if (card.beginOwnTurnScript !== null) {
+            if (card.beginOwnTurnScript.receive.attack > 0) {
                 pushToAttackers = true;
-                this.maxAttack += card.abilityScript.receive.attack;     // line 2652
+                this.maxAttack += card.beginOwnTurnScript.receive.attack;    // line 2639
             }
         }
-        // (maxDisrupt / maxSnipers also accumulated here — see those fields)
-    }
-}
-
-// ACTION PHASE — own units (inst.owner === s.turn, role === ROLE_SELLABLE)
-if (inst.role === C.ROLE_SELLABLE) {
-    this.maxAttack += card.buyCost.attack;                               // line 2686
-} else if (!(inst.creatorIdFromBeginTurn >= 0 || inst.creatorIdFromBuyOrAbility >= 0)) {
-    if (inst.constructionTime === 0 &&
-        (inst.delay === 0 ||
-         (inst.card.abilityScript !== null && inst.delay === inst.card.abilityScript.delay) ||
-         (inst.card.beginOwnTurnScript !== null && inst.delay === inst.card.beginOwnTurnScript.delay))) {
-        // inst.role === ROLE_DEFAULT path:
-        if (inst.role === C.ROLE_DEFAULT) {
-            if (inst.health >= card.healthUsed && inst.charge >= card.chargeUsed &&
-                card.abilityScript !== null) {
+        if (inst.health + card.healthGained >= card.healthUsed &&
+            inst.charge + card.chargeGained >= card.chargeUsed) {
+            if (card.abilityScript !== null) {
                 if (card.abilityScript.receive.attack > 0) {
-                    this.couldAttackThisTurn.push(inst);
-                    this.maxAttack += card.abilityScript.receive.attack; // line 2726
+                    pushToAttackers = true;
+                    this.maxAttack += card.abilityScript.receive.attack;     // line 2652
                 }
             }
-        } else if (inst.role === C.ROLE_ASSIGNED ||
-                   inst.deadness === C.DEADNESS_SACCED ||
-                   inst.deadness === C.DEADNESS_SELFSACCED) {
-            if (card.abilityScript !== null) {
-                this.maxAttack += card.abilityCost.attack;               // line 2744
+            // (maxDisrupt / maxSnipers also accumulated here — see those fields)
+        }
+    }
+} else {
+    // --- ACTION PHASE (line 2677 else branch) — own units (inst.owner === s.turn) ---
+    if (inst.role === C.ROLE_SELLABLE) {
+        // Just-bought unit: refund its buy-cost attack to maxAttack (line 2686)
+        this.maxAttack += card.buyCost.attack;                               // line 2686
+    } else if (!(inst.creatorIdFromBeginTurn >= 0 || inst.creatorIdFromBuyOrAbility >= 0)) {
+        if (inst.constructionTime === 0 &&
+            (inst.delay === 0 ||
+             (inst.card.abilityScript !== null && inst.delay === inst.card.abilityScript.delay) ||
+             (inst.card.beginOwnTurnScript !== null && inst.delay === inst.card.beginOwnTurnScript.delay))) {
+
+            // beginOwnTurnScript processed here (lines 2712–2719) — see Notes for asymmetry
+            if (card.beginOwnTurnScript !== null) {
+                if (card.beginOwnTurnScript.receive.attack > 0) {
+                    pushToAttackContributors = true;                         // line 2714
+                }
+                this.totalProducedThisTurn.add(card.beginOwnTurnScript.receive); // line 2719
+                // NOTE: maxAttack is NOT incremented here (see Notes — asymmetry)
+            }
+
+            // ROLE_DEFAULT path (lines 2721–2732):
+            if (inst.role === C.ROLE_DEFAULT) {
+                if (inst.health >= card.healthUsed && inst.charge >= card.chargeUsed &&
+                    card.abilityScript !== null) {
+                    if (card.abilityScript.receive.attack > 0) {
+                        this.couldAttackThisTurn.push(inst);
+                        this.maxAttack += card.abilityScript.receive.attack; // line 2726
+                    }
+                }
+            } else if (inst.role === C.ROLE_ASSIGNED ||
+                       inst.deadness === C.DEADNESS_SACCED ||
+                       inst.deadness === C.DEADNESS_SELFSACCED) {
+                if (card.abilityScript !== null) {
+                    this.totalProducedThisTurn.add(card.abilityScript.receive); // line 2743
+                    this.maxAttack += card.abilityCost.attack;               // line 2744
+                }
             }
         }
     }
@@ -156,6 +187,12 @@ their turn now. The computation is **phase-sensitive**:
   `card.resonate` matches another present unit's `card.cardName`) a count of
   `ownAnnihilate[name].length` is added during defense phase. In action phase this goes to
   `totalProducedThisTurn` instead.
+- **Asymmetry to watch:** in the **defense** branch, `beginOwnTurnScript.receive.attack`
+  contributes to `maxAttack` (line 2639). In the **action** branch (lines 2712–2719),
+  `beginOwnTurnScript` is processed (its attack is added to `totalProducedThisTurn` via
+  `this.totalProducedThisTurn.add(card.beginOwnTurnScript.receive)` and the unit is pushed
+  to `contributedToAttackThisTurn`) but does **NOT** increment `maxAttack`. C++ port must
+  replicate this asymmetry exactly or `maxAttack` will diverge in mid-action snapshots.
 
 ---
 
@@ -348,10 +385,12 @@ if (this.oppSnipers > 0) {
 **Notes:** Same double-gate as `maxSnipers` — needs both `targetAction === 'snipe'` AND
 `potentiallyMoreAttack`. The post-computation sniper defense reduction
 (`myDefenseReductionFromOppSnipers`) is computed immediately after but is a separate
-field not exported to the viewer's `GameState` JSON — it's used internally by the C++
-GUI (not currently exported). Only own **defenders** (blocking units) with health ≤ 3
-are considered snipe targets; the reduction is sum of their health values up to
-`oppSnipers` targets, sorted highest-health-first.
+field not exported to the viewer's `GameState` JSON — it is internal to the JS
+StateHelper (computed alongside `oppSnipers` and used by the bundle's own
+defense-prediction display logic — never read by any renderer file, never exported to
+the snapshot JSON, never touched by C++). Only own **defenders** (blocking units) with
+health ≤ 3 are considered snipe targets; the reduction is sum of their health values up
+to `oppSnipers` targets, sorted highest-health-first.
 
 ---
 
