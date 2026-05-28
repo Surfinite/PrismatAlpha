@@ -19,7 +19,7 @@ Primary files read:
 | Field | Module | Writer location | Value source |
 |---|---|---|---|
 | `incomingAttack` | `replay_exporter` | line 227 | `state.oppMana.attack` (direct read) |
-| `maxAttack` | `StateHelper.update()` | lines 148, 161, 195, 235, 253 | accumulated over own units |
+| `maxAttack` | `StateHelper.update()` | lines 148, 161, 195, 235, 253, 446 | accumulated over own units (incl. resonate bonus at 446) |
 | `maxDisrupt` | `StateHelper.update()` | line 172 | accumulated over own units |
 | `maxSnipers` | `StateHelper.update()` | line 175 | accumulated over own units |
 | `oppAttackPotential` | `StateHelper.update()` | lines 388, 401, 498 | accumulated over opp units |
