@@ -127,11 +127,35 @@ Three artifacts, one shared contract:
   (`DecompressionStream` or `pako`) → `JSON.parse`. The file never leaves the browser;
   no backend or API change.
 - **Format detection:** if the replay has a `states[]` array (our C++ output), feed it
-  straight to `PrismataBoard` and **skip** `loadFromCode` / the JS-engine
-  reconstruction. The existing S3 click-list branch keeps working unchanged.
-- **Reuse:** the existing `replay-timeline.ts` builder + `ReplayPlaybackController` for
-  scrub/playback, and the site's already-loaded `cardMeta` + `bundleAssets`. Net new
-  code is small and additive; it always tracks the latest renderer (no drift).
+  to the snapshot path and **skip** `loadFromCode` / the JS-engine reconstruction. The
+  existing S3 click-list branch keeps working unchanged.
+- **Reuse:** the renderer source (`game-renderer/`) is tracked normally and the new
+  page picks up renderer improvements automatically. The shipped `cardMeta` and
+  `bundleAssets` are reused as-is. Net new page code is small and additive.
+
+### Bundle entry point — required hand-edit (NOT a rebuild)
+
+The currently-shipped `prismata-engine.js`'s `window.PrismataViewer` IIFE exposes
+`loadFromCode`, `initLive`, `processClick`, `loadPuzzle`, steppers, and getters —
+**no load-from-buffer or load-from-object entry**. `loadMatchupReplay` (line 8352)
+and `processArrayBuffer` (line 8310) are internal to the IIFE.
+
+So `/replay/local` cannot reach the snapshot render path without **adding a new
+exported function** (e.g. `loadFromBuffer(arrayBuf)` or `loadFromObject(replay)`)
+that wraps the existing internal `processArrayBuffer` / `loadMatchupReplay`.
+
+**This edit must be applied directly to the shipped
+`prismata-ladder-site/public/js/prismata-engine.js`, not to
+`js_engine/build_viewer_bundle.js`** — per the standing rule that the bundle is
+hand-edited and a fresh build via `build_viewer_bundle.js` regresses the puzzle
+editor. Verified 2026-05-28 by a fresh build to a temp file: ~112-line net
+deletion in the IIFE area vs. the shipped bundle. Pattern this after the
+puzzle editor's `loadPuzzle` and the other editor extensions (`getCardMeta`,
+`getAssets`, etc.) which are already in-bundle.
+
+Source for the rule: `~/.claude/projects/c--libraries-prismata-ladder/memory/feedback_engine_bundle_no_rebuild.md` (workspace-local memory, not in any committed file). A one-liner pointer in
+`prismata-ladder/CLAUDE.md` would make it discoverable; suggested as a small parallel
+improvement, tracked under Future Work.
 
 ## Shared Data Contract (snapshot schema)
 
@@ -153,6 +177,12 @@ producer and the viewer input can't silently drift.
 }
 ```
 
+**⚠ Winner-encoding clarifier.** The matchup-format `winner` above (0=white /
+1=black / -1=draw) is **different from** the S3 replay format's `result` field
+(0=P1 wins / 1=P2 wins / 2=draw, per CLAUDE.md). `loadMatchupReplay` consumes the
+matchup encoding, so the two are internally consistent — but validation tooling and
+any future cross-format work must keep them apart.
+
 **`GameState`** — fields as listed in Part 1. Authoritative field list and types are
 the renderer's `game-renderer/types.ts` `GameState` interface.
 
@@ -164,25 +194,32 @@ the renderer's `game-renderer/types.ts` `GameState` interface.
 There are (at least) three places this logic can disagree:
 1. **Local `js_engine/`** (`replay_exporter.js stateToCppJSON`, `StateHelper.js`,
    `State.js`, `Inst.js`) — drives `matchup_clean.js`, our run-games oracle.
-2. **Site bundle** (`prismata-ladder-site/public/js/prismata-engine.js`, built from
-   `js_engine` via `build_viewer_bundle.js`) — most eyes, trusted faithful.
+2. **Shipped site bundle** (`prismata-ladder-site/public/js/prismata-engine.js`) —
+   the file users actually load on prismata.live, most eyes on it, treated as
+   faithful to the real client. Hand-divergent from `build_viewer_bundle.js`
+   (verified 2026-05-28: fresh build differs by ~112 lines in the IIFE area).
 3. **Renderer contract** (`game-renderer/types.ts` + consumers) — what's actually
    read & drawn.
 
-Empirically (2026-05-28 grep): all three reference the derived fields; the site bundle
-**does** compute them (not a stale build); the renderer actively reads them; and some
-references live only in `PuzzleController.ts` (out of scope, confirming the
-puzzle-editor additions are unrelated).
+Empirically (2026-05-28 grep): all three reference the derived fields; the shipped
+site bundle **does** compute them; the renderer actively reads them; and some
+references live only in `PuzzleController.ts` (out of scope, confirming some
+of the puzzle-editor additions are unrelated to replay rendering).
 
 **Resolution rules:**
 - **Scope** = fields the *renderer* reads. Fields touched only by puzzle paths are excluded.
-- **Value semantics** = how the **site bundle** computes each in-scope field. Site wins
-  on any disagreement.
-- **Harness** = the local matchup engine, trusted only where it agrees with the site.
+- **Value semantics** = how the **shipped site bundle** computes each in-scope field.
+  Site wins on any disagreement.
+- **Authority source** = **the shipped `prismata-engine.js`** specifically, NOT a
+  fresh `build_viewer_bundle.js` output. Because of the documented hand-edit
+  divergence, reading the build script for the answer could pin the wrong value.
+- **Harness** = the local matchup engine, trusted only where it agrees with the
+  shipped bundle.
 
 **Deliverable:** a one-time **reconciliation table** built *before* C++ coding — for
-each in-scope field, record the site-bundle computation, the local-engine computation,
-and agree/disagree. The C++ serializer implements to the site-bundle column.
+each in-scope field, record the shipped-bundle computation, the local-engine
+computation, and agree/disagree. The C++ serializer implements to the shipped-bundle
+column.
 
 ## Verification & Testing
 
@@ -201,14 +238,42 @@ and agree/disagree. The C++ serializer implements to the site-bundle column.
 
 - **Derived-field divergence size** — unknown until the reconciliation table is built.
   If large, Part 1's derived-field work grows. Mitigation: build the table first.
-- **engine_v1 `StateHelper` coverage** — need to confirm engine_v1 exposes equivalents
-  for every in-scope derived field (gold estimate, attack/disrupt potential). Verify
-  during planning.
-- **Per-action stepping fidelity** — whether engine_v1 applies a `Move` atomically or
-  action-by-action determines whether we snapshot inline or replay actions on a clone
-  to generate intermediate frames. Implementation-plan detail.
+- **engine_v1 `StateHelper` coverage** *(ask Dave directly)* — need to confirm
+  engine_v1 exposes equivalents for every in-scope derived field (gold estimate,
+  attack/disrupt potential).
+- **Per-action stepping fidelity** *(ask Dave directly)* — whether engine_v1 applies
+  a `Move` atomically or action-by-action determines whether we snapshot inline or
+  replay actions on a clone to generate intermediate frames.
 - **Asset availability** — the site already hosts card art / backgrounds / HUD; the
   unlisted page reuses them, so no asset packaging needed (a benefit of the site route).
+
+## Out of Scope / Future Work
+
+- **Bundle/source backfill.** The shipped `prismata-engine.js` is hand-divergent from
+  `build_viewer_bundle.js` by ~112 lines (mostly puzzle-editor extensions).
+  Identifying that divergent code and porting it into the build script — so a fresh
+  rebuild becomes safe again — is real work but not blocking. Recent PrismataAI
+  commits (`4781666 loadPuzzle`, `f553796 uniqueCards cache`, `f866ae4 getCardMeta`,
+  `3ba3643 getAssets`, `8bfcbea StateHelper potentials`, `880886a replay emotes`,
+  `deaa5fa multiple emotes`) suggest substantial backfill already happened; what
+  remains is the residual ~112 lines.
+- **Discoverable no-rebuild rule.** The constraint lives only in a workspace-local
+  memory file. A one-liner in `prismata-ladder/CLAUDE.md` (and a clarifying comment
+  in the bundle header, which currently says the opposite) would make it
+  point-at-able for collaborators.
+- **Standalone offline viewer.** The site-route choice means there's no hand-to-Dave
+  zip artifact. If that need surfaces later, the C++ replay format is unchanged;
+  a build-script-generated standalone PixiJS page becomes a future deliverable
+  with no contract churn.
+
+## Review Decision
+
+External `/document-context` review **skipped**. The substantive risk in this design
+lives in undocumented local constraints (the never-rebuild rule, the shipped-bundle
+divergence) — exactly the kind of thing a no-code-access reviewer can't see. A
+ladder-workspace session review surfaced both, plus the missing entry-point and the
+winner-encoding clarifier, all folded above. The two remaining engine_v1 risks are
+for Dave, not a reviewer.
 
 ## Affected Locations (reference)
 
@@ -221,5 +286,7 @@ and agree/disagree. The C++ serializer implements to the site-bundle column.
 | New: C++ serializer | `PrismataAI-dave-master/source/testing/` (new file) |
 | Oracle (JS) | `PrismataAI/js_engine/replay_exporter.js` (`stateToCppJSON`) |
 | Site renderer | `prismata-ladder/prismata-ladder-site/src/components/game-renderer/` |
-| Site engine bundle | `prismata-ladder/prismata-ladder-site/public/js/prismata-engine.js` |
+| Site engine bundle (HAND-EDIT, do not rebuild) | `prismata-ladder/prismata-ladder-site/public/js/prismata-engine.js` |
 | New: local page | `prismata-ladder/prismata-ladder-site/src/app/replay/local/` |
+| Bundle build source (do NOT use for bundle changes — divergent) | `PrismataAI/js_engine/build_viewer_bundle.js` |
+| No-rebuild rule (workspace memory) | `~/.claude/projects/c--libraries-prismata-ladder/memory/feedback_engine_bundle_no_rebuild.md` |
