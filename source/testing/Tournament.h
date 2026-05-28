@@ -13,6 +13,7 @@ class Tournament
     std::string                         _name;
     std::string                         _type;
     std::string                         _date;
+    std::string                         _saveReplaysDir;   // empty = disabled
     size_t                              _rounds;
     size_t                              _totalGamesPlayed;
     size_t                              _discardedGames;
@@ -50,6 +51,8 @@ public:
 
     Tournament(const rapidjson::Value & tournamentValue);
     void run();
+
+    const std::string & getSaveReplaysDir() const { return _saveReplaysDir; }
 
 };
 

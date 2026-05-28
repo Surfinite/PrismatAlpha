@@ -29,6 +29,11 @@ Tournament::Tournament(const rapidjson::Value & tournamentValue)
     JSONTools::ReadInt("UpdateIntervalSec", tournamentValue, _updateIntervalSec);
     JSONTools::ReadInt("Threads", tournamentValue, _threads);
     _threads = std::max<size_t>(1, _threads);
+
+    if (tournamentValue.HasMember("saveReplays") && tournamentValue["saveReplays"].IsString())
+    {
+        _saveReplaysDir = tournamentValue["saveReplays"].GetString();
+    }
     
     PRISMATA_ASSERT(tournamentValue["players"].Size() >= 2, "Tournament has less than 2 players");
 
