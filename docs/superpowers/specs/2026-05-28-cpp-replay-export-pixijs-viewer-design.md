@@ -299,6 +299,22 @@ ladder-workspace session review surfaced both, plus the missing entry-point and 
 winner-encoding clarifier, all folded above. The two remaining engine_v1 risks are
 for Dave, not a reviewer.
 
+## Verification Log
+
+**2026-05-28 — Phase 3 Task 13 no-op gate (stub flag, by inspection):**
+The Task 12 stub adds one CLI/config path:
+`_saveReplaysDir = tournamentValue["saveReplays"].GetString()` (Tournament.cpp:35).
+Grep confirms zero readers of `_saveReplaysDir` or `getSaveReplaysDir()` anywhere
+in `source/` — the field is written in the Tournament constructor and never
+consulted. The flag's stub form is therefore a no-op by construction; no empirical
+run is needed to prove it. (An earlier attempt at an empirical gate burned ~100
+minutes on 4 unintended HardestAIUCT-vs-HardestAIUCT runs at `TimeLimit:7000` and
+produced asymmetric 8-0 results — both because the mirror match exposes a P1
+advantage with `SkipColorSwap` and because the gate was over-engineered for a stub
+that does nothing.) The empirical gate is reused at Task 18 when `_saveReplaysDir`
+actually drives serialization — at that point we'll re-verify with `TimeLimit:100`
+on a faster smoke tournament.
+
 ## Affected Locations (reference)
 
 | Area | Path |
