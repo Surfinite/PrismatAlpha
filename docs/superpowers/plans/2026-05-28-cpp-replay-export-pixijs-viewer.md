@@ -779,15 +779,17 @@ git checkout -b feature/save-replays
 
 - [ ] **Step 3: Baseline build**
 
-Use the Visual Studio solution per CLAUDE.md. From a Developer Command Prompt or Git Bash:
+**Important:** the `dave-master` worktree builds differently from the main PrismataAI repo. CLAUDE.md documents `x86 + v143` for the main repo, but Dave's tree uses **x64 + PlatformToolset v145** and produces `PrismataAI.exe` (not `Prismata_Standalone.exe`) for the standalone. The plan invocation reflects the dave-master config:
 
 ```bash
 "/c/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/MSBuild.exe" \
   "c:/libraries/PrismataAI-dave-master/visualstudio/Prismata.sln" \
-  //t:Rebuild //p:Configuration=Release //p:Platform=x86 //m
+  //t:Rebuild //p:Configuration=Release //p:Platform=x64 //p:PlatformToolset=v145 //m
 ```
 
-Expected: `bin/Prismata_Standalone.exe` (or `Prismata_Testing.exe`) rebuilt cleanly.
+Expected: `bin/Prismata_Testing.exe` and `bin/PrismataAI.exe` rebuilt cleanly. The GUI project may fail with SFML 3 vs SFML 2 API drift — that's pre-existing and unrelated; build only Testing + Standalone if needed.
+
+**Known pre-existing vcxproj omissions** (resolved in commit `bfdac4e` on `feature/save-replays`): five orphan sources were not wired into the projects — `NeuralNet.{h,cpp}`, `Player_PortfolioGreedySearch.{h,cpp}`, `Player_RobustRootSearch.{h,cpp}`, `Player_RootParallelAlphaBeta.{h,cpp}` (in `Prismata_AI.vcxproj`), and `Random.{h,cpp}` (in `Prismata_Engine.vcxproj`). Already on the feature branch as a prerequisite commit.
 
 - [ ] **Step 4: Run a baseline 2-game tournament with NO new code**
 
