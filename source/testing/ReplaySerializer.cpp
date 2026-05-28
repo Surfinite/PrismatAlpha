@@ -178,9 +178,16 @@ rapidjson::Value ReplaySerializer::serializeState(const GameState & state)
             inst.AddMember("constructionTime", static_cast<int>(c.getConstructionTime()), a);
             inst.AddMember("charge",           static_cast<int>(c.getCurrentCharges()),   a);
             inst.AddMember("delay",            static_cast<int>(c.getCurrentDelay()),     a);
-            inst.AddMember("lifespan",         static_cast<int>(c.getCurrentLifespan()),  a);
+            // lifespan: engine convention is 0 == "no lifespan", serialized as -1
+            // (matches Card::toJSONString and the input parser; renderer treats -1 as infinite).
+            inst.AddMember("lifespan",         static_cast<int>(c.getCurrentLifespan() == 0 ? -1 : c.getCurrentLifespan()), a);
             inst.AddMember("disruptDamage",    static_cast<int>(c.currentChill()),        a);
-            inst.AddMember("blocking",         c.getStatus() == CardStatus::Assigned && c.canBlock(), a);
+            // blocking: "currently in a blocking posture." Bare canBlock() — NOT
+            // (status==Assigned && canBlock()), which is always false because canBlock()
+            // returns getAssignedBlocking() (false for ordinary tapped blockers) once a
+            // unit is Assigned. canBlock() reproduces the JS oracle's inst.blocking
+            // (defaultBlocking for built/untapped/unfrozen units) and matches Card::toJSONString.
+            inst.AddMember("blocking",         c.canBlock(), a);
             // boughtThisPhase / bornThisTurn need engine-side tracking. Task 17
             // adds the creator-id-equivalent member to Card. Emit placeholders
             // for now so the JSON shape is contract-complete.
