@@ -87,7 +87,9 @@ const Move & Game::getPreviousMove() const
 
 bool Game::doAction(const Action & action)
 {
-    return m_state.doAction(action);
+    const bool ok = m_state.doAction(action);
+    if (ok && m_actionAppliedHook) m_actionAppliedHook(m_state, action);
+    return ok;
 }
 
 int Game::getTurnsPlayed()

@@ -111,6 +111,12 @@ void Tournament::run()
                     TournamentGame g1(state, _players[p1], w1, _players[p2], b1);
                     TournamentGame g2(state, _players[p2], w2, _players[p1], b2);
 
+                    if (!_saveReplaysDir.empty())
+                    {
+                        g1.setReplaySaveDir(_saveReplaysDir, _replayGameCounter.fetch_add(1));
+                        g2.setReplaySaveDir(_saveReplaysDir, _replayGameCounter.fetch_add(1));
+                    }
+
                     playGame(g1, t);
                     playGame(g2, t);
                 }
@@ -242,6 +248,10 @@ TournamentGame Tournament::playGame(const GameState & state, const size_t whiteI
     PlayerPtr black = AIParameters::Instance().getPlayer(Players::Player_Two, _players[blackIndex]);
 
     TournamentGame game(state, _players[whiteIndex], white, _players[blackIndex], black);
+    if (!_saveReplaysDir.empty())
+    {
+        game.setReplaySaveDir(_saveReplaysDir, _replayGameCounter.fetch_add(1));
+    }
     game.playGame();
 
     return game;

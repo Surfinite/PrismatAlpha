@@ -4,16 +4,18 @@
 #include "rapidjson/document.h"
 #include "TournamentGame.h"
 #include "Timer.h"
+#include <atomic>
 
 namespace Prismata
 {
- 
+
 class Tournament
 {
     std::string                         _name;
     std::string                         _type;
     std::string                         _date;
     std::string                         _saveReplaysDir;   // empty = disabled
+    mutable std::atomic<int>            _replayGameCounter{0};
     size_t                              _rounds;
     size_t                              _totalGamesPlayed;
     size_t                              _discardedGames;
