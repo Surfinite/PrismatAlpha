@@ -263,10 +263,66 @@ ReplaySerializer::ReplaySerializer(const std::string & p0Name,
     _turnBoundaries.SetArray();
 }
 
+void ReplaySerializer::updateSyntheticIds(const GameState & state)
+{
+    // Advance the owner-turn counter when the active player changes (constant
+    // within a player-turn), so born units can expire at their owner's next turn.
+    const PlayerID ap = state.getActivePlayer();
+    if (ap != _lastActivePlayer)
+    {
+        if (ap < 2) _ownerTurnSeq[ap] += 1;
+        _lastActivePlayer = ap;
+    }
+
+    // Walk the same cards serializeState emits (both players' alive then killed).
+    // A slot maps to a NEW synthetic id when its CardID is seen for the first
+    // time, when the occupant's identity (cardType+owner) changes, or when the
+    // CardID was absent last snapshot (swept, then the slot recycled).
+    std::unordered_set<CardID> presentNow;
+    auto consider = [&](const CardID id)
+    {
+        presentNow.insert(id);
+        const Card & c = state.getCardByID(id);
+        const int identity = static_cast<int>(c.getType().getID()) * 2
+                           + static_cast<int>(c.getPlayer());
+        const bool firstSeen    = (_synthId.find(id) == _synthId.end());
+        const bool wasAbsent    = (_presentLastState.find(id) == _presentLastState.end());
+        const bool identChanged = (!firstSeen && _synthIdentity[id] != identity);
+        if (firstSeen || wasAbsent || identChanged)
+        {
+            const int sid     = _nextInstId++;
+            _synthId[id]       = sid;
+            _synthIdentity[id] = identity;
+            // A non-initial unit that enters the table NOT sellable is a script
+            // creation (ability or begin-turn spawn; directly-bought units are
+            // sellable). Tag it with its owner's current turn index so the
+            // bornThisTurn flag expires when that owner takes their next turn.
+            const PlayerID owner = c.getPlayer();
+            if (_initialDone && !c.isSellable() && owner < 2)
+            {
+                _synthBornOwnerSeq[sid] = _ownerTurnSeq[owner];
+            }
+        }
+    };
+    for (PlayerID p = 0; p < 2; ++p)
+    {
+        const CardIDVector & alive  = state.getCardIDs(p);
+        const CardIDVector & killed = state.getKilledCardIDs(p);
+        for (size_t i = 0; i < alive.size();  ++i) consider(alive[i]);
+        for (size_t i = 0; i < killed.size(); ++i) consider(killed[i]);
+    }
+    _presentLastState.swap(presentNow);
+    _initialDone = true;
+}
+
 rapidjson::Value ReplaySerializer::serializeState(const GameState & state)
 {
     auto & a = _doc.GetAllocator();
     rapidjson::Value v(rapidjson::kObjectType);
+
+    // Remap reused CardID slots to stable, monotonic synthetic instIds AND
+    // refresh born-this-turn tagging first, so the table[] emit can look both up.
+    updateSyntheticIds(state);
 
     // ---- Mana / phase / turn ----
     addStr(v, "whiteMana", state.getResources(Players::Player_One).getString(), a);
@@ -323,7 +379,11 @@ rapidjson::Value ReplaySerializer::serializeState(const GameState & state)
         auto emit = [&](const CardID id) {
             const Card & c = state.getCardByID(id);
             rapidjson::Value inst(rapidjson::kObjectType);
-            inst.AddMember("instId",           static_cast<int>(c.getID()),        a);
+            // Synthetic monotonic instId (NOT the raw reused CardID) — see
+            // updateSyntheticIds(). Stable per unit, ever-increasing with
+            // creation, matching the JS engine's nextInstId++ semantics.
+            const int sid = _synthId[id];
+            inst.AddMember("instId",           sid,                                a);
             addStr(inst, "cardName",           c.getType().getUIName(),            a);
             inst.AddMember("owner",            static_cast<int>(c.getPlayer()),    a);
             inst.AddMember("health",           static_cast<int>(c.currentHealth()),a);
@@ -343,11 +403,23 @@ rapidjson::Value ReplaySerializer::serializeState(const GameState & state)
             // unit is Assigned. canBlock() reproduces the JS oracle's inst.blocking
             // (defaultBlocking for built/untapped/unfrozen units) and matches Card::toJSONString.
             inst.AddMember("blocking",         c.canBlock(), a);
-            // boughtThisPhase / bornThisTurn need engine-side tracking. Task 17
-            // adds the creator-id-equivalent member to Card. Emit placeholders
-            // for now so the JSON shape is contract-complete.
-            inst.AddMember("boughtThisPhase",  false, a);
-            inst.AddMember("bornThisTurn",     false, a);
+            // Freshness flags drive the pile "newest-sorts-left" gate in the
+            // viewer (pile-sort.ts cameOnTableThisPhase). boughtThisPhase: this
+            // unit was directly bought (engine's m_sellable, set on Bought,
+            // cleared at the owner's next beginTurn). bornThisTurn: spawned by
+            // another card's ability OR begin-turn create effect this turn (e.g.
+            // Sentinel->Engineer, Gauss Fabricator->Minicannon), expiring at the
+            // owner's next turn. Together they cover every "came on the table
+            // this turn" case so freshly-placed units bunch left. (The split is
+            // immaterial to placement since the consumer ORs them; we set the
+            // honest origin for each.)
+            const PlayerID instOwner = c.getPlayer();
+            const auto bornIt = _synthBornOwnerSeq.find(sid);
+            const bool born = bornIt != _synthBornOwnerSeq.end()
+                           && instOwner < 2
+                           && _ownerTurnSeq[instOwner] == bornIt->second;
+            inst.AddMember("boughtThisPhase",  c.isSellable(), a);
+            inst.AddMember("bornThisTurn",     born,           a);
             table.PushBack(inst, a);
         };
 
@@ -402,6 +474,12 @@ void ReplaySerializer::captureActionApplied(const GameState & state, const Actio
     // Action::toHistoryString() — quick human label; mapping to richer
     // strings ('Buy Drone', 'Assign blocker', etc.) is renderer-side
     // cosmetics and can be improved in a follow-up.
+    // NOTE: the label embeds the engine's RAW (slot-recycled) CardID/targetID,
+    // which intentionally does NOT match table[]'s synthetic instIds. This is
+    // safe today — the viewer renders actions[] only as a display string and
+    // never correlates these ids back to table instances. If a future feature
+    // parses action ids to highlight the acting/target card, it must map them
+    // through the same synthetic-id scheme (or they will point at the wrong unit).
     _actions.PushBack(rapidjson::Value(action.toHistoryString().c_str(), a), a);
 }
 
