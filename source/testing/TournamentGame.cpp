@@ -30,9 +30,20 @@ void TournamentGame::playGame(size_t updateIntervalSec)
     // search/playout hot path. When disabled, none of this runs.
     if (!_replaySaveDir.empty())
     {
-        std::vector<std::string> cardSet; // Task 18 may pre-populate this; empty is acceptable.
+        // cardSet = the game's advanced (non-base) buyable units — the random
+        // units that define the matchup — matching the JS matchup-format field.
+        // Derived once from the initial buyable set; base-set units excluded.
+        // (Purely informational metadata; the buy panel renders from the
+        // per-state cards[] array, not this.)
+        const GameState & init = _game.getState();
+        std::vector<std::string> cardSet;
+        for (CardID i = 0; i < init.numCardsBuyable(); ++i)
+        {
+            const CardType ct = init.getCardBuyableByIndex(i).getType();
+            if (!ct.isBaseSet()) cardSet.push_back(ct.getUIName());
+        }
         _serializer = std::make_unique<ReplaySerializer>(_playerNames[0], _playerNames[1], cardSet);
-        _serializer->captureInitialState(_game.getState());
+        _serializer->captureInitialState(init);
     }
 
     while(!_game.gameOver())

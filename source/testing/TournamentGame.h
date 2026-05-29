@@ -18,8 +18,10 @@ class TournamentGame
     bool            _discarded;
 
     // Optional replay capture. When non-empty, playGame() constructs a
-    // ReplaySerializer, installs Game::setActionAppliedHook, captures the
-    // initial state, records turn boundaries, and finalizes at end.
+    // ReplaySerializer and drives it entirely from the harness: it captures the
+    // initial state, replays each completed Move on a GameState clone (one
+    // snapshot per action, off the think-timer), records turn boundaries, and
+    // finalizes at end. Dave's engine (Game / GameState) is unmodified.
     std::string                       _replaySaveDir;
     int                               _replayGameIndex = 0;
     std::unique_ptr<ReplaySerializer> _serializer;
