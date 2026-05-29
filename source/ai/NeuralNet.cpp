@@ -4,6 +4,8 @@
 #include <cmath>
 #include <cstring>
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
 
 #include "rapidjson/document.h"
 
@@ -596,6 +598,7 @@ double NeuralNet::evaluateValue(const GameState & state, const PlayerID maxPlaye
 
     float logit = 0.0f;
     linearForward(_val_linear3, vh2, &logit);
+    _scratch.lastLogit = logit;  // parity-oracle instrumentation: capture raw logit (does not affect return value)
 
     // Sigmoid -> [0,1] -> map to [-1,1]
     float prob = 1.0f / (1.0f + expf(-logit));
@@ -710,4 +713,126 @@ void NeuralNet::dumpFeaturesToFile(const GameState & state, const std::string & 
     f << "\nNeural value (P0 perspective): " << val << "\n";
 
     printf("NeuralNet: dumped DeepSets features to %s\n", path.c_str());
+}
+
+// ---------------------------------------------------------------------------
+// Machine-readable parity oracle (PyTorch <-> C++ value tie-out)
+// ---------------------------------------------------------------------------
+
+void NeuralNet::dumpFeaturesJSON(const GameState & state, const std::string & path) const
+{
+    if (!_loaded)
+    {
+        printf("NeuralNet: cannot dump parity JSON -- not loaded\n");
+        return;
+    }
+
+    std::ofstream f(path);
+    if (!f.is_open())
+    {
+        printf("NeuralNet: cannot open %s for writing\n", path.c_str());
+        return;
+    }
+
+    // Run the real in-play forward in the P0 frame. This is the SAME evaluateValue the
+    // UCT search calls, so the dumped value is the in-play value. It also leaves the
+    // 14 normalized globals in _scratch.combined (tail), the 116x3 supply in
+    // _scratch.supplyData, and the raw logit in _scratch.lastLogit.
+    double valueP0 = evaluateValue(state, Players::Player_One);
+    float  logit   = _scratch.lastLogit;
+    double valueFromLogit = 2.0 * (1.0 / (1.0 + std::exp(-(double)logit))) - 1.0;
+
+    const int ENC_H = _config.encoder_hidden;
+    const int SUP_H = _config.supply_hidden;
+    const int globalsOffset = ENC_H * 2 + SUP_H;  // globals are the last 14 entries of combined
+
+    f << std::setprecision(9);
+    f << "{\n";
+    f << "  \"value_p0\": " << valueP0 << ",\n";
+    f << "  \"value_p0_from_logit\": " << valueFromLogit << ",\n";
+    f << "  \"logit_p0\": " << logit << ",\n";
+    f << "  \"active_player\": " << (int)state.getActivePlayer() << ",\n";
+    f << "  \"turn_number\": " << (int)state.getTurnNumber() << ",\n";
+    f << "  \"num_units\": " << _config.num_units << ",\n";
+
+    // 14 normalized globals exactly as consumed by the forward
+    f << "  \"globals\": [";
+    for (int i = 0; i < 14; ++i)
+    {
+        if (i > 0) f << ", ";
+        f << _scratch.combined[globalsOffset + i];
+    }
+    f << "],\n";
+
+    // Per-instance tokens: alive cards mapped to a unit index (forward order: P0 cards then P1)
+    f << "  \"instances\": [\n";
+    bool firstInst = true;
+    float feats[10];
+    std::vector<std::string> dropped;
+    for (PlayerID p = 0; p < 2; ++p)
+    {
+        const CardIDVector & ids = state.getCardIDs(p);
+        for (size_t i = 0; i < ids.size(); ++i)
+        {
+            const Card & card = state.getCardByID(ids[i]);
+            if (card.isDead()) continue;
+            int unitIdx = getUnitIndex(card.getType().getID());
+            if (unitIdx < 0)
+            {
+                // a live, real card the embedding map could not place (risk 5: silent dropout)
+                std::stringstream d;
+                d << "{\"ui_name\": \"" << card.getType().getUIName()
+                  << "\", \"type_id\": " << (int)card.getType().getID()
+                  << ", \"owner\": " << (int)card.getPlayer() << "}";
+                dropped.push_back(d.str());
+                continue;
+            }
+            extractInstanceFeatures(card, unitIdx, feats);
+            if (!firstInst) f << ",\n";
+            firstInst = false;
+            f << "    {\"unit_index\": " << unitIdx
+              << ", \"ui_name\": \"" << card.getType().getUIName()
+              << "\", \"owner\": " << (int)card.getPlayer()
+              << ", \"instance\": [";
+            for (int fi = 0; fi < 10; ++fi)
+            {
+                if (fi > 0) f << ", ";
+                f << feats[fi];
+            }
+            f << "]}";
+        }
+    }
+    f << "\n  ],\n";
+
+    // Buyable supply (forward defaults all 116 units to [0,0,0] and sets buyables to [p0,p1,1])
+    f << "  \"supply\": [\n";
+    bool firstSup = true;
+    for (CardID i = 0; i < state.numCardsBuyable(); ++i)
+    {
+        const CardBuyable & cb = state.getCardBuyableByIndex(i);
+        int unitIdx = getUnitIndex(cb.getType().getID());
+        if (unitIdx < 0) continue;
+        if (!firstSup) f << ",\n";
+        firstSup = false;
+        f << "    {\"unit_index\": " << unitIdx
+          << ", \"ui_name\": \"" << cb.getType().getUIName()
+          << "\", \"p0\": " << (float)cb.getSupplyRemaining(Players::Player_One)
+          << ", \"p1\": " << (float)cb.getSupplyRemaining(Players::Player_Two) << "}";
+    }
+    f << "\n  ],\n";
+
+    // Alive real cards that mapped to -1 (must be empty for a faithful port -- risk 5)
+    f << "  \"dropped_instances\": [";
+    for (size_t i = 0; i < dropped.size(); ++i)
+    {
+        if (i > 0) f << ", ";
+        f << dropped[i];
+    }
+    f << "]\n";
+
+    f << "}\n";
+    f.close();
+
+    printf("NeuralNet: dumped DeepSets parity JSON to %s (value_p0=%.6f logit=%.6f dropped=%zu)\n",
+           path.c_str(), valueP0, logit, dropped.size());
 }

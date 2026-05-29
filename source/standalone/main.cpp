@@ -1,6 +1,8 @@
 #include "Prismata.h"
 #include "PrismataAI.h"
+#include "NeuralNet.h"
 #include "Random.h"
+#include "rapidjson/document.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -38,7 +40,47 @@ int main(int argc, char *argv[])
     DWORD dwMode = SetErrorMode(SEM_NOGPFAULTERRORBOX);
     SetErrorMode(dwMode | SEM_NOGPFAULTERRORBOX);
 #endif
-    
+
+    // --- Parity oracle (offline harness): dump DeepSets features + value for a fixed state ---
+    // Usage: Prismata_Standalone --dump-features <stateJson> <outJson> [weightsBin]
+    // Run from bin/ so the relative asset paths resolve. Not part of the AI move protocol.
+    if (argc >= 4 && std::string(argv[1]) == "--dump-features")
+    {
+        const std::string statePath   = argv[2];
+        const std::string outPath     = argv[3];
+        const std::string weightsPath = (argc >= 5) ? argv[4] : "asset/config/neural_weights_mbonly.bin";
+
+        std::ifstream sin(statePath);
+        if (!sin.is_open())
+        {
+            fprintf(stderr, "dump-features: cannot open state file %s\n", statePath.c_str());
+            return 1;
+        }
+        std::string stateStr((std::istreambuf_iterator<char>(sin)), std::istreambuf_iterator<char>());
+        sin.close();
+
+        // Load the 116-unit training card library (matches the NN unit_index + property_table)
+        Prismata::InitFromCardLibrary("asset/config/cardLibrary.jso");
+
+        rapidjson::Document doc;
+        if (doc.Parse(stateStr.c_str()).HasParseError())
+        {
+            fprintf(stderr, "dump-features: JSON parse error in %s\n", statePath.c_str());
+            return 1;
+        }
+        const rapidjson::Value & gs = doc.HasMember("gameState") ? doc["gameState"] : doc;
+        const GameState state(gs);
+
+        if (!NeuralNet::Instance().loadWeights(weightsPath))
+        {
+            fprintf(stderr, "dump-features: failed to load weights %s\n", weightsPath.c_str());
+            return 1;
+        }
+        NeuralNet::Instance().buildCardTypeMapping();
+        NeuralNet::Instance().dumpFeaturesJSON(state, outPath);
+        return 0;
+    }
+
     Random::Seed((uint64_t)time(NULL));
     
     // get the input line from stdin

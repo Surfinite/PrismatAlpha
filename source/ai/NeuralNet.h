@@ -73,6 +73,7 @@ class NeuralNet
         std::vector<float> supply_pool, sh1, senc;
         std::vector<float> combined;
         std::vector<float> vh1, vh2;
+        float lastLogit = 0.0f;   // raw value-head logit from the most recent evaluateValue() (parity-oracle instrumentation)
     };
     mutable ScratchBuffers _scratch;
 
@@ -109,6 +110,11 @@ public:
     int numUnits() const { return _config.num_units; }
 
     void dumpFeaturesToFile(const GameState & state, const std::string & path) const;
+
+    // Machine-readable parity oracle: emits the P0-perspective value + raw logit, the
+    // exact per-instance unit indices + 10-dim instance features, the buyable supply, and
+    // the 14 normalized globals the forward consumes (plus any alive cards that map to -1).
+    void dumpFeaturesJSON(const GameState & state, const std::string & path) const;
 
     static NeuralNet & Instance();
 };
