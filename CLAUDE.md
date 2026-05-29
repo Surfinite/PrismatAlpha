@@ -72,6 +72,8 @@ node js_engine/build_replay_viewer.js [output.html]
 # Output: bin/prismata_replay_viewer.html — drag-drop .json.gz or enter replay code
 ```
 
+**Save replays from a native C++ tournament** (dave-master tree): set `"saveReplays":"<dir>"` on a Tournament config block in `bin/asset/config/config.txt`. Each game writes `<dir>/game_NNNN.json.gz` (matchup-format snapshots). Capture is harness-side (`source/testing/ReplaySerializer`) — the engine is unmodified. View by drag-drop at https://prismata.live/replay/local. Verification record: `PrismataAI-dave-master/source/testing/tests/oracle_diff.md`.
+
 **Expert replay pipeline** (at `c:\libraries\prismata-replay-parser\`):
 ```bash
 node fetch_expert_replays.js    # fetch from API (incremental)
