@@ -1559,7 +1559,17 @@ class State {
     }
 
     _canBlockAtStartOfPhase(inst) {
-        return inst.card.defaultBlocking && inst.constructionTime === 0 && inst.delay === 0 && !inst.dead;
+        // AS3 State.as:4136 — this is NOT "can this card ever block"; it is "is this inst
+        // currently blocking" (phase-dependent). The previous port
+        // (card.defaultBlocking && ct===0 && delay===0 && !dead) was a wrong rewrite that
+        // returned true for tapped/assigned default-blockers, flipping the charge tie-break
+        // in _order() and selecting the wrong one of several identical units for
+        // snipe/defend/undefend/sac/sell — desyncing the surviving instId on replay
+        // (e.g. JbIWN-lD5mz: sniped the lower-charge Deadeye instead of the higher one).
+        if (this.phase === C.PHASE_DEFENSE || this.phase === C.PHASE_CONFIRM) {
+            return inst.blocking;
+        }
+        return inst.blocking || inst.disruptDamage > 0;
     }
 
     _order(inst1, inst2, saccing) {
