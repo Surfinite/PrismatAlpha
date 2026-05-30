@@ -1444,10 +1444,13 @@ class State {
             if (this.helper.allOppUnitsDoomed) {
                 return this.turn;
             }
-            // Opponent has only under-construction units — cannot defend or attack
-            if (this.helper.oppAllUnitsTotal > 0 && this.helper.oppNonInvTotal === 0) {
-                return this.turn;
-            }
+            // NOTE: do NOT win just because the opponent has only under-construction units.
+            // Those units build next turn and survive (golden armor) — the opponent isn't
+            // defeated; you must actually kill them (overkill once their build completes, or
+            // they remain). AS3 checkWin (State.as:3309-3327) has no such rule. The previous
+            // port added `oppAllUnitsTotal>0 && oppNonInvTotal===0 -> win`, which ended games
+            // prematurely whenever a breach left the opponent with only under-construction
+            // units (e.g. salty 1-unit-a-turn buys), truncating the remaining recorded turns.
             return C.COLOR_NONE;
         }
         // Mission objectives not supported in headless PvP
