@@ -1555,7 +1555,15 @@ class State {
     // --- Comparison functions for sorting (State.as:4150-4388) ---
 
     _cameOnTableThisPhase(inst) {
-        return inst.role === C.ROLE_SELLABLE;
+        // AS3 State.as:4131 — the previous port (just `role === SELLABLE`) returned true
+        // for an opponent's freshly-bought unit on your turn, making it bypass the _order
+        // state comparison and lose the id tie-break, so e.g. a chill/snipe targeting one
+        // of several similar units hit the wrong instId (Bc6rc-HwTZO: two Iceblade Golems
+        // froze the wrong Protoplasm). Sellable only counts on the owner's own action turn;
+        // otherwise the creatorId fields (reset at turn boundary) gate it.
+        return (inst.owner === this.turn && this.phase === C.PHASE_ACTION && inst.role === C.ROLE_SELLABLE)
+            || inst.creatorIdFromBuyOrAbility >= 0
+            || inst.creatorIdFromBeginTurn >= 0;
     }
 
     _canBlockAtStartOfPhase(inst) {
