@@ -123,6 +123,13 @@ class Controller {
                 C.ASSERT(!(type === C.CLICK_INST_SHIFT && this.inSwipe),
                     'Got a shift click in the middle of a swipe.');
                 inst = this.state.instIdToInst(id);
+                // Guard against a target id that doesn't resolve (state diverged): a bad/absent
+                // target is a rejected click, not a crash. AS3 (Controller.as:189) never reaches
+                // here with a null inst; mirror the main inst-click path's null guard
+                // (Controller.js:196) so we don't deref null.dead in instSatisfiesConditionWhy.
+                if (inst === null || inst === undefined) {
+                    return new ClickResult(actuallyDoClick, false);
+                }
                 tempReason = this.instSatisfiesConditionWhy(inst, this.targetSources[0].card.condition);
 
                 if (tempReason === null) {
