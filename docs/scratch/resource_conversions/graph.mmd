@@ -1,0 +1,33 @@
+%% Prismata click-conversion graph
+%% Render: paste into https://mermaid.live, view in VS Code with Mermaid extension,
+%% or embed in a GitHub-flavoured markdown file in a ```mermaid block.
+
+flowchart LR
+    Energy([Energy]):::energy
+    Green([Green]):::green
+    Blue([Blue]):::blue
+    Red([Red]):::red
+    Attack([Attack]):::attack
+    Gold([Gold]):::gold
+
+    %% Notation: bare digits = gold, E = Energy, G = Green, B = Blue, R = Red, A = Attack
+
+    Energy -->|"Fission Turret<br/>EEE → GGG (selfsac)"| Green
+    Energy -->|"Galvani Drone<br/>E → 1"| Gold
+    Energy -->|"Electrovore (E → A)<br/>Cauterizer (EEEE → AA)"| Attack
+
+    Green -->|"Synthesizer<br/>GGG → BB"| Blue
+    Green -->|"Trinity Drone (G → 1)<br/>Thermal Dynamo (GGG → 3)<br/>Zemora (GGGGGGGG → 8 + AAAAAAAA)"| Gold
+    Green -. "Zemora<br/>GGGGGGGG → 8 + AAAAAAAA" .-> Attack
+
+    Red -->|"Perforator (R → A)<br/>Smorcus (RR → A)"| Attack
+    Red -->|"Blood Phage<br/>R → 1"| Gold
+
+    Attack -->|"Militia (A → 1)<br/>Auride Core (A → 2)<br/>Manticore (AA → 3)"| Gold
+
+    classDef energy fill:#C0C0C0,stroke:#555555,stroke-width:2px;
+    classDef green  fill:#A8E6A1,stroke:#2E7D32,stroke-width:2px;
+    classDef blue   fill:#A1C8E6,stroke:#1565C0,stroke-width:2px;
+    classDef red    fill:#E6A1A1,stroke:#C62828,stroke-width:2px;
+    classDef attack fill:#F5C68A,stroke:#E65100,stroke-width:2px;
+    classDef gold   fill:#FFD700,stroke:#8B6914,stroke-width:2px;

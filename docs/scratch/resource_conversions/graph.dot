@@ -1,0 +1,40 @@
+// Prismata click-conversion graph
+// Render: paste into https://edotor.net or https://dreampuf.github.io/GraphvizOnline/
+// Or locally: dot -Tsvg graph.dot -o graph.svg
+
+digraph PrismataConversions {
+    rankdir=LR;
+    bgcolor="white";
+    splines=true;
+    nodesep=0.6;
+    ranksep=1.4;
+
+    node [shape=box, style="filled,rounded", fontname="Helvetica", fontsize=16, penwidth=2];
+    edge [fontname="Helvetica", fontsize=10, penwidth=1.2];
+
+    Energy [fillcolor="#C0C0C0", color="#555555"];
+    Green  [fillcolor="#A8E6A1", color="#2E7D32"];
+    Blue   [fillcolor="#A1C8E6", color="#1565C0"];
+    Red    [fillcolor="#E6A1A1", color="#C62828"];
+    Attack [fillcolor="#F5C68A", color="#E65100"];
+    Gold   [fillcolor="#FFD700", color="#8B6914"];
+
+    // Notation: bare digits = gold, E = Energy, G = Green, B = Blue, R = Red, A = Attack
+
+    // Energy outputs
+    Energy -> Green  [label="Fission Turret\nEEE → GGG (selfsac)"];
+    Energy -> Gold   [label="Galvani Drone\nE → 1"];
+    Energy -> Attack [label="Electrovore (E → A)\nCauterizer (EEEE → AA)"];
+
+    // Green outputs
+    Green -> Blue   [label="Synthesizer\nGGG → BB"];
+    Green -> Gold   [label="Trinity Drone (G → 1)\nThermal Dynamo (GGG → 3)\nZemora (GGGGGGGG → 8 + AAAAAAAA)"];
+    Green -> Attack [label="Zemora\nGGGGGGGG → 8 + AAAAAAAA", style=dashed, color="#888888", fontcolor="#666666"];
+
+    // Red outputs
+    Red -> Attack [label="Perforator (R → A)\nSmorcus (RR → A)"];
+    Red -> Gold   [label="Blood Phage\nR → 1"];
+
+    // Attack outputs
+    Attack -> Gold [label="Militia (A → 1)\nAuride Core (A → 2)\nManticore (AA → 3)"];
+}
