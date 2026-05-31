@@ -1074,8 +1074,15 @@ def main():
     # --- Model ---
     if use_deepsets:
         from model_deepsets import PrismataDeepSets
+        # num_properties is the single source of truth: the property-table file's own
+        # num_properties. The model buffer must be this wide BEFORE load_property_table's
+        # copy_ (a mismatch would otherwise be a silent shape error). Reading it here means
+        # bumping the table (13->35) needs no code change.
+        with open(args.property_table, encoding="utf-8") as _ptf:
+            _num_properties = json.load(_ptf).get("num_properties", 35)
         model = PrismataDeepSets(
             num_units=num_units,
+            num_properties=_num_properties,
             dropout=args.dropout,
         ).to(device)
         model.load_property_table(args.property_table)

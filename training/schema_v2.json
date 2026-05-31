@@ -3,9 +3,9 @@
     "architecture": "deepsets",
     "num_units": 116,
     "unit_index_hash": "c86aac391aed5530d7f9f9d6ae4567a40b39a128e6ff982c911c37b90d83ac2e",
-    "token_dim": 55,
+    "token_dim": 77,
     "embedding_dim": 32,
-    "num_static_properties": 13,
+    "num_static_properties": 35,
     "num_instance_features": 10,
     "num_supply_features": 3,
     "num_global_features": 14,
@@ -23,7 +23,13 @@
         "buy_cost_gold", "buy_cost_green", "buy_cost_blue", "buy_cost_red",
         "buy_cost_energy", "base_health", "fragile", "default_blocking",
         "base_build_time", "base_lifespan", "base_attack", "has_ability",
-        "max_stamina"
+        "max_stamina",
+        "auto_gold", "auto_green", "auto_blue", "auto_red", "auto_energy",
+        "click_gold", "click_green", "click_blue", "click_red", "click_energy",
+        "chill_amount",
+        "click_cost_gold", "click_cost_green", "click_cost_blue", "click_cost_red",
+        "click_cost_energy", "click_cost_hp", "click_selfsac", "auto_selfsac",
+        "click_sac_units", "buy_sac_units", "hp_regen"
     ],
     "supply_features": ["p0_supply", "p1_supply", "in_card_set"],
     "global_features": [
