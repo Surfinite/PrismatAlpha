@@ -35,6 +35,7 @@ Usage:
 
 import argparse
 import atexit
+import gc
 import hashlib
 import json
 import math
@@ -68,6 +69,9 @@ def set_seed(seed):
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
+    if hasattr(torch, "xpu") and torch.xpu.is_available() and \
+            hasattr(torch.xpu, "manual_seed_all"):
+        torch.xpu.manual_seed_all(seed)
 
 
 # ---------------------------------------------------------------------------
@@ -906,6 +910,14 @@ def main():
                              "Combined with --train-file for streaming mode.")
     parser.add_argument("--seed", type=int, default=None,
                         help="Random seed (random if not set)")
+    parser.add_argument("--resume", type=str, default=None,
+                        help="Resume from a checkpoint (.pt) written by a prior run. "
+                             "Restores model, optimizer, scheduler, SWA, RNG, and "
+                             "best/patience counters, then continues from the next epoch.")
+    parser.add_argument("--stop-after-epoch", type=int, default=None,
+                        help="Stop cleanly after this many epochs THIS run (without "
+                             "changing --epochs, so the LR schedule is unaffected). "
+                             "Use with --resume for staged/segmented training.")
 
     args = parser.parse_args()
 
@@ -1186,6 +1198,101 @@ def main():
     best_epoch = 0
     patience_counter = 0
     global_step = 0
+    start_epoch = 1
+
+    def build_resume_state():
+        """Snapshot ALL state needed to resume training exactly (closes over loop vars)."""
+        ck = {
+            "epoch": epoch,
+            "global_step": global_step,
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+            "scheduler_state_dict": scheduler.state_dict(),
+            "swa_scheduler_state_dict": swa_scheduler.state_dict(),
+            "swa_model_state_dict": swa_model.state_dict(),
+            "swa_active": swa_active,
+            "swa_start_epoch": swa_start_epoch,
+            "best_val_vloss": best_val_vloss,
+            "best_epoch": best_epoch,
+            "patience_counter": patience_counter,
+            "total_steps": total_steps,
+            "model_type": model_type_str,
+            "num_units": num_units,
+            "dropout": args.dropout,
+            "schema_version": schema_version,
+            "label_strategy": args.label_strategy,
+            "hyperparameters": run_metadata["hyperparameters"],
+            "rng": {
+                "python": random.getstate(),
+                "numpy": np.random.get_state(),
+                "torch": torch.get_rng_state(),
+                "shuffle_gen": shuffle_gen.get_state(),
+            },
+        }
+        if device.type == "xpu" and hasattr(torch.xpu, "get_rng_state"):
+            try:
+                ck["rng"]["torch_xpu"] = torch.xpu.get_rng_state()
+            except Exception:
+                pass
+        if use_deepsets:
+            ck["property_table_path"] = os.path.abspath(args.property_table)
+        else:
+            ck["state_dim"] = state_dim
+            ck["hidden_dim"] = args.hidden_dim
+            ck["num_layers"] = args.num_layers
+            ck["value_only"] = args.value_only
+        return ck
+
+    # --- Resume from checkpoint (restores everything build_resume_state() saved) ---
+    if args.resume:
+        print(f"\nResuming from checkpoint: {args.resume}")
+        # weights_only=False: our own checkpoint embeds numpy/python RNG state
+        # (not plain tensors), which the PyTorch 2.6+ safe loader rejects.
+        ck = torch.load(args.resume, map_location="cpu", weights_only=False)
+        model.load_state_dict(ck["model_state_dict"])
+        optimizer.load_state_dict(ck["optimizer_state_dict"])
+        # optimizer state tensors load onto CPU; move them to the training device
+        for st in optimizer.state.values():
+            for k, v in st.items():
+                if isinstance(v, torch.Tensor):
+                    st[k] = v.to(device)
+        scheduler.load_state_dict(ck["scheduler_state_dict"])
+        swa_scheduler.load_state_dict(ck["swa_scheduler_state_dict"])
+        swa_model.load_state_dict(ck["swa_model_state_dict"])
+        swa_active = ck["swa_active"]
+        best_val_vloss = ck["best_val_vloss"]
+        best_epoch = ck["best_epoch"]
+        patience_counter = ck["patience_counter"]
+        global_step = ck["global_step"]
+        rng = ck.get("rng", {})
+        if "python" in rng:
+            random.setstate(rng["python"])
+        if "numpy" in rng:
+            np.random.set_state(rng["numpy"])
+        if "torch" in rng:
+            torch.set_rng_state(rng["torch"])
+        if "shuffle_gen" in rng:
+            shuffle_gen.set_state(rng["shuffle_gen"])
+        if device.type == "xpu" and "torch_xpu" in rng and hasattr(torch.xpu, "set_rng_state"):
+            try:
+                torch.xpu.set_rng_state(rng["torch_xpu"])
+            except Exception as e:
+                print(f"  WARN: could not restore XPU RNG state ({e})")
+        if ck.get("total_steps") not in (None, total_steps):
+            print(f"  WARNING: checkpoint total_steps={ck.get('total_steps')} != "
+                  f"current {total_steps}. The cosine LR schedule will differ "
+                  f"(did --epochs change between runs?).")
+        start_epoch = ck["epoch"] + 1
+        # Continue the existing training log rather than truncating it
+        if os.path.exists(log_path):
+            try:
+                with open(log_path) as f:
+                    training_log = json.load(f)
+            except Exception:
+                pass
+        print(f"  Restored: resuming at epoch {start_epoch}, global_step={global_step}, "
+              f"best={best_val_vloss:.4f}@{best_epoch}, patience={patience_counter}, "
+              f"swa_active={swa_active}")
 
     model_type_str = 'deepsets' if use_deepsets else 'v1'
     mode_str = "deepsets" if use_deepsets else ("value-only" if args.value_only else "policy+value")
@@ -1207,7 +1314,7 @@ def main():
 
     wall_start = time.time()
 
-    for epoch in range(1, args.epochs + 1):
+    for epoch in range(start_epoch, args.epochs + 1):
         # Update streaming dataset epoch for chunk shuffling
         if is_streaming:
             train_ds.set_epoch(epoch)
@@ -1329,6 +1436,16 @@ def main():
             epoch_log["val_policy_loss"] = round(va["val_policy_loss"], 6)
             epoch_log["val_policy_acc"] = round(va["val_policy_acc"], 4)
 
+        # XPU memory telemetry (diagnoses the reserved-pool ratchet behind the
+        # earlier OOM; logged every epoch so the trajectory is recoverable).
+        if device.type == "xpu":
+            mem_alloc = torch.xpu.memory_allocated() / 1e6
+            mem_resv = torch.xpu.memory_reserved() / 1e6
+            epoch_log["xpu_mem_alloc_mb"] = round(mem_alloc, 1)
+            epoch_log["xpu_mem_reserved_mb"] = round(mem_resv, 1)
+            print(f"      [xpu mem] allocated={mem_alloc:6.0f}MB  "
+                  f"reserved={mem_resv:6.0f}MB", file=sys.stderr)
+
         training_log["epochs"].append(epoch_log)
         training_log["best_epoch"] = best_epoch
         training_log["best_val_loss"] = round(best_val_vloss, 6)
@@ -1336,26 +1453,30 @@ def main():
         # Save log every epoch (so partial runs are recoverable)
         save_log()
 
-        # Periodic checkpoint
+        # Resume checkpoint: overwrite latest_checkpoint.pt every epoch (a crash
+        # then loses at most 1 epoch), plus a kept milestone every 10 epochs.
+        # Both carry the full resume state from build_resume_state().
+        resume_state = build_resume_state()
+        torch.save(resume_state, os.path.join(args.output_dir, "latest_checkpoint.pt"))
         if epoch % 10 == 0:
-            periodic_ckpt = {
-                "epoch": epoch,
-                "global_step": global_step,
-                "model_state_dict": model.state_dict(),
-                "optimizer_state_dict": optimizer.state_dict(),
-                "model_type": model_type_str,
-                "num_units": num_units,
-                "dropout": args.dropout,
-                "schema_version": schema_version,
-            }
-            if use_deepsets:
-                periodic_ckpt["property_table_path"] = os.path.abspath(args.property_table)
-            else:
-                periodic_ckpt["state_dim"] = state_dim
-                periodic_ckpt["hidden_dim"] = args.hidden_dim
-                periodic_ckpt["num_layers"] = args.num_layers
-                periodic_ckpt["value_only"] = args.value_only
-            torch.save(periodic_ckpt, os.path.join(args.output_dir, f"checkpoint_ep{epoch}.pt"))
+            torch.save(resume_state,
+                       os.path.join(args.output_dir, f"checkpoint_ep{epoch}.pt"))
+
+        # Free XPU cached memory each epoch to prevent the reserved-pool ratchet
+        # behind the earlier eval-time OOM. Numerically inert (no quality impact);
+        # negligible cost at per-epoch frequency.
+        if device.type == "xpu":
+            gc.collect()
+            torch.xpu.empty_cache()
+
+        # Staged-training stop: end cleanly after N epochs while leaving --epochs
+        # (and thus total_steps / the LR schedule) untouched, so a later --resume
+        # is identical to an uninterrupted run.
+        if args.stop_after_epoch is not None and epoch >= args.stop_after_epoch:
+            print(f"\nStopping after epoch {epoch} "
+                  f"(--stop-after-epoch={args.stop_after_epoch}). "
+                  f"latest_checkpoint.pt written for --resume.")
+            break
 
         # Early stopping
         if args.patience > 0 and patience_counter >= args.patience:
