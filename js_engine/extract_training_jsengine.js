@@ -163,6 +163,12 @@ function main() {
     const out = fs.createWriteStream(output, { flags: 'w' });
     const droppedPath = output + '.dropped.txt';
     const dropped = fs.createWriteStream(droppedPath, { flags: 'w' });
+    // Windows Node can emit a benign ERR_SYSTEM_ERROR on WriteStream close AFTER a full
+    // flush; log it instead of crashing the process post-completion. A genuine write
+    // failure (e.g. disk full) is still caught by the completeness check (last record's
+    // replay_code == last code in the list).
+    out.on('error', (e) => process.stderr.write(`[out stream] ${e.message}\n`));
+    dropped.on('error', (e) => process.stderr.write(`[dropped stream] ${e.message}\n`));
     let ok = 0, droppedCount = 0, totalExamples = 0;
     const t0 = Date.now();
 
