@@ -88,6 +88,36 @@ Pure B+8-random wastes cycles: a specific unit appears in only ~8/105 ≈ **7.6%
   early whether it's working.
 - Cheap to run; it is the number that decides go/no-go.
 
+## Phase 3.5 — Pre-RL free win: cValue sweep (config only, no retrain)
+
+The DSNN value scale is correct (`2·sigmoid(logit)−1` → UCT `(v+1)/2` ∈ [0,1];
+parity-verified). But the UCB1 exploration constant `cValue` defaults to **2.0**, tuned for the
+old discrete *Playout* signal — too large relative to the DSNN's small [0,1] Q-differences, so
+the search **over-explores and understates the DSNN** (DSNN-port audit §5, "claimable margin
+left on the table"). Infrastructure already exists and was never run: players
+`PrismatAI_UCT_c03/c05/c07/c10` (cValue 0.3–1.0) + the `NeuralUCT_cValue` tournament
+(`"run":false`).
+
+- **Action:** run the cValue sweep vs HardestAI, pick the best, set `UCTConstant` on the DSNN
+  players. Free strength (config only).
+- **Why before RL:** self-play data quality depends on how well the search exploits the value
+  net; an over-exploring search yields weaker/noisier games → worse RL signal. Tune cValue
+  *first*. In RL, treat `cValue`/`cPUCT` as a **scheduled/annealed** HP (more exploration early,
+  less late), not a fixed constant.
+
+## Hyperparameter note (supervised → RL)
+
+- **Architecture HPs carry over** (same net is fine-tuned in RL).
+- **Supervised optimization HPs do NOT** transfer cleanly: supervised = fixed dataset, decay-to-
+  zero, 100 epochs; RL = non-stationary distribution, many small updates (1–few epochs/batch
+  from a replay buffer), lower/flatter LR. RL needs its own optimization regime, tuned once.
+- **RL HPs (sims/move, exploration, games/iter, replay, curriculum blend) are scheduled/annealed
+  over iterations**, not re-swept every interval (too costly) — set schedules up front, monitor,
+  intervene only on instability.
+- **Don't over-invest in supervised HP tuning** — low ROI (the metric can't see the 35-prop
+  benefit; defaults already ~82%, a fine RL init). Spend tuning budget on RL HPs + the cValue
+  sweep above.
+
 ## Phase 4 — Free local proof-of-life
 
 After the current supervised run frees the box: a small RL loop on the **local** machine
@@ -142,5 +172,6 @@ rather than being blind. The supervised ~82% is just a health check; the props' 
 | 1 Action-space widening | £0 | `RL_Explore` config, widened generation |
 | 2 Card-set curriculum | £0 | forced-set + blend + rehearsal sampler |
 | 3 Eval harness | £0 | win-rate A/B (forced + general) |
+| 3.5 cValue sweep | £0 (local tourney) | free pre-RL strength + cleaner self-play data |
 | 4 Local proof-of-life | £0 | first signal on the Arc B580 |
 | 5 AWS scale | **£400** | the go/no-go win-rate trajectory |
