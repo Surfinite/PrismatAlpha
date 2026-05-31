@@ -31,7 +31,7 @@ A C++ game engine and AI for **Prismata**, a turn-based perfect-information stra
 ## User Preferences
 
 - **Cost-conscious** — prefer local compute, minimize cloud spend
-- Git comfort: "noob" — explain clearly, always confirm before push/force
+- Git comfort: "noob" — not well versed with git, so **proactively recommend the best-practice approach and explain the why briefly** instead of waiting to be asked. Don't ask permission for routine local work (branching, staging, committing) — just do it sensibly and say what you did. Only pause to confirm before actions that leave the machine or are hard to undo: pushing to a remote, force-pushing, or history rewrites (rebase, `reset --hard`, filter-repo). Push to the `PrismatAlpha` fork, never the `davechurchill` upstream, and never open PRs against upstream.
 - The user is "Surfinite" everywhere
 
 ## How to Build and Run
@@ -136,6 +136,7 @@ python training/export_weights_v2.py \
 - **Prismata client architecture**: Adobe AIR/Flash app. Memory reading infeasible — use clipboard or network proxy.
 - **Clipboard game state export**: F6 copies JSON to clipboard. Requires SWF dev mode patch. JSON key is `"CurrentInfo"` with `mergedDeck`, `gameState`, `aiParameters`. Card names are **display names**.
 - **SWF developer mode patch**: Single byte at decompressed offset `0x1580196`: `0x27`→`0x26`. Requires hosts entry for load balancing bypass.
+- **JS engine is faithful to the AS3 client (faithfulness campaign COMPLETE, May 2026)**: replays the full 61,267-replay human corpus with only 33 residual failures — all recordings the *official client itself cannot replay* (rare client recording / live-vs-replay bug, persisted to 2020, ~0.05%). Our engine faithfully reproduces those failures; do NOT "fix" them (that would diverge from the client). The headline fix was porting AVM2 `Dictionary` for-in order into `AS3Dictionary.js` (begin-turn token instIds). Faithfulness meter: `js_engine/corpus_scan.js`; AS3 ground-truth diff: `js_engine/oracle_diff.js` (needs an F6 dev-mode dump). Full write-up: `docs/jsengine-faithfulness-results.md`.
 - **matchup_clean.js auto end-swipe**: Applies to ALL AIs. Without it, stale BREACH swipes block OVERKILL clicks.
 - **matchup_clean.js confirm→defense auto-commit**: Auto-inserts commit click when confirm phase has incoming defense clicks.
 - **SteamAI is one-shot**: `PrismataAI.exe` exits after each response. Must spawn fresh process per turn. EPIPE if you reuse stdin.
@@ -337,6 +338,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 | Document | Description |
 |---|---|
 | `docs/PROJECT_HISTORY.md` | Full chronological dev history (sections 1-29) |
+| `docs/jsengine-faithfulness-results.md` | JS engine faithfulness campaign — COMPLETE (May 2026): faithful to AS3 client; residual 33/61267 = client recording bugs reproduced faithfully (~0.05% replays unviewable in real client too) |
 | `docs/deepsets-training-results.md` | DeepSets training results + parity-gap finding (May 2026) |
 | `docs/CLAUDE_REFERENCE.md` | Extended reference (cloud, sniffer, commentary, full file tables) |
 | `docs/plans/2026-03-09-training-plan-v3-READY-v3.md` | Training plan v3 (finalized) |

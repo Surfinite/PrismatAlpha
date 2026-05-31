@@ -123,6 +123,13 @@ class Controller {
                 C.ASSERT(!(type === C.CLICK_INST_SHIFT && this.inSwipe),
                     'Got a shift click in the middle of a swipe.');
                 inst = this.state.instIdToInst(id);
+                // Guard against a target id that doesn't resolve (state diverged): a bad/absent
+                // target is a rejected click, not a crash. AS3 (Controller.as:189) never reaches
+                // here with a null inst; mirror the main inst-click path's null guard
+                // (Controller.js:196) so we don't deref null.dead in instSatisfiesConditionWhy.
+                if (inst === null || inst === undefined) {
+                    return new ClickResult(actuallyDoClick, false);
+                }
                 tempReason = this.instSatisfiesConditionWhy(inst, this.targetSources[0].card.condition);
 
                 if (tempReason === null) {
@@ -1105,13 +1112,20 @@ class Controller {
 
         if (tempOrder.type === C.MOVE_END_DEFENSE) {
             this.state = this.endDefendStack.pop();
-            /* STUB: UI-only — state.dispatch(SEND_LOADSTATE) */
+            // FIX (jsengine-defense-revert): AS3 Controller.as:1300 did
+            // state.dispatch(SEND_LOADSTATE) here, recomputing the StateHelper. The
+            // headless port dropped it as "UI-only", leaving partiallyDamagedInst stale
+            // after an UNDO -> the next click mis-allocates defense damage (same class
+            // as the revert bug fixed in processMoveOrRevert).
+            this.state.helper.update(this.state);
         } else if (tempOrder.type === C.MOVE_ENTER_CONFIRM) {
             this.state = this.endActionStack.pop();
-            /* STUB: UI-only — state.dispatch(SEND_LOADSTATE) */
+            // FIX (jsengine-defense-revert): AS3 Controller.as:1305 SEND_LOADSTATE recompute.
+            this.state.helper.update(this.state);
         } else if (tempOrder.type === C.ORDER_REVERT) {
             this.state = this.revertFromStack.pop();
-            /* STUB: UI-only — state.dispatch(SEND_LOADSTATE) */
+            // FIX (jsengine-defense-revert): AS3 Controller.as:1310 SEND_LOADSTATE recompute.
+            this.state.helper.update(this.state);
         } else if (tempOrder.type === C.ORDER_END_UNDOBLOCK) {
             while (true) {
                 tempOrder = this.undoStack.pop();
@@ -1182,7 +1196,13 @@ class Controller {
             } else if (this.state.phase === C.PHASE_CONFIRM) {
                 this.state = this.endActionStack[this.endActionStack.length - 1].clone();
             }
-            /* STUB: UI-only — state.dispatch(SEND_LOADSTATE) */
+            // FIX (jsengine-defense-revert): AS3 did state.dispatch(SEND_LOADSTATE) here,
+            // which recomputed the StateHelper. The headless port stubbed the whole dispatch
+            // as "UI-only" and dropped the required helper recompute, leaving
+            // partiallyDamagedInst stale (null) for the first post-revert click -> the
+            // undefend peel-the-partial-absorber-first rule was skipped, mis-allocating
+            // defense damage (qzaO6-833ge: killed a Steelsplitter + absorbing Doomed Wall).
+            this.state.helper.update(this.state);
         } else if (order.type !== C.ORDER_START_UNDOBLOCK && order.type !== C.ORDER_END_UNDOBLOCK) {
             if (order.type === C.MOVE_END_DEFENSE) {
                 this.endDefendStack.push(this.state.clone());

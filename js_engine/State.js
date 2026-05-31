@@ -1444,10 +1444,13 @@ class State {
             if (this.helper.allOppUnitsDoomed) {
                 return this.turn;
             }
-            // Opponent has only under-construction units — cannot defend or attack
-            if (this.helper.oppAllUnitsTotal > 0 && this.helper.oppNonInvTotal === 0) {
-                return this.turn;
-            }
+            // NOTE: do NOT win just because the opponent has only under-construction units.
+            // Those units build next turn and survive (golden armor) — the opponent isn't
+            // defeated; you must actually kill them (overkill once their build completes, or
+            // they remain). AS3 checkWin (State.as:3309-3327) has no such rule. The previous
+            // port added `oppAllUnitsTotal>0 && oppNonInvTotal===0 -> win`, which ended games
+            // prematurely whenever a breach left the opponent with only under-construction
+            // units (e.g. salty 1-unit-a-turn buys), truncating the remaining recorded turns.
             return C.COLOR_NONE;
         }
         // Mission objectives not supported in headless PvP
@@ -1555,11 +1558,29 @@ class State {
     // --- Comparison functions for sorting (State.as:4150-4388) ---
 
     _cameOnTableThisPhase(inst) {
-        return inst.role === C.ROLE_SELLABLE;
+        // AS3 State.as:4131 — the previous port (just `role === SELLABLE`) returned true
+        // for an opponent's freshly-bought unit on your turn, making it bypass the _order
+        // state comparison and lose the id tie-break, so e.g. a chill/snipe targeting one
+        // of several similar units hit the wrong instId (Bc6rc-HwTZO: two Iceblade Golems
+        // froze the wrong Protoplasm). Sellable only counts on the owner's own action turn;
+        // otherwise the creatorId fields (reset at turn boundary) gate it.
+        return (inst.owner === this.turn && this.phase === C.PHASE_ACTION && inst.role === C.ROLE_SELLABLE)
+            || inst.creatorIdFromBuyOrAbility >= 0
+            || inst.creatorIdFromBeginTurn >= 0;
     }
 
     _canBlockAtStartOfPhase(inst) {
-        return inst.card.defaultBlocking && inst.constructionTime === 0 && inst.delay === 0 && !inst.dead;
+        // AS3 State.as:4136 — this is NOT "can this card ever block"; it is "is this inst
+        // currently blocking" (phase-dependent). The previous port
+        // (card.defaultBlocking && ct===0 && delay===0 && !dead) was a wrong rewrite that
+        // returned true for tapped/assigned default-blockers, flipping the charge tie-break
+        // in _order() and selecting the wrong one of several identical units for
+        // snipe/defend/undefend/sac/sell — desyncing the surviving instId on replay
+        // (e.g. JbIWN-lD5mz: sniped the lower-charge Deadeye instead of the higher one).
+        if (this.phase === C.PHASE_DEFENSE || this.phase === C.PHASE_CONFIRM) {
+            return inst.blocking;
+        }
+        return inst.blocking || inst.disruptDamage > 0;
     }
 
     _order(inst1, inst2, saccing) {
