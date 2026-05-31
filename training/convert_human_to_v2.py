@@ -1,4 +1,11 @@
 """
+[DEPRECATED 2026-05-31] Superseded by js_engine/extract_training_jsengine.js, which now
+emits V2 DIRECTLY via the shared js_engine/training_example.js (the same code the MB
+extractor uses). That path removes three silent human<->MB inconsistencies this script
+introduced: card_set semantics ("all units with supply" vs drawn advanced units),
+turn_number (0-based here vs gameState.numTurns 1-based in MB), and attack stripped from
+p0/p1_resources. Kept only for reference / reproducing the legacy human_1500 V2 corpus.
+
 Convert human replay training data (V1 JSONL from extract_training_data.js)
 to V2 JSONL format compatible with vectorize_v2.py for DeepSets training.
 

@@ -57,6 +57,7 @@ const Analyzer = require('./Analyzer');
 const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getAdvancedUnitNames, getSupply, SUPPLY_BY_RARITY } = require('./card_library');
 const { stateToCppJSON, buildReplayJSON } = require('./replay_exporter');
 const { _instToRichUnit: instToRichUnit, _manaToResources: manaToResources } = require('./state_adapter');
+const { extractTrainingExampleV2 } = require('./training_example');
 
 // MCDSAI player identifier (case-insensitive matching in CLI parsing)
 const MCDSAI_PLAYER = 'MCDSAI';
@@ -1437,45 +1438,9 @@ function extractTrainingExample(gameState, cardSet, plyIndex) {
  * @param {number} plyIndex - 0-based ply index (turn number within game)
  * @returns {Object} V2 training example (without outcome_p0/total_plies — stamped after game)
  */
-function extractTrainingExampleV2(gameState, cardSet, plyIndex) {
-    const instances = [];
-
-    gameState.table.forEach((inst) => {
-        if (inst.deadness !== C.DEADNESS_ALIVE) return;  // match state_adapter.js pattern
-        instances.push(instToRichUnit(inst));
-    });
-
-    const p0Mana = gameState.playerMana(C.COLOR_WHITE);
-    const p1Mana = gameState.playerMana(C.COLOR_BLACK);
-
-    // Supply — include ALL units in card set, even sold-out (supply=0).
-    // in_card_set flag must persist so model knows the unit was available.
-    const supply = {};
-    for (let i = 0; i < gameState.cards.length; i++) {
-        const card = gameState.cards[i];
-        const ws = gameState.whiteSupply[i] || 0;
-        const bs = gameState.blackSupply[i] || 0;
-        const inSet = cardSet.includes(card.UIName) ? 1 : 0;
-        // Include if unit has supply OR is in the card set (even if sold out)
-        if (ws > 0 || bs > 0 || inSet) {
-            supply[card.UIName] = [ws, bs, inSet];
-        }
-    }
-
-    return {
-        schema_version: "v2",
-        ply_index: plyIndex,
-        card_set: cardSet,
-        instances: instances,   // per-instance list (includes owner field)
-        supply: supply,
-        p0_resources: manaToResources(p0Mana),
-        p1_resources: manaToResources(p1Mana),
-        p0_attack: p0Mana.pool[C.MANA_A],
-        p1_attack: p1Mana.pool[C.MANA_A],
-        turn_number: gameState.numTurns,
-        active_player: gameState.turn
-    };
-}
+// extractTrainingExampleV2 now lives in ./training_example (single source of truth,
+// shared with extract_training_jsengine.js so the human + MB corpora are produced by
+// identical feature code). Imported at the top of this file.
 
 // ---------------------------------------------------------------------------
 // 8b. Play a single complete game (Phase 7b)
