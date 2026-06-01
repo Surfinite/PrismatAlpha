@@ -4,16 +4,16 @@
  * matchup_worker.js -- Worker thread for parallel game execution (Phase 7e).
  *
  * Each worker thread:
- *   1. Loads its own card library and MCDSAI workers (if needed)
+ *   1. Loads its own card library and SteamAI workers (if needed)
  *   2. Receives game assignments via workerData
  *   3. Runs games sequentially within its slot
  *   4. Posts each game result back via parentPort
- *   5. Cleans up MCDSAI workers on exit
+ *   5. Cleans up SteamAI processes on exit
  *
  * Communication protocol:
  *   Parent -> Worker (workerData):
  *     { slotIndex, gameNums: [1,2,...], playerWhite, playerBlack, thinkTimeMs,
- *       mcdsaiDifficulty, saveReplaysDir, verbose }
+ *       steamDifficulty, saveReplaysDir, verbose }
  *
  *   Worker -> Parent (postMessage):
  *     { type: 'game_result', gameNum, gameLog }
@@ -191,15 +191,13 @@ function playSingleTurnSlot(analyzer, mergedDeck, playerName, thinkTimeMs, weigh
 /**
  * Play a complete game within a worker thread.
  * Mirrors playSingleGame from matchup_clean.js but uses slot-specific
- * temp files for C++ --suggest and worker-local MCDSAI workers.
+ * temp files for C++ --suggest.
  *
  * @param {Object[]} activeDeck - Active mergedDeck cards
  * @param {Object} config - Game configuration
- * @param {MCDSAIWorker|null} mcdsaiWorkerWhite - Worker-local MCDSAI for white
- * @param {MCDSAIWorker|null} mcdsaiWorkerBlack - Worker-local MCDSAI for black
  * @returns {Promise<Object>} Game result
  */
-async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcdsaiWorkerBlack, steamConfig) {
+async function playSingleGameInWorker(activeDeck, config, steamConfig) {
     const playerWhite = config.playerWhite;
     const playerBlack = config.playerBlack;
     const thinkTimeMs = config.thinkTimeMs;
@@ -212,8 +210,6 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
     const resignRatio = config.resignThreshold || 0;  // 0 = disabled
     const MIN_RESIGN_TURN = 10;
 
-    const whiteIsMCDSAI = matchup.isMCDSAIPlayer(playerWhite);
-    const blackIsMCDSAI = matchup.isMCDSAIPlayer(playerBlack);
     const whiteIsSteamAI = matchup.isSteamAIPlayer(playerWhite);
     const blackIsSteamAI = matchup.isSteamAIPlayer(playerBlack);
 
@@ -225,37 +221,10 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
     const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
     analyzer.loaderInit();
 
-    const mcdsaiDifficulty = config.mcdsaiDifficulty || 'HardestAI';
     const steamDifficulty = steamConfig ? steamConfig.difficulty : 'HardestAI';
-    const whiteLabel = whiteIsMCDSAI ? `MCDSAI(${mcdsaiDifficulty})` :
-                       whiteIsSteamAI ? `SteamAI(${steamDifficulty})` : playerWhite;
-    const blackLabel = blackIsMCDSAI ? `MCDSAI(${mcdsaiDifficulty})` :
-                       blackIsSteamAI ? `SteamAI(${steamDifficulty})` : playerBlack;
+    const whiteLabel = whiteIsSteamAI ? `SteamAI(${steamDifficulty})` : playerWhite;
+    const blackLabel = blackIsSteamAI ? `SteamAI(${steamDifficulty})` : playerBlack;
     console.error('[Game] Initialized. White=' + whiteLabel + ', Black=' + blackLabel);
-
-    // Initialize MCDSAI workers for this game (per-game init with deck)
-    if ((whiteIsMCDSAI || blackIsMCDSAI) && config.mcdsaiFullParams) {
-        const _sp = require('./ai_params').selectParams;
-        const fullParams = config.mcdsaiFullParams;
-        const shortParams = config.mcdsaiShortParams;
-        const library = config.mcdsaiLibrary;
-
-        const initDeck = buildInitDeck(activeDeck, library, fullParams, shortParams);
-        const initParams = JSON.parse(_sp(mcdsaiDifficulty, 1, fullParams, shortParams));
-        const initJson = JSON.stringify({
-            mergedDeck: initDeck,
-            aiParameters: initParams
-        });
-
-        if (whiteIsMCDSAI && mcdsaiWorkerWhite) {
-            console.error('[Game] Initializing MCDSAI worker for White...');
-            await mcdsaiWorkerWhite.initializeAI(initJson);
-        }
-        if (blackIsMCDSAI && mcdsaiWorkerBlack) {
-            console.error('[Game] Initializing MCDSAI worker for Black...');
-            await mcdsaiWorkerBlack.initializeAI(initJson);
-        }
-    }
 
     // Build SteamAI initDeck for this game (one-shot exe spawns per turn)
     if ((whiteIsSteamAI || blackIsSteamAI) && steamConfig) {
@@ -286,10 +255,9 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
         const playerName = activePlayer === 0 ? playerWhite : playerBlack;
         const playerLabel = activePlayer === 0 ? 'White' : 'Black';
         const activeThinkTime = activePlayer === 0 ? thinkTimeWhiteMs : thinkTimeBlackMs;
-        const isActiveMCDSAI = matchup.isMCDSAIPlayer(playerName);
         const isActiveSteamAI = matchup.isSteamAIPlayer(playerName);
 
-        console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}${isActiveMCDSAI ? ' [MCDSAI]' : ''}${isActiveSteamAI ? ' [SteamAI]' : ''}) ===`);
+        console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}${isActiveSteamAI ? ' [SteamAI]' : ''}) ===`);
 
         // Capture pre-turn state snapshot (turn boundary + "Start of Turn")
         try {
@@ -323,11 +291,6 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
             turnResult = await matchup.playSteamAITurn(
                 analyzer, activeDeck, steamWorker, sideDifficulty, steamConfig
             );
-        } else if (isActiveMCDSAI) {
-            const worker = activePlayer === 0 ? mcdsaiWorkerWhite : mcdsaiWorkerBlack;
-            turnResult = await matchup.playMCDSAITurn(
-                analyzer, activeDeck, worker, mcdsaiDifficulty
-            );
         } else {
             // Use slot-specific suggest for C++ players
             turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, activeThinkTime, weightsFile);
@@ -352,11 +315,6 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
                     : (steamConfig.difficultyBlack || steamConfig.difficulty)) || 'HardestAI';
                 turnResult = await matchup.playSteamAITurn(
                     analyzer, activeDeck, steamWorker, sideDifficulty, steamConfig
-                );
-            } else if (isActiveMCDSAI) {
-                const worker = activePlayer === 0 ? mcdsaiWorkerWhite : mcdsaiWorkerBlack;
-                turnResult = await matchup.playMCDSAITurn(
-                    analyzer, activeDeck, worker, mcdsaiDifficulty
                 );
             } else {
                 turnResult = playSingleTurnSlot(analyzer, activeDeck, playerName, activeThinkTime, weightsFile);
@@ -405,7 +363,7 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
                 abilities: turnResult.suggest.response.abilities
             });
         } else if (turnResult.clickResult) {
-            // MCDSAI turns don't have suggest response, log click summary
+            // SteamAI turns don't have a suggest response, log click summary
             replayTurns.push({
                 turn: turnCount,
                 player: playerLabel,
@@ -426,8 +384,8 @@ async function playSingleGameInWorker(activeDeck, config, mcdsaiWorkerWhite, mcd
             break;
         }
 
-        // WillScore resignation for non-MCDSAI players
-        if (resignRatio > 0 && !isActiveMCDSAI && !isActiveSteamAI && turnCount >= MIN_RESIGN_TURN) {
+        // WillScore resignation for C++ players (not the Steam-protocol path)
+        if (resignRatio > 0 && !isActiveSteamAI && turnCount >= MIN_RESIGN_TURN) {
             const selfScore = matchup.computeWillScoreSum(analyzer.gameState, activePlayer);
             const opponentPlayer = activePlayer === 0 ? 1 : 0;
             const oppScore = matchup.computeWillScoreSum(analyzer.gameState, opponentPlayer);
@@ -530,19 +488,20 @@ async function runWorkerSlot() {
         thinkTimeWhiteMs = null,
         thinkTimeBlackMs = null,
         weightsFile = null,
-        mcdsaiDifficulty,
         saveReplaysDir,
         verbose,
         playerSwitch = false,
         fixedCards = null,
         resignThreshold = 0,
         exportTrainingDir = null,
-        schemaV2 = false
+        schemaV2 = false,
+        allowAutoBreach = false
     } = workerData;
 
-    const whiteIsMCDSAI = matchup.isMCDSAIPlayer(playerWhite);
-    const blackIsMCDSAI = matchup.isMCDSAIPlayer(playerBlack);
-    const anyMCDSAI = whiteIsMCDSAI || blackIsMCDSAI;
+    // Apply the auto-breach fidelity gate to this worker's own matchup_clean instance
+    // (separate require-cache copy from the main process).
+    if (matchup.setAutoBreachAllowed) matchup.setAutoBreachAllowed(allowAutoBreach);
+
     const whiteIsSteamAI = matchup.isSteamAIPlayer(playerWhite);
     const blackIsSteamAI = matchup.isSteamAIPlayer(playerBlack);
     const anySteamAI = whiteIsSteamAI || blackIsSteamAI;
@@ -563,37 +522,15 @@ async function runWorkerSlot() {
         return cards.map(name => (name === 'R') ? available[ri++] : name);
     }
 
-    // Load MCDSAI dependencies (worker-local, if needed)
-    let mcdsaiWorkerWhite = null;
-    let mcdsaiWorkerBlack = null;
+    // AI params (full + short blobs) — loaded on demand by the SteamAI path
     let fullParams = null;
     let shortParams = null;
-
-    if (anyMCDSAI) {
-        const MCDSAIWorker = require('./mcdsai_manager');
-        const aiParams = require('./ai_params');
-        fullParams = aiParams.loadFullParams();
-        shortParams = aiParams.loadShortParams();
-
-        if (whiteIsMCDSAI) {
-            mcdsaiWorkerWhite = new MCDSAIWorker(`W${slotIndex}-White`);
-            console.error('Spawning MCDSAI worker for White...');
-            await mcdsaiWorkerWhite.spawn();
-            console.error('MCDSAI worker for White ready.');
-        }
-        if (blackIsMCDSAI) {
-            mcdsaiWorkerBlack = new MCDSAIWorker(`W${slotIndex}-Black`);
-            console.error('Spawning MCDSAI worker for Black...');
-            await mcdsaiWorkerBlack.spawn();
-            console.error('MCDSAI worker for Black ready.');
-        }
-    }
 
     // Set up SteamAI (worker-local, if needed)
     let steamConfig = null;
     if (anySteamAI) {
         const SteamAI = require('./steam_ai');
-        // Load AI params if not already loaded by MCDSAI setup
+        // Load AI params (full + short blobs) for the SteamAI request builder
         if (!fullParams || !shortParams) {
             const aiParams = require('./ai_params');
             fullParams = aiParams.loadFullParams();
@@ -624,7 +561,8 @@ async function runWorkerSlot() {
             shortParams: shortParams,
             initDeck: null,  // Set per-game
             library: library,
-            thinkTimeMs: thinkTimeMs
+            thinkTimeMs: thinkTimeMs,
+            honorAiResign: resignThreshold > 0  // when false (--resign 0) play to wipeout: ignore exe airesign
         };
         console.error(`SteamAI configured for slot ${slotIndex} (W=${steamDifficultyWhite}, B=${steamDifficultyBlack})`);
     }
@@ -638,10 +576,9 @@ async function runWorkerSlot() {
      * @param {string[]} unitNames - Card set to use
      * @param {string} pWhite - Player name for white
      * @param {string} pBlack - Player name for black
-     * @param {Object|null} mWorkerWhite - MCDSAI worker for white (or null)
-     * @param {Object|null} mWorkerBlack - MCDSAI worker for black (or null)
+     * @param {Object|null} sCfg - SteamAI config (or null)
      */
-    async function playOneGameInSlot(gameNum, unitNames, pWhite, pBlack, mWorkerWhite, mWorkerBlack, sCfg) {
+    async function playOneGameInSlot(gameNum, unitNames, pWhite, pBlack, sCfg) {
         let gameLog = null;
         let attempts = 0;
         const label = playerSwitch ? '[Pair]' : '[Multi]';
@@ -682,15 +619,11 @@ async function runWorkerSlot() {
                     thinkTimeWhiteMs: ttWhite,
                     thinkTimeBlackMs: ttBlack,
                     weightsFile,
-                    mcdsaiDifficulty,
-                    mcdsaiFullParams: fullParams,
-                    mcdsaiShortParams: shortParams,
-                    mcdsaiLibrary: library,
                     resignThreshold,
                     exportTraining: !!exportTrainingDir,
                     schemaV2: schemaV2,
                     cardSet: currentUnits
-                }, mWorkerWhite, mWorkerBlack, sCfg);
+                }, sCfg);
             } catch (err) {
                 gameError = err.message || String(err);
                 console.error(`${label} Game ${gameNum}: Exception: ${gameError}`);
@@ -842,7 +775,7 @@ async function runWorkerSlot() {
             const logA = await playOneGameInSlot(
                 gameNumA, unitNames,
                 playerWhite, playerBlack,
-                mcdsaiWorkerWhite, mcdsaiWorkerBlack, steamConfig
+                steamConfig
             );
             logA.pairId = pairIdx;
             logA.swapped = false;
@@ -859,7 +792,6 @@ async function runWorkerSlot() {
             const logB = await playOneGameInSlot(
                 gameNumB, unitNames,
                 playerBlack, playerWhite,  // Swapped!
-                mcdsaiWorkerBlack, mcdsaiWorkerWhite,  // Swapped!
                 swappedSteam
             );
             logB.pairId = pairIdx;
@@ -873,20 +805,10 @@ async function runWorkerSlot() {
             const gameLog = await playOneGameInSlot(
                 gameNum, unitNames,
                 playerWhite, playerBlack,
-                mcdsaiWorkerWhite, mcdsaiWorkerBlack, steamConfig
+                steamConfig
             );
             finishGame(gameLog, playerWhite, playerBlack);
         }
-    }
-
-    // Clean up MCDSAI workers
-    if (mcdsaiWorkerWhite) {
-        console.error('Terminating MCDSAI worker for White...');
-        mcdsaiWorkerWhite.terminate();
-    }
-    if (mcdsaiWorkerBlack) {
-        console.error('Terminating MCDSAI worker for Black...');
-        mcdsaiWorkerBlack.terminate();
     }
 
     // Clean up temp file

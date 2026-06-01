@@ -153,3 +153,4 @@ class SteamAI {
 }
 
 module.exports = SteamAI;
+module.exports.DEFAULT_EXE_PATH = DEFAULT_EXE_PATH;  // exposed so the matchup runner can guard against a swapped-in / use_dsnn.txt Steam install

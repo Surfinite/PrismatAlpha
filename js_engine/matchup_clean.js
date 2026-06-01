@@ -3,16 +3,16 @@
 /**
  * matchup_clean.js — Phase 7a/7b/7c/7d/7e: Matchup runner (clean room rebuild)
  *
- * Orchestrates Prismata games between C++ AI players and/or MCDSAI by:
+ * Orchestrates Prismata games between C++ AI players (via --suggest) and/or
+ * the Steam-protocol players (SteamAI / DaveAI) by:
  *   1. Verifying supply at init (rarity-based, no card.supply field)
  *   2. Initializing a JS game via Analyzer
- *   3. Looping: export state -> call C++ --suggest or MCDSAI -> apply clicks -> check game over
+ *   3. Looping: export state -> call C++ --suggest or SteamAI/DaveAI -> apply clicks -> check game over
  *   4. Handling errors: retry on malformed JSON, forfeit/abort on repeated failure
  *   5. Stuck detection: abort as draw if state unchanged for N consecutive turns
  *   6. Multi-game: random card sets, per-game supply verification, tally results
- *   7. MCDSAI support: spawn workers, init per game, mixed C++/MCDSAI matchups
- *   8. Parallel workers: distribute games across worker_threads for concurrent execution
- *   9. Replay saving: optional per-game click sequence JSON files
+ *   7. Parallel workers: distribute games across worker_threads for concurrent execution
+ *   8. Replay saving: optional per-game click sequence JSON files
  *
  * Usage:
  *   node matchup_clean.js                             # Base-set-only single game
@@ -23,22 +23,19 @@
  *   node matchup_clean.js --player-white HardestAI --player-black LiveHardestAI
  *   node matchup_clean.js --think-time 5000           # Custom think time
  *   node matchup_clean.js --single-turn               # Phase 7a single-turn test mode
- *   node matchup_clean.js --player MCDSAI             # Both sides use MCDSAI
- *   node matchup_clean.js --player-white MCDSAI --player-black OriginalHardestAI  # Mixed
- *   node matchup_clean.js --player MCDSAI --mcdsai-difficulty HardestAI  # Custom difficulty
  *   node matchup_clean.js --player SteamAI             # Both sides use Steam's PrismataAI.exe
  *   node matchup_clean.js --player-white SteamAI --player-black LiveHardestAI  # Mixed Steam/C++
  *   node matchup_clean.js --player SteamAI --steam-difficulty HardAI  # Custom Steam difficulty
  *   node matchup_clean.js --games 6 --parallel 2      # 6 games across 2 parallel workers
  *   node matchup_clean.js --games 4 --parallel 2 --save-replays                    # Replays to bin/asset/replays/YYYY-MM-DD_HH-MM-SS/
- *   node matchup_clean.js --games 4 --parallel 2 --save-replays mcdsai_test      # Replays to bin/asset/replays/YYYY-MM-DD_HH-MM-SS_mcdsai_test/
+ *   node matchup_clean.js --games 4 --parallel 2 --save-replays steam_test        # Replays to bin/asset/replays/YYYY-MM-DD_HH-MM-SS_steam_test/
  *   node matchup_clean.js --cards "Tarsier,Rhino,Steelsplitter"                   # Fixed advanced units (base set always included)
  *   node matchup_clean.js --cards "Doomed Drone,R,R,R,R,R,R,R"                   # 1 fixed + 7 random (re-rolled per game)
  *   node matchup_clean.js --games 20 --player-switch --parallel 4                 # 10 pairs, swapped sides per pair
  *   node matchup_clean.js --cards "Apollo,Cynestra" --player-switch --games 4       # 2 pairs with fixed set
- *   node matchup_clean.js --resign 1.5                                              # C++ players resign when opponent has 1.5x material (0 = disable)
+ *   node matchup_clean.js --resign 1.3                                              # enable resignation at 1.3x material (default 0 = no resignation, play to wipeout = C++ Tournament parity)
  *
- *   node matchup_clean.js --games 16 --parallel 4 --player-switch --think-time 5000 --player-white LiveHardestAI --player-black MCDSAI --save-replays TEST 2>matchup_run.log
+ *   node matchup_clean.js --games 16 --parallel 4 --player-switch --think-time 5000 --player-white LiveHardestAI --player-black SteamAI --save-replays TEST 2>matchup_run.log
  *   node matchup_clean.js --games 100 --player SteamAI --export-training training_out/  # JSONL training data (1 record/turn, no replays needed)
  
  *   node matchup_clean.js --games 128 --parallel 8 --think-time 5000 --player-switch --player-white SteamAI --player-black LiveHardestAI --save-replays ABvsSteam 2>ABvsSteam_2026_05_16.log
@@ -59,9 +56,6 @@ const { loadCardLibrary, buildMergedDeck, buildInitDeck, randomSet, getAdvancedU
 const { stateToCppJSON, buildReplayJSON } = require('./replay_exporter');
 const { _instToRichUnit: instToRichUnit, _manaToResources: manaToResources } = require('./state_adapter');
 const { extractTrainingExampleV2 } = require('./training_example');
-
-// MCDSAI player identifier (case-insensitive matching in CLI parsing)
-const MCDSAI_PLAYER = 'MCDSAI';
 
 // SteamAI player identifier — uses Steam's native PrismataAI.exe
 const STEAM_AI_PLAYER = 'STEAMAI';
@@ -273,7 +267,7 @@ function callSuggest(stateJson, playerName, thinkTimeMs, weightsFile) {
         }
     }
 
-    // Strip control characters (MCDSAI/PRISMATA_ASSERT noise)
+    // Strip control characters (PRISMATA_ASSERT noise — printed to stdout)
     const cleanStdout = stdout.replace(/[\x00-\x09\x0b\x0c\x0e-\x1f]/g, ' ');
 
     // Find the JSON line (first line starting with '{')
@@ -327,6 +321,13 @@ function callSuggest(stateJson, playerName, thinkTimeMs, weightsFile) {
  * @param {string[]} details - Log details array (mutated)
  * @returns {{ applied: number, failed: number }}
  */
+// Fidelity gate for autoBreachIfNeeded. OFF by default: picking breach targets
+// ourselves makes the HARNESS, not the AI, decide which units to destroy. Enabled
+// via --allow-auto-breach (threaded to workers too). Module-level so each worker
+// thread's own require-cache copy can be set independently.
+let autoBreachAllowed = false;
+function setAutoBreachAllowed(v) { autoBreachAllowed = !!v; }
+
 function autoBreachIfNeeded(analyzer, details) {
     const gs = analyzer.gameState;
     let applied = 0;
@@ -334,6 +335,15 @@ function autoBreachIfNeeded(analyzer, details) {
 
     if (!gs.glassBroken || gs.inEndBO || gs.finished ||
         gs.phase !== C.PHASE_ACTION) {
+        return { applied, failed };
+    }
+
+    // Fidelity gate (see above): by default refuse to choose breach targets and fail
+    // LOUD, surfacing the underlying C++ ASSIGN_BREACH under-emission rather than
+    // silently substituting weakest-first targets the AI never chose.
+    if (!autoBreachAllowed) {
+        console.error(`[Turn] *** AUTO-BREACH SUPPRESSED (fidelity gate) at turn ${gs.numTurns}: glassBroken && !inEndBO after the AI's clicks — the C++ Move under-specified ASSIGN_BREACH. NOT picking targets (that would be the harness deciding, not the AI). This game is fidelity-suspect; pass --allow-auto-breach to auto-complete weakest-first.`);
+        details.push(`  [auto-breach] SUPPRESSED by fidelity gate (no targets picked)`);
         return { applied, failed };
     }
 
@@ -723,17 +733,8 @@ function playSingleTurn(analyzer, mergedDeck, playerName, thinkTimeMs, weightsFi
 }
 
 // ---------------------------------------------------------------------------
-// 5b. Play a single MCDSAI turn (Phase 7d)
+// 5b. Play a single SteamAI/DaveAI turn (Phase 7d)
 // ---------------------------------------------------------------------------
-
-/**
- * Helper: check if a player name is MCDSAI (case-insensitive).
- * @param {string} playerName
- * @returns {boolean}
- */
-function isMCDSAIPlayer(playerName) {
-    return playerName.toUpperCase() === MCDSAI_PLAYER;
-}
 
 /**
  * Helper: check if a player name uses the Steam stdin/stdout protocol.
@@ -753,11 +754,48 @@ function isDaveAIPlayer(playerName) {
 }
 
 /**
+ * Guard against silent FORCE_DSNN contamination. The dave-line Standalone exe
+ * (AITools.cpp GetAIMove) overrides EVERY requested player with UCT+NeuralNet
+ * (35-prop weights) when `use_dsnn.txt` sits next to the exe, or when the env
+ * var PRISMATA_FORCE_DSNN is set. That would silently turn e.g. a HardestAI-vs-
+ * DSNN baseline into DSNN-vs-DSNN with zero signal on the JS side. Detect it and
+ * abort unless the caller explicitly opts in with --allow-force-dsnn.
+ * @param {string[]} exePaths - exe paths whose directories are checked for the sentinel
+ * @param {boolean} allowOverride - true to warn-and-proceed instead of aborting
+ * @returns {boolean} true if contamination detected AND not overridden (caller should abort)
+ */
+function checkForceDsnnContamination(exePaths, allowOverride) {
+    const hits = [];
+    if (process.env.PRISMATA_FORCE_DSNN && process.env.PRISMATA_FORCE_DSNN !== '') {
+        hits.push(`env PRISMATA_FORCE_DSNN='${process.env.PRISMATA_FORCE_DSNN}'`);
+    }
+    const seenDirs = new Set();
+    for (const p of exePaths) {
+        if (!p) continue;
+        const dir = path.dirname(p);
+        if (seenDirs.has(dir)) continue;
+        seenDirs.add(dir);
+        const sentinel = path.join(dir, 'use_dsnn.txt');
+        try { if (fs.existsSync(sentinel)) hits.push(`sentinel ${sentinel}`); } catch (_) {}
+    }
+    if (hits.length === 0) return false;
+    console.error('\n*** FORCE_DSNN CONTAMINATION DETECTED ***');
+    console.error('The dave-line Standalone overrides EVERY player with UCT+NeuralNet(35-prop) when:');
+    hits.forEach(h => console.error(`   - ${h}`));
+    console.error('Every requested player (including any baseline) would silently become the 35-prop DSNN.');
+    if (allowOverride) {
+        console.error('Proceeding anyway because --allow-force-dsnn was passed.\n');
+        return false;
+    }
+    console.error('ABORTING. Remove use_dsnn.txt / unset PRISMATA_FORCE_DSNN, or pass --allow-force-dsnn to override.\n');
+    return true;
+}
+
+/**
  * Orchestrate one SteamAI turn: send full request to PrismataAI.exe, apply clicks.
  *
  * The Steam client sends ALL fields every turn (mergedDeck, gameState, aiParameters,
- * aiPlayerName) — unlike MCDSAI which only sends gameState + aiPlayerName per turn.
- * AI params are selected based on turn number (full params for turns 1-16, short after).
+ * aiPlayerName). AI params are selected based on turn number (full params for turns 1-16, short after).
  *
  * @param {Analyzer} analyzer
  * @param {Object[]} activeDeck - Active mergedDeck cards
@@ -837,11 +875,19 @@ async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamC
         return { ok: false, clickResult: null, error: `SteamAI error: ${err.message}`, actionStates: [] };
     }
 
-    // 5. Handle resignation
-    if (response.airesign) {
-        console.error(`[Turn] SteamAI resigned`);
+    // 5. Handle resignation. The exe sets airesign when it is materially behind
+    // AND a playout confirms the loss, but it ALSO returns its real best move in
+    // the same response. Honour the resignation only when resignation is enabled
+    // (--resign > 0); otherwise ignore it and apply the returned move so games run
+    // to natural wipeout / turn-limit — exact parity with the C++ Tournament,
+    // which has no per-turn AI resignation.
+    if (response.airesign && steamConfig && steamConfig.honorAiResign) {
+        console.error(`[Turn] SteamAI resigned (honored: --resign enabled)`);
         analyzer.gameState.result = preTurn === 0 ? C.COLOR_BLACK : C.COLOR_WHITE;
         return { ok: true, clickResult: { applied: 0, failed: 0, details: ['SteamAI resigned'] }, error: null, actionStates: [] };
+    }
+    if (response.airesign) {
+        console.error(`[Turn] SteamAI airesign=true IGNORED (play-to-wipeout; --resign 0) — applying returned move`);
     }
 
     // 6. Handle 0 clicks
@@ -854,7 +900,7 @@ async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamC
 
     console.error(`[Turn] SteamAI returned ${aiclicks.length} AI clicks (${response.aithinktime || '?'}ms think)`);
 
-    // 7. Convert and apply clicks (same as playMCDSAITurn)
+    // 7. Convert and apply clicks
     let applied = 0;
     let failed = 0;
     const details = [];
@@ -926,215 +972,6 @@ async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamC
     }
 
     return { ok: true, clickResult: { applied, failed, details }, error: null, actionStates };
-}
-
-/**
- * Orchestrate one MCDSAI turn: get state, call MCDSAI worker, apply clicks.
- *
- * Follows the selfplay_main.js pattern for MCDSAI interaction:
- *   1. Serialize game state via analyzer.gameState.toString()
- *   2. Select AI params based on turn number
- *   3. Call worker.getAIMove() with {gameState, aiPlayerName}
- *   4. Strip control chars, parse JSON response
- *   5. Handle resignation and 0-click failures
- *   6. Convert clicks via StateUtil.convertToClicks()
- *   7. Apply clicks via analyzer.recordClick()
- *   8. Fall back to direct click application if convertToClicks throws
- *
- * @param {Analyzer} analyzer
- * @param {Object[]} mergedDeck - Active mergedDeck for the game (unused but kept for API symmetry)
- * @param {MCDSAIWorker} mcdsaiWorker - Spawned and initialized MCDSAI worker
- * @param {string} difficulty - MCDSAI difficulty name (e.g., "HardestAI")
- * @returns {Promise<{ ok: boolean, clickResult: Object|null, error: string|null }>}
- */
-async function playMCDSAITurn(analyzer, mergedDeck, mcdsaiWorker, difficulty) {
-    // Lazy-load StateUtil (only needed when MCDSAI is actually used)
-    const StateUtil = require('./StateUtil');
-
-    const preTurn = analyzer.gameState.turn;
-    const preNumTurns = analyzer.gameState.numTurns;
-    const prePhase = analyzer.gameState.phase;
-
-    console.error(`\n[Turn] Player ${preTurn} (${preTurn === 0 ? 'White' : 'Black'}), ` +
-                  `numTurns=${preNumTurns}, phase=${prePhase} [MCDSAI]`);
-
-    // 1. Serialize game state
-    const stateStr = analyzer.gameState.toString();
-    const stateObj = JSON.parse(stateStr);
-
-    // 2. Build move request JSON
-    const moveJson = JSON.stringify({
-        gameState: stateObj,
-        aiPlayerName: difficulty
-    });
-
-    // 3. Call MCDSAI worker
-    console.error(`[Turn] Calling MCDSAI (difficulty=${difficulty})...`);
-    let response;
-    try {
-        const resultStr = await mcdsaiWorker.getAIMove(moveJson);
-        // CRITICAL: MCDSAI response contains control characters — strip before JSON.parse
-        const cleanResult = resultStr.replace(/[\x00-\x1f]/g, ' ');
-        response = JSON.parse(cleanResult);
-    } catch (err) {
-        console.error(`[Turn] MCDSAI error: ${err.message}`);
-        return { ok: false, clickResult: null, error: `MCDSAI error: ${err.message}` };
-    }
-
-    // 4. Handle resignation
-    if (response.airesign) {
-        console.error(`[Turn] MCDSAI resigned`);
-        // Record as loss for active player
-        analyzer.gameState.result = preTurn === 0 ? C.COLOR_BLACK : C.COLOR_WHITE;
-        return { ok: true, clickResult: { applied: 0, failed: 0, details: ['MCDSAI resigned'] }, error: null };
-    }
-
-    // 5. Handle 0 clicks (AI failure — missing card name, etc.)
-    const aiclicks = response.aiclicks || [];
-    if (aiclicks.length === 0) {
-        const thinkTime = response.aithinktime || 'unknown';
-        console.error(`[Turn] MCDSAI returned 0 clicks (${thinkTime}ms think) — AI failure`);
-        return { ok: false, clickResult: { applied: 0, failed: 0, details: [] }, error: `MCDSAI 0 clicks (${thinkTime}ms think)` };
-    }
-
-    console.error(`[Turn] MCDSAI returned ${aiclicks.length} AI clicks (${response.aithinktime || '?'}ms think)`);
-
-    // 6-8. Convert and apply clicks
-    let applied = 0;
-    let failed = 0;
-    const details = [];
-    const actionStates = [];
-
-    try {
-        // Primary path: use StateUtil.convertToClicks for validated click resolution
-        const clicks = StateUtil.convertToClicks(aiclicks, analyzer.gameState, false);
-
-        for (let i = 0; i < clicks.length; i++) {
-            const click = clicks[i];
-            const prePhase = analyzer.gameState.phase;
-            const result = analyzer.recordClick(false, false, click._type, click._id, click._params);
-            if (result.canClick) {
-                applied++;
-                details.push(`  [${i}] OK: ${click._type} id=${click._id}`);
-                actionStates.push({
-                    state: stateToCppJSON(analyzer.gameState),
-                    action: describeClick(click, analyzer.gameState, prePhase)
-                });
-            } else {
-                failed++;
-                // Diagnostic: why did this click fail?
-                const gs = analyzer.gameState;
-                let diag = `phase=${gs.phase}`;
-                if (gs.glassBroken) diag += ` glassBroken`;
-                if (gs.inEndBO) diag += ` inEndBO`;
-                if (gs.wouldWipeout) diag += ` wouldWipeout`;
-                if (gs.finished) diag += ` FINISHED`;
-                diag += ` canBreach=${gs.canBreach} canOverkill=${gs.canOverkill}`;
-                diag += ` oppNonInv=${gs.helper.oppNonInvTotal} oppDef=${gs.helper.oppDefense}`;
-                diag += ` atk=${gs.turnMana.attack}`;
-                if (click._type === 'inst clicked' || click._type === 'inst shift clicked') {
-                    const inst = gs.instIdToInst(click._id);
-                    if (inst) {
-                        diag += ` | inst: ${inst.card.cardName} owner=P${inst.owner} role=${inst.role} hp=${inst.health} dead=${inst.deadness}`;
-                        if (inst.card.abilityScript) diag += ` hasAbility`;
-                        if (inst.role === 'assigned') diag += ` assigned`;
-                        if (inst.role === 'inert') diag += ` INERT`;
-                        if (inst.constructionTime > 0) diag += ` building(${inst.constructionTime})`;
-                    } else {
-                        diag += ` | inst NOT FOUND`;
-                    }
-                }
-                if (click._type === C.CLICK_CARD || click._type === C.CLICK_CARD_SHIFT) {
-                    try {
-                        const m = gs.turnMana;
-                        if (m) diag += ` | resources: ${m.money}g ${m.pool[C.MANA_G]}G ${m.pool[C.MANA_B]}B ${m.pool[C.MANA_R]}R ${m.pool[C.MANA_H]}E`;
-                        const deck2 = gs.mergedDeck || (analyzer && analyzer.gameInitInfo && analyzer.gameInitInfo.mergedDeck);
-                        const card = deck2 && deck2[click._id];
-                        if (card) {
-                            const supplyLeft = gs.turnSupply()[click._id] - (gs.turnBought()[click._id] || 0);
-                            diag += ` | buy: ${card.name || card.UIName || card.cardName} cost=${card.buyCost} supply=${supplyLeft}`;
-                        } else {
-                            diag += ` | card NOT FOUND at deck[${click._id}]`;
-                        }
-                    } catch (_) { diag += ` | (diag error)`; }
-                }
-                details.push(`  [${i}] FAIL: ${click._type} id=${click._id} [${diag}]`);
-            }
-        }
-    } catch (err) {
-        // Fallback: if convertToClicks fails (missing inst, illegal click), apply directly
-        console.error(`[Turn] convertToClicks failed (${err.message}), falling back to direct application`);
-        for (let i = 0; i < aiclicks.length; i++) {
-            const ac = aiclicks[i];
-            try {
-                let clickType = ac.type;
-                let clickId = -1;
-
-                if (clickType === C.CLICK_CARD || clickType === C.CLICK_CARD_SHIFT) {
-                    const card = analyzer.gameState.cardNameToCard(ac.args);
-                    if (card) clickId = card.cardId;
-                } else if (clickType === C.CLICK_INST || clickType === C.CLICK_INST_SHIFT) {
-                    clickId = StateUtil.findInstId(ac.args, analyzer);
-                }
-
-                const prePhase = analyzer.gameState.phase;
-                const result = analyzer.recordClick(false, false, clickType, clickId);
-                if (result.canClick) {
-                    applied++;
-                    details.push(`  [${i}] OK (fallback): ${clickType} id=${clickId}`);
-                    actionStates.push({
-                        state: stateToCppJSON(analyzer.gameState),
-                        action: describeClick({ _type: clickType, _id: clickId }, analyzer.gameState, prePhase)
-                    });
-                } else {
-                    failed++;
-                    details.push(`  [${i}] FAIL (fallback): ${clickType} id=${clickId}`);
-                }
-            } catch (clickErr) {
-                failed++;
-                details.push(`  [${i}] ERROR (fallback): ${ac.type} — ${clickErr.message}`);
-            }
-        }
-    }
-
-    // Auto-breach: MCDSAI may not fully assign breach damage (same C++/JS phase mismatch)
-    const breachResult = autoBreachIfNeeded(analyzer, details);
-    applied += breachResult.applied;
-    failed += breachResult.failed;
-
-    // Auto-confirm: if we're in PHASE_CONFIRM after applying all MCDSAI clicks, auto-commit
-    // (same pattern as applyClicks() does for C++ suggest)
-    if (analyzer.gameState.phase === C.PHASE_CONFIRM && !analyzer.gameState.finished) {
-        const commitResult = analyzer.recordClick(false, false, C.CLICK_SPACE, -1);
-        if (commitResult.canClick) {
-            applied++;
-            details.push(`  [auto] OK: space clicked (confirm->commit)`);
-            actionStates.push({
-                state: stateToCppJSON(analyzer.gameState),
-                action: 'End Turn'
-            });
-        } else {
-            details.push(`  [auto] FAIL: space clicked (confirm->commit)`);
-        }
-    }
-
-    console.error(`[Turn] MCDSAI clicks: ${applied} applied, ${failed} failed`);
-    if (failed > 0) {
-        for (const d of details) {
-            if (d.includes('FAIL') || d.includes('ERROR')) console.error(d);
-        }
-    }
-
-    // Post-turn state
-    const postTurn = analyzer.gameState.turn;
-    const postNumTurns = analyzer.gameState.numTurns;
-    const postPhase = analyzer.gameState.phase;
-    const finished = analyzer.gameState.finished;
-
-    console.error(`[Turn] After: player=${postTurn}, numTurns=${postNumTurns}, ` +
-                  `phase=${postPhase}, finished=${finished}`);
-
-    return { ok: true, clickResult: { applied, failed, details }, actionStates, error: null };
 }
 
 // ---------------------------------------------------------------------------
@@ -1452,29 +1289,22 @@ function extractTrainingExample(gameState, cardSet, plyIndex) {
  * Play a complete game from init to game-over (or abort).
  *
  * Alternates Player 0 (White) and Player 1 (Black) turns,
- * calling C++ --suggest or MCDSAI for each turn and applying clicks to the JS engine.
+ * calling C++ --suggest or SteamAI/DaveAI for each turn and applying clicks to the JS engine.
  *
  * Error handling:
  *   - Malformed JSON from --suggest: retry once (retryOnError), then forfeit
  *   - --suggest crash (non-zero exit): mark game invalid
  *   - --suggest timeout: mark game invalid
- *   - MCDSAI error: retry once, then forfeit
+ *   - SteamAI error: retry once, then forfeit
  *   - recordClick failure: log and continue (applyClicks handles this)
  *   - Stuck detection: if state hash unchanged for stuckDetectionTurns
  *     consecutive turns, abort as draw
  *
  * @param {Object[]} activeDeck - Active mergedDeck cards
  * @param {Object} config - Game configuration
- * @param {string} config.playerWhite - White player name or "MCDSAI"
- * @param {string} config.playerBlack - Black player name or "MCDSAI"
+ * @param {string} config.playerWhite - White player name
+ * @param {string} config.playerBlack - Black player name
  * @param {number} config.thinkTimeMs - Think time for C++ players
- * @param {Object} [config.mcdsai] - MCDSAI configuration (required if any player is MCDSAI)
- * @param {MCDSAIWorker|null} [config.mcdsai.workerWhite] - MCDSAI worker for white
- * @param {MCDSAIWorker|null} [config.mcdsai.workerBlack] - MCDSAI worker for black
- * @param {string} [config.mcdsai.difficulty] - MCDSAI difficulty name (default: "HardestAI")
- * @param {string} [config.mcdsai.fullParams] - Full AI params string
- * @param {string} [config.mcdsai.shortParams] - Short AI params string
- * @param {Map} [config.mcdsai.library] - Card library for buildInitDeck
  * @returns {Promise<{ result: number, winner: string, turns: number, errors: string[], abortReason: string|null }>}
  */
 async function playSingleGame(activeDeck, config) {
@@ -1491,11 +1321,6 @@ async function playSingleGame(activeDeck, config) {
     const resignRatio = config.resignThreshold || 0;  // 0 = disabled
     const MIN_RESIGN_TURN = 10;  // Don't resign before turn 10 (early economy investment is misleading)
 
-    // MCDSAI config (may be null if no MCDSAI players)
-    const mcdsaiConfig = config.mcdsai || null;
-    const whiteIsMCDSAI = isMCDSAIPlayer(playerWhite);
-    const blackIsMCDSAI = isMCDSAIPlayer(playerBlack);
-
     // SteamAI config (may be null if no SteamAI players)
     const steamConfig = config.steam || null;
     const whiteIsSteamAI = isSteamAIPlayer(playerWhite);
@@ -1509,42 +1334,14 @@ async function playSingleGame(activeDeck, config) {
     const analyzer = new Analyzer(gameInitInfo, -1, -1, null);
     analyzer.loaderInit();
 
-    const whiteLabel = whiteIsMCDSAI ? `MCDSAI(${mcdsaiConfig ? mcdsaiConfig.difficulty : '?'})` :
-                       whiteIsSteamAI ? `SteamAI(${steamConfig ? steamConfig.difficulty : '?'})` : playerWhite;
-    const blackLabel = blackIsMCDSAI ? `MCDSAI(${mcdsaiConfig ? mcdsaiConfig.difficulty : '?'})` :
-                       blackIsSteamAI ? `SteamAI(${steamConfig ? steamConfig.difficulty : '?'})` : playerBlack;
+    const whiteLabel = whiteIsSteamAI ? `SteamAI(${steamConfig ? steamConfig.difficulty : '?'})` : playerWhite;
+    const blackLabel = blackIsSteamAI ? `SteamAI(${steamConfig ? steamConfig.difficulty : '?'})` : playerBlack;
     console.error('[Game] Initialized. White=' + whiteLabel + ', Black=' + blackLabel);
     printStateSummary(analyzer, 'GAME START');
 
-    // Initialize MCDSAI workers for this game (per-game init with deck)
-    if ((whiteIsMCDSAI || blackIsMCDSAI) && mcdsaiConfig) {
-        const _sp = require('./ai_params').selectParams;
-        const fullParams = mcdsaiConfig.fullParams;
-        const shortParams = mcdsaiConfig.shortParams;
-        const difficulty = mcdsaiConfig.difficulty || 'HardestAI';
-        const library = mcdsaiConfig.library;
-
-        // Build init deck (includes AI param-referenced cards beyond the activeDeck)
-        const initDeck = buildInitDeck(activeDeck, library, fullParams, shortParams);
-        const initParams = JSON.parse(_sp(difficulty, 1, fullParams, shortParams));
-        const initJson = JSON.stringify({
-            mergedDeck: initDeck,
-            aiParameters: initParams
-        });
-
-        if (whiteIsMCDSAI && mcdsaiConfig.workerWhite) {
-            console.error('[Game] Initializing MCDSAI worker for White...');
-            await mcdsaiConfig.workerWhite.initializeAI(initJson);
-        }
-        if (blackIsMCDSAI && mcdsaiConfig.workerBlack) {
-            console.error('[Game] Initializing MCDSAI worker for Black...');
-            await mcdsaiConfig.workerBlack.initializeAI(initJson);
-        }
-    }
-
     // Initialize SteamAI for this game (process spawns fresh per turn — one-shot exe)
     if ((whiteIsSteamAI || blackIsSteamAI) && steamConfig) {
-        // Build init deck for SteamAI (same approach as MCDSAI — includes AI param-referenced cards)
+        // Build init deck for SteamAI (includes AI param-referenced cards beyond the activeDeck)
         const sFull = steamConfig.fullParams;
         const sShort = steamConfig.shortParams;
         steamConfig.initDeck = buildInitDeck(activeDeck, steamConfig.library, sFull, sShort);
@@ -1572,10 +1369,9 @@ async function playSingleGame(activeDeck, config) {
         const playerName = activePlayer === 0 ? playerWhite : playerBlack;
         const playerLabel = activePlayer === 0 ? 'White' : 'Black';
         const activeThinkTime = activePlayer === 0 ? thinkTimeWhiteMs : thinkTimeBlackMs;
-        const isActiveMCDSAI = isMCDSAIPlayer(playerName);
         const isActiveSteamAI = isSteamAIPlayer(playerName);
 
-        console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}${isActiveMCDSAI ? ' [MCDSAI]' : ''}${isActiveSteamAI ? ' [SteamAI]' : ''}) ===`);
+        console.error(`\n[Game] === Turn ${turnCount} (${playerLabel}, player=${playerName}${isActiveSteamAI ? ' [SteamAI]' : ''}) ===`);
 
         // Capture pre-turn state snapshot for replay
         try {
@@ -1610,12 +1406,6 @@ async function playSingleGame(activeDeck, config) {
                 analyzer, activeDeck, steamWorker,
                 sideDifficulty, steamConfig
             );
-        } else if (isActiveMCDSAI && mcdsaiConfig) {
-            const worker = activePlayer === 0 ? mcdsaiConfig.workerWhite : mcdsaiConfig.workerBlack;
-            turnResult = await playMCDSAITurn(
-                analyzer, activeDeck, worker,
-                mcdsaiConfig.difficulty || 'HardestAI'
-            );
         } else {
             turnResult = playSingleTurn(analyzer, activeDeck, playerName, activeThinkTime, weightsFile);
         }
@@ -1643,12 +1433,6 @@ async function playSingleGame(activeDeck, config) {
                     analyzer, activeDeck, steamWorker,
                     sideDifficulty, steamConfig
                 );
-            } else if (isActiveMCDSAI && mcdsaiConfig) {
-                const worker = activePlayer === 0 ? mcdsaiConfig.workerWhite : mcdsaiConfig.workerBlack;
-                turnResult = await playMCDSAITurn(
-                    analyzer, activeDeck, worker,
-                    mcdsaiConfig.difficulty || 'HardestAI'
-                );
             } else {
                 turnResult = playSingleTurn(analyzer, activeDeck, playerName, activeThinkTime, weightsFile);
             }
@@ -1669,7 +1453,7 @@ async function playSingleGame(activeDeck, config) {
                     console.error(`[Game] ABORT: ${abortReason}`);
                     break;
                 } else {
-                    // Malformed JSON, MCDSAI failure, or other: forfeit for this player
+                    // Malformed JSON, SteamAI failure, or other: forfeit for this player
                     abortReason = `Forfeit by ${playerLabel} on turn ${turnCount}: ${errMsg}`;
                     console.error(`[Game] FORFEIT: ${abortReason}`);
                     // Set result to opponent wins
@@ -1685,7 +1469,7 @@ async function playSingleGame(activeDeck, config) {
         if (turnResult.clickResult && turnResult.clickResult.failed > 0) {
             const failMsg = `Turn ${turnCount} (${playerLabel}): ${turnResult.clickResult.failed} click(s) failed`;
             errors.push(failMsg);
-            // Detailed click failures already logged by playSingleTurn/playMCDSAITurn
+            // Detailed click failures already logged by playSingleTurn/playSteamAITurn
         }
 
         // Collect per-action state snapshots for replay
@@ -1702,8 +1486,8 @@ async function playSingleGame(activeDeck, config) {
             break;
         }
 
-        // --- WillScore resignation for non-MCDSAI players ---
-        if (resignRatio > 0 && !isActiveMCDSAI && !isActiveSteamAI && turnCount >= MIN_RESIGN_TURN) {
+        // --- WillScore resignation for C++ players (not the Steam-protocol path) ---
+        if (resignRatio > 0 && !isActiveSteamAI && turnCount >= MIN_RESIGN_TURN) {
             const selfScore = computeWillScoreSum(analyzer.gameState, activePlayer);
             const opponentPlayer = activePlayer === 0 ? 1 : 0;
             const oppScore = computeWillScoreSum(analyzer.gameState, opponentPlayer);
@@ -1829,7 +1613,7 @@ async function playSingleGame(activeDeck, config) {
  * ~5% of random card sets trigger AI exceptions (from selfplay_main.js experience).
  * On failure, retry with a different random set up to maxRetries times.
  *
- * @param {Object} config - Game config (playerWhite, playerBlack, thinkTimeMs, mcdsai)
+ * @param {Object} config - Game config (playerWhite, playerBlack, thinkTimeMs)
  * @param {number} numGames - Number of games to play
  * @param {Map} library - Card library from loadCardLibrary()
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
@@ -2045,18 +1829,13 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         const pairResults = { aWins2: 0, bWins2: 0, splits: 0, invalidPairs: 0 };
         let playerAWins = 0;
 
-        // Build swapped config (reverse player assignment, think times, and MCDSAI workers)
+        // Build swapped config (reverse player assignment, think times, and SteamAI workers)
         const swappedConfig = {
             ...config,
             playerWhite: config.playerBlack,
             playerBlack: config.playerWhite,
             thinkTimeWhiteMs: config.thinkTimeBlackMs,
             thinkTimeBlackMs: config.thinkTimeWhiteMs,
-            mcdsai: config.mcdsai ? {
-                ...config.mcdsai,
-                workerWhite: config.mcdsai.workerBlack,
-                workerBlack: config.mcdsai.workerWhite
-            } : null,
             steam: config.steam ? {
                 ...config.steam,
                 workerWhite: config.steam.workerBlack,
@@ -2200,7 +1979,7 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  * Play multiple games in parallel using worker_threads.
  *
  * Distributes games round-robin across `numWorkers` worker threads.
- * Each worker thread loads its own card library, MCDSAI workers (if needed),
+ * Each worker thread loads its own card library, SteamAI workers (if needed),
  * and uses slot-specific temp files (e.g., _suggest_state_W0.json) for
  * C++ --suggest calls to avoid file conflicts.
  *
@@ -2209,19 +1988,17 @@ const WORKER_SCRIPT_PATH = path.join(__dirname, 'matchup_worker.js');
  *
  * Constraints (from CLAUDE.md):
  *   - x86 OOM: max 4 concurrent C++ exe invocations
- *   - MCDSAI: ~100MB per Emscripten module, so each worker pair costs ~200MB
  *
  * @param {Object} config - Game config (playerWhite, playerBlack, thinkTimeMs)
  * @param {number} numGames - Total number of games to play
  * @param {Map} library - Card library (not passed to workers; they load their own)
  * @param {number} numWorkers - Number of parallel worker threads
- * @param {string} mcdsaiDifficulty - MCDSAI difficulty name
  * @param {string|null} saveReplaysDir - Directory for replay files (null = no saving)
  * @param {boolean} verbose - Verbose output
  * @returns {Promise<{ games: Object[], tally: { white: number, black: number, draws: number, invalid: number }, avgTurns: number }>}
  */
-async function playMultipleGamesParallel(config, numGames, library, numWorkers, mcdsaiDifficulty, saveReplaysDir, verbose, options = {}) {
-    const { playerSwitch = false, fixedCards = null, resignThreshold = WILL_SCORE_THRESHOLD, steamDifficulty = 'HardestAI', steamDifficultyWhite = null, steamDifficultyBlack = null, steamExeA = null, steamExeB = null, daveExePath = null, exportTrainingDir = null, schemaV2 = false, weightsFile = null } = options;
+async function playMultipleGamesParallel(config, numGames, library, numWorkers, saveReplaysDir, verbose, options = {}) {
+    const { playerSwitch = false, fixedCards = null, resignThreshold = 0, steamDifficulty = 'HardestAI', steamDifficultyWhite = null, steamDifficultyBlack = null, steamExeA = null, steamExeB = null, daveExePath = null, exportTrainingDir = null, schemaV2 = false, weightsFile = null, allowAutoBreach = false } = options;
 
     // Distribute game numbers across worker slots
     const slotsGames = Array.from({ length: numWorkers }, () => []);
@@ -2257,6 +2034,7 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
     const gameLogsByNum = new Map();
     let whiteWins = 0, blackWins = 0, draws = 0, invalid = 0;
     let totalTurns = 0, completedGames = 0;
+    const batchErrors = [];  // worker thread fatal errors (do not abort the whole batch)
     let gamesReported = 0;
 
     // Launch all workers and collect results
@@ -2277,7 +2055,6 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     thinkTimeWhiteMs: config.thinkTimeWhiteMs,
                     thinkTimeBlackMs: config.thinkTimeBlackMs,
                     weightsFile: weightsFile,
-                    mcdsaiDifficulty: mcdsaiDifficulty,
                     steamDifficulty: steamDifficulty,
                     steamDifficultyWhite: steamDifficultyWhite,
                     steamDifficultyBlack: steamDifficultyBlack,
@@ -2290,7 +2067,8 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
                     fixedCards: fixedCards,
                     resignThreshold: resignThreshold,
                     exportTrainingDir: exportTrainingDir,
-                    schemaV2: schemaV2
+                    schemaV2: schemaV2,
+                    allowAutoBreach: allowAutoBreach
                 }
             });
 
@@ -2342,8 +2120,15 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
             });
 
             worker.on('error', (err) => {
+                // Symmetric with the 'exit' handler below: do NOT reject — that would
+                // abort Promise.all and discard every OTHER worker's already-completed
+                // games (and orphan their child processes). Resolve and let the
+                // post-loop gap-fill synthesize 'invalid' for this slot's unreported
+                // games; surface the crash in the tally so a partial batch is not
+                // mistaken for a clean run.
                 console.error(`[Parallel] Worker ${slotIdx} thread error: ${err.message}`);
-                reject(err);
+                batchErrors.push({ slot: slotIdx, error: err.message });
+                resolve();
             });
 
             worker.on('exit', (code) => {
@@ -2397,6 +2182,10 @@ async function playMultipleGamesParallel(config, numGames, library, numWorkers, 
     console.error(`[Parallel] Invalid:  ${invalid}`);
     console.error(`[Parallel] Avg turns: ${avgTurns}`);
     if (saveReplaysDir) console.error(`[Parallel] Replays:  ${saveReplaysDir}`);
+    if (batchErrors.length > 0) {
+        console.error(`[Parallel] WARNING: ${batchErrors.length} worker thread error(s) — this batch is PARTIAL, not a clean run:`);
+        batchErrors.forEach(e => console.error(`[Parallel]   slot ${e.slot}: ${e.error}`));
+    }
 
     // Pair-level tallying (computed from game logs, not from worker messages)
     let pairResults = null;
@@ -2476,7 +2265,6 @@ async function main() {
     let thinkTimeMs = CONFIG.thinkTimeMs;
     let thinkTimeWhiteMs = null;         // --think-time-white: override for white player
     let thinkTimeBlackMs = null;         // --think-time-black: override for black player
-    let mcdsaiDifficulty = 'HardestAI';  // Default MCDSAI difficulty
     let steamDifficulty = 'HardestAI';   // Default SteamAI / DaveAI difficulty (aiPlayerName)
     let steamDifficultyWhite = null;     // --steam-difficulty-white: per-side override
     let steamDifficultyBlack = null;     // --steam-difficulty-black: per-side override
@@ -2487,10 +2275,12 @@ async function main() {
     let saveReplaysDir = null;           // Phase 7e: null = no replay saving
     let playerSwitch = false;            // --player-switch: run games in pairs with swapped sides
     let fixedCards = null;               // --cards "A,B,C": fixed advanced units (null = random)
-    let resignThreshold = WILL_SCORE_THRESHOLD;  // --resign <ratio>: WillScore resign threshold for C++ players (0 = disabled)
+    let resignThreshold = 0;  // --resign <ratio>: 0 (default) = no resignation, play to wipeout (parity with C++ Tournament). >0 enables WillScore resign for C++ --suggest players AND honors exe airesign for Steam/Dave.
     let exportTrainingDir = null;        // --export-training <dir>: JSONL training data output
     let schemaV2 = false;                // --schema-v2: use V2 per-instance training data format
     let weightsFile = null;              // --weights <path>: neural network weights file for C++ --suggest
+    let allowForceDsnn = false;          // --allow-force-dsnn: proceed even if a use_dsnn.txt sentinel / PRISMATA_FORCE_DSNN would override every player
+    let allowAutoBreach = false;         // --allow-auto-breach: let the harness auto-complete an under-specified breach (weakest-first); default off = fail loud (fidelity)
     let debugClicks = false;             // --debug: verbose per-click logging
 
     for (let i = 0; i < args.length; i++) {
@@ -2506,7 +2296,6 @@ async function main() {
         if (args[i] === '--think-time' && args[i + 1]) { thinkTimeMs = parseInt(args[++i], 10); }
         if (args[i] === '--think-time-white' && args[i + 1]) { thinkTimeWhiteMs = parseInt(args[++i], 10); }
         if (args[i] === '--think-time-black' && args[i + 1]) { thinkTimeBlackMs = parseInt(args[++i], 10); }
-        if (args[i] === '--mcdsai-difficulty' && args[i + 1]) { mcdsaiDifficulty = args[++i]; }
         if (args[i] === '--steam-difficulty' && args[i + 1]) { steamDifficulty = args[++i]; }
         if (args[i] === '--steam-difficulty-white' && args[i + 1]) { steamDifficultyWhite = args[++i]; }
         if (args[i] === '--steam-difficulty-black' && args[i + 1]) { steamDifficultyBlack = args[++i]; }
@@ -2515,17 +2304,19 @@ async function main() {
         if (args[i] === '--dave-exe' && args[i + 1]) { daveExePath = args[++i]; }
         if (args[i] === '--parallel' && args[i + 1]) { parallelWorkers = parseInt(args[++i], 10); }
         if (args[i] === '--player-switch') playerSwitch = true;
+        if (args[i] === '--allow-force-dsnn') allowForceDsnn = true;
+        if (args[i] === '--allow-auto-breach') allowAutoBreach = true;
         if (args[i] === '--cards' && args[i + 1]) {
             fixedCards = args[++i].split(',').map(s => s.trim()).filter(s => s.length > 0);
         }
         if (args[i] === '--resign' && args[i + 1]) {
             const val = parseFloat(args[++i]);
             if (val === 0) {
-                resignThreshold = 0;  // Disabled
+                resignThreshold = 0;  // Disabled (default): play to wipeout
             } else if (val >= 1.0) {
                 resignThreshold = val;
             } else {
-                console.error(`WARNING: --resign ${val} is < 1.0 (nonsensical). Using default ${WILL_SCORE_THRESHOLD}.`);
+                console.error(`WARNING: --resign ${val} is < 1.0 (nonsensical). Ignoring; resignation stays disabled (play to wipeout).`);
             }
         }
         if (args[i] === '--save-replays') {
@@ -2591,15 +2382,6 @@ async function main() {
     // --export-training is supported in both sequential and parallel modes.
     // In parallel mode, each worker writes to its own JSONL file.
 
-    // Detect MCDSAI players (case-insensitive matching)
-    const whiteIsMCDSAI = isMCDSAIPlayer(playerWhite);
-    const blackIsMCDSAI = isMCDSAIPlayer(playerBlack);
-    const anyMCDSAI = whiteIsMCDSAI || blackIsMCDSAI;
-
-    // Normalize MCDSAI player names to consistent casing
-    if (whiteIsMCDSAI) playerWhite = MCDSAI_PLAYER;
-    if (blackIsMCDSAI) playerBlack = MCDSAI_PLAYER;
-
     // Detect SteamAI players (case-insensitive matching)
     const whiteIsSteamAI = isSteamAIPlayer(playerWhite);
     const blackIsSteamAI = isSteamAIPlayer(playerBlack);
@@ -2609,8 +2391,26 @@ async function main() {
     if (whiteIsSteamAI) playerWhite = isDaveAIPlayer(playerWhite) ? DAVE_AI_PLAYER : STEAM_AI_PLAYER;
     if (blackIsSteamAI) playerBlack = isDaveAIPlayer(playerBlack) ? DAVE_AI_PLAYER : STEAM_AI_PLAYER;
 
+    // Guard: a use_dsnn.txt sentinel next to the exe (or PRISMATA_FORCE_DSNN) makes
+    // the dave-line Standalone silently override EVERY player with the 35-prop DSNN.
+    // Check only the exe(s) actually used by each player type (a DaveAI run must not
+    // abort just because the unrelated Steam install carries a sentinel).
+    {
+        const guardPaths = [];
+        if (isDaveAIPlayer(playerWhite) || isDaveAIPlayer(playerBlack)) guardPaths.push(daveExePath);
+        if (playerWhite === STEAM_AI_PLAYER || playerBlack === STEAM_AI_PLAYER) {
+            const steamPaths = [steamExeA, steamExeB].filter(Boolean);
+            guardPaths.push(...(steamPaths.length ? steamPaths : [require('./steam_ai').DEFAULT_EXE_PATH]));
+        }
+        if (checkForceDsnnContamination(guardPaths, allowForceDsnn)) process.exit(1);
+    }
+
+    // Apply the auto-breach fidelity gate to this (main-process) module instance.
+    // Parallel workers set their own copy from workerData.
+    setAutoBreachAllowed(allowAutoBreach);
+
     // Check exe exists (only needed for C++ players)
-    const anyCpp = (!whiteIsMCDSAI && !whiteIsSteamAI) || (!blackIsMCDSAI && !blackIsSteamAI);
+    const anyCpp = !whiteIsSteamAI || !blackIsSteamAI;
     if (anyCpp && !fs.existsSync(EXE_PATH)) {
         console.error(`ERROR: C++ exe not found at ${EXE_PATH}`);
         console.error('Build with: MSBuild Prismata.sln /t:Rebuild /p:Configuration=Release /p:Platform=x86');
@@ -2628,15 +2428,15 @@ async function main() {
     if (anyCpp) console.error(`Exe: ${EXE_PATH}`);
     const _bannerWhiteDiff = steamDifficultyWhite || steamDifficulty;
     const _bannerBlackDiff = steamDifficultyBlack || steamDifficulty;
-    console.error(`White: ${playerWhite}${whiteIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}${whiteIsSteamAI ? ` (SteamAI difficulty=${_bannerWhiteDiff})` : ''}`);
-    console.error(`Black: ${playerBlack}${blackIsMCDSAI ? ` (MCDSAI difficulty=${mcdsaiDifficulty})` : ''}${blackIsSteamAI ? ` (SteamAI difficulty=${_bannerBlackDiff})` : ''}`);
+    console.error(`White: ${playerWhite}${whiteIsSteamAI ? ` (SteamAI difficulty=${_bannerWhiteDiff})` : ''}`);
+    console.error(`Black: ${playerBlack}${blackIsSteamAI ? ` (SteamAI difficulty=${_bannerBlackDiff})` : ''}`);
     if (anyCpp) console.error(`Think time: ${thinkTimeMs}ms`);
     if (!singleTurnMode) {
         console.error(`Max turns: ${CONFIG.maxTurns}, Stuck detection: ${CONFIG.stuckDetectionTurns} turns`);
         if (resignThreshold > 0) {
-            console.error(`Resign threshold: ${resignThreshold}x WillScore (C++ players only)`);
+            console.error(`Resign: ENABLED at ${resignThreshold}x WillScore (C++ --suggest players) + honoring exe airesign (Steam/Dave). NOTE: diverges from the C++ Tournament, which plays to wipeout.`);
         } else {
-            console.error(`Resign: disabled`);
+            console.error(`Resign: disabled (play to wipeout / turn-limit — parity with C++ Tournament)`);
         }
     }
     if (isParallel) console.error(`Parallel workers: ${parallelWorkers}`);
@@ -2698,56 +2498,16 @@ async function main() {
         });
     }
 
-    // 2. Load MCDSAI dependencies (only when needed, and NOT in parallel mode
-    //    where each worker_thread spawns its own MCDSAI workers)
-    let fullParams = null;
-    let shortParams = null;
-    let mcdsaiWorkerWhite = null;
-    let mcdsaiWorkerBlack = null;
-
-    if (anyMCDSAI && !isParallel) {
-        const MCDSAIWorker = require('./mcdsai_manager');
-        const aiParams = require('./ai_params');
-        fullParams = aiParams.loadFullParams();
-        shortParams = aiParams.loadShortParams();
-
-        // Spawn MCDSAI workers (main thread — for sequential mode only)
-        if (whiteIsMCDSAI) {
-            mcdsaiWorkerWhite = new MCDSAIWorker('White');
-            console.error('Spawning MCDSAI worker for White...');
-            await mcdsaiWorkerWhite.spawn();
-            console.error('MCDSAI worker for White ready.');
-        }
-        if (blackIsMCDSAI) {
-            mcdsaiWorkerBlack = new MCDSAIWorker('Black');
-            console.error('Spawning MCDSAI worker for Black...');
-            await mcdsaiWorkerBlack.spawn();
-            console.error('MCDSAI worker for Black ready.');
-        }
-    } else if (anyMCDSAI && isParallel) {
-        console.error('MCDSAI workers will be spawned in each worker thread (parallel mode).');
-    }
-
-    // Build MCDSAI config object (passed through to playSingleGame)
-    const mcdsaiConfig = anyMCDSAI ? {
-        workerWhite: mcdsaiWorkerWhite,
-        workerBlack: mcdsaiWorkerBlack,
-        difficulty: mcdsaiDifficulty,
-        fullParams: fullParams,
-        shortParams: shortParams,
-        library: library
-    } : null;
-
-    // 3. Set up SteamAI (native PrismataAI.exe) — sequential mode only
+    // 2. Set up SteamAI (native PrismataAI.exe) — sequential mode only
     //    SteamAI processes are started/stopped per game inside playSingleGame.
     let steamWorkerWhite = null;
     let steamWorkerBlack = null;
-    let steamFullParams = fullParams;
-    let steamShortParams = shortParams;
+    let steamFullParams = null;
+    let steamShortParams = null;
 
     if (anySteamAI && !isParallel) {
         const SteamAI = require('./steam_ai');
-        // Load AI params if not already loaded by MCDSAI setup
+        // Load AI params (full + short blobs) for the SteamAI request builder
         if (!steamFullParams || !steamShortParams) {
             const aiParams = require('./ai_params');
             steamFullParams = aiParams.loadFullParams();
@@ -2800,19 +2560,12 @@ async function main() {
         shortParams: steamShortParams,
         initDeck: null,  // Set per-game from activeDeck
         library: library,
-        thinkTimeMs: thinkTimeMs
+        thinkTimeMs: thinkTimeMs,
+        honorAiResign: resignThreshold > 0  // when false (--resign 0) play to wipeout: ignore exe airesign
     } : null;
 
-    // Helper to clean up MCDSAI workers and SteamAI processes on exit
+    // Helper to clean up SteamAI processes on exit
     function terminateWorkers() {
-        if (mcdsaiWorkerWhite) {
-            console.error('Terminating MCDSAI worker for White...');
-            mcdsaiWorkerWhite.terminate();
-        }
-        if (mcdsaiWorkerBlack) {
-            console.error('Terminating MCDSAI worker for Black...');
-            mcdsaiWorkerBlack.terminate();
-        }
         if (steamWorkerWhite) steamWorkerWhite.stop();
         if (steamWorkerBlack) steamWorkerBlack.stop();
     }
@@ -2854,7 +2607,6 @@ async function main() {
             let turnResult;
             if (whiteIsSteamAI && steamConfig) {
                 // Start SteamAI process and build init deck
-                const aiParams = require('./ai_params');
                 steamConfig.initDeck = buildInitDeck(activeDeck, library, steamFullParams, steamShortParams);
                 steamWorkerWhite.start();
                 turnResult = await playSteamAITurn(
@@ -2862,18 +2614,6 @@ async function main() {
                     steamDifficulty, steamConfig
                 );
                 steamWorkerWhite.stop();
-            } else if (whiteIsMCDSAI && mcdsaiConfig) {
-                // Initialize MCDSAI for this game
-                const aiParams = require('./ai_params');
-                const initDeck = buildInitDeck(activeDeck, library, fullParams, shortParams);
-                const initParams = JSON.parse(aiParams.selectParams(mcdsaiDifficulty, 1, fullParams, shortParams));
-                const initJson = JSON.stringify({ mergedDeck: initDeck, aiParameters: initParams });
-                await mcdsaiWorkerWhite.initializeAI(initJson);
-
-                turnResult = await playMCDSAITurn(
-                    analyzer, activeDeck, mcdsaiWorkerWhite,
-                    mcdsaiDifficulty
-                );
             } else {
                 turnResult = playSingleTurn(analyzer, activeDeck, playerWhite, thinkTimeWhiteMs || thinkTimeMs, weightsFile);
             }
@@ -2921,11 +2661,11 @@ async function main() {
             const output = {
                 mode: 'single-turn',
                 ok: turnResult.ok,
-                playerType: whiteIsSteamAI ? 'SteamAI' : whiteIsMCDSAI ? 'MCDSAI' : 'cpp-suggest',
+                playerType: whiteIsSteamAI ? 'SteamAI' : 'cpp-suggest',
                 clicksApplied: turnResult.clickResult ? turnResult.clickResult.applied : 0,
                 clicksFailed: turnResult.clickResult ? turnResult.clickResult.failed : 0
             };
-            // Include suggest response for C++ players (MCDSAI doesn't produce it)
+            // Include suggest response for C++ players (SteamAI doesn't produce it)
             if (turnResult.suggest && turnResult.suggest.response) {
                 output.suggest = turnResult.suggest.response;
             }
@@ -2941,24 +2681,23 @@ async function main() {
 
             if (isParallel) {
                 // Phase 7e: Parallel execution via worker_threads
-                // Workers load their own card libraries and MCDSAI workers.
-                // No main-thread MCDSAI workers are spawned in parallel mode.
+                // Workers load their own card libraries and SteamAI workers.
+                // No main-thread SteamAI workers are spawned in parallel mode.
                 console.error(`\n--- Starting ${numGames} Games in Parallel (${parallelWorkers} workers)${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGamesParallel(
                     { playerWhite, playerBlack, thinkTimeMs, thinkTimeWhiteMs, thinkTimeBlackMs },
                     numGames,
                     library,
                     parallelWorkers,
-                    mcdsaiDifficulty,
                     saveReplaysDir,
                     false,  // verbose
-                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, steamDifficultyWhite, steamDifficultyBlack, steamExeA, steamExeB, daveExePath, exportTrainingDir, schemaV2, weightsFile }
+                    { playerSwitch, fixedCards, resignThreshold, steamDifficulty, steamDifficultyWhite, steamDifficultyBlack, steamExeA, steamExeB, daveExePath, exportTrainingDir, schemaV2, weightsFile, allowAutoBreach }
                 );
             } else {
                 // Phase 7c/7d: Sequential execution
                 console.error(`\n--- Starting ${numGames} Games${playerSwitch ? ` [${numGames / 2} pairs, player-switch]` : ''} ---`);
                 multiResult = await playMultipleGames(
-                    { playerWhite, playerBlack, thinkTimeMs, thinkTimeWhiteMs, thinkTimeBlackMs, weightsFile, mcdsai: mcdsaiConfig, steam: steamConfig, resignThreshold, exportTraining: !!exportTrainingDir, schemaV2 },
+                    { playerWhite, playerBlack, thinkTimeMs, thinkTimeWhiteMs, thinkTimeBlackMs, weightsFile, steam: steamConfig, resignThreshold, exportTraining: !!exportTrainingDir, schemaV2 },
                     numGames,
                     library,
                     { playerSwitch, fixedCards, saveReplaysDir, exportTrainingDir }
@@ -2974,7 +2713,6 @@ async function main() {
                 players: { white: playerWhite, black: playerBlack },
                 thinkTimeMs: thinkTimeMs,
                 parallelWorkers: isParallel ? parallelWorkers : undefined,
-                mcdsaiDifficulty: anyMCDSAI ? mcdsaiDifficulty : undefined,
                 playerSwitch: playerSwitch || undefined,
                 fixedCards: fixedCards || undefined,
                 pairResults: multiResult.pairResults || undefined,
@@ -3019,7 +2757,6 @@ async function main() {
             playerBlack: playerBlack,
             thinkTimeMs: thinkTimeMs,
             weightsFile: weightsFile,
-            mcdsai: mcdsaiConfig,
             steam: steamConfig,
             resignThreshold: resignThreshold
         });
@@ -3034,14 +2771,13 @@ async function main() {
             abortReason: gameResult.abortReason,
             players: { white: playerWhite, black: playerBlack },
             thinkTimeMs: thinkTimeMs,
-            mcdsaiDifficulty: anyMCDSAI ? mcdsaiDifficulty : undefined,
             steamDifficulty: anySteamAI ? steamDifficulty : undefined,
             cardSet: activeDeck.filter(c => !c.baseSet && !c._needsOnly).map(c => c.UIName || c.name)
         };
         console.log(JSON.stringify(output, null, 2));
 
     } finally {
-        // Always clean up MCDSAI workers and SteamAI processes
+        // Always clean up SteamAI processes
         terminateWorkers();
     }
 }
@@ -3055,11 +2791,10 @@ module.exports = {
     exportStateForSuggest,
     callSuggest,
     applyClicks,
+    setAutoBreachAllowed,
     describeClick,
     playSingleTurn,
-    playMCDSAITurn,
     playSteamAITurn,
-    isMCDSAIPlayer,
     isSteamAIPlayer,
     isDaveAIPlayer,
     buildGameInitInfo,
@@ -3074,7 +2809,6 @@ module.exports = {
     extractTrainingExample,
     extractTrainingExampleV2,
     WILL_SCORE_THRESHOLD,
-    MCDSAI_PLAYER,
     STEAM_AI_PLAYER,
     DAVE_AI_PLAYER,
     getRecoveryStats,
