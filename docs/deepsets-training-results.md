@@ -54,6 +54,43 @@ so the file-library load path (used by `--dump-features`, GUI, `Prismata_Testing
 dropped them. Regenerated to the exact 105 dominion units. The live AI path
 (`InitFromMergedDeckJSON`, used by matchup/self-play) was never affected.
 
+### Baseline tournaments (Dave's engine, 2026-06-01)
+
+Run in the dave-line engine (`dave-master-jsonclean`) for credibility, mirroring the V1
+`DSNN_MBonly` tests. `Prismata_Testing.exe` with the round-robin Tournament fix (each card set
+played once per colour ⇒ **128 games = 2 × 64 distinct Base+8 sets**), **7 s** think, 8 threads,
+`RandomCards:8`. `DSNN_Mixed35` = `Player_UCT` + `Eval:NeuralNet` (35-prop weights) + the
+`HardIterator_Root` chain. Scores below independently cross-checked against the saved-replay
+`winnerName` tally (exact agreement); 0 crashes/forfeits; all 256 replays present.
+
+| Matchup | n | DSNN_Mixed35 | Opp | **DSNN WR** | What it isolates |
+|---|---|---|---|---|---|
+| vs `HardestAI` (StackAB + Playout) | 128 | 71 | 57 | **55.5 %** | evaluator **+** search algo (UCT vs StackAB) |
+| vs `HardestAIUCT` (UCT + Playout) | 128 | 60.5 | 67.5 | **47.3 %** | **clean evaluator control** (same UCT search; only eval differs) |
+
+V1 reference (DSNN_MBonly, same think/n): vs `HardestAI` **42.2 %**.
+
+**Read these as non-transitive baselines** (per the May-29 port audit). The honest "did the 35-prop
+NN evaluator help?" number is the **clean control vs `HardestAIUCT` = 47.3 %**: same UCT search,
+NeuralNet-vs-Playout the only difference ⇒ the 35-prop eval is **near-parity, marginally below
+Playout**. The `vs HardestAI` 55.5 % is inflated by the search-algorithm difference (UCT > StackAB
+at 7 s on these positions), worth ~+8 pts over the clean control — it is **not** evidence the NN
+eval beats Playout.
+
+**Not an isolated production-vector measurement.** The +13 pts over V1's 42.2 % conflates two
+changes (MB-only→mixed training data **and** 13→35 properties); these runs can't separate them, and
+no V1 mixed-data control at this setting exists. Consistent with the prediction that the
+production-vector features *cannot* move a Base+8 / MB-flavoured matchup — the gain is attributable
+to the mixed training data + general model quality, not the production vectors per se. The point of
+this baseline is **not regressing** + clean go/no-go anchors for the RL phase.
+
+**Both DSNN WRs are lower bounds:** `cValue=2.0` is Playout-tuned, so a cValue sweep is the cheap
+win before reading too much into 47.3 %. Replays:
+`bin/asset/replays/mixed35_vs_{hardestai,hardestaiuct}/game_NNNN.json.gz` (gzip + `states[]` schema,
+drag onto prismata.live/replay/local). **SteamAI side still pending** — must point at the preserved
+`PrismataAI.exe.ORIG` (real 2016 MasterBot); the live Steam-install `PrismataAI.exe` is now our DSNN
+swap-in (sentinel `use_dsnn.txt` active).
+
 ---
 
 ## Architecture Summary
