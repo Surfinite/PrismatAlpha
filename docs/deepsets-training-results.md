@@ -91,6 +91,46 @@ drag onto prismata.live/replay/local). **SteamAI side still pending** — must p
 `PrismataAI.exe.ORIG` (real 2016 MasterBot); the live Steam-install `PrismataAI.exe` is now our DSNN
 swap-in (sentinel `use_dsnn.txt` active).
 
+> **⚠️ IMPORTANT (2026-06-01, later): the C++ Tournament above was BOOK-LESS on all sides.** All
+> three players (`DSNN_Mixed35`, `HardestAI`, `HardestAIUCT`) use `HardIterator_Root` in dave's
+> `config.txt`, whose portfolio (`DefenseSolver / ACAvoidBreach_ChillSolver / Buy*+BCG* /
+> BreachGreedyKnapsack`) references **no opening book** (dave's config has no OB-consuming iterator;
+> its only books are the 5-entry `DefaultOpeningBook` + 4-entry `BlueTurnTwoOpeningBook`, both
+> dormant). So the table is a *fair but OB-free* comparison. The honest read of the **clean control**
+> (47.3 % vs `HardestAIUCT`, identical UCT search) stands: the 35-prop NN eval is near-parity,
+> marginally below Playout. **An OB-on-all-sides rerun is in progress** (port `LiveOpeningBook2` (50)
+> + an OB-enabled root iterator into dave's config; results to be appended).
+
+### JS-harness cross-check (matchup_clean.js, live MasterBot params, 2026-06-01)
+
+Re-ran the same matchups through `js_engine/matchup_clean.js` (DaveAI = per-turn `Prismata_Standalone.exe`
+over the Steam protocol; JS engine maintains state). **128 games, 7 s, `--player-switch`, `--resign 0`
+(play to wipeout = Tournament-parity).** Win rates are seat-independent (cross-checked: relabeled
+replay `winnerName` tally == engine `playerWinRates` exactly). DSNN weight load verified
+(`props=35`, NeuralNet active — not a fallback).
+
+| Matchup | DSNN_Mixed35 WR | vs C++ Tournament |
+|---|---|---|
+| vs `HardestAI` | **40.6 %** (52–76) | 55.5 % |
+| vs `HardestAIUCT` | **55.5 %** (71–57) | 47.3 % |
+
+**The 3-AI ordering flips between harnesses** — and it's explained by *different AI definitions*, not
+noise:
+- **vs `HardestAI`: not the same opponent.** The JS harness feeds the exe the **SWF / live-MasterBot**
+  param blob, where `HardestAI` uses `NewIterator_Root` **with the 50-entry `DefaultOpeningBook2`**.
+  The C++ Tournament used dave `config.txt`'s `HardestAI` = `HardIterator_Root`, **no book**. So
+  **40.6 % is DSNN vs the *real* MasterBot opening** and the Tournament's 55.5 % overstated DSNN
+  because its `HardestAI` opponent had no opening book.
+- **vs `HardestAIUCT`: byte-identical definitions in both** (`Player_UCT` + `HardIterator_Root`,
+  book-less). The 47.3 %→55.5 % gap (~8 pts, favouring DSNN in JS) is therefore a **pure
+  JS-engine-vs-C++-engine harness effect** (serialization boundary + per-turn exe spawn), worth a
+  follow-up.
+
+Think-time was honoured (median exe think 7010 ms), 0 click failures, full wipeout games (avg ~38
+turns) — so neither number is a compute/throttle artifact. Replays (now side-labelled
+`DaveAI[HardestAIUCT]` etc. via `relabel_replays.js`):
+`bin/asset/replays/*_HardestAI{,UCT}vsDSNN_Mixed35_128g7s/`.
+
 ---
 
 ## Architecture Summary
