@@ -98,8 +98,15 @@ swap-in (sentinel `use_dsnn.txt` active).
 > its only books are the 5-entry `DefaultOpeningBook` + 4-entry `BlueTurnTwoOpeningBook`, both
 > dormant). So the table is a *fair but OB-free* comparison. The honest read of the **clean control**
 > (47.3 % vs `HardestAIUCT`, identical UCT search) stands: the 35-prop NN eval is near-parity,
-> marginally below Playout. **An OB-on-all-sides rerun is in progress** (port `LiveOpeningBook2` (50)
-> + an OB-enabled root iterator into dave's config; results to be appended).
+> marginally below Playout. **An OB-on-all-sides rerun is BLOCKED** (2026-06-01): the strong book is
+> byte-verified (our `LiveOpeningBook2`/`LiveOpeningBook` == SWF `DefaultOpeningBook2`(50)/`DefaultOpeningBook`(4),
+> the exact set the live MasterBot's `HardestAI`/`NewIterator_Root` consumes — confirmed against both
+> SWF param blobs). But porting the `LiveHardestAI_Root` opening-book chain into the current
+> `dave-master-jsonclean` engine **segfaults** (even the minimal dependency closure; all partial-player
+> *types* parse, so it's a deeper engine divergence). dave's *historical, divergent-branch* config
+> (e.g. `34804d9`) ran a byte-identical `LiveHardestAI_Root`, so the clean-room rebuild diverged from
+> the engine that supported it. Needs dedicated debugging (segfault gives no stdout) or an
+> engine-native OB iterator built from the jsonclean engine's working components.
 
 ### JS-harness cross-check (matchup_clean.js, live MasterBot params, 2026-06-01)
 
