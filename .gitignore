@@ -40,8 +40,9 @@ bin/NUL
 # --- Replays (large, generated) ---
 bin/asset/replays/
 
-# --- Neural net weights (generated, not for distribution) ---
-bin/asset/config/neural_weights.bin
+# --- Neural net weights: NOW TRACKED (2026-06-01). The swap-in AI path is sanctioned and
+#     these models are small (~0.7 MB each) and expensive to reproduce, so we version them.
+#     Large .pt source checkpoints (training/models/, below) stay untracked -- D: + daily IDrive.
 
 # --- Self-play binary output in bin/ (large, generated) ---
 bin/training/
@@ -213,8 +214,7 @@ bin/*.txt
 bin/*.json
 bin/replays_test/
 
-# --- Archived neural weight variants (keep only committed neural_weights.bin) ---
-bin/asset/config/neural_weights_*.bin
+# (neural_weights_*.bin are now TRACKED -- see the weights note near the top of this file)
 
 # --- Dashboard screenshots and logs ---
 dashboard/logs/
