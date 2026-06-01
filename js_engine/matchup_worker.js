@@ -779,7 +779,9 @@ async function runWorkerSlot() {
             );
             logA.pairId = pairIdx;
             logA.swapped = false;
-            finishGame(logA, playerWhite, playerBlack);
+            finishGame(logA,
+                matchup.sideLabel(playerWhite, steamConfig && steamConfig.difficultyWhite),
+                matchup.sideLabel(playerBlack, steamConfig && steamConfig.difficultyBlack));
 
             // Game B: swapped assignment
             const swappedSteam = steamConfig ? {
@@ -796,7 +798,10 @@ async function runWorkerSlot() {
             );
             logB.pairId = pairIdx;
             logB.swapped = true;
-            finishGame(logB, playerBlack, playerWhite);
+            // Game B white side = playerBlack using swappedSteam.difficultyWhite (= original difficultyBlack)
+            finishGame(logB,
+                matchup.sideLabel(playerBlack, swappedSteam && swappedSteam.difficultyWhite),
+                matchup.sideLabel(playerWhite, swappedSteam && swappedSteam.difficultyBlack));
         }
     } else {
         // --- Standard mode ---
@@ -807,7 +812,9 @@ async function runWorkerSlot() {
                 playerWhite, playerBlack,
                 steamConfig
             );
-            finishGame(gameLog, playerWhite, playerBlack);
+            finishGame(gameLog,
+                matchup.sideLabel(playerWhite, steamConfig && steamConfig.difficultyWhite),
+                matchup.sideLabel(playerBlack, steamConfig && steamConfig.difficultyBlack));
         }
     }
 

@@ -754,6 +754,21 @@ function isDaveAIPlayer(playerName) {
 }
 
 /**
+ * Replay/tally side label. SteamAI/DaveAI players are all literally "SteamAI" /
+ * "DaveAI", so the meaningful identity is the difficulty (e.g. HardestAIUCT,
+ * DSNN_Mixed35). Fold it in -> "DaveAI[HardestAIUCT]" so saved replays identify
+ * each side (the Tournament runner labels by player name = difficulty directly).
+ * Non-Steam/Dave players (C++ --suggest) already carry their identity in the name.
+ * @param {string} player - canonical player name
+ * @param {string} [difficulty] - the steam difficulty for this side (may be undefined)
+ */
+function sideLabel(player, difficulty) {
+    return (isSteamAIPlayer(player) && difficulty && difficulty !== player)
+        ? `${player}[${difficulty}]`
+        : player;
+}
+
+/**
  * Guard against silent FORCE_DSNN contamination. The dave-line Standalone exe
  * (AITools.cpp GetAIMove) overrides EVERY requested player with UCT+NeuralNet
  * (35-prop weights) when `use_dsnn.txt` sits next to the exe, or when the env
@@ -1857,7 +1872,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             const logA = await playOneGame(gameNumA, numGames, unitNames, config);
             logA.pairId = p + 1;
             logA.swapped = false;
-            saveAndStripReplay(logA, config.playerWhite, config.playerBlack);
+            saveAndStripReplay(logA, sideLabel(config.playerWhite, config.steam && config.steam.difficultyWhite), sideLabel(config.playerBlack, config.steam && config.steam.difficultyBlack));
             saveTrainingData(logA, config.playerWhite, config.playerBlack);
             games.push(logA);
             tallyGame(logA, config.playerWhite, config.playerBlack);
@@ -1866,7 +1881,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
             const logB = await playOneGame(gameNumB, numGames, unitNames, swappedConfig);
             logB.pairId = p + 1;
             logB.swapped = true;
-            saveAndStripReplay(logB, swappedConfig.playerWhite, swappedConfig.playerBlack);
+            saveAndStripReplay(logB, sideLabel(swappedConfig.playerWhite, swappedConfig.steam && swappedConfig.steam.difficultyWhite), sideLabel(swappedConfig.playerBlack, swappedConfig.steam && swappedConfig.steam.difficultyBlack));
             saveTrainingData(logB, swappedConfig.playerWhite, swappedConfig.playerBlack);
             games.push(logB);
             tallyGame(logB, swappedConfig.playerWhite, swappedConfig.playerBlack);
@@ -1942,7 +1957,7 @@ async function playMultipleGames(config, numGames, library, options = {}) {
         const gameNum = g + 1;
         const unitNames = (fixedCards ? resolveRandomSlots(fixedCards) : null) || randomSet(library, 8);
         const gameLog = await playOneGame(gameNum, numGames, unitNames, config);
-        saveAndStripReplay(gameLog, config.playerWhite, config.playerBlack);
+        saveAndStripReplay(gameLog, sideLabel(config.playerWhite, config.steam && config.steam.difficultyWhite), sideLabel(config.playerBlack, config.steam && config.steam.difficultyBlack));
         saveTrainingData(gameLog, config.playerWhite, config.playerBlack);
         games.push(gameLog);
         tallyGame(gameLog, config.playerWhite, config.playerBlack);
@@ -2797,6 +2812,7 @@ module.exports = {
     playSteamAITurn,
     isSteamAIPlayer,
     isDaveAIPlayer,
+    sideLabel,
     buildGameInitInfo,
     printStateSummary,
     playSingleGame,
