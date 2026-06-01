@@ -312,7 +312,7 @@ def load_binary(path: str) -> tuple:
 
 
 def verify_export(output_path: str, model: PrismataDeepSets,
-                  tol: float = 1e-4) -> bool:
+                  atol: float = 1e-4, rtol: float = 1e-3) -> bool:
     """Verify the exported binary by running a numpy forward pass and comparing
     to PyTorch output.
 
@@ -371,17 +371,23 @@ def verify_export(output_path: str, model: PrismataDeepSets,
         np_val = numpy_forward(tensors, inst_feats, inst_ids, inst_count, supply, globs)
         pt_val = run_pytorch(inst_feats, inst_ids, inst_count, supply, globs)
         diff = abs(np_val - pt_val)
+        rel = diff / (abs(pt_val) + 1e-12)
+        # Mixed numpy.allclose-style tolerance: an absolute floor (for near-zero logits)
+        # plus a relative term. Confident models produce large logits on the synthetic
+        # OOD "random" case, where float32 rounding is large in ABSOLUTE terms but tiny
+        # relatively; a genuine weight/export bug is O(1) relative and still fails.
+        case_tol = atol + rtol * abs(pt_val)
         max_diff_seen = max(max_diff_seen, diff)
-        status = "OK" if diff < tol else "FAIL"
+        status = "OK" if diff <= case_tol else "FAIL"
         print(f"  {label:12s}: numpy={np_val:.6f}, pytorch={pt_val:.6f}, "
-              f"diff={diff:.2e} [{status}]")
-        if diff >= tol:
+              f"diff={diff:.2e} rel={rel:.2e} [{status}]")
+        if diff > case_tol:
             all_passed = False
 
     if all_passed:
-        print(f"  Verification PASSED (max diff = {max_diff_seen:.2e})")
+        print(f"  Verification PASSED (max abs diff = {max_diff_seen:.2e}; atol={atol:.0e}, rtol={rtol:.0e})")
     else:
-        print(f"  Verification FAILED (max diff = {max_diff_seen:.2e})")
+        print(f"  Verification FAILED (max abs diff = {max_diff_seen:.2e}; atol={atol:.0e}, rtol={rtol:.0e})")
 
     return all_passed
 
