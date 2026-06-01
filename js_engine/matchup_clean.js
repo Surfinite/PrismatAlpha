@@ -43,6 +43,7 @@
  
  *   node matchup_clean.js --games 128 --parallel 8 --think-time 5000 --player-switch --player-white SteamAI --player-black LiveHardestAI --save-replays ABvsSteam 2>ABvsSteam_2026_05_16.log
 
+ *   node matchup_clean.js --player-white DaveAI --player-black DaveAI --steam-difficulty-white HardestAI --steam-difficulty-black DSNN_MBonly --games 512 --player-switch --think-time 1000 --parallel 4 --dave-exe c:/libraries/PrismataAI-dave-master/bin/Prismata_Standalone.exe --save-replays DaveVsDSNN_512g1s_r2 2>DaveVsDSNN_512g1s_r2.log
 
  
  */
@@ -794,7 +795,8 @@ async function playSteamAITurn(analyzer, activeDeck, steamAI, difficulty, steamC
         DSNN_MBonly_SWA: 'neural_weights_mbonly_swa.bin',
         DSNN_Human:      'neural_weights_human.bin',
         DSNN_Mixed:      'neural_weights_mixed.bin',
-        DSNN_Mixed_SWA:  'neural_weights_mixed_swa.bin'
+        DSNN_Mixed_SWA:  'neural_weights_mixed_swa.bin',
+        DSNN_Mixed35:    'neural_weights_mixed_35prop.bin'
     };
     if (difficulty.startsWith('DSNN_') && DSNN_WEIGHTS[difficulty]) {
         aiParams.Players = aiParams.Players || {};
