@@ -13,6 +13,49 @@ Tournament strength did not improve correspondingly. A Mar 17 single-unit sweep 
 
 ---
 
+## Update — 35-property production vectors (2026-06-01)
+
+The per-instance token was widened from 13 to **35 static properties** (token_dim **77** = 32
+embed + 35 props + 10 instance state) to add production/resource-conversion features (auto/click
+yields, costs, sac, chill, hp-regen). See `training/property_table.json` + `training/schema_v2.json`.
+
+**Clean 100-epoch mixed re-run (final).** A first attempt crashed at epoch 40 (XPU reserved-pool
+OOM during eval); `train.py` gained `--resume`, `--stop-after-epoch`, an XPU OOM fix
+(per-epoch `gc.collect()` + `torch.xpu.empty_cache()`), and per-epoch memory telemetry, then the
+run was restarted from scratch and **completed all 100 epochs** (XPU `reserved` flat at 346 MB the
+whole way — confirms it was an allocator pool issue, not a leak; `allocated` flat at 4 MB).
+
+| Item | Value |
+|---|---|
+| Train data | `fleet_v3_v2` + `fleet_v4_v2` + `human_1800_v2` (13.47M examples) |
+| Val | `local_mbvmb_v2.h5` |
+| Best | val_loss 0.3465 @ ep98 (81.7% acc) |
+| **SWA (exported)** | **val_loss 0.3464, 81.7% acc, brier 0.1166** |
+| Export | `bin/asset/config/neural_weights_mixed_35prop.bin` (DSN2, num_properties=35) |
+
+**Don't over-read the 81.7%.** It lands in the same ~82% band as the 13-prop mixed run — as
+expected. The MB-flavoured val set *cannot* measure the production-vector features, because MB
+self-play never exercises the ~14 units humans play that those features describe. The payoff is
+intended for **RL** (policy/value with a richer state); this model is the **RL initialisation**,
+not a supervised win over the 13-prop model.
+
+**C++↔PyTorch parity re-verified** (deployment-faithful). The DSNN port reproduces the 35-prop
+PyTorch value in the dave-line engine (`dave-master-jsonclean`, `tools/parity/`): interim ep30
+model worst |Δ| = 2.02e-08; **final SWA weights worst |Δ| = 5.84e-07** across 5 fixed states,
+C++ == PyTorch == numpy to ~1e-6, 0 dropped. The property dimension is header-driven, so no C++
+rebuild was needed. (Aside: `export_weights_v2.py`'s synthetic *random* round-trip self-test
+trips its absolute 1e-4 tol on the SWA model at diff 8.5e-4, but that's float32 rounding at an
+out-of-distribution logit ≈1793 (~5e-7 relative); the ep30 model passed at 6.1e-5; the real-state
+parity above is authoritative.)
+
+**Engine fix found along the way.** `CardTypeData::InitFromCardLibraryFile`'s hardcoded
+`dominionNames[]` allow-list (frozen at open-source time) was missing 12 ranked units added since,
+so the file-library load path (used by `--dump-features`, GUI, `Prismata_Testing`) silently
+dropped them. Regenerated to the exact 105 dominion units. The live AI path
+(`InitFromMergedDeckJSON`, used by matchup/self-play) was never affected.
+
+---
+
 ## Architecture Summary
 
 Per the [design spec](superpowers/specs/2026-03-11-deepsets-schema-redesign-design.md):

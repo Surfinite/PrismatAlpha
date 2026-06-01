@@ -5,13 +5,15 @@
 > **Training plan V1**: `docs/plans/2026-03-06-training-plan-v1.md`
 > **Self-play master plan**: `docs/plans/2026-02-15-selfplay-training-master-plan.md`
 
-## Current Status (May 16, 2026)
+## Current Status (June 1, 2026)
 
 **Repo renamed `PrismatAI → PrismatAlpha`** (May 5–9). GitHub at github.com/Surfinite/PrismatAlpha. Local filesystem path unchanged (`c:\libraries\PrismataAI\`).
 
 **prismata.live LIVE.** Split architecture (data box + site box, S3-synced every 60s). Active maintenance and live-spectating work is tracked in the prismata-ladder workspace — related but separate repo.
 
 **DeepSets models exported.** MB-only: 82.4% val acc, Human-only: 78.2%, Mixed: 82.2%. Five DSNN players configured. Results doc: `docs/deepsets-training-results.md`.
+
+**35-prop production-vector DSNN trained + deployable (Jun 1).** Clean 100-epoch mixed re-run (35-property tokens, token_dim 77) completed: SWA **81.7% val / val_loss 0.3464**, exported to `bin/asset/config/neural_weights_mixed_35prop.bin`. C++↔PyTorch parity re-verified on the final weights (worst |Δ| 5.84e-07). `train.py` gained `--resume` + `--stop-after-epoch` + an XPU OOM fix (per-epoch `empty_cache`; `reserved` stayed flat at 346 MB all 100 epochs — an allocator-pool issue, not a leak). Treat this as the **RL init**: ~82% is in-band/expected (MB-flavoured val can't see the production-vector features); the payoff is RL, not a supervised win. **Neural weights are now git-tracked** (never-commit rule retracted — swap-in path sanctioned + paper in prospect). Engine fix: `dominionNames[]` allow-list (file-library load path only) was missing 12 ranked units added post-open-source; regenerated to the full 105 (live `InitFromMergedDeckJSON` AI path was never affected). Details: `docs/deepsets-training-results.md`.
 
 **Parity gap quantified.** Mar 17 single-unit sweep (105 units × 4 games): LiveHardestAIUCT wins ~20% vs STEAMAI, 60% of units lose 0/4. May 14 ablation (800 games at 5 s think): `DSNN_MBonly` vs `LiveHardestAIUCT` ended **30.0% to 66.9%** — DSNN lost decisively on the same engine + OB.
 
@@ -300,7 +302,7 @@ AMD Ryzen 7 5700X3D (8c/16t), 32GB DDR4-3200, Intel Arc B580 (12GB VRAM). Self-p
 |---|---|
 | `bin/asset/config/config.txt` | AI player definitions, tournament configs |
 | `bin/asset/config/cardLibrary.jso` | Master unit definitions (105+11 units) |
-| `bin/asset/config/neural_weights_*.bin` | Per-player NN weights (mbonly, human, mbonly_swa) |
+| `bin/asset/config/neural_weights_*.bin` | Per-player NN weights — **now git-tracked** (mbonly, mbonly_swa, human, mixed, mixed_swa, mixed_35prop) |
 | `source/ai/NeuralNet.h/cpp` | Neural network inference engine |
 | `source/ai/UCTSearch.cpp` | UCT/MCTS search |
 | `source/ai/StackAlphaBetaSearch.cpp` | Stack Alpha-Beta search |
