@@ -1467,12 +1467,6 @@ class State {
             for (let j = 0; j < multiplicity; j++) {
                 const inst = this._createInst(card, color, false,
                     calledAtInit ? 0 : card.buildTime, false, this.nextInstId++);
-                // For init units at buildTime=0, set role based on ability
-                // (Inst constructor defaults non-bought to INERT, but units with
-                // abilities need DEFAULT to be clickable from the start)
-                if (calledAtInit) {
-                    inst.role = card.hasAbility ? C.ROLE_DEFAULT : C.ROLE_INERT;
-                }
                 for (let k = 2; k < initArray[i].length; k += 2) {
                     switch (initArray[i][k]) {
                         case 'role':
