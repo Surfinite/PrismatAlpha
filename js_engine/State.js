@@ -1419,6 +1419,16 @@ class State {
                         this.phase = C.PHASE_DEFENSE;
                         this.helper.update(this);
                     }
+                } else {
+                    // Game-end doom tick (State.as:2014-2031): when the committing player (or white's gold or
+                    // diamond win) wins, each of the loser's units in helper.oppDoomOneUnits loses a lifespan and
+                    // is aged.  The AS3's dispatches around it are UI only.
+                    if (this.result === this.turn || this.result === C.COLOR_WHITEGOLD || this.result === C.COLOR_WHITEDIAMOND) {
+                        for (const inst of this.helper.oppDoomOneUnits) {
+                            --inst.lifespan;
+                            inst.deadness = C.DEADNESS_AGED;
+                        }
+                    }
                 }
             }
         }
